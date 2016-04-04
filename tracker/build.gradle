@@ -1,8 +1,20 @@
 apply plugin: 'java'
 apply plugin: 'jacoco'
 
+buildscript {
+  repositories {
+    maven { url = uri(rootProject.cloneArtifacts.repository) }
+  }
+  dependencies {
+    classpath  'com.google.protobuf:protobuf-gradle-plugin:0.7.5'
+  }
+}
+
+apply plugin: 'com.google.protobuf'
+
 dependencies {
     compile project(':base:annotations')
+    compile 'com.google.protobuf:protobuf-java:2.6.1'
     compile 'com.google.guava:guava:17.0'
 
     testCompile 'junit:junit:4.12'

@@ -16,5 +16,8 @@
 
 package com.android.tools.analytics;
 
+import com.google.wireless.android.sdk.stats.AndroidStudioStats.AndroidStudioEvent;
+
 public abstract class GoogleUsageTracker {
+   public abstract void log(AndroidStudioEvent.Builder studioEvent);
 }

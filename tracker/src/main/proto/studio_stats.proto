@@ -1,0 +1,9 @@
+syntax = "proto2";
+
+package android_studio;
+
+option java_package = "com.google.wireless.android.sdk.stats";
+option java_outer_classname = "AndroidStudioStats";
+
+message AndroidStudioEvent {
+}
