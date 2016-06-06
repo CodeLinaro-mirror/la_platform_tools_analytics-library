@@ -16,8 +16,26 @@
 
 package com.android.tools.analytics;
 
-import com.google.wireless.android.sdk.stats.AndroidStudioStats.AndroidStudioEvent;
+import com.google.wireless.android.play.playlog.proto.ClientAnalytics;
 
-public abstract class GoogleUsageTracker {
-   public abstract void log(AndroidStudioEvent.Builder studioEvent);
+import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+/**
+ * Describes a usage tracking spool directory's state.
+ */
+class SpoolDetails {
+    private final List<Path> lockedFiles = new ArrayList<>();
+    private final Map<Path, List<ClientAnalytics.LogEvent>> completedLogs = new HashMap<>();
+
+    public List<Path> getLockedFiles() {
+        return lockedFiles;
+    }
+
+    public Map<Path, List<ClientAnalytics.LogEvent>> getCompletedLogs() {
+        return completedLogs;
+    }
 }
