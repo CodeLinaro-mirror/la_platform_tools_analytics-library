@@ -16,7 +16,16 @@
 
 package com.android.tools.analytics;
 
-import org.junit.Test;
+import com.google.wireless.android.play.playlog.proto.ClientAnalytics;
 
-public class GoogleUsageTrackerTest {
+/**
+ * A {@link UsageTracker} that does not report any logs. Used when the user opts-out of reporting
+ * usage analytics to Google.
+ */
+public class NullUsageTracker extends UsageTracker {
+    @Override
+    public void logDetails(ClientAnalytics.LogEvent.Builder studioEvent) {}
+
+    @Override
+    public void close() {}
 }
