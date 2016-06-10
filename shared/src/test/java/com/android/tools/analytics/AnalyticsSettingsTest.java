@@ -16,7 +16,6 @@
 
 package com.android.tools.analytics;
 
-import com.android.testutils.TemporaryDirectory;
 import com.google.common.base.Charsets;
 import com.google.gson.JsonParseException;
 import org.hamcrest.MatcherAssert;
