@@ -18,10 +18,8 @@ package com.android.tools.analytics;
 
 import com.google.common.base.Charsets;
 import com.google.gson.JsonParseException;
-import org.hamcrest.MatcherAssert;
-import org.hamcrest.core.IsEqual;
+
 import org.hamcrest.core.IsInstanceOf;
-import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -29,7 +27,6 @@ import org.junit.rules.TemporaryFolder;
 
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.UUID;
 
 import static org.junit.Assert.*;
@@ -75,7 +72,7 @@ public class AnalyticsSettingsTest {
             assertEquals("06120264-c9e7-492f-a39c-89c3cbee57c5", settings2.getUserId());
             assertFalse(settings2.hasOptedIn());
         } finally {
-            EnvironmentFakes.SetSystemEnvironment();
+            EnvironmentFakes.setSystemEnvironment();
         }
     }
 
@@ -96,7 +93,7 @@ public class AnalyticsSettingsTest {
             thrown.expectCause(IsInstanceOf.instanceOf(JsonParseException.class));
             AnalyticsSettings.loadSettings();
         } finally {
-            EnvironmentFakes.SetSystemEnvironment();
+            EnvironmentFakes.setSystemEnvironment();
         }
     }
 
@@ -132,7 +129,7 @@ public class AnalyticsSettingsTest {
             assertEquals(settings.getUserId(), settings2.getUserId());
             assertFalse(settings2.hasOptedIn());
         } finally {
-            EnvironmentFakes.SetSystemEnvironment();
+            EnvironmentFakes.setSystemEnvironment();
         }
     }
 
@@ -159,7 +156,7 @@ public class AnalyticsSettingsTest {
             // Default setting should be to not be opted in.
             assertFalse(settings.hasOptedIn());
         } finally {
-            EnvironmentFakes.SetSystemEnvironment();
+            EnvironmentFakes.setSystemEnvironment();
         }
     }
 
@@ -195,7 +192,7 @@ public class AnalyticsSettingsTest {
             assertEquals(newUserId, settings2.getUserId());
             assertFalse(settings2.hasOptedIn());
         } finally {
-            EnvironmentFakes.SetSystemEnvironment();
+            EnvironmentFakes.setSystemEnvironment();
         }
     }
 }
