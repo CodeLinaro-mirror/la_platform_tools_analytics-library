@@ -16,6 +16,7 @@
 
 package com.android.tools.analytics;
 
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -25,27 +26,30 @@ import static org.junit.Assert.*;
  * Tests for {@link AnalyticsPaths}.
  */
 public class AnalyticsPathsTest {
+
+    @After
+    public void setSystemEnvironment() throws Exception {
+        EnvironmentFakes.setSystemEnvironment();
+    }
+
     @Test
     public void getAndroidSettingsHomeTest() throws Exception {
         // Test picking the default path ~/.android/ when no environment variable exists.
         EnvironmentFakes.setNoEnvironmentVariable();
-        try {
-            assertEquals(
-                    System.getProperty("user.home") + "/.android",
-                    AnalyticsPaths.getAndroidSettingsHome());
+        assertEquals(
+                System.getProperty("user.home") + "/.android",
+                AnalyticsPaths.getAndroidSettingsHome());
 
-            // Test using the ANDROID_SDK_HOME environment variable.
-            String customRoot = "/a/b/c";
-            EnvironmentFakes.setCustomAndroidSdkHomeEnvironment(customRoot);
-            assertEquals(customRoot, AnalyticsPaths.getAndroidSettingsHome());
-        } finally {
-            EnvironmentFakes.SetSystemEnvironment();
-        }
+        // Test using the ANDROID_SDK_HOME environment variable.
+        String customRoot = "/a/b/c";
+        EnvironmentFakes.setCustomAndroidSdkHomeEnvironment(customRoot);
+        assertEquals(customRoot, AnalyticsPaths.getAndroidSettingsHome());
     }
 
     @Test
     public void getSpoolDirectoryTest() throws Exception {
         // Test picking the default path under ~/.android/ when no environment variable exists.
+        EnvironmentFakes.setNoEnvironmentVariable();
         assertEquals(
                 System.getProperty("user.home") + "/.android/metrics/spool",
                 AnalyticsPaths.getSpoolDirectory());
@@ -53,10 +57,6 @@ public class AnalyticsPathsTest {
         // Test using the ANDROID_SDK_HOME environment variable.
         String customRoot = "/a/b/c";
         EnvironmentFakes.setCustomAndroidSdkHomeEnvironment(customRoot);
-        try {
-            assertEquals(customRoot + "/metrics/spool", AnalyticsPaths.getSpoolDirectory());
-        } finally {
-            EnvironmentFakes.SetSystemEnvironment();
-        }
+        assertEquals(customRoot + "/metrics/spool", AnalyticsPaths.getSpoolDirectory());
     }
 }

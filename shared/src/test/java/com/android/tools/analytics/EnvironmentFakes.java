@@ -53,7 +53,7 @@ class EnvironmentFakes {
     /**
      * Helper to undo faking the environment variable reading.
      */
-    public static void SetSystemEnvironment() {
+    public static void setSystemEnvironment() {
         Environment.setInstance(Environment.SYSTEM);
     }
 }
