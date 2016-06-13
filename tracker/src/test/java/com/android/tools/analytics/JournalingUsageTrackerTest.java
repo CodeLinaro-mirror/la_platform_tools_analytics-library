@@ -16,7 +16,6 @@
 
 package com.android.tools.analytics;
 
-import com.android.testutils.TemporaryDirectory;
 import com.android.testutils.VirtualTimeScheduler;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.google.wireless.android.play.playlog.proto.ClientAnalytics;
