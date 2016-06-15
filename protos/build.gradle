@@ -1,40 +1,7 @@
 apply plugin: 'java'
 
-buildscript {
-  repositories {
-    maven { url = uri(rootProject.cloneArtifacts.repository) }
-  }
-  dependencies {
-    classpath  'com.google.protobuf:protobuf-gradle-plugin:0.7.5'
-  }
-}
-
-apply plugin: 'com.google.protobuf'
-
-// TODO(jvg): move protobuf support into a base gradle file in buildSrc/
-ext.os = System.getProperty("os.name").toLowerCase();
-if (ext.os.startsWith("win")) {
-  protobuf {
-    protoc {
-      path = "$rootDir/../prebuilts/tools/windows/protoc/protoc"
-    }
-  }
-} else if (ext.os.startsWith("linux")) {
-  protobuf {
-    protoc {
-      path = "$rootDir/../prebuilts/tools/linux-x86_64/protoc/bin/protoc"
-    }
-  }
-} else if (ext.os.startsWith("mac")) {
-  protobuf {
-    protoc {
-      path = "$rootDir/../prebuilts/tools/darwin-x86_64/protoc/bin/protoc"
-    }
-  }
-}
-
 dependencies {
-    compile 'com.google.protobuf:protobuf-java:2.6.1'
+    compile 'com.google.protobuf:protobuf-java:2.5.0'
 }
 
 group = 'com.android.tools.analytics-library'

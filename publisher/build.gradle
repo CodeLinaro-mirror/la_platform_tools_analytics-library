@@ -12,14 +12,15 @@ dependencies {
     testCompile project(':base:testutils')
     testCompile 'junit:junit:4.12'
     testCompile 'com.google.truth:truth:0.28'
+    testCompile project(':analytics-library:tracker')
 }
 
 group = 'com.android.tools.analytics-library'
-archivesBaseName = 'tracker'
+archivesBaseName = 'publisher'
 version = rootProject.ext.baseVersion
 
-project.ext.pomName = 'Android Tools Analytics Tracker'
-project.ext.pomDesc = 'Library for tracking usage analytics.'
+project.ext.pomName = 'Android Tools Analytics Publisher'
+project.ext.pomDesc = 'Library for publishing usage analytics.'
 
 apply from: "$rootDir/buildSrc/base/publish.gradle"
 apply from: "$rootDir/buildSrc/base/bintray.gradle"

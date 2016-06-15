@@ -16,24 +16,17 @@
 
 package com.android.tools.analytics;
 
-import com.android.annotations.NonNull;
-import com.google.wireless.android.play.playlog.proto.ClientAnalytics;
-
 import java.util.concurrent.ScheduledExecutorService;
 
 /**
- * A {@link UsageTracker} that does not report any logs. Used when the user opts-out of reporting
- * usage analytics to Google.
+ * A publisher that never publishes metrics. Used to ensure opt-out users never publish metrics.
  */
-public class NullUsageTracker extends UsageTracker {
-    public NullUsageTracker(
+public class NullAnalyticsPublisher extends AnalyticsPublisher {
+
+    public NullAnalyticsPublisher(
             AnalyticsSettings analyticsSettings, ScheduledExecutorService scheduler) {
         super(analyticsSettings, scheduler);
     }
-
     @Override
-    public void logDetails(@NonNull ClientAnalytics.LogEvent.Builder studioEvent) {}
-
-    @Override
-    public void close() {}
+    public void close() throws Exception {}
 }

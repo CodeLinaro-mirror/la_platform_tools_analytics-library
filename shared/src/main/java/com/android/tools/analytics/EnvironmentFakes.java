@@ -16,6 +16,8 @@
 
 package com.android.tools.analytics;
 
+import java.util.Map;
+
 /**
  * Used in tests to fake out the Environment code used in production to allow injecting custom
  * environment variable values.
@@ -25,21 +27,33 @@ class EnvironmentFakes {
      * Helper to fake the ANDROID_SDK_HOME environment variable to be set to {@code path}.
      */
     public static void setCustomAndroidSdkHomeEnvironment(String path) {
+        setSingleProperty("ANDROID_SDK_HOME", path);
+    }
+
+    public static void setMap(Map<String, String> map) {
         Environment.setInstance(
                 new Environment() {
                     @Override
                     public String getVariable(String name) {
-                        if (name == "ANDROID_SDK_HOME") {
-                            return path;
+                        return map.get(name);
+                    }
+                });
+    }
+
+    public static void setSingleProperty(String key, String value) {
+        Environment.setInstance(
+                new Environment() {
+                    @Override
+                    public String getVariable(String name) {
+                        if (key.equals(name)) {
+                            return value;
                         }
                         return null;
                     }
                 });
     }
 
-    /**
-     * Helper to fake the ANDROID_SDK_HOME environment variable to be unset.
-     */
+    /** Helper to fake the ANDROID_SDK_HOME environment variable to be unset. */
     public static void setNoEnvironmentVariable() {
         Environment.setInstance(
                 new Environment() {

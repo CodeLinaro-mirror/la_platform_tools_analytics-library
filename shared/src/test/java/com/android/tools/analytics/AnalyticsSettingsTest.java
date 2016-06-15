@@ -98,20 +98,33 @@ public class AnalyticsSettingsTest {
     }
 
     @Test
-    public void loadNewSettingsTest() throws Exception {
+    public void newSettingsTest() throws Exception {
         // Configure the paths to use a temp directory for reading from and writing to.
         EnvironmentFakes.setCustomAndroidSdkHomeEnvironment(
                 testConfigDir.getRoot().toPath().toString());
         try {
             // load settings while there is no settings file present.
             AnalyticsSettings settings = AnalyticsSettings.loadSettings();
-            assertNotNull(settings);
+            assertNull(settings);
 
+            settings = AnalyticsSettings.newAnalyticsSettings();
             // The generated user id should be a valid UUID.
+            //noinspection ResultOfMethodCallIgnored
             UUID.fromString(settings.getUserId());
 
             // Default setting should be to not be opted in.
             assertFalse(settings.hasOptedIn());
+
+            // The settings file should not yet exist.
+            assertFalse(
+                    testConfigDir
+                            .getRoot()
+                            .toPath()
+                            .resolve("analytics.settings")
+                            .toFile()
+                            .exists());
+
+            settings.saveSettings();
 
             // The settings file should now be created.
             assertTrue(
@@ -146,8 +159,8 @@ public class AnalyticsSettingsTest {
                     testConfigDir.getRoot().toPath().resolve("uid.txt"),
                     uid.getBytes(Charsets.UTF_8));
 
-            // load settings while there is no settings file present.
-            AnalyticsSettings settings = AnalyticsSettings.loadSettings();
+            // create new settings.
+            AnalyticsSettings settings = AnalyticsSettings.newAnalyticsSettings();
             assertNotNull(settings);
 
             // Ensure the settings are using the user id from the 'uid.txt' file.

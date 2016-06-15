@@ -16,6 +16,8 @@
 
 package com.android.tools.analytics;
 
+import com.android.annotations.NonNull;
+import com.android.annotations.Nullable;
 import com.google.common.base.Charsets;
 import com.google.common.io.Files;
 import com.google.gson.Gson;
@@ -41,6 +43,9 @@ public class AnalyticsSettings {
 
     @SerializedName("hasOptedIn")
     private boolean mHasOptedIn;
+
+    @SerializedName("debugDisablePublishing")
+    private boolean mDebugDisablePublishing;
 
     /**
      * Gets a user id used for reporting analytics. This id is pseudo-anonymous.
@@ -70,16 +75,22 @@ public class AnalyticsSettings {
         this.mHasOptedIn = mHasOptedIn;
     }
 
+    /** Indicates whether the user has disabled publishing for debugging purposes. */
+    public boolean hasDebugDisablePublishing() {
+        return mDebugDisablePublishing;
+    }
     /**
      * Loads an existing settings file from disk, or creates a new valid settings object if none
      * exists. In case of the latter, will try to load uid.txt for maintaining the same uid with
      * previous metrics reporting.
+     *
      * @throws IOException if there are any issues reading the settings file.
      */
+    @Nullable
     public static AnalyticsSettings loadSettings() throws IOException {
         File file = getSettingsFile();
         if (!file.exists()) {
-            return newAnalyticsSettings();
+            return null;
         }
         FileChannel channel = new RandomAccessFile(file, "rw").getChannel();
         try (FileLock ignored = channel.tryLock()) {
@@ -96,10 +107,12 @@ public class AnalyticsSettings {
     }
 
     /**
-     * Creates a new settings object and writes it to disk.
-     * Will try to load uid.txt for maintaining the same uid with previous metrics reporting.
+     * Creates a new settings object and writes it to disk. Will try to load uid.txt for maintaining
+     * the same uid with previous metrics reporting.
+     *
      * @throws IOException if there are any issues writing the settings file.
      */
+    @NonNull
     public static AnalyticsSettings newAnalyticsSettings() throws IOException {
         AnalyticsSettings settings = new AnalyticsSettings();
 
@@ -115,7 +128,6 @@ public class AnalyticsSettings {
         if (settings.getUserId() == null) {
             settings.setUserId(UUID.randomUUID().toString());
         }
-        settings.saveSettings();
         return settings;
     }
 

@@ -17,14 +17,15 @@
 package com.android.tools.analytics;
 
 import com.android.testutils.VirtualTimeScheduler;
+import com.android.utils.StdLogger;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.google.wireless.android.play.playlog.proto.ClientAnalytics;
 import com.google.wireless.android.sdk.stats.AndroidStudioStats;
-import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.RandomAccessFile;
@@ -46,6 +47,7 @@ import static org.junit.Assert.*;
  * Tests for {@link JournalingUsageTracker}.
  */
 public class JournalingUsageTrackerTest {
+    @Rule public TemporaryFolder testConfigDir = new TemporaryFolder();
     @Rule public TemporaryFolder testSpoolDir = new TemporaryFolder();
 
     @Test
@@ -54,7 +56,10 @@ public class JournalingUsageTrackerTest {
         //  virtual time scheduler.
         VirtualTimeScheduler virtualTimeScheduler = new VirtualTimeScheduler();
         JournalingUsageTracker journalingUsageTracker =
-                new JournalingUsageTracker(testSpoolDir.getRoot().toString(), virtualTimeScheduler);
+                new JournalingUsageTracker(
+                        new AnalyticsSettings(),
+                        virtualTimeScheduler,
+                        testSpoolDir.getRoot().toPath());
 
         // Create a log entry and log it.
         AndroidStudioStats.AndroidStudioEvent.Builder logEntry = createAndroidStudioEvent(42);
@@ -95,10 +100,13 @@ public class JournalingUsageTrackerTest {
         // virtual time scheduler.
         VirtualTimeScheduler virtualTimeScheduler = new VirtualTimeScheduler();
         JournalingUsageTracker journalingUsageTracker =
-                new JournalingUsageTracker(testSpoolDir.getRoot().toString(), virtualTimeScheduler);
+                new JournalingUsageTracker(
+                        new AnalyticsSettings(),
+                        virtualTimeScheduler,
+                        testSpoolDir.getRoot().toPath());
 
         // Set a timeout of 1 minute for closing the current spool file.
-        journalingUsageTracker.setMaxJournalTime(1);
+        journalingUsageTracker.setMaxJournalTime(1, TimeUnit.MINUTES);
         assertEquals(1, virtualTimeScheduler.getActionsQueued());
 
         // Write an event to the usage tracker
@@ -174,7 +182,10 @@ public class JournalingUsageTrackerTest {
         // virtual time scheduler.
         VirtualTimeScheduler virtualTimeScheduler = new VirtualTimeScheduler();
         JournalingUsageTracker journalingUsageTracker =
-                new JournalingUsageTracker(testSpoolDir.getRoot().toString(), virtualTimeScheduler);
+                new JournalingUsageTracker(
+                        new AnalyticsSettings(),
+                        virtualTimeScheduler,
+                        testSpoolDir.getRoot().toPath());
 
         // Restrict the max amount of logs per spool file to 3.
         journalingUsageTracker.setMaxJournalSize(3);
@@ -263,10 +274,13 @@ public class JournalingUsageTrackerTest {
         // virtual time scheduler.
         VirtualTimeScheduler virtualTimeScheduler = new VirtualTimeScheduler();
         JournalingUsageTracker journalingUsageTracker =
-                new JournalingUsageTracker(testSpoolDir.getRoot().toString(), virtualTimeScheduler);
+                new JournalingUsageTracker(
+                        new AnalyticsSettings(),
+                        virtualTimeScheduler,
+                        testSpoolDir.getRoot().toPath());
 
         // Set a timeout of 1 minute for closing the current spool file.
-        journalingUsageTracker.setMaxJournalTime(1);
+        journalingUsageTracker.setMaxJournalTime(1, TimeUnit.MINUTES);
         assertEquals(0, virtualTimeScheduler.getActionsExecuted());
         assertEquals(1, virtualTimeScheduler.getActionsQueued());
 
@@ -276,7 +290,7 @@ public class JournalingUsageTrackerTest {
         assertEquals(1, virtualTimeScheduler.getActionsQueued());
 
         // Update the timeout
-        journalingUsageTracker.setMaxJournalTime(1);
+        journalingUsageTracker.setMaxJournalTime(1, TimeUnit.MINUTES);
         assertEquals(0, virtualTimeScheduler.getActionsExecuted());
         assertEquals(1, virtualTimeScheduler.getActionsQueued());
 
@@ -298,6 +312,61 @@ public class JournalingUsageTrackerTest {
         assertEquals(1, afterTimeout.getCompletedLogs().size());
     }
 
+    @Test
+    public void updateSettingsAndTrackerTest() throws IOException {
+        UsageTracker beforeUpdate = UsageTracker.getInstance();
+        assertTrue(beforeUpdate instanceof NullUsageTracker);
+        // Configure the paths to use a temp directory for reading from and writing to.
+        EnvironmentFakes.setCustomAndroidSdkHomeEnvironment(
+                testConfigDir.getRoot().toPath().toString());
+
+        File settingsFile = testConfigDir.getRoot().toPath().resolve("analytics.settings").toFile();
+        assertFalse(settingsFile.exists());
+
+        // Setup up an instance of the JournalingUsageTracker using a temp spool directory and
+        // virtual time scheduler.
+        VirtualTimeScheduler virtualTimeScheduler = new VirtualTimeScheduler();
+
+        // updating to opt-in false from scratch should set NullUsageTracker
+        // and initialize settings.
+        AnalyticsSettings settings1 =
+                UsageTracker.updateSettingsAndTracker(
+                        false, new StdLogger(StdLogger.Level.INFO), virtualTimeScheduler);
+        assertNotNull(settings1);
+        assertTrue(settingsFile.exists());
+        UsageTracker afterFirstUpdate = UsageTracker.getInstance();
+        assertTrue(afterFirstUpdate instanceof NullUsageTracker);
+        assertNotEquals(beforeUpdate, afterFirstUpdate);
+        assertEquals(settings1, afterFirstUpdate.getAnalyticsSettings());
+        assertFalse(settings1.hasOptedIn());
+        assertEquals(virtualTimeScheduler, UsageTracker.getInstance().getScheduler());
+
+        // updating to opt-in true should update settings and initialize JournalingUsageTracker.
+        AnalyticsSettings settings2 =
+                UsageTracker.updateSettingsAndTracker(
+                        true, new StdLogger(StdLogger.Level.INFO), virtualTimeScheduler);
+        assertNotNull(settings2);
+        UsageTracker afterSecondUpdate = UsageTracker.getInstance();
+        assertTrue(afterSecondUpdate instanceof JournalingUsageTracker);
+        assertEquals(settings2, afterSecondUpdate.getAnalyticsSettings());
+        assertTrue(settings2.hasOptedIn());
+        assertEquals(virtualTimeScheduler, UsageTracker.getInstance().getScheduler());
+
+        // updating to opt-in false should update settings and initialize NullUsageTracker.
+        AnalyticsSettings settings3 =
+                UsageTracker.updateSettingsAndTracker(
+                        false, new StdLogger(StdLogger.Level.INFO), virtualTimeScheduler);
+        assertNotNull(settings3);
+        UsageTracker afterThirdUpdate = UsageTracker.getInstance();
+        assertTrue(afterThirdUpdate instanceof NullUsageTracker);
+        assertEquals(settings3, afterThirdUpdate.getAnalyticsSettings());
+        assertFalse(settings3.hasOptedIn());
+        assertEquals(virtualTimeScheduler, UsageTracker.getInstance().getScheduler());
+
+        // now that we have a NullTracker, no spool files should be locked.
+        assertTrue(getSpoolDetails(testSpoolDir.getRoot().toPath()).getLockedFiles().isEmpty());
+    }
+
     /**
      * Helper that builds a {@link AndroidStudioStats.AndroidStudioEvent} with a marker to
      * distinguish this message.
@@ -308,9 +377,9 @@ public class JournalingUsageTrackerTest {
                 .setKind(AndroidStudioStats.AndroidStudioEvent.EventKind.META_METRICS)
                 .setMetaMetrics(
                         AndroidStudioStats.MetaMetrics.newBuilder()
-                                .setBytesSentToday(marker)
-                                .setDroppedMetrics(0)
-                                .setRetriesSinceLast(0));
+                                .setBytesSentInLastUpload(marker)
+                                .setFailedConnections(0)
+                                .setFailedServerReplies(0));
     }
 
     /**
