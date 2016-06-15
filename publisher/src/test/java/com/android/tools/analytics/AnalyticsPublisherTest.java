@@ -1,0 +1,564 @@
+/*
+ * Copyright (C) 2016 The Android Open Source Project
+ *
+ * Licensed under the Eclipse Public License, Version 1.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.eclipse.org/org/documents/epl-v10.php
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package com.android.tools.analytics;
+
+import com.android.testutils.SystemPropertyOverrides;
+import com.android.testutils.VirtualTimeDateProvider;
+import com.android.testutils.VirtualTimeScheduler;
+import com.android.utils.DateProvider;
+import com.google.wireless.android.play.playlog.proto.ClientAnalytics;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.rules.TemporaryFolder;
+
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.UUID;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
+
+import static com.google.wireless.android.sdk.stats.AndroidStudioStats.*;
+import static org.junit.Assert.assertEquals;
+
+/**
+ * Tests for {@link AnalyticsPublisher} and {@link GoogleAnalyticsPublisher}.
+ */
+public class AnalyticsPublisherTest {
+    @Rule public TemporaryFolder testSpoolDir = new TemporaryFolder();
+
+    @Test
+    public void testInitialValues() throws Exception {
+        // Create helpers used to instantiate the publisher.
+        VirtualTimeScheduler vs = new VirtualTimeScheduler();
+        AnalyticsSettings analyticsSettings = getTestAnalyticsSettings();
+
+        // Start a stub webserver to publish to.
+        try (ServerStub stub = new ServerStub()) {
+            // Instantiate the publisher
+            GoogleAnalyticsPublisher googleAnalyticsPublisher =
+                    new GoogleAnalyticsPublisher(
+                            analyticsSettings, testSpoolDir.getRoot().toPath(), vs);
+            googleAnalyticsPublisher.setServerUrl(stub.getUrl());
+
+            // Ensure the publisher's initial values are as expected.
+            assertEquals(stub.getUrl(), googleAnalyticsPublisher.getServerUrl());
+            assertEquals(
+                    TimeUnit.MINUTES.toNanos(10), googleAnalyticsPublisher.getPublishInterval());
+
+            // Ensure that the first publish job has been scheduled.
+            assertEquals(1, vs.getQueue().size());
+            assertEquals(TimeUnit.MINUTES.toNanos(10), vs.getQueue().peek().getTick());
+        }
+    }
+
+    /**
+     * Creates an instance of {@link AnalyticsSettings} for use in tests.
+     */
+    private AnalyticsSettings getTestAnalyticsSettings() {
+        AnalyticsSettings analyticsSettings = new AnalyticsSettings();
+        analyticsSettings.setHasOptedIn(true);
+        String uid = UUID.randomUUID().toString();
+        analyticsSettings.setUserId(uid);
+        return analyticsSettings;
+    }
+
+    @Test
+    public void testBasics() throws Exception {
+        // Create an event to log.
+        AndroidStudioEvent.Builder logged = createAndroidStudioEvent(5);
+
+        // Use the JournalingUsageTracker to place some .trk files with events in the spool
+        // directory.
+        VirtualTimeScheduler vs = new VirtualTimeScheduler();
+        JournalingUsageTracker journalingUsageTracker =
+                new JournalingUsageTracker(testSpoolDir.getRoot().toPath(), vs);
+        journalingUsageTracker.log(logged);
+        vs.advanceBy(0);
+        journalingUsageTracker.close();
+
+        // Create helpers used to instantiate the publisher.
+        AnalyticsSettings analyticsSettings = getTestAnalyticsSettings();
+
+        // Override the date provider to the publisher so we can reliably check if date based
+        // properties are set correctly.
+        VirtualTimeDateProvider dateProvider = new VirtualTimeDateProvider(vs);
+        GoogleAnalyticsPublisher.sDateProvider = dateProvider;
+        // move the scheduler ahead so we get non zero values for the date provider.
+        vs.advanceBy(1, TimeUnit.MINUTES);
+
+        try (ServerStub stub = new ServerStub();
+                SystemPropertyOverrides systemPropertyOverrides = new SystemPropertyOverrides()) {
+            // override the os.* system properties so the test runs reliably no matter which
+            // it is run on.
+            systemPropertyOverrides.setProperty("os.name", "Linux");
+            systemPropertyOverrides.setProperty("os.version", "3.13.0-85-generic");
+
+            GoogleAnalyticsPublisher googleAnalyticsPublisher =
+                    new GoogleAnalyticsPublisher(
+                            analyticsSettings, testSpoolDir.getRoot().toPath(), vs);
+            googleAnalyticsPublisher.setServerUrl(stub.getUrl());
+
+            // advance time to make the publisher run its first publishing job.
+            vs.advanceBy(10, TimeUnit.MINUTES);
+            googleAnalyticsPublisher.close();
+
+            // retrieve results from the webserver stub.
+            List<Future<ClientAnalytics.LogRequest>> results = stub.getResults();
+            assertEquals(1, results.size());
+            Future<ClientAnalytics.LogRequest> result = results.get(0);
+            assertEquals(true, result.isDone());
+            ClientAnalytics.LogRequest request = result.get();
+
+            // verify the retrieved proto is shaped as expected.
+            assertEquals(660000, request.getRequestTimeMs());
+            assertEquals(600000, request.getRequestUptimeMs());
+
+            assertEquals(
+                    ClientAnalytics.LogRequest.LogSource.ANDROID_STUDIO, request.getLogSource());
+            assertEquals(
+                    ClientAnalytics.ClientInfo.ClientType.DESKTOP,
+                    request.getClientInfo().getClientType());
+            ClientAnalytics.DesktopClientInfo cdi = request.getClientInfo().getDesktopClientInfo();
+            assertEquals(analyticsSettings.getUserId(), cdi.getClientId());
+            assertEquals("linux", cdi.getOs());
+            assertEquals("3.13", cdi.getOsMajorVersion());
+            assertEquals("3.13.0-85-generic", cdi.getOsFullVersion());
+
+            assertEquals(2, request.getLogEventCount());
+            ClientAnalytics.LogEvent metaEvent = request.getLogEvent(0);
+            AndroidStudioEvent metaStudioEvent =
+                    AndroidStudioEvent.parseFrom(metaEvent.getSourceExtension());
+            assertEquals(
+                    AndroidStudioEvent.newBuilder()
+                            .setCategory(AndroidStudioEvent.EventCategory.META)
+                            .setKind(AndroidStudioEvent.EventKind.META_METRICS)
+                            .setMetaMetrics(
+                                    MetaMetrics.newBuilder()
+                                            .setDroppedMetrics(0)
+                                            .setRetriesSinceLast(0)
+                                            .setBytesSentToday(0)
+                                            .build())
+                            .build(),
+                    metaStudioEvent);
+
+            ClientAnalytics.LogEvent userEvent = request.getLogEvent(1);
+            AndroidStudioEvent retrieved =
+                    AndroidStudioEvent.parseFrom(userEvent.getSourceExtension());
+            assertEquals(logged.build(), retrieved);
+        } finally {
+            GoogleAnalyticsPublisher.sDateProvider = DateProvider.SYSTEM;
+        }
+        // ensure the spool directory is empty after succesfully publishing the analytics.
+        assertEquals(0, testSpoolDir.getRoot().listFiles().length);
+    }
+
+    /**
+     * Helper that builds a {@link AndroidStudioEvent} with a marker to
+     * distinguish this message.
+     */
+    private AndroidStudioEvent.Builder createAndroidStudioEvent(long marker) {
+        return AndroidStudioEvent.newBuilder()
+                .setCategory(AndroidStudioEvent.EventCategory.PING)
+                .setKind(AndroidStudioEvent.EventKind.STUDIO_PING)
+                .setStudioCrash(StudioCrash.newBuilder().setActions(marker));
+    }
+
+    @Test
+    public void testBadConnection() throws Exception {
+        // Create an event to log.
+        AndroidStudioEvent.Builder logged = createAndroidStudioEvent(3);
+
+        // Use the JournalingUsageTracker to place some .trk files with events in the spool
+        // directory.
+        VirtualTimeScheduler vs = new VirtualTimeScheduler();
+        JournalingUsageTracker journalingUsageTracker =
+                new JournalingUsageTracker(testSpoolDir.getRoot().toPath(), vs);
+        journalingUsageTracker.log(logged);
+        vs.advanceBy(0);
+        journalingUsageTracker.close();
+
+        // Create helpers used to instantiate the publisher.
+        AnalyticsSettings analyticsSettings = getTestAnalyticsSettings();
+        GoogleAnalyticsPublisher googleAnalyticsPublisher =
+                new GoogleAnalyticsPublisher(
+                        analyticsSettings, testSpoolDir.getRoot().toPath(), vs);
+
+        // set the url to publish to to a reserved port which we know the server cannot connect to.
+        // https://www.iana.org/assignments/service-names-port-numbers/service-names-port-numbers.txt
+        googleAnalyticsPublisher.setServerUrl(new URL("http://localhost:1023/"));
+
+        // Execute the first publish job.
+        vs.advanceBy(10, TimeUnit.MINUTES);
+        // Ensure no files were published.
+        assertEquals(1, testSpoolDir.getRoot().listFiles().length);
+        // Ensure that the next job is scheduled at 20 mins
+        // (2 * the normal time because of backoff).
+        assertEquals(1, vs.getQueue().size());
+        assertEquals(20, vs.getQueue().peek().getDelay(TimeUnit.MINUTES));
+
+        // Create a server and configure the publisher to use that instead.
+        try (ServerStub stub = new ServerStub()) {
+            googleAnalyticsPublisher.setServerUrl(stub.getUrl());
+            // Move scheduler to run to the delayed job
+            vs.advanceBy(20, TimeUnit.MINUTES);
+            googleAnalyticsPublisher.close();
+
+            // Ensure that the results do come in now.
+            List<Future<ClientAnalytics.LogRequest>> results = stub.getResults();
+            assertEquals(1, results.size());
+            Future<ClientAnalytics.LogRequest> result = results.get(0);
+            assertEquals(true, result.isDone());
+            ClientAnalytics.LogRequest request = result.get();
+
+            assertEquals(2, request.getLogEventCount());
+            ClientAnalytics.LogEvent metaEvent = request.getLogEvent(0);
+            AndroidStudioEvent metaStudioEvent =
+                    AndroidStudioEvent.parseFrom(metaEvent.getSourceExtension());
+            assertEquals(
+                    AndroidStudioEvent.newBuilder()
+                            .setCategory(AndroidStudioEvent.EventCategory.META)
+                            .setKind(AndroidStudioEvent.EventKind.META_METRICS)
+                            .setMetaMetrics(
+                                    MetaMetrics.newBuilder()
+                                            // ensure that the previous failure is reported in the
+                                            // meta metrics.
+                                            .setDroppedMetrics(1)
+                                            .setRetriesSinceLast(0)
+                                            .setBytesSentToday(0)
+                                            .build())
+                            .build(),
+                    metaStudioEvent);
+        }
+    }
+
+    @Test
+    public void testBadServer() throws Exception {
+        // Create an event to log.
+        AndroidStudioEvent.Builder logged = createAndroidStudioEvent(3);
+
+        // Use the JournalingUsageTracker to place some .trk files with events in the spool
+        // directory.
+        VirtualTimeScheduler vs = new VirtualTimeScheduler();
+        JournalingUsageTracker journalingUsageTracker =
+                new JournalingUsageTracker(testSpoolDir.getRoot().toPath(), vs);
+        journalingUsageTracker.log(logged);
+        vs.advanceBy(0);
+        journalingUsageTracker.close();
+
+        // Create helpers used to instantiate the publisher.
+        AnalyticsSettings analyticsSettings = getTestAnalyticsSettings();
+
+        // As we're checking upload byte sizes and the size varies by the value for
+        // time, we need to fix the time in this test.
+        VirtualTimeDateProvider dateProvider = new VirtualTimeDateProvider(vs);
+        GoogleAnalyticsPublisher.sDateProvider = dateProvider;
+
+        try (ServerStub stub = new ServerStub();
+                SystemPropertyOverrides systemPropertyOverrides = new SystemPropertyOverrides()) {
+            // override the os.* system properties so the test runs reliably no matter which
+            // it is run on.
+            systemPropertyOverrides.setProperty("os.name", "Linux");
+            systemPropertyOverrides.setProperty("os.version", "3.13.0-85-generic");
+
+            GoogleAnalyticsPublisher googleAnalyticsPublisher =
+                    new GoogleAnalyticsPublisher(
+                            analyticsSettings, testSpoolDir.getRoot().toPath(), vs);
+            googleAnalyticsPublisher.setServerUrl(stub.getUrl());
+
+            // Instruct to make the server stub fail the http request in the next call.
+            stub.makeNextResponseServerError(true);
+
+            // Execute the first publish job.
+            vs.advanceBy(10, TimeUnit.MINUTES);
+
+            // Ensure no files were published.
+            assertEquals(1, testSpoolDir.getRoot().listFiles().length);
+
+            // Ensure that the next job is scheduled at 20 mins
+            // (2 * the normal time because of backoff).
+            assertEquals(1, vs.getQueue().size());
+            assertEquals(20, vs.getQueue().peek().getDelay(TimeUnit.MINUTES));
+
+            // Move scheduler to run to the delayed job
+            vs.advanceBy(20, TimeUnit.MINUTES);
+            googleAnalyticsPublisher.close();
+
+            // Ensure that the results do come in now.
+            List<Future<ClientAnalytics.LogRequest>> results = stub.getResults();
+            assertEquals(1, results.size());
+            Future<ClientAnalytics.LogRequest> result = results.get(0);
+            assertEquals(true, result.isDone());
+            ClientAnalytics.LogRequest request = result.get();
+
+            assertEquals(2, request.getLogEventCount());
+            ClientAnalytics.LogEvent metaEvent = request.getLogEvent(0);
+            AndroidStudioEvent metaStudioEvent =
+                    AndroidStudioEvent.parseFrom(metaEvent.getSourceExtension());
+            assertEquals(
+                    AndroidStudioEvent.newBuilder()
+                            .setCategory(AndroidStudioEvent.EventCategory.META)
+                            .setKind(AndroidStudioEvent.EventKind.META_METRICS)
+                            .setMetaMetrics(
+                                    MetaMetrics.newBuilder()
+                                            .setDroppedMetrics(0)
+                                            // ensure that the previous failure is reported in the
+                                            // meta metrics.
+                                            .setRetriesSinceLast(1)
+                                            .setBytesSentToday(128)
+                                            .build())
+                            .build(),
+                    metaStudioEvent);
+        } finally {
+            GoogleAnalyticsPublisher.sDateProvider = DateProvider.SYSTEM;
+        }
+    }
+
+    @Test
+    public void testEmptySpoolFile() throws Exception {
+        // Use the JournalingUsageTracker to place an empty .trk file in the spool directory.
+        VirtualTimeScheduler vs = new VirtualTimeScheduler();
+        JournalingUsageTracker journalingUsageTracker =
+                new JournalingUsageTracker(testSpoolDir.getRoot().toPath(), vs);
+        journalingUsageTracker.close();
+
+        // Create helpers used to instantiate the publisher.
+        AnalyticsSettings analyticsSettings = getTestAnalyticsSettings();
+        try (ServerStub stub = new ServerStub()) {
+            GoogleAnalyticsPublisher googleAnalyticsPublisher =
+                    new GoogleAnalyticsPublisher(
+                            analyticsSettings, testSpoolDir.getRoot().toPath(), vs);
+            googleAnalyticsPublisher.setServerUrl(stub.getUrl());
+
+            // Execute the first publish job.
+            vs.advanceBy(10, TimeUnit.MINUTES);
+
+            // Ensure the .trk file got removed.
+            assertEquals(0, testSpoolDir.getRoot().listFiles().length);
+            googleAnalyticsPublisher.close();
+
+            // Ensure no events were published.
+            List<Future<ClientAnalytics.LogRequest>> results = stub.getResults();
+            assertEquals(0, results.size());
+        }
+    }
+
+    @Test
+    public void testMultipleEvents() throws Exception {
+        // Create a few events to log.
+        AndroidStudioEvent.Builder logged1 = createAndroidStudioEvent(1);
+        AndroidStudioEvent.Builder logged2 = createAndroidStudioEvent(2);
+        AndroidStudioEvent.Builder logged3 = createAndroidStudioEvent(3);
+        AndroidStudioEvent.Builder logged4 = createAndroidStudioEvent(4);
+
+        Set<AndroidStudioEvent> expected = new HashSet<>();
+        expected.add(logged1.build());
+        expected.add(logged2.build());
+        expected.add(logged3.build());
+        expected.add(logged4.build());
+
+        // Use the JournalingUsageTracker to place several .trk files with events in the spool
+        // directory.
+        VirtualTimeScheduler vs = new VirtualTimeScheduler();
+        JournalingUsageTracker journalingUsageTracker =
+                new JournalingUsageTracker(testSpoolDir.getRoot().toPath(), vs);
+        journalingUsageTracker.setMaxJournalSize(2);
+        journalingUsageTracker.log(logged1);
+        journalingUsageTracker.log(logged2);
+        vs.advanceBy(0);
+        journalingUsageTracker.log(logged3);
+        journalingUsageTracker.log(logged4);
+        vs.advanceBy(0);
+        journalingUsageTracker.close();
+
+        // Create helpers used to instantiate the publisher.
+        AnalyticsSettings analyticsSettings = getTestAnalyticsSettings();
+        try (ServerStub stub = new ServerStub()) {
+            GoogleAnalyticsPublisher googleAnalyticsPublisher =
+                    new GoogleAnalyticsPublisher(
+                            analyticsSettings, testSpoolDir.getRoot().toPath(), vs);
+            googleAnalyticsPublisher.setServerUrl(stub.getUrl());
+
+            // Execute the first publish job.
+            vs.advanceBy(10, TimeUnit.MINUTES);
+            googleAnalyticsPublisher.close();
+
+            // check that two requests were made
+            List<Future<ClientAnalytics.LogRequest>> results = stub.getResults();
+            assertEquals(2, results.size());
+
+            Set<AndroidStudioEvent> actual = new HashSet<>();
+
+            // each request contains 3 events (1 meta and two data events).
+            Future<ClientAnalytics.LogRequest> result1 = results.get(0);
+            ClientAnalytics.LogRequest request1 = result1.get();
+            assertEquals(3, request1.getLogEventCount());
+            AndroidStudioEvent received1 =
+                    AndroidStudioEvent.parseFrom(request1.getLogEvent(1).getSourceExtension());
+            actual.add(received1);
+            AndroidStudioEvent received2 =
+                    AndroidStudioEvent.parseFrom(request1.getLogEvent(2).getSourceExtension());
+            actual.add(received2);
+
+            Future<ClientAnalytics.LogRequest> result2 = results.get(1);
+            ClientAnalytics.LogRequest request2 = result2.get();
+            assertEquals(3, request2.getLogEventCount());
+            AndroidStudioEvent received3 =
+                    AndroidStudioEvent.parseFrom(request2.getLogEvent(1).getSourceExtension());
+            actual.add(received3);
+            AndroidStudioEvent received4 =
+                    AndroidStudioEvent.parseFrom(request2.getLogEvent(2).getSourceExtension());
+            actual.add(received4);
+
+            // ensure all events that were sent are received, but don't care about the order.
+            assertEquals(expected, actual);
+        }
+    }
+
+    @Test
+    public void testUpdateInterval() throws Exception {
+        // Create an event to log.
+        AndroidStudioEvent.Builder logged = createAndroidStudioEvent(5);
+
+        // Use the JournalingUsageTracker to place some .trk files with events in the spool
+        // directory.
+        VirtualTimeScheduler vs = new VirtualTimeScheduler();
+        JournalingUsageTracker journalingUsageTracker =
+                new JournalingUsageTracker(testSpoolDir.getRoot().toPath(), vs);
+        journalingUsageTracker.log(logged);
+        vs.advanceBy(0);
+        journalingUsageTracker.close();
+
+        // Create helpers used to instantiate the publisher.
+        AnalyticsSettings analyticsSettings = getTestAnalyticsSettings();
+        try (ServerStub stub = new ServerStub()) {
+            GoogleAnalyticsPublisher googleAnalyticsPublisher =
+                    new GoogleAnalyticsPublisher(
+                            analyticsSettings, testSpoolDir.getRoot().toPath(), vs);
+            googleAnalyticsPublisher.setServerUrl(stub.getUrl());
+
+            // Ensure a job is queued to publish analytics.
+            assertEquals(1, vs.getQueue().size());
+            assertEquals(10, vs.getQueue().peek().getDelay(TimeUnit.MINUTES));
+
+            // Move time but not enough to trigger the job
+            vs.advanceBy(5, TimeUnit.MINUTES);
+            assertEquals(1, vs.getQueue().size());
+            assertEquals(5, vs.getQueue().peek().getDelay(TimeUnit.MINUTES));
+
+            // Update the publish interval
+            googleAnalyticsPublisher.setPublishInterval(12, TimeUnit.MINUTES);
+
+            // Ensure that the publish job has been updated to match the new interval.
+            assertEquals(1, vs.getQueue().size());
+            assertEquals(12, vs.getQueue().peek().getDelay(TimeUnit.MINUTES));
+
+            // Move time forward by new interval
+            vs.advanceBy(12, TimeUnit.MINUTES);
+            googleAnalyticsPublisher.close();
+
+            // Ensure that analytics are published after the interval.
+            List<Future<ClientAnalytics.LogRequest>> results = stub.getResults();
+            assertEquals(1, results.size());
+        }
+    }
+
+    @Test
+    public void testCustomConnection() throws Exception {
+        // Create an event to log.
+        AndroidStudioEvent.Builder logged = createAndroidStudioEvent(5);
+
+        // Use the JournalingUsageTracker to place some .trk files with events in the spool
+        // directory.
+        VirtualTimeScheduler vs = new VirtualTimeScheduler();
+        JournalingUsageTracker journalingUsageTracker =
+                new JournalingUsageTracker(testSpoolDir.getRoot().toPath(), vs);
+        journalingUsageTracker.log(logged);
+        vs.advanceBy(0);
+        journalingUsageTracker.close();
+
+        // Create helpers used to instantiate the publisher.
+        AnalyticsSettings analyticsSettings = getTestAnalyticsSettings();
+        try (ServerStub stub = new ServerStub()) {
+            // Create an instance of the publisher with a customized connection creation function.
+            GoogleAnalyticsPublisher googleAnalyticsPublisher =
+                    new GoogleAnalyticsPublisher(
+                            analyticsSettings, testSpoolDir.getRoot().toPath(), vs);
+            googleAnalyticsPublisher.setCreateConnection(
+                    () -> (HttpURLConnection) stub.getUrl().openConnection());
+            // set the url to publish to to a reserved port which we know the server cannot connect
+            // to.
+            // https://www.iana.org/assignments/service-names-port-numbers/service-names-port-numbers.txt
+            googleAnalyticsPublisher.setServerUrl(new URL("http://localhost:1023/bad"));
+
+            // Move time forward to schedule the upload.
+            vs.advanceBy(10, TimeUnit.MINUTES);
+            googleAnalyticsPublisher.close();
+
+            // Ensure that analytics are published after the interval.
+            List<Future<ClientAnalytics.LogRequest>> results = stub.getResults();
+            assertEquals(1, results.size());
+        }
+    }
+
+    @Test
+    public void testOsName() throws Exception {
+        // Override system properties for 'os.name'.
+        try (SystemPropertyOverrides systemPropertyOverrides = new SystemPropertyOverrides()) {
+            // Test no os specified.
+            systemPropertyOverrides.setProperty("os.name", "");
+            assertEquals("unknown", GoogleAnalyticsPublisher.getOsName());
+            // Test our supported OSes.
+            systemPropertyOverrides.setProperty("os.name", "Linux");
+            assertEquals("linux", GoogleAnalyticsPublisher.getOsName());
+            systemPropertyOverrides.setProperty("os.name", "Windows 10");
+            assertEquals("windows", GoogleAnalyticsPublisher.getOsName());
+            systemPropertyOverrides.setProperty("os.name", "Windows Vista");
+            assertEquals("windows", GoogleAnalyticsPublisher.getOsName());
+            systemPropertyOverrides.setProperty("os.name", "Mac OS X");
+            assertEquals("macosx", GoogleAnalyticsPublisher.getOsName());
+            // Test unknown Oses.
+            systemPropertyOverrides.setProperty("os.name", "My Custom OS");
+            assertEquals("My Custom OS", GoogleAnalyticsPublisher.getOsName());
+            String customLong = "My Custom OS With a really realy long name";
+            systemPropertyOverrides.setProperty("os.name", customLong);
+            assertEquals(customLong.substring(0, 32), GoogleAnalyticsPublisher.getOsName());
+        }
+    }
+
+    @Test
+    public void testGetMajorOsVersion() throws Exception {
+        // Override system properties for 'os.version'.
+        try (SystemPropertyOverrides systemPropertyOverrides = new SystemPropertyOverrides()) {
+            // Test no version specified.
+            systemPropertyOverrides.setProperty("os.version", "3");
+            assertEquals(null, GoogleAnalyticsPublisher.getMajorOsVersion());
+            // Test supported os version numbers.
+            systemPropertyOverrides.setProperty("os.version", "3.13.0-85-generic");
+            assertEquals("3.13", GoogleAnalyticsPublisher.getMajorOsVersion());
+            systemPropertyOverrides.setProperty("os.version", "10.7.4");
+            assertEquals("10.7", GoogleAnalyticsPublisher.getMajorOsVersion());
+            systemPropertyOverrides.setProperty("os.version", "10.0");
+            assertEquals("10.0", GoogleAnalyticsPublisher.getMajorOsVersion());
+            // Test unsupported os version numbers.
+            systemPropertyOverrides.setProperty("os.version", "a.b.c");
+            assertEquals(null, GoogleAnalyticsPublisher.getMajorOsVersion());
+        }
+    }
+}

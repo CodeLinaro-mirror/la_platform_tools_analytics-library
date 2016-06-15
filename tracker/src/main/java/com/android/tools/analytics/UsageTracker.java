@@ -20,6 +20,7 @@ import com.android.annotations.NonNull;
 import com.google.wireless.android.sdk.stats.AndroidStudioStats;
 import com.google.wireless.android.play.playlog.proto.ClientAnalytics;
 
+import java.nio.file.Paths;
 import java.util.Date;
 import java.util.concurrent.ScheduledExecutorService;
 
@@ -88,6 +89,7 @@ public abstract class UsageTracker implements AutoCloseable {
     /**
      * Gets an instance of the {@link UsageTracker} that has been initialized correctly for this process.
      */
+    @NonNull
     public static UsageTracker getInstance() {
         synchronized (sGate) {
             return sInstance;
@@ -99,11 +101,13 @@ public abstract class UsageTracker implements AutoCloseable {
      * other settings.
      */
     public static void initialize(
-            AnalyticsSettings analyticsSettings, ScheduledExecutorService eventLoop) {
+            @NonNull AnalyticsSettings analyticsSettings,
+            @NonNull ScheduledExecutorService eventLoop) {
         synchronized (sGate) {
             if (analyticsSettings.hasOptedIn()) {
                 sInstance =
-                        new JournalingUsageTracker(AnalyticsPaths.getSpoolDirectory(), eventLoop);
+                        new JournalingUsageTracker(
+                                Paths.get(AnalyticsPaths.getSpoolDirectory()), eventLoop);
             } else {
                 sInstance = new NullUsageTracker();
             }

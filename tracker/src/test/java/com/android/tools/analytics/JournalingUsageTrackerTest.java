@@ -20,7 +20,6 @@ import com.android.testutils.VirtualTimeScheduler;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.google.wireless.android.play.playlog.proto.ClientAnalytics;
 import com.google.wireless.android.sdk.stats.AndroidStudioStats;
-import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
@@ -40,7 +39,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Tests for {@link JournalingUsageTracker}.
@@ -54,7 +53,7 @@ public class JournalingUsageTrackerTest {
         //  virtual time scheduler.
         VirtualTimeScheduler virtualTimeScheduler = new VirtualTimeScheduler();
         JournalingUsageTracker journalingUsageTracker =
-                new JournalingUsageTracker(testSpoolDir.getRoot().toString(), virtualTimeScheduler);
+                new JournalingUsageTracker(testSpoolDir.getRoot().toPath(), virtualTimeScheduler);
 
         // Create a log entry and log it.
         AndroidStudioStats.AndroidStudioEvent.Builder logEntry = createAndroidStudioEvent(42);
@@ -95,7 +94,7 @@ public class JournalingUsageTrackerTest {
         // virtual time scheduler.
         VirtualTimeScheduler virtualTimeScheduler = new VirtualTimeScheduler();
         JournalingUsageTracker journalingUsageTracker =
-                new JournalingUsageTracker(testSpoolDir.getRoot().toString(), virtualTimeScheduler);
+                new JournalingUsageTracker(testSpoolDir.getRoot().toPath(), virtualTimeScheduler);
 
         // Set a timeout of 1 minute for closing the current spool file.
         journalingUsageTracker.setMaxJournalTime(1);
@@ -174,7 +173,7 @@ public class JournalingUsageTrackerTest {
         // virtual time scheduler.
         VirtualTimeScheduler virtualTimeScheduler = new VirtualTimeScheduler();
         JournalingUsageTracker journalingUsageTracker =
-                new JournalingUsageTracker(testSpoolDir.getRoot().toString(), virtualTimeScheduler);
+                new JournalingUsageTracker(testSpoolDir.getRoot().toPath(), virtualTimeScheduler);
 
         // Restrict the max amount of logs per spool file to 3.
         journalingUsageTracker.setMaxJournalSize(3);
@@ -263,7 +262,7 @@ public class JournalingUsageTrackerTest {
         // virtual time scheduler.
         VirtualTimeScheduler virtualTimeScheduler = new VirtualTimeScheduler();
         JournalingUsageTracker journalingUsageTracker =
-                new JournalingUsageTracker(testSpoolDir.getRoot().toString(), virtualTimeScheduler);
+                new JournalingUsageTracker(testSpoolDir.getRoot().toPath(), virtualTimeScheduler);
 
         // Set a timeout of 1 minute for closing the current spool file.
         journalingUsageTracker.setMaxJournalTime(1);

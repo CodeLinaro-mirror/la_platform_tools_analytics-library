@@ -24,6 +24,8 @@ import java.nio.channels.FileChannel;
 import java.nio.channels.FileLock;
 import java.nio.channels.OverlappingFileLockException;
 import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.UUID;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
@@ -42,7 +44,7 @@ import java.util.concurrent.TimeUnit;
  */
 public class JournalingUsageTracker extends UsageTracker {
 
-    private final String mSpoolLocation;
+    private final Path mSpoolLocation;
     private final ScheduledExecutorService mEventLoop;
     private final Object mGate = new Object();
     private FileLock mLock = null;
@@ -60,7 +62,7 @@ public class JournalingUsageTracker extends UsageTracker {
      * @param eventLoop used for scheduling writing logs and closing & starting new files on
      *    timeout/size limits.
      */
-    JournalingUsageTracker(String spoolLocation, ScheduledExecutorService eventLoop) {
+    JournalingUsageTracker(Path spoolLocation, ScheduledExecutorService eventLoop) {
         this.mSpoolLocation = spoolLocation;
         this.mEventLoop = eventLoop;
         try {
@@ -74,9 +76,10 @@ public class JournalingUsageTracker extends UsageTracker {
      * Creates a new track file with a guid name (for uniqueness) and locks it for writing.
      */
     private void newTrackFile() throws IOException {
-        File file = new File(mSpoolLocation, UUID.randomUUID().toString() + ".trk");
-        Files.createDirectories(file.toPath().getParent());
-        FileOutputStream fileOutputStream = new FileOutputStream(file);
+        Path spoolFile =
+                Paths.get(mSpoolLocation.toString(), UUID.randomUUID().toString() + ".trk");
+        Files.createDirectories(spoolFile.getParent());
+        FileOutputStream fileOutputStream = new FileOutputStream(spoolFile.toFile());
         mChannel = fileOutputStream.getChannel();
 
         try {
