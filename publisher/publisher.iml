@@ -17,5 +17,7 @@
     <orderEntry type="module" module-name="protos" />
     <orderEntry type="module" module-name="shared" />
     <orderEntry type="module" module-name="testutils" scope="TEST" />
+    <orderEntry type="module" module-name="common" />
+    <orderEntry type="module" module-name="tracker" scope="TEST" />
   </component>
 </module>
