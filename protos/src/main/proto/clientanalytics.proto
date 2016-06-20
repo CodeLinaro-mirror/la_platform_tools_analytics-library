@@ -6,13 +6,13 @@
 
 // Protos defining the communication protocol between Clearcut client libraries
 //  and the Clearcut server.
-// 
+//
 //  LogRequest is what a client library sends to the server.
 //  LogResponse is what the server sends back.
-// 
+//
 //  The LogRequest.LogSource enum defines the list of datatypes understood by
 //  Clearcut.
-// 
+//
 //  Play Odyssey shares some of these protos.
 
 syntax = "proto2";
@@ -30,7 +30,7 @@ message LogEventKeyValues {
 }
 
 // The set of currently active experiments for a given LogEvent.
-// 
+//
 //  Next tag: 6
 message ActiveExperiments {
   // The list of IDs of client-behavior-altering experiments that are on.
@@ -65,7 +65,7 @@ message LogEvent {
   //  is the result of SystemClock.elapsedRealtime(), not
   //  SystemClock.uptimeMillis() which does not increment when the device is in
   //  deep sleep.)
-  // 
+  //
   //  See http://go/clearcut-timestamps for details on how this value is used for
   //  timestamp corrections.  It is also copied to
   //  PlayExtension.client_elapsed_realtime_millis if the routing option
@@ -78,7 +78,7 @@ message LogEvent {
   // Type of event, could be "CLICK" or "PAGE_VIEW" or "DOWNLOAD_STATUS".
   //  There will be a common repository of cross-vertical events that should be
   //  used, but any individual app would be free to define their own tags.
-  // 
+  //
   //  STRONGLY DISCOURAGED: use event_code instead.
   optional string tag = 2;
   // Type of event. Different kinds of events inside a client app should have
@@ -86,20 +86,20 @@ message LogEvent {
   //  overlapping sets of 'event_code' values; these values are only meant to
   //  make sense within the context of a single client app, as identified by
   //  the 'log_source' field of LogRequest.
-  // 
+  //
   //  A typical way to use 'event_code' is to define the enum of possible values
   //  inside of the custom logging extension proto.
   //  TODO(abednego): add an example CL.
-  // 
+  //
   //  This enum type should be annotated with a LogEventRoutingConfig proto.
   optional int32 event_code = 11;
   // Identifies a group of events that belong to the same flow or session of
   //  user interaction, which is a client-specific concept.
-  // 
+  //
   //  These IDs are used in the Clearcut/UMA pipeline for computing latencies
   //  between pairs of events, where it is necessary to ensure that both events
   //  belong to the same flow.
-  // 
+  //
   //  For example, the Google Play team may want to give a unique ID to each
   //  purchase session, including all of the events starting from the initial
   //  search for an app to the eventual purchase and installation of the app.
@@ -116,11 +116,11 @@ message LogEvent {
   repeated .wireless_android_play_playlog.LogEventKeyValues value = 3;
   // TODO(jsw): Remove. We can't do that as of 2015/08/13 because we still get
   //  several thousand QPS from ancient Play Store clients who use this field.
-  // 
+  //
   //  Extension for Play Store app logs. Real type is PlayStoreLogEvent. This
   //  exists to support legacy clients. Use source_extension instead.
-  optional bytes store = 4 [deprecated = true];
-  // WAS optional PlaylogGamesExtension games = 5 [deprecated = true];
+  optional bytes store = 4;
+  // WAS optional PlaylogGamesExtension games = 5;
 
   // First-party app usage tracking. Used only when log_source = APP_USAGE_1P.
   optional .wireless_android_play_playlog.AppUsage1pLogEvent app_usage_1p = 9;
@@ -161,7 +161,7 @@ message LogEvent {
   //  optionally send a log event with this field set. In this case, clearcut
   //  server needs to deserialize the bytes as a ClientVisualElementsProto and
   //  sets appropriate fields in the output GWSLogEntryProto.
-  // 
+  //
   //  See http://go/NativeVeLogging for more information.
   optional bytes client_ve = 18;
   // Alternative serialized field for the client_ve field defined in 18.
@@ -171,7 +171,7 @@ message LogEvent {
   // Indicates that an interesting thing has occurred. Used to narrow the set
   //  of samples to consider in analysis. Test codes are copied to
   //  GwsLogEntryProto.TestCode.
-  // 
+  //
   //  See google3/ads/base/test_codes/test_codes.proto
   //  for Ads' use of test codes.
   repeated int32 test_code = 20;
@@ -234,7 +234,7 @@ message ExperimentIds {
 }
 
 // Attributes specific to Android clients.
-// 
+//
 //  Next tag: 23
 message AndroidClientInfo {
   // "Gservices" android ID.  Considered PII.  Never logged in archival logs.
@@ -307,7 +307,7 @@ message AndroidClientInfo {
 }
 
 // Attributes specific to web/mobile browsers.
-// 
+//
 //  Next tag: 5
 message BrowserInfo {
   // Locale of the browser. Usually the same as the Accept-Language header but
@@ -324,7 +324,7 @@ message BrowserInfo {
 }
 
 // Attributes specific to desktop clients.
-// 
+//
 //  Next tag: 8
 message DesktopClientInfo {
   // Sticky ID that should be considered PII.
@@ -346,12 +346,12 @@ message DesktopClientInfo {
 }
 
 // Attributes specific to iOS clients.
-// 
+//
 //  NOTE(vjalan): Fields of this proto are made available as conditions for iOS
 //  client-side experimentation in Heterodyne. Fields which contain PII should be
 //  annotated with experiments.heterodyne.ignore_for_application_properties to
 //  ensure that they cannot be used as conditions.
-// 
+//
 //  Next tag: 9
 message IosClientInfo {
   // Sticky ID that should be considered PII.
@@ -382,7 +382,7 @@ message IosClientInfo {
 // Attributes specific to Pancetta Chrome app clients. Pancetta clients will be
 //  Chrome apps running on desktops or a headless network access point. The apps
 //  are used to upload data from wearables to Pancetta servers.
-// 
+//
 //  Next tag: 6
 message PancettaClientInfo {
   // Operating system.
@@ -417,7 +417,7 @@ message PancettaClientInfo {
 //  - Smart TV (Non Android-TV)
 //  - PlayStation 3/4
 //  - XBox 360/One
-// 
+//
 //  We do not specify types of devices since it is defined by the pair of
 //  device_make and device_model (e.g.: make=roku + model=2500X = streaming box,
 //  make=lge + model=42LN5700 = Smart TV, make=tivo + model=roamio = Set Top Box)
@@ -452,9 +452,9 @@ message PlayCeClientInfo {
 // Attributes specific to VR clients. These are applications built on top of
 //  the cross-platform Google Virtual Reality Toolkit (aka GVR). They run on a
 //  variety of platforms including Android Cardboard, IOS Cardboard, Oculus, etc
-// 
+//
 //  This may be an Android phone for Cardboard, or may be a full VR headset.
-// 
+//
 //  Next tag: 11
 message VrClientInfo {
   // The type of VR client that made this request.
@@ -499,7 +499,7 @@ message VrClientInfo {
 //  All VR clients use Zweiback.
 
 // Attributes specific to JavaScript clients.
-// 
+//
 //  Next tag: 7
 message JsClientInfo {
   enum OsType {
@@ -520,7 +520,7 @@ message JsClientInfo {
     DESKTOP = 3;
   }
   // e.g., "mac", "windows", "linux"
-  optional string os = 1 [deprecated = true];
+  optional string os = 1;
   // The OS version (not available for everything).
   optional string os_version = 2;
   optional .wireless_android_play_playlog.JsClientInfo.DeviceType device_type = 3;
@@ -588,7 +588,7 @@ message ClientInfo {
 
 // The list of IDs of experiments that are currently on for this client. All
 //  other experiments are off.
-// 
+//
 //  Next tag: 2
 message ExperimentIdList {
   // IDs are sorted and do not contain duplicates.
@@ -597,10 +597,10 @@ message ExperimentIdList {
 
 // First party app usage log event extension.
 //  Used only when log_source = APP_USAGE_1P.
-// 
+//
 //  TODO(jsw): Investigate whether anyone is actually using this, and if not,
 //  remove it.
-// 
+//
 //  Next tag: 4
 message AppUsage1pLogEvent {
   // A wireless.android.stats.playlog.activeusers.AppType.Id value. See
@@ -613,7 +613,7 @@ message AppUsage1pLogEvent {
 }
 
 // A BatchedLogRequest represents a batched collection of log requests.
-// 
+//
 //  Next tag: 2
 message BatchedLogRequest {
   repeated .wireless_android_play_playlog.LogRequest log_request = 1;
@@ -622,7 +622,7 @@ message BatchedLogRequest {
 // A LogRequest represents a batched collection of loggable events, each event
 //  to be processed and sent to zero or more destinations (e.g. Sawmill log types
 //  or Footprints) by the Clearcut server.
-// 
+//
 //  Next tag: 13
 message LogRequest {
   enum LogSource {
@@ -647,7 +647,7 @@ message LogRequest {
     GAMES = 5;
     LB_A = 6;
     // for collecting app usage stats (Lockbox project)
-    ANDROID_IDE = 7 [deprecated = true];
+    ANDROID_IDE = 7;
     // Android IDE (deprecated, see ANDROID_STUDIO below)
     LB_P = 8;
     // for collecting phone call events and stats (Lockbox project)
@@ -702,7 +702,7 @@ message LogRequest {
     // Google experience launcher logs (http://go/signac).
     DNA_PROBER = 29;
     // DNA logger (for internal research), go/dna2014.
-    UDR = 30 [deprecated = true];
+    UDR = 30;
     // For collecting Android app usage data.
     GMS_CORE_WALLET = 31;
     // GMS core wallet analytics
@@ -712,7 +712,7 @@ message LogRequest {
     // Instore play payments
     NOVA = 34;
     // Nova client logs.
-    LB_CA = 35 [deprecated = true];
+    LB_CA = 35;
     // DEPRECATED: Android contact account data going from Now to Footprints.
     LATIN_IME = 36;
     // Google Keyboard (http://go/google-keyboard)
@@ -824,7 +824,7 @@ message LogRequest {
     // The counters for Google Android IME (go/goopy).
     SETUP_WIZARD = 87;
     // Setup Wizard (go/suw)
-    EMERGENCY_ASSIST = 88 [deprecated = true];
+    EMERGENCY_ASSIST = 88;
     // Barton (go/barton-deprecation)
     TRON = 89;
     // The event logs for Android Framework (go/tron, cwren@, khigaki@, tron-eng@).
@@ -878,13 +878,13 @@ message LogRequest {
     // Logs for GMM analytics and sessions (go/gca-analytics)
     CALENDAR = 111;
     // Google Android Calendar
-    ENDER = 112 [deprecated = true];
+    ENDER = 112;
     // Logs for Ender (go/ender)
     FAMILY_COMPASS = 113;
     // go/familycompass
-    TRANSOM = 114 [deprecated = true];
+    TRANSOM = 114;
     // Transom client-side metrics (go/transom)
-    TRANSOM_COUNTERS = 115 [deprecated = true];
+    TRANSOM_COUNTERS = 115;
     // Counters for transom metrics
     LB_AS = 116;
     // App usage collected by the new UsageStats API (Lockbox project).
@@ -928,16 +928,16 @@ message LogRequest {
     // Logs for system health metric and memory metric sample app (go/primes)
     GPLUS_ANDROID_PRIMES = 140;
     // Logs for system health metric for Gplus (go/primes)
-    GPLUS_ANDROID_SYSTEM_HEALTH = 140 [deprecated = true];
+    GPLUS_ANDROID_SYSTEM_HEALTH = 140;
     GMAIL_ANDROID_PRIMES = 150;
     // Logs for system health metric for GMail (go/primes)
-    GMAIL_ANDROID_SYSTEM_HEALTH = 150 [deprecated = true];
+    GMAIL_ANDROID_SYSTEM_HEALTH = 150;
     CALENDAR_ANDROID_PRIMES = 151;
     // Logs for system health metric for Calendar (go/primes)
-    CALENDAR_ANDROID_SYSTEM_HEALTH = 151 [deprecated = true];
+    CALENDAR_ANDROID_SYSTEM_HEALTH = 151;
     DOCS_ANDROID_PRIMES = 152;
     // Logs for system health metric for Docs (go/primes)
-    DOCS_ANDROID_SYSTEM_HEALTH = 152 [deprecated = true];
+    DOCS_ANDROID_SYSTEM_HEALTH = 152;
     YT_MAIN_APP_ANDROID_PRIMES = 154;
     // Logs for system health metric for the YouTube main app (go/primes)
     YT_KIDS_ANDROID_PRIMES = 155;
@@ -1006,7 +1006,7 @@ message LogRequest {
     // Logs for the Spaces iOS App (go/spaces)
     SOCIETY_ANDROID_PRIMES = 238;
     // Logs for system health metric for Society (go/primes, go/society)
-    GMM_BRIIM_PRIMES = 239 [deprecated = true];
+    GMM_BRIIM_PRIMES = 239;
     // Logs for system health metric for GMM BRIIM (go/gmm-briim)
     CW_PRIMES = 242;
     // Clockwork go/primes logs
@@ -1348,7 +1348,7 @@ message ExternalTimestamp {
 
 // QosTierConfiguration configures what Quality of Service tier should be
 //  applied to a given log source.
-// 
+//
 //  Next tag: 3
 message QosTierConfiguration {
   // Quality of Service tiers for Clearcut log upload.

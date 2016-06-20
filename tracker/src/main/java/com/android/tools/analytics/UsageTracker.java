@@ -17,12 +17,15 @@
 package com.android.tools.analytics;
 
 import com.android.annotations.NonNull;
+import com.android.utils.ILogger;
 import com.google.wireless.android.sdk.stats.AndroidStudioStats;
 import com.google.wireless.android.play.playlog.proto.ClientAnalytics;
 
+import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.Date;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 /**
  * UsageTracker is an api to report usage of features. This data is used to improve
@@ -33,11 +36,20 @@ import java.util.concurrent.ScheduledExecutorService;
  * to Google's servers for analysis.
  */
 public abstract class UsageTracker implements AutoCloseable {
-    private int mMaxJournalSize;
-    private long mMaxJournalTimeMinutes;
     private static final Object sGate = new Object();
-    private static UsageTracker sInstance;
+    private static UsageTracker sInstance = new NullUsageTracker(null, null);
 
+    private final AnalyticsSettings mAnalyticsSettings;
+    private final ScheduledExecutorService mScheduler;
+
+    private int mMaxJournalSize;
+    private long mMaxJournalTime;
+
+    protected UsageTracker(
+            AnalyticsSettings analyticsSettings, ScheduledExecutorService scheduler) {
+        this.mAnalyticsSettings = analyticsSettings;
+        this.mScheduler = scheduler;
+    }
     /**
      * Indicates whether this UsageTracker has a maximum size at which point logs need to be flushed.
      * Zero or less indicates no maximum size at which to flush.
@@ -57,22 +69,32 @@ public abstract class UsageTracker implements AutoCloseable {
     /**
      * Indicates whether this UsageTracker has a timeout at which point logs need to be flushed.
      * Zero or less indicates no timeout is set.
+     *
+     * @return timeout in nano-seconds.
      */
     public long getMaxJournalTime() {
-        return mMaxJournalTimeMinutes;
+        return mMaxJournalTime;
     }
 
     /**
      * Sets a timeout at which point logs need to be flushed. Zero or less indicates no timeout
      * should be used.
      */
-    public void setMaxJournalTime(long maxJournalTimeMinutes) {
-        this.mMaxJournalTimeMinutes = maxJournalTimeMinutes;
+    public void setMaxJournalTime(long duration, TimeUnit unit) {
+        this.mMaxJournalTime = unit.toNanos(duration);
     }
 
-    /**
-     * Logs usage data provided in the @{link AndroidStudioStats.AndroidStudioEvent}.
-     */
+    /** Gets the analytics settings used by this tracker. */
+    public AnalyticsSettings getAnalyticsSettings() {
+        return mAnalyticsSettings;
+    }
+
+    /** Gets the scheduler used by this tracker. */
+    public ScheduledExecutorService getScheduler() {
+        return mScheduler;
+    }
+
+    /** Logs usage data provided in the @{link AndroidStudioStats.AndroidStudioEvent}. */
     public void log(@NonNull AndroidStudioStats.AndroidStudioEvent.Builder studioEvent) {
         logDetails(
                 ClientAnalytics.LogEvent.newBuilder()
@@ -100,17 +122,59 @@ public abstract class UsageTracker implements AutoCloseable {
      * Initializes a {@link UsageTracker} for use throughout this process based on user opt-in and
      * other settings.
      */
-    public static void initialize(
+    public static UsageTracker initialize(
             @NonNull AnalyticsSettings analyticsSettings,
-            @NonNull ScheduledExecutorService eventLoop) {
+            @NonNull ScheduledExecutorService scheduler) {
         synchronized (sGate) {
             if (analyticsSettings.hasOptedIn()) {
                 sInstance =
                         new JournalingUsageTracker(
-                                Paths.get(AnalyticsPaths.getSpoolDirectory()), eventLoop);
+                                analyticsSettings,
+                                scheduler,
+                                Paths.get(AnalyticsPaths.getSpoolDirectory()));
             } else {
-                sInstance = new NullUsageTracker();
+                sInstance = new NullUsageTracker(analyticsSettings, scheduler);
+            }
+            return sInstance;
+        }
+    }
+
+    public static AnalyticsSettings updateSettingsAndTracker(
+            boolean optIn, @NonNull ILogger logger, @NonNull ScheduledExecutorService scheduler) {
+        UsageTracker current = getInstance();
+        AnalyticsSettings settings = current.getAnalyticsSettings();
+        if (settings == null) {
+            try {
+                settings = AnalyticsSettings.loadSettings();
+            } catch (IOException e) {
+                logger.error(e, "Unable to load analytics settings");
+            }
+            if (settings == null) {
+                try {
+                    settings = AnalyticsSettings.newAnalyticsSettings();
+                    settings.setHasOptedIn(optIn);
+                    settings.saveSettings();
+                } catch (IOException e) {
+                    logger.error(e, "Unable to save new analytics settings");
+                    settings = new AnalyticsSettings();
+                }
             }
         }
+
+        if (optIn != settings.hasOptedIn()) {
+            settings.setHasOptedIn(optIn);
+            try {
+                settings.saveSettings();
+            } catch (IOException e) {
+                logger.error(e, "Unable to save analytics settings");
+            }
+        }
+        try {
+            current.close();
+        } catch (Exception e) {
+            logger.error(e, "Unable to close existing analytics tracker");
+        }
+        initialize(settings, scheduler);
+        return settings;
     }
 }

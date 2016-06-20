@@ -35,6 +35,7 @@ import java.net.URLConnection;
 import java.nio.channels.Channels;
 import java.nio.channels.FileChannel;
 import java.nio.channels.FileLock;
+import java.nio.channels.OverlappingFileLockException;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -65,7 +66,6 @@ public class GoogleAnalyticsPublisher extends AnalyticsPublisher {
 
     private final Path mSpoolLocation;
     private final ClientAnalytics.LogRequest mBaseLogRequest;
-    private final ScheduledExecutorService mEventLoop;
 
     private ScheduledFuture<?> mPublishJob;
     private int mScheduleVersion = 0;
@@ -80,16 +80,17 @@ public class GoogleAnalyticsPublisher extends AnalyticsPublisher {
 
     /**
      * Creates a new instance for publishing metrics
+     *
      * @param analyticsSettings used for sending pseudoanonymous ID along with the analytics.
      * @param spoolLocation location to look for .trk files to upload.
      * @param eventLoop used for scheduling periodic checks of the spool location.
      */
     GoogleAnalyticsPublisher(
             AnalyticsSettings analyticsSettings,
-            Path spoolLocation,
-            ScheduledExecutorService eventLoop) {
+            ScheduledExecutorService scheduler,
+            Path spoolLocation) {
+        super(analyticsSettings, scheduler);
         this.mSpoolLocation = spoolLocation;
-        this.mEventLoop = eventLoop;
         // Create a LogRequest to use as a template for all LogRequest objects.
         this.mBaseLogRequest =
                 ClientAnalytics.LogRequest.newBuilder()
@@ -99,9 +100,11 @@ public class GoogleAnalyticsPublisher extends AnalyticsPublisher {
                                                 ClientAnalytics.ClientInfo.ClientType.DESKTOP)
                                         .setDesktopClientInfo(
                                                 ClientAnalytics.DesktopClientInfo.newBuilder()
-                                                        .setClientId(analyticsSettings.getUserId())
-                                                        .setOs(getOsName())
-                                                        .setOsMajorVersion(getMajorOsVersion())
+                                                        .setLoggingId(analyticsSettings.getUserId())
+                                                        .setOs(CommonMetricsData.getOsName())
+                                                        .setOsMajorVersion(
+                                                                CommonMetricsData
+                                                                        .getMajorOsVersion())
                                                         .setOsFullVersion(
                                                                 System.getProperty("os.version"))))
                         // Set the log source for the Clearcut service. This will be always the
@@ -111,50 +114,6 @@ public class GoogleAnalyticsPublisher extends AnalyticsPublisher {
 
         // Schedule the first publish of logs from the spool directory.
         schedulePublish(getPublishInterval());
-    }
-
-    /**
-     * Gets a normalized version of the os name that this code is running on.
-     */
-    @VisibleForTesting
-    static String getOsName() {
-        String os = System.getProperty("os.name");
-
-        if (os == null || os.length() == 0) {
-            return "unknown";
-        }
-
-        String osLower = os.toLowerCase(Locale.US);
-
-        if (osLower.startsWith("mac")) {
-            os = "macosx";
-        } else if (osLower.startsWith("win")) { //$NON-NLS-1$
-            os = "windows";
-        } else if (osLower.startsWith("linux")) { //$NON-NLS-1$
-            os = "linux";
-
-        } else if (os.length() > 32) {
-            // Unknown -- send it verbatim so we can see it
-            // but protect against arbitrarily long values
-            os = os.substring(0, 32);
-        }
-        return os;
-    }
-
-    /**
-     * Extracts the major os version that this code is running on in the form of '[0-9]+\.[0-9]+'
-     */
-    @VisibleForTesting
-    static String getMajorOsVersion() {
-        Pattern p = Pattern.compile("(\\d+)\\.(\\d+).*");
-        String osVers = System.getProperty("os.version");
-        if (osVers != null && osVers.length() > 0) {
-            Matcher m = p.matcher(osVers);
-            if (m.matches()) {
-                return m.group(1) + '.' + m.group(2);
-            }
-        }
-        return null;
     }
 
     @Override
@@ -195,7 +154,7 @@ public class GoogleAnalyticsPublisher extends AnalyticsPublisher {
                     return;
                 }
             }
-        } catch (IOException e) {
+        } catch (Exception e) {
             mLogger.error(e, "Failure reading analytics spool directory.");
         }
     }
@@ -210,6 +169,12 @@ public class GoogleAnalyticsPublisher extends AnalyticsPublisher {
         boolean success = false;
         try (FileChannel channel = new RandomAccessFile(file, "rw").getChannel();
                 FileLock lock = channel.tryLock()) {
+            if (lock == null) {
+                // Another process has the file open (e.g. a command-line tool writing analytics).
+                // skip for now but continue publishing other track files.
+                return true;
+            }
+
             List<ClientAnalytics.LogEvent> entries = new ArrayList<>();
             // Try to lock the file, this ensures no other code (e.g. the usage tracker)
             // has a lock on the file.
@@ -221,11 +186,6 @@ public class GoogleAnalyticsPublisher extends AnalyticsPublisher {
                 entries.add(event);
             }
 
-            if (lock == null) {
-                // Another process has the file open (e.g. a command-line tool writing analytics).
-                // skip for now but continue publishing other track files.
-                return true;
-            }
             if (entries.isEmpty()) {
                 // if this is an empty file, no need to publish, just delete the file and continue.
                 success = true;
@@ -255,6 +215,10 @@ public class GoogleAnalyticsPublisher extends AnalyticsPublisher {
             mBackoffRatio *= 2;
             // stop this publishing cycle, try again later.
             return false;
+        } catch (OverlappingFileLockException e) {
+            // Current process has the file open (e.g. JournalingUsageTracker).
+            // skip for now but continue publishing other track files.
+            return true;
         }
 
         // We need to delete the file outside of the lock as deleting inside the lock doesn't
@@ -373,22 +337,23 @@ public class GoogleAnalyticsPublisher extends AnalyticsPublisher {
             mPublishJob.cancel(false);
         }
         mPublishJob =
-                mEventLoop.schedule(
-                        () -> {
-                            synchronized (mGate) {
-                                publishQueuedAnalytics();
-                                // only schedule next beat if we're still the authority.
-                                if (mScheduleVersion == currentScheduleVersion) {
-                                    schedulePublish(publishIntervalNanoSeconds);
-                                }
-                            }
-                        },
-                        // Next job is scheduled with exponential backoff with a max of 1 day.
-                        // this is reset to 1 when the job successfully completes.
-                        Math.min(
-                                publishIntervalNanoSeconds * mBackoffRatio,
-                                TimeUnit.DAYS.toNanos(1)),
-                        TimeUnit.NANOSECONDS);
+                getScheduler()
+                        .schedule(
+                                () -> {
+                                    synchronized (mGate) {
+                                        publishQueuedAnalytics();
+                                        // only schedule next beat if we're still the authority.
+                                        if (mScheduleVersion == currentScheduleVersion) {
+                                            schedulePublish(publishIntervalNanoSeconds);
+                                        }
+                                    }
+                                },
+                                // Next job is scheduled with exponential backoff with a max of 1 day.
+                                // this is reset to 1 when the job successfully completes.
+                                Math.min(
+                                        publishIntervalNanoSeconds * mBackoffRatio,
+                                        TimeUnit.DAYS.toNanos(1)),
+                                TimeUnit.NANOSECONDS);
     }
 
     /**

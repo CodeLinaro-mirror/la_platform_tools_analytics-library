@@ -34,7 +34,7 @@ if (ext.os.startsWith("win")) {
 }
 
 dependencies {
-    compile 'com.google.protobuf:protobuf-java:2.6.1'
+    compile 'com.google.protobuf:protobuf-java:2.5.0'
 }
 
 group = 'com.android.tools.analytics-library'

@@ -17,6 +17,7 @@
 package com.android.tools.analytics;
 
 import com.android.annotations.NonNull;
+import com.android.utils.ILogger;
 
 import java.nio.file.Paths;
 import java.util.concurrent.ScheduledExecutorService;
@@ -32,24 +33,35 @@ public abstract class AnalyticsPublisher implements AutoCloseable {
     private static AnalyticsPublisher sInstance;
     private long mPublishIntervalNanos = TimeUnit.MINUTES.toNanos(10);
 
+    private final AnalyticsSettings mAnalyticsSettings;
+    private final ScheduledExecutorService mScheduler;
+
+    protected AnalyticsPublisher(
+            AnalyticsSettings analyticsSettings, ScheduledExecutorService scheduler) {
+        this.mAnalyticsSettings = analyticsSettings;
+        this.mScheduler = scheduler;
+    }
+
     /**
      * Initializes the publisher retrieved by {@link #getInstance()}
+     *
      * @param analyticsSettings used to check opt-in vs opt-out status.
-     * @param eventLoop used to schedule jobs for publishing.
+     * @param scheduler used to schedule jobs for publishing.
      */
-    public static void initialize(
+    public static AnalyticsPublisher initialize(
             @NonNull AnalyticsSettings analyticsSettings,
-            @NonNull ScheduledExecutorService eventLoop) {
+            @NonNull ScheduledExecutorService scheduler) {
         synchronized (sGate) {
-            if (analyticsSettings.hasOptedIn()) {
+            if (analyticsSettings.hasOptedIn() && !analyticsSettings.hasDebugDisablePublishing()) {
                 sInstance =
                         new GoogleAnalyticsPublisher(
                                 analyticsSettings,
-                                Paths.get(AnalyticsPaths.getSpoolDirectory()),
-                                eventLoop);
+                                scheduler,
+                                Paths.get(AnalyticsPaths.getSpoolDirectory()));
             } else {
-                sInstance = new NullAnalyticsPublisher();
+                sInstance = new NullAnalyticsPublisher(analyticsSettings, scheduler);
             }
+            return sInstance;
         }
     }
 
@@ -71,10 +83,32 @@ public abstract class AnalyticsPublisher implements AutoCloseable {
         mPublishIntervalNanos = unit.toNanos(interval);
     }
 
-    /**
-     * Gets the interval in nano-seconds used for scheduling jobs to publish metrics.
-     */
+    /** Gets the analytics settings used by this tracker. */
+    public AnalyticsSettings getAnalyticsSettings() {
+        return mAnalyticsSettings;
+    }
+
+    /** Gets the interval in nano-seconds used for scheduling jobs to publish metrics. */
     public long getPublishInterval() {
         return mPublishIntervalNanos;
+    }
+
+    /** Gets the scheduler used by this publisher. */
+    public ScheduledExecutorService getScheduler() {
+        return mScheduler;
+    }
+
+    /** Closes the current publisher and creates a new instance. */
+    public static void updatePublisher(
+            ILogger logger, AnalyticsSettings settings, ScheduledExecutorService scheduler) {
+        AnalyticsPublisher current = getInstance();
+        if (current != null) {
+            try {
+                current.close();
+            } catch (Exception e) {
+                logger.error(e, "Unable to close existing analytics publisher");
+            }
+        }
+        initialize(settings, scheduler);
     }
 }

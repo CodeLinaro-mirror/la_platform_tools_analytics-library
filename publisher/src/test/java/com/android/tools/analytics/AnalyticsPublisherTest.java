@@ -16,11 +16,22 @@
 
 package com.android.tools.analytics;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+
 import com.android.testutils.SystemPropertyOverrides;
 import com.android.testutils.VirtualTimeDateProvider;
+import com.android.testutils.VirtualTimeFuture;
 import com.android.testutils.VirtualTimeScheduler;
 import com.android.utils.DateProvider;
+import com.android.utils.StdLogger;
 import com.google.wireless.android.play.playlog.proto.ClientAnalytics;
+import com.google.wireless.android.sdk.stats.AndroidStudioStats.AndroidStudioEvent;
+import com.google.wireless.android.sdk.stats.AndroidStudioStats.MetaMetrics;
+import com.google.wireless.android.sdk.stats.AndroidStudioStats.StudioCrash;
+
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
@@ -34,8 +45,6 @@ import java.util.UUID;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
-import static com.google.wireless.android.sdk.stats.AndroidStudioStats.*;
-import static org.junit.Assert.assertEquals;
 
 /**
  * Tests for {@link AnalyticsPublisher} and {@link GoogleAnalyticsPublisher}.
@@ -54,7 +63,7 @@ public class AnalyticsPublisherTest {
             // Instantiate the publisher
             GoogleAnalyticsPublisher googleAnalyticsPublisher =
                     new GoogleAnalyticsPublisher(
-                            analyticsSettings, testSpoolDir.getRoot().toPath(), vs);
+                            analyticsSettings, vs, testSpoolDir.getRoot().toPath());
             googleAnalyticsPublisher.setServerUrl(stub.getUrl());
 
             // Ensure the publisher's initial values are as expected.
@@ -88,7 +97,8 @@ public class AnalyticsPublisherTest {
         // directory.
         VirtualTimeScheduler vs = new VirtualTimeScheduler();
         JournalingUsageTracker journalingUsageTracker =
-                new JournalingUsageTracker(testSpoolDir.getRoot().toPath(), vs);
+                new JournalingUsageTracker(
+                        new AnalyticsSettings(), vs, testSpoolDir.getRoot().toPath());
         journalingUsageTracker.log(logged);
         vs.advanceBy(0);
         journalingUsageTracker.close();
@@ -112,7 +122,7 @@ public class AnalyticsPublisherTest {
 
             GoogleAnalyticsPublisher googleAnalyticsPublisher =
                     new GoogleAnalyticsPublisher(
-                            analyticsSettings, testSpoolDir.getRoot().toPath(), vs);
+                            analyticsSettings, vs, testSpoolDir.getRoot().toPath());
             googleAnalyticsPublisher.setServerUrl(stub.getUrl());
 
             // advance time to make the publisher run its first publishing job.
@@ -136,7 +146,7 @@ public class AnalyticsPublisherTest {
                     ClientAnalytics.ClientInfo.ClientType.DESKTOP,
                     request.getClientInfo().getClientType());
             ClientAnalytics.DesktopClientInfo cdi = request.getClientInfo().getDesktopClientInfo();
-            assertEquals(analyticsSettings.getUserId(), cdi.getClientId());
+            assertEquals(analyticsSettings.getUserId(), cdi.getLoggingId());
             assertEquals("linux", cdi.getOs());
             assertEquals("3.13", cdi.getOsMajorVersion());
             assertEquals("3.13.0-85-generic", cdi.getOsFullVersion());
@@ -189,7 +199,8 @@ public class AnalyticsPublisherTest {
         // directory.
         VirtualTimeScheduler vs = new VirtualTimeScheduler();
         JournalingUsageTracker journalingUsageTracker =
-                new JournalingUsageTracker(testSpoolDir.getRoot().toPath(), vs);
+                new JournalingUsageTracker(
+                        new AnalyticsSettings(), vs, testSpoolDir.getRoot().toPath());
         journalingUsageTracker.log(logged);
         vs.advanceBy(0);
         journalingUsageTracker.close();
@@ -198,7 +209,7 @@ public class AnalyticsPublisherTest {
         AnalyticsSettings analyticsSettings = getTestAnalyticsSettings();
         GoogleAnalyticsPublisher googleAnalyticsPublisher =
                 new GoogleAnalyticsPublisher(
-                        analyticsSettings, testSpoolDir.getRoot().toPath(), vs);
+                        analyticsSettings, vs, testSpoolDir.getRoot().toPath());
 
         // set the url to publish to to a reserved port which we know the server cannot connect to.
         // https://www.iana.org/assignments/service-names-port-numbers/service-names-port-numbers.txt
@@ -257,7 +268,8 @@ public class AnalyticsPublisherTest {
         // directory.
         VirtualTimeScheduler vs = new VirtualTimeScheduler();
         JournalingUsageTracker journalingUsageTracker =
-                new JournalingUsageTracker(testSpoolDir.getRoot().toPath(), vs);
+                new JournalingUsageTracker(
+                        new AnalyticsSettings(), vs, testSpoolDir.getRoot().toPath());
         journalingUsageTracker.log(logged);
         vs.advanceBy(0);
         journalingUsageTracker.close();
@@ -279,7 +291,7 @@ public class AnalyticsPublisherTest {
 
             GoogleAnalyticsPublisher googleAnalyticsPublisher =
                     new GoogleAnalyticsPublisher(
-                            analyticsSettings, testSpoolDir.getRoot().toPath(), vs);
+                            analyticsSettings, vs, testSpoolDir.getRoot().toPath());
             googleAnalyticsPublisher.setServerUrl(stub.getUrl());
 
             // Instruct to make the server stub fail the http request in the next call.
@@ -335,7 +347,8 @@ public class AnalyticsPublisherTest {
         // Use the JournalingUsageTracker to place an empty .trk file in the spool directory.
         VirtualTimeScheduler vs = new VirtualTimeScheduler();
         JournalingUsageTracker journalingUsageTracker =
-                new JournalingUsageTracker(testSpoolDir.getRoot().toPath(), vs);
+                new JournalingUsageTracker(
+                        new AnalyticsSettings(), vs, testSpoolDir.getRoot().toPath());
         journalingUsageTracker.close();
 
         // Create helpers used to instantiate the publisher.
@@ -343,7 +356,7 @@ public class AnalyticsPublisherTest {
         try (ServerStub stub = new ServerStub()) {
             GoogleAnalyticsPublisher googleAnalyticsPublisher =
                     new GoogleAnalyticsPublisher(
-                            analyticsSettings, testSpoolDir.getRoot().toPath(), vs);
+                            analyticsSettings, vs, testSpoolDir.getRoot().toPath());
             googleAnalyticsPublisher.setServerUrl(stub.getUrl());
 
             // Execute the first publish job.
@@ -377,7 +390,8 @@ public class AnalyticsPublisherTest {
         // directory.
         VirtualTimeScheduler vs = new VirtualTimeScheduler();
         JournalingUsageTracker journalingUsageTracker =
-                new JournalingUsageTracker(testSpoolDir.getRoot().toPath(), vs);
+                new JournalingUsageTracker(
+                        new AnalyticsSettings(), vs, testSpoolDir.getRoot().toPath());
         journalingUsageTracker.setMaxJournalSize(2);
         journalingUsageTracker.log(logged1);
         journalingUsageTracker.log(logged2);
@@ -392,7 +406,7 @@ public class AnalyticsPublisherTest {
         try (ServerStub stub = new ServerStub()) {
             GoogleAnalyticsPublisher googleAnalyticsPublisher =
                     new GoogleAnalyticsPublisher(
-                            analyticsSettings, testSpoolDir.getRoot().toPath(), vs);
+                            analyticsSettings, vs, testSpoolDir.getRoot().toPath());
             googleAnalyticsPublisher.setServerUrl(stub.getUrl());
 
             // Execute the first publish job.
@@ -440,7 +454,8 @@ public class AnalyticsPublisherTest {
         // directory.
         VirtualTimeScheduler vs = new VirtualTimeScheduler();
         JournalingUsageTracker journalingUsageTracker =
-                new JournalingUsageTracker(testSpoolDir.getRoot().toPath(), vs);
+                new JournalingUsageTracker(
+                        new AnalyticsSettings(), vs, testSpoolDir.getRoot().toPath());
         journalingUsageTracker.log(logged);
         vs.advanceBy(0);
         journalingUsageTracker.close();
@@ -450,7 +465,7 @@ public class AnalyticsPublisherTest {
         try (ServerStub stub = new ServerStub()) {
             GoogleAnalyticsPublisher googleAnalyticsPublisher =
                     new GoogleAnalyticsPublisher(
-                            analyticsSettings, testSpoolDir.getRoot().toPath(), vs);
+                            analyticsSettings, vs, testSpoolDir.getRoot().toPath());
             googleAnalyticsPublisher.setServerUrl(stub.getUrl());
 
             // Ensure a job is queued to publish analytics.
@@ -488,7 +503,8 @@ public class AnalyticsPublisherTest {
         // directory.
         VirtualTimeScheduler vs = new VirtualTimeScheduler();
         JournalingUsageTracker journalingUsageTracker =
-                new JournalingUsageTracker(testSpoolDir.getRoot().toPath(), vs);
+                new JournalingUsageTracker(
+                        new AnalyticsSettings(), vs, testSpoolDir.getRoot().toPath());
         journalingUsageTracker.log(logged);
         vs.advanceBy(0);
         journalingUsageTracker.close();
@@ -499,7 +515,7 @@ public class AnalyticsPublisherTest {
             // Create an instance of the publisher with a customized connection creation function.
             GoogleAnalyticsPublisher googleAnalyticsPublisher =
                     new GoogleAnalyticsPublisher(
-                            analyticsSettings, testSpoolDir.getRoot().toPath(), vs);
+                            analyticsSettings, vs, testSpoolDir.getRoot().toPath());
             googleAnalyticsPublisher.setCreateConnection(
                     () -> (HttpURLConnection) stub.getUrl().openConnection());
             // set the url to publish to to a reserved port which we know the server cannot connect
@@ -518,47 +534,33 @@ public class AnalyticsPublisherTest {
     }
 
     @Test
-    public void testOsName() throws Exception {
-        // Override system properties for 'os.name'.
-        try (SystemPropertyOverrides systemPropertyOverrides = new SystemPropertyOverrides()) {
-            // Test no os specified.
-            systemPropertyOverrides.setProperty("os.name", "");
-            assertEquals("unknown", GoogleAnalyticsPublisher.getOsName());
-            // Test our supported OSes.
-            systemPropertyOverrides.setProperty("os.name", "Linux");
-            assertEquals("linux", GoogleAnalyticsPublisher.getOsName());
-            systemPropertyOverrides.setProperty("os.name", "Windows 10");
-            assertEquals("windows", GoogleAnalyticsPublisher.getOsName());
-            systemPropertyOverrides.setProperty("os.name", "Windows Vista");
-            assertEquals("windows", GoogleAnalyticsPublisher.getOsName());
-            systemPropertyOverrides.setProperty("os.name", "Mac OS X");
-            assertEquals("macosx", GoogleAnalyticsPublisher.getOsName());
-            // Test unknown Oses.
-            systemPropertyOverrides.setProperty("os.name", "My Custom OS");
-            assertEquals("My Custom OS", GoogleAnalyticsPublisher.getOsName());
-            String customLong = "My Custom OS With a really realy long name";
-            systemPropertyOverrides.setProperty("os.name", customLong);
-            assertEquals(customLong.substring(0, 32), GoogleAnalyticsPublisher.getOsName());
-        }
+    public void testUpdatePublisher() {
+        // Create helpers used to instantiate the publisher.
+        VirtualTimeScheduler vs = new VirtualTimeScheduler();
+        assertNull(AnalyticsPublisher.getInstance());
+        AnalyticsSettings settings = getTestAnalyticsSettings();
+
+        // update the publisher, first call will initialize.
+        AnalyticsPublisher.updatePublisher(new StdLogger(StdLogger.Level.ERROR), settings, vs);
+        AnalyticsPublisher afterFirstUpdate = AnalyticsPublisher.getInstance();
+        assertTrue(afterFirstUpdate instanceof GoogleAnalyticsPublisher);
+        assertEquals(settings, afterFirstUpdate.getAnalyticsSettings());
+        assertEquals(vs, afterFirstUpdate.getScheduler());
+
+        // ensure a job is scheduled for the first publisher.
+        VirtualTimeFuture<?> job = vs.getQueue().peek();
+        assertNotNull(job);
+
+        // update again, but now opt-ed out.
+        settings.setHasOptedIn(false);
+        AnalyticsPublisher.updatePublisher(new StdLogger(StdLogger.Level.ERROR), settings, vs);
+        AnalyticsPublisher afterSecondUpdate = AnalyticsPublisher.getInstance();
+        assertTrue(afterSecondUpdate instanceof NullAnalyticsPublisher);
+        assertEquals(settings, afterFirstUpdate.getAnalyticsSettings());
+        assertEquals(vs, afterFirstUpdate.getScheduler());
+
+        // ensure job from first publisher has been canceled as part of update.
+        assertTrue(job.isCancelled());
     }
 
-    @Test
-    public void testGetMajorOsVersion() throws Exception {
-        // Override system properties for 'os.version'.
-        try (SystemPropertyOverrides systemPropertyOverrides = new SystemPropertyOverrides()) {
-            // Test no version specified.
-            systemPropertyOverrides.setProperty("os.version", "3");
-            assertEquals(null, GoogleAnalyticsPublisher.getMajorOsVersion());
-            // Test supported os version numbers.
-            systemPropertyOverrides.setProperty("os.version", "3.13.0-85-generic");
-            assertEquals("3.13", GoogleAnalyticsPublisher.getMajorOsVersion());
-            systemPropertyOverrides.setProperty("os.version", "10.7.4");
-            assertEquals("10.7", GoogleAnalyticsPublisher.getMajorOsVersion());
-            systemPropertyOverrides.setProperty("os.version", "10.0");
-            assertEquals("10.0", GoogleAnalyticsPublisher.getMajorOsVersion());
-            // Test unsupported os version numbers.
-            systemPropertyOverrides.setProperty("os.version", "a.b.c");
-            assertEquals(null, GoogleAnalyticsPublisher.getMajorOsVersion());
-        }
-    }
 }

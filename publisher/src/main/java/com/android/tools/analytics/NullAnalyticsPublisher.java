@@ -16,10 +16,17 @@
 
 package com.android.tools.analytics;
 
+import java.util.concurrent.ScheduledExecutorService;
+
 /**
  * A publisher that never publishes metrics. Used to ensure opt-out users never publish metrics.
  */
 public class NullAnalyticsPublisher extends AnalyticsPublisher {
+
+    public NullAnalyticsPublisher(
+            AnalyticsSettings analyticsSettings, ScheduledExecutorService scheduler) {
+        super(analyticsSettings, scheduler);
+    }
     @Override
     public void close() throws Exception {}
 }
