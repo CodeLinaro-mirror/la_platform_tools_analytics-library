@@ -16,6 +16,7 @@
 
 package com.android.tools.analytics;
 
+import com.android.annotations.NonNull;
 import com.google.wireless.android.play.playlog.proto.ClientAnalytics;
 
 /**
@@ -24,7 +25,7 @@ import com.google.wireless.android.play.playlog.proto.ClientAnalytics;
  */
 public class NullUsageTracker extends UsageTracker {
     @Override
-    public void logDetails(ClientAnalytics.LogEvent.Builder studioEvent) {}
+    public void logDetails(@NonNull ClientAnalytics.LogEvent.Builder studioEvent) {}
 
     @Override
     public void close() {}

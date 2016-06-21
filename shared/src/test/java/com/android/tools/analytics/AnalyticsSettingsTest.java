@@ -108,6 +108,7 @@ public class AnalyticsSettingsTest {
             assertNotNull(settings);
 
             // The generated user id should be a valid UUID.
+            //noinspection ResultOfMethodCallIgnored
             UUID.fromString(settings.getUserId());
 
             // Default setting should be to not be opted in.

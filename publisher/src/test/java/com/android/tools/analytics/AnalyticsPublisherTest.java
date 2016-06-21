@@ -41,7 +41,7 @@ import static org.junit.Assert.assertEquals;
  * Tests for {@link AnalyticsPublisher} and {@link GoogleAnalyticsPublisher}.
  */
 public class AnalyticsPublisherTest {
-    @Rule public TemporaryFolder testSpoolDir = new TemporaryFolder();
+    @Rule public final TemporaryFolder testSpoolDir = new TemporaryFolder();
 
     @Test
     public void testInitialValues() throws Exception {
@@ -71,7 +71,7 @@ public class AnalyticsPublisherTest {
     /**
      * Creates an instance of {@link AnalyticsSettings} for use in tests.
      */
-    private AnalyticsSettings getTestAnalyticsSettings() {
+    private static AnalyticsSettings getTestAnalyticsSettings() {
         AnalyticsSettings analyticsSettings = new AnalyticsSettings();
         analyticsSettings.setHasOptedIn(true);
         String uid = UUID.randomUUID().toString();
@@ -151,9 +151,9 @@ public class AnalyticsPublisherTest {
                             .setKind(AndroidStudioEvent.EventKind.META_METRICS)
                             .setMetaMetrics(
                                     MetaMetrics.newBuilder()
-                                            .setDroppedMetrics(0)
-                                            .setRetriesSinceLast(0)
-                                            .setBytesSentToday(0)
+                                            .setFailedConnections(0)
+                                            .setFailedServerReplies(0)
+                                            .setBytesSentInLastUpload(0)
                                             .build())
                             .build(),
                     metaStudioEvent);
@@ -173,7 +173,7 @@ public class AnalyticsPublisherTest {
      * Helper that builds a {@link AndroidStudioEvent} with a marker to
      * distinguish this message.
      */
-    private AndroidStudioEvent.Builder createAndroidStudioEvent(long marker) {
+    private static AndroidStudioEvent.Builder createAndroidStudioEvent(long marker) {
         return AndroidStudioEvent.newBuilder()
                 .setCategory(AndroidStudioEvent.EventCategory.PING)
                 .setKind(AndroidStudioEvent.EventKind.STUDIO_PING)
@@ -239,9 +239,9 @@ public class AnalyticsPublisherTest {
                                     MetaMetrics.newBuilder()
                                             // ensure that the previous failure is reported in the
                                             // meta metrics.
-                                            .setDroppedMetrics(1)
-                                            .setRetriesSinceLast(0)
-                                            .setBytesSentToday(0)
+                                            .setFailedConnections(1)
+                                            .setFailedServerReplies(0)
+                                            .setBytesSentInLastUpload(0)
                                             .build())
                             .build(),
                     metaStudioEvent);
@@ -317,11 +317,11 @@ public class AnalyticsPublisherTest {
                             .setKind(AndroidStudioEvent.EventKind.META_METRICS)
                             .setMetaMetrics(
                                     MetaMetrics.newBuilder()
-                                            .setDroppedMetrics(0)
+                                            .setFailedConnections(0)
                                             // ensure that the previous failure is reported in the
                                             // meta metrics.
-                                            .setRetriesSinceLast(1)
-                                            .setBytesSentToday(128)
+                                            .setFailedServerReplies(1)
+                                            .setBytesSentInLastUpload(128)
                                             .build())
                             .build(),
                     metaStudioEvent);

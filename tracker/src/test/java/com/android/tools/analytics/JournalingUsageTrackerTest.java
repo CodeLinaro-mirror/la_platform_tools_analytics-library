@@ -307,9 +307,9 @@ public class JournalingUsageTrackerTest {
                 .setKind(AndroidStudioStats.AndroidStudioEvent.EventKind.META_METRICS)
                 .setMetaMetrics(
                         AndroidStudioStats.MetaMetrics.newBuilder()
-                                .setBytesSentToday(marker)
-                                .setDroppedMetrics(0)
-                                .setRetriesSinceLast(0));
+                                .setBytesSentInLastUpload(marker)
+                                .setFailedConnections(0)
+                                .setFailedServerReplies(0));
     }
 
     /**

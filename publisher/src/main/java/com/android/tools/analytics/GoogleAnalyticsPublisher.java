@@ -23,7 +23,11 @@ import com.android.utils.StdLogger;
 import com.google.wireless.android.play.playlog.proto.ClientAnalytics;
 import com.google.wireless.android.sdk.stats.AndroidStudioStats;
 
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.RandomAccessFile;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -331,7 +335,7 @@ public class GoogleAnalyticsPublisher extends AnalyticsPublisher {
     }
 
     /**
-     * Creates {@Link ClientAnalytics.LogEvent} with meta metrics, used to measure the health
+     * Creates {@link ClientAnalytics.LogEvent} with meta metrics, used to measure the health
      * of our metrics reporting system.
      */
     private ClientAnalytics.LogEvent getMetaMetric(long time) {
@@ -346,9 +350,9 @@ public class GoogleAnalyticsPublisher extends AnalyticsPublisher {
                                                 .META_METRICS)
                                 .setMetaMetrics(
                                         AndroidStudioStats.MetaMetrics.newBuilder()
-                                                .setBytesSentToday(mBytesSentInLastPublish)
-                                                .setDroppedMetrics(mFailedConnections)
-                                                .setRetriesSinceLast(mFailedServerReplies))
+                                                .setBytesSentInLastUpload(mBytesSentInLastPublish)
+                                                .setFailedConnections(mFailedConnections)
+                                                .setFailedServerReplies(mFailedServerReplies))
                                 .build()
                                 .toByteString())
                 .build();

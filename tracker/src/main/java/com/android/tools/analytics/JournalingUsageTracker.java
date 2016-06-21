@@ -16,9 +16,12 @@
 
 package com.android.tools.analytics;
 
+import com.android.annotations.NonNull;
 import com.google.wireless.android.play.playlog.proto.ClientAnalytics;
 
-import java.io.*;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.nio.channels.Channels;
 import java.nio.channels.FileChannel;
 import java.nio.channels.FileLock;
@@ -110,36 +113,32 @@ public class JournalingUsageTracker extends UsageTracker {
     }
 
     @Override
-    public void logDetails(ClientAnalytics.LogEvent.Builder logEvent) {
+    public void logDetails(@NonNull ClientAnalytics.LogEvent.Builder logEvent) {
         if (mClosed) {
             throw new RuntimeException("UsageTracker already closed.");
         }
-        mEventLoop.execute(
-                new Runnable() {
-                    @Override
-                    public void run() {
-                        synchronized (mGate) {
-                            try {
-                                logEvent.build().writeDelimitedTo(mOutputStream);
-                                mOutputStream.flush();
-                                mChannel.force(false);
-                            } catch (IOException e) {
-                                throw new RuntimeException(
-                                        "Failure writing logDetails to usage tracking spool file",
-                                        e);
-                            }
-                            mCurrentLogCount++;
-                            if (getMaxJournalSize() > 0
-                                    && mCurrentLogCount >= getMaxJournalSize()) {
-                                switchTrackFile();
-                                if (mJournalTimeout != null) {
-                                    // Reset the max journal time as we just reset the logs.
-                                    scheduleJournalTimeout(getMaxJournalTime());
-                                }
-                            }
-                        }
+        mEventLoop.execute(() -> {
+            synchronized (mGate) {
+                try {
+                    logEvent.build().writeDelimitedTo(mOutputStream);
+                    mOutputStream.flush();
+                    mChannel.force(false);
+                } catch (IOException e) {
+                    throw new RuntimeException(
+                            "Failure writing logDetails to usage tracking spool file",
+                            e);
+                }
+                mCurrentLogCount++;
+                if (getMaxJournalSize() > 0
+                        && mCurrentLogCount >= getMaxJournalSize()) {
+                    switchTrackFile();
+                    if (mJournalTimeout != null) {
+                        // Reset the max journal time as we just reset the logs.
+                        scheduleJournalTimeout(getMaxJournalTime());
                     }
-                });
+                }
+            }
+        });
     }
 
     /**

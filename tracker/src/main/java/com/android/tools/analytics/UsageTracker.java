@@ -35,7 +35,7 @@ import java.util.concurrent.ScheduledExecutorService;
 public abstract class UsageTracker implements AutoCloseable {
     private int mMaxJournalSize;
     private long mMaxJournalTimeMinutes;
-    private static Object sGate = new Object();
+    private static final Object sGate = new Object();
     private static UsageTracker sInstance;
 
     /**

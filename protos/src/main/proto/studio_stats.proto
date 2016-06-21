@@ -54,6 +54,8 @@ message AndroidStudioEvent {
     SYSTEM = 17;
     // The event is related to the Project Structure Dialog.
     PROJECT_STRUCTURE_DIALOG = 18;
+    // The event is from the Android Gradle plugin.
+    GRADLE = 19;
   }
   // Specific kind of event, primary separation key of all Android Studio
   //  related events.
@@ -169,6 +171,8 @@ message AndroidStudioEvent {
     PROJECT_STRUCTURE_DIALOG_TOP_TAB_SAVE = 57;
     PROJECT_STRUCTURE_DIALOG_LEFT_NAV_CLICK = 58;
     PROJECT_STRUCTURE_DIALOG_LEFT_NAV_SAVE = 59;
+    // A gradle build profile
+    GRADLE_BUILD_PROFILE = 60;
   }
   // Represents different Performance Monitoring types.
   enum MonitorType {
@@ -331,11 +335,14 @@ message AndroidStudioEvent {
   optional .android_studio.EmulatorDetails emulator_details = 23;
   // set when kind = TEST_RUN
   optional .android_studio.TestRun test_run = 24;
+  // set when kind = EMULATOR_UI_EVENT
   optional .android_studio.EmulatorUiEvent emulator_ui_event = 25;
   // set when kind = HYPERVISOR
   optional .android_studio.Hypervisor hypervisor = 26;
   // set when kind = EMULATOR_HOST
   optional .android_studio.EmulatorHost emulator_host = 27;
+  // set when kind = GRADLE_BUILD_PROFILE
+  optional .android_studio.GradleBuildProfile gradle_build_profile = 28;
 }
 
 // Describes a product, e.g. Android Studio or Emulator.
@@ -364,12 +371,17 @@ message ProductDetails {
     X86 = 1;
     X86_64 = 2;
   }
+  // The product this event relates to.
   optional .android_studio.ProductDetails.ProductKind product = 1;
+  // The build ID of Android Studio.
   optional string build = 2;
   // e.g. AI-141.2178183
+  // The version of the product.
   optional string version = 3;
   // e.g. 2.0.0.11
+  // Whether this product is a preview version.
   optional bool preview = 4;
+  // The CPU archtecture the product is running on.
   optional .android_studio.ProductDetails.CpuArchitecture os_architecture = 5;
 }
 
@@ -436,18 +448,27 @@ message StudioCrash {
 
 // Emulator guest image's GL info.
 message EmulatorGuestGlInfo {
+  // GL Driver vendor.
   optional string vendor = 1;
+  // GL Driver name.
   optional string renderer = 2;
+  // GL Driver version number.
   optional string version = 3;
 }
 
 // Emulator: Host GPU info.
 message EmulatorGpuInfo {
+  // Make of the Graphics card.
   optional string make = 1;
+  // Model of the Graphics card.
   optional string model = 2;
+  // Device id of the Graphics card.
   optional string device_id = 3;
+  // Revision of the graphics card.
   optional string revision_id = 4;
+  // Version of the graphics card driver.
   optional string version = 5;
+  // Name of the graphics card driver.
   optional string renderer = 6;
 }
 
@@ -539,7 +560,9 @@ message EmulatorUiEvent {
   //  TODO(jvg): ask logs ticket folks what kind of datapol annotation
   //  it is not freeform, but we cannot make this an enum
   optional string element_id = 1;
+  // The type of UI event
   optional .android_studio.EmulatorUiEvent.EmulatorUiEventType type = 2;
+  // The current context of the event.
   optional .android_studio.EmulatorUiEvent.EmulatorUiEventContext context = 3;
   // This value is an opaque numeric type. The exact schema of the UI metrics
   //  is not specific here. e.g., |value| may represent a boolean, a "count", or
@@ -650,13 +673,14 @@ message InstantRun {
 
 // describes Metrics on Metrics.
 message MetaMetrics {
-  // number of metrics that were dropped.
-  optional int32 dropped_metrics = 1;
-  // number of bytes used to send metrics in the last 24 hours.
-  optional int64 bytes_sent_today = 2;
-  // number of times connecting to the service failed since last successful
-  //  upload or start of app.
-  optional int32 retries_since_last = 3;
+  // number of times connecting to the clearcut server failed since
+  //  the last successful upload.
+  optional int32 failed_connections = 1;
+  // number of bytes used to send metrics in the last upload.
+  optional int64 bytes_sent_in_last_upload = 2;
+  // number of times the clearcut server failed with an http error since
+  //  the last successful upload.
+  optional int32 failed_server_replies = 3;
 }
 
 // Describes a set of tests run.
@@ -740,6 +764,274 @@ message EmulatorHost {
   // May differ from os_architecture field as it is calculated differently,
   //  trying to compensate the JVM bittness.
   optional int64 os_bit_count = 4;
+}
+
+// Detailed profiling information for the gradle build.
+message GradleBuildProfile {
+  // Version of the open source Gradle application used.
+  //  e.g. "2.14" or "3.0-20160617000025+0000"
+  optional string gradle_version = 2;
+  // The value of the "os.name" system property.
+  //  e.g. "Linux"
+  optional string os_name = 6;
+  // The value of the "os.version" system property.
+  //  e.g. "3.13.0-86-generic"
+  optional string os_version = 7;
+  // The value of the "java.version" system property.
+  //  e.g. "1.8.0_40-ea"
+  optional string java_version = 8;
+  // The value of the "java.vm.version" system property.
+  //  e.g. "25.40-b25"
+  optional string java_vm_version = 9;
+  // The value of Runtime.getRuntime().maxMemory()
+  optional int64 max_memory = 10;
+  // The total time taken for this build.
+  //  This does not include Gradle's startup (before plugin apply) or shutdown
+  //  (after BuildListener#buildFinished(BuildResult) called.
+  optional int64 build_time = 11;
+  // The number of garbage collections during this build
+  optional int64 gc_count = 12;
+  // The time spent garbage collecting during this build.
+  optional int64 gc_time = 13;
+  // The projects that make up this multi-project build.
+  repeated .android_studio.GradleBuildProject project = 14;
+  // Samples of the memory state of the daemon during the build.
+  repeated .android_studio.GradleBuildMemorySample memory_sample = 15;
+  // The fine-grained execution spans which record granular timings.
+  repeated .android_studio.GradleBuildProfileSpan span = 16;
+}
+
+message GradleBuildProject {
+  enum PluginType {
+    UNKNOWN_PLUGIN_TYPE = 0;
+    // The 'com.android.application' or 'com.android.model.application' plugins.
+    APPLICATION = 1;
+    // The 'com.android.library' or 'com.android.model.library' plugins.
+    LIBRARY = 2;
+    // The 'com.android.test' plugin.
+    TEST = 3;
+  }
+  enum PluginGeneration {
+    UNKNOWN_PLUGIN_GENERATION = 0;
+    // The 'com.android.[application,library,test] plugins.
+    FIRST = 1;
+    // The 'com.android.model.[application,library]' plugins
+    COMPONENT_MODEL = 2;
+  }
+  // Identifier, local to the containing AndroidStudioEvent, for the project.
+  //  Can be used to correlate spans (GradleBuildProfileSpan) with this
+  //  project for this build only. Is created by sequentially
+  //  numbering projects as they are encountered.
+  //  Is not stable across build invocations.
+  optional int64 id = 1;
+  // Version of our Android Gradle plugin supporting android builds.
+  //  e.g. '2.0-beta1'
+  //  For the experimental plugin this is the gradle-core version.
+  optional string android_plugin_version = 2;
+  // Which Android Gradle plugin is used.
+  optional .android_studio.GradleBuildProject.PluginType android_plugin = 3;
+  // Which plugin generation is used.
+  optional .android_studio.GradleBuildProject.PluginGeneration plugin_generation = 4;
+  // The build tools version used, e.g. '24.0.0 rc2'
+  optional string build_tools_version = 5;
+  // Statistics about the project build.
+  //  Will be used to characterize and bucket projects for subgroup analysis.
+  optional .android_studio.GradleBuildProjectMetrics metrics = 6;
+  // The variants in this project
+  repeated .android_studio.GradleBuildVariant variant = 7;
+}
+
+message GradleBuildProjectMetrics {
+  // The time taken to collect these metrics
+  optional int64 metrics_time_ns = 1;
+  // The size of the APK built, if relevant.
+  optional int64 apk_size = 2;
+  // The size of the resources_ap included in that apk.
+  optional int64 resources_ap_size = 3;
+}
+
+message GradleBuildVariant {
+  // Identifier, local to this AndroidStudioEvent, for the variant.
+  //  Can be used to correlate spans (GradleBuildProfileSpan) with this
+  //  project for this build only. Is created by sequentially
+  //  numbering variants as they are created.
+  //  Is not stable across build invocations.
+  optional int64 id = 1;
+  // Whether the variant is debuggable.
+  optional bool is_debug = 2;
+  // Whether the variant is compiled using jack
+  optional bool use_jack = 3;
+  // Whether the variant is minified
+  optional bool minify_enabled = 4;
+  // Is multidex enabled for the variant
+  optional bool use_multidex = 5;
+  // Is legacy (pre-api 19) multidex enabled for the variant.
+  //  Only can true if use_multidex is also true.
+  optional bool use_legacy_multidex = 6;
+}
+
+message GradleBuildMemorySample {
+  // Garbage collection time since the current daemon started.
+  optional int64 gc_time_ms = 1;
+  // Garbage collection count since the current daemon started.
+  optional int64 gc_count = 2;
+  // Time that the memory stats were collected.
+  optional int64 timestamp = 3;
+}
+
+// A single execution span from a build.
+//  For example, a task execution or creation of some tasks for a of a variant.
+message GradleBuildProfileSpan {
+  // The type of execution.
+  //  This was originally com.android.builder.profile.ExecutionType.
+  enum ExecutionType {
+    SOME_RANDOM_PROCESSING = 1;
+    BASE_PLUGIN_PROJECT_CONFIGURE = 2;
+    BASE_PLUGIN_PROJECT_BASE_EXTENSION_CREATION = 3;
+    BASE_PLUGIN_PROJECT_TASKS_CREATION = 4;
+    BASE_PLUGIN_BUILD_FINISHED = 5;
+    TASK_MANAGER_CREATE_TASKS = 6;
+    BASE_PLUGIN_CREATE_ANDROID_TASKS = 7;
+    VARIANT_MANAGER_CREATE_ANDROID_TASKS = 8;
+    VARIANT_MANAGER_CREATE_TASKS_FOR_VARIANT = 9;
+    VARIANT_MANAGER_CREATE_LINT_TASKS = 10;
+    VARIANT_MANAGER_CREATE_TESTS_TASKS = 11;
+    VARIANT_MANAGER_CREATE_VARIANTS = 12;
+    RESOLVE_DEPENDENCIES = 13;
+    INITIAL_METADATA = 100 [deprecated = true];
+    FINAL_METADATA = 101 [deprecated = true];
+    GENERAL_CONFIG = 102;
+    VARIANT_CONFIG = 103;
+    VARIANT_MANAGER_EXTERNAL_NATIVE_CONFIG_VALUES = 104;
+    APK_METRICS = 105;
+    // ApplicationTaskManager per variant tasks.
+    APP_TASK_MANAGER_CREATE_MERGE_MANIFEST_TASK = 1000;
+    APP_TASK_MANAGER_CREATE_GENERATE_RES_VALUES_TASK = 1001;
+    APP_TASK_MANAGER_CREATE_CREATE_RENDERSCRIPT_TASK = 1002;
+    APP_TASK_MANAGER_CREATE_MERGE_RESOURCES_TASK = 1003;
+    APP_TASK_MANAGER_CREATE_MERGE_ASSETS_TASK = 1004;
+    APP_TASK_MANAGER_CREATE_BUILD_CONFIG_TASK = 1005;
+    APP_TASK_MANAGER_CREATE_PROCESS_RES_TASK = 1006;
+    APP_TASK_MANAGER_CREATE_AIDL_TASK = 1007;
+    APP_TASK_MANAGER_CREATE_COMPILE_TASK = 1008;
+    APP_TASK_MANAGER_CREATE_NDK_TASK = 1009;
+    APP_TASK_MANAGER_CREATE_SPLIT_TASK = 1010;
+    APP_TASK_MANAGER_CREATE_PACKAGING_TASK = 1011;
+    APP_TASK_MANAGER_CREATE_PREPROCESS_RESOURCES_TASK = 1012 [deprecated = true];
+    APP_TASK_MANAGER_CREATE_BACKPORT_RESOURCES_TASK = 1013 [deprecated = true];
+    APP_TASK_MANAGER_CREATE_LINT_TASK = 1014;
+    APP_TASK_MANAGER_CREATE_MERGE_JNILIBS_FOLDERS_TASK = 1015;
+    APP_TASK_MANAGER_CREATE_SHADER_TASK = 1016;
+    APP_TASK_MANAGER_CREATE_EXTERNAL_NATIVE_BUILD_TASK = 1017;
+    // LibraryTaskManager per variant tasks.
+    LIB_TASK_MANAGER_CREATE_MERGE_MANIFEST_TASK = 2000;
+    LIB_TASK_MANAGER_CREATE_GENERATE_RES_VALUES_TASK = 2001;
+    LIB_TASK_MANAGER_CREATE_CREATE_RENDERSCRIPT_TASK = 2002;
+    LIB_TASK_MANAGER_CREATE_MERGE_RESOURCES_TASK = 2003;
+    LIB_TASK_MANAGER_CREATE_MERGE_ASSETS_TASK = 2004;
+    LIB_TASK_MANAGER_CREATE_BUILD_CONFIG_TASK = 2005;
+    LIB_TASK_MANAGER_CREATE_PROCESS_RES_TASK = 2006;
+    LIB_TASK_MANAGER_CREATE_AIDL_TASK = 2007;
+    LIB_TASK_MANAGER_CREATE_COMPILE_TASK = 2008;
+    LIB_TASK_MANAGER_CREATE_NDK_TASK = 2009;
+    LIB_TASK_MANAGER_CREATE_SPLIT_TASK = 2010;
+    LIB_TASK_MANAGER_CREATE_PACKAGING_TASK = 2011;
+    LIB_TASK_MANAGER_CREATE_MERGE_PROGUARD_FILE_TASK = 2012;
+    LIB_TASK_MANAGER_CREATE_POST_COMPILATION_TASK = 2013;
+    LIB_TASK_MANAGER_CREATE_PROGUARD_TASK = 2014 [deprecated = true];
+    LIB_TASK_MANAGER_CREATE_PACKAGE_LOCAL_JAR = 2015 [deprecated = true];
+    LIB_TASK_MANAGER_CREATE_BACKPORT_RESOURCES_TASK = 2016 [deprecated = true];
+    LIB_TASK_MANAGER_CREATE_LINT_TASK = 2017;
+    LIB_TASK_MANAGER_CREATE_SHADER_TASK = 2018;
+    LIB_TASK_MANAGER_CREATE_EXTERNAL_NATIVE_BUILD_TASK = 2019;
+    // TASK_EXECUTION
+    GENERIC_TASK_EXECUTION = 3000;
+    TASK_AIDL_COMPILE = 3001;
+    TASK_DELETE = 3002;
+    TASK_CHECK_MANIFEST = 3003;
+    TASK_PREPARE_DEPENDENCIES_TASK = 3004;
+    TASK_RENDERSCRIPT_COMPILE = 3005;
+    TASK_GENERATE_BUILD_CONFIG = 3006;
+    TASK_MERGE_ASSETS = 3007;
+    TASK_GENERATE_RES_VALUES = 3008;
+    TASK_MERGE_RESOURCES = 3009;
+    TASK_MERGE_MANIFESTS = 3010;
+    TASK_PROCESS_ANDROID_RESOURCES = 3011;
+    TASK_JAVA_COMPILE = 3012;
+    TASK_NDK_COMPILE = 3013;
+    TASK_PRE_DEX = 3014;
+    TASK_DEX = 3015;
+    TASK_PACKAGE_SPLIT_RES = 3016;
+    TASK_PROCESS_RESOURCES = 3017;
+    TASK_VALIDATE_SIGNING_TASK = 3018;
+    TASK_PACKAGE_APPLICATION = 3019;
+    TASK_SPLIT_ZIP_ALIGN = 3020;
+    TASK_ZIP_ALIGN = 3021;
+    TASK_COPY = 3022;
+    TASK_LINT = 3023;
+    TASK_TRANSFORM_PREPARATION = 3024;
+    TASK_TRANSFORM = 3025;
+    TASK_FILE_VERIFICATION = 3026;
+    TASK_EXTERNAL_NATIVE_BUILD_GENERATE_JSON_PROCESS_PER_ABI = 3027;
+    TASK_EXTERNAL_NATIVE_BUILD_GENERATE_JSON_PROCESS = 3028;
+  }
+  // Identifier for this span, created by sequentially allocating IDs to spans
+  //  as they start. Used only for the parent-child relationship of spans, to
+  //  show execution that is part of another span.
+  //  Not stable or meaningful across builds.
+  optional int64 id = 1;
+  // For nested spans: the id for containing span.
+  //  See GradleBuildProfileSpan.id.
+  optional int64 parent_id = 2;
+  // The start time of this event
+  optional int64 start_time_in_ms = 3;
+  // The duration of this event. May be zero.
+  optional int64 duration_in_ms = 4;
+  // The type of event recorded
+  optional .android_studio.GradleBuildProfileSpan.ExecutionType type = 5;
+  // More informations about the execution of TransformTasks.
+  //  Only used when executionType is TASK_TRANSFORM_PREPARATION or
+  //  TASK_TRANSFORM.
+  optional .android_studio.GradleTransformExecution transform = 6;
+  // Session id of the GradleBuildProject that this span is part of.
+  //  The ID is not stable nor meaningful over multiple GradleBuildProfile.
+  //  See GradleBuildProfile.id
+  optional int64 project = 7;
+  // Session id of the GradleBuildVariant that this span is part of.
+  //  The ID is not stable nor meaningful over multiple GradleBuildProfile.
+  //  See GradleBuildVariant.id
+  optional int64 variant = 8;
+}
+
+message GradleTransformExecution {
+  // The transform class.
+  enum Type {
+    UNKNOWN_TRANSFORM_TYPE = 0;
+    DEX = 1;
+    EXTRACT_JARS = 2;
+    INSTANT_RUN_DEX = 3;
+    INSTANT_RUN_SLICER = 4;
+    INSTANT_RUN = 5;
+    INSTANT_RUN_VERIFER = 6;
+    JACK_PRE_DEX = 7;
+    JACK = 8;
+    JACOCO = 9;
+    JAR_MERGING = 10;
+    LIBRARY_JAR = 11;
+    LIBRARY_JNI_LIBS = 12;
+    MERGE_JAVA_RESOURCES = 13;
+    MULTI_DEX = 14;
+    NEW_SHRINKER = 15;
+    NO_CHANGES_VERIFIER = 16;
+    PRO_GUARD = 17;
+    SHRINK_RESOURCES = 18;
+  }
+  // The transform implementing class.
+  //  Custom transforms are recorded as UNKNOWN_TRANSFORM_TYPE.
+  optional .android_studio.GradleTransformExecution.Type type = 1;
+  // Whether the transform could be (in the case of TASK_TRANSFORM_PREPARATION)
+  //  or was (in the case of TASK_TRANSFORM) incremental.
+  optional bool is_incremental = 2;
 }
 
 
