@@ -18,6 +18,9 @@ package com.android.tools.analytics;
 
 import com.android.annotations.NonNull;
 import com.android.annotations.Nullable;
+import com.android.annotations.VisibleForTesting;
+import com.android.utils.DateProvider;
+import com.android.utils.ILogger;
 import com.google.common.base.Charsets;
 import com.google.common.io.Files;
 import com.google.gson.Gson;
@@ -25,12 +28,24 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonParseException;
 import com.google.gson.annotations.SerializedName;
 
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.RandomAccessFile;
+import java.math.BigInteger;
 import java.nio.channels.Channels;
 import java.nio.channels.FileChannel;
 import java.nio.channels.FileLock;
 import java.nio.channels.OverlappingFileLockException;
 import java.nio.file.Paths;
+import java.security.SecureRandom;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
 import java.util.UUID;
 
 /**
@@ -38,6 +53,14 @@ import java.util.UUID;
  * ~/.android/analytics.settings as a json file.
  */
 public class AnalyticsSettings {
+    private static final LocalDate EPOCH = LocalDate.ofEpochDay(0);
+    // the gate is used to ensure settings are only in process of loading once.
+    private static final transient Object sGate = new Object();
+
+    private static AnalyticsSettings sInstance;
+
+    @VisibleForTesting static DateProvider sDateProvider = DateProvider.SYSTEM;
+
     @SerializedName("userId")
     private String mUserId;
 
@@ -46,6 +69,12 @@ public class AnalyticsSettings {
 
     @SerializedName("debugDisablePublishing")
     private boolean mDebugDisablePublishing;
+
+    @SerializedName("saltValue")
+    private BigInteger mSaltValue;
+
+    @SerializedName("saltSkew")
+    private int mSaltSkew;
 
     /**
      * Gets a user id used for reporting analytics. This id is pseudo-anonymous.
@@ -79,6 +108,42 @@ public class AnalyticsSettings {
     public boolean hasDebugDisablePublishing() {
         return mDebugDisablePublishing;
     }
+
+    /**
+     * Gets a binary blob to ensure per user anonymization. Gets automatically rotated every 28
+     * days. Primarily used by {@link Anonymizer}.
+     */
+    public byte[] getSalt() throws IOException {
+        synchronized (sGate) {
+            int currentSaltSkew = currentSaltSkew();
+            if (mSaltSkew != currentSaltSkew) {
+                mSaltSkew = currentSaltSkew;
+                SecureRandom random = new SecureRandom();
+                byte[] data = random.generateSeed(24);
+                mSaltValue = new BigInteger(data);
+                saveSettings();
+                return data;
+            } else {
+                return mSaltValue.toByteArray();
+            }
+        }
+    }
+
+    /**
+     * Gets the current salt skew, this is used by {@link #getSalt()} to update the salt every 28
+     * days with a consistent window. This window size allows 4 week and 1 week analyses.
+     */
+    @VisibleForTesting
+    static int currentSaltSkew() {
+        LocalDate now =
+                LocalDate.from(
+                        Instant.ofEpochMilli(sDateProvider.now().getTime())
+                                .atZone(ZoneId.of("GMT")));
+        // Unix epoch was on a Thursday, but we want Monday to be the day the salt is refreshed.
+        long days = ChronoUnit.DAYS.between(EPOCH, now) + 3;
+        return (int) (days / 28);
+    }
+
     /**
      * Loads an existing settings file from disk, or creates a new valid settings object if none
      * exists. In case of the latter, will try to load uid.txt for maintaining the same uid with
@@ -86,8 +151,9 @@ public class AnalyticsSettings {
      *
      * @throws IOException if there are any issues reading the settings file.
      */
+    @VisibleForTesting
     @Nullable
-    public static AnalyticsSettings loadSettings() throws IOException {
+    static AnalyticsSettings loadSettings() throws IOException {
         File file = getSettingsFile();
         if (!file.exists()) {
             return null;
@@ -98,6 +164,7 @@ public class AnalyticsSettings {
             Gson gson = new GsonBuilder().create();
             AnalyticsSettings settings =
                     gson.fromJson(new InputStreamReader(inputStream), AnalyticsSettings.class);
+            sInstance = settings;
             return settings;
         } catch (OverlappingFileLockException e) {
             throw new IOException("Unable to lock settings file " + file.toString(), e);
@@ -112,8 +179,9 @@ public class AnalyticsSettings {
      *
      * @throws IOException if there are any issues writing the settings file.
      */
+    @VisibleForTesting
     @NonNull
-    public static AnalyticsSettings newAnalyticsSettings() throws IOException {
+    static AnalyticsSettings createNewAnalyticsSettings() throws IOException {
         AnalyticsSettings settings = new AnalyticsSettings();
 
         File uidFile = Paths.get(AnalyticsPaths.getAndroidSettingsHome(), "uid.txt").toFile();
@@ -128,7 +196,52 @@ public class AnalyticsSettings {
         if (settings.getUserId() == null) {
             settings.setUserId(UUID.randomUUID().toString());
         }
+        settings.saveSettings();
         return settings;
+    }
+
+    /**
+     * Get or creates an instance of the settings. Uses the following strategies in order:
+     *
+     * <ul>
+     * <li>Use existing instance
+     * <li>Load existing 'analytics.settings' file from disk
+     * <li>Create new 'analytics.settings' file
+     * <li>Create instance without persistence
+     * </ul>
+     *
+     * Any issues reading/writing the config file will be logged to the logger.
+     */
+    public static AnalyticsSettings getInstance(ILogger logger) {
+        synchronized (sGate) {
+            if (sInstance != null) {
+                return sInstance;
+            }
+            try {
+                sInstance = loadSettings();
+            } catch (IOException e) {
+                logger.error(e, "Unable to load analytics settings.");
+            }
+            if (sInstance == null) {
+                try {
+                    sInstance = createNewAnalyticsSettings();
+                } catch (IOException e) {
+                    logger.error(e, "Unable to create new analytics settings.");
+                }
+            }
+            sInstance = new AnalyticsSettings();
+            sInstance.setUserId(UUID.randomUUID().toString());
+            return sInstance;
+        }
+    }
+
+    /**
+     * Allows test to set a custom version of the AnalyticsSettings to test different setting
+     * states.
+     */
+    @VisibleForTesting
+    public static void setInstanceForTest(@Nullable AnalyticsSettings settings) {
+        sInstance = settings;
     }
 
     /**

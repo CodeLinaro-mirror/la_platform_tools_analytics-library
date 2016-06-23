@@ -51,15 +51,19 @@ import java.util.concurrent.TimeUnit;
  */
 public class AnalyticsPublisherTest {
     @Rule public final TemporaryFolder testSpoolDir = new TemporaryFolder();
+    @Rule public final TemporaryFolder testConfigDir = new TemporaryFolder();
 
     @Test
     public void testInitialValues() throws Exception {
-        // Create helpers used to instantiate the publisher.
-        VirtualTimeScheduler vs = new VirtualTimeScheduler();
-        AnalyticsSettings analyticsSettings = getTestAnalyticsSettings();
-
+        // Configure the paths to use a temp directory for reading from and writing to.
+        EnvironmentFakes.setCustomAndroidSdkHomeEnvironment(
+                testConfigDir.getRoot().toPath().toString());
         // Start a stub webserver to publish to.
         try (ServerStub stub = new ServerStub()) {
+            // Create helpers used to instantiate the publisher.
+            VirtualTimeScheduler vs = new VirtualTimeScheduler();
+            AnalyticsSettings analyticsSettings = getTestAnalyticsSettings();
+
             // Instantiate the publisher
             GoogleAnalyticsPublisher googleAnalyticsPublisher =
                     new GoogleAnalyticsPublisher(
@@ -74,6 +78,8 @@ public class AnalyticsPublisherTest {
             // Ensure that the first publish job has been scheduled.
             assertEquals(1, vs.getQueue().size());
             assertEquals(TimeUnit.MINUTES.toNanos(10), vs.getQueue().peek().getTick());
+        } finally {
+            EnvironmentFakes.setSystemEnvironment();
         }
     }
 
@@ -90,31 +96,35 @@ public class AnalyticsPublisherTest {
 
     @Test
     public void testBasics() throws Exception {
-        // Create an event to log.
-        AndroidStudioEvent.Builder logged = createAndroidStudioEvent(5);
-
-        // Use the JournalingUsageTracker to place some .trk files with events in the spool
-        // directory.
-        VirtualTimeScheduler vs = new VirtualTimeScheduler();
-        JournalingUsageTracker journalingUsageTracker =
-                new JournalingUsageTracker(
-                        new AnalyticsSettings(), vs, testSpoolDir.getRoot().toPath());
-        journalingUsageTracker.log(logged);
-        vs.advanceBy(0);
-        journalingUsageTracker.close();
-
-        // Create helpers used to instantiate the publisher.
-        AnalyticsSettings analyticsSettings = getTestAnalyticsSettings();
-
-        // Override the date provider to the publisher so we can reliably check if date based
-        // properties are set correctly.
-        VirtualTimeDateProvider dateProvider = new VirtualTimeDateProvider(vs);
-        GoogleAnalyticsPublisher.sDateProvider = dateProvider;
-        // move the scheduler ahead so we get non zero values for the date provider.
-        vs.advanceBy(1, TimeUnit.MINUTES);
-
+        // Configure the paths to use a temp directory for reading from and writing to.
+        EnvironmentFakes.setCustomAndroidSdkHomeEnvironment(
+                testConfigDir.getRoot().toPath().toString());
         try (ServerStub stub = new ServerStub();
                 SystemPropertyOverrides systemPropertyOverrides = new SystemPropertyOverrides()) {
+
+            // Create an event to log.
+            AndroidStudioEvent.Builder logged = createAndroidStudioEvent(5);
+
+            // Use the JournalingUsageTracker to place some .trk files with events in the spool
+            // directory.
+            VirtualTimeScheduler vs = new VirtualTimeScheduler();
+            JournalingUsageTracker journalingUsageTracker =
+                    new JournalingUsageTracker(
+                            new AnalyticsSettings(), vs, testSpoolDir.getRoot().toPath());
+            journalingUsageTracker.log(logged);
+            vs.advanceBy(0);
+            journalingUsageTracker.close();
+
+            // Create helpers used to instantiate the publisher.
+            AnalyticsSettings analyticsSettings = getTestAnalyticsSettings();
+
+            // Override the date provider to the publisher so we can reliably check if date based
+            // properties are set correctly.
+            VirtualTimeDateProvider dateProvider = new VirtualTimeDateProvider(vs);
+            GoogleAnalyticsPublisher.sDateProvider = dateProvider;
+            // move the scheduler ahead so we get non zero values for the date provider.
+            vs.advanceBy(1, TimeUnit.MINUTES);
+
             // override the os.* system properties so the test runs reliably no matter which
             // it is run on.
             systemPropertyOverrides.setProperty("os.name", "Linux");
@@ -174,6 +184,7 @@ public class AnalyticsPublisherTest {
             assertEquals(logged.build(), retrieved);
         } finally {
             GoogleAnalyticsPublisher.sDateProvider = DateProvider.SYSTEM;
+            EnvironmentFakes.setSystemEnvironment();
         }
         // ensure the spool directory is empty after succesfully publishing the analytics.
         assertEquals(0, testSpoolDir.getRoot().listFiles().length);
@@ -192,40 +203,45 @@ public class AnalyticsPublisherTest {
 
     @Test
     public void testBadConnection() throws Exception {
-        // Create an event to log.
-        AndroidStudioEvent.Builder logged = createAndroidStudioEvent(3);
-
-        // Use the JournalingUsageTracker to place some .trk files with events in the spool
-        // directory.
-        VirtualTimeScheduler vs = new VirtualTimeScheduler();
-        JournalingUsageTracker journalingUsageTracker =
-                new JournalingUsageTracker(
-                        new AnalyticsSettings(), vs, testSpoolDir.getRoot().toPath());
-        journalingUsageTracker.log(logged);
-        vs.advanceBy(0);
-        journalingUsageTracker.close();
-
-        // Create helpers used to instantiate the publisher.
-        AnalyticsSettings analyticsSettings = getTestAnalyticsSettings();
-        GoogleAnalyticsPublisher googleAnalyticsPublisher =
-                new GoogleAnalyticsPublisher(
-                        analyticsSettings, vs, testSpoolDir.getRoot().toPath());
-
-        // set the url to publish to to a reserved port which we know the server cannot connect to.
-        // https://www.iana.org/assignments/service-names-port-numbers/service-names-port-numbers.txt
-        googleAnalyticsPublisher.setServerUrl(new URL("http://localhost:1023/"));
-
-        // Execute the first publish job.
-        vs.advanceBy(10, TimeUnit.MINUTES);
-        // Ensure no files were published.
-        assertEquals(1, testSpoolDir.getRoot().listFiles().length);
-        // Ensure that the next job is scheduled at 20 mins
-        // (2 * the normal time because of backoff).
-        assertEquals(1, vs.getQueue().size());
-        assertEquals(20, vs.getQueue().peek().getDelay(TimeUnit.MINUTES));
-
-        // Create a server and configure the publisher to use that instead.
+        // Configure the paths to use a temp directory for reading from and writing to.
+        EnvironmentFakes.setCustomAndroidSdkHomeEnvironment(
+                testConfigDir.getRoot().toPath().toString());
+        // Create a server
         try (ServerStub stub = new ServerStub()) {
+
+            // Create an event to log.
+            AndroidStudioEvent.Builder logged = createAndroidStudioEvent(3);
+
+            // Use the JournalingUsageTracker to place some .trk files with events in the spool
+            // directory.
+            VirtualTimeScheduler vs = new VirtualTimeScheduler();
+            JournalingUsageTracker journalingUsageTracker =
+                    new JournalingUsageTracker(
+                            new AnalyticsSettings(), vs, testSpoolDir.getRoot().toPath());
+            journalingUsageTracker.log(logged);
+            vs.advanceBy(0);
+            journalingUsageTracker.close();
+
+            // Create helpers used to instantiate the publisher.
+            AnalyticsSettings analyticsSettings = getTestAnalyticsSettings();
+            GoogleAnalyticsPublisher googleAnalyticsPublisher =
+                    new GoogleAnalyticsPublisher(
+                            analyticsSettings, vs, testSpoolDir.getRoot().toPath());
+
+            // set the url to publish to to a reserved port which we know the server cannot connect to.
+            // https://www.iana.org/assignments/service-names-port-numbers/service-names-port-numbers.txt
+            googleAnalyticsPublisher.setServerUrl(new URL("http://localhost:1023/"));
+
+            // Execute the first publish job.
+            vs.advanceBy(10, TimeUnit.MINUTES);
+            // Ensure no files were published.
+            assertEquals(1, testSpoolDir.getRoot().listFiles().length);
+            // Ensure that the next job is scheduled at 20 mins
+            // (2 * the normal time because of backoff).
+            assertEquals(1, vs.getQueue().size());
+            assertEquals(20, vs.getQueue().peek().getDelay(TimeUnit.MINUTES));
+
+            // Configure the publisher to use our stub server instead.
             googleAnalyticsPublisher.setServerUrl(stub.getUrl());
             // Move scheduler to run to the delayed job
             vs.advanceBy(20, TimeUnit.MINUTES);
@@ -256,34 +272,40 @@ public class AnalyticsPublisherTest {
                                             .build())
                             .build(),
                     metaStudioEvent);
+        } finally {
+            EnvironmentFakes.setSystemEnvironment();
         }
     }
 
     @Test
     public void testBadServer() throws Exception {
-        // Create an event to log.
-        AndroidStudioEvent.Builder logged = createAndroidStudioEvent(3);
-
-        // Use the JournalingUsageTracker to place some .trk files with events in the spool
-        // directory.
-        VirtualTimeScheduler vs = new VirtualTimeScheduler();
-        JournalingUsageTracker journalingUsageTracker =
-                new JournalingUsageTracker(
-                        new AnalyticsSettings(), vs, testSpoolDir.getRoot().toPath());
-        journalingUsageTracker.log(logged);
-        vs.advanceBy(0);
-        journalingUsageTracker.close();
-
-        // Create helpers used to instantiate the publisher.
-        AnalyticsSettings analyticsSettings = getTestAnalyticsSettings();
-
-        // As we're checking upload byte sizes and the size varies by the value for
-        // time, we need to fix the time in this test.
-        VirtualTimeDateProvider dateProvider = new VirtualTimeDateProvider(vs);
-        GoogleAnalyticsPublisher.sDateProvider = dateProvider;
-
+        // Configure the paths to use a temp directory for reading from and writing to.
+        EnvironmentFakes.setCustomAndroidSdkHomeEnvironment(
+                testConfigDir.getRoot().toPath().toString());
         try (ServerStub stub = new ServerStub();
                 SystemPropertyOverrides systemPropertyOverrides = new SystemPropertyOverrides()) {
+
+            // Create an event to log.
+            AndroidStudioEvent.Builder logged = createAndroidStudioEvent(3);
+
+            // Use the JournalingUsageTracker to place some .trk files with events in the spool
+            // directory.
+            VirtualTimeScheduler vs = new VirtualTimeScheduler();
+            JournalingUsageTracker journalingUsageTracker =
+                    new JournalingUsageTracker(
+                            new AnalyticsSettings(), vs, testSpoolDir.getRoot().toPath());
+            journalingUsageTracker.log(logged);
+            vs.advanceBy(0);
+            journalingUsageTracker.close();
+
+            // Create helpers used to instantiate the publisher.
+            AnalyticsSettings analyticsSettings = getTestAnalyticsSettings();
+
+            // As we're checking upload byte sizes and the size varies by the value for
+            // time, we need to fix the time in this test.
+            VirtualTimeDateProvider dateProvider = new VirtualTimeDateProvider(vs);
+            GoogleAnalyticsPublisher.sDateProvider = dateProvider;
+
             // override the os.* system properties so the test runs reliably no matter which
             // it is run on.
             systemPropertyOverrides.setProperty("os.name", "Linux");
@@ -339,21 +361,25 @@ public class AnalyticsPublisherTest {
                     metaStudioEvent);
         } finally {
             GoogleAnalyticsPublisher.sDateProvider = DateProvider.SYSTEM;
+            EnvironmentFakes.setSystemEnvironment();
         }
     }
 
     @Test
     public void testEmptySpoolFile() throws Exception {
-        // Use the JournalingUsageTracker to place an empty .trk file in the spool directory.
-        VirtualTimeScheduler vs = new VirtualTimeScheduler();
-        JournalingUsageTracker journalingUsageTracker =
-                new JournalingUsageTracker(
-                        new AnalyticsSettings(), vs, testSpoolDir.getRoot().toPath());
-        journalingUsageTracker.close();
-
-        // Create helpers used to instantiate the publisher.
-        AnalyticsSettings analyticsSettings = getTestAnalyticsSettings();
+        // Configure the paths to use a temp directory for reading from and writing to.
+        EnvironmentFakes.setCustomAndroidSdkHomeEnvironment(
+                testConfigDir.getRoot().toPath().toString());
         try (ServerStub stub = new ServerStub()) {
+            // Use the JournalingUsageTracker to place an empty .trk file in the spool directory.
+            VirtualTimeScheduler vs = new VirtualTimeScheduler();
+            JournalingUsageTracker journalingUsageTracker =
+                    new JournalingUsageTracker(
+                            new AnalyticsSettings(), vs, testSpoolDir.getRoot().toPath());
+            journalingUsageTracker.close();
+
+            // Create helpers used to instantiate the publisher.
+            AnalyticsSettings analyticsSettings = getTestAnalyticsSettings();
             GoogleAnalyticsPublisher googleAnalyticsPublisher =
                     new GoogleAnalyticsPublisher(
                             analyticsSettings, vs, testSpoolDir.getRoot().toPath());
@@ -369,100 +395,112 @@ public class AnalyticsPublisherTest {
             // Ensure no events were published.
             List<Future<ClientAnalytics.LogRequest>> results = stub.getResults();
             assertEquals(0, results.size());
+        } finally {
+            EnvironmentFakes.setSystemEnvironment();
         }
     }
 
     @Test
     public void testMultipleEvents() throws Exception {
-        // Create a few events to log.
-        AndroidStudioEvent.Builder logged1 = createAndroidStudioEvent(1);
-        AndroidStudioEvent.Builder logged2 = createAndroidStudioEvent(2);
-        AndroidStudioEvent.Builder logged3 = createAndroidStudioEvent(3);
-        AndroidStudioEvent.Builder logged4 = createAndroidStudioEvent(4);
+        // Configure the paths to use a temp directory for reading from and writing to.
+        EnvironmentFakes.setCustomAndroidSdkHomeEnvironment(
+                testConfigDir.getRoot().toPath().toString());
+        try {
+            // Create a few events to log.
+            AndroidStudioEvent.Builder logged1 = createAndroidStudioEvent(1);
+            AndroidStudioEvent.Builder logged2 = createAndroidStudioEvent(2);
+            AndroidStudioEvent.Builder logged3 = createAndroidStudioEvent(3);
+            AndroidStudioEvent.Builder logged4 = createAndroidStudioEvent(4);
 
-        Set<AndroidStudioEvent> expected = new HashSet<>();
-        expected.add(logged1.build());
-        expected.add(logged2.build());
-        expected.add(logged3.build());
-        expected.add(logged4.build());
+            Set<AndroidStudioEvent> expected = new HashSet<>();
+            expected.add(logged1.build());
+            expected.add(logged2.build());
+            expected.add(logged3.build());
+            expected.add(logged4.build());
 
-        // Use the JournalingUsageTracker to place several .trk files with events in the spool
-        // directory.
-        VirtualTimeScheduler vs = new VirtualTimeScheduler();
-        JournalingUsageTracker journalingUsageTracker =
-                new JournalingUsageTracker(
-                        new AnalyticsSettings(), vs, testSpoolDir.getRoot().toPath());
-        journalingUsageTracker.setMaxJournalSize(2);
-        journalingUsageTracker.log(logged1);
-        journalingUsageTracker.log(logged2);
-        vs.advanceBy(0);
-        journalingUsageTracker.log(logged3);
-        journalingUsageTracker.log(logged4);
-        vs.advanceBy(0);
-        journalingUsageTracker.close();
+            // Use the JournalingUsageTracker to place several .trk files with events in the spool
+            // directory.
+            VirtualTimeScheduler vs = new VirtualTimeScheduler();
+            JournalingUsageTracker journalingUsageTracker =
+                    new JournalingUsageTracker(
+                            new AnalyticsSettings(), vs, testSpoolDir.getRoot().toPath());
+            journalingUsageTracker.setMaxJournalSize(2);
+            journalingUsageTracker.log(logged1);
+            journalingUsageTracker.log(logged2);
+            vs.advanceBy(0);
+            journalingUsageTracker.log(logged3);
+            journalingUsageTracker.log(logged4);
+            vs.advanceBy(0);
+            journalingUsageTracker.close();
 
-        // Create helpers used to instantiate the publisher.
-        AnalyticsSettings analyticsSettings = getTestAnalyticsSettings();
-        try (ServerStub stub = new ServerStub()) {
-            GoogleAnalyticsPublisher googleAnalyticsPublisher =
-                    new GoogleAnalyticsPublisher(
-                            analyticsSettings, vs, testSpoolDir.getRoot().toPath());
-            googleAnalyticsPublisher.setServerUrl(stub.getUrl());
+            // Create helpers used to instantiate the publisher.
+            AnalyticsSettings analyticsSettings = getTestAnalyticsSettings();
+            try (ServerStub stub = new ServerStub()) {
+                GoogleAnalyticsPublisher googleAnalyticsPublisher =
+                        new GoogleAnalyticsPublisher(
+                                analyticsSettings, vs, testSpoolDir.getRoot().toPath());
+                googleAnalyticsPublisher.setServerUrl(stub.getUrl());
 
-            // Execute the first publish job.
-            vs.advanceBy(10, TimeUnit.MINUTES);
-            googleAnalyticsPublisher.close();
+                // Execute the first publish job.
+                vs.advanceBy(10, TimeUnit.MINUTES);
+                googleAnalyticsPublisher.close();
 
-            // check that two requests were made
-            List<Future<ClientAnalytics.LogRequest>> results = stub.getResults();
-            assertEquals(2, results.size());
+                // check that two requests were made
+                List<Future<ClientAnalytics.LogRequest>> results = stub.getResults();
+                assertEquals(2, results.size());
 
-            Set<AndroidStudioEvent> actual = new HashSet<>();
+                Set<AndroidStudioEvent> actual = new HashSet<>();
 
-            // each request contains 3 events (1 meta and two data events).
-            Future<ClientAnalytics.LogRequest> result1 = results.get(0);
-            ClientAnalytics.LogRequest request1 = result1.get();
-            assertEquals(3, request1.getLogEventCount());
-            AndroidStudioEvent received1 =
-                    AndroidStudioEvent.parseFrom(request1.getLogEvent(1).getSourceExtension());
-            actual.add(received1);
-            AndroidStudioEvent received2 =
-                    AndroidStudioEvent.parseFrom(request1.getLogEvent(2).getSourceExtension());
-            actual.add(received2);
+                // each request contains 3 events (1 meta and two data events).
+                Future<ClientAnalytics.LogRequest> result1 = results.get(0);
+                ClientAnalytics.LogRequest request1 = result1.get();
+                assertEquals(3, request1.getLogEventCount());
+                AndroidStudioEvent received1 =
+                        AndroidStudioEvent.parseFrom(request1.getLogEvent(1).getSourceExtension());
+                actual.add(received1);
+                AndroidStudioEvent received2 =
+                        AndroidStudioEvent.parseFrom(request1.getLogEvent(2).getSourceExtension());
+                actual.add(received2);
 
-            Future<ClientAnalytics.LogRequest> result2 = results.get(1);
-            ClientAnalytics.LogRequest request2 = result2.get();
-            assertEquals(3, request2.getLogEventCount());
-            AndroidStudioEvent received3 =
-                    AndroidStudioEvent.parseFrom(request2.getLogEvent(1).getSourceExtension());
-            actual.add(received3);
-            AndroidStudioEvent received4 =
-                    AndroidStudioEvent.parseFrom(request2.getLogEvent(2).getSourceExtension());
-            actual.add(received4);
+                Future<ClientAnalytics.LogRequest> result2 = results.get(1);
+                ClientAnalytics.LogRequest request2 = result2.get();
+                assertEquals(3, request2.getLogEventCount());
+                AndroidStudioEvent received3 =
+                        AndroidStudioEvent.parseFrom(request2.getLogEvent(1).getSourceExtension());
+                actual.add(received3);
+                AndroidStudioEvent received4 =
+                        AndroidStudioEvent.parseFrom(request2.getLogEvent(2).getSourceExtension());
+                actual.add(received4);
 
-            // ensure all events that were sent are received, but don't care about the order.
-            assertEquals(expected, actual);
+                // ensure all events that were sent are received, but don't care about the order.
+                assertEquals(expected, actual);
+            }
+        } finally {
+            EnvironmentFakes.setSystemEnvironment();
         }
     }
 
     @Test
     public void testUpdateInterval() throws Exception {
-        // Create an event to log.
-        AndroidStudioEvent.Builder logged = createAndroidStudioEvent(5);
-
-        // Use the JournalingUsageTracker to place some .trk files with events in the spool
-        // directory.
-        VirtualTimeScheduler vs = new VirtualTimeScheduler();
-        JournalingUsageTracker journalingUsageTracker =
-                new JournalingUsageTracker(
-                        new AnalyticsSettings(), vs, testSpoolDir.getRoot().toPath());
-        journalingUsageTracker.log(logged);
-        vs.advanceBy(0);
-        journalingUsageTracker.close();
-
-        // Create helpers used to instantiate the publisher.
-        AnalyticsSettings analyticsSettings = getTestAnalyticsSettings();
+        // Configure the paths to use a temp directory for reading from and writing to.
+        EnvironmentFakes.setCustomAndroidSdkHomeEnvironment(
+                testConfigDir.getRoot().toPath().toString());
         try (ServerStub stub = new ServerStub()) {
+            // Create an event to log.
+            AndroidStudioEvent.Builder logged = createAndroidStudioEvent(5);
+
+            // Use the JournalingUsageTracker to place some .trk files with events in the spool
+            // directory.
+            VirtualTimeScheduler vs = new VirtualTimeScheduler();
+            JournalingUsageTracker journalingUsageTracker =
+                    new JournalingUsageTracker(
+                            new AnalyticsSettings(), vs, testSpoolDir.getRoot().toPath());
+            journalingUsageTracker.log(logged);
+            vs.advanceBy(0);
+            journalingUsageTracker.close();
+
+            // Create helpers used to instantiate the publisher.
+            AnalyticsSettings analyticsSettings = getTestAnalyticsSettings();
             GoogleAnalyticsPublisher googleAnalyticsPublisher =
                     new GoogleAnalyticsPublisher(
                             analyticsSettings, vs, testSpoolDir.getRoot().toPath());
@@ -491,27 +529,32 @@ public class AnalyticsPublisherTest {
             // Ensure that analytics are published after the interval.
             List<Future<ClientAnalytics.LogRequest>> results = stub.getResults();
             assertEquals(1, results.size());
+        } finally {
+            EnvironmentFakes.setSystemEnvironment();
         }
     }
 
     @Test
     public void testCustomConnection() throws Exception {
-        // Create an event to log.
-        AndroidStudioEvent.Builder logged = createAndroidStudioEvent(5);
-
-        // Use the JournalingUsageTracker to place some .trk files with events in the spool
-        // directory.
-        VirtualTimeScheduler vs = new VirtualTimeScheduler();
-        JournalingUsageTracker journalingUsageTracker =
-                new JournalingUsageTracker(
-                        new AnalyticsSettings(), vs, testSpoolDir.getRoot().toPath());
-        journalingUsageTracker.log(logged);
-        vs.advanceBy(0);
-        journalingUsageTracker.close();
-
-        // Create helpers used to instantiate the publisher.
-        AnalyticsSettings analyticsSettings = getTestAnalyticsSettings();
+        // Configure the paths to use a temp directory for reading from and writing to.
+        EnvironmentFakes.setCustomAndroidSdkHomeEnvironment(
+                testConfigDir.getRoot().toPath().toString());
         try (ServerStub stub = new ServerStub()) {
+            // Create an event to log.
+            AndroidStudioEvent.Builder logged = createAndroidStudioEvent(5);
+
+            // Use the JournalingUsageTracker to place some .trk files with events in the spool
+            // directory.
+            VirtualTimeScheduler vs = new VirtualTimeScheduler();
+            JournalingUsageTracker journalingUsageTracker =
+                    new JournalingUsageTracker(
+                            new AnalyticsSettings(), vs, testSpoolDir.getRoot().toPath());
+            journalingUsageTracker.log(logged);
+            vs.advanceBy(0);
+            journalingUsageTracker.close();
+
+            // Create helpers used to instantiate the publisher.
+            AnalyticsSettings analyticsSettings = getTestAnalyticsSettings();
             // Create an instance of the publisher with a customized connection creation function.
             GoogleAnalyticsPublisher googleAnalyticsPublisher =
                     new GoogleAnalyticsPublisher(
@@ -530,37 +573,46 @@ public class AnalyticsPublisherTest {
             // Ensure that analytics are published after the interval.
             List<Future<ClientAnalytics.LogRequest>> results = stub.getResults();
             assertEquals(1, results.size());
+        } finally {
+            EnvironmentFakes.setSystemEnvironment();
         }
     }
 
     @Test
     public void testUpdatePublisher() {
-        // Create helpers used to instantiate the publisher.
-        VirtualTimeScheduler vs = new VirtualTimeScheduler();
-        assertNull(AnalyticsPublisher.getInstance());
-        AnalyticsSettings settings = getTestAnalyticsSettings();
+        // Configure the paths to use a temp directory for reading from and writing to.
+        EnvironmentFakes.setCustomAndroidSdkHomeEnvironment(
+                testConfigDir.getRoot().toPath().toString());
+        try {
+            // Create helpers used to instantiate the publisher.
+            VirtualTimeScheduler vs = new VirtualTimeScheduler();
+            assertNull(AnalyticsPublisher.getInstance());
+            AnalyticsSettings settings = getTestAnalyticsSettings();
 
-        // update the publisher, first call will initialize.
-        AnalyticsPublisher.updatePublisher(new StdLogger(StdLogger.Level.ERROR), settings, vs);
-        AnalyticsPublisher afterFirstUpdate = AnalyticsPublisher.getInstance();
-        assertTrue(afterFirstUpdate instanceof GoogleAnalyticsPublisher);
-        assertEquals(settings, afterFirstUpdate.getAnalyticsSettings());
-        assertEquals(vs, afterFirstUpdate.getScheduler());
+            // update the publisher, first call will initialize.
+            AnalyticsPublisher.updatePublisher(new StdLogger(StdLogger.Level.ERROR), settings, vs);
+            AnalyticsPublisher afterFirstUpdate = AnalyticsPublisher.getInstance();
+            assertTrue(afterFirstUpdate instanceof GoogleAnalyticsPublisher);
+            assertEquals(settings, afterFirstUpdate.getAnalyticsSettings());
+            assertEquals(vs, afterFirstUpdate.getScheduler());
 
-        // ensure a job is scheduled for the first publisher.
-        VirtualTimeFuture<?> job = vs.getQueue().peek();
-        assertNotNull(job);
+            // ensure a job is scheduled for the first publisher.
+            VirtualTimeFuture<?> job = vs.getQueue().peek();
+            assertNotNull(job);
 
-        // update again, but now opt-ed out.
-        settings.setHasOptedIn(false);
-        AnalyticsPublisher.updatePublisher(new StdLogger(StdLogger.Level.ERROR), settings, vs);
-        AnalyticsPublisher afterSecondUpdate = AnalyticsPublisher.getInstance();
-        assertTrue(afterSecondUpdate instanceof NullAnalyticsPublisher);
-        assertEquals(settings, afterFirstUpdate.getAnalyticsSettings());
-        assertEquals(vs, afterFirstUpdate.getScheduler());
+            // update again, but now opt-ed out.
+            settings.setHasOptedIn(false);
+            AnalyticsPublisher.updatePublisher(new StdLogger(StdLogger.Level.ERROR), settings, vs);
+            AnalyticsPublisher afterSecondUpdate = AnalyticsPublisher.getInstance();
+            assertTrue(afterSecondUpdate instanceof NullAnalyticsPublisher);
+            assertEquals(settings, afterFirstUpdate.getAnalyticsSettings());
+            assertEquals(vs, afterFirstUpdate.getScheduler());
 
-        // ensure job from first publisher has been canceled as part of update.
-        assertTrue(job.isCancelled());
+            // ensure job from first publisher has been canceled as part of update.
+            assertTrue(job.isCancelled());
+        } finally {
+            EnvironmentFakes.setSystemEnvironment();
+        }
     }
 
 }

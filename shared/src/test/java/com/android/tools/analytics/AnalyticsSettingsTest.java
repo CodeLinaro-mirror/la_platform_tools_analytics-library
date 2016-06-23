@@ -16,6 +16,7 @@
 
 package com.android.tools.analytics;
 
+import com.android.utils.DateProvider;
 import com.google.common.base.Charsets;
 import com.google.gson.JsonParseException;
 
@@ -27,6 +28,7 @@ import org.junit.rules.TemporaryFolder;
 
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.Arrays;
 import java.util.UUID;
 
 import static org.junit.Assert.*;
@@ -107,7 +109,7 @@ public class AnalyticsSettingsTest {
             AnalyticsSettings settings = AnalyticsSettings.loadSettings();
             assertNull(settings);
 
-            settings = AnalyticsSettings.newAnalyticsSettings();
+            settings = AnalyticsSettings.createNewAnalyticsSettings();
             // The generated user id should be a valid UUID.
             //noinspection ResultOfMethodCallIgnored
             UUID.fromString(settings.getUserId());
@@ -115,8 +117,8 @@ public class AnalyticsSettingsTest {
             // Default setting should be to not be opted in.
             assertFalse(settings.hasOptedIn());
 
-            // The settings file should not yet exist.
-            assertFalse(
+            // The settings file should now be created.
+            assertTrue(
                     testConfigDir
                             .getRoot()
                             .toPath()
@@ -126,7 +128,7 @@ public class AnalyticsSettingsTest {
 
             settings.saveSettings();
 
-            // The settings file should now be created.
+            // The settings file should still exist.
             assertTrue(
                     testConfigDir
                             .getRoot()
@@ -160,7 +162,7 @@ public class AnalyticsSettingsTest {
                     uid.getBytes(Charsets.UTF_8));
 
             // create new settings.
-            AnalyticsSettings settings = AnalyticsSettings.newAnalyticsSettings();
+            AnalyticsSettings settings = AnalyticsSettings.createNewAnalyticsSettings();
             assertNotNull(settings);
 
             // Ensure the settings are using the user id from the 'uid.txt' file.
@@ -204,6 +206,70 @@ public class AnalyticsSettingsTest {
             AnalyticsSettings settings2 = AnalyticsSettings.loadSettings();
             assertEquals(newUserId, settings2.getUserId());
             assertFalse(settings2.hasOptedIn());
+        } finally {
+            EnvironmentFakes.setSystemEnvironment();
+        }
+    }
+
+    @Test
+    public void saltSkewTest() {
+        // Configure the paths to use a temp directory for reading from and writing to.
+        EnvironmentFakes.setCustomAndroidSdkHomeEnvironment(
+                testConfigDir.getRoot().toPath().toString());
+        try {
+            AnalyticsSettings settings = new AnalyticsSettings();
+
+            // Stub dates to specific dates around boundaries when we expect the salt skew to change.
+            AnalyticsSettings.sDateProvider = new StubDateProvider(2016, 3, 17);
+            assertEquals(603, settings.currentSaltSkew());
+            AnalyticsSettings.sDateProvider = new StubDateProvider(2016, 3, 18);
+            assertEquals(604, settings.currentSaltSkew());
+            AnalyticsSettings.sDateProvider = new StubDateProvider(2016, 4, 15);
+            assertEquals(604, settings.currentSaltSkew());
+            AnalyticsSettings.sDateProvider = new StubDateProvider(2016, 4, 16);
+            assertEquals(605, settings.currentSaltSkew());
+            AnalyticsSettings.sDateProvider = new StubDateProvider(2016, 5, 12);
+            assertEquals(605, settings.currentSaltSkew());
+            AnalyticsSettings.sDateProvider = new StubDateProvider(2016, 5, 13);
+            assertEquals(606, settings.currentSaltSkew());
+            AnalyticsSettings.sDateProvider = new StubDateProvider(2016, 6, 10);
+            assertEquals(606, settings.currentSaltSkew());
+            AnalyticsSettings.sDateProvider = new StubDateProvider(2016, 6, 11);
+            assertEquals(607, settings.currentSaltSkew());
+        } finally {
+            // undo stubbing of dates.
+            AnalyticsSettings.sDateProvider = DateProvider.SYSTEM;
+            EnvironmentFakes.setSystemEnvironment();
+        }
+    }
+
+    @Test
+    public void saltStickinessTest() throws IOException {
+        EnvironmentFakes.setCustomAndroidSdkHomeEnvironment(testConfigDir.getRoot().toString());
+        try {
+            AnalyticsSettings settings = new AnalyticsSettings();
+
+            // Stub dates to be at specific skew
+            AnalyticsSettings.sDateProvider = new StubDateProvider(2016, 3, 18);
+            // get the salt and ensure it is initialized.
+            byte[] initialSalt = settings.getSalt();
+            assertNotNull(initialSalt);
+            assertEquals(24, initialSalt.length);
+            // Ensure the salt is still the same at the end of the skew date range.
+            AnalyticsSettings.sDateProvider = new StubDateProvider(2016, 4, 15);
+            assertArrayEquals(initialSalt, settings.getSalt());
+
+            // Ensure the salt is different in the next skew date range.
+            AnalyticsSettings.sDateProvider = new StubDateProvider(2016, 4, 16);
+            byte[] newSalt = settings.getSalt();
+            assertNotNull(newSalt);
+            assertEquals(24, newSalt.length);
+            assertFalse(Arrays.equals(initialSalt, newSalt));
+            settings.saveSettings();
+
+            settings = AnalyticsSettings.loadSettings();
+            byte[] loadedSalt = settings.getSalt();
+            assertArrayEquals(newSalt, loadedSalt);
         } finally {
             EnvironmentFakes.setSystemEnvironment();
         }
