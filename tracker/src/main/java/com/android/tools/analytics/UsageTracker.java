@@ -142,24 +142,7 @@ public abstract class UsageTracker implements AutoCloseable {
     public static AnalyticsSettings updateSettingsAndTracker(
             boolean optIn, @NonNull ILogger logger, @NonNull ScheduledExecutorService scheduler) {
         UsageTracker current = getInstance();
-        AnalyticsSettings settings = current.getAnalyticsSettings();
-        if (settings == null) {
-            try {
-                settings = AnalyticsSettings.loadSettings();
-            } catch (IOException e) {
-                logger.error(e, "Unable to load analytics settings");
-            }
-            if (settings == null) {
-                try {
-                    settings = AnalyticsSettings.newAnalyticsSettings();
-                    settings.setHasOptedIn(optIn);
-                    settings.saveSettings();
-                } catch (IOException e) {
-                    logger.error(e, "Unable to save new analytics settings");
-                    settings = new AnalyticsSettings();
-                }
-            }
-        }
+        AnalyticsSettings settings = AnalyticsSettings.getInstance(logger);
 
         if (optIn != settings.hasOptedIn()) {
             settings.setHasOptedIn(optIn);
