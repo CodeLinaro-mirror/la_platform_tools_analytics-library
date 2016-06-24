@@ -117,8 +117,8 @@ public class AnalyticsSettingsTest {
             // Default setting should be to not be opted in.
             assertFalse(settings.hasOptedIn());
 
-            // The settings file should not yet exist.
-            assertFalse(
+            // The settings file should now be created.
+            assertTrue(
                     testConfigDir
                             .getRoot()
                             .toPath()
@@ -128,7 +128,7 @@ public class AnalyticsSettingsTest {
 
             settings.saveSettings();
 
-            // The settings file should now be created.
+            // The settings file should still exist.
             assertTrue(
                     testConfigDir
                             .getRoot()

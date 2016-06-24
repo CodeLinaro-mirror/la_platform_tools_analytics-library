@@ -196,6 +196,7 @@ public class AnalyticsSettings {
         if (settings.getUserId() == null) {
             settings.setUserId(UUID.randomUUID().toString());
         }
+        settings.saveSettings();
         return settings;
     }
 
