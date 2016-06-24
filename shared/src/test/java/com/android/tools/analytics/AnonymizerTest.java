@@ -20,7 +20,9 @@ import com.android.annotations.NonNull;
 import com.android.annotations.Nullable;
 import com.android.utils.DateProvider;
 import com.android.utils.ILogger;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TemporaryFolder;
 
 import java.io.IOException;
 
@@ -55,8 +57,13 @@ public class AnonymizerTest {
                 }
             };
 
+    @Rule public final TemporaryFolder testConfigDir = new TemporaryFolder();
+
     @Test
     public void anonymizerTest() throws IOException {
+        // Configure the paths to use a temp directory for reading from and writing to.
+        EnvironmentFakes.setCustomAndroidSdkHomeEnvironment(
+                testConfigDir.getRoot().toPath().toString());
         try {
             // Prepopulate AnalysisSettings.
             AnalyticsSettings.setInstanceForTest(new AnalyticsSettings());
@@ -92,6 +99,7 @@ public class AnonymizerTest {
         } finally {
             // Undo stub of DateProvider.
             AnalyticsSettings.sDateProvider = DateProvider.SYSTEM;
+            EnvironmentFakes.setSystemEnvironment();
         }
     }
 }

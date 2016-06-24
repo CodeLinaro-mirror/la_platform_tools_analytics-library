@@ -213,6 +213,9 @@ public class AnalyticsSettingsTest {
 
     @Test
     public void saltSkewTest() {
+        // Configure the paths to use a temp directory for reading from and writing to.
+        EnvironmentFakes.setCustomAndroidSdkHomeEnvironment(
+                testConfigDir.getRoot().toPath().toString());
         try {
             AnalyticsSettings settings = new AnalyticsSettings();
 
@@ -236,6 +239,7 @@ public class AnalyticsSettingsTest {
         } finally {
             // undo stubbing of dates.
             AnalyticsSettings.sDateProvider = DateProvider.SYSTEM;
+            EnvironmentFakes.setSystemEnvironment();
         }
     }
 
