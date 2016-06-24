@@ -198,7 +198,9 @@ public class JournalingUsageTracker extends UsageTracker {
                         .schedule(
                                 () -> {
                                     synchronized (mGate) {
-                                        switchTrackFile();
+                                        if (mCurrentLogCount > 0) {
+                                            switchTrackFile();
+                                        }
                                         // only schedule next beat if we're still the authority.
                                         if (mScheduleVersion == currentScheduleVersion) {
                                             scheduleJournalTimeout(maxJournalTime);

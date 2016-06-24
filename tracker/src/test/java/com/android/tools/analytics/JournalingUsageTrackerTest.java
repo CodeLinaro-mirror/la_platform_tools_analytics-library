@@ -196,6 +196,48 @@ public class JournalingUsageTrackerTest {
     }
 
     @Test
+    public void trackerTimeoutNoLogsTest() throws Exception {
+        // Configure the paths to use a temp directory for reading from and writing to.
+        EnvironmentFakes.setCustomAndroidSdkHomeEnvironment(
+                testConfigDir.getRoot().toPath().toString());
+
+        try {
+            // Setup up an instance of the JournalingUsageTracker using a temp spool directory and
+            // virtual time scheduler.
+            VirtualTimeScheduler virtualTimeScheduler = new VirtualTimeScheduler();
+            JournalingUsageTracker journalingUsageTracker =
+                    new JournalingUsageTracker(
+                            new AnalyticsSettings(),
+                            virtualTimeScheduler,
+                            testSpoolDir.getRoot().toPath());
+
+            // Set a timeout of 1 minute for closing the current spool file.
+            journalingUsageTracker.setMaxJournalTime(1, TimeUnit.MINUTES);
+            assertEquals(1, virtualTimeScheduler.getActionsQueued());
+
+            // Before the timeout there should be one spool file and it should be locked.
+            SpoolDetails beforeTimeout = getSpoolDetails(testSpoolDir.getRoot().toPath());
+            assertEquals(1, beforeTimeout.getLockedFiles().size());
+            assertEquals(0, beforeTimeout.getCompletedLogs().size());
+
+            // Advance the scheduler for the timeout to occur.
+            long actionsExecuted = virtualTimeScheduler.advanceBy(1, TimeUnit.MINUTES);
+            assertEquals(1, actionsExecuted);
+            assertEquals(1, virtualTimeScheduler.getActionsQueued());
+
+            // After the timeout there should not be any changes to the spool files as
+            // there was nothing to log.
+            SpoolDetails afterTimeout = getSpoolDetails(testSpoolDir.getRoot().toPath());
+            assertEquals(1, afterTimeout.getLockedFiles().size());
+            assertEquals(0, afterTimeout.getCompletedLogs().size());
+
+            journalingUsageTracker.close();
+        } finally {
+            EnvironmentFakes.setSystemEnvironment();
+        }
+    }
+
+    @Test
     public void trackerMaxLogsTest() throws Exception {
         // Configure the paths to use a temp directory for reading from and writing to.
         EnvironmentFakes.setCustomAndroidSdkHomeEnvironment(
@@ -311,31 +353,36 @@ public class JournalingUsageTrackerTest {
                             virtualTimeScheduler,
                             testSpoolDir.getRoot().toPath());
 
+            // Write an event to ensure track file switch is triggered.
+            AndroidStudioStats.AndroidStudioEvent.Builder event = createAndroidStudioEvent(1);
+            journalingUsageTracker.log(event);
+            virtualTimeScheduler.advanceBy(0);
+
             // Set a timeout of 1 minute for closing the current spool file.
             journalingUsageTracker.setMaxJournalTime(1, TimeUnit.MINUTES);
-            assertEquals(0, virtualTimeScheduler.getActionsExecuted());
+            assertEquals(1, virtualTimeScheduler.getActionsExecuted());
             assertEquals(1, virtualTimeScheduler.getActionsQueued());
 
             // Move time forward but not enough to trigger the timeout.
             virtualTimeScheduler.advanceBy(30, TimeUnit.SECONDS);
-            assertEquals(0, virtualTimeScheduler.getActionsExecuted());
+            assertEquals(1, virtualTimeScheduler.getActionsExecuted());
             assertEquals(1, virtualTimeScheduler.getActionsQueued());
 
             // Update the timeout
             journalingUsageTracker.setMaxJournalTime(1, TimeUnit.MINUTES);
-            assertEquals(0, virtualTimeScheduler.getActionsExecuted());
+            assertEquals(1, virtualTimeScheduler.getActionsExecuted());
             assertEquals(1, virtualTimeScheduler.getActionsQueued());
 
             // Move to the time of the original timeout
             virtualTimeScheduler.advanceBy(30, TimeUnit.SECONDS);
             // Ensure the original timeout is not triggered.
-            assertEquals(0, virtualTimeScheduler.getActionsExecuted());
+            assertEquals(1, virtualTimeScheduler.getActionsExecuted());
             assertEquals(1, virtualTimeScheduler.getActionsQueued());
 
             // Move to the time of the new timeout
             virtualTimeScheduler.advanceBy(30, TimeUnit.SECONDS);
             // Ensure the new timeout is triggered.
-            assertEquals(1, virtualTimeScheduler.getActionsExecuted());
+            assertEquals(2, virtualTimeScheduler.getActionsExecuted());
             assertEquals(1, virtualTimeScheduler.getActionsQueued());
 
             // Ensure that the first spool file was closed and a new one created.
