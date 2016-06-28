@@ -17,13 +17,17 @@ package com.android.tools.analytics;
 
 import com.android.utils.DateProvider;
 
+import java.time.ZoneOffset;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.TimeZone;
 
 /**
  * A {@link DateProvider} that can be set to a specific date for use in tests. NOTE: months are 0-11
  * while days are 1-31 range.
+ *
+ * Uses UTC as time zone.
  */
 public class StubDateProvider implements DateProvider {
     private final int year;
@@ -39,6 +43,7 @@ public class StubDateProvider implements DateProvider {
     @Override
     public Date now() {
         Calendar calendar = new GregorianCalendar(year, month, day);
+        calendar.setTimeZone(TimeZone.getTimeZone(ZoneOffset.UTC));
         return calendar.getTime();
     }
 }
