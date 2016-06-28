@@ -153,7 +153,7 @@ public class AnalyticsSettings {
      */
     @VisibleForTesting
     @Nullable
-    static AnalyticsSettings loadSettings() throws IOException {
+    public static AnalyticsSettings loadSettings() throws IOException {
         File file = getSettingsFile();
         if (!file.exists()) {
             return null;
@@ -181,7 +181,7 @@ public class AnalyticsSettings {
      */
     @VisibleForTesting
     @NonNull
-    static AnalyticsSettings createNewAnalyticsSettings() throws IOException {
+    public static AnalyticsSettings createNewAnalyticsSettings() throws IOException {
         AnalyticsSettings settings = new AnalyticsSettings();
 
         File uidFile = Paths.get(AnalyticsPaths.getAndroidSettingsHome(), "uid.txt").toFile();
