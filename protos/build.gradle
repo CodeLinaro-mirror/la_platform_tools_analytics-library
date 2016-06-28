@@ -5,7 +5,7 @@ dependencies {
 }
 
 group = 'com.android.tools.analytics-library'
-archivesBaseName = 'analytics-protos'
+archivesBaseName = 'protos'
 version = rootProject.ext.baseVersion
 
 project.ext.pomName = 'Android Tools Analytics Protobufs'
