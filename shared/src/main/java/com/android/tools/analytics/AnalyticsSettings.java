@@ -44,7 +44,7 @@ import java.nio.file.Paths;
 import java.security.SecureRandom;
 import java.time.Instant;
 import java.time.LocalDate;
-import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.time.temporal.ChronoUnit;
 import java.util.UUID;
 
@@ -137,8 +137,7 @@ public class AnalyticsSettings {
     static int currentSaltSkew() {
         LocalDate now =
                 LocalDate.from(
-                        Instant.ofEpochMilli(sDateProvider.now().getTime())
-                                .atZone(ZoneId.of("GMT")));
+                        Instant.ofEpochMilli(sDateProvider.now().getTime()).atZone(ZoneOffset.UTC));
         // Unix epoch was on a Thursday, but we want Monday to be the day the salt is refreshed.
         long days = ChronoUnit.DAYS.between(EPOCH, now) + 3;
         return (int) (days / 28);
