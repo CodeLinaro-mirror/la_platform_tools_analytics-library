@@ -258,8 +258,13 @@ public class AnalyticsSettings {
      */
     public void saveSettings() throws IOException {
         File file = getSettingsFile();
-        FileChannel channel = new RandomAccessFile(file, "rw").getChannel();
-        try (FileLock ignored = channel.tryLock()) {
+        try (RandomAccessFile settingsFile = new RandomAccessFile(file, "rw");
+             FileChannel channel = settingsFile.getChannel();
+             FileLock lock = channel.tryLock()) {
+            if (lock == null) {
+                throw new IOException("Unable to lock settings file " + file.toString());
+            }
+            channel.truncate(0);
             OutputStream outputStream = Channels.newOutputStream(channel);
             Gson gson = new GsonBuilder().create();
             OutputStreamWriter writer = new OutputStreamWriter(outputStream);
