@@ -204,6 +204,7 @@ public class AnalyticsSettingsTest {
 
             // Read settings and verify that changes have persisted.
             AnalyticsSettings settings2 = AnalyticsSettings.loadSettings();
+            assertNotNull(settings2);
             assertEquals(newUserId, settings2.getUserId());
             assertFalse(settings2.hasOptedIn());
         } finally {
@@ -217,25 +218,23 @@ public class AnalyticsSettingsTest {
         EnvironmentFakes.setCustomAndroidSdkHomeEnvironment(
                 testConfigDir.getRoot().toPath().toString());
         try {
-            AnalyticsSettings settings = new AnalyticsSettings();
-
             // Stub dates to specific dates around boundaries when we expect the salt skew to change.
             AnalyticsSettings.sDateProvider = new StubDateProvider(2016, 3, 17);
-            assertEquals(603, settings.currentSaltSkew());
+            assertEquals(603, AnalyticsSettings.currentSaltSkew());
             AnalyticsSettings.sDateProvider = new StubDateProvider(2016, 3, 18);
-            assertEquals(604, settings.currentSaltSkew());
+            assertEquals(604, AnalyticsSettings.currentSaltSkew());
             AnalyticsSettings.sDateProvider = new StubDateProvider(2016, 4, 15);
-            assertEquals(604, settings.currentSaltSkew());
+            assertEquals(604, AnalyticsSettings.currentSaltSkew());
             AnalyticsSettings.sDateProvider = new StubDateProvider(2016, 4, 16);
-            assertEquals(605, settings.currentSaltSkew());
+            assertEquals(605, AnalyticsSettings.currentSaltSkew());
             AnalyticsSettings.sDateProvider = new StubDateProvider(2016, 5, 12);
-            assertEquals(605, settings.currentSaltSkew());
+            assertEquals(605, AnalyticsSettings.currentSaltSkew());
             AnalyticsSettings.sDateProvider = new StubDateProvider(2016, 5, 13);
-            assertEquals(606, settings.currentSaltSkew());
+            assertEquals(606, AnalyticsSettings.currentSaltSkew());
             AnalyticsSettings.sDateProvider = new StubDateProvider(2016, 6, 10);
-            assertEquals(606, settings.currentSaltSkew());
+            assertEquals(606, AnalyticsSettings.currentSaltSkew());
             AnalyticsSettings.sDateProvider = new StubDateProvider(2016, 6, 11);
-            assertEquals(607, settings.currentSaltSkew());
+            assertEquals(607, AnalyticsSettings.currentSaltSkew());
         } finally {
             // undo stubbing of dates.
             AnalyticsSettings.sDateProvider = DateProvider.SYSTEM;
