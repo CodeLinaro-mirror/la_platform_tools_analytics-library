@@ -57,7 +57,7 @@ public class AnalyticsSettings {
     // the gate is used to ensure settings are only in process of loading once.
     private static final transient Object sGate = new Object();
 
-    private static AnalyticsSettings sInstance;
+    @VisibleForTesting static AnalyticsSettings sInstance;
 
     @VisibleForTesting static DateProvider sDateProvider = DateProvider.SYSTEM;
 
@@ -229,8 +229,10 @@ public class AnalyticsSettings {
                     logger.error(e, "Unable to create new analytics settings.");
                 }
             }
-            sInstance = new AnalyticsSettings();
-            sInstance.setUserId(UUID.randomUUID().toString());
+            if (sInstance == null) {
+                sInstance = new AnalyticsSettings();
+                sInstance.setUserId(UUID.randomUUID().toString());
+            }
             return sInstance;
         }
     }
@@ -259,8 +261,8 @@ public class AnalyticsSettings {
     public void saveSettings() throws IOException {
         File file = getSettingsFile();
         try (RandomAccessFile settingsFile = new RandomAccessFile(file, "rw");
-             FileChannel channel = settingsFile.getChannel();
-             FileLock lock = channel.tryLock()) {
+                FileChannel channel = settingsFile.getChannel();
+                FileLock lock = channel.tryLock()) {
             if (lock == null) {
                 throw new IOException("Unable to lock settings file " + file.toString());
             }

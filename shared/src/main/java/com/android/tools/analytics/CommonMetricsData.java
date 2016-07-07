@@ -17,6 +17,7 @@ package com.android.tools.analytics;
 
 import com.android.annotations.VisibleForTesting;
 import com.google.wireless.android.sdk.stats.AndroidStudioStats;
+import com.google.wireless.android.sdk.stats.AndroidStudioStats.DeviceInfo.ApplicationBinaryInterface;
 import com.google.wireless.android.sdk.stats.AndroidStudioStats.ProductDetails;
 
 import java.util.Locale;
@@ -134,5 +135,33 @@ public class CommonMetricsData {
             }
         }
         return null;
+    }
+
+    public static ApplicationBinaryInterface applicationBinaryInterfaceFromString(String value) {
+        if (value == null) {
+            return ApplicationBinaryInterface.UNKNOWN_ABI;
+        }
+        switch (value) {
+            case "armeabi-v6j":
+                return ApplicationBinaryInterface.ARME_ABI_V6J;
+            case "armeabi-v6l":
+                return ApplicationBinaryInterface.ARME_ABI_V6L;
+            case "armeabi-v7a":
+                return ApplicationBinaryInterface.ARME_ABI_V7A;
+            case "armeabi":
+                return ApplicationBinaryInterface.ARME_ABI;
+            case "arm64-v8a":
+                return ApplicationBinaryInterface.ARM64_V8A_ABI;
+            case "mips":
+                return ApplicationBinaryInterface.MIPS_ABI;
+            case "mips-r2":
+                return ApplicationBinaryInterface.MIPS_R2_ABI;
+            case "x86":
+                return ApplicationBinaryInterface.X86_ABI;
+            case "x86_64":
+                return ApplicationBinaryInterface.X86_64_ABI;
+            default:
+                return ApplicationBinaryInterface.UNKNOWN_ABI;
+        }
     }
 }

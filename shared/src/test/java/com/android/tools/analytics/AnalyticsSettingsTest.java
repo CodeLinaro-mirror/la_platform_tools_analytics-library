@@ -16,7 +16,10 @@
 
 package com.android.tools.analytics;
 
+import com.android.annotations.NonNull;
+import com.android.annotations.Nullable;
 import com.android.utils.DateProvider;
+import com.android.utils.ILogger;
 import com.google.common.base.Charsets;
 import com.google.gson.JsonParseException;
 
@@ -269,6 +272,65 @@ public class AnalyticsSettingsTest {
             settings = AnalyticsSettings.loadSettings();
             byte[] loadedSalt = settings.getSalt();
             assertArrayEquals(newSalt, loadedSalt);
+        } finally {
+            EnvironmentFakes.setSystemEnvironment();
+        }
+    }
+
+    @Test
+    public void getInstanceTest() throws IOException {
+        // Configure the paths to use a temp directory for reading from and writing to.
+        EnvironmentFakes.setCustomAndroidSdkHomeEnvironment(
+                testConfigDir.getRoot().toPath().toString());
+
+        ILogger logger =
+                new ILogger() {
+                    @Override
+                    public void error(
+                            @Nullable Throwable t, @Nullable String msgFormat, Object... args) {
+                        fail();
+                    }
+
+                    @Override
+                    public void warning(@NonNull String msgFormat, Object... args) {
+                        fail();
+                    }
+
+                    @Override
+                    public void info(@NonNull String msgFormat, Object... args) {
+                        fail();
+                    }
+
+                    @Override
+                    public void verbose(@NonNull String msgFormat, Object... args) {
+                        fail();
+                    }
+                };
+
+        try {
+            // create a 'uid.txt' file, used by previous metrics reporting systems.
+            String uid = "db3dd15b-053a-4066-ac93-04c50585edc2";
+            Files.write(
+                    testConfigDir.getRoot().toPath().resolve("uid.txt"),
+                    uid.getBytes(Charsets.UTF_8));
+
+            AnalyticsSettings.sInstance = null;
+            AnalyticsSettings settings = AnalyticsSettings.getInstance(logger);
+            assertNotNull(settings);
+
+            assertEquals(uid, settings.getUserId());
+            assertFalse(settings.hasOptedIn());
+
+            settings.setHasOptedIn(true);
+            // Write updated settings to disk
+            settings.saveSettings();
+
+            // Read settings and verify that changes have persisted.
+            AnalyticsSettings.sInstance = null;
+            AnalyticsSettings settings2 = AnalyticsSettings.loadSettings();
+            assertNotNull(settings2);
+            assertEquals(uid, settings2.getUserId());
+            assertTrue(settings2.hasOptedIn());
         } finally {
             EnvironmentFakes.setSystemEnvironment();
         }
