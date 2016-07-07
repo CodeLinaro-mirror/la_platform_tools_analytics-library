@@ -17,6 +17,7 @@
 package com.android.tools.analytics;
 
 import com.android.annotations.NonNull;
+import com.android.annotations.VisibleForTesting;
 import com.android.utils.ILogger;
 import com.google.wireless.android.sdk.stats.AndroidStudioStats;
 import com.google.wireless.android.play.playlog.proto.ClientAnalytics;
@@ -24,6 +25,7 @@ import com.google.wireless.android.play.playlog.proto.ClientAnalytics;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.Date;
+import java.util.UUID;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
@@ -37,6 +39,8 @@ import java.util.concurrent.TimeUnit;
  */
 public abstract class UsageTracker implements AutoCloseable {
     private static final Object sGate = new Object();
+
+    @VisibleForTesting static final String sSessionId = UUID.randomUUID().toString();
     private static UsageTracker sInstance = new NullUsageTracker(null, null);
 
     private final AnalyticsSettings mAnalyticsSettings;
@@ -96,6 +100,7 @@ public abstract class UsageTracker implements AutoCloseable {
 
     /** Logs usage data provided in the @{link AndroidStudioStats.AndroidStudioEvent}. */
     public void log(@NonNull AndroidStudioStats.AndroidStudioEvent.Builder studioEvent) {
+        studioEvent.setStudioSessionId(sSessionId);
         logDetails(
                 ClientAnalytics.LogEvent.newBuilder()
                         .setEventTimeMs(new Date().getTime())

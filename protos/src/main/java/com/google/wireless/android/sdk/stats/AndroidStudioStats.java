@@ -808,6 +808,32 @@ public final class AndroidStudioStats {
      * </pre>
      */
     com.google.wireless.android.sdk.stats.AndroidStudioStats.GfxTracingDetailsOrBuilder getGfxTracingDetailsOrBuilder();
+
+    // optional .android_studio.TestRecorderDetails test_recorder_details = 33;
+    /**
+     * <code>optional .android_studio.TestRecorderDetails test_recorder_details = 33;</code>
+     *
+     * <pre>
+     * set when kind = TEST_RECORDER_GENERATE_TEST_CLASS
+     * </pre>
+     */
+    boolean hasTestRecorderDetails();
+    /**
+     * <code>optional .android_studio.TestRecorderDetails test_recorder_details = 33;</code>
+     *
+     * <pre>
+     * set when kind = TEST_RECORDER_GENERATE_TEST_CLASS
+     * </pre>
+     */
+    com.google.wireless.android.sdk.stats.AndroidStudioStats.TestRecorderDetails getTestRecorderDetails();
+    /**
+     * <code>optional .android_studio.TestRecorderDetails test_recorder_details = 33;</code>
+     *
+     * <pre>
+     * set when kind = TEST_RECORDER_GENERATE_TEST_CLASS
+     * </pre>
+     */
+    com.google.wireless.android.sdk.stats.AndroidStudioStats.TestRecorderDetailsOrBuilder getTestRecorderDetailsOrBuilder();
   }
   /**
    * Protobuf type {@code android_studio.AndroidStudioEvent}
@@ -843,6 +869,7 @@ public final class AndroidStudioStats {
         throws com.google.protobuf.InvalidProtocolBufferException {
       initFields();
       int mutable_bitField0_ = 0;
+      int mutable_bitField1_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -1194,6 +1221,19 @@ public final class AndroidStudioStats {
               bitField0_ |= 0x80000000;
               break;
             }
+            case 266: {
+              com.google.wireless.android.sdk.stats.AndroidStudioStats.TestRecorderDetails.Builder subBuilder = null;
+              if (((bitField1_ & 0x00000001) == 0x00000001)) {
+                subBuilder = testRecorderDetails_.toBuilder();
+              }
+              testRecorderDetails_ = input.readMessage(com.google.wireless.android.sdk.stats.AndroidStudioStats.TestRecorderDetails.PARSER, extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(testRecorderDetails_);
+                testRecorderDetails_ = subBuilder.buildPartial();
+              }
+              bitField1_ |= 0x00000001;
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -1420,6 +1460,14 @@ public final class AndroidStudioStats {
        * </pre>
        */
       GPU_PROFILER(21, 21),
+      /**
+       * <code>TEST_RECORDER = 22;</code>
+       *
+       * <pre>
+       * the event is related to the test recorder (Cassette)
+       * </pre>
+       */
+      TEST_RECORDER(22, 22),
       ;
 
       /**
@@ -1600,6 +1648,14 @@ public final class AndroidStudioStats {
        * </pre>
        */
       public static final int GPU_PROFILER_VALUE = 21;
+      /**
+       * <code>TEST_RECORDER = 22;</code>
+       *
+       * <pre>
+       * the event is related to the test recorder (Cassette)
+       * </pre>
+       */
+      public static final int TEST_RECORDER_VALUE = 22;
 
 
       public final int getNumber() { return value; }
@@ -1628,6 +1684,7 @@ public final class AndroidStudioStats {
           case 19: return GRADLE;
           case 20: return FIREBASE_ASSISTANT;
           case 21: return GPU_PROFILER;
+          case 22: return TEST_RECORDER;
           default: return null;
         }
       }
@@ -2378,6 +2435,38 @@ public final class AndroidStudioStats {
        * </pre>
        */
       LEGACY_IDEA_ANDROID_PROJECT(88, 91),
+      /**
+       * <code>TEST_RECORDER_GENERATE_TEST_CLASS = 92;</code>
+       *
+       * <pre>
+       * The user requested the test recorder to generate a test class.
+       * </pre>
+       */
+      TEST_RECORDER_GENERATE_TEST_CLASS(89, 92),
+      /**
+       * <code>TEST_RECORDER_MISSING_ESPRESSO_DEPENDENCIES = 93;</code>
+       *
+       * <pre>
+       * The test recorder failed as the project is missing espresso dependencies.
+       * </pre>
+       */
+      TEST_RECORDER_MISSING_ESPRESSO_DEPENDENCIES(90, 93),
+      /**
+       * <code>TEST_RECORDER_MISSING_INSTRUMENTATION_TEST_FOLDER = 94;</code>
+       *
+       * <pre>
+       * The test recorder failed as the instrumentation test folder is missing.
+       * </pre>
+       */
+      TEST_RECORDER_MISSING_INSTRUMENTATION_TEST_FOLDER(91, 94),
+      /**
+       * <code>TEST_RECORDER_LAUNCH = 95;</code>
+       *
+       * <pre>
+       * The test recorder was launched.
+       * </pre>
+       */
+      TEST_RECORDER_LAUNCH(92, 95),
       ;
 
       /**
@@ -3069,6 +3158,38 @@ public final class AndroidStudioStats {
        * </pre>
        */
       public static final int LEGACY_IDEA_ANDROID_PROJECT_VALUE = 91;
+      /**
+       * <code>TEST_RECORDER_GENERATE_TEST_CLASS = 92;</code>
+       *
+       * <pre>
+       * The user requested the test recorder to generate a test class.
+       * </pre>
+       */
+      public static final int TEST_RECORDER_GENERATE_TEST_CLASS_VALUE = 92;
+      /**
+       * <code>TEST_RECORDER_MISSING_ESPRESSO_DEPENDENCIES = 93;</code>
+       *
+       * <pre>
+       * The test recorder failed as the project is missing espresso dependencies.
+       * </pre>
+       */
+      public static final int TEST_RECORDER_MISSING_ESPRESSO_DEPENDENCIES_VALUE = 93;
+      /**
+       * <code>TEST_RECORDER_MISSING_INSTRUMENTATION_TEST_FOLDER = 94;</code>
+       *
+       * <pre>
+       * The test recorder failed as the instrumentation test folder is missing.
+       * </pre>
+       */
+      public static final int TEST_RECORDER_MISSING_INSTRUMENTATION_TEST_FOLDER_VALUE = 94;
+      /**
+       * <code>TEST_RECORDER_LAUNCH = 95;</code>
+       *
+       * <pre>
+       * The test recorder was launched.
+       * </pre>
+       */
+      public static final int TEST_RECORDER_LAUNCH_VALUE = 95;
 
 
       public final int getNumber() { return value; }
@@ -3164,6 +3285,10 @@ public final class AndroidStudioStats {
           case 89: return GFX_TRACE_MEMORY_VIEWED;
           case 90: return GFX_TRACE_TEXTURE_VIEWED;
           case 91: return LEGACY_IDEA_ANDROID_PROJECT;
+          case 92: return TEST_RECORDER_GENERATE_TEST_CLASS;
+          case 93: return TEST_RECORDER_MISSING_ESPRESSO_DEPENDENCIES;
+          case 94: return TEST_RECORDER_MISSING_INSTRUMENTATION_TEST_FOLDER;
+          case 95: return TEST_RECORDER_LAUNCH;
           default: return null;
         }
       }
@@ -4467,6 +4592,7 @@ public final class AndroidStudioStats {
     }
 
     private int bitField0_;
+    private int bitField1_;
     // optional .android_studio.AndroidStudioEvent.EventCategory category = 1;
     public static final int CATEGORY_FIELD_NUMBER = 1;
     private com.google.wireless.android.sdk.stats.AndroidStudioStats.AndroidStudioEvent.EventCategory category_;
@@ -5619,6 +5745,40 @@ public final class AndroidStudioStats {
       return gfxTracingDetails_;
     }
 
+    // optional .android_studio.TestRecorderDetails test_recorder_details = 33;
+    public static final int TEST_RECORDER_DETAILS_FIELD_NUMBER = 33;
+    private com.google.wireless.android.sdk.stats.AndroidStudioStats.TestRecorderDetails testRecorderDetails_;
+    /**
+     * <code>optional .android_studio.TestRecorderDetails test_recorder_details = 33;</code>
+     *
+     * <pre>
+     * set when kind = TEST_RECORDER_GENERATE_TEST_CLASS
+     * </pre>
+     */
+    public boolean hasTestRecorderDetails() {
+      return ((bitField1_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>optional .android_studio.TestRecorderDetails test_recorder_details = 33;</code>
+     *
+     * <pre>
+     * set when kind = TEST_RECORDER_GENERATE_TEST_CLASS
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.AndroidStudioStats.TestRecorderDetails getTestRecorderDetails() {
+      return testRecorderDetails_;
+    }
+    /**
+     * <code>optional .android_studio.TestRecorderDetails test_recorder_details = 33;</code>
+     *
+     * <pre>
+     * set when kind = TEST_RECORDER_GENERATE_TEST_CLASS
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.AndroidStudioStats.TestRecorderDetailsOrBuilder getTestRecorderDetailsOrBuilder() {
+      return testRecorderDetails_;
+    }
+
     private void initFields() {
       category_ = com.google.wireless.android.sdk.stats.AndroidStudioStats.AndroidStudioEvent.EventCategory.NO_EVENT_CATEGORY;
       kind_ = com.google.wireless.android.sdk.stats.AndroidStudioStats.AndroidStudioEvent.EventKind.UNKNOWN_EVENT_KIND;
@@ -5652,6 +5812,7 @@ public final class AndroidStudioStats {
       firebaseErrorDetails_ = com.google.wireless.android.sdk.stats.AndroidStudioStats.FirebaseErrorDetails.getDefaultInstance();
       projectId_ = "";
       gfxTracingDetails_ = com.google.wireless.android.sdk.stats.AndroidStudioStats.GfxTracingDetails.getDefaultInstance();
+      testRecorderDetails_ = com.google.wireless.android.sdk.stats.AndroidStudioStats.TestRecorderDetails.getDefaultInstance();
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -5760,6 +5921,9 @@ public final class AndroidStudioStats {
       }
       if (((bitField0_ & 0x80000000) == 0x80000000)) {
         output.writeMessage(32, gfxTracingDetails_);
+      }
+      if (((bitField1_ & 0x00000001) == 0x00000001)) {
+        output.writeMessage(33, testRecorderDetails_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -5898,6 +6062,10 @@ public final class AndroidStudioStats {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(32, gfxTracingDetails_);
       }
+      if (((bitField1_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(33, testRecorderDetails_);
+      }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
       return size;
@@ -6021,6 +6189,7 @@ public final class AndroidStudioStats {
           getLldbFrontendDetailsFieldBuilder();
           getFirebaseErrorDetailsFieldBuilder();
           getGfxTracingDetailsFieldBuilder();
+          getTestRecorderDetailsFieldBuilder();
         }
       }
       private static Builder create() {
@@ -6153,6 +6322,12 @@ public final class AndroidStudioStats {
           gfxTracingDetailsBuilder_.clear();
         }
         bitField0_ = (bitField0_ & ~0x80000000);
+        if (testRecorderDetailsBuilder_ == null) {
+          testRecorderDetails_ = com.google.wireless.android.sdk.stats.AndroidStudioStats.TestRecorderDetails.getDefaultInstance();
+        } else {
+          testRecorderDetailsBuilder_.clear();
+        }
+        bitField1_ = (bitField1_ & ~0x00000001);
         return this;
       }
 
@@ -6180,7 +6355,9 @@ public final class AndroidStudioStats {
       public com.google.wireless.android.sdk.stats.AndroidStudioStats.AndroidStudioEvent buildPartial() {
         com.google.wireless.android.sdk.stats.AndroidStudioStats.AndroidStudioEvent result = new com.google.wireless.android.sdk.stats.AndroidStudioStats.AndroidStudioEvent(this);
         int from_bitField0_ = bitField0_;
+        int from_bitField1_ = bitField1_;
         int to_bitField0_ = 0;
+        int to_bitField1_ = 0;
         if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
           to_bitField0_ |= 0x00000001;
         }
@@ -6369,7 +6546,16 @@ public final class AndroidStudioStats {
         } else {
           result.gfxTracingDetails_ = gfxTracingDetailsBuilder_.build();
         }
+        if (((from_bitField1_ & 0x00000001) == 0x00000001)) {
+          to_bitField1_ |= 0x00000001;
+        }
+        if (testRecorderDetailsBuilder_ == null) {
+          result.testRecorderDetails_ = testRecorderDetails_;
+        } else {
+          result.testRecorderDetails_ = testRecorderDetailsBuilder_.build();
+        }
         result.bitField0_ = to_bitField0_;
+        result.bitField1_ = to_bitField1_;
         onBuilt();
         return result;
       }
@@ -6493,6 +6679,9 @@ public final class AndroidStudioStats {
         if (other.hasGfxTracingDetails()) {
           mergeGfxTracingDetails(other.getGfxTracingDetails());
         }
+        if (other.hasTestRecorderDetails()) {
+          mergeTestRecorderDetails(other.getTestRecorderDetails());
+        }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
@@ -6519,6 +6708,7 @@ public final class AndroidStudioStats {
         return this;
       }
       private int bitField0_;
+      private int bitField1_;
 
       // optional .android_studio.AndroidStudioEvent.EventCategory category = 1;
       private com.google.wireless.android.sdk.stats.AndroidStudioStats.AndroidStudioEvent.EventCategory category_ = com.google.wireless.android.sdk.stats.AndroidStudioStats.AndroidStudioEvent.EventCategory.NO_EVENT_CATEGORY;
@@ -10093,6 +10283,159 @@ public final class AndroidStudioStats {
           gfxTracingDetails_ = null;
         }
         return gfxTracingDetailsBuilder_;
+      }
+
+      // optional .android_studio.TestRecorderDetails test_recorder_details = 33;
+      private com.google.wireless.android.sdk.stats.AndroidStudioStats.TestRecorderDetails testRecorderDetails_ = com.google.wireless.android.sdk.stats.AndroidStudioStats.TestRecorderDetails.getDefaultInstance();
+      private com.google.protobuf.SingleFieldBuilder<
+          com.google.wireless.android.sdk.stats.AndroidStudioStats.TestRecorderDetails, com.google.wireless.android.sdk.stats.AndroidStudioStats.TestRecorderDetails.Builder, com.google.wireless.android.sdk.stats.AndroidStudioStats.TestRecorderDetailsOrBuilder> testRecorderDetailsBuilder_;
+      /**
+       * <code>optional .android_studio.TestRecorderDetails test_recorder_details = 33;</code>
+       *
+       * <pre>
+       * set when kind = TEST_RECORDER_GENERATE_TEST_CLASS
+       * </pre>
+       */
+      public boolean hasTestRecorderDetails() {
+        return ((bitField1_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>optional .android_studio.TestRecorderDetails test_recorder_details = 33;</code>
+       *
+       * <pre>
+       * set when kind = TEST_RECORDER_GENERATE_TEST_CLASS
+       * </pre>
+       */
+      public com.google.wireless.android.sdk.stats.AndroidStudioStats.TestRecorderDetails getTestRecorderDetails() {
+        if (testRecorderDetailsBuilder_ == null) {
+          return testRecorderDetails_;
+        } else {
+          return testRecorderDetailsBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>optional .android_studio.TestRecorderDetails test_recorder_details = 33;</code>
+       *
+       * <pre>
+       * set when kind = TEST_RECORDER_GENERATE_TEST_CLASS
+       * </pre>
+       */
+      public Builder setTestRecorderDetails(com.google.wireless.android.sdk.stats.AndroidStudioStats.TestRecorderDetails value) {
+        if (testRecorderDetailsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          testRecorderDetails_ = value;
+          onChanged();
+        } else {
+          testRecorderDetailsBuilder_.setMessage(value);
+        }
+        bitField1_ |= 0x00000001;
+        return this;
+      }
+      /**
+       * <code>optional .android_studio.TestRecorderDetails test_recorder_details = 33;</code>
+       *
+       * <pre>
+       * set when kind = TEST_RECORDER_GENERATE_TEST_CLASS
+       * </pre>
+       */
+      public Builder setTestRecorderDetails(
+          com.google.wireless.android.sdk.stats.AndroidStudioStats.TestRecorderDetails.Builder builderForValue) {
+        if (testRecorderDetailsBuilder_ == null) {
+          testRecorderDetails_ = builderForValue.build();
+          onChanged();
+        } else {
+          testRecorderDetailsBuilder_.setMessage(builderForValue.build());
+        }
+        bitField1_ |= 0x00000001;
+        return this;
+      }
+      /**
+       * <code>optional .android_studio.TestRecorderDetails test_recorder_details = 33;</code>
+       *
+       * <pre>
+       * set when kind = TEST_RECORDER_GENERATE_TEST_CLASS
+       * </pre>
+       */
+      public Builder mergeTestRecorderDetails(com.google.wireless.android.sdk.stats.AndroidStudioStats.TestRecorderDetails value) {
+        if (testRecorderDetailsBuilder_ == null) {
+          if (((bitField1_ & 0x00000001) == 0x00000001) &&
+              testRecorderDetails_ != com.google.wireless.android.sdk.stats.AndroidStudioStats.TestRecorderDetails.getDefaultInstance()) {
+            testRecorderDetails_ =
+              com.google.wireless.android.sdk.stats.AndroidStudioStats.TestRecorderDetails.newBuilder(testRecorderDetails_).mergeFrom(value).buildPartial();
+          } else {
+            testRecorderDetails_ = value;
+          }
+          onChanged();
+        } else {
+          testRecorderDetailsBuilder_.mergeFrom(value);
+        }
+        bitField1_ |= 0x00000001;
+        return this;
+      }
+      /**
+       * <code>optional .android_studio.TestRecorderDetails test_recorder_details = 33;</code>
+       *
+       * <pre>
+       * set when kind = TEST_RECORDER_GENERATE_TEST_CLASS
+       * </pre>
+       */
+      public Builder clearTestRecorderDetails() {
+        if (testRecorderDetailsBuilder_ == null) {
+          testRecorderDetails_ = com.google.wireless.android.sdk.stats.AndroidStudioStats.TestRecorderDetails.getDefaultInstance();
+          onChanged();
+        } else {
+          testRecorderDetailsBuilder_.clear();
+        }
+        bitField1_ = (bitField1_ & ~0x00000001);
+        return this;
+      }
+      /**
+       * <code>optional .android_studio.TestRecorderDetails test_recorder_details = 33;</code>
+       *
+       * <pre>
+       * set when kind = TEST_RECORDER_GENERATE_TEST_CLASS
+       * </pre>
+       */
+      public com.google.wireless.android.sdk.stats.AndroidStudioStats.TestRecorderDetails.Builder getTestRecorderDetailsBuilder() {
+        bitField1_ |= 0x00000001;
+        onChanged();
+        return getTestRecorderDetailsFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>optional .android_studio.TestRecorderDetails test_recorder_details = 33;</code>
+       *
+       * <pre>
+       * set when kind = TEST_RECORDER_GENERATE_TEST_CLASS
+       * </pre>
+       */
+      public com.google.wireless.android.sdk.stats.AndroidStudioStats.TestRecorderDetailsOrBuilder getTestRecorderDetailsOrBuilder() {
+        if (testRecorderDetailsBuilder_ != null) {
+          return testRecorderDetailsBuilder_.getMessageOrBuilder();
+        } else {
+          return testRecorderDetails_;
+        }
+      }
+      /**
+       * <code>optional .android_studio.TestRecorderDetails test_recorder_details = 33;</code>
+       *
+       * <pre>
+       * set when kind = TEST_RECORDER_GENERATE_TEST_CLASS
+       * </pre>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          com.google.wireless.android.sdk.stats.AndroidStudioStats.TestRecorderDetails, com.google.wireless.android.sdk.stats.AndroidStudioStats.TestRecorderDetails.Builder, com.google.wireless.android.sdk.stats.AndroidStudioStats.TestRecorderDetailsOrBuilder> 
+          getTestRecorderDetailsFieldBuilder() {
+        if (testRecorderDetailsBuilder_ == null) {
+          testRecorderDetailsBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              com.google.wireless.android.sdk.stats.AndroidStudioStats.TestRecorderDetails, com.google.wireless.android.sdk.stats.AndroidStudioStats.TestRecorderDetails.Builder, com.google.wireless.android.sdk.stats.AndroidStudioStats.TestRecorderDetailsOrBuilder>(
+                  testRecorderDetails_,
+                  getParentForChildren(),
+                  isClean());
+          testRecorderDetails_ = null;
+        }
+        return testRecorderDetailsBuilder_;
       }
 
       // @@protoc_insertion_point(builder_scope:android_studio.AndroidStudioEvent)
@@ -25564,6 +25907,24 @@ public final class AndroidStudioStats {
      * </pre>
      */
     long getFlavorDimension();
+
+    // optional int64 signing_config_count = 7;
+    /**
+     * <code>optional int64 signing_config_count = 7;</code>
+     *
+     * <pre>
+     * Number of signing configurations for this module.
+     * </pre>
+     */
+    boolean hasSigningConfigCount();
+    /**
+     * <code>optional int64 signing_config_count = 7;</code>
+     *
+     * <pre>
+     * Number of signing configurations for this module.
+     * </pre>
+     */
+    long getSigningConfigCount();
   }
   /**
    * Protobuf type {@code android_studio.GradleAndroidModule}
@@ -25648,6 +26009,11 @@ public final class AndroidStudioStats {
             case 48: {
               bitField0_ |= 0x00000020;
               flavorDimension_ = input.readInt64();
+              break;
+            }
+            case 56: {
+              bitField0_ |= 0x00000040;
+              signingConfigCount_ = input.readInt64();
               break;
             }
           }
@@ -25905,6 +26271,30 @@ public final class AndroidStudioStats {
       return flavorDimension_;
     }
 
+    // optional int64 signing_config_count = 7;
+    public static final int SIGNING_CONFIG_COUNT_FIELD_NUMBER = 7;
+    private long signingConfigCount_;
+    /**
+     * <code>optional int64 signing_config_count = 7;</code>
+     *
+     * <pre>
+     * Number of signing configurations for this module.
+     * </pre>
+     */
+    public boolean hasSigningConfigCount() {
+      return ((bitField0_ & 0x00000040) == 0x00000040);
+    }
+    /**
+     * <code>optional int64 signing_config_count = 7;</code>
+     *
+     * <pre>
+     * Number of signing configurations for this module.
+     * </pre>
+     */
+    public long getSigningConfigCount() {
+      return signingConfigCount_;
+    }
+
     private void initFields() {
       appId_ = "";
       moduleName_ = "";
@@ -25912,6 +26302,7 @@ public final class AndroidStudioStats {
       buildTypeCount_ = 0L;
       flavorCount_ = 0L;
       flavorDimension_ = 0L;
+      signingConfigCount_ = 0L;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -25942,6 +26333,9 @@ public final class AndroidStudioStats {
       }
       if (((bitField0_ & 0x00000020) == 0x00000020)) {
         output.writeInt64(6, flavorDimension_);
+      }
+      if (((bitField0_ & 0x00000040) == 0x00000040)) {
+        output.writeInt64(7, signingConfigCount_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -25975,6 +26369,10 @@ public final class AndroidStudioStats {
       if (((bitField0_ & 0x00000020) == 0x00000020)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt64Size(6, flavorDimension_);
+      }
+      if (((bitField0_ & 0x00000040) == 0x00000040)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt64Size(7, signingConfigCount_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -26108,6 +26506,8 @@ public final class AndroidStudioStats {
         bitField0_ = (bitField0_ & ~0x00000010);
         flavorDimension_ = 0L;
         bitField0_ = (bitField0_ & ~0x00000020);
+        signingConfigCount_ = 0L;
+        bitField0_ = (bitField0_ & ~0x00000040);
         return this;
       }
 
@@ -26160,6 +26560,10 @@ public final class AndroidStudioStats {
           to_bitField0_ |= 0x00000020;
         }
         result.flavorDimension_ = flavorDimension_;
+        if (((from_bitField0_ & 0x00000040) == 0x00000040)) {
+          to_bitField0_ |= 0x00000040;
+        }
+        result.signingConfigCount_ = signingConfigCount_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -26197,6 +26601,9 @@ public final class AndroidStudioStats {
         }
         if (other.hasFlavorDimension()) {
           setFlavorDimension(other.getFlavorDimension());
+        }
+        if (other.hasSigningConfigCount()) {
+          setSigningConfigCount(other.getSigningConfigCount());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -26635,6 +27042,55 @@ public final class AndroidStudioStats {
         return this;
       }
 
+      // optional int64 signing_config_count = 7;
+      private long signingConfigCount_ ;
+      /**
+       * <code>optional int64 signing_config_count = 7;</code>
+       *
+       * <pre>
+       * Number of signing configurations for this module.
+       * </pre>
+       */
+      public boolean hasSigningConfigCount() {
+        return ((bitField0_ & 0x00000040) == 0x00000040);
+      }
+      /**
+       * <code>optional int64 signing_config_count = 7;</code>
+       *
+       * <pre>
+       * Number of signing configurations for this module.
+       * </pre>
+       */
+      public long getSigningConfigCount() {
+        return signingConfigCount_;
+      }
+      /**
+       * <code>optional int64 signing_config_count = 7;</code>
+       *
+       * <pre>
+       * Number of signing configurations for this module.
+       * </pre>
+       */
+      public Builder setSigningConfigCount(long value) {
+        bitField0_ |= 0x00000040;
+        signingConfigCount_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int64 signing_config_count = 7;</code>
+       *
+       * <pre>
+       * Number of signing configurations for this module.
+       * </pre>
+       */
+      public Builder clearSigningConfigCount() {
+        bitField0_ = (bitField0_ & ~0x00000040);
+        signingConfigCount_ = 0L;
+        onChanged();
+        return this;
+      }
+
       // @@protoc_insertion_point(builder_scope:android_studio.GradleAndroidModule)
     }
 
@@ -26855,13 +27311,17 @@ public final class AndroidStudioStats {
     public enum NativeBuildSystemType
         implements com.google.protobuf.ProtocolMessageEnum {
       /**
+       * <code>UNKNOWN_NATIVE_BUILD_SYSTEM_TYPE = 0;</code>
+       */
+      UNKNOWN_NATIVE_BUILD_SYSTEM_TYPE(0, 0),
+      /**
        * <code>GRADLE_EXPERIMENTAL = 1;</code>
        *
        * <pre>
        * The Gradle epxerimental plugin
        * </pre>
        */
-      GRADLE_EXPERIMENTAL(0, 1),
+      GRADLE_EXPERIMENTAL(1, 1),
       /**
        * <code>NDK_COMPILE = 2;</code>
        *
@@ -26869,7 +27329,7 @@ public final class AndroidStudioStats {
        * The compilation part of NDK builds (Android's native build system).
        * </pre>
        */
-      NDK_COMPILE(1, 2),
+      NDK_COMPILE(2, 2),
       /**
        * <code>NDK_BUILD = 3;</code>
        *
@@ -26877,7 +27337,7 @@ public final class AndroidStudioStats {
        * full NDK builds (Android's native build system).
        * </pre>
        */
-      NDK_BUILD(2, 3),
+      NDK_BUILD(3, 3),
       /**
        * <code>CMAKE = 4;</code>
        *
@@ -26885,9 +27345,13 @@ public final class AndroidStudioStats {
        * CMake is a very common C++ build system.
        * </pre>
        */
-      CMAKE(3, 4),
+      CMAKE(4, 4),
       ;
 
+      /**
+       * <code>UNKNOWN_NATIVE_BUILD_SYSTEM_TYPE = 0;</code>
+       */
+      public static final int UNKNOWN_NATIVE_BUILD_SYSTEM_TYPE_VALUE = 0;
       /**
        * <code>GRADLE_EXPERIMENTAL = 1;</code>
        *
@@ -26926,6 +27390,7 @@ public final class AndroidStudioStats {
 
       public static NativeBuildSystemType valueOf(int value) {
         switch (value) {
+          case 0: return UNKNOWN_NATIVE_BUILD_SYSTEM_TYPE;
           case 1: return GRADLE_EXPERIMENTAL;
           case 2: return NDK_COMPILE;
           case 3: return NDK_BUILD;
@@ -27128,7 +27593,7 @@ public final class AndroidStudioStats {
     private void initFields() {
       appId_ = "";
       moduleName_ = "";
-      buildSystemType_ = com.google.wireless.android.sdk.stats.AndroidStudioStats.GradleNativeAndroidModule.NativeBuildSystemType.GRADLE_EXPERIMENTAL;
+      buildSystemType_ = com.google.wireless.android.sdk.stats.AndroidStudioStats.GradleNativeAndroidModule.NativeBuildSystemType.UNKNOWN_NATIVE_BUILD_SYSTEM_TYPE;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -27296,7 +27761,7 @@ public final class AndroidStudioStats {
         bitField0_ = (bitField0_ & ~0x00000001);
         moduleName_ = "";
         bitField0_ = (bitField0_ & ~0x00000002);
-        buildSystemType_ = com.google.wireless.android.sdk.stats.AndroidStudioStats.GradleNativeAndroidModule.NativeBuildSystemType.GRADLE_EXPERIMENTAL;
+        buildSystemType_ = com.google.wireless.android.sdk.stats.AndroidStudioStats.GradleNativeAndroidModule.NativeBuildSystemType.UNKNOWN_NATIVE_BUILD_SYSTEM_TYPE;
         bitField0_ = (bitField0_ & ~0x00000004);
         return this;
       }
@@ -27609,7 +28074,7 @@ public final class AndroidStudioStats {
       }
 
       // optional .android_studio.GradleNativeAndroidModule.NativeBuildSystemType build_system_type = 3;
-      private com.google.wireless.android.sdk.stats.AndroidStudioStats.GradleNativeAndroidModule.NativeBuildSystemType buildSystemType_ = com.google.wireless.android.sdk.stats.AndroidStudioStats.GradleNativeAndroidModule.NativeBuildSystemType.GRADLE_EXPERIMENTAL;
+      private com.google.wireless.android.sdk.stats.AndroidStudioStats.GradleNativeAndroidModule.NativeBuildSystemType buildSystemType_ = com.google.wireless.android.sdk.stats.AndroidStudioStats.GradleNativeAndroidModule.NativeBuildSystemType.UNKNOWN_NATIVE_BUILD_SYSTEM_TYPE;
       /**
        * <code>optional .android_studio.GradleNativeAndroidModule.NativeBuildSystemType build_system_type = 3;</code>
        *
@@ -27655,7 +28120,7 @@ public final class AndroidStudioStats {
        */
       public Builder clearBuildSystemType() {
         bitField0_ = (bitField0_ & ~0x00000004);
-        buildSystemType_ = com.google.wireless.android.sdk.stats.AndroidStudioStats.GradleNativeAndroidModule.NativeBuildSystemType.GRADLE_EXPERIMENTAL;
+        buildSystemType_ = com.google.wireless.android.sdk.stats.AndroidStudioStats.GradleNativeAndroidModule.NativeBuildSystemType.UNKNOWN_NATIVE_BUILD_SYSTEM_TYPE;
         onChanged();
         return this;
       }
@@ -50980,6 +51445,108 @@ public final class AndroidStudioStats {
      */
     com.google.protobuf.ByteString
         getErrorMessageBytes();
+
+    // optional string trace_path = 4;
+    /**
+     * <code>optional string trace_path = 4;</code>
+     *
+     * <pre>
+     * A path describing the kind of details from the trace. This is a mix
+     *  of class names (of our code) and random ids generated for the trace.
+     *  e.g. 'Capture(7c6e72eebe2e6d76751b0328971e7fb29ceed82b).Atoms[6307].' +
+     *       'Resource&lt;e1b2a028ce62a97b235172963ddee35f386c6940&gt;.' +
+     *       'Thumbnail&lt;RGBA,100x100&gt;.As&lt;RGBA&gt;'
+     * </pre>
+     */
+    boolean hasTracePath();
+    /**
+     * <code>optional string trace_path = 4;</code>
+     *
+     * <pre>
+     * A path describing the kind of details from the trace. This is a mix
+     *  of class names (of our code) and random ids generated for the trace.
+     *  e.g. 'Capture(7c6e72eebe2e6d76751b0328971e7fb29ceed82b).Atoms[6307].' +
+     *       'Resource&lt;e1b2a028ce62a97b235172963ddee35f386c6940&gt;.' +
+     *       'Thumbnail&lt;RGBA,100x100&gt;.As&lt;RGBA&gt;'
+     * </pre>
+     */
+    java.lang.String getTracePath();
+    /**
+     * <code>optional string trace_path = 4;</code>
+     *
+     * <pre>
+     * A path describing the kind of details from the trace. This is a mix
+     *  of class names (of our code) and random ids generated for the trace.
+     *  e.g. 'Capture(7c6e72eebe2e6d76751b0328971e7fb29ceed82b).Atoms[6307].' +
+     *       'Resource&lt;e1b2a028ce62a97b235172963ddee35f386c6940&gt;.' +
+     *       'Thumbnail&lt;RGBA,100x100&gt;.As&lt;RGBA&gt;'
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getTracePathBytes();
+
+    // optional string image_format = 5;
+    /**
+     * <code>optional string image_format = 5;</code>
+     *
+     * <pre>
+     * the image format of the gpu image being traced. e.g. 'image/png'
+     * </pre>
+     */
+    boolean hasImageFormat();
+    /**
+     * <code>optional string image_format = 5;</code>
+     *
+     * <pre>
+     * the image format of the gpu image being traced. e.g. 'image/png'
+     * </pre>
+     */
+    java.lang.String getImageFormat();
+    /**
+     * <code>optional string image_format = 5;</code>
+     *
+     * <pre>
+     * the image format of the gpu image being traced. e.g. 'image/png'
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getImageFormatBytes();
+
+    // optional int64 image_width = 6;
+    /**
+     * <code>optional int64 image_width = 6;</code>
+     *
+     * <pre>
+     * the width of the image being traced.
+     * </pre>
+     */
+    boolean hasImageWidth();
+    /**
+     * <code>optional int64 image_width = 6;</code>
+     *
+     * <pre>
+     * the width of the image being traced.
+     * </pre>
+     */
+    long getImageWidth();
+
+    // optional int64 image_height = 7;
+    /**
+     * <code>optional int64 image_height = 7;</code>
+     *
+     * <pre>
+     * the height of the image being traced.
+     * </pre>
+     */
+    boolean hasImageHeight();
+    /**
+     * <code>optional int64 image_height = 7;</code>
+     *
+     * <pre>
+     * the height of the image being traced.
+     * </pre>
+     */
+    long getImageHeight();
   }
   /**
    * Protobuf type {@code android_studio.GfxTracingDetails}
@@ -51049,6 +51616,26 @@ public final class AndroidStudioStats {
             case 26: {
               bitField0_ |= 0x00000004;
               errorMessage_ = input.readBytes();
+              break;
+            }
+            case 34: {
+              bitField0_ |= 0x00000008;
+              tracePath_ = input.readBytes();
+              break;
+            }
+            case 42: {
+              bitField0_ |= 0x00000010;
+              imageFormat_ = input.readBytes();
+              break;
+            }
+            case 48: {
+              bitField0_ |= 0x00000020;
+              imageWidth_ = input.readInt64();
+              break;
+            }
+            case 56: {
+              bitField0_ |= 0x00000040;
+              imageHeight_ = input.readInt64();
               break;
             }
           }
@@ -51225,10 +51812,184 @@ public final class AndroidStudioStats {
       }
     }
 
+    // optional string trace_path = 4;
+    public static final int TRACE_PATH_FIELD_NUMBER = 4;
+    private java.lang.Object tracePath_;
+    /**
+     * <code>optional string trace_path = 4;</code>
+     *
+     * <pre>
+     * A path describing the kind of details from the trace. This is a mix
+     *  of class names (of our code) and random ids generated for the trace.
+     *  e.g. 'Capture(7c6e72eebe2e6d76751b0328971e7fb29ceed82b).Atoms[6307].' +
+     *       'Resource&lt;e1b2a028ce62a97b235172963ddee35f386c6940&gt;.' +
+     *       'Thumbnail&lt;RGBA,100x100&gt;.As&lt;RGBA&gt;'
+     * </pre>
+     */
+    public boolean hasTracePath() {
+      return ((bitField0_ & 0x00000008) == 0x00000008);
+    }
+    /**
+     * <code>optional string trace_path = 4;</code>
+     *
+     * <pre>
+     * A path describing the kind of details from the trace. This is a mix
+     *  of class names (of our code) and random ids generated for the trace.
+     *  e.g. 'Capture(7c6e72eebe2e6d76751b0328971e7fb29ceed82b).Atoms[6307].' +
+     *       'Resource&lt;e1b2a028ce62a97b235172963ddee35f386c6940&gt;.' +
+     *       'Thumbnail&lt;RGBA,100x100&gt;.As&lt;RGBA&gt;'
+     * </pre>
+     */
+    public java.lang.String getTracePath() {
+      java.lang.Object ref = tracePath_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          tracePath_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string trace_path = 4;</code>
+     *
+     * <pre>
+     * A path describing the kind of details from the trace. This is a mix
+     *  of class names (of our code) and random ids generated for the trace.
+     *  e.g. 'Capture(7c6e72eebe2e6d76751b0328971e7fb29ceed82b).Atoms[6307].' +
+     *       'Resource&lt;e1b2a028ce62a97b235172963ddee35f386c6940&gt;.' +
+     *       'Thumbnail&lt;RGBA,100x100&gt;.As&lt;RGBA&gt;'
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getTracePathBytes() {
+      java.lang.Object ref = tracePath_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        tracePath_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    // optional string image_format = 5;
+    public static final int IMAGE_FORMAT_FIELD_NUMBER = 5;
+    private java.lang.Object imageFormat_;
+    /**
+     * <code>optional string image_format = 5;</code>
+     *
+     * <pre>
+     * the image format of the gpu image being traced. e.g. 'image/png'
+     * </pre>
+     */
+    public boolean hasImageFormat() {
+      return ((bitField0_ & 0x00000010) == 0x00000010);
+    }
+    /**
+     * <code>optional string image_format = 5;</code>
+     *
+     * <pre>
+     * the image format of the gpu image being traced. e.g. 'image/png'
+     * </pre>
+     */
+    public java.lang.String getImageFormat() {
+      java.lang.Object ref = imageFormat_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          imageFormat_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string image_format = 5;</code>
+     *
+     * <pre>
+     * the image format of the gpu image being traced. e.g. 'image/png'
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getImageFormatBytes() {
+      java.lang.Object ref = imageFormat_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        imageFormat_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    // optional int64 image_width = 6;
+    public static final int IMAGE_WIDTH_FIELD_NUMBER = 6;
+    private long imageWidth_;
+    /**
+     * <code>optional int64 image_width = 6;</code>
+     *
+     * <pre>
+     * the width of the image being traced.
+     * </pre>
+     */
+    public boolean hasImageWidth() {
+      return ((bitField0_ & 0x00000020) == 0x00000020);
+    }
+    /**
+     * <code>optional int64 image_width = 6;</code>
+     *
+     * <pre>
+     * the width of the image being traced.
+     * </pre>
+     */
+    public long getImageWidth() {
+      return imageWidth_;
+    }
+
+    // optional int64 image_height = 7;
+    public static final int IMAGE_HEIGHT_FIELD_NUMBER = 7;
+    private long imageHeight_;
+    /**
+     * <code>optional int64 image_height = 7;</code>
+     *
+     * <pre>
+     * the height of the image being traced.
+     * </pre>
+     */
+    public boolean hasImageHeight() {
+      return ((bitField0_ & 0x00000040) == 0x00000040);
+    }
+    /**
+     * <code>optional int64 image_height = 7;</code>
+     *
+     * <pre>
+     * the height of the image being traced.
+     * </pre>
+     */
+    public long getImageHeight() {
+      return imageHeight_;
+    }
+
     private void initFields() {
       totalTime_ = 0L;
       command_ = "";
       errorMessage_ = "";
+      tracePath_ = "";
+      imageFormat_ = "";
+      imageWidth_ = 0L;
+      imageHeight_ = 0L;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -51251,6 +52012,18 @@ public final class AndroidStudioStats {
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         output.writeBytes(3, getErrorMessageBytes());
       }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        output.writeBytes(4, getTracePathBytes());
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        output.writeBytes(5, getImageFormatBytes());
+      }
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+        output.writeInt64(6, imageWidth_);
+      }
+      if (((bitField0_ & 0x00000040) == 0x00000040)) {
+        output.writeInt64(7, imageHeight_);
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -51271,6 +52044,22 @@ public final class AndroidStudioStats {
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBytesSize(3, getErrorMessageBytes());
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(4, getTracePathBytes());
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(5, getImageFormatBytes());
+      }
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt64Size(6, imageWidth_);
+      }
+      if (((bitField0_ & 0x00000040) == 0x00000040)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt64Size(7, imageHeight_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -51398,6 +52187,14 @@ public final class AndroidStudioStats {
         bitField0_ = (bitField0_ & ~0x00000002);
         errorMessage_ = "";
         bitField0_ = (bitField0_ & ~0x00000004);
+        tracePath_ = "";
+        bitField0_ = (bitField0_ & ~0x00000008);
+        imageFormat_ = "";
+        bitField0_ = (bitField0_ & ~0x00000010);
+        imageWidth_ = 0L;
+        bitField0_ = (bitField0_ & ~0x00000020);
+        imageHeight_ = 0L;
+        bitField0_ = (bitField0_ & ~0x00000040);
         return this;
       }
 
@@ -51438,6 +52235,22 @@ public final class AndroidStudioStats {
           to_bitField0_ |= 0x00000004;
         }
         result.errorMessage_ = errorMessage_;
+        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+          to_bitField0_ |= 0x00000008;
+        }
+        result.tracePath_ = tracePath_;
+        if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
+          to_bitField0_ |= 0x00000010;
+        }
+        result.imageFormat_ = imageFormat_;
+        if (((from_bitField0_ & 0x00000020) == 0x00000020)) {
+          to_bitField0_ |= 0x00000020;
+        }
+        result.imageWidth_ = imageWidth_;
+        if (((from_bitField0_ & 0x00000040) == 0x00000040)) {
+          to_bitField0_ |= 0x00000040;
+        }
+        result.imageHeight_ = imageHeight_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -51466,6 +52279,22 @@ public final class AndroidStudioStats {
           bitField0_ |= 0x00000004;
           errorMessage_ = other.errorMessage_;
           onChanged();
+        }
+        if (other.hasTracePath()) {
+          bitField0_ |= 0x00000008;
+          tracePath_ = other.tracePath_;
+          onChanged();
+        }
+        if (other.hasImageFormat()) {
+          bitField0_ |= 0x00000010;
+          imageFormat_ = other.imageFormat_;
+          onChanged();
+        }
+        if (other.hasImageWidth()) {
+          setImageWidth(other.getImageWidth());
+        }
+        if (other.hasImageHeight()) {
+          setImageHeight(other.getImageHeight());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -51739,6 +52568,324 @@ public final class AndroidStudioStats {
         return this;
       }
 
+      // optional string trace_path = 4;
+      private java.lang.Object tracePath_ = "";
+      /**
+       * <code>optional string trace_path = 4;</code>
+       *
+       * <pre>
+       * A path describing the kind of details from the trace. This is a mix
+       *  of class names (of our code) and random ids generated for the trace.
+       *  e.g. 'Capture(7c6e72eebe2e6d76751b0328971e7fb29ceed82b).Atoms[6307].' +
+       *       'Resource&lt;e1b2a028ce62a97b235172963ddee35f386c6940&gt;.' +
+       *       'Thumbnail&lt;RGBA,100x100&gt;.As&lt;RGBA&gt;'
+       * </pre>
+       */
+      public boolean hasTracePath() {
+        return ((bitField0_ & 0x00000008) == 0x00000008);
+      }
+      /**
+       * <code>optional string trace_path = 4;</code>
+       *
+       * <pre>
+       * A path describing the kind of details from the trace. This is a mix
+       *  of class names (of our code) and random ids generated for the trace.
+       *  e.g. 'Capture(7c6e72eebe2e6d76751b0328971e7fb29ceed82b).Atoms[6307].' +
+       *       'Resource&lt;e1b2a028ce62a97b235172963ddee35f386c6940&gt;.' +
+       *       'Thumbnail&lt;RGBA,100x100&gt;.As&lt;RGBA&gt;'
+       * </pre>
+       */
+      public java.lang.String getTracePath() {
+        java.lang.Object ref = tracePath_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          tracePath_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string trace_path = 4;</code>
+       *
+       * <pre>
+       * A path describing the kind of details from the trace. This is a mix
+       *  of class names (of our code) and random ids generated for the trace.
+       *  e.g. 'Capture(7c6e72eebe2e6d76751b0328971e7fb29ceed82b).Atoms[6307].' +
+       *       'Resource&lt;e1b2a028ce62a97b235172963ddee35f386c6940&gt;.' +
+       *       'Thumbnail&lt;RGBA,100x100&gt;.As&lt;RGBA&gt;'
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getTracePathBytes() {
+        java.lang.Object ref = tracePath_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          tracePath_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string trace_path = 4;</code>
+       *
+       * <pre>
+       * A path describing the kind of details from the trace. This is a mix
+       *  of class names (of our code) and random ids generated for the trace.
+       *  e.g. 'Capture(7c6e72eebe2e6d76751b0328971e7fb29ceed82b).Atoms[6307].' +
+       *       'Resource&lt;e1b2a028ce62a97b235172963ddee35f386c6940&gt;.' +
+       *       'Thumbnail&lt;RGBA,100x100&gt;.As&lt;RGBA&gt;'
+       * </pre>
+       */
+      public Builder setTracePath(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000008;
+        tracePath_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string trace_path = 4;</code>
+       *
+       * <pre>
+       * A path describing the kind of details from the trace. This is a mix
+       *  of class names (of our code) and random ids generated for the trace.
+       *  e.g. 'Capture(7c6e72eebe2e6d76751b0328971e7fb29ceed82b).Atoms[6307].' +
+       *       'Resource&lt;e1b2a028ce62a97b235172963ddee35f386c6940&gt;.' +
+       *       'Thumbnail&lt;RGBA,100x100&gt;.As&lt;RGBA&gt;'
+       * </pre>
+       */
+      public Builder clearTracePath() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        tracePath_ = getDefaultInstance().getTracePath();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string trace_path = 4;</code>
+       *
+       * <pre>
+       * A path describing the kind of details from the trace. This is a mix
+       *  of class names (of our code) and random ids generated for the trace.
+       *  e.g. 'Capture(7c6e72eebe2e6d76751b0328971e7fb29ceed82b).Atoms[6307].' +
+       *       'Resource&lt;e1b2a028ce62a97b235172963ddee35f386c6940&gt;.' +
+       *       'Thumbnail&lt;RGBA,100x100&gt;.As&lt;RGBA&gt;'
+       * </pre>
+       */
+      public Builder setTracePathBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000008;
+        tracePath_ = value;
+        onChanged();
+        return this;
+      }
+
+      // optional string image_format = 5;
+      private java.lang.Object imageFormat_ = "";
+      /**
+       * <code>optional string image_format = 5;</code>
+       *
+       * <pre>
+       * the image format of the gpu image being traced. e.g. 'image/png'
+       * </pre>
+       */
+      public boolean hasImageFormat() {
+        return ((bitField0_ & 0x00000010) == 0x00000010);
+      }
+      /**
+       * <code>optional string image_format = 5;</code>
+       *
+       * <pre>
+       * the image format of the gpu image being traced. e.g. 'image/png'
+       * </pre>
+       */
+      public java.lang.String getImageFormat() {
+        java.lang.Object ref = imageFormat_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          imageFormat_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string image_format = 5;</code>
+       *
+       * <pre>
+       * the image format of the gpu image being traced. e.g. 'image/png'
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getImageFormatBytes() {
+        java.lang.Object ref = imageFormat_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          imageFormat_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string image_format = 5;</code>
+       *
+       * <pre>
+       * the image format of the gpu image being traced. e.g. 'image/png'
+       * </pre>
+       */
+      public Builder setImageFormat(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000010;
+        imageFormat_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string image_format = 5;</code>
+       *
+       * <pre>
+       * the image format of the gpu image being traced. e.g. 'image/png'
+       * </pre>
+       */
+      public Builder clearImageFormat() {
+        bitField0_ = (bitField0_ & ~0x00000010);
+        imageFormat_ = getDefaultInstance().getImageFormat();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string image_format = 5;</code>
+       *
+       * <pre>
+       * the image format of the gpu image being traced. e.g. 'image/png'
+       * </pre>
+       */
+      public Builder setImageFormatBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000010;
+        imageFormat_ = value;
+        onChanged();
+        return this;
+      }
+
+      // optional int64 image_width = 6;
+      private long imageWidth_ ;
+      /**
+       * <code>optional int64 image_width = 6;</code>
+       *
+       * <pre>
+       * the width of the image being traced.
+       * </pre>
+       */
+      public boolean hasImageWidth() {
+        return ((bitField0_ & 0x00000020) == 0x00000020);
+      }
+      /**
+       * <code>optional int64 image_width = 6;</code>
+       *
+       * <pre>
+       * the width of the image being traced.
+       * </pre>
+       */
+      public long getImageWidth() {
+        return imageWidth_;
+      }
+      /**
+       * <code>optional int64 image_width = 6;</code>
+       *
+       * <pre>
+       * the width of the image being traced.
+       * </pre>
+       */
+      public Builder setImageWidth(long value) {
+        bitField0_ |= 0x00000020;
+        imageWidth_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int64 image_width = 6;</code>
+       *
+       * <pre>
+       * the width of the image being traced.
+       * </pre>
+       */
+      public Builder clearImageWidth() {
+        bitField0_ = (bitField0_ & ~0x00000020);
+        imageWidth_ = 0L;
+        onChanged();
+        return this;
+      }
+
+      // optional int64 image_height = 7;
+      private long imageHeight_ ;
+      /**
+       * <code>optional int64 image_height = 7;</code>
+       *
+       * <pre>
+       * the height of the image being traced.
+       * </pre>
+       */
+      public boolean hasImageHeight() {
+        return ((bitField0_ & 0x00000040) == 0x00000040);
+      }
+      /**
+       * <code>optional int64 image_height = 7;</code>
+       *
+       * <pre>
+       * the height of the image being traced.
+       * </pre>
+       */
+      public long getImageHeight() {
+        return imageHeight_;
+      }
+      /**
+       * <code>optional int64 image_height = 7;</code>
+       *
+       * <pre>
+       * the height of the image being traced.
+       * </pre>
+       */
+      public Builder setImageHeight(long value) {
+        bitField0_ |= 0x00000040;
+        imageHeight_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int64 image_height = 7;</code>
+       *
+       * <pre>
+       * the height of the image being traced.
+       * </pre>
+       */
+      public Builder clearImageHeight() {
+        bitField0_ = (bitField0_ & ~0x00000040);
+        imageHeight_ = 0L;
+        onChanged();
+        return this;
+      }
+
       // @@protoc_insertion_point(builder_scope:android_studio.GfxTracingDetails)
     }
 
@@ -51748,6 +52895,555 @@ public final class AndroidStudioStats {
     }
 
     // @@protoc_insertion_point(class_scope:android_studio.GfxTracingDetails)
+  }
+
+  public interface TestRecorderDetailsOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // optional int64 event_count = 1;
+    /**
+     * <code>optional int64 event_count = 1;</code>
+     *
+     * <pre>
+     * The number of events in the test generated by the test recorder.
+     * </pre>
+     */
+    boolean hasEventCount();
+    /**
+     * <code>optional int64 event_count = 1;</code>
+     *
+     * <pre>
+     * The number of events in the test generated by the test recorder.
+     * </pre>
+     */
+    long getEventCount();
+
+    // optional int64 assertion_count = 2;
+    /**
+     * <code>optional int64 assertion_count = 2;</code>
+     *
+     * <pre>
+     * The number of assertions in the test generated by the test recorder.
+     * </pre>
+     */
+    boolean hasAssertionCount();
+    /**
+     * <code>optional int64 assertion_count = 2;</code>
+     *
+     * <pre>
+     * The number of assertions in the test generated by the test recorder.
+     * </pre>
+     */
+    long getAssertionCount();
+  }
+  /**
+   * Protobuf type {@code android_studio.TestRecorderDetails}
+   *
+   * <pre>
+   * Details of an invocation of the TestRecorder to generate tests.
+   * </pre>
+   */
+  public static final class TestRecorderDetails extends
+      com.google.protobuf.GeneratedMessage
+      implements TestRecorderDetailsOrBuilder {
+    // Use TestRecorderDetails.newBuilder() to construct.
+    private TestRecorderDetails(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private TestRecorderDetails(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final TestRecorderDetails defaultInstance;
+    public static TestRecorderDetails getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public TestRecorderDetails getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private TestRecorderDetails(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              bitField0_ |= 0x00000001;
+              eventCount_ = input.readInt64();
+              break;
+            }
+            case 16: {
+              bitField0_ |= 0x00000002;
+              assertionCount_ = input.readInt64();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.google.wireless.android.sdk.stats.AndroidStudioStats.internal_static_android_studio_TestRecorderDetails_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.google.wireless.android.sdk.stats.AndroidStudioStats.internal_static_android_studio_TestRecorderDetails_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.google.wireless.android.sdk.stats.AndroidStudioStats.TestRecorderDetails.class, com.google.wireless.android.sdk.stats.AndroidStudioStats.TestRecorderDetails.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<TestRecorderDetails> PARSER =
+        new com.google.protobuf.AbstractParser<TestRecorderDetails>() {
+      public TestRecorderDetails parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new TestRecorderDetails(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<TestRecorderDetails> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // optional int64 event_count = 1;
+    public static final int EVENT_COUNT_FIELD_NUMBER = 1;
+    private long eventCount_;
+    /**
+     * <code>optional int64 event_count = 1;</code>
+     *
+     * <pre>
+     * The number of events in the test generated by the test recorder.
+     * </pre>
+     */
+    public boolean hasEventCount() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>optional int64 event_count = 1;</code>
+     *
+     * <pre>
+     * The number of events in the test generated by the test recorder.
+     * </pre>
+     */
+    public long getEventCount() {
+      return eventCount_;
+    }
+
+    // optional int64 assertion_count = 2;
+    public static final int ASSERTION_COUNT_FIELD_NUMBER = 2;
+    private long assertionCount_;
+    /**
+     * <code>optional int64 assertion_count = 2;</code>
+     *
+     * <pre>
+     * The number of assertions in the test generated by the test recorder.
+     * </pre>
+     */
+    public boolean hasAssertionCount() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>optional int64 assertion_count = 2;</code>
+     *
+     * <pre>
+     * The number of assertions in the test generated by the test recorder.
+     * </pre>
+     */
+    public long getAssertionCount() {
+      return assertionCount_;
+    }
+
+    private void initFields() {
+      eventCount_ = 0L;
+      assertionCount_ = 0L;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeInt64(1, eventCount_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeInt64(2, assertionCount_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt64Size(1, eventCount_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt64Size(2, assertionCount_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static com.google.wireless.android.sdk.stats.AndroidStudioStats.TestRecorderDetails parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.google.wireless.android.sdk.stats.AndroidStudioStats.TestRecorderDetails parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.google.wireless.android.sdk.stats.AndroidStudioStats.TestRecorderDetails parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.google.wireless.android.sdk.stats.AndroidStudioStats.TestRecorderDetails parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.google.wireless.android.sdk.stats.AndroidStudioStats.TestRecorderDetails parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.google.wireless.android.sdk.stats.AndroidStudioStats.TestRecorderDetails parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static com.google.wireless.android.sdk.stats.AndroidStudioStats.TestRecorderDetails parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static com.google.wireless.android.sdk.stats.AndroidStudioStats.TestRecorderDetails parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static com.google.wireless.android.sdk.stats.AndroidStudioStats.TestRecorderDetails parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.google.wireless.android.sdk.stats.AndroidStudioStats.TestRecorderDetails parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(com.google.wireless.android.sdk.stats.AndroidStudioStats.TestRecorderDetails prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code android_studio.TestRecorderDetails}
+     *
+     * <pre>
+     * Details of an invocation of the TestRecorder to generate tests.
+     * </pre>
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements com.google.wireless.android.sdk.stats.AndroidStudioStats.TestRecorderDetailsOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.google.wireless.android.sdk.stats.AndroidStudioStats.internal_static_android_studio_TestRecorderDetails_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.google.wireless.android.sdk.stats.AndroidStudioStats.internal_static_android_studio_TestRecorderDetails_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.google.wireless.android.sdk.stats.AndroidStudioStats.TestRecorderDetails.class, com.google.wireless.android.sdk.stats.AndroidStudioStats.TestRecorderDetails.Builder.class);
+      }
+
+      // Construct using com.google.wireless.android.sdk.stats.AndroidStudioStats.TestRecorderDetails.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        eventCount_ = 0L;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        assertionCount_ = 0L;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.google.wireless.android.sdk.stats.AndroidStudioStats.internal_static_android_studio_TestRecorderDetails_descriptor;
+      }
+
+      public com.google.wireless.android.sdk.stats.AndroidStudioStats.TestRecorderDetails getDefaultInstanceForType() {
+        return com.google.wireless.android.sdk.stats.AndroidStudioStats.TestRecorderDetails.getDefaultInstance();
+      }
+
+      public com.google.wireless.android.sdk.stats.AndroidStudioStats.TestRecorderDetails build() {
+        com.google.wireless.android.sdk.stats.AndroidStudioStats.TestRecorderDetails result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public com.google.wireless.android.sdk.stats.AndroidStudioStats.TestRecorderDetails buildPartial() {
+        com.google.wireless.android.sdk.stats.AndroidStudioStats.TestRecorderDetails result = new com.google.wireless.android.sdk.stats.AndroidStudioStats.TestRecorderDetails(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.eventCount_ = eventCount_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.assertionCount_ = assertionCount_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.google.wireless.android.sdk.stats.AndroidStudioStats.TestRecorderDetails) {
+          return mergeFrom((com.google.wireless.android.sdk.stats.AndroidStudioStats.TestRecorderDetails)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.google.wireless.android.sdk.stats.AndroidStudioStats.TestRecorderDetails other) {
+        if (other == com.google.wireless.android.sdk.stats.AndroidStudioStats.TestRecorderDetails.getDefaultInstance()) return this;
+        if (other.hasEventCount()) {
+          setEventCount(other.getEventCount());
+        }
+        if (other.hasAssertionCount()) {
+          setAssertionCount(other.getAssertionCount());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.google.wireless.android.sdk.stats.AndroidStudioStats.TestRecorderDetails parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.google.wireless.android.sdk.stats.AndroidStudioStats.TestRecorderDetails) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // optional int64 event_count = 1;
+      private long eventCount_ ;
+      /**
+       * <code>optional int64 event_count = 1;</code>
+       *
+       * <pre>
+       * The number of events in the test generated by the test recorder.
+       * </pre>
+       */
+      public boolean hasEventCount() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>optional int64 event_count = 1;</code>
+       *
+       * <pre>
+       * The number of events in the test generated by the test recorder.
+       * </pre>
+       */
+      public long getEventCount() {
+        return eventCount_;
+      }
+      /**
+       * <code>optional int64 event_count = 1;</code>
+       *
+       * <pre>
+       * The number of events in the test generated by the test recorder.
+       * </pre>
+       */
+      public Builder setEventCount(long value) {
+        bitField0_ |= 0x00000001;
+        eventCount_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int64 event_count = 1;</code>
+       *
+       * <pre>
+       * The number of events in the test generated by the test recorder.
+       * </pre>
+       */
+      public Builder clearEventCount() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        eventCount_ = 0L;
+        onChanged();
+        return this;
+      }
+
+      // optional int64 assertion_count = 2;
+      private long assertionCount_ ;
+      /**
+       * <code>optional int64 assertion_count = 2;</code>
+       *
+       * <pre>
+       * The number of assertions in the test generated by the test recorder.
+       * </pre>
+       */
+      public boolean hasAssertionCount() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>optional int64 assertion_count = 2;</code>
+       *
+       * <pre>
+       * The number of assertions in the test generated by the test recorder.
+       * </pre>
+       */
+      public long getAssertionCount() {
+        return assertionCount_;
+      }
+      /**
+       * <code>optional int64 assertion_count = 2;</code>
+       *
+       * <pre>
+       * The number of assertions in the test generated by the test recorder.
+       * </pre>
+       */
+      public Builder setAssertionCount(long value) {
+        bitField0_ |= 0x00000002;
+        assertionCount_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int64 assertion_count = 2;</code>
+       *
+       * <pre>
+       * The number of assertions in the test generated by the test recorder.
+       * </pre>
+       */
+      public Builder clearAssertionCount() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        assertionCount_ = 0L;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:android_studio.TestRecorderDetails)
+    }
+
+    static {
+      defaultInstance = new TestRecorderDetails(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:android_studio.TestRecorderDetails)
   }
 
   private static com.google.protobuf.Descriptors.Descriptor
@@ -51910,6 +53606,11 @@ public final class AndroidStudioStats {
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_android_studio_GfxTracingDetails_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_android_studio_TestRecorderDetails_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_android_studio_TestRecorderDetails_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -51919,7 +53620,7 @@ public final class AndroidStudioStats {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\022studio_stats.proto\022\016android_studio\"\3446\n" +
+      "\n\022studio_stats.proto\022\016android_studio\"\3448\n" +
       "\022AndroidStudioEvent\022B\n\010category\030\001 \001(\01620." +
       "android_studio.AndroidStudioEvent.EventC" +
       "ategory\022:\n\004kind\030\002 \001(\0162,.android_studio.A" +
@@ -51965,504 +53666,516 @@ public final class AndroidStudioStats {
       "e_error_details\030\036 \001(\0132$.android_studio.F" +
       "irebaseErrorDetails\022\022\n\nproject_id\030\037 \001(\t\022" +
       ">\n\023gfx_tracing_details\030  \001(\0132!.android_s" +
-      "tudio.GfxTracingDetails\"\375\002\n\rEventCategor" +
-      "y\022\025\n\021NO_EVENT_CATEGORY\020\000\022\016\n\nDEPLOYMENT\020\001" +
-      "\022\020\n\014STUDIO_BUILD\020\002\022\026\n\022DEVELOPER_SERVICES" +
-      "\020\003\022\017\n\013GRADLE_SYNC\020\004\022\r\n\tPROFILING\020\005\022\013\n\007MO",
-      "NITOR\020\006\022\017\n\013SDK_MANAGER\020\007\022\014\n\010TEMPLATE\020\010\022\020" +
-      "\n\014THEME_EDITOR\020\t\022\020\n\014APP_INDEXING\020\n\022\010\n\004LL" +
-      "DB\020\013\022\021\n\rCLOUD_TESTING\020\014\022\010\n\004PING\020\r\022\t\n\005TES" +
-      "TS\020\016\022\010\n\004META\020\017\022\017\n\013EMULATOR_UI\020\020\022\n\n\006SYSTE" +
-      "M\020\021\022\034\n\030PROJECT_STRUCTURE_DIALOG\020\022\022\n\n\006GRA" +
-      "DLE\020\023\022\026\n\022FIREBASE_ASSISTANT\020\024\022\020\n\014GPU_PRO" +
-      "FILER\020\025\"\224\026\n\tEventKind\022\026\n\022UNKNOWN_EVENT_K" +
-      "IND\020\000\022\022\n\016DEPLOYMENT_APK\020\001\022\032\n\026DEPLOYMENT_" +
-      "TO_EMULATOR\020\002\022 \n\034DEVELOPER_SERVICES_INST" +
-      "ALLED\020\003\022\036\n\032DEVELOPER_SERVICES_REMOVED\020\004\022",
-      "\027\n\023GRADLE_SYNC_STARTED\020\005\022\025\n\021GRADLE_SYNC_" +
-      "ENDED\020\006\022\027\n\023GRADLE_SYNC_SKIPPED\020\007\022\027\n\023GRAD" +
-      "LE_SYNC_FAILURE\020\010\022\035\n\031GRADLE_CPP_SYNC_COM" +
-      "PLETED\020\t\022\025\n\021PROFILING_CAPTURE\020\n\022\022\n\016PROFI" +
-      "LING_OPEN\020\013\022\033\n\027PROFILING_CONVERT_HPROF\020\014" +
-      "\022\032\n\026PROFILING_ANALYSIS_RUN\020\r\022\025\n\021MONITOR_" +
-      "ACTIVATED\020\016\022\023\n\017MONITOR_RUNNING\020\017\022\037\n\033SDK_" +
-      "MANAGER_TOOLBAR_CLICKED\020\020\022#\n\037SDK_MANAGER" +
-      "_STANDALONE_LAUNCHED\020\021\022\026\n\022SDK_MANAGER_LO" +
-      "ADED\020\022\022\023\n\017TEMPLATE_RENDER\020\023\022\025\n\021THEME_EDI",
-      "TOR_OPEN\020\024\022\"\n\036APP_INDEXING_DEEP_LINK_CRE" +
-      "ATED\020\025\022!\n\035APP_INDEXING_API_CODE_CREATED\020" +
-      "\026\022#\n\037APP_INDEXING_DEEP_LINK_LAUNCHED\020\027\022!" +
-      "\n\035APP_INDEXING_TRIGGER_QUICKFIX\020\030\022!\n\035APP" +
-      "_INDEXING_SHOW_FEAG_DIALOG\020\031\022 \n\034APP_INDE" +
-      "XING_START_FEAG_TASK\020\032\022\021\n\rLLDB_LAUNCHED\020" +
-      "\033\022\030\n\024LLDB_SESSION_STARTED\020\034\022\027\n\023LLDB_SESS" +
-      "ION_FAILED\020\035\022\032\n\026LLDB_SESSION_COMPLETED\020\036" +
-      "\022\030\n\024LLDB_INSTALL_STARTED\020\037\022\027\n\023LLDB_INSTA" +
-      "LL_FAILED\020 \022\032\n\026LLDB_INSTALL_COMPLETED\020!\022",
-      "!\n\035LLDB_SESSION_USED_WATCHPOINTS\020\"\022(\n$CL" +
-      "OUD_TESTING_CONFIGURE_CLOUD_DEVICE\020#\022\"\n\036" +
-      "CLOUD_TESTING_CONFIGURE_MATRIX\020$\022%\n!CLOU" +
-      "D_TESTING_LAUNCH_CLOUD_DEVICE\020%\022!\n\035CLOUD" +
-      "_TESTING_RUN_TEST_MATRIX\020&\022\037\n\033CLOUD_TEST" +
-      "ING_BACKEND_ERROR\020\'\022$\n CLOUD_TESTING_DEB" +
-      "UG_FROM_RESULTS\020(\022,\n(CLOUD_TESTING_COMPA" +
-      "RE_SCREENSHOTS_OPENED\020)\022\020\n\014STUDIO_CRASH\020" +
-      "*\022\030\n\024GRADLE_BUILD_DETAILS\020,\022\017\n\013INSTANT_R" +
-      "UN\020-\022\017\n\013STUDIO_PING\020.\022\021\n\rEMULATOR_PING\020/",
-      "\022\020\n\014META_METRICS\0200\022\014\n\010TEST_RUN\0202\022\025\n\021EMUL" +
-      "ATOR_UI_EVENT\0203\022\016\n\nHYPERVISOR\0204\022\021\n\rEMULA" +
-      "TOR_HOST\0205\022!\n\035PROJECT_STRUCTURE_DIALOG_O" +
-      "PEN\0206\022!\n\035PROJECT_STRUCTURE_DIALOG_SAVE\0207" +
-      "\022*\n&PROJECT_STRUCTURE_DIALOG_TOP_TAB_CLI" +
-      "CK\0208\022)\n%PROJECT_STRUCTURE_DIALOG_TOP_TAB" +
-      "_SAVE\0209\022+\n\'PROJECT_STRUCTURE_DIALOG_LEFT" +
-      "_NAV_CLICK\020:\022*\n&PROJECT_STRUCTURE_DIALOG" +
-      "_LEFT_NAV_SAVE\020;\022\030\n\024GRADLE_BUILD_PROFILE" +
-      "\020<\022\030\n\024LLDB_FRONTEND_EXITED\020=\022&\n\"FIREBASE",
-      "_ASSISTANT_PROJECT_CREATED\020>\022,\n(FIREBASE" +
-      "_ASSISTANT_PROJECT_CREATE_FAILED\020?\022\'\n#FI" +
-      "REBASE_ASSISTANT_PROJECT_UPGRADED\020@\022-\n)F" +
-      "IREBASE_ASSISTANT_PROJECT_UPGRADE_FAILED" +
-      "\020B\0223\n/FIREBASE_ASSISTANT_PROJECT_CONFIG_" +
-      "CREATE_FAILED\020C\022&\n\"FIREBASE_ASSISTANT_PR" +
-      "OJECT_UPDATED\020D\022,\n(FIREBASE_ASSISTANT_PR" +
-      "OJECT_UPDATE_FAILED\020E\0222\n.FIREBASE_ASSIST" +
-      "ANT_PROJECT_CONFIG_WRITE_FAILED\020F\022!\n\035FIR" +
-      "EBASE_ASSISTANT_TOS_FAILED\020G\022$\n FIREBASE",
-      "_ASSISTANT_ATTEMPT_LOGIN\020H\022$\n FIREBASE_A" +
-      "SSISTANT_LOGIN_SUCCESS\020I\022,\n(FIREBASE_ASS" +
-      "ISTANT_RECONNECT_DIALOG_SYNC\020J\022(\n$FIREBA" +
-      "SE_ASSISTANT_CONNECT_REQUESTED\020K\022\033\n\027FIRE" +
-      "BASE_ASSISTANT_OPEN\020L\022,\n(FIREBASE_ASSIST" +
-      "ANT_CONNECT_DIALOG_OPENED\020M\022*\n&FIREBASE_" +
-      "ASSISTANT_CONNECT_DIALOG_SYNC\020N\022&\n\"FIREB" +
-      "ASE_ASSISTANT_ERROR_PRESENTED\020O\022#\n\037FIREB" +
-      "ASE_ASSISTANT_SILENT_ERROR\020P\022.\n*FIREBASE" +
-      "_ASSISTANT_RECONNECT_DIALOG_OPENED\020Q\022\030\n\024",
-      "GFX_TRACE_INIT_ERROR\020R\022\024\n\020GFX_TRACE_CLOS" +
-      "ED\020S\022\036\n\032GFX_TRACE_PARAMETER_EDITED\020T\022\033\n\027" +
-      "GFX_TRACE_TRACE_STARTED\020U\022\033\n\027GFX_TRACE_T" +
-      "RACE_STOPPED\020V\022\036\n\032GFX_TRACE_COMMAND_SELE" +
-      "CTED\020W\022\032\n\026GFX_TRACE_LINK_CLICKED\020X\022\033\n\027GF" +
-      "X_TRACE_MEMORY_VIEWED\020Y\022\034\n\030GFX_TRACE_TEX" +
-      "TURE_VIEWED\020Z\022\037\n\033LEGACY_IDEA_ANDROID_PRO" +
-      "JECT\020[\"R\n\013MonitorType\022\030\n\024UNKNOWN_MONITOR" +
-      "_TYPE\020\000\022\007\n\003CPU\020\001\022\007\n\003GPU\020\002\022\n\n\006MEMORY\020\003\022\013\n" +
-      "\007NETWORK\020\004\"\275\001\n\023ProfilerCaptureType\022!\n\035UN",
-      "KNOWN_PROFILER_CAPTURE_TYPE\020\000\022\016\n\nALLOCAT" +
-      "ION\020\001\022\010\n\004FILE\020\002\022\r\n\tGFX_TRACE\020\003\022\010\n\004HEAP\020\004" +
-      "\022\017\n\013SYSTEM_INFO\020\005\022\014\n\010VM_TRACE\020\006\022\022\n\016METHO" +
-      "D_TRACING\020\007\022\035\n\031LAYOUT_INSPECTOR_SNAPSHOT" +
-      "\020\010\"m\n\024RunConfigurationType\022\"\n\036UNKNOWN_RU" +
-      "N_CONFIGURATION_TYPE\020\000\022\013\n\007ANDROID\020\001\022\022\n\016A" +
-      "NDROID_NATIVE\020\002\022\020\n\014ANDROID_TEST\020\003\"K\n\014Deb" +
-      "uggerType\022\031\n\025UNKNOWN_DEBUGGER_TYPE\020\000\022\010\n\004" +
-      "JAVA\020\001\022\n\n\006HYBRID\020\002\022\n\n\006NATIVE\020\003\"\261\002\n\024Devel" +
-      "operServiceKind\022\"\n\036UNKNOWN_DEVELOPER_SER",
-      "VICE_KIND\020\000\022\032\n\026GOOGLE_CLOUD_MESSAGING\020\001\022" +
-      "\n\n\006AD_MOB\020\002\022\022\n\016GOOGLE_SIGN_IN\020\003\022\024\n\020GOOGL" +
-      "E_ANALYTICS\020\004\022\014\n\010FIREBASE\020\005\022\025\n\021REALTIME_" +
-      "DATABASE\020\006\022\022\n\016AUTHENTICATION\020\007\022\023\n\017CRASH_" +
-      "REPORTING\020\010\022\021\n\rNOTIFICATIONS\020\t\022\021\n\rREMOTE" +
-      "_CONFIG\020\n\022\013\n\007STORAGE\020\013\022\017\n\013APP_INVITES\020\014\022" +
-      "\021\n\rDYNAMIC_LINKS\020\r\"\247\006\n\020TemplateRenderer\022" +
-      "\035\n\031UNKNOWN_TEMPLATE_RENDERER\020\000\022\034\n\030CUSTOM" +
-      "_TEMPLATE_RENDERER\020\001\022\022\n\016ANDROID_MODULE\020\002" +
-      "\022\023\n\017ANDROID_PROJECT\020\003\022\022\n\016EMPTY_ACTIVITY\020",
-      "\004\022\022\n\016BLANK_ACTIVITY\020\005\022\023\n\017LAYOUT_XML_FILE" +
-      "\020\006\022\022\n\016FRAGMENT_BLANK\020\007\022\036\n\032NAVIGATION_DRA" +
-      "WER_ACTIVITY\020\010\022\023\n\017VALUES_XML_FILE\020\t\022\030\n\024G" +
-      "OOGLE_MAPS_ACTIVITY\020\n\022\022\n\016LOGIN_ACTIVITY\020" +
-      "\013\022\021\n\rASSETS_FOLDER\020\014\022\023\n\017TABBED_ACTIVITY\020" +
-      "\r\022\026\n\022SCROLLING_ACTIVITY\020\016\022\027\n\023FULLSCREEN_" +
-      "ACTIVITY\020\017\022\013\n\007SERVICE\020\020\022\020\n\014JAVA_LIBRARY\020" +
-      "\021\022\025\n\021SETTINGS_ACTIVITY\020\022\022\021\n\rFRAGMENT_LIS" +
-      "T\020\023\022\026\n\022MASTER_DETAIL_FLOW\020\024\022\027\n\023ANDROID_W" +
-      "EAR_MODULE\020\025\022\026\n\022BROADCAST_RECEIVER\020\026\022\r\n\t",
-      "AIDL_FILE\020\027\022\022\n\016INTENT_SERVICE\020\030\022\016\n\nJNI_F" +
-      "OLDER\020\031\022\017\n\013JAVA_FOLDER\020\032\022\017\n\013CUSTOM_VIEW\020" +
-      "\033\022\025\n\021ANDROID_TV_MODULE\020\034\022\036\n\032GOOGLE_ADMOB" +
-      "S_ADS_ACTIVITY\020\035\022\033\n\027ALWAYS_ON_WEAR_ACTIV" +
-      "ITY\020\036\022\016\n\nRES_FOLDER\020\037\022\027\n\023ANDROID_TV_ACTI" +
-      "VITY\020 \022\027\n\023BLANK_WEAR_ACTIVITY\020!\022\023\n\017BASIC" +
-      "_ACTIVITIY\020\"\022\016\n\nAPP_WIDGET\020#\"\374\002\n\021GradleS" +
-      "yncFailure\022\032\n\026UNKNOWN_GRADLE_FAILURE\020\000\022\025" +
-      "\n\021CONNECTION_DENIED\020\001\022\023\n\017CLASS_NOT_FOUND" +
-      "\020\002\022\030\n\024DSL_METHOD_NOT_FOUND\020\003\022\027\n\023FAILED_T",
-      "O_PARSE_SDK\020\004\022\024\n\020METHOD_NOT_FOUND\020\005\022\034\n\030M" +
-      "ISSING_ANDROID_PLATFORM\020\006\022 \n\034MISSING_AND" +
-      "ROID_SUPPORT_REPO\020\007\022\027\n\023MISSING_BUILD_TOO" +
-      "LS\020\010\022\021\n\rOUT_OF_MEMORY\020\t\022\021\n\rSDK_NOT_FOUND" +
-      "\020\n\022\020\n\014UNKNOWN_HOST\020\013\022%\n!UNSUPPORTED_ANDR" +
-      "OID_MODEL_VERSION\020\014\022\036\n\032UNSUPPORTED_GRADL" +
-      "E_VERSION\020\r\"\301\003\n\016ProductDetails\022;\n\007produc" +
-      "t\030\001 \001(\0162*.android_studio.ProductDetails." +
-      "ProductKind\022\r\n\005build\030\002 \001(\t\022\017\n\007version\030\003 " +
-      "\001(\t\022\017\n\007preview\030\004 \001(\010\022G\n\017os_architecture\030",
-      "\005 \001(\0162..android_studio.ProductDetails.Cp" +
-      "uArchitecture\"R\n\013ProductKind\022\023\n\017UNKNOWN_" +
-      "PRODUCT\020\000\022\n\n\006STUDIO\020\001\022\014\n\010EMULATOR\020\002\022\n\n\006G" +
-      "RADLE\020\003\022\010\n\004DDMS\020\004\"^\n\006OSKind\022\023\n\017UNKNOWN_O" +
-      "S_KIND\020\000\022\014\n\010OTHER_OS\020\001\022\013\n\007WINDOWS\020\002\022\013\n\007M" +
-      "AC_OSX\020\003\022\t\n\005LINUX\020\004\022\014\n\010FREE_BSD\020\005\"D\n\017Cpu" +
-      "Architecture\022\034\n\030UNKNOWN_CPU_ARCHITECTURE" +
-      "\020\000\022\007\n\003X86\020\001\022\n\n\006X86_64\020\002\"\217\005\n\nDeviceInfo\022 " +
-      "\n\030anonymized_serial_number\030\001 \001(\t\022\022\n\nbuil" +
-      "d_tags\030\002 \001(\t\022\022\n\nbuild_type\030\003 \001(\t\022\035\n\025buil",
-      "d_version_release\030\004 \001(\t\022\027\n\017build_api_lev" +
-      "el\030\005 \001(\005\022F\n\007cpu_abi\030\006 \001(\01625.android_stud" +
-      "io.DeviceInfo.ApplicationBinaryInterface" +
-      "\022\024\n\014manufacturer\030\007 \001(\t\022\r\n\005model\030\010 \001(\t\022:\n" +
-      "\013device_type\030\t \001(\0162%.android_studio.Devi" +
-      "ceInfo.DeviceType\022\034\n\024build_api_level_ful" +
-      "l\030\n \001(\t\"\300\001\n\032ApplicationBinaryInterface\022\017" +
-      "\n\013UNKNOWN_ABI\020\000\022\020\n\014ARME_ABI_V7A\020\001\022\013\n\007X86" +
-      "_ABI\020\002\022\021\n\rARM64_V8A_ABI\020\003\022\016\n\nX86_64_ABI\020" +
-      "\004\022\014\n\010ARME_ABI\020\005\022\014\n\010MIPS_ABI\020\006\022\017\n\013MIPS_R2",
-      "_ABI\020\007\022\020\n\014ARME_ABI_V6L\020\010\022\020\n\014ARME_ABI_V6J" +
-      "\020\t\"u\n\nDeviceType\022\027\n\023UNKNOWN_DEVICE_TYPE\020" +
-      "\000\022\022\n\016LOCAL_PHYSICAL\020\001\022\022\n\016LOCAL_EMULATOR\020" +
-      "\002\022\022\n\016CLOUD_EMULATOR\020\003\022\022\n\016CLOUD_PHYSICAL\020" +
-      "\004\"\215\001\n\013StudioCrash\022\017\n\007actions\030\001 \001(\003\022\022\n\nex" +
-      "ceptions\030\002 \001(\003\022\017\n\007crashes\030\003 \001(\003\022!\n\031bundl" +
-      "ed_plugin_exceptions\030\004 \001(\003\022%\n\035non_bundle" +
-      "d_plugin_exceptions\030\005 \001(\003\"H\n\023EmulatorGue" +
-      "stGlInfo\022\016\n\006vendor\030\001 \001(\t\022\020\n\010renderer\030\002 \001" +
-      "(\t\022\017\n\007version\030\003 \001(\t\"y\n\017EmulatorGpuInfo\022\014",
-      "\n\004make\030\001 \001(\t\022\r\n\005model\030\002 \001(\t\022\021\n\tdevice_id" +
-      "\030\003 \001(\t\022\023\n\013revision_id\030\004 \001(\t\022\017\n\007version\030\005" +
-      " \001(\t\022\020\n\010renderer\030\006 \001(\t\"\325\007\n\017EmulatorDetai" +
-      "ls\022H\n\nguest_arch\030\001 \001(\01624.android_studio." +
-      "EmulatorDetails.GuestCpuArchitecture\022\023\n\013" +
-      "system_time\030\002 \001(\003\022\021\n\tuser_time\030\003 \001(\003\022\017\n\007" +
-      "crashes\030\004 \001(\003\022\021\n\twall_time\030\005 \001(\003\022\024\n\014exit" +
-      "_started\030\006 \001(\010\022\027\n\017guest_api_level\030\007 \001(\003\022" +
-      "\031\n\021guest_gpu_enabled\030\010 \001(\010\022\027\n\017is_opengl_" +
-      "alive\030\n \001(\010\022I\n\014adb_liveness\030\013 \001(\01623.andr",
-      "oid_studio.EmulatorDetails.EmulatorAdbLi" +
-      "veness\0225\n\010guest_gl\030\014 \001(\0132#.android_studi" +
-      "o.EmulatorGuestGlInfo\0221\n\010host_gpu\030\r \003(\0132" +
-      "\037.android_studio.EmulatorGpuInfo\022K\n\rsess" +
-      "ion_phase\030\016 \001(\01624.android_studio.Emulato" +
-      "rDetails.EmulatorSessionPhase\"\224\001\n\023Emulat" +
-      "orAdbLiveness\022!\n\035UNKNOWN_EMULATOR_ADB_LI" +
-      "VENESS\020\000\022\022\n\016FAILURE_NO_ADB\020\001\022\016\n\nADB_ONLI" +
-      "NE\020\002\022\033\n\027FAILURE_ADB_SERVER_DEAD\020\003\022\031\n\025FAI" +
-      "LURE_EMULATOR_DEAD\020\004\"\262\001\n\024EmulatorSession",
-      "Phase\022\"\n\036UNKNOWN_EMULATOR_SESSION_PHASE\020" +
-      "\000\022\014\n\010LAUNCHER\020\001\022\021\n\rPARSE_OPTIONS\020\002\022\020\n\014IN" +
-      "IT_GENERAL\020\003\022\014\n\010INIT_GPU\020\004\022\016\n\nINIT_ACCEL" +
-      "\020\005\022\023\n\017RUNNING_GENERAL\020\006\022\020\n\014EXIT_GENERAL\020" +
-      "\007\"{\n\024GuestCpuArchitecture\022\"\n\036UNKNOWN_GUE" +
-      "ST_CPU_ARCHITECTURE\020\000\022\007\n\003X86\020\001\022\n\n\006X86_64" +
-      "\020\002\022\007\n\003ARM\020\003\022\n\n\006ARM_64\020\004\022\010\n\004MIPS\020\005\022\013\n\007MIP" +
-      "S_64\020\006\"\234\003\n\017EmulatorUiEvent\022\022\n\nelement_id" +
-      "\030\001 \001(\t\022A\n\004type\030\002 \001(\01623.android_studio.Em" +
-      "ulatorUiEvent.EmulatorUiEventType\022G\n\007con",
-      "text\030\003 \001(\01626.android_studio.EmulatorUiEv" +
-      "ent.EmulatorUiEventContext\022\r\n\005value\030\004 \001(" +
-      "\003\"\177\n\023EmulatorUiEventType\022\"\n\036UNKONWN_EMUL" +
-      "ATOR_UI_EVENT_TYPE\020\000\022\020\n\014BUTTON_PRESS\020\001\022\035" +
-      "\n\031OPTION_SET_TO_NON_DEFAULT\020\002\022\023\n\017OPTION_" +
-      "SELECTED\020\003\"Y\n\026EmulatorUiEventContext\022%\n!" +
-      "UNKNOWN_EMULATOR_UI_EVENT_CONTEXT\020\000\022\030\n\024E" +
-      "XTENDED_WINDOW_OPEN\020\001\"\207\003\n\022GradleBuildDet" +
-      "ails\022\036\n\026android_plugin_version\030\001 \001(\t\022\026\n\016" +
-      "gradle_version\030\002 \001(\t\022\027\n\017user_enabled_ir\030",
-      "\003 \001(\010\022\031\n\021model_supports_ir\030\004 \001(\010\022\033\n\023vari" +
-      "ant_supports_ir\030\005 \001(\010\0220\n\tlibraries\030\006 \003(\013" +
-      "2\035.android_studio.GradleLibrary\022-\n\007modul" +
-      "es\030\007 \003(\0132\034.android_studio.GradleModule\022<" +
-      "\n\017android_modules\030\010 \003(\0132#.android_studio" +
-      ".GradleAndroidModule\022I\n\026native_android_m" +
-      "odules\030\t \003(\0132).android_studio.GradleNati" +
-      "veAndroidModule\"K\n\rGradleLibrary\022\034\n\024jar_" +
-      "dependency_count\030\001 \001(\003\022\034\n\024aar_dependency" +
-      "_count\030\002 \001(\003\"^\n\014GradleModule\022\032\n\022total_mo",
-      "dule_count\030\001 \001(\003\022\030\n\020app_module_count\030\002 \001" +
-      "(\003\022\030\n\020lib_module_count\030\003 \001(\003\"\230\001\n\023GradleA" +
-      "ndroidModule\022\016\n\006app_id\030\001 \001(\t\022\023\n\013module_n" +
-      "ame\030\002 \001(\t\022\022\n\nis_library\030\003 \001(\010\022\030\n\020build_t" +
-      "ype_count\030\004 \001(\003\022\024\n\014flavor_count\030\005 \001(\003\022\030\n" +
-      "\020flavor_dimension\030\006 \001(\003\"\371\001\n\031GradleNative" +
-      "AndroidModule\022\016\n\006app_id\030\001 \001(\t\022\023\n\013module_" +
-      "name\030\002 \001(\t\022Z\n\021build_system_type\030\003 \001(\0162?." +
-      "android_studio.GradleNativeAndroidModule" +
-      ".NativeBuildSystemType\"[\n\025NativeBuildSys",
-      "temType\022\027\n\023GRADLE_EXPERIMENTAL\020\001\022\017\n\013NDK_" +
-      "COMPILE\020\002\022\r\n\tNDK_BUILD\020\003\022\t\n\005CMAKE\020\004\"\273\006\n\n" +
-      "InstantRun\022L\n\017deployment_kind\030\001 \001(\01623.an" +
-      "droid_studio.InstantRun.InstantRunDeploy" +
-      "mentKind\022P\n\027instant_run_build_cause\030\003 \001(" +
-      "\0162/.android_studio.InstantRun.InstantRun" +
-      "BuildCause\022\022\n\nbuild_time\030\004 \001(\003\022\022\n\nsessio" +
-      "n_id\030\005 \001(\t\"\242\001\n\030InstantRunDeploymentKind\022" +
-      "\'\n#UNKNOWN_INSTANT_RUN_DEPLOYMENT_KIND\020\000" +
-      "\022\n\n\006LEGACY\020\001\022\014\n\010FULL_APK\020\002\022\r\n\tSPLIT_APK\020",
-      "\003\022\007\n\003DEX\020\004\022\014\n\010HOT_SWAP\020\005\022\r\n\tWARM_SWAP\020\006\022" +
-      "\016\n\nNO_CHANGES\020\007\"\277\003\n\024InstantRunBuildCause" +
-      "\022#\n\037UNKNOWN_INSTANT_RUN_BUILD_CAUSE\020\000\022\016\n" +
-      "\nCOMPATIBLE\020\001\022\023\n\017MANIFEST_CHANGE\020\002\022\025\n\021FI" +
-      "ELD_TYPE_CHANGE\020\003\022\021\n\rFIELD_REMOVED\020\004\022\017\n\013" +
-      "FIELD_ADDED\020\005\022\022\n\016METHOD_DELETED\020\006\022\020\n\014MET" +
-      "HOD_ADDED\020\007\022\017\n\013CLASS_ADDED\020\010\022\035\n\031STATIC_I" +
-      "NITIALIZER_CHANGE\020\t\022\033\n\027CLASS_ANNOTATION_" +
-      "CHANGE\020\n\022\023\n\017RESOURCE_CHANGE\020\013\022\037\n\033IMPLEME" +
-      "NTS_INTERFACE_CHANGE\020\014\022\022\n\016R_CLASS_CHANGE",
-      "\020\r\022\027\n\023PARENT_CLASS_CHANGE\020\016\022\034\n\030METHOD_AN" +
-      "NOTATION_CHANGE\020\017\022\031\n\025API_LEVEL_UNSUPPORT" +
-      "ED\020\020\022\023\n\017REFLECTION_USED\020\021\"k\n\013MetaMetrics" +
-      "\022\032\n\022failed_connections\030\001 \001(\005\022!\n\031bytes_se" +
-      "nt_in_last_upload\030\002 \001(\003\022\035\n\025failed_server" +
-      "_replies\030\003 \001(\005\"\200\004\n\007TestRun\022H\n\024test_invoc" +
-      "ation_type\030\001 \001(\0162*.android_studio.TestRu" +
-      "n.TestInvocationType\022 \n\030number_of_tests_" +
-      "executed\030\002 \001(\005\0223\n\ttest_kind\030\003 \001(\0162 .andr" +
-      "oid_studio.TestRun.TestKind\022\017\n\007crashed\030\004",
-      " \001(\010\022\026\n\016gradle_version\030\005 \001(\t\022\035\n\025code_cov" +
-      "erage_enabled\030\006 \001(\010\0225\n\016test_libraries\030\007 " +
-      "\001(\0132\035.android_studio.TestLibraries\"\210\001\n\022T" +
-      "estInvocationType\022 \n\034UNKNOWN_TEST_INVOCA" +
-      "TION_TYPE\020\000\022\017\n\013GRADLE_TEST\020\001\022\027\n\023ANDROID_" +
-      "STUDIO_TEST\020\002\022&\n\"ANDROID_STUDIO_THROUGH_" +
-      "GRADLE_TEST\020\003\"J\n\010TestKind\022\025\n\021UNKNOWN_TES" +
-      "T_KIND\020\000\022\r\n\tUNIT_TEST\020\001\022\030\n\024INSTRUMENTATI" +
-      "ON_TEST\020\002\"\205\001\n\rTestLibraries\022$\n\034test_supp" +
-      "ort_library_version\030\001 \001(\t\022\030\n\020espresso_ve",
-      "rsion\030\002 \001(\t\022\033\n\023robolectric_version\030\003 \001(\t" +
-      "\022\027\n\017mockito_version\030\004 \001(\t\"\311\001\n\nHypervisor" +
-      "\022=\n\rhyper_v_state\030\001 \001(\0162&.android_studio" +
-      ".Hypervisor.HyperVState\"|\n\013HyperVState\022\030" +
-      "\n\024UNKNOWN_HYPERV_STATE\020\000\022\021\n\rHYPERV_ABSEN" +
-      "T\020\001\022\024\n\020HYPERV_INSTALLED\020\002\022\022\n\016HYPERV_RUNN" +
-      "ING\020\003\022\026\n\022HYPERV_CHECK_ERROR\020\004\"k\n\014Emulato" +
-      "rHost\022\030\n\020cpu_manufacturer\030\001 \001(\t\022\024\n\014virt_" +
-      "support\030\002 \001(\010\022\025\n\rrunning_in_vm\030\003 \001(\010\022\024\n\014" +
-      "os_bit_count\030\004 \001(\003\"\310\003\n\022GradleBuildProfil",
-      "e\022\026\n\016gradle_version\030\002 \001(\t\022\017\n\007os_name\030\006 \001" +
-      "(\t\022\022\n\nos_version\030\007 \001(\t\022\024\n\014java_version\030\010" +
-      " \001(\t\022\027\n\017java_vm_version\030\t \001(\t\022\022\n\nmax_mem" +
-      "ory\030\n \001(\003\022\022\n\nbuild_time\030\013 \001(\003\022\020\n\010gc_coun" +
-      "t\030\014 \001(\003\022\017\n\007gc_time\030\r \001(\003\0223\n\007project\030\016 \003(" +
-      "\0132\".android_studio.GradleBuildProject\022>\n" +
-      "\rmemory_sample\030\017 \003(\0132\'.android_studio.Gr" +
-      "adleBuildMemorySample\0224\n\004span\030\020 \003(\0132&.an" +
-      "droid_studio.GradleBuildProfileSpan\022<\n\022i" +
-      "nstant_run_status\030\021 \001(\0132 .android_studio",
-      ".InstantRunStatus\022\022\n\nproject_id\030\022 \001(\t\"\207\004" +
-      "\n\022GradleBuildProject\022\n\n\002id\030\001 \001(\003\022\036\n\026andr" +
-      "oid_plugin_version\030\002 \001(\t\022E\n\016android_plug" +
-      "in\030\003 \001(\0162-.android_studio.GradleBuildPro" +
-      "ject.PluginType\022N\n\021plugin_generation\030\004 \001" +
-      "(\01623.android_studio.GradleBuildProject.P" +
-      "luginGeneration\022\033\n\023build_tools_version\030\005" +
-      " \001(\t\022:\n\007metrics\030\006 \001(\0132).android_studio.G" +
-      "radleBuildProjectMetrics\0223\n\007variant\030\007 \003(" +
-      "\0132\".android_studio.GradleBuildVariant\"M\n",
-      "\nPluginType\022\027\n\023UNKNOWN_PLUGIN_TYPE\020\000\022\017\n\013" +
-      "APPLICATION\020\001\022\013\n\007LIBRARY\020\002\022\010\n\004TEST\020\003\"Q\n\020" +
-      "PluginGeneration\022\035\n\031UNKNOWN_PLUGIN_GENER" +
-      "ATION\020\000\022\t\n\005FIRST\020\001\022\023\n\017COMPONENT_MODEL\020\002\"" +
-      "a\n\031GradleBuildProjectMetrics\022\027\n\017metrics_" +
-      "time_ns\030\001 \001(\003\022\020\n\010apk_size\030\002 \001(\003\022\031\n\021resou" +
-      "rces_ap_size\030\003 \001(\003\"\266\002\n\022GradleBuildVarian" +
-      "t\022\n\n\002id\030\001 \001(\003\022\020\n\010is_debug\030\002 \001(\010\022\020\n\010use_j" +
-      "ack\030\003 \001(\010\022\026\n\016minify_enabled\030\004 \001(\010\022\024\n\014use" +
-      "_multidex\030\005 \001(\010\022\033\n\023use_legacy_multidex\030\006",
-      " \001(\010\022D\n\014variant_type\030\007 \001(\0162..android_stu" +
-      "dio.GradleBuildVariant.VariantType\022\021\n\tte" +
-      "sted_id\030\010 \001(\003\"L\n\013VariantType\022\017\n\013APPLICAT" +
-      "ION\020\000\022\013\n\007LIBRARY\020\001\022\020\n\014ANDROID_TEST\020\002\022\r\n\t" +
-      "UNIT_TEST\020\003\"R\n\027GradleBuildMemorySample\022\022" +
-      "\n\ngc_time_ms\030\001 \001(\003\022\020\n\010gc_count\030\002 \001(\003\022\021\n\t" +
-      "timestamp\030\003 \001(\003\"\361\034\n\026GradleBuildProfileSp" +
-      "an\022\n\n\002id\030\001 \001(\003\022\021\n\tparent_id\030\002 \001(\003\022\030\n\020sta" +
-      "rt_time_in_ms\030\003 \001(\003\022\026\n\016duration_in_ms\030\004 " +
-      "\001(\003\022B\n\004type\030\005 \001(\01624.android_studio.Gradl",
-      "eBuildProfileSpan.ExecutionType\022;\n\ttrans" +
-      "form\030\006 \001(\0132(.android_studio.GradleTransf" +
-      "ormExecution\0221\n\004task\030\t \001(\0132#.android_stu" +
-      "dio.GradleTaskExecution\022\017\n\007project\030\007 \001(\003" +
-      "\022\017\n\007variant\030\010 \001(\003\"\257\032\n\rExecutionType\022\032\n\026S" +
-      "OME_RANDOM_PROCESSING\020\001\022!\n\035BASE_PLUGIN_P" +
-      "ROJECT_CONFIGURE\020\002\022/\n+BASE_PLUGIN_PROJEC" +
-      "T_BASE_EXTENSION_CREATION\020\003\022&\n\"BASE_PLUG" +
-      "IN_PROJECT_TASKS_CREATION\020\004\022\036\n\032BASE_PLUG" +
-      "IN_BUILD_FINISHED\020\005\022\035\n\031TASK_MANAGER_CREA",
-      "TE_TASKS\020\006\022$\n BASE_PLUGIN_CREATE_ANDROID" +
-      "_TASKS\020\007\022(\n$VARIANT_MANAGER_CREATE_ANDRO" +
-      "ID_TASKS\020\010\022,\n(VARIANT_MANAGER_CREATE_TAS" +
-      "KS_FOR_VARIANT\020\t\022%\n!VARIANT_MANAGER_CREA" +
-      "TE_LINT_TASKS\020\n\022&\n\"VARIANT_MANAGER_CREAT" +
-      "E_TESTS_TASKS\020\013\022#\n\037VARIANT_MANAGER_CREAT" +
-      "E_VARIANTS\020\014\022\030\n\024RESOLVE_DEPENDENCIES\020\r\022\022" +
-      "\n\016TASK_EXECUTION\020\016\022\024\n\020INITIAL_METADATA\020d" +
-      "\022\022\n\016FINAL_METADATA\020e\022\022\n\016GENERAL_CONFIG\020f" +
-      "\022\022\n\016VARIANT_CONFIG\020g\0221\n-VARIANT_MANAGER_",
-      "EXTERNAL_NATIVE_CONFIG_VALUES\020h\022\017\n\013APK_M" +
-      "ETRICS\020i\0220\n+APP_TASK_MANAGER_CREATE_MERG" +
-      "E_MANIFEST_TASK\020\350\007\0225\n0APP_TASK_MANAGER_C" +
-      "REATE_GENERATE_RES_VALUES_TASK\020\351\007\0225\n0APP" +
-      "_TASK_MANAGER_CREATE_CREATE_RENDERSCRIPT" +
-      "_TASK\020\352\007\0221\n,APP_TASK_MANAGER_CREATE_MERG" +
-      "E_RESOURCES_TASK\020\353\007\022.\n)APP_TASK_MANAGER_" +
-      "CREATE_MERGE_ASSETS_TASK\020\354\007\022.\n)APP_TASK_" +
-      "MANAGER_CREATE_BUILD_CONFIG_TASK\020\355\007\022-\n(A" +
-      "PP_TASK_MANAGER_CREATE_PROCESS_RES_TASK\020",
-      "\356\007\022&\n!APP_TASK_MANAGER_CREATE_AIDL_TASK\020" +
-      "\357\007\022)\n$APP_TASK_MANAGER_CREATE_COMPILE_TA" +
-      "SK\020\360\007\022%\n APP_TASK_MANAGER_CREATE_NDK_TAS" +
-      "K\020\361\007\022\'\n\"APP_TASK_MANAGER_CREATE_SPLIT_TA" +
-      "SK\020\362\007\022+\n&APP_TASK_MANAGER_CREATE_PACKAGI" +
-      "NG_TASK\020\363\007\0226\n1APP_TASK_MANAGER_CREATE_PR" +
-      "EPROCESS_RESOURCES_TASK\020\364\007\0224\n/APP_TASK_M" +
-      "ANAGER_CREATE_BACKPORT_RESOURCES_TASK\020\365\007" +
-      "\022&\n!APP_TASK_MANAGER_CREATE_LINT_TASK\020\366\007" +
-      "\0227\n2APP_TASK_MANAGER_CREATE_MERGE_JNILIB",
-      "S_FOLDERS_TASK\020\367\007\022(\n#APP_TASK_MANAGER_CR" +
-      "EATE_SHADER_TASK\020\370\007\0227\n2APP_TASK_MANAGER_" +
-      "CREATE_EXTERNAL_NATIVE_BUILD_TASK\020\371\007\0226\n1" +
-      "APP_TASK_MANAGER_CREATE_STRIP_NATIVE_LIB" +
-      "RARY_TASK\020\372\007\0220\n+LIB_TASK_MANAGER_CREATE_" +
-      "MERGE_MANIFEST_TASK\020\320\017\0225\n0LIB_TASK_MANAG" +
-      "ER_CREATE_GENERATE_RES_VALUES_TASK\020\321\017\0225\n" +
-      "0LIB_TASK_MANAGER_CREATE_CREATE_RENDERSC" +
-      "RIPT_TASK\020\322\017\0221\n,LIB_TASK_MANAGER_CREATE_" +
-      "MERGE_RESOURCES_TASK\020\323\017\022.\n)LIB_TASK_MANA",
-      "GER_CREATE_MERGE_ASSETS_TASK\020\324\017\022.\n)LIB_T" +
-      "ASK_MANAGER_CREATE_BUILD_CONFIG_TASK\020\325\017\022" +
-      "-\n(LIB_TASK_MANAGER_CREATE_PROCESS_RES_T" +
-      "ASK\020\326\017\022&\n!LIB_TASK_MANAGER_CREATE_AIDL_T" +
-      "ASK\020\327\017\022)\n$LIB_TASK_MANAGER_CREATE_COMPIL" +
-      "E_TASK\020\330\017\022%\n LIB_TASK_MANAGER_CREATE_NDK" +
-      "_TASK\020\331\017\022\'\n\"LIB_TASK_MANAGER_CREATE_SPLI" +
-      "T_TASK\020\332\017\022+\n&LIB_TASK_MANAGER_CREATE_PAC" +
-      "KAGING_TASK\020\333\017\0225\n0LIB_TASK_MANAGER_CREAT" +
-      "E_MERGE_PROGUARD_FILE_TASK\020\334\017\0222\n-LIB_TAS",
-      "K_MANAGER_CREATE_POST_COMPILATION_TASK\020\335" +
-      "\017\022*\n%LIB_TASK_MANAGER_CREATE_PROGUARD_TA" +
-      "SK\020\336\017\022.\n)LIB_TASK_MANAGER_CREATE_PACKAGE" +
-      "_LOCAL_JAR\020\337\017\0224\n/LIB_TASK_MANAGER_CREATE" +
-      "_BACKPORT_RESOURCES_TASK\020\340\017\022&\n!LIB_TASK_" +
-      "MANAGER_CREATE_LINT_TASK\020\341\017\022(\n#LIB_TASK_" +
-      "MANAGER_CREATE_SHADER_TASK\020\342\017\0227\n2LIB_TAS" +
-      "K_MANAGER_CREATE_EXTERNAL_NATIVE_BUILD_T" +
-      "ASK\020\343\017\022\033\n\026GENERIC_TASK_EXECUTION\020\270\027\022\026\n\021T" +
-      "ASK_AIDL_COMPILE\020\271\027\022\020\n\013TASK_DELETE\020\272\027\022\030\n",
-      "\023TASK_CHECK_MANIFEST\020\273\027\022#\n\036TASK_PREPARE_" +
-      "DEPENDENCIES_TASK\020\274\027\022\036\n\031TASK_RENDERSCRIP" +
-      "T_COMPILE\020\275\027\022\037\n\032TASK_GENERATE_BUILD_CONF" +
-      "IG\020\276\027\022\026\n\021TASK_MERGE_ASSETS\020\277\027\022\035\n\030TASK_GE" +
-      "NERATE_RES_VALUES\020\300\027\022\031\n\024TASK_MERGE_RESOU" +
-      "RCES\020\301\027\022\031\n\024TASK_MERGE_MANIFESTS\020\302\027\022#\n\036TA" +
-      "SK_PROCESS_ANDROID_RESOURCES\020\303\027\022\026\n\021TASK_" +
-      "JAVA_COMPILE\020\304\027\022\025\n\020TASK_NDK_COMPILE\020\305\027\022\021" +
-      "\n\014TASK_PRE_DEX\020\306\027\022\r\n\010TASK_DEX\020\307\027\022\033\n\026TASK" +
-      "_PACKAGE_SPLIT_RES\020\310\027\022\033\n\026TASK_PROCESS_RE",
-      "SOURCES\020\311\027\022\037\n\032TASK_VALIDATE_SIGNING_TASK" +
-      "\020\312\027\022\035\n\030TASK_PACKAGE_APPLICATION\020\313\027\022\031\n\024TA" +
-      "SK_SPLIT_ZIP_ALIGN\020\314\027\022\023\n\016TASK_ZIP_ALIGN\020" +
-      "\315\027\022\016\n\tTASK_COPY\020\316\027\022\016\n\tTASK_LINT\020\317\027\022\033\n\026TA" +
-      "SK_FILE_VERIFICATION\020\322\027\022=\n8TASK_EXTERNAL" +
-      "_NATIVE_BUILD_GENERATE_JSON_PROCESS_PER_" +
-      "ABI\020\323\027\0225\n0TASK_EXTERNAL_NATIVE_BUILD_GEN" +
-      "ERATE_JSON_PROCESS\020\324\027\022\037\n\032TASK_TRANSFORM_" +
-      "PREPARATION\020\320\027\022\023\n\016TASK_TRANSFORM\020\321\027\"\222\016\n\023" +
-      "GradleTaskExecution\0226\n\004type\030\001 \001(\0162(.andr",
-      "oid_studio.GradleTaskExecution.Type\022\020\n\010d" +
-      "id_work\030\002 \001(\010\022\017\n\007skipped\030\003 \001(\010\022\022\n\nup_to_" +
-      "date\030\004 \001(\010\022\016\n\006failed\030\005 \001(\010\"\373\014\n\004Type\022\025\n\021U" +
-      "NKNOWN_TASK_TYPE\020\000\022\020\n\014AIDL_COMPILE\020\001\022\017\n\013" +
-      "ANDROID_JAR\020\002\022\030\n\024ANDROID_JAVA_COMPILE\020\003\022" +
-      "\022\n\016ANDROID_REPORT\020\004\022\025\n\021ANDROID_UNIT_TEST" +
-      "\020\005\022\022\n\016BUILD_EMULATOR\020\006\022\025\n\021BUILD_INFO_LOA" +
-      "DER\020\007\022\022\n\016CHECK_MANIFEST\020\010\022\037\n\033COMPATIBLE_" +
-      "SCREENS_MANIFEST\020\t\022\035\n\031CREATE_MANIFEST_KE" +
-      "EP_LIST\020\n\022\"\n\036DATA_BINDING_EXPORT_BUILD_I",
-      "NFO\020\013\022 \n\034DATA_BINDING_PROCESS_LAYOUTS\020\014\022" +
-      "\025\n\021DEPENDENCY_REPORT\020\r\022#\n\037DEVICE_PROVIDE" +
-      "R_INSTRUMENT_TEST\020\016\022\031\n\025EXTERNAL_BUILD_AN" +
-      "CHOR\020\017\022\036\n\032EXTERNAL_NATIVE_BUILD_JSON\020\020\022\031" +
-      "\n\025EXTERNAL_NATIVE_BUILD\020\021\022\027\n\023EXTRACT_ANN" +
-      "OTATIONS\020\022\022\032\n\026EXTRACT_JAVA_RESOURCES\020\023\022\032" +
-      "\n\026EXTRACT_PROGUARD_FILES\020\024\022!\n\035FAST_DEPLO" +
-      "Y_RUNTIME_EXTRACTOR\020\025\022\025\n\021FILTERED_JAR_CO" +
-      "PY\020\026\022\025\n\021GENERATE_APK_DATA\020\027\022\031\n\025GENERATE_" +
-      "BUILD_CONFIG\020\030\022!\n\035GENERATE_INSTANT_RUN_A",
-      "PP_INFO\020\031\022\027\n\023GENERATE_RES_VALUES\020\032\022\032\n\026GE" +
-      "NERATE_SPLIT_ABI_RES\020\033\022\023\n\017GOOGLE_SERVICE" +
-      "S\020\034\022\031\n\025INCREMENTAL_SAFEGUARD\020\035\022\023\n\017INSTAL" +
-      "L_VARIANT\020\036\022!\n\035INSTANT_RUN_SPLIT_APK_BUI" +
-      "LDER\020\037\022\027\n\023INSTANT_RUN_WRAPPER\020 \022\032\n\026INVOK" +
-      "E_MANIFEST_MERGER\020!\022\026\n\022JACK_JACOCO_REPOR" +
-      "T\020\"\022\021\n\rJACOCO_REPORT\020#\022\010\n\004LINT\020$\022\020\n\014LINT" +
-      "_COMPILE\020%\022\016\n\nMERGE_FILE\020&\022\023\n\017MERGE_MANI" +
-      "FESTS\020\'\022\023\n\017MERGE_RESOURCES\020(\022\034\n\030MERGE_SO" +
-      "URCE_SET_FOLDERS\020)\022\030\n\024MOCKABLE_ANDROID_J",
-      "AR\020*\022\017\n\013NDK_COMPILE\020+\022\007\n\003NDK\020,\022\027\n\023PACKAG" +
-      "E_APPLICATION\020-\022\025\n\021PACKAGE_SPLIT_ABI\020.\022\025" +
-      "\n\021PACKAGE_SPLIT_RES\020/\022\021\n\rPRE_COLD_SWAP\0200" +
-      "\022\030\n\024PREPARE_DEPENDENCIES\0201\022\023\n\017PREPARE_LI" +
-      "BRARY\0202\022\035\n\031PROCESS_ANDROID_RESOURCES\0203\022\024" +
-      "\n\020PROCESS_MANIFEST\0204\022\031\n\025PROCESS_TEST_MAN" +
-      "IFEST\0205\022\030\n\024RENDERSCRIPT_COMPILE\0206\022\022\n\016SHA" +
-      "DER_COMPILE\0207\022\022\n\016SIGNING_REPORT\0208\022\024\n\020SIN" +
-      "GLE_FILE_COPY\0209\022\017\n\013SOURCE_SETS\020:\022\023\n\017SPLI" +
-      "T_ZIP_ALIGN\020;\022\020\n\014STREAM_BASED\020<\022\026\n\022STRIP",
-      "_DEBUG_SYMBOL\020=\022\026\n\022STRIP_DEPENDENCIES\020>\022" +
-      "\031\n\025TEST_MODULE_PRO_GUARD\020?\022\017\n\013TEST_SERVE" +
-      "R\020@\022\r\n\tTRANSFORM\020A\022\r\n\tUNINSTALL\020B\022\024\n\020VAL" +
-      "IDATE_SIGNING\020C\022\r\n\tZIP_ALIGN\020D\022\020\n\014JAVA_C" +
-      "OMPILE\020E\"\337\003\n\030GradleTransformExecution\022;\n" +
-      "\004type\030\001 \001(\0162-.android_studio.GradleTrans" +
-      "formExecution.Type\022\026\n\016is_incremental\030\002 \001" +
-      "(\010\"\355\002\n\004Type\022\032\n\026UNKNOWN_TRANSFORM_TYPE\020\000\022" +
-      "\007\n\003DEX\020\001\022\020\n\014EXTRACT_JARS\020\002\022\023\n\017INSTANT_RU" +
-      "N_DEX\020\003\022\026\n\022INSTANT_RUN_SLICER\020\004\022\017\n\013INSTA",
-      "NT_RUN\020\005\022\027\n\023INSTANT_RUN_VERIFER\020\006\022\020\n\014JAC" +
-      "K_PRE_DEX\020\007\022\010\n\004JACK\020\010\022\n\n\006JACOCO\020\t\022\017\n\013JAR" +
-      "_MERGING\020\n\022\017\n\013LIBRARY_JAR\020\013\022\024\n\020LIBRARY_J" +
-      "NI_LIBS\020\014\022\030\n\024MERGE_JAVA_RESOURCES\020\r\022\r\n\tM" +
-      "ULTI_DEX\020\016\022\020\n\014NEW_SHRINKER\020\017\022\027\n\023NO_CHANG" +
-      "ES_VERIFIER\020\020\022\r\n\tPRO_GUARD\020\021\022\024\n\020SHRINK_R" +
-      "ESOURCES\020\022\"\350\010\n\020InstantRunStatus\022>\n\nbuild" +
-      "_mode\030\001 \001(\0162*.android_studio.InstantRunS" +
-      "tatus.BuildMode\022H\n\017patching_policy\030\002 \001(\016" +
-      "2/.android_studio.InstantRunStatus.Patch",
-      "ingPolicy\022H\n\017verifier_status\030\003 \001(\0162/.and" +
-      "roid_studio.InstantRunStatus.VerifierSta" +
-      "tus\0224\n\010artifact\030\004 \003(\0132\".android_studio.I" +
-      "nstantRunArtifact\"E\n\tBuildMode\022\026\n\022UNKNOW" +
-      "N_BUILD_MODE\020\000\022\014\n\010HOT_WARM\020\001\022\010\n\004COLD\020\002\022\010" +
-      "\n\004FULL\020\003\"]\n\016PatchingPolicy\022\033\n\027UNKNOWN_PA" +
-      "TCHING_POLICY\020\000\022\020\n\014PRE_LOLLIPOP\020\001\022\r\n\tMUL" +
-      "TI_DEX\020\002\022\r\n\tMULTI_APK\020\003\"\243\005\n\016VerifierStat" +
-      "us\022\033\n\027UNKNOWN_VERIFIER_STATUS\020\000\022\016\n\nCOMPA" +
-      "TIBLE\020\001\022\013\n\007NOT_RUN\020\002\022\030\n\024INSTANT_RUN_DISA",
-      "BLED\020\003\022\027\n\023INSTANT_RUN_FAILURE\020\004\022\017\n\013CLASS" +
-      "_ADDED\020\005\022\030\n\024PARENT_CLASS_CHANGED\020\006\022!\n\035IM" +
-      "PLEMENTED_INTERFACES_CHANGE\020\007\022\033\n\027CLASS_A" +
-      "NNOTATION_CHANGE\020\010\022\035\n\031STATIC_INITIALIZER" +
-      "_CHANGE\020\t\022 \n\034CONSTRUCTOR_SIGNATURE_CHANG" +
-      "E\020\n\022\033\n\027METHOD_SIGNATURE_CHANGE\020\013\022\034\n\030METH" +
-      "OD_ANNOTATION_CHANGE\020\014\022\022\n\016METHOD_DELETED" +
-      "\020\r\022\020\n\014METHOD_ADDED\020\016\022\017\n\013FIELD_ADDED\020\017\022\021\n" +
-      "\rFIELD_REMOVED\020\020\022\025\n\021FIELD_TYPE_CHANGE\020\021\022" +
-      "\022\n\016R_CLASS_CHANGE\020\022\022\023\n\017REFLECTION_USED\020\023",
-      "\022\032\n\026JAVA_RESOURCES_CHANGED\020\024\022\026\n\022DEPENDEN" +
-      "CY_CHANGED\020\025\022\030\n\024MANIFEST_FILE_CHANGE\020\026\022\037" +
-      "\n\033BINARY_MANIFEST_FILE_CHANGE\020\027\022\027\n\023COLD_" +
-      "SWAP_REQUESTED\020\030\022\030\n\024FULL_BUILD_REQUESTED" +
-      "\020\031\022\021\n\rINITIAL_BUILD\020\032\"\261\001\n\022InstantRunArti" +
-      "fact\0225\n\004type\030\001 \001(\0162\'.android_studio.Inst" +
-      "antRunArtifact.Type\"d\n\004Type\022\010\n\004MAIN\020\001\022\016\n" +
-      "\nSPLIT_MAIN\020\002\022\016\n\nRELOAD_DEX\020\003\022\017\n\013RESTART" +
-      "_DEX\020\004\022\007\n\003DEX\020\005\022\t\n\005SPLIT\020\006\022\r\n\tRESOURCES\020" +
-      "\007\"(\n\023LLDBFrontendDetails\022\021\n\texit_code\030\001 ",
-      "\001(\005\"-\n\024FirebaseErrorDetails\022\025\n\rerror_mes" +
-      "sage\030\001 \001(\t\"O\n\021GfxTracingDetails\022\022\n\ntotal" +
-      "_time\030\001 \001(\003\022\017\n\007command\030\002 \001(\t\022\025\n\rerror_me" +
-      "ssage\030\003 \001(\tB;\n%com.google.wireless.andro" +
+      "tudio.GfxTracingDetails\022B\n\025test_recorder" +
+      "_details\030! \001(\0132#.android_studio.TestReco" +
+      "rderDetails\"\220\003\n\rEventCategory\022\025\n\021NO_EVEN" +
+      "T_CATEGORY\020\000\022\016\n\nDEPLOYMENT\020\001\022\020\n\014STUDIO_B",
+      "UILD\020\002\022\026\n\022DEVELOPER_SERVICES\020\003\022\017\n\013GRADLE" +
+      "_SYNC\020\004\022\r\n\tPROFILING\020\005\022\013\n\007MONITOR\020\006\022\017\n\013S" +
+      "DK_MANAGER\020\007\022\014\n\010TEMPLATE\020\010\022\020\n\014THEME_EDIT" +
+      "OR\020\t\022\020\n\014APP_INDEXING\020\n\022\010\n\004LLDB\020\013\022\021\n\rCLOU" +
+      "D_TESTING\020\014\022\010\n\004PING\020\r\022\t\n\005TESTS\020\016\022\010\n\004META" +
+      "\020\017\022\017\n\013EMULATOR_UI\020\020\022\n\n\006SYSTEM\020\021\022\034\n\030PROJE" +
+      "CT_STRUCTURE_DIALOG\020\022\022\n\n\006GRADLE\020\023\022\026\n\022FIR" +
+      "EBASE_ASSISTANT\020\024\022\020\n\014GPU_PROFILER\020\025\022\021\n\rT" +
+      "EST_RECORDER\020\026\"\275\027\n\tEventKind\022\026\n\022UNKNOWN_" +
+      "EVENT_KIND\020\000\022\022\n\016DEPLOYMENT_APK\020\001\022\032\n\026DEPL",
+      "OYMENT_TO_EMULATOR\020\002\022 \n\034DEVELOPER_SERVIC" +
+      "ES_INSTALLED\020\003\022\036\n\032DEVELOPER_SERVICES_REM" +
+      "OVED\020\004\022\027\n\023GRADLE_SYNC_STARTED\020\005\022\025\n\021GRADL" +
+      "E_SYNC_ENDED\020\006\022\027\n\023GRADLE_SYNC_SKIPPED\020\007\022" +
+      "\027\n\023GRADLE_SYNC_FAILURE\020\010\022\035\n\031GRADLE_CPP_S" +
+      "YNC_COMPLETED\020\t\022\025\n\021PROFILING_CAPTURE\020\n\022\022" +
+      "\n\016PROFILING_OPEN\020\013\022\033\n\027PROFILING_CONVERT_" +
+      "HPROF\020\014\022\032\n\026PROFILING_ANALYSIS_RUN\020\r\022\025\n\021M" +
+      "ONITOR_ACTIVATED\020\016\022\023\n\017MONITOR_RUNNING\020\017\022" +
+      "\037\n\033SDK_MANAGER_TOOLBAR_CLICKED\020\020\022#\n\037SDK_",
+      "MANAGER_STANDALONE_LAUNCHED\020\021\022\026\n\022SDK_MAN" +
+      "AGER_LOADED\020\022\022\023\n\017TEMPLATE_RENDER\020\023\022\025\n\021TH" +
+      "EME_EDITOR_OPEN\020\024\022\"\n\036APP_INDEXING_DEEP_L" +
+      "INK_CREATED\020\025\022!\n\035APP_INDEXING_API_CODE_C" +
+      "REATED\020\026\022#\n\037APP_INDEXING_DEEP_LINK_LAUNC" +
+      "HED\020\027\022!\n\035APP_INDEXING_TRIGGER_QUICKFIX\020\030" +
+      "\022!\n\035APP_INDEXING_SHOW_FEAG_DIALOG\020\031\022 \n\034A" +
+      "PP_INDEXING_START_FEAG_TASK\020\032\022\021\n\rLLDB_LA" +
+      "UNCHED\020\033\022\030\n\024LLDB_SESSION_STARTED\020\034\022\027\n\023LL" +
+      "DB_SESSION_FAILED\020\035\022\032\n\026LLDB_SESSION_COMP",
+      "LETED\020\036\022\030\n\024LLDB_INSTALL_STARTED\020\037\022\027\n\023LLD" +
+      "B_INSTALL_FAILED\020 \022\032\n\026LLDB_INSTALL_COMPL" +
+      "ETED\020!\022!\n\035LLDB_SESSION_USED_WATCHPOINTS\020" +
+      "\"\022(\n$CLOUD_TESTING_CONFIGURE_CLOUD_DEVIC" +
+      "E\020#\022\"\n\036CLOUD_TESTING_CONFIGURE_MATRIX\020$\022" +
+      "%\n!CLOUD_TESTING_LAUNCH_CLOUD_DEVICE\020%\022!" +
+      "\n\035CLOUD_TESTING_RUN_TEST_MATRIX\020&\022\037\n\033CLO" +
+      "UD_TESTING_BACKEND_ERROR\020\'\022$\n CLOUD_TEST" +
+      "ING_DEBUG_FROM_RESULTS\020(\022,\n(CLOUD_TESTIN" +
+      "G_COMPARE_SCREENSHOTS_OPENED\020)\022\020\n\014STUDIO",
+      "_CRASH\020*\022\030\n\024GRADLE_BUILD_DETAILS\020,\022\017\n\013IN" +
+      "STANT_RUN\020-\022\017\n\013STUDIO_PING\020.\022\021\n\rEMULATOR" +
+      "_PING\020/\022\020\n\014META_METRICS\0200\022\014\n\010TEST_RUN\0202\022" +
+      "\025\n\021EMULATOR_UI_EVENT\0203\022\016\n\nHYPERVISOR\0204\022\021" +
+      "\n\rEMULATOR_HOST\0205\022!\n\035PROJECT_STRUCTURE_D" +
+      "IALOG_OPEN\0206\022!\n\035PROJECT_STRUCTURE_DIALOG" +
+      "_SAVE\0207\022*\n&PROJECT_STRUCTURE_DIALOG_TOP_" +
+      "TAB_CLICK\0208\022)\n%PROJECT_STRUCTURE_DIALOG_" +
+      "TOP_TAB_SAVE\0209\022+\n\'PROJECT_STRUCTURE_DIAL" +
+      "OG_LEFT_NAV_CLICK\020:\022*\n&PROJECT_STRUCTURE",
+      "_DIALOG_LEFT_NAV_SAVE\020;\022\030\n\024GRADLE_BUILD_" +
+      "PROFILE\020<\022\030\n\024LLDB_FRONTEND_EXITED\020=\022&\n\"F" +
+      "IREBASE_ASSISTANT_PROJECT_CREATED\020>\022,\n(F" +
+      "IREBASE_ASSISTANT_PROJECT_CREATE_FAILED\020" +
+      "?\022\'\n#FIREBASE_ASSISTANT_PROJECT_UPGRADED" +
+      "\020@\022-\n)FIREBASE_ASSISTANT_PROJECT_UPGRADE" +
+      "_FAILED\020B\0223\n/FIREBASE_ASSISTANT_PROJECT_" +
+      "CONFIG_CREATE_FAILED\020C\022&\n\"FIREBASE_ASSIS" +
+      "TANT_PROJECT_UPDATED\020D\022,\n(FIREBASE_ASSIS" +
+      "TANT_PROJECT_UPDATE_FAILED\020E\0222\n.FIREBASE",
+      "_ASSISTANT_PROJECT_CONFIG_WRITE_FAILED\020F" +
+      "\022!\n\035FIREBASE_ASSISTANT_TOS_FAILED\020G\022$\n F" +
+      "IREBASE_ASSISTANT_ATTEMPT_LOGIN\020H\022$\n FIR" +
+      "EBASE_ASSISTANT_LOGIN_SUCCESS\020I\022,\n(FIREB" +
+      "ASE_ASSISTANT_RECONNECT_DIALOG_SYNC\020J\022(\n" +
+      "$FIREBASE_ASSISTANT_CONNECT_REQUESTED\020K\022" +
+      "\033\n\027FIREBASE_ASSISTANT_OPEN\020L\022,\n(FIREBASE" +
+      "_ASSISTANT_CONNECT_DIALOG_OPENED\020M\022*\n&FI" +
+      "REBASE_ASSISTANT_CONNECT_DIALOG_SYNC\020N\022&" +
+      "\n\"FIREBASE_ASSISTANT_ERROR_PRESENTED\020O\022#",
+      "\n\037FIREBASE_ASSISTANT_SILENT_ERROR\020P\022.\n*F" +
+      "IREBASE_ASSISTANT_RECONNECT_DIALOG_OPENE" +
+      "D\020Q\022\030\n\024GFX_TRACE_INIT_ERROR\020R\022\024\n\020GFX_TRA" +
+      "CE_CLOSED\020S\022\036\n\032GFX_TRACE_PARAMETER_EDITE" +
+      "D\020T\022\033\n\027GFX_TRACE_TRACE_STARTED\020U\022\033\n\027GFX_" +
+      "TRACE_TRACE_STOPPED\020V\022\036\n\032GFX_TRACE_COMMA" +
+      "ND_SELECTED\020W\022\032\n\026GFX_TRACE_LINK_CLICKED\020" +
+      "X\022\033\n\027GFX_TRACE_MEMORY_VIEWED\020Y\022\034\n\030GFX_TR" +
+      "ACE_TEXTURE_VIEWED\020Z\022\037\n\033LEGACY_IDEA_ANDR" +
+      "OID_PROJECT\020[\022%\n!TEST_RECORDER_GENERATE_",
+      "TEST_CLASS\020\\\022/\n+TEST_RECORDER_MISSING_ES" +
+      "PRESSO_DEPENDENCIES\020]\0225\n1TEST_RECORDER_M" +
+      "ISSING_INSTRUMENTATION_TEST_FOLDER\020^\022\030\n\024" +
+      "TEST_RECORDER_LAUNCH\020_\"R\n\013MonitorType\022\030\n" +
+      "\024UNKNOWN_MONITOR_TYPE\020\000\022\007\n\003CPU\020\001\022\007\n\003GPU\020" +
+      "\002\022\n\n\006MEMORY\020\003\022\013\n\007NETWORK\020\004\"\275\001\n\023ProfilerC" +
+      "aptureType\022!\n\035UNKNOWN_PROFILER_CAPTURE_T" +
+      "YPE\020\000\022\016\n\nALLOCATION\020\001\022\010\n\004FILE\020\002\022\r\n\tGFX_T" +
+      "RACE\020\003\022\010\n\004HEAP\020\004\022\017\n\013SYSTEM_INFO\020\005\022\014\n\010VM_" +
+      "TRACE\020\006\022\022\n\016METHOD_TRACING\020\007\022\035\n\031LAYOUT_IN",
+      "SPECTOR_SNAPSHOT\020\010\"m\n\024RunConfigurationTy" +
+      "pe\022\"\n\036UNKNOWN_RUN_CONFIGURATION_TYPE\020\000\022\013" +
+      "\n\007ANDROID\020\001\022\022\n\016ANDROID_NATIVE\020\002\022\020\n\014ANDRO" +
+      "ID_TEST\020\003\"K\n\014DebuggerType\022\031\n\025UNKNOWN_DEB" +
+      "UGGER_TYPE\020\000\022\010\n\004JAVA\020\001\022\n\n\006HYBRID\020\002\022\n\n\006NA" +
+      "TIVE\020\003\"\261\002\n\024DeveloperServiceKind\022\"\n\036UNKNO" +
+      "WN_DEVELOPER_SERVICE_KIND\020\000\022\032\n\026GOOGLE_CL" +
+      "OUD_MESSAGING\020\001\022\n\n\006AD_MOB\020\002\022\022\n\016GOOGLE_SI" +
+      "GN_IN\020\003\022\024\n\020GOOGLE_ANALYTICS\020\004\022\014\n\010FIREBAS" +
+      "E\020\005\022\025\n\021REALTIME_DATABASE\020\006\022\022\n\016AUTHENTICA",
+      "TION\020\007\022\023\n\017CRASH_REPORTING\020\010\022\021\n\rNOTIFICAT" +
+      "IONS\020\t\022\021\n\rREMOTE_CONFIG\020\n\022\013\n\007STORAGE\020\013\022\017" +
+      "\n\013APP_INVITES\020\014\022\021\n\rDYNAMIC_LINKS\020\r\"\247\006\n\020T" +
+      "emplateRenderer\022\035\n\031UNKNOWN_TEMPLATE_REND" +
+      "ERER\020\000\022\034\n\030CUSTOM_TEMPLATE_RENDERER\020\001\022\022\n\016" +
+      "ANDROID_MODULE\020\002\022\023\n\017ANDROID_PROJECT\020\003\022\022\n" +
+      "\016EMPTY_ACTIVITY\020\004\022\022\n\016BLANK_ACTIVITY\020\005\022\023\n" +
+      "\017LAYOUT_XML_FILE\020\006\022\022\n\016FRAGMENT_BLANK\020\007\022\036" +
+      "\n\032NAVIGATION_DRAWER_ACTIVITY\020\010\022\023\n\017VALUES" +
+      "_XML_FILE\020\t\022\030\n\024GOOGLE_MAPS_ACTIVITY\020\n\022\022\n",
+      "\016LOGIN_ACTIVITY\020\013\022\021\n\rASSETS_FOLDER\020\014\022\023\n\017" +
+      "TABBED_ACTIVITY\020\r\022\026\n\022SCROLLING_ACTIVITY\020" +
+      "\016\022\027\n\023FULLSCREEN_ACTIVITY\020\017\022\013\n\007SERVICE\020\020\022" +
+      "\020\n\014JAVA_LIBRARY\020\021\022\025\n\021SETTINGS_ACTIVITY\020\022" +
+      "\022\021\n\rFRAGMENT_LIST\020\023\022\026\n\022MASTER_DETAIL_FLO" +
+      "W\020\024\022\027\n\023ANDROID_WEAR_MODULE\020\025\022\026\n\022BROADCAS" +
+      "T_RECEIVER\020\026\022\r\n\tAIDL_FILE\020\027\022\022\n\016INTENT_SE" +
+      "RVICE\020\030\022\016\n\nJNI_FOLDER\020\031\022\017\n\013JAVA_FOLDER\020\032" +
+      "\022\017\n\013CUSTOM_VIEW\020\033\022\025\n\021ANDROID_TV_MODULE\020\034" +
+      "\022\036\n\032GOOGLE_ADMOBS_ADS_ACTIVITY\020\035\022\033\n\027ALWA",
+      "YS_ON_WEAR_ACTIVITY\020\036\022\016\n\nRES_FOLDER\020\037\022\027\n" +
+      "\023ANDROID_TV_ACTIVITY\020 \022\027\n\023BLANK_WEAR_ACT" +
+      "IVITY\020!\022\023\n\017BASIC_ACTIVITIY\020\"\022\016\n\nAPP_WIDG" +
+      "ET\020#\"\374\002\n\021GradleSyncFailure\022\032\n\026UNKNOWN_GR" +
+      "ADLE_FAILURE\020\000\022\025\n\021CONNECTION_DENIED\020\001\022\023\n" +
+      "\017CLASS_NOT_FOUND\020\002\022\030\n\024DSL_METHOD_NOT_FOU" +
+      "ND\020\003\022\027\n\023FAILED_TO_PARSE_SDK\020\004\022\024\n\020METHOD_" +
+      "NOT_FOUND\020\005\022\034\n\030MISSING_ANDROID_PLATFORM\020" +
+      "\006\022 \n\034MISSING_ANDROID_SUPPORT_REPO\020\007\022\027\n\023M" +
+      "ISSING_BUILD_TOOLS\020\010\022\021\n\rOUT_OF_MEMORY\020\t\022",
+      "\021\n\rSDK_NOT_FOUND\020\n\022\020\n\014UNKNOWN_HOST\020\013\022%\n!" +
+      "UNSUPPORTED_ANDROID_MODEL_VERSION\020\014\022\036\n\032U" +
+      "NSUPPORTED_GRADLE_VERSION\020\r\"\301\003\n\016ProductD" +
+      "etails\022;\n\007product\030\001 \001(\0162*.android_studio" +
+      ".ProductDetails.ProductKind\022\r\n\005build\030\002 \001" +
+      "(\t\022\017\n\007version\030\003 \001(\t\022\017\n\007preview\030\004 \001(\010\022G\n\017" +
+      "os_architecture\030\005 \001(\0162..android_studio.P" +
+      "roductDetails.CpuArchitecture\"R\n\013Product" +
+      "Kind\022\023\n\017UNKNOWN_PRODUCT\020\000\022\n\n\006STUDIO\020\001\022\014\n" +
+      "\010EMULATOR\020\002\022\n\n\006GRADLE\020\003\022\010\n\004DDMS\020\004\"^\n\006OSK",
+      "ind\022\023\n\017UNKNOWN_OS_KIND\020\000\022\014\n\010OTHER_OS\020\001\022\013" +
+      "\n\007WINDOWS\020\002\022\013\n\007MAC_OSX\020\003\022\t\n\005LINUX\020\004\022\014\n\010F" +
+      "REE_BSD\020\005\"D\n\017CpuArchitecture\022\034\n\030UNKNOWN_" +
+      "CPU_ARCHITECTURE\020\000\022\007\n\003X86\020\001\022\n\n\006X86_64\020\002\"" +
+      "\217\005\n\nDeviceInfo\022 \n\030anonymized_serial_numb" +
+      "er\030\001 \001(\t\022\022\n\nbuild_tags\030\002 \001(\t\022\022\n\nbuild_ty" +
+      "pe\030\003 \001(\t\022\035\n\025build_version_release\030\004 \001(\t\022" +
+      "\027\n\017build_api_level\030\005 \001(\005\022F\n\007cpu_abi\030\006 \001(" +
+      "\01625.android_studio.DeviceInfo.Applicatio" +
+      "nBinaryInterface\022\024\n\014manufacturer\030\007 \001(\t\022\r",
+      "\n\005model\030\010 \001(\t\022:\n\013device_type\030\t \001(\0162%.and" +
+      "roid_studio.DeviceInfo.DeviceType\022\034\n\024bui" +
+      "ld_api_level_full\030\n \001(\t\"\300\001\n\032ApplicationB" +
+      "inaryInterface\022\017\n\013UNKNOWN_ABI\020\000\022\020\n\014ARME_" +
+      "ABI_V7A\020\001\022\013\n\007X86_ABI\020\002\022\021\n\rARM64_V8A_ABI\020" +
+      "\003\022\016\n\nX86_64_ABI\020\004\022\014\n\010ARME_ABI\020\005\022\014\n\010MIPS_" +
+      "ABI\020\006\022\017\n\013MIPS_R2_ABI\020\007\022\020\n\014ARME_ABI_V6L\020\010" +
+      "\022\020\n\014ARME_ABI_V6J\020\t\"u\n\nDeviceType\022\027\n\023UNKN" +
+      "OWN_DEVICE_TYPE\020\000\022\022\n\016LOCAL_PHYSICAL\020\001\022\022\n" +
+      "\016LOCAL_EMULATOR\020\002\022\022\n\016CLOUD_EMULATOR\020\003\022\022\n",
+      "\016CLOUD_PHYSICAL\020\004\"\215\001\n\013StudioCrash\022\017\n\007act" +
+      "ions\030\001 \001(\003\022\022\n\nexceptions\030\002 \001(\003\022\017\n\007crashe" +
+      "s\030\003 \001(\003\022!\n\031bundled_plugin_exceptions\030\004 \001" +
+      "(\003\022%\n\035non_bundled_plugin_exceptions\030\005 \001(" +
+      "\003\"H\n\023EmulatorGuestGlInfo\022\016\n\006vendor\030\001 \001(\t" +
+      "\022\020\n\010renderer\030\002 \001(\t\022\017\n\007version\030\003 \001(\t\"y\n\017E" +
+      "mulatorGpuInfo\022\014\n\004make\030\001 \001(\t\022\r\n\005model\030\002 " +
+      "\001(\t\022\021\n\tdevice_id\030\003 \001(\t\022\023\n\013revision_id\030\004 " +
+      "\001(\t\022\017\n\007version\030\005 \001(\t\022\020\n\010renderer\030\006 \001(\t\"\325" +
+      "\007\n\017EmulatorDetails\022H\n\nguest_arch\030\001 \001(\01624",
+      ".android_studio.EmulatorDetails.GuestCpu" +
+      "Architecture\022\023\n\013system_time\030\002 \001(\003\022\021\n\tuse" +
+      "r_time\030\003 \001(\003\022\017\n\007crashes\030\004 \001(\003\022\021\n\twall_ti" +
+      "me\030\005 \001(\003\022\024\n\014exit_started\030\006 \001(\010\022\027\n\017guest_" +
+      "api_level\030\007 \001(\003\022\031\n\021guest_gpu_enabled\030\010 \001" +
+      "(\010\022\027\n\017is_opengl_alive\030\n \001(\010\022I\n\014adb_liven" +
+      "ess\030\013 \001(\01623.android_studio.EmulatorDetai" +
+      "ls.EmulatorAdbLiveness\0225\n\010guest_gl\030\014 \001(\013" +
+      "2#.android_studio.EmulatorGuestGlInfo\0221\n" +
+      "\010host_gpu\030\r \003(\0132\037.android_studio.Emulato",
+      "rGpuInfo\022K\n\rsession_phase\030\016 \001(\01624.androi" +
+      "d_studio.EmulatorDetails.EmulatorSession" +
+      "Phase\"\224\001\n\023EmulatorAdbLiveness\022!\n\035UNKNOWN" +
+      "_EMULATOR_ADB_LIVENESS\020\000\022\022\n\016FAILURE_NO_A" +
+      "DB\020\001\022\016\n\nADB_ONLINE\020\002\022\033\n\027FAILURE_ADB_SERV" +
+      "ER_DEAD\020\003\022\031\n\025FAILURE_EMULATOR_DEAD\020\004\"\262\001\n" +
+      "\024EmulatorSessionPhase\022\"\n\036UNKNOWN_EMULATO" +
+      "R_SESSION_PHASE\020\000\022\014\n\010LAUNCHER\020\001\022\021\n\rPARSE" +
+      "_OPTIONS\020\002\022\020\n\014INIT_GENERAL\020\003\022\014\n\010INIT_GPU" +
+      "\020\004\022\016\n\nINIT_ACCEL\020\005\022\023\n\017RUNNING_GENERAL\020\006\022",
+      "\020\n\014EXIT_GENERAL\020\007\"{\n\024GuestCpuArchitectur" +
+      "e\022\"\n\036UNKNOWN_GUEST_CPU_ARCHITECTURE\020\000\022\007\n" +
+      "\003X86\020\001\022\n\n\006X86_64\020\002\022\007\n\003ARM\020\003\022\n\n\006ARM_64\020\004\022" +
+      "\010\n\004MIPS\020\005\022\013\n\007MIPS_64\020\006\"\234\003\n\017EmulatorUiEve" +
+      "nt\022\022\n\nelement_id\030\001 \001(\t\022A\n\004type\030\002 \001(\01623.a" +
+      "ndroid_studio.EmulatorUiEvent.EmulatorUi" +
+      "EventType\022G\n\007context\030\003 \001(\01626.android_stu" +
+      "dio.EmulatorUiEvent.EmulatorUiEventConte" +
+      "xt\022\r\n\005value\030\004 \001(\003\"\177\n\023EmulatorUiEventType" +
+      "\022\"\n\036UNKONWN_EMULATOR_UI_EVENT_TYPE\020\000\022\020\n\014",
+      "BUTTON_PRESS\020\001\022\035\n\031OPTION_SET_TO_NON_DEFA" +
+      "ULT\020\002\022\023\n\017OPTION_SELECTED\020\003\"Y\n\026EmulatorUi" +
+      "EventContext\022%\n!UNKNOWN_EMULATOR_UI_EVEN" +
+      "T_CONTEXT\020\000\022\030\n\024EXTENDED_WINDOW_OPEN\020\001\"\207\003" +
+      "\n\022GradleBuildDetails\022\036\n\026android_plugin_v" +
+      "ersion\030\001 \001(\t\022\026\n\016gradle_version\030\002 \001(\t\022\027\n\017" +
+      "user_enabled_ir\030\003 \001(\010\022\031\n\021model_supports_" +
+      "ir\030\004 \001(\010\022\033\n\023variant_supports_ir\030\005 \001(\010\0220\n" +
+      "\tlibraries\030\006 \003(\0132\035.android_studio.Gradle" +
+      "Library\022-\n\007modules\030\007 \003(\0132\034.android_studi",
+      "o.GradleModule\022<\n\017android_modules\030\010 \003(\0132" +
+      "#.android_studio.GradleAndroidModule\022I\n\026" +
+      "native_android_modules\030\t \003(\0132).android_s" +
+      "tudio.GradleNativeAndroidModule\"K\n\rGradl" +
+      "eLibrary\022\034\n\024jar_dependency_count\030\001 \001(\003\022\034" +
+      "\n\024aar_dependency_count\030\002 \001(\003\"^\n\014GradleMo" +
+      "dule\022\032\n\022total_module_count\030\001 \001(\003\022\030\n\020app_" +
+      "module_count\030\002 \001(\003\022\030\n\020lib_module_count\030\003" +
+      " \001(\003\"\266\001\n\023GradleAndroidModule\022\016\n\006app_id\030\001" +
+      " \001(\t\022\023\n\013module_name\030\002 \001(\t\022\022\n\nis_library\030",
+      "\003 \001(\010\022\030\n\020build_type_count\030\004 \001(\003\022\024\n\014flavo" +
+      "r_count\030\005 \001(\003\022\030\n\020flavor_dimension\030\006 \001(\003\022" +
+      "\034\n\024signing_config_count\030\007 \001(\003\"\240\002\n\031Gradle" +
+      "NativeAndroidModule\022\016\n\006app_id\030\001 \001(\t\022\023\n\013m" +
+      "odule_name\030\002 \001(\t\022Z\n\021build_system_type\030\003 " +
+      "\001(\0162?.android_studio.GradleNativeAndroid" +
+      "Module.NativeBuildSystemType\"\201\001\n\025NativeB" +
+      "uildSystemType\022$\n UNKNOWN_NATIVE_BUILD_S" +
+      "YSTEM_TYPE\020\000\022\027\n\023GRADLE_EXPERIMENTAL\020\001\022\017\n" +
+      "\013NDK_COMPILE\020\002\022\r\n\tNDK_BUILD\020\003\022\t\n\005CMAKE\020\004",
+      "\"\273\006\n\nInstantRun\022L\n\017deployment_kind\030\001 \001(\016" +
+      "23.android_studio.InstantRun.InstantRunD" +
+      "eploymentKind\022P\n\027instant_run_build_cause" +
+      "\030\003 \001(\0162/.android_studio.InstantRun.Insta" +
+      "ntRunBuildCause\022\022\n\nbuild_time\030\004 \001(\003\022\022\n\ns" +
+      "ession_id\030\005 \001(\t\"\242\001\n\030InstantRunDeployment" +
+      "Kind\022\'\n#UNKNOWN_INSTANT_RUN_DEPLOYMENT_K" +
+      "IND\020\000\022\n\n\006LEGACY\020\001\022\014\n\010FULL_APK\020\002\022\r\n\tSPLIT" +
+      "_APK\020\003\022\007\n\003DEX\020\004\022\014\n\010HOT_SWAP\020\005\022\r\n\tWARM_SW" +
+      "AP\020\006\022\016\n\nNO_CHANGES\020\007\"\277\003\n\024InstantRunBuild",
+      "Cause\022#\n\037UNKNOWN_INSTANT_RUN_BUILD_CAUSE" +
+      "\020\000\022\016\n\nCOMPATIBLE\020\001\022\023\n\017MANIFEST_CHANGE\020\002\022" +
+      "\025\n\021FIELD_TYPE_CHANGE\020\003\022\021\n\rFIELD_REMOVED\020" +
+      "\004\022\017\n\013FIELD_ADDED\020\005\022\022\n\016METHOD_DELETED\020\006\022\020" +
+      "\n\014METHOD_ADDED\020\007\022\017\n\013CLASS_ADDED\020\010\022\035\n\031STA" +
+      "TIC_INITIALIZER_CHANGE\020\t\022\033\n\027CLASS_ANNOTA" +
+      "TION_CHANGE\020\n\022\023\n\017RESOURCE_CHANGE\020\013\022\037\n\033IM" +
+      "PLEMENTS_INTERFACE_CHANGE\020\014\022\022\n\016R_CLASS_C" +
+      "HANGE\020\r\022\027\n\023PARENT_CLASS_CHANGE\020\016\022\034\n\030METH" +
+      "OD_ANNOTATION_CHANGE\020\017\022\031\n\025API_LEVEL_UNSU",
+      "PPORTED\020\020\022\023\n\017REFLECTION_USED\020\021\"k\n\013MetaMe" +
+      "trics\022\032\n\022failed_connections\030\001 \001(\005\022!\n\031byt" +
+      "es_sent_in_last_upload\030\002 \001(\003\022\035\n\025failed_s" +
+      "erver_replies\030\003 \001(\005\"\200\004\n\007TestRun\022H\n\024test_" +
+      "invocation_type\030\001 \001(\0162*.android_studio.T" +
+      "estRun.TestInvocationType\022 \n\030number_of_t" +
+      "ests_executed\030\002 \001(\005\0223\n\ttest_kind\030\003 \001(\0162 " +
+      ".android_studio.TestRun.TestKind\022\017\n\007cras" +
+      "hed\030\004 \001(\010\022\026\n\016gradle_version\030\005 \001(\t\022\035\n\025cod" +
+      "e_coverage_enabled\030\006 \001(\010\0225\n\016test_librari",
+      "es\030\007 \001(\0132\035.android_studio.TestLibraries\"" +
+      "\210\001\n\022TestInvocationType\022 \n\034UNKNOWN_TEST_I" +
+      "NVOCATION_TYPE\020\000\022\017\n\013GRADLE_TEST\020\001\022\027\n\023AND" +
+      "ROID_STUDIO_TEST\020\002\022&\n\"ANDROID_STUDIO_THR" +
+      "OUGH_GRADLE_TEST\020\003\"J\n\010TestKind\022\025\n\021UNKNOW" +
+      "N_TEST_KIND\020\000\022\r\n\tUNIT_TEST\020\001\022\030\n\024INSTRUME" +
+      "NTATION_TEST\020\002\"\205\001\n\rTestLibraries\022$\n\034test" +
+      "_support_library_version\030\001 \001(\t\022\030\n\020espres" +
+      "so_version\030\002 \001(\t\022\033\n\023robolectric_version\030" +
+      "\003 \001(\t\022\027\n\017mockito_version\030\004 \001(\t\"\311\001\n\nHyper",
+      "visor\022=\n\rhyper_v_state\030\001 \001(\0162&.android_s" +
+      "tudio.Hypervisor.HyperVState\"|\n\013HyperVSt" +
+      "ate\022\030\n\024UNKNOWN_HYPERV_STATE\020\000\022\021\n\rHYPERV_" +
+      "ABSENT\020\001\022\024\n\020HYPERV_INSTALLED\020\002\022\022\n\016HYPERV" +
+      "_RUNNING\020\003\022\026\n\022HYPERV_CHECK_ERROR\020\004\"k\n\014Em" +
+      "ulatorHost\022\030\n\020cpu_manufacturer\030\001 \001(\t\022\024\n\014" +
+      "virt_support\030\002 \001(\010\022\025\n\rrunning_in_vm\030\003 \001(" +
+      "\010\022\024\n\014os_bit_count\030\004 \001(\003\"\310\003\n\022GradleBuildP" +
+      "rofile\022\026\n\016gradle_version\030\002 \001(\t\022\017\n\007os_nam" +
+      "e\030\006 \001(\t\022\022\n\nos_version\030\007 \001(\t\022\024\n\014java_vers",
+      "ion\030\010 \001(\t\022\027\n\017java_vm_version\030\t \001(\t\022\022\n\nma" +
+      "x_memory\030\n \001(\003\022\022\n\nbuild_time\030\013 \001(\003\022\020\n\010gc" +
+      "_count\030\014 \001(\003\022\017\n\007gc_time\030\r \001(\003\0223\n\007project" +
+      "\030\016 \003(\0132\".android_studio.GradleBuildProje" +
+      "ct\022>\n\rmemory_sample\030\017 \003(\0132\'.android_stud" +
+      "io.GradleBuildMemorySample\0224\n\004span\030\020 \003(\013" +
+      "2&.android_studio.GradleBuildProfileSpan" +
+      "\022<\n\022instant_run_status\030\021 \001(\0132 .android_s" +
+      "tudio.InstantRunStatus\022\022\n\nproject_id\030\022 \001" +
+      "(\t\"\207\004\n\022GradleBuildProject\022\n\n\002id\030\001 \001(\003\022\036\n",
+      "\026android_plugin_version\030\002 \001(\t\022E\n\016android" +
+      "_plugin\030\003 \001(\0162-.android_studio.GradleBui" +
+      "ldProject.PluginType\022N\n\021plugin_generatio" +
+      "n\030\004 \001(\01623.android_studio.GradleBuildProj" +
+      "ect.PluginGeneration\022\033\n\023build_tools_vers" +
+      "ion\030\005 \001(\t\022:\n\007metrics\030\006 \001(\0132).android_stu" +
+      "dio.GradleBuildProjectMetrics\0223\n\007variant" +
+      "\030\007 \003(\0132\".android_studio.GradleBuildVaria" +
+      "nt\"M\n\nPluginType\022\027\n\023UNKNOWN_PLUGIN_TYPE\020" +
+      "\000\022\017\n\013APPLICATION\020\001\022\013\n\007LIBRARY\020\002\022\010\n\004TEST\020",
+      "\003\"Q\n\020PluginGeneration\022\035\n\031UNKNOWN_PLUGIN_" +
+      "GENERATION\020\000\022\t\n\005FIRST\020\001\022\023\n\017COMPONENT_MOD" +
+      "EL\020\002\"a\n\031GradleBuildProjectMetrics\022\027\n\017met" +
+      "rics_time_ns\030\001 \001(\003\022\020\n\010apk_size\030\002 \001(\003\022\031\n\021" +
+      "resources_ap_size\030\003 \001(\003\"\266\002\n\022GradleBuildV" +
+      "ariant\022\n\n\002id\030\001 \001(\003\022\020\n\010is_debug\030\002 \001(\010\022\020\n\010" +
+      "use_jack\030\003 \001(\010\022\026\n\016minify_enabled\030\004 \001(\010\022\024" +
+      "\n\014use_multidex\030\005 \001(\010\022\033\n\023use_legacy_multi" +
+      "dex\030\006 \001(\010\022D\n\014variant_type\030\007 \001(\0162..androi" +
+      "d_studio.GradleBuildVariant.VariantType\022",
+      "\021\n\ttested_id\030\010 \001(\003\"L\n\013VariantType\022\017\n\013APP" +
+      "LICATION\020\000\022\013\n\007LIBRARY\020\001\022\020\n\014ANDROID_TEST\020" +
+      "\002\022\r\n\tUNIT_TEST\020\003\"R\n\027GradleBuildMemorySam" +
+      "ple\022\022\n\ngc_time_ms\030\001 \001(\003\022\020\n\010gc_count\030\002 \001(" +
+      "\003\022\021\n\ttimestamp\030\003 \001(\003\"\361\034\n\026GradleBuildProf" +
+      "ileSpan\022\n\n\002id\030\001 \001(\003\022\021\n\tparent_id\030\002 \001(\003\022\030" +
+      "\n\020start_time_in_ms\030\003 \001(\003\022\026\n\016duration_in_" +
+      "ms\030\004 \001(\003\022B\n\004type\030\005 \001(\01624.android_studio." +
+      "GradleBuildProfileSpan.ExecutionType\022;\n\t" +
+      "transform\030\006 \001(\0132(.android_studio.GradleT",
+      "ransformExecution\0221\n\004task\030\t \001(\0132#.androi" +
+      "d_studio.GradleTaskExecution\022\017\n\007project\030" +
+      "\007 \001(\003\022\017\n\007variant\030\010 \001(\003\"\257\032\n\rExecutionType" +
+      "\022\032\n\026SOME_RANDOM_PROCESSING\020\001\022!\n\035BASE_PLU" +
+      "GIN_PROJECT_CONFIGURE\020\002\022/\n+BASE_PLUGIN_P" +
+      "ROJECT_BASE_EXTENSION_CREATION\020\003\022&\n\"BASE" +
+      "_PLUGIN_PROJECT_TASKS_CREATION\020\004\022\036\n\032BASE" +
+      "_PLUGIN_BUILD_FINISHED\020\005\022\035\n\031TASK_MANAGER" +
+      "_CREATE_TASKS\020\006\022$\n BASE_PLUGIN_CREATE_AN" +
+      "DROID_TASKS\020\007\022(\n$VARIANT_MANAGER_CREATE_",
+      "ANDROID_TASKS\020\010\022,\n(VARIANT_MANAGER_CREAT" +
+      "E_TASKS_FOR_VARIANT\020\t\022%\n!VARIANT_MANAGER" +
+      "_CREATE_LINT_TASKS\020\n\022&\n\"VARIANT_MANAGER_" +
+      "CREATE_TESTS_TASKS\020\013\022#\n\037VARIANT_MANAGER_" +
+      "CREATE_VARIANTS\020\014\022\030\n\024RESOLVE_DEPENDENCIE" +
+      "S\020\r\022\022\n\016TASK_EXECUTION\020\016\022\024\n\020INITIAL_METAD" +
+      "ATA\020d\022\022\n\016FINAL_METADATA\020e\022\022\n\016GENERAL_CON" +
+      "FIG\020f\022\022\n\016VARIANT_CONFIG\020g\0221\n-VARIANT_MAN" +
+      "AGER_EXTERNAL_NATIVE_CONFIG_VALUES\020h\022\017\n\013" +
+      "APK_METRICS\020i\0220\n+APP_TASK_MANAGER_CREATE",
+      "_MERGE_MANIFEST_TASK\020\350\007\0225\n0APP_TASK_MANA" +
+      "GER_CREATE_GENERATE_RES_VALUES_TASK\020\351\007\0225" +
+      "\n0APP_TASK_MANAGER_CREATE_CREATE_RENDERS" +
+      "CRIPT_TASK\020\352\007\0221\n,APP_TASK_MANAGER_CREATE" +
+      "_MERGE_RESOURCES_TASK\020\353\007\022.\n)APP_TASK_MAN" +
+      "AGER_CREATE_MERGE_ASSETS_TASK\020\354\007\022.\n)APP_" +
+      "TASK_MANAGER_CREATE_BUILD_CONFIG_TASK\020\355\007" +
+      "\022-\n(APP_TASK_MANAGER_CREATE_PROCESS_RES_" +
+      "TASK\020\356\007\022&\n!APP_TASK_MANAGER_CREATE_AIDL_" +
+      "TASK\020\357\007\022)\n$APP_TASK_MANAGER_CREATE_COMPI",
+      "LE_TASK\020\360\007\022%\n APP_TASK_MANAGER_CREATE_ND" +
+      "K_TASK\020\361\007\022\'\n\"APP_TASK_MANAGER_CREATE_SPL" +
+      "IT_TASK\020\362\007\022+\n&APP_TASK_MANAGER_CREATE_PA" +
+      "CKAGING_TASK\020\363\007\0226\n1APP_TASK_MANAGER_CREA" +
+      "TE_PREPROCESS_RESOURCES_TASK\020\364\007\0224\n/APP_T" +
+      "ASK_MANAGER_CREATE_BACKPORT_RESOURCES_TA" +
+      "SK\020\365\007\022&\n!APP_TASK_MANAGER_CREATE_LINT_TA" +
+      "SK\020\366\007\0227\n2APP_TASK_MANAGER_CREATE_MERGE_J" +
+      "NILIBS_FOLDERS_TASK\020\367\007\022(\n#APP_TASK_MANAG" +
+      "ER_CREATE_SHADER_TASK\020\370\007\0227\n2APP_TASK_MAN",
+      "AGER_CREATE_EXTERNAL_NATIVE_BUILD_TASK\020\371" +
+      "\007\0226\n1APP_TASK_MANAGER_CREATE_STRIP_NATIV" +
+      "E_LIBRARY_TASK\020\372\007\0220\n+LIB_TASK_MANAGER_CR" +
+      "EATE_MERGE_MANIFEST_TASK\020\320\017\0225\n0LIB_TASK_" +
+      "MANAGER_CREATE_GENERATE_RES_VALUES_TASK\020" +
+      "\321\017\0225\n0LIB_TASK_MANAGER_CREATE_CREATE_REN" +
+      "DERSCRIPT_TASK\020\322\017\0221\n,LIB_TASK_MANAGER_CR" +
+      "EATE_MERGE_RESOURCES_TASK\020\323\017\022.\n)LIB_TASK" +
+      "_MANAGER_CREATE_MERGE_ASSETS_TASK\020\324\017\022.\n)" +
+      "LIB_TASK_MANAGER_CREATE_BUILD_CONFIG_TAS",
+      "K\020\325\017\022-\n(LIB_TASK_MANAGER_CREATE_PROCESS_" +
+      "RES_TASK\020\326\017\022&\n!LIB_TASK_MANAGER_CREATE_A" +
+      "IDL_TASK\020\327\017\022)\n$LIB_TASK_MANAGER_CREATE_C" +
+      "OMPILE_TASK\020\330\017\022%\n LIB_TASK_MANAGER_CREAT" +
+      "E_NDK_TASK\020\331\017\022\'\n\"LIB_TASK_MANAGER_CREATE" +
+      "_SPLIT_TASK\020\332\017\022+\n&LIB_TASK_MANAGER_CREAT" +
+      "E_PACKAGING_TASK\020\333\017\0225\n0LIB_TASK_MANAGER_" +
+      "CREATE_MERGE_PROGUARD_FILE_TASK\020\334\017\0222\n-LI" +
+      "B_TASK_MANAGER_CREATE_POST_COMPILATION_T" +
+      "ASK\020\335\017\022*\n%LIB_TASK_MANAGER_CREATE_PROGUA",
+      "RD_TASK\020\336\017\022.\n)LIB_TASK_MANAGER_CREATE_PA" +
+      "CKAGE_LOCAL_JAR\020\337\017\0224\n/LIB_TASK_MANAGER_C" +
+      "REATE_BACKPORT_RESOURCES_TASK\020\340\017\022&\n!LIB_" +
+      "TASK_MANAGER_CREATE_LINT_TASK\020\341\017\022(\n#LIB_" +
+      "TASK_MANAGER_CREATE_SHADER_TASK\020\342\017\0227\n2LI" +
+      "B_TASK_MANAGER_CREATE_EXTERNAL_NATIVE_BU" +
+      "ILD_TASK\020\343\017\022\033\n\026GENERIC_TASK_EXECUTION\020\270\027" +
+      "\022\026\n\021TASK_AIDL_COMPILE\020\271\027\022\020\n\013TASK_DELETE\020" +
+      "\272\027\022\030\n\023TASK_CHECK_MANIFEST\020\273\027\022#\n\036TASK_PRE" +
+      "PARE_DEPENDENCIES_TASK\020\274\027\022\036\n\031TASK_RENDER",
+      "SCRIPT_COMPILE\020\275\027\022\037\n\032TASK_GENERATE_BUILD" +
+      "_CONFIG\020\276\027\022\026\n\021TASK_MERGE_ASSETS\020\277\027\022\035\n\030TA" +
+      "SK_GENERATE_RES_VALUES\020\300\027\022\031\n\024TASK_MERGE_" +
+      "RESOURCES\020\301\027\022\031\n\024TASK_MERGE_MANIFESTS\020\302\027\022" +
+      "#\n\036TASK_PROCESS_ANDROID_RESOURCES\020\303\027\022\026\n\021" +
+      "TASK_JAVA_COMPILE\020\304\027\022\025\n\020TASK_NDK_COMPILE" +
+      "\020\305\027\022\021\n\014TASK_PRE_DEX\020\306\027\022\r\n\010TASK_DEX\020\307\027\022\033\n" +
+      "\026TASK_PACKAGE_SPLIT_RES\020\310\027\022\033\n\026TASK_PROCE" +
+      "SS_RESOURCES\020\311\027\022\037\n\032TASK_VALIDATE_SIGNING" +
+      "_TASK\020\312\027\022\035\n\030TASK_PACKAGE_APPLICATION\020\313\027\022",
+      "\031\n\024TASK_SPLIT_ZIP_ALIGN\020\314\027\022\023\n\016TASK_ZIP_A" +
+      "LIGN\020\315\027\022\016\n\tTASK_COPY\020\316\027\022\016\n\tTASK_LINT\020\317\027\022" +
+      "\033\n\026TASK_FILE_VERIFICATION\020\322\027\022=\n8TASK_EXT" +
+      "ERNAL_NATIVE_BUILD_GENERATE_JSON_PROCESS" +
+      "_PER_ABI\020\323\027\0225\n0TASK_EXTERNAL_NATIVE_BUIL" +
+      "D_GENERATE_JSON_PROCESS\020\324\027\022\037\n\032TASK_TRANS" +
+      "FORM_PREPARATION\020\320\027\022\023\n\016TASK_TRANSFORM\020\321\027" +
+      "\"\222\016\n\023GradleTaskExecution\0226\n\004type\030\001 \001(\0162(" +
+      ".android_studio.GradleTaskExecution.Type" +
+      "\022\020\n\010did_work\030\002 \001(\010\022\017\n\007skipped\030\003 \001(\010\022\022\n\nu",
+      "p_to_date\030\004 \001(\010\022\016\n\006failed\030\005 \001(\010\"\373\014\n\004Type" +
+      "\022\025\n\021UNKNOWN_TASK_TYPE\020\000\022\020\n\014AIDL_COMPILE\020" +
+      "\001\022\017\n\013ANDROID_JAR\020\002\022\030\n\024ANDROID_JAVA_COMPI" +
+      "LE\020\003\022\022\n\016ANDROID_REPORT\020\004\022\025\n\021ANDROID_UNIT" +
+      "_TEST\020\005\022\022\n\016BUILD_EMULATOR\020\006\022\025\n\021BUILD_INF" +
+      "O_LOADER\020\007\022\022\n\016CHECK_MANIFEST\020\010\022\037\n\033COMPAT" +
+      "IBLE_SCREENS_MANIFEST\020\t\022\035\n\031CREATE_MANIFE" +
+      "ST_KEEP_LIST\020\n\022\"\n\036DATA_BINDING_EXPORT_BU" +
+      "ILD_INFO\020\013\022 \n\034DATA_BINDING_PROCESS_LAYOU" +
+      "TS\020\014\022\025\n\021DEPENDENCY_REPORT\020\r\022#\n\037DEVICE_PR",
+      "OVIDER_INSTRUMENT_TEST\020\016\022\031\n\025EXTERNAL_BUI" +
+      "LD_ANCHOR\020\017\022\036\n\032EXTERNAL_NATIVE_BUILD_JSO" +
+      "N\020\020\022\031\n\025EXTERNAL_NATIVE_BUILD\020\021\022\027\n\023EXTRAC" +
+      "T_ANNOTATIONS\020\022\022\032\n\026EXTRACT_JAVA_RESOURCE" +
+      "S\020\023\022\032\n\026EXTRACT_PROGUARD_FILES\020\024\022!\n\035FAST_" +
+      "DEPLOY_RUNTIME_EXTRACTOR\020\025\022\025\n\021FILTERED_J" +
+      "AR_COPY\020\026\022\025\n\021GENERATE_APK_DATA\020\027\022\031\n\025GENE" +
+      "RATE_BUILD_CONFIG\020\030\022!\n\035GENERATE_INSTANT_" +
+      "RUN_APP_INFO\020\031\022\027\n\023GENERATE_RES_VALUES\020\032\022" +
+      "\032\n\026GENERATE_SPLIT_ABI_RES\020\033\022\023\n\017GOOGLE_SE",
+      "RVICES\020\034\022\031\n\025INCREMENTAL_SAFEGUARD\020\035\022\023\n\017I" +
+      "NSTALL_VARIANT\020\036\022!\n\035INSTANT_RUN_SPLIT_AP" +
+      "K_BUILDER\020\037\022\027\n\023INSTANT_RUN_WRAPPER\020 \022\032\n\026" +
+      "INVOKE_MANIFEST_MERGER\020!\022\026\n\022JACK_JACOCO_" +
+      "REPORT\020\"\022\021\n\rJACOCO_REPORT\020#\022\010\n\004LINT\020$\022\020\n" +
+      "\014LINT_COMPILE\020%\022\016\n\nMERGE_FILE\020&\022\023\n\017MERGE" +
+      "_MANIFESTS\020\'\022\023\n\017MERGE_RESOURCES\020(\022\034\n\030MER" +
+      "GE_SOURCE_SET_FOLDERS\020)\022\030\n\024MOCKABLE_ANDR" +
+      "OID_JAR\020*\022\017\n\013NDK_COMPILE\020+\022\007\n\003NDK\020,\022\027\n\023P" +
+      "ACKAGE_APPLICATION\020-\022\025\n\021PACKAGE_SPLIT_AB",
+      "I\020.\022\025\n\021PACKAGE_SPLIT_RES\020/\022\021\n\rPRE_COLD_S" +
+      "WAP\0200\022\030\n\024PREPARE_DEPENDENCIES\0201\022\023\n\017PREPA" +
+      "RE_LIBRARY\0202\022\035\n\031PROCESS_ANDROID_RESOURCE" +
+      "S\0203\022\024\n\020PROCESS_MANIFEST\0204\022\031\n\025PROCESS_TES" +
+      "T_MANIFEST\0205\022\030\n\024RENDERSCRIPT_COMPILE\0206\022\022" +
+      "\n\016SHADER_COMPILE\0207\022\022\n\016SIGNING_REPORT\0208\022\024" +
+      "\n\020SINGLE_FILE_COPY\0209\022\017\n\013SOURCE_SETS\020:\022\023\n" +
+      "\017SPLIT_ZIP_ALIGN\020;\022\020\n\014STREAM_BASED\020<\022\026\n\022" +
+      "STRIP_DEBUG_SYMBOL\020=\022\026\n\022STRIP_DEPENDENCI" +
+      "ES\020>\022\031\n\025TEST_MODULE_PRO_GUARD\020?\022\017\n\013TEST_",
+      "SERVER\020@\022\r\n\tTRANSFORM\020A\022\r\n\tUNINSTALL\020B\022\024" +
+      "\n\020VALIDATE_SIGNING\020C\022\r\n\tZIP_ALIGN\020D\022\020\n\014J" +
+      "AVA_COMPILE\020E\"\337\003\n\030GradleTransformExecuti" +
+      "on\022;\n\004type\030\001 \001(\0162-.android_studio.Gradle" +
+      "TransformExecution.Type\022\026\n\016is_incrementa" +
+      "l\030\002 \001(\010\"\355\002\n\004Type\022\032\n\026UNKNOWN_TRANSFORM_TY" +
+      "PE\020\000\022\007\n\003DEX\020\001\022\020\n\014EXTRACT_JARS\020\002\022\023\n\017INSTA" +
+      "NT_RUN_DEX\020\003\022\026\n\022INSTANT_RUN_SLICER\020\004\022\017\n\013" +
+      "INSTANT_RUN\020\005\022\027\n\023INSTANT_RUN_VERIFER\020\006\022\020" +
+      "\n\014JACK_PRE_DEX\020\007\022\010\n\004JACK\020\010\022\n\n\006JACOCO\020\t\022\017",
+      "\n\013JAR_MERGING\020\n\022\017\n\013LIBRARY_JAR\020\013\022\024\n\020LIBR" +
+      "ARY_JNI_LIBS\020\014\022\030\n\024MERGE_JAVA_RESOURCES\020\r" +
+      "\022\r\n\tMULTI_DEX\020\016\022\020\n\014NEW_SHRINKER\020\017\022\027\n\023NO_" +
+      "CHANGES_VERIFIER\020\020\022\r\n\tPRO_GUARD\020\021\022\024\n\020SHR" +
+      "INK_RESOURCES\020\022\"\350\010\n\020InstantRunStatus\022>\n\n" +
+      "build_mode\030\001 \001(\0162*.android_studio.Instan" +
+      "tRunStatus.BuildMode\022H\n\017patching_policy\030" +
+      "\002 \001(\0162/.android_studio.InstantRunStatus." +
+      "PatchingPolicy\022H\n\017verifier_status\030\003 \001(\0162" +
+      "/.android_studio.InstantRunStatus.Verifi",
+      "erStatus\0224\n\010artifact\030\004 \003(\0132\".android_stu" +
+      "dio.InstantRunArtifact\"E\n\tBuildMode\022\026\n\022U" +
+      "NKNOWN_BUILD_MODE\020\000\022\014\n\010HOT_WARM\020\001\022\010\n\004COL" +
+      "D\020\002\022\010\n\004FULL\020\003\"]\n\016PatchingPolicy\022\033\n\027UNKNO" +
+      "WN_PATCHING_POLICY\020\000\022\020\n\014PRE_LOLLIPOP\020\001\022\r" +
+      "\n\tMULTI_DEX\020\002\022\r\n\tMULTI_APK\020\003\"\243\005\n\016Verifie" +
+      "rStatus\022\033\n\027UNKNOWN_VERIFIER_STATUS\020\000\022\016\n\n" +
+      "COMPATIBLE\020\001\022\013\n\007NOT_RUN\020\002\022\030\n\024INSTANT_RUN" +
+      "_DISABLED\020\003\022\027\n\023INSTANT_RUN_FAILURE\020\004\022\017\n\013" +
+      "CLASS_ADDED\020\005\022\030\n\024PARENT_CLASS_CHANGED\020\006\022",
+      "!\n\035IMPLEMENTED_INTERFACES_CHANGE\020\007\022\033\n\027CL" +
+      "ASS_ANNOTATION_CHANGE\020\010\022\035\n\031STATIC_INITIA" +
+      "LIZER_CHANGE\020\t\022 \n\034CONSTRUCTOR_SIGNATURE_" +
+      "CHANGE\020\n\022\033\n\027METHOD_SIGNATURE_CHANGE\020\013\022\034\n" +
+      "\030METHOD_ANNOTATION_CHANGE\020\014\022\022\n\016METHOD_DE" +
+      "LETED\020\r\022\020\n\014METHOD_ADDED\020\016\022\017\n\013FIELD_ADDED" +
+      "\020\017\022\021\n\rFIELD_REMOVED\020\020\022\025\n\021FIELD_TYPE_CHAN" +
+      "GE\020\021\022\022\n\016R_CLASS_CHANGE\020\022\022\023\n\017REFLECTION_U" +
+      "SED\020\023\022\032\n\026JAVA_RESOURCES_CHANGED\020\024\022\026\n\022DEP" +
+      "ENDENCY_CHANGED\020\025\022\030\n\024MANIFEST_FILE_CHANG",
+      "E\020\026\022\037\n\033BINARY_MANIFEST_FILE_CHANGE\020\027\022\027\n\023" +
+      "COLD_SWAP_REQUESTED\020\030\022\030\n\024FULL_BUILD_REQU" +
+      "ESTED\020\031\022\021\n\rINITIAL_BUILD\020\032\"\261\001\n\022InstantRu" +
+      "nArtifact\0225\n\004type\030\001 \001(\0162\'.android_studio" +
+      ".InstantRunArtifact.Type\"d\n\004Type\022\010\n\004MAIN" +
+      "\020\001\022\016\n\nSPLIT_MAIN\020\002\022\016\n\nRELOAD_DEX\020\003\022\017\n\013RE" +
+      "START_DEX\020\004\022\007\n\003DEX\020\005\022\t\n\005SPLIT\020\006\022\r\n\tRESOU" +
+      "RCES\020\007\"(\n\023LLDBFrontendDetails\022\021\n\texit_co" +
+      "de\030\001 \001(\005\"-\n\024FirebaseErrorDetails\022\025\n\rerro" +
+      "r_message\030\001 \001(\t\"\244\001\n\021GfxTracingDetails\022\022\n",
+      "\ntotal_time\030\001 \001(\003\022\017\n\007command\030\002 \001(\t\022\025\n\rer" +
+      "ror_message\030\003 \001(\t\022\022\n\ntrace_path\030\004 \001(\t\022\024\n" +
+      "\014image_format\030\005 \001(\t\022\023\n\013image_width\030\006 \001(\003" +
+      "\022\024\n\014image_height\030\007 \001(\003\"C\n\023TestRecorderDe" +
+      "tails\022\023\n\013event_count\030\001 \001(\003\022\027\n\017assertion_" +
+      "count\030\002 \001(\003B;\n%com.google.wireless.andro" +
       "id.sdk.statsB\022AndroidStudioStats"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
@@ -52475,7 +54188,7 @@ public final class AndroidStudioStats {
           internal_static_android_studio_AndroidStudioEvent_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_android_studio_AndroidStudioEvent_descriptor,
-              new java.lang.String[] { "Category", "Kind", "StudioSessionId", "ProductDetails", "MonitorType", "MonitorPaused", "ProfilerCaptureType", "CloudTestingErrorMessage", "CloudTestingLoadedScreenshotsCount", "RunConfigurationType", "DebuggerType", "DeviceInfo", "LldbSessionFailureMessage", "DeveloperServiceKind", "GradleVersion", "GradleSyncFailure", "GradleMissingSignature", "TemplateRenderer", "StudioCrash", "GradleBuildDetails", "InstantRun", "MetaMetrics", "EmulatorDetails", "TestRun", "EmulatorUiEvent", "Hypervisor", "EmulatorHost", "GradleBuildProfile", "LldbFrontendDetails", "FirebaseErrorDetails", "ProjectId", "GfxTracingDetails", });
+              new java.lang.String[] { "Category", "Kind", "StudioSessionId", "ProductDetails", "MonitorType", "MonitorPaused", "ProfilerCaptureType", "CloudTestingErrorMessage", "CloudTestingLoadedScreenshotsCount", "RunConfigurationType", "DebuggerType", "DeviceInfo", "LldbSessionFailureMessage", "DeveloperServiceKind", "GradleVersion", "GradleSyncFailure", "GradleMissingSignature", "TemplateRenderer", "StudioCrash", "GradleBuildDetails", "InstantRun", "MetaMetrics", "EmulatorDetails", "TestRun", "EmulatorUiEvent", "Hypervisor", "EmulatorHost", "GradleBuildProfile", "LldbFrontendDetails", "FirebaseErrorDetails", "ProjectId", "GfxTracingDetails", "TestRecorderDetails", });
           internal_static_android_studio_ProductDetails_descriptor =
             getDescriptor().getMessageTypes().get(1);
           internal_static_android_studio_ProductDetails_fieldAccessorTable = new
@@ -52541,7 +54254,7 @@ public final class AndroidStudioStats {
           internal_static_android_studio_GradleAndroidModule_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_android_studio_GradleAndroidModule_descriptor,
-              new java.lang.String[] { "AppId", "ModuleName", "IsLibrary", "BuildTypeCount", "FlavorCount", "FlavorDimension", });
+              new java.lang.String[] { "AppId", "ModuleName", "IsLibrary", "BuildTypeCount", "FlavorCount", "FlavorDimension", "SigningConfigCount", });
           internal_static_android_studio_GradleNativeAndroidModule_descriptor =
             getDescriptor().getMessageTypes().get(12);
           internal_static_android_studio_GradleNativeAndroidModule_fieldAccessorTable = new
@@ -52661,7 +54374,13 @@ public final class AndroidStudioStats {
           internal_static_android_studio_GfxTracingDetails_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_android_studio_GfxTracingDetails_descriptor,
-              new java.lang.String[] { "TotalTime", "Command", "ErrorMessage", });
+              new java.lang.String[] { "TotalTime", "Command", "ErrorMessage", "TracePath", "ImageFormat", "ImageWidth", "ImageHeight", });
+          internal_static_android_studio_TestRecorderDetails_descriptor =
+            getDescriptor().getMessageTypes().get(32);
+          internal_static_android_studio_TestRecorderDetails_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_android_studio_TestRecorderDetails_descriptor,
+              new java.lang.String[] { "EventCount", "AssertionCount", });
           return null;
         }
       };

@@ -17,6 +17,7 @@ package com.android.tools.analytics;
 
 import com.android.testutils.SystemPropertyOverrides;
 import com.google.wireless.android.sdk.stats.AndroidStudioStats;
+import com.google.wireless.android.sdk.stats.AndroidStudioStats.DeviceInfo.ApplicationBinaryInterface;
 import com.google.wireless.android.sdk.stats.AndroidStudioStats.ProductDetails.CpuArchitecture;
 import org.junit.Test;
 
@@ -162,4 +163,45 @@ public class CommonMetricsDataTest {
             assertEquals(null, CommonMetricsData.getMajorOsVersion());
         }
     }
+
+    @Test
+    public void applicationBinaryInterfaceFromStringTest() {
+        assertEquals(
+                ApplicationBinaryInterface.ARME_ABI,
+                CommonMetricsData.applicationBinaryInterfaceFromString("armeabi"));
+        assertEquals(
+                ApplicationBinaryInterface.ARME_ABI_V6J,
+                CommonMetricsData.applicationBinaryInterfaceFromString("armeabi-v6j"));
+        assertEquals(
+                ApplicationBinaryInterface.ARME_ABI_V6L,
+                CommonMetricsData.applicationBinaryInterfaceFromString("armeabi-v6l"));
+        assertEquals(
+                ApplicationBinaryInterface.ARME_ABI_V7A,
+                CommonMetricsData.applicationBinaryInterfaceFromString("armeabi-v7a"));
+        assertEquals(
+                ApplicationBinaryInterface.ARM64_V8A_ABI,
+                CommonMetricsData.applicationBinaryInterfaceFromString("arm64-v8a"));
+        assertEquals(
+                ApplicationBinaryInterface.MIPS_ABI,
+                CommonMetricsData.applicationBinaryInterfaceFromString("mips"));
+        assertEquals(
+                ApplicationBinaryInterface.MIPS_R2_ABI,
+                CommonMetricsData.applicationBinaryInterfaceFromString("mips-r2"));
+        assertEquals(
+                ApplicationBinaryInterface.X86_ABI,
+                CommonMetricsData.applicationBinaryInterfaceFromString("x86"));
+        assertEquals(
+                ApplicationBinaryInterface.X86_64_ABI,
+                CommonMetricsData.applicationBinaryInterfaceFromString("x86_64"));
+        assertEquals(
+                ApplicationBinaryInterface.UNKNOWN_ABI,
+                CommonMetricsData.applicationBinaryInterfaceFromString(null));
+        assertEquals(
+                ApplicationBinaryInterface.UNKNOWN_ABI,
+                CommonMetricsData.applicationBinaryInterfaceFromString(""));
+        assertEquals(
+                ApplicationBinaryInterface.UNKNOWN_ABI,
+                CommonMetricsData.applicationBinaryInterfaceFromString("my_custom_abi"));
+    }
+
 }
