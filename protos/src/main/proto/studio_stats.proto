@@ -250,6 +250,8 @@ message AndroidStudioEvent {
     TEST_RECORDER_MISSING_INSTRUMENTATION_TEST_FOLDER = 94;
     // The test recorder was launched.
     TEST_RECORDER_LAUNCH = 95;
+    // A GPU Debugger Trace session was opened but not started yet.
+    GFX_TRACE_OPEN = 96;
   }
   // Represents different Performance Monitoring types.
   enum MonitorType {
@@ -270,6 +272,7 @@ message AndroidStudioEvent {
     VM_TRACE = 6;
     METHOD_TRACING = 7;
     LAYOUT_INSPECTOR_SNAPSHOT = 8;
+    HIERARCHY_VIEW = 9;
   }
   // Represents the different Run Configurations the debugger supports.
   enum RunConfigurationType {
