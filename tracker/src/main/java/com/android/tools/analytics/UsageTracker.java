@@ -41,7 +41,7 @@ public abstract class UsageTracker implements AutoCloseable {
     private static final Object sGate = new Object();
 
     @VisibleForTesting static final String sSessionId = UUID.randomUUID().toString();
-    private static UsageTracker sInstance = new NullUsageTracker(null, null);
+    private static UsageTracker sInstance = new NullUsageTracker(new AnalyticsSettings(), null);
 
     private final AnalyticsSettings mAnalyticsSettings;
     private final ScheduledExecutorService mScheduler;
