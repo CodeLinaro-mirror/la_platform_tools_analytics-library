@@ -96,6 +96,12 @@ public class AnonymizerTest {
             // Ensure that same input is different for different skew range.
             String data4 = Anonymizer.anonymizeUtf8(DO_NOT_LOG, MY_RANDOM_TEXT1);
             assertNotEquals(data1, data4);
+
+            // Ensure that null and empty are reported as empty.
+            String data6 = Anonymizer.anonymizeUtf8(DO_NOT_LOG, null);
+            assertEquals("", data6);
+            String data7 = Anonymizer.anonymizeUtf8(DO_NOT_LOG, "");
+            assertEquals("", data7);
         } finally {
             // Undo stub of DateProvider.
             AnalyticsSettings.sDateProvider = DateProvider.SYSTEM;

@@ -19,6 +19,7 @@ import com.android.annotations.NonNull;
 import com.android.annotations.Nullable;
 import com.android.utils.ILogger;
 import com.google.common.base.Charsets;
+import com.google.common.base.Strings;
 import com.google.common.hash.Hasher;
 import com.google.common.hash.Hashing;
 
@@ -43,6 +44,9 @@ public class Anonymizer {
     public static String anonymize(
             @NonNull ILogger logger, @NonNull String data, @NonNull Charset charset)
             throws IOException {
+        if (Strings.isNullOrEmpty(data)) {
+            return "";
+        }
         Hasher hasher = Hashing.sha256().newHasher();
         hasher.putBytes(AnalyticsSettings.getInstance(logger).getSalt());
         hasher.putString(data, charset);
