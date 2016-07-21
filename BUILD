@@ -6,7 +6,7 @@ java_library(
   srcs = glob([
       "publisher/src/main/java/**/*.java",
     ]),
-  resource_strip_prefix="tools/analytics-library/analytics-publisher.resources",
+  resource_strip_prefix = "tools/analytics-library/analytics-publisher.resources",
   resources = [
       "//tools/analytics-library:analytics-publisher.res",
     ],
@@ -25,6 +25,7 @@ java_library(
           "//tools/base/common:common",
       "//tools/analytics-library:analytics-tracker",
     ],
+  javacopts = ["-extra_checks:off"],
   visibility = ["//visibility:public"],
 )
 
@@ -33,7 +34,7 @@ java_library(
   srcs = glob([
       "tracker/src/main/java/**/*.java",
     ]),
-  resource_strip_prefix="tools/analytics-library/analytics-tracker.resources",
+  resource_strip_prefix = "tools/analytics-library/analytics-tracker.resources",
   resources = [
       "//tools/analytics-library:analytics-tracker.res",
     ],
@@ -51,6 +52,7 @@ java_library(
       "//tools/base/testutils:testutils",
           "//tools/base/common:common",
     ],
+  javacopts = ["-extra_checks:off"],
   visibility = ["//visibility:public"],
 )
 
@@ -77,6 +79,7 @@ java_library(
       "//tools/base/testutils:testutils_testlib",
           "//tools/base/common:common_testlib",
     ],
+  javacopts = ["-extra_checks:off"],
   visibility = ["//visibility:public"],
 )
 
@@ -85,7 +88,7 @@ java_library(
   srcs = glob([
       "shared/src/main/java/**/*.java",
     ]),
-  resource_strip_prefix="tools/analytics-library/analytics-shared.resources",
+  resource_strip_prefix = "tools/analytics-library/analytics-shared.resources",
   resources = [
       "//tools/analytics-library:analytics-shared.res",
     ],
@@ -103,6 +106,23 @@ java_library(
       "//tools/base/testutils:testutils",
           "//tools/base/common:common",
     ],
+  javacopts = ["-extra_checks:off"],
+  visibility = ["//visibility:public"],
+)
+
+java_test(
+  name = "analytics-tracker_tests",
+  srcs = glob([
+    ]),
+  runtime_deps = [
+      ":analytics-tracker_testlib",
+      "//tools/base/bazel:test_runner",
+    ],
+  jvm_flags = [
+      "-Dtest.suite.jar=analytics-tracker_testlib.jar",
+    ],
+  test_class = "com.android.tools.BazelTestSuite",
+  javacopts = ["-extra_checks:off"],
   visibility = ["//visibility:public"],
 )
 
@@ -125,7 +145,6 @@ fileset(
   deps = [
       "@local_jdk//:langtools-neverlink",
     ],
-   visibility = ["//visibility:public"],
 )
 
 java_library(
@@ -150,6 +169,7 @@ java_library(
       "//tools/base/testutils:testutils_testlib",
           "//tools/base/common:common_testlib",
     ],
+  javacopts = ["-extra_checks:off"],
   visibility = ["//visibility:public"],
 )
 
@@ -172,7 +192,6 @@ fileset(
   deps = [
       "@local_jdk//:langtools-neverlink",
     ],
-   visibility = ["//visibility:public"],
 )
 
 java_library(
@@ -180,7 +199,7 @@ java_library(
   srcs = glob([
       "protos/src/main/java/**/*.java",
     ]),
-  resource_strip_prefix="tools/analytics-library/analytics-protos.resources",
+  resource_strip_prefix = "tools/analytics-library/analytics-protos.resources",
   resources = [
       "//tools/analytics-library:analytics-protos.res",
     ],
@@ -188,6 +207,23 @@ java_library(
       "@local_jdk//:langtools-neverlink",
       "//tools/idea:lib/protobuf-2.5.0",
     ],
+  javacopts = ["-extra_checks:off"],
+  visibility = ["//visibility:public"],
+)
+
+java_test(
+  name = "analytics-shared_tests",
+  srcs = glob([
+    ]),
+  runtime_deps = [
+      ":analytics-shared_testlib",
+      "//tools/base/bazel:test_runner",
+    ],
+  jvm_flags = [
+      "-Dtest.suite.jar=analytics-shared_testlib.jar",
+    ],
+  test_class = "com.android.tools.BazelTestSuite",
+  javacopts = ["-extra_checks:off"],
   visibility = ["//visibility:public"],
 )
 
@@ -210,7 +246,6 @@ fileset(
   deps = [
       "@local_jdk//:langtools-neverlink",
     ],
-   visibility = ["//visibility:public"],
 )
 
 java_library(
@@ -238,6 +273,7 @@ java_library(
       "//tools/analytics-library:analytics-tracker",
       "//tools/analytics-library:analytics-tracker_testlib",
     ],
+  javacopts = ["-extra_checks:off"],
   visibility = ["//visibility:public"],
 )
 
@@ -260,5 +296,20 @@ fileset(
   deps = [
       "@local_jdk//:langtools-neverlink",
     ],
-   visibility = ["//visibility:public"],
+)
+
+java_test(
+  name = "analytics-publisher_tests",
+  srcs = glob([
+    ]),
+  runtime_deps = [
+      ":analytics-publisher_testlib",
+      "//tools/base/bazel:test_runner",
+    ],
+  jvm_flags = [
+      "-Dtest.suite.jar=analytics-publisher_testlib.jar",
+    ],
+  test_class = "com.android.tools.BazelTestSuite",
+  javacopts = ["-extra_checks:off"],
+  visibility = ["//visibility:public"],
 )
