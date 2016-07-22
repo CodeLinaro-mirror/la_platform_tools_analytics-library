@@ -15,19 +15,57 @@
  */
 package com.android.tools.analytics;
 
+import com.android.annotations.NonNull;
 import com.android.annotations.VisibleForTesting;
+import com.google.common.base.Strings;
 import com.google.wireless.android.sdk.stats.AndroidStudioStats;
 import com.google.wireless.android.sdk.stats.AndroidStudioStats.DeviceInfo.ApplicationBinaryInterface;
+import com.google.wireless.android.sdk.stats.AndroidStudioStats.JavaProcessStats;
+import com.google.wireless.android.sdk.stats.AndroidStudioStats.JvmDetails;
 import com.google.wireless.android.sdk.stats.AndroidStudioStats.ProductDetails;
-
+import com.sun.management.OperatingSystemMXBean;
+import java.awt.*;
+import java.io.File;
+import java.lang.management.ClassLoadingMXBean;
+import java.lang.management.GarbageCollectorMXBean;
+import java.lang.management.MemoryMXBean;
+import java.lang.management.RuntimeMXBean;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /** Calculates common pieces of metrics data, used in various Android DevTools. */
 public class CommonMetricsData {
 
+    public static final String VM_OPTION_XMS = "-Xms";
+    public static final String VM_OPTION_XMX = "-Xmx";
+    public static final String VM_OPTION_MAX_PERM_SIZE = "-XX:MaxPermSize=";
+    public static final String VM_OPTION_RESERVED_CODE_CACHE_SIZE = "-XX:ReservedCodeCacheSize=";
+    public static final String VM_OPTION_SOFT_REF_LRU_POLICY_MS_PER_MB =
+            "-XX:SoftRefLRUPolicyMSPerMB=";
+    public static final long KILOBYTE = 1024L;
+    public static final long MEGABYTE = KILOBYTE * 1024;
+    public static final long GIGABYTE = MEGABYTE * 1024;
+    public static final long TERABYTE = GIGABYTE * 1024;
+    public static final int NO_DIGITS = -1;
+    public static final int INVALID_POSTFIX = -2;
+    public static final int INVALID_NUMBER = -3;
+    public static final int EMPTY_SIZE = -4;
+
+    /** Used to calculate diffs between different reports of Garbage Collection stats. */
     @VisibleForTesting
+    static class GarbageCollectionStats {
+        volatile long collections;
+        volatile long time;
+    }
+
+    @VisibleForTesting
+    static final Map<String, GarbageCollectionStats> sGarbageCollectionStats = new HashMap<>();
+
     /**
      * Detects and returns the OS architecture: x86, x86_64, ppc. This may differ or be equal to the
      * JVM architecture in the sense that a 64-bit OS can run a 32-bit JVM.
@@ -163,5 +201,183 @@ public class CommonMetricsData {
             default:
                 return ApplicationBinaryInterface.UNKNOWN_ABI;
         }
+    }
+
+    /**
+     * Gets details about the machine this code is running on.
+     *
+     * @param homePath path to use to track total disk space.
+     */
+    @NonNull
+    public static AndroidStudioStats.MachineDetails getMachineDetails(@NonNull File homePath) {
+        OperatingSystemMXBean osBean = HostData.getOsBean();
+
+        return AndroidStudioStats.MachineDetails.newBuilder()
+                .setAvailableProcessors(osBean.getAvailableProcessors())
+                .setTotalRam(osBean.getTotalPhysicalMemorySize())
+                .setTotalDisk(homePath.getTotalSpace())
+                .addAllDisplay(getDisplayDetails())
+                .build();
+    }
+
+    /** Gets information about all the displays connected to this machine. */
+    @NonNull
+    private static Iterable<? extends AndroidStudioStats.DisplayDetails> getDisplayDetails() {
+        List<AndroidStudioStats.DisplayDetails> displays = new ArrayList<>();
+
+        GraphicsEnvironment graphics = HostData.getGraphicsEnvironment();
+        if (!graphics.isHeadlessInstance()) {
+            for (GraphicsDevice device : graphics.getScreenDevices()) {
+                Rectangle bounds = device.getDefaultConfiguration().getBounds();
+                displays.add(
+                        AndroidStudioStats.DisplayDetails.newBuilder()
+                                .setHeight(bounds.height)
+                                .setWidth(bounds.width)
+                                .build());
+            }
+        }
+        return displays;
+    }
+
+    /** Gets information about the jvm this code is running in. */
+    @NonNull
+    public static JvmDetails getJvmDetails() {
+        RuntimeMXBean runtime = HostData.getRuntimeBean();
+
+        JvmDetails.Builder builder =
+                JvmDetails.newBuilder()
+                        .setName(Strings.nullToEmpty(runtime.getVmName()))
+                        .setVendor(Strings.nullToEmpty(runtime.getVmVendor()))
+                        .setVersion(Strings.nullToEmpty(runtime.getVmVersion()));
+
+        for (String vmOption : runtime.getInputArguments()) {
+            parseVmOption(vmOption, builder);
+        }
+
+        return builder.build();
+    }
+
+    /** Parses known VM options into a {@link JvmDetails.Builder} */
+    private static void parseVmOption(
+            @NonNull String vmOption, @NonNull JvmDetails.Builder builder) {
+        if (vmOption.startsWith(VM_OPTION_XMS)) {
+            builder.setMinimumHeapSize(
+                    parseVmOptionSize(vmOption.substring(VM_OPTION_XMS.length())));
+        } else if (vmOption.startsWith(VM_OPTION_XMX)) {
+            builder.setMaximumHeapSize(
+                    parseVmOptionSize(vmOption.substring(VM_OPTION_XMX.length())));
+        } else if (vmOption.startsWith(VM_OPTION_MAX_PERM_SIZE)) {
+            builder.setMaximumPermanentSpaceSize(
+                    parseVmOptionSize(vmOption.substring(VM_OPTION_MAX_PERM_SIZE.length())));
+        } else if (vmOption.startsWith(VM_OPTION_RESERVED_CODE_CACHE_SIZE)) {
+            builder.setMaximumCodeCacheSize(
+                    parseVmOptionSize(
+                            vmOption.substring(VM_OPTION_RESERVED_CODE_CACHE_SIZE.length())));
+        } else if (vmOption.startsWith(VM_OPTION_SOFT_REF_LRU_POLICY_MS_PER_MB)) {
+            builder.setSoftReferenceLruPolicy(
+                    parseVmOptionSize(
+                            vmOption.substring(VM_OPTION_SOFT_REF_LRU_POLICY_MS_PER_MB.length())));
+        }
+
+        switch (vmOption) {
+            case "-XX:+UseConcMarkSweepGC":
+                builder.setGarbageCollector(JvmDetails.GarbageCollector.CONCURRENT_MARK_SWEEP_GC);
+                break;
+            case "-XX:+UseParallelGC":
+                builder.setGarbageCollector(JvmDetails.GarbageCollector.PARALLEL_GC);
+                break;
+            case "-XX:+UseParallelOldGC":
+                builder.setGarbageCollector(JvmDetails.GarbageCollector.PARALLEL_OLD_GC);
+                break;
+            case "-XX:+UseSerialGC":
+                builder.setGarbageCollector(JvmDetails.GarbageCollector.SERIAL_GC);
+                break;
+            case "-XX:+UseG1GC":
+                builder.setGarbageCollector(JvmDetails.GarbageCollector.SERIAL_GC);
+                break;
+        }
+    }
+
+    /** Parses VM options size formatted as "[0-9]+[GgMmKk]?" into a long. */
+    @VisibleForTesting
+    static long parseVmOptionSize(@NonNull String vmOptionSize) {
+        if (Strings.isNullOrEmpty(vmOptionSize)) {
+            return EMPTY_SIZE;
+        }
+        try {
+            for (int i = 0; i < vmOptionSize.length(); i++) {
+                char c = vmOptionSize.charAt(i);
+                if (!Character.isDigit(c)) {
+                    if (i == 0) {
+                        return NO_DIGITS;
+                    }
+                    String digits = vmOptionSize.substring(0, i);
+                    long value = Long.parseLong(digits);
+                    switch (c) {
+                        case 't':
+                        case 'T':
+                            return value * TERABYTE;
+                        case 'g':
+                        case 'G':
+                            return value * GIGABYTE;
+                        case 'm':
+                        case 'M':
+                            return value * MEGABYTE;
+                        case 'k':
+                        case 'K':
+                            return value * KILOBYTE;
+                        default:
+                            return INVALID_POSTFIX;
+                    }
+                }
+            }
+            return Long.parseLong(vmOptionSize);
+        } catch (NumberFormatException e) {
+            return INVALID_NUMBER;
+        }
+    }
+
+    /** Gets stats about the current process java runtime. */
+    public static JavaProcessStats getJavaProcessStats() {
+        MemoryMXBean memoryBean = HostData.getMemoryBean();
+        ClassLoadingMXBean classLoadingBean = HostData.getClassLoadingBean();
+
+        return JavaProcessStats.newBuilder()
+                .setHeapMemoryUsage(memoryBean.getHeapMemoryUsage().getUsed())
+                .setNonHeapMemoryUsage(memoryBean.getNonHeapMemoryUsage().getUsed())
+                .setLoadedClassCount(classLoadingBean.getLoadedClassCount())
+                .addAllGarbageCollectionStats(getGarbageCollectionStats())
+                .build();
+    }
+
+    /**
+     * Gets stats about the current's process Garbage Collectors. Instead of returning cumulative
+     * data since process was started, it reports stats since the last call to this method.
+     */
+    @VisibleForTesting
+    static List<AndroidStudioStats.GarbageCollectionStats> getGarbageCollectionStats() {
+        List<AndroidStudioStats.GarbageCollectionStats> stats = new ArrayList<>();
+        for (GarbageCollectorMXBean gc : HostData.getGarbageCollectorBeans()) {
+            String name = gc.getName();
+            GarbageCollectionStats previous = sGarbageCollectionStats.get(name);
+            if (previous == null) {
+                previous = new GarbageCollectionStats();
+            }
+            GarbageCollectionStats current = new GarbageCollectionStats();
+            current.collections = gc.getCollectionCount();
+            long collectionsDiff = current.collections - previous.collections;
+
+            current.time = gc.getCollectionTime();
+            long timeDiff = current.time - previous.time;
+            sGarbageCollectionStats.put(name, current);
+
+            stats.add(
+                    AndroidStudioStats.GarbageCollectionStats.newBuilder()
+                            .setName(gc.getName())
+                            .setGcCollections(collectionsDiff)
+                            .setGcTime(timeDiff)
+                            .build());
+        }
+        return stats;
     }
 }

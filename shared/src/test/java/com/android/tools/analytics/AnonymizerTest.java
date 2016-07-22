@@ -16,17 +16,17 @@
 
 package com.android.tools.analytics;
 
+import static org.junit.Assert.*;
+
 import com.android.annotations.NonNull;
 import com.android.annotations.Nullable;
+import com.android.tools.analytics.stubs.StubDateProvider;
 import com.android.utils.DateProvider;
 import com.android.utils.ILogger;
+import java.io.IOException;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
-
-import java.io.IOException;
-
-import static org.junit.Assert.*;
 
 /** Tests for @{link Anonymizer}. */
 public class AnonymizerTest {

@@ -256,6 +256,8 @@ message AndroidStudioEvent {
     GFX_TRACE_OPEN = 96;
     // Statistics on user actions in the Android Studio UI.
     STUDIO_UI_ACTION_STATS = 97;
+    // Stats on the current running Android Studio process.
+    STUDIO_PROCESS_STATS = 98;
   }
   // Represents different Performance Monitoring types.
   enum MonitorType {
@@ -451,6 +453,12 @@ message AndroidStudioEvent {
   optional .android_studio.TestRecorderDetails test_recorder_details = 33;
   // set when kind = STUDIO_UI_ACTION_STATS
   optional .android_studio.UIActionStats ui_action_stats = 34;
+  // set when kind = STUDIO_PING
+  optional .android_studio.MachineDetails machine_details = 35;
+  // set when kind = STUDIO_PING
+  optional .android_studio.JvmDetails jvm_details = 36;
+  // set when kind = STUDIO_PROCESS_STATS
+  optional .android_studio.JavaProcessStats java_process_stats = 37;
 }
 
 // Describes a product, e.g. Android Studio or Emulator.
@@ -1464,6 +1472,88 @@ message UIActionStats {
   optional int64 invocations = 2;
   // The way this action was invocated by the user.
   optional .android_studio.UIActionStats.InvocationKind invocation_kind = 3;
+}
+
+// Details about the machine this process is running on.
+message MachineDetails {
+  // Amount of total memory available in megabytes.
+  optional int64 total_ram = 1;
+  // Amount of total disk available in megabytes.
+  optional int64 total_disk = 2;
+  // Information about the display screens on the machine (resolution etc..)
+  repeated .android_studio.DisplayDetails display = 3;
+  // Number of processors on the machine.
+  optional int32 available_processors = 4;
+}
+
+// Details of a display screen.
+message DisplayDetails {
+  // Width of the display screen in pixels.
+  optional int64 width = 1;
+  // Height of the display screen in pixels.
+  optional int64 height = 2;
+  // Densitiy of the pixels on the screen horiziontally.
+  optional int32 dots_per_inch_horizontal = 3;
+  // Densitiy of the pixels on the screen vertically.
+  optional int32 dots_per_inch_vertical = 4;
+}
+
+// Stats on the current running java process.
+message JavaProcessStats {
+  // Number of bytes of memory in use as heap memory.
+  optional int64 heap_memory_usage = 1;
+  // Number of bytes of memory in use as non heap memory.
+  optional int64 non_heap_memory_usage = 2;
+  // Current amount of java classes loaded.
+  optional int32 loaded_class_count = 3;
+  // Current amount of threads.
+  optional int32 thread_count = 4;
+  // Statistics about the garbage collectors used in this process.
+  repeated .android_studio.GarbageCollectionStats garbage_collection_stats = 5;
+}
+
+// Statistics about the garbage collector.
+message GarbageCollectionStats {
+  // Name of the garbage collector (e.g. 'ConcurrentMarkSweep')
+  optional string name = 1;
+  // Number of garbage collector invocations since last report.
+  optional int64 gc_collections = 2;
+  // Time spent garbage collecting since last report in milliseconds.
+  optional int64 gc_time = 3;
+}
+
+// Details about the JVM used in this process.
+message JvmDetails {
+  // Various garbage collectors that could be chosen through VM Options.
+  enum GarbageCollector {
+    UNSPECIFIED_GC = 0;
+    CONCURRENT_MARK_SWEEP_GC = 1;
+    GARBAGE_FIRST_GC = 2;
+    PARALLEL_GC = 3;
+    PARALLEL_OLD_GC = 4;
+    SERIAL_GC = 5;
+  }
+  // Name of the JVM (e.g. "OpenJDK 64-Bit Server by JetBrains s.r.o").
+  optional string name = 1;
+  // Version of the JVM (e.g. "1.8.0_76-release-b198 amd")
+  optional string version = 2;
+  // Vendor of the JVM (e.g. "JetBrains s.r.o.")
+  optional string vendor = 3;
+  // VM Option specified to set minimum heap_size in bytes ("-Xms" flag).
+  optional int64 minimum_heap_size = 4;
+  // VM Option specified to set maximum heap_size in bytes ("-Xmx" flag).
+  optional int64 maximum_heap_size = 5;
+  // VM Option specified to set maximum permanent space size in bytes.
+  //  ("-XX:MaxPermSize" flag)
+  optional int64 maximum_permanent_space_size = 6;
+  // VM Option specified to set maximum permanent space size in bytes.
+  //  ("-XX:ReservedCodeCacheSize" flag)
+  optional int64 maximum_code_cache_size = 7;
+  // VM Option specified to set time soft referenced objects remain alive in ms.
+  //  ("-XX:SoftRefLRUPolicyMSPerMB" flag)
+  optional int64 soft_reference_lru_policy = 8;
+  // Type of Garbage Collector to use (various VM Option flags).
+  optional .android_studio.JvmDetails.GarbageCollector garbage_collector = 9;
 }
 
 

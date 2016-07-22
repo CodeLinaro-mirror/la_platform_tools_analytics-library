@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.android.tools.analytics;
+
+package com.android.tools.analytics.stubs;
 
 import com.android.utils.DateProvider;
-
 import java.time.ZoneOffset;
 import java.util.Calendar;
 import java.util.Date;
