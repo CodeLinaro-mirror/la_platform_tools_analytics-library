@@ -31,11 +31,6 @@ import com.google.wireless.android.play.playlog.proto.ClientAnalytics;
 import com.google.wireless.android.sdk.stats.AndroidStudioStats.AndroidStudioEvent;
 import com.google.wireless.android.sdk.stats.AndroidStudioStats.MetaMetrics;
 import com.google.wireless.android.sdk.stats.AndroidStudioStats.StudioCrash;
-
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
-
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.HashSet;
@@ -44,6 +39,9 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.rules.TemporaryFolder;
 
 
 /**
@@ -333,7 +331,6 @@ public class AnalyticsPublisherTest {
 
             // Move scheduler to run to the delayed job
             vs.advanceBy(20, TimeUnit.MINUTES);
-            googleAnalyticsPublisher.close();
 
             // Ensure that the results do come in now.
             List<Future<ClientAnalytics.LogRequest>> results = stub.getResults();
@@ -360,6 +357,42 @@ public class AnalyticsPublisherTest {
                                             .build())
                             .build(),
                     metaStudioEvent);
+
+            // Send more metrics to test behavior after successful upload
+            journalingUsageTracker =
+                    new JournalingUsageTracker(
+                            new AnalyticsSettings(), vs, testSpoolDir.getRoot().toPath());
+            journalingUsageTracker.log(logged);
+            vs.advanceBy(0);
+            journalingUsageTracker.close();
+
+            // Next publishing should be back at 10 minutes as last job
+            vs.advanceBy(10, TimeUnit.MINUTES);
+
+            // Metrics should be published
+            results = stub.getResults();
+            assertEquals(2, results.size());
+            result = results.get(1);
+            assertEquals(true, result.isDone());
+            request = result.get();
+
+            assertEquals(2, request.getLogEventCount());
+            // Another metric event should be present and it should have no failures counted.
+            metaEvent = request.getLogEvent(0);
+            metaStudioEvent = AndroidStudioEvent.parseFrom(metaEvent.getSourceExtension());
+            assertEquals(
+                    AndroidStudioEvent.newBuilder()
+                            .setCategory(AndroidStudioEvent.EventCategory.META)
+                            .setKind(AndroidStudioEvent.EventKind.META_METRICS)
+                            .setMetaMetrics(
+                                    MetaMetrics.newBuilder()
+                                            .setFailedConnections(0)
+                                            .setFailedServerReplies(0)
+                                            .setBytesSentInLastUpload(167)
+                                            .build())
+                            .build(),
+                    metaStudioEvent);
+            googleAnalyticsPublisher.close();
         } finally {
             GoogleAnalyticsPublisher.sDateProvider = DateProvider.SYSTEM;
             EnvironmentFakes.setSystemEnvironment();

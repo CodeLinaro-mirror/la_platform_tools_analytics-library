@@ -22,7 +22,6 @@ import com.android.utils.ILogger;
 import com.android.utils.StdLogger;
 import com.google.wireless.android.play.playlog.proto.ClientAnalytics;
 import com.google.wireless.android.sdk.stats.AndroidStudioStats;
-
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -41,13 +40,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /*
  * Publish collected analytics to Google's servers.
@@ -83,7 +79,7 @@ public class GoogleAnalyticsPublisher extends AnalyticsPublisher {
      *
      * @param analyticsSettings used for sending pseudoanonymous ID along with the analytics.
      * @param spoolLocation location to look for .trk files to upload.
-     * @param eventLoop used for scheduling periodic checks of the spool location.
+     * @param scheduler used for scheduling periodic checks of the spool location.
      */
     GoogleAnalyticsPublisher(
             AnalyticsSettings analyticsSettings,
@@ -202,6 +198,8 @@ public class GoogleAnalyticsPublisher extends AnalyticsPublisher {
                     // only if publishing succeeded, delete the file, otherwise we'll try again.
                     // successful publishing means we do no longer need to backoff.
                     mBackoffRatio = 1;
+                    mFailedConnections = 0;
+                    mFailedServerReplies = 0;
                 } else {
                     // publishing failed with a server error, track and increase our backoff ratio.
                     mFailedServerReplies++;
@@ -286,9 +284,7 @@ public class GoogleAnalyticsPublisher extends AnalyticsPublisher {
         return responseCode;
     }
 
-    /**
-     * Builds a {@link ClientAnalytics.LogRequest} proto based on the provided entries and time.
-     */
+    /** Builds a {@link ClientAnalytics.LogRequest} proto based on the provided entries and time. */
     private ClientAnalytics.LogRequest buildLogRequest(
             List<ClientAnalytics.LogEvent> entries, long time) {
         return ClientAnalytics.LogRequest.newBuilder(mBaseLogRequest)
