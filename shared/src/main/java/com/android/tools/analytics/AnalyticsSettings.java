@@ -27,7 +27,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonParseException;
 import com.google.gson.annotations.SerializedName;
-
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -119,13 +118,18 @@ public class AnalyticsSettings {
             if (mSaltSkew != currentSaltSkew) {
                 mSaltSkew = currentSaltSkew;
                 SecureRandom random = new SecureRandom();
-                byte[] data = random.generateSeed(24);
+                byte[] data = new byte[24];
+                random.nextBytes(data);
                 mSaltValue = new BigInteger(data);
                 saveSettings();
-                return data;
-            } else {
-                return mSaltValue.toByteArray();
             }
+            byte[] blob = mSaltValue.toByteArray();
+            byte[] fullBlob = blob;
+            if (blob.length < 24) {
+                fullBlob = new byte[24];
+                System.arraycopy(blob, 0, fullBlob, 0, blob.length);
+            }
+            return fullBlob;
         }
     }
 
