@@ -61,6 +61,10 @@ java_library(
   srcs = glob([
       "tracker/src/test/java/**/*.java",
     ]),
+  resource_strip_prefix = "tools/analytics-library/analytics-tracker_testlib.resources",
+  resources = [
+      "//tools/analytics-library:analytics-tracker_testlib.res",
+    ],
   deps = [
       "@local_jdk//:langtools-neverlink",
       "//tools/analytics-library:analytics-tracker",
@@ -116,14 +120,35 @@ java_test(
     ]),
   runtime_deps = [
       ":analytics-tracker_testlib",
-      "//tools/base/bazel:test_runner",
+      "//tools/base/testutils:testutils",
     ],
   jvm_flags = [
       "-Dtest.suite.jar=analytics-tracker_testlib.jar",
     ],
-  test_class = "com.android.tools.BazelTestSuite",
+  test_class = "com.android.testutils.JarTestSuite",
   javacopts = ["-extra_checks:off"],
   visibility = ["//visibility:public"],
+)
+
+fileset(
+  name = "analytics-tracker_testlib.res",
+  srcs = glob([
+      "tracker/src/test/java/**/*",
+    ],
+    exclude = [
+      "**/* *",
+      "**/*.java",
+      "**/*.kt",
+      "**/*.groovy",
+      "**/*$*",
+      "**/.DS_Store",
+    ]),
+  mappings = {
+      "tracker/src/test/java": "analytics-tracker_testlib.resources",
+    },
+  deps = [
+      "@local_jdk//:langtools-neverlink",
+    ],
 )
 
 fileset(
@@ -152,6 +177,10 @@ java_library(
   srcs = glob([
       "shared/src/test/java/**/*.java",
     ]),
+  resource_strip_prefix = "tools/analytics-library/analytics-shared_testlib.resources",
+  resources = [
+      "//tools/analytics-library:analytics-shared_testlib.res",
+    ],
   deps = [
       "@local_jdk//:langtools-neverlink",
       "//tools/analytics-library:analytics-shared",
@@ -217,12 +246,12 @@ java_test(
     ]),
   runtime_deps = [
       ":analytics-shared_testlib",
-      "//tools/base/bazel:test_runner",
+      "//tools/base/testutils:testutils",
     ],
   jvm_flags = [
       "-Dtest.suite.jar=analytics-shared_testlib.jar",
     ],
-  test_class = "com.android.tools.BazelTestSuite",
+  test_class = "com.android.testutils.JarTestSuite",
   javacopts = ["-extra_checks:off"],
   visibility = ["//visibility:public"],
 )
@@ -248,11 +277,36 @@ fileset(
     ],
 )
 
+fileset(
+  name = "analytics-shared_testlib.res",
+  srcs = glob([
+      "shared/src/test/java/**/*",
+    ],
+    exclude = [
+      "**/* *",
+      "**/*.java",
+      "**/*.kt",
+      "**/*.groovy",
+      "**/*$*",
+      "**/.DS_Store",
+    ]),
+  mappings = {
+      "shared/src/test/java": "analytics-shared_testlib.resources",
+    },
+  deps = [
+      "@local_jdk//:langtools-neverlink",
+    ],
+)
+
 java_library(
   name = "analytics-publisher_testlib",
   srcs = glob([
       "publisher/src/test/java/**/*.java",
     ]),
+  resource_strip_prefix = "tools/analytics-library/analytics-publisher_testlib.resources",
+  resources = [
+      "//tools/analytics-library:analytics-publisher_testlib.res",
+    ],
   deps = [
       "@local_jdk//:langtools-neverlink",
       "//tools/analytics-library:analytics-publisher",
@@ -298,18 +352,39 @@ fileset(
     ],
 )
 
+fileset(
+  name = "analytics-publisher_testlib.res",
+  srcs = glob([
+      "publisher/src/test/java/**/*",
+    ],
+    exclude = [
+      "**/* *",
+      "**/*.java",
+      "**/*.kt",
+      "**/*.groovy",
+      "**/*$*",
+      "**/.DS_Store",
+    ]),
+  mappings = {
+      "publisher/src/test/java": "analytics-publisher_testlib.resources",
+    },
+  deps = [
+      "@local_jdk//:langtools-neverlink",
+    ],
+)
+
 java_test(
   name = "analytics-publisher_tests",
   srcs = glob([
     ]),
   runtime_deps = [
       ":analytics-publisher_testlib",
-      "//tools/base/bazel:test_runner",
+      "//tools/base/testutils:testutils",
     ],
   jvm_flags = [
       "-Dtest.suite.jar=analytics-publisher_testlib.jar",
     ],
-  test_class = "com.android.tools.BazelTestSuite",
+  test_class = "com.android.testutils.JarTestSuite",
   javacopts = ["-extra_checks:off"],
   visibility = ["//visibility:public"],
 )
