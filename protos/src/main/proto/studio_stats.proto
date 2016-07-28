@@ -1401,6 +1401,8 @@ message InstantRunStatus {
     COLD_SWAP_REQUESTED = 24;
     FULL_BUILD_REQUESTED = 25;
     INITIAL_BUILD = 26;
+    NO_CHANGES = 27;
+    CHANGE_IN_SERIALIZABLE_CLASS_WITHOUT_VERSION_UID = 28;
   }
   // The type of artifacts built in this invocation.
   //  e.g. COLD for when the changes cannot be hot-swapped, either due to the
