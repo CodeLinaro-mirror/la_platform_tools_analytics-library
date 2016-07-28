@@ -820,7 +820,32 @@ message InstantRun {
     API_LEVEL_UNSUPPORTED = 16;
     REFLECTION_USED = 17;
   }
+  // The different reasons InstantRun chose the build mode it did from the IDE's
+  //  perspective.
+  enum InstantRunIdeBuildCause {
+    // reasons for clean build
+    UNKNOWN_INSTANT_RUN_IDE_BUILD_CAUSE = 0;
+    NO_DEVICE = 1;
+    APP_NOT_INSTALLED = 2;
+    MISMATCHING_TIMESTAMPS = 3;
+    USER_REQUESTED_CLEAN_BUILD = 4;
+    // reasons for full build
+    API_TOO_LOW_FOR_INSTANT_RUN = 5;
+    // first installation in this Android Studio session
+    FIRST_INSTALLATION_TO_DEVICE = 6;
+    MANIFEST_RESOURCE_CHANGED = 7;
+    FREEZE_SWAP_REQUIRES_API21 = 8;
+    FREEZE_SWAP_REQUIRES_WORKING_RUN_AS = 9;
+    // reasons for forced cold swap build
+    APP_NOT_RUNNING = 10;
+    APP_USES_MULTIPLE_PROCESSES = 11;
+    INCREMENTAL_BUILD = 12;
+    NO_INSTANT_RUN = 13;
+  }
+  // What kind of Instant Run deployment was chosen.
   optional .android_studio.InstantRun.InstantRunDeploymentKind deployment_kind = 1;
+  // what was the reason for chosing that kind of deployment from the gradle
+  //  side.
   optional .android_studio.InstantRun.InstantRunBuildCause instant_run_build_cause = 3;
   // time the InstantRun enabled took in seconds.
   optional int64 build_time = 4;
@@ -828,6 +853,9 @@ message InstantRun {
   //  tracking multiple HOT_SWAP & DEX builds in the same
   //  IR session (starting at FULL_APK and ending before FULL_APK).
   optional string session_id = 5;
+  // what was the reason for chosing that kind of deployment from the IDE
+  //  side.
+  optional .android_studio.InstantRun.InstantRunIdeBuildCause ide_build_cause = 6;
 }
 
 // describes Metrics on Metrics.
