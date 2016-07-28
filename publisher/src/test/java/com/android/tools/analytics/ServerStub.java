@@ -22,7 +22,6 @@ import com.google.wireless.android.play.playlog.proto.ClientAnalytics;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
-
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.InetSocketAddress;
@@ -41,6 +40,9 @@ public class ServerStub implements HttpHandler, AutoCloseable {
     private final List<Future<ClientAnalytics.LogRequest>> mResults = new ArrayList<>();
     private final InetSocketAddress mAddress;
     private final HttpServer mServer;
+    public static final int HTTP_OK = 200;
+    public static final int HTTP_BAD_REQUEST = 404;
+    public static final int HTTP_INTERNAL_SERVER_ERROR = 500;
 
     private final AtomicBoolean mNextResponseServerError = new AtomicBoolean(false);
 
@@ -70,7 +72,10 @@ public class ServerStub implements HttpHandler, AutoCloseable {
      * (an exception) requests.
      */
     public List<Future<ClientAnalytics.LogRequest>> getResults() {
-        return mResults;
+        // Synchronized to ensure no results are in flight to avoid test flakeyness.
+        synchronized (mServer) {
+            return mResults;
+        }
     }
 
     /**
@@ -88,25 +93,28 @@ public class ServerStub implements HttpHandler, AutoCloseable {
 
     @Override
     public void handle(HttpExchange httpExchange) throws IOException {
-        if (mNextResponseServerError.get()) {
-            byte[] response = "Internal Server Error".getBytes(Charsets.UTF_8);
-            httpExchange.sendResponseHeaders(501, response.length);
-            OutputStream body = httpExchange.getResponseBody();
-            body.write(response);
-            mNextResponseServerError.set(false);
-        } else {
-            SettableFuture<ClientAnalytics.LogRequest> data = SettableFuture.create();
-            try {
-                data.set(ClientAnalytics.LogRequest.parseFrom(httpExchange.getRequestBody()));
-                httpExchange.sendResponseHeaders(200, 0);
-            } catch (IOException e) {
-                byte[] response = "Bad Request".getBytes(Charsets.UTF_8);
-                httpExchange.sendResponseHeaders(400, response.length);
+        // Synchronized to ensure no results are in flight to avoid test flakeyness.
+        synchronized (mServer) {
+            if (mNextResponseServerError.get()) {
+                byte[] response = "Internal Server Error".getBytes(Charsets.UTF_8);
+                httpExchange.sendResponseHeaders(HTTP_INTERNAL_SERVER_ERROR, response.length);
                 OutputStream body = httpExchange.getResponseBody();
                 body.write(response);
-                data.setException(e);
+                mNextResponseServerError.set(false);
+            } else {
+                SettableFuture<ClientAnalytics.LogRequest> data = SettableFuture.create();
+                try {
+                    data.set(ClientAnalytics.LogRequest.parseFrom(httpExchange.getRequestBody()));
+                    httpExchange.sendResponseHeaders(HTTP_OK, 0);
+                } catch (IOException e) {
+                    byte[] response = "Bad Request".getBytes(Charsets.UTF_8);
+                    httpExchange.sendResponseHeaders(HTTP_BAD_REQUEST, response.length);
+                    OutputStream body = httpExchange.getResponseBody();
+                    body.write(response);
+                    data.setException(e);
+                }
+                mResults.add(data);
             }
-            mResults.add(data);
         }
     }
 }
