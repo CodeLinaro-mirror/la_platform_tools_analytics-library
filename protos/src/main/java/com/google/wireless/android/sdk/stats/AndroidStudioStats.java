@@ -29470,20 +29470,38 @@ public final class AndroidStudioStats {
     // optional .android_studio.InstantRun.InstantRunDeploymentKind deployment_kind = 1;
     /**
      * <code>optional .android_studio.InstantRun.InstantRunDeploymentKind deployment_kind = 1;</code>
+     *
+     * <pre>
+     * What kind of Instant Run deployment was chosen.
+     * </pre>
      */
     boolean hasDeploymentKind();
     /**
      * <code>optional .android_studio.InstantRun.InstantRunDeploymentKind deployment_kind = 1;</code>
+     *
+     * <pre>
+     * What kind of Instant Run deployment was chosen.
+     * </pre>
      */
     com.google.wireless.android.sdk.stats.AndroidStudioStats.InstantRun.InstantRunDeploymentKind getDeploymentKind();
 
     // optional .android_studio.InstantRun.InstantRunBuildCause instant_run_build_cause = 3;
     /**
      * <code>optional .android_studio.InstantRun.InstantRunBuildCause instant_run_build_cause = 3;</code>
+     *
+     * <pre>
+     * what was the reason for chosing that kind of deployment from the gradle
+     *  side.
+     * </pre>
      */
     boolean hasInstantRunBuildCause();
     /**
      * <code>optional .android_studio.InstantRun.InstantRunBuildCause instant_run_build_cause = 3;</code>
+     *
+     * <pre>
+     * what was the reason for chosing that kind of deployment from the gradle
+     *  side.
+     * </pre>
      */
     com.google.wireless.android.sdk.stats.AndroidStudioStats.InstantRun.InstantRunBuildCause getInstantRunBuildCause();
 
@@ -29537,6 +29555,26 @@ public final class AndroidStudioStats {
      */
     com.google.protobuf.ByteString
         getSessionIdBytes();
+
+    // optional .android_studio.InstantRun.InstantRunIdeBuildCause ide_build_cause = 6;
+    /**
+     * <code>optional .android_studio.InstantRun.InstantRunIdeBuildCause ide_build_cause = 6;</code>
+     *
+     * <pre>
+     * what was the reason for chosing that kind of deployment from the IDE
+     *  side.
+     * </pre>
+     */
+    boolean hasIdeBuildCause();
+    /**
+     * <code>optional .android_studio.InstantRun.InstantRunIdeBuildCause ide_build_cause = 6;</code>
+     *
+     * <pre>
+     * what was the reason for chosing that kind of deployment from the IDE
+     *  side.
+     * </pre>
+     */
+    com.google.wireless.android.sdk.stats.AndroidStudioStats.InstantRun.InstantRunIdeBuildCause getIdeBuildCause();
   }
   /**
    * Protobuf type {@code android_studio.InstantRun}
@@ -29623,6 +29661,17 @@ public final class AndroidStudioStats {
             case 42: {
               bitField0_ |= 0x00000008;
               sessionId_ = input.readBytes();
+              break;
+            }
+            case 48: {
+              int rawValue = input.readEnum();
+              com.google.wireless.android.sdk.stats.AndroidStudioStats.InstantRun.InstantRunIdeBuildCause value = com.google.wireless.android.sdk.stats.AndroidStudioStats.InstantRun.InstantRunIdeBuildCause.valueOf(rawValue);
+              if (value == null) {
+                unknownFields.mergeVarintField(6, rawValue);
+              } else {
+                bitField0_ |= 0x00000010;
+                ideBuildCause_ = value;
+              }
               break;
             }
           }
@@ -30034,18 +30083,253 @@ public final class AndroidStudioStats {
       // @@protoc_insertion_point(enum_scope:android_studio.InstantRun.InstantRunBuildCause)
     }
 
+    /**
+     * Protobuf enum {@code android_studio.InstantRun.InstantRunIdeBuildCause}
+     *
+     * <pre>
+     * The different reasons InstantRun chose the build mode it did from the IDE's
+     *  perspective.
+     * </pre>
+     */
+    public enum InstantRunIdeBuildCause
+        implements com.google.protobuf.ProtocolMessageEnum {
+      /**
+       * <code>UNKNOWN_INSTANT_RUN_IDE_BUILD_CAUSE = 0;</code>
+       *
+       * <pre>
+       * reasons for clean build
+       * </pre>
+       */
+      UNKNOWN_INSTANT_RUN_IDE_BUILD_CAUSE(0, 0),
+      /**
+       * <code>NO_DEVICE = 1;</code>
+       */
+      NO_DEVICE(1, 1),
+      /**
+       * <code>APP_NOT_INSTALLED = 2;</code>
+       */
+      APP_NOT_INSTALLED(2, 2),
+      /**
+       * <code>MISMATCHING_TIMESTAMPS = 3;</code>
+       */
+      MISMATCHING_TIMESTAMPS(3, 3),
+      /**
+       * <code>USER_REQUESTED_CLEAN_BUILD = 4;</code>
+       */
+      USER_REQUESTED_CLEAN_BUILD(4, 4),
+      /**
+       * <code>API_TOO_LOW_FOR_INSTANT_RUN = 5;</code>
+       *
+       * <pre>
+       * reasons for full build
+       * </pre>
+       */
+      API_TOO_LOW_FOR_INSTANT_RUN(5, 5),
+      /**
+       * <code>FIRST_INSTALLATION_TO_DEVICE = 6;</code>
+       *
+       * <pre>
+       * first installation in this Android Studio session
+       * </pre>
+       */
+      FIRST_INSTALLATION_TO_DEVICE(6, 6),
+      /**
+       * <code>MANIFEST_RESOURCE_CHANGED = 7;</code>
+       */
+      MANIFEST_RESOURCE_CHANGED(7, 7),
+      /**
+       * <code>FREEZE_SWAP_REQUIRES_API21 = 8;</code>
+       */
+      FREEZE_SWAP_REQUIRES_API21(8, 8),
+      /**
+       * <code>FREEZE_SWAP_REQUIRES_WORKING_RUN_AS = 9;</code>
+       */
+      FREEZE_SWAP_REQUIRES_WORKING_RUN_AS(9, 9),
+      /**
+       * <code>APP_NOT_RUNNING = 10;</code>
+       *
+       * <pre>
+       * reasons for forced cold swap build
+       * </pre>
+       */
+      APP_NOT_RUNNING(10, 10),
+      /**
+       * <code>APP_USES_MULTIPLE_PROCESSES = 11;</code>
+       */
+      APP_USES_MULTIPLE_PROCESSES(11, 11),
+      /**
+       * <code>INCREMENTAL_BUILD = 12;</code>
+       */
+      INCREMENTAL_BUILD(12, 12),
+      /**
+       * <code>NO_INSTANT_RUN = 13;</code>
+       */
+      NO_INSTANT_RUN(13, 13),
+      ;
+
+      /**
+       * <code>UNKNOWN_INSTANT_RUN_IDE_BUILD_CAUSE = 0;</code>
+       *
+       * <pre>
+       * reasons for clean build
+       * </pre>
+       */
+      public static final int UNKNOWN_INSTANT_RUN_IDE_BUILD_CAUSE_VALUE = 0;
+      /**
+       * <code>NO_DEVICE = 1;</code>
+       */
+      public static final int NO_DEVICE_VALUE = 1;
+      /**
+       * <code>APP_NOT_INSTALLED = 2;</code>
+       */
+      public static final int APP_NOT_INSTALLED_VALUE = 2;
+      /**
+       * <code>MISMATCHING_TIMESTAMPS = 3;</code>
+       */
+      public static final int MISMATCHING_TIMESTAMPS_VALUE = 3;
+      /**
+       * <code>USER_REQUESTED_CLEAN_BUILD = 4;</code>
+       */
+      public static final int USER_REQUESTED_CLEAN_BUILD_VALUE = 4;
+      /**
+       * <code>API_TOO_LOW_FOR_INSTANT_RUN = 5;</code>
+       *
+       * <pre>
+       * reasons for full build
+       * </pre>
+       */
+      public static final int API_TOO_LOW_FOR_INSTANT_RUN_VALUE = 5;
+      /**
+       * <code>FIRST_INSTALLATION_TO_DEVICE = 6;</code>
+       *
+       * <pre>
+       * first installation in this Android Studio session
+       * </pre>
+       */
+      public static final int FIRST_INSTALLATION_TO_DEVICE_VALUE = 6;
+      /**
+       * <code>MANIFEST_RESOURCE_CHANGED = 7;</code>
+       */
+      public static final int MANIFEST_RESOURCE_CHANGED_VALUE = 7;
+      /**
+       * <code>FREEZE_SWAP_REQUIRES_API21 = 8;</code>
+       */
+      public static final int FREEZE_SWAP_REQUIRES_API21_VALUE = 8;
+      /**
+       * <code>FREEZE_SWAP_REQUIRES_WORKING_RUN_AS = 9;</code>
+       */
+      public static final int FREEZE_SWAP_REQUIRES_WORKING_RUN_AS_VALUE = 9;
+      /**
+       * <code>APP_NOT_RUNNING = 10;</code>
+       *
+       * <pre>
+       * reasons for forced cold swap build
+       * </pre>
+       */
+      public static final int APP_NOT_RUNNING_VALUE = 10;
+      /**
+       * <code>APP_USES_MULTIPLE_PROCESSES = 11;</code>
+       */
+      public static final int APP_USES_MULTIPLE_PROCESSES_VALUE = 11;
+      /**
+       * <code>INCREMENTAL_BUILD = 12;</code>
+       */
+      public static final int INCREMENTAL_BUILD_VALUE = 12;
+      /**
+       * <code>NO_INSTANT_RUN = 13;</code>
+       */
+      public static final int NO_INSTANT_RUN_VALUE = 13;
+
+
+      public final int getNumber() { return value; }
+
+      public static InstantRunIdeBuildCause valueOf(int value) {
+        switch (value) {
+          case 0: return UNKNOWN_INSTANT_RUN_IDE_BUILD_CAUSE;
+          case 1: return NO_DEVICE;
+          case 2: return APP_NOT_INSTALLED;
+          case 3: return MISMATCHING_TIMESTAMPS;
+          case 4: return USER_REQUESTED_CLEAN_BUILD;
+          case 5: return API_TOO_LOW_FOR_INSTANT_RUN;
+          case 6: return FIRST_INSTALLATION_TO_DEVICE;
+          case 7: return MANIFEST_RESOURCE_CHANGED;
+          case 8: return FREEZE_SWAP_REQUIRES_API21;
+          case 9: return FREEZE_SWAP_REQUIRES_WORKING_RUN_AS;
+          case 10: return APP_NOT_RUNNING;
+          case 11: return APP_USES_MULTIPLE_PROCESSES;
+          case 12: return INCREMENTAL_BUILD;
+          case 13: return NO_INSTANT_RUN;
+          default: return null;
+        }
+      }
+
+      public static com.google.protobuf.Internal.EnumLiteMap<InstantRunIdeBuildCause>
+          internalGetValueMap() {
+        return internalValueMap;
+      }
+      private static com.google.protobuf.Internal.EnumLiteMap<InstantRunIdeBuildCause>
+          internalValueMap =
+            new com.google.protobuf.Internal.EnumLiteMap<InstantRunIdeBuildCause>() {
+              public InstantRunIdeBuildCause findValueByNumber(int number) {
+                return InstantRunIdeBuildCause.valueOf(number);
+              }
+            };
+
+      public final com.google.protobuf.Descriptors.EnumValueDescriptor
+          getValueDescriptor() {
+        return getDescriptor().getValues().get(index);
+      }
+      public final com.google.protobuf.Descriptors.EnumDescriptor
+          getDescriptorForType() {
+        return getDescriptor();
+      }
+      public static final com.google.protobuf.Descriptors.EnumDescriptor
+          getDescriptor() {
+        return com.google.wireless.android.sdk.stats.AndroidStudioStats.InstantRun.getDescriptor().getEnumTypes().get(2);
+      }
+
+      private static final InstantRunIdeBuildCause[] VALUES = values();
+
+      public static InstantRunIdeBuildCause valueOf(
+          com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
+        if (desc.getType() != getDescriptor()) {
+          throw new java.lang.IllegalArgumentException(
+            "EnumValueDescriptor is not for this type.");
+        }
+        return VALUES[desc.getIndex()];
+      }
+
+      private final int index;
+      private final int value;
+
+      private InstantRunIdeBuildCause(int index, int value) {
+        this.index = index;
+        this.value = value;
+      }
+
+      // @@protoc_insertion_point(enum_scope:android_studio.InstantRun.InstantRunIdeBuildCause)
+    }
+
     private int bitField0_;
     // optional .android_studio.InstantRun.InstantRunDeploymentKind deployment_kind = 1;
     public static final int DEPLOYMENT_KIND_FIELD_NUMBER = 1;
     private com.google.wireless.android.sdk.stats.AndroidStudioStats.InstantRun.InstantRunDeploymentKind deploymentKind_;
     /**
      * <code>optional .android_studio.InstantRun.InstantRunDeploymentKind deployment_kind = 1;</code>
+     *
+     * <pre>
+     * What kind of Instant Run deployment was chosen.
+     * </pre>
      */
     public boolean hasDeploymentKind() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
      * <code>optional .android_studio.InstantRun.InstantRunDeploymentKind deployment_kind = 1;</code>
+     *
+     * <pre>
+     * What kind of Instant Run deployment was chosen.
+     * </pre>
      */
     public com.google.wireless.android.sdk.stats.AndroidStudioStats.InstantRun.InstantRunDeploymentKind getDeploymentKind() {
       return deploymentKind_;
@@ -30056,12 +30340,22 @@ public final class AndroidStudioStats {
     private com.google.wireless.android.sdk.stats.AndroidStudioStats.InstantRun.InstantRunBuildCause instantRunBuildCause_;
     /**
      * <code>optional .android_studio.InstantRun.InstantRunBuildCause instant_run_build_cause = 3;</code>
+     *
+     * <pre>
+     * what was the reason for chosing that kind of deployment from the gradle
+     *  side.
+     * </pre>
      */
     public boolean hasInstantRunBuildCause() {
       return ((bitField0_ & 0x00000002) == 0x00000002);
     }
     /**
      * <code>optional .android_studio.InstantRun.InstantRunBuildCause instant_run_build_cause = 3;</code>
+     *
+     * <pre>
+     * what was the reason for chosing that kind of deployment from the gradle
+     *  side.
+     * </pre>
      */
     public com.google.wireless.android.sdk.stats.AndroidStudioStats.InstantRun.InstantRunBuildCause getInstantRunBuildCause() {
       return instantRunBuildCause_;
@@ -30152,11 +30446,38 @@ public final class AndroidStudioStats {
       }
     }
 
+    // optional .android_studio.InstantRun.InstantRunIdeBuildCause ide_build_cause = 6;
+    public static final int IDE_BUILD_CAUSE_FIELD_NUMBER = 6;
+    private com.google.wireless.android.sdk.stats.AndroidStudioStats.InstantRun.InstantRunIdeBuildCause ideBuildCause_;
+    /**
+     * <code>optional .android_studio.InstantRun.InstantRunIdeBuildCause ide_build_cause = 6;</code>
+     *
+     * <pre>
+     * what was the reason for chosing that kind of deployment from the IDE
+     *  side.
+     * </pre>
+     */
+    public boolean hasIdeBuildCause() {
+      return ((bitField0_ & 0x00000010) == 0x00000010);
+    }
+    /**
+     * <code>optional .android_studio.InstantRun.InstantRunIdeBuildCause ide_build_cause = 6;</code>
+     *
+     * <pre>
+     * what was the reason for chosing that kind of deployment from the IDE
+     *  side.
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.AndroidStudioStats.InstantRun.InstantRunIdeBuildCause getIdeBuildCause() {
+      return ideBuildCause_;
+    }
+
     private void initFields() {
       deploymentKind_ = com.google.wireless.android.sdk.stats.AndroidStudioStats.InstantRun.InstantRunDeploymentKind.UNKNOWN_INSTANT_RUN_DEPLOYMENT_KIND;
       instantRunBuildCause_ = com.google.wireless.android.sdk.stats.AndroidStudioStats.InstantRun.InstantRunBuildCause.UNKNOWN_INSTANT_RUN_BUILD_CAUSE;
       buildTime_ = 0L;
       sessionId_ = "";
+      ideBuildCause_ = com.google.wireless.android.sdk.stats.AndroidStudioStats.InstantRun.InstantRunIdeBuildCause.UNKNOWN_INSTANT_RUN_IDE_BUILD_CAUSE;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -30182,6 +30503,9 @@ public final class AndroidStudioStats {
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
         output.writeBytes(5, getSessionIdBytes());
       }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        output.writeEnum(6, ideBuildCause_.getNumber());
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -30206,6 +30530,10 @@ public final class AndroidStudioStats {
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBytesSize(5, getSessionIdBytes());
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeEnumSize(6, ideBuildCause_.getNumber());
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -30335,6 +30663,8 @@ public final class AndroidStudioStats {
         bitField0_ = (bitField0_ & ~0x00000004);
         sessionId_ = "";
         bitField0_ = (bitField0_ & ~0x00000008);
+        ideBuildCause_ = com.google.wireless.android.sdk.stats.AndroidStudioStats.InstantRun.InstantRunIdeBuildCause.UNKNOWN_INSTANT_RUN_IDE_BUILD_CAUSE;
+        bitField0_ = (bitField0_ & ~0x00000010);
         return this;
       }
 
@@ -30379,6 +30709,10 @@ public final class AndroidStudioStats {
           to_bitField0_ |= 0x00000008;
         }
         result.sessionId_ = sessionId_;
+        if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
+          to_bitField0_ |= 0x00000010;
+        }
+        result.ideBuildCause_ = ideBuildCause_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -30408,6 +30742,9 @@ public final class AndroidStudioStats {
           bitField0_ |= 0x00000008;
           sessionId_ = other.sessionId_;
           onChanged();
+        }
+        if (other.hasIdeBuildCause()) {
+          setIdeBuildCause(other.getIdeBuildCause());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -30440,18 +30777,30 @@ public final class AndroidStudioStats {
       private com.google.wireless.android.sdk.stats.AndroidStudioStats.InstantRun.InstantRunDeploymentKind deploymentKind_ = com.google.wireless.android.sdk.stats.AndroidStudioStats.InstantRun.InstantRunDeploymentKind.UNKNOWN_INSTANT_RUN_DEPLOYMENT_KIND;
       /**
        * <code>optional .android_studio.InstantRun.InstantRunDeploymentKind deployment_kind = 1;</code>
+       *
+       * <pre>
+       * What kind of Instant Run deployment was chosen.
+       * </pre>
        */
       public boolean hasDeploymentKind() {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
        * <code>optional .android_studio.InstantRun.InstantRunDeploymentKind deployment_kind = 1;</code>
+       *
+       * <pre>
+       * What kind of Instant Run deployment was chosen.
+       * </pre>
        */
       public com.google.wireless.android.sdk.stats.AndroidStudioStats.InstantRun.InstantRunDeploymentKind getDeploymentKind() {
         return deploymentKind_;
       }
       /**
        * <code>optional .android_studio.InstantRun.InstantRunDeploymentKind deployment_kind = 1;</code>
+       *
+       * <pre>
+       * What kind of Instant Run deployment was chosen.
+       * </pre>
        */
       public Builder setDeploymentKind(com.google.wireless.android.sdk.stats.AndroidStudioStats.InstantRun.InstantRunDeploymentKind value) {
         if (value == null) {
@@ -30464,6 +30813,10 @@ public final class AndroidStudioStats {
       }
       /**
        * <code>optional .android_studio.InstantRun.InstantRunDeploymentKind deployment_kind = 1;</code>
+       *
+       * <pre>
+       * What kind of Instant Run deployment was chosen.
+       * </pre>
        */
       public Builder clearDeploymentKind() {
         bitField0_ = (bitField0_ & ~0x00000001);
@@ -30476,18 +30829,33 @@ public final class AndroidStudioStats {
       private com.google.wireless.android.sdk.stats.AndroidStudioStats.InstantRun.InstantRunBuildCause instantRunBuildCause_ = com.google.wireless.android.sdk.stats.AndroidStudioStats.InstantRun.InstantRunBuildCause.UNKNOWN_INSTANT_RUN_BUILD_CAUSE;
       /**
        * <code>optional .android_studio.InstantRun.InstantRunBuildCause instant_run_build_cause = 3;</code>
+       *
+       * <pre>
+       * what was the reason for chosing that kind of deployment from the gradle
+       *  side.
+       * </pre>
        */
       public boolean hasInstantRunBuildCause() {
         return ((bitField0_ & 0x00000002) == 0x00000002);
       }
       /**
        * <code>optional .android_studio.InstantRun.InstantRunBuildCause instant_run_build_cause = 3;</code>
+       *
+       * <pre>
+       * what was the reason for chosing that kind of deployment from the gradle
+       *  side.
+       * </pre>
        */
       public com.google.wireless.android.sdk.stats.AndroidStudioStats.InstantRun.InstantRunBuildCause getInstantRunBuildCause() {
         return instantRunBuildCause_;
       }
       /**
        * <code>optional .android_studio.InstantRun.InstantRunBuildCause instant_run_build_cause = 3;</code>
+       *
+       * <pre>
+       * what was the reason for chosing that kind of deployment from the gradle
+       *  side.
+       * </pre>
        */
       public Builder setInstantRunBuildCause(com.google.wireless.android.sdk.stats.AndroidStudioStats.InstantRun.InstantRunBuildCause value) {
         if (value == null) {
@@ -30500,6 +30868,11 @@ public final class AndroidStudioStats {
       }
       /**
        * <code>optional .android_studio.InstantRun.InstantRunBuildCause instant_run_build_cause = 3;</code>
+       *
+       * <pre>
+       * what was the reason for chosing that kind of deployment from the gradle
+       *  side.
+       * </pre>
        */
       public Builder clearInstantRunBuildCause() {
         bitField0_ = (bitField0_ & ~0x00000002);
@@ -30663,6 +31036,62 @@ public final class AndroidStudioStats {
   }
   bitField0_ |= 0x00000008;
         sessionId_ = value;
+        onChanged();
+        return this;
+      }
+
+      // optional .android_studio.InstantRun.InstantRunIdeBuildCause ide_build_cause = 6;
+      private com.google.wireless.android.sdk.stats.AndroidStudioStats.InstantRun.InstantRunIdeBuildCause ideBuildCause_ = com.google.wireless.android.sdk.stats.AndroidStudioStats.InstantRun.InstantRunIdeBuildCause.UNKNOWN_INSTANT_RUN_IDE_BUILD_CAUSE;
+      /**
+       * <code>optional .android_studio.InstantRun.InstantRunIdeBuildCause ide_build_cause = 6;</code>
+       *
+       * <pre>
+       * what was the reason for chosing that kind of deployment from the IDE
+       *  side.
+       * </pre>
+       */
+      public boolean hasIdeBuildCause() {
+        return ((bitField0_ & 0x00000010) == 0x00000010);
+      }
+      /**
+       * <code>optional .android_studio.InstantRun.InstantRunIdeBuildCause ide_build_cause = 6;</code>
+       *
+       * <pre>
+       * what was the reason for chosing that kind of deployment from the IDE
+       *  side.
+       * </pre>
+       */
+      public com.google.wireless.android.sdk.stats.AndroidStudioStats.InstantRun.InstantRunIdeBuildCause getIdeBuildCause() {
+        return ideBuildCause_;
+      }
+      /**
+       * <code>optional .android_studio.InstantRun.InstantRunIdeBuildCause ide_build_cause = 6;</code>
+       *
+       * <pre>
+       * what was the reason for chosing that kind of deployment from the IDE
+       *  side.
+       * </pre>
+       */
+      public Builder setIdeBuildCause(com.google.wireless.android.sdk.stats.AndroidStudioStats.InstantRun.InstantRunIdeBuildCause value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        bitField0_ |= 0x00000010;
+        ideBuildCause_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional .android_studio.InstantRun.InstantRunIdeBuildCause ide_build_cause = 6;</code>
+       *
+       * <pre>
+       * what was the reason for chosing that kind of deployment from the IDE
+       *  side.
+       * </pre>
+       */
+      public Builder clearIdeBuildCause() {
+        bitField0_ = (bitField0_ & ~0x00000010);
+        ideBuildCause_ = com.google.wireless.android.sdk.stats.AndroidStudioStats.InstantRun.InstantRunIdeBuildCause.UNKNOWN_INSTANT_RUN_IDE_BUILD_CAUSE;
         onChanged();
         return this;
       }
@@ -61838,314 +62267,327 @@ public final class AndroidStudioStats {
       "iveBuildSystemType\"\201\001\n\025NativeBuildSystem",
       "Type\022$\n UNKNOWN_NATIVE_BUILD_SYSTEM_TYPE" +
       "\020\000\022\027\n\023GRADLE_EXPERIMENTAL\020\001\022\017\n\013NDK_COMPI" +
-      "LE\020\002\022\r\n\tNDK_BUILD\020\003\022\t\n\005CMAKE\020\004\"\273\006\n\nInsta" +
+      "LE\020\002\022\r\n\tNDK_BUILD\020\003\022\t\n\005CMAKE\020\004\"\273\n\n\nInsta" +
       "ntRun\022L\n\017deployment_kind\030\001 \001(\01623.android" +
       "_studio.InstantRun.InstantRunDeploymentK" +
       "ind\022P\n\027instant_run_build_cause\030\003 \001(\0162/.a" +
       "ndroid_studio.InstantRun.InstantRunBuild" +
       "Cause\022\022\n\nbuild_time\030\004 \001(\003\022\022\n\nsession_id\030" +
-      "\005 \001(\t\"\242\001\n\030InstantRunDeploymentKind\022\'\n#UN" +
-      "KNOWN_INSTANT_RUN_DEPLOYMENT_KIND\020\000\022\n\n\006L",
-      "EGACY\020\001\022\014\n\010FULL_APK\020\002\022\r\n\tSPLIT_APK\020\003\022\007\n\003" +
-      "DEX\020\004\022\014\n\010HOT_SWAP\020\005\022\r\n\tWARM_SWAP\020\006\022\016\n\nNO" +
-      "_CHANGES\020\007\"\277\003\n\024InstantRunBuildCause\022#\n\037U" +
-      "NKNOWN_INSTANT_RUN_BUILD_CAUSE\020\000\022\016\n\nCOMP" +
-      "ATIBLE\020\001\022\023\n\017MANIFEST_CHANGE\020\002\022\025\n\021FIELD_T" +
-      "YPE_CHANGE\020\003\022\021\n\rFIELD_REMOVED\020\004\022\017\n\013FIELD" +
-      "_ADDED\020\005\022\022\n\016METHOD_DELETED\020\006\022\020\n\014METHOD_A" +
-      "DDED\020\007\022\017\n\013CLASS_ADDED\020\010\022\035\n\031STATIC_INITIA" +
-      "LIZER_CHANGE\020\t\022\033\n\027CLASS_ANNOTATION_CHANG" +
-      "E\020\n\022\023\n\017RESOURCE_CHANGE\020\013\022\037\n\033IMPLEMENTS_I",
-      "NTERFACE_CHANGE\020\014\022\022\n\016R_CLASS_CHANGE\020\r\022\027\n" +
-      "\023PARENT_CLASS_CHANGE\020\016\022\034\n\030METHOD_ANNOTAT" +
-      "ION_CHANGE\020\017\022\031\n\025API_LEVEL_UNSUPPORTED\020\020\022" +
-      "\023\n\017REFLECTION_USED\020\021\"k\n\013MetaMetrics\022\032\n\022f" +
-      "ailed_connections\030\001 \001(\005\022!\n\031bytes_sent_in" +
-      "_last_upload\030\002 \001(\003\022\035\n\025failed_server_repl" +
-      "ies\030\003 \001(\005\"\200\004\n\007TestRun\022H\n\024test_invocation" +
-      "_type\030\001 \001(\0162*.android_studio.TestRun.Tes" +
-      "tInvocationType\022 \n\030number_of_tests_execu" +
-      "ted\030\002 \001(\005\0223\n\ttest_kind\030\003 \001(\0162 .android_s",
-      "tudio.TestRun.TestKind\022\017\n\007crashed\030\004 \001(\010\022" +
-      "\026\n\016gradle_version\030\005 \001(\t\022\035\n\025code_coverage" +
-      "_enabled\030\006 \001(\010\0225\n\016test_libraries\030\007 \001(\0132\035" +
-      ".android_studio.TestLibraries\"\210\001\n\022TestIn" +
-      "vocationType\022 \n\034UNKNOWN_TEST_INVOCATION_" +
-      "TYPE\020\000\022\017\n\013GRADLE_TEST\020\001\022\027\n\023ANDROID_STUDI" +
-      "O_TEST\020\002\022&\n\"ANDROID_STUDIO_THROUGH_GRADL" +
-      "E_TEST\020\003\"J\n\010TestKind\022\025\n\021UNKNOWN_TEST_KIN" +
-      "D\020\000\022\r\n\tUNIT_TEST\020\001\022\030\n\024INSTRUMENTATION_TE" +
-      "ST\020\002\"\205\001\n\rTestLibraries\022$\n\034test_support_l",
-      "ibrary_version\030\001 \001(\t\022\030\n\020espresso_version" +
-      "\030\002 \001(\t\022\033\n\023robolectric_version\030\003 \001(\t\022\027\n\017m" +
-      "ockito_version\030\004 \001(\t\"\311\001\n\nHypervisor\022=\n\rh" +
-      "yper_v_state\030\001 \001(\0162&.android_studio.Hype" +
-      "rvisor.HyperVState\"|\n\013HyperVState\022\030\n\024UNK" +
-      "NOWN_HYPERV_STATE\020\000\022\021\n\rHYPERV_ABSENT\020\001\022\024" +
-      "\n\020HYPERV_INSTALLED\020\002\022\022\n\016HYPERV_RUNNING\020\003" +
-      "\022\026\n\022HYPERV_CHECK_ERROR\020\004\"k\n\014EmulatorHost" +
-      "\022\030\n\020cpu_manufacturer\030\001 \001(\t\022\024\n\014virt_suppo" +
-      "rt\030\002 \001(\010\022\025\n\rrunning_in_vm\030\003 \001(\010\022\024\n\014os_bi",
-      "t_count\030\004 \001(\003\"\310\003\n\022GradleBuildProfile\022\026\n\016" +
-      "gradle_version\030\002 \001(\t\022\017\n\007os_name\030\006 \001(\t\022\022\n" +
-      "\nos_version\030\007 \001(\t\022\024\n\014java_version\030\010 \001(\t\022" +
-      "\027\n\017java_vm_version\030\t \001(\t\022\022\n\nmax_memory\030\n" +
-      " \001(\003\022\022\n\nbuild_time\030\013 \001(\003\022\020\n\010gc_count\030\014 \001" +
-      "(\003\022\017\n\007gc_time\030\r \001(\003\0223\n\007project\030\016 \003(\0132\".a" +
-      "ndroid_studio.GradleBuildProject\022>\n\rmemo" +
-      "ry_sample\030\017 \003(\0132\'.android_studio.GradleB" +
-      "uildMemorySample\0224\n\004span\030\020 \003(\0132&.android" +
-      "_studio.GradleBuildProfileSpan\022<\n\022instan",
-      "t_run_status\030\021 \001(\0132 .android_studio.Inst" +
-      "antRunStatus\022\022\n\nproject_id\030\022 \001(\t\"\207\004\n\022Gra" +
-      "dleBuildProject\022\n\n\002id\030\001 \001(\003\022\036\n\026android_p" +
-      "lugin_version\030\002 \001(\t\022E\n\016android_plugin\030\003 " +
-      "\001(\0162-.android_studio.GradleBuildProject." +
-      "PluginType\022N\n\021plugin_generation\030\004 \001(\01623." +
-      "android_studio.GradleBuildProject.Plugin" +
-      "Generation\022\033\n\023build_tools_version\030\005 \001(\t\022" +
-      ":\n\007metrics\030\006 \001(\0132).android_studio.Gradle" +
-      "BuildProjectMetrics\0223\n\007variant\030\007 \003(\0132\".a",
-      "ndroid_studio.GradleBuildVariant\"M\n\nPlug" +
-      "inType\022\027\n\023UNKNOWN_PLUGIN_TYPE\020\000\022\017\n\013APPLI" +
-      "CATION\020\001\022\013\n\007LIBRARY\020\002\022\010\n\004TEST\020\003\"Q\n\020Plugi" +
-      "nGeneration\022\035\n\031UNKNOWN_PLUGIN_GENERATION" +
-      "\020\000\022\t\n\005FIRST\020\001\022\023\n\017COMPONENT_MODEL\020\002\"a\n\031Gr" +
-      "adleBuildProjectMetrics\022\027\n\017metrics_time_" +
-      "ns\030\001 \001(\003\022\020\n\010apk_size\030\002 \001(\003\022\031\n\021resources_" +
-      "ap_size\030\003 \001(\003\"\266\002\n\022GradleBuildVariant\022\n\n\002" +
-      "id\030\001 \001(\003\022\020\n\010is_debug\030\002 \001(\010\022\020\n\010use_jack\030\003" +
-      " \001(\010\022\026\n\016minify_enabled\030\004 \001(\010\022\024\n\014use_mult",
-      "idex\030\005 \001(\010\022\033\n\023use_legacy_multidex\030\006 \001(\010\022" +
-      "D\n\014variant_type\030\007 \001(\0162..android_studio.G" +
-      "radleBuildVariant.VariantType\022\021\n\ttested_" +
-      "id\030\010 \001(\003\"L\n\013VariantType\022\017\n\013APPLICATION\020\000" +
-      "\022\013\n\007LIBRARY\020\001\022\020\n\014ANDROID_TEST\020\002\022\r\n\tUNIT_" +
-      "TEST\020\003\"R\n\027GradleBuildMemorySample\022\022\n\ngc_" +
-      "time_ms\030\001 \001(\003\022\020\n\010gc_count\030\002 \001(\003\022\021\n\ttimes" +
-      "tamp\030\003 \001(\003\"\361\034\n\026GradleBuildProfileSpan\022\n\n" +
-      "\002id\030\001 \001(\003\022\021\n\tparent_id\030\002 \001(\003\022\030\n\020start_ti" +
-      "me_in_ms\030\003 \001(\003\022\026\n\016duration_in_ms\030\004 \001(\003\022B",
-      "\n\004type\030\005 \001(\01624.android_studio.GradleBuil" +
-      "dProfileSpan.ExecutionType\022;\n\ttransform\030" +
-      "\006 \001(\0132(.android_studio.GradleTransformEx" +
-      "ecution\0221\n\004task\030\t \001(\0132#.android_studio.G" +
-      "radleTaskExecution\022\017\n\007project\030\007 \001(\003\022\017\n\007v" +
-      "ariant\030\010 \001(\003\"\257\032\n\rExecutionType\022\032\n\026SOME_R" +
-      "ANDOM_PROCESSING\020\001\022!\n\035BASE_PLUGIN_PROJEC" +
-      "T_CONFIGURE\020\002\022/\n+BASE_PLUGIN_PROJECT_BAS" +
-      "E_EXTENSION_CREATION\020\003\022&\n\"BASE_PLUGIN_PR" +
-      "OJECT_TASKS_CREATION\020\004\022\036\n\032BASE_PLUGIN_BU",
-      "ILD_FINISHED\020\005\022\035\n\031TASK_MANAGER_CREATE_TA" +
-      "SKS\020\006\022$\n BASE_PLUGIN_CREATE_ANDROID_TASK" +
-      "S\020\007\022(\n$VARIANT_MANAGER_CREATE_ANDROID_TA" +
-      "SKS\020\010\022,\n(VARIANT_MANAGER_CREATE_TASKS_FO" +
-      "R_VARIANT\020\t\022%\n!VARIANT_MANAGER_CREATE_LI" +
-      "NT_TASKS\020\n\022&\n\"VARIANT_MANAGER_CREATE_TES" +
-      "TS_TASKS\020\013\022#\n\037VARIANT_MANAGER_CREATE_VAR" +
-      "IANTS\020\014\022\030\n\024RESOLVE_DEPENDENCIES\020\r\022\022\n\016TAS" +
-      "K_EXECUTION\020\016\022\024\n\020INITIAL_METADATA\020d\022\022\n\016F" +
-      "INAL_METADATA\020e\022\022\n\016GENERAL_CONFIG\020f\022\022\n\016V",
-      "ARIANT_CONFIG\020g\0221\n-VARIANT_MANAGER_EXTER" +
-      "NAL_NATIVE_CONFIG_VALUES\020h\022\017\n\013APK_METRIC" +
-      "S\020i\0220\n+APP_TASK_MANAGER_CREATE_MERGE_MAN" +
-      "IFEST_TASK\020\350\007\0225\n0APP_TASK_MANAGER_CREATE" +
-      "_GENERATE_RES_VALUES_TASK\020\351\007\0225\n0APP_TASK" +
-      "_MANAGER_CREATE_CREATE_RENDERSCRIPT_TASK" +
-      "\020\352\007\0221\n,APP_TASK_MANAGER_CREATE_MERGE_RES" +
-      "OURCES_TASK\020\353\007\022.\n)APP_TASK_MANAGER_CREAT" +
-      "E_MERGE_ASSETS_TASK\020\354\007\022.\n)APP_TASK_MANAG" +
-      "ER_CREATE_BUILD_CONFIG_TASK\020\355\007\022-\n(APP_TA",
-      "SK_MANAGER_CREATE_PROCESS_RES_TASK\020\356\007\022&\n" +
-      "!APP_TASK_MANAGER_CREATE_AIDL_TASK\020\357\007\022)\n" +
-      "$APP_TASK_MANAGER_CREATE_COMPILE_TASK\020\360\007" +
-      "\022%\n APP_TASK_MANAGER_CREATE_NDK_TASK\020\361\007\022" +
-      "\'\n\"APP_TASK_MANAGER_CREATE_SPLIT_TASK\020\362\007" +
-      "\022+\n&APP_TASK_MANAGER_CREATE_PACKAGING_TA" +
-      "SK\020\363\007\0226\n1APP_TASK_MANAGER_CREATE_PREPROC" +
-      "ESS_RESOURCES_TASK\020\364\007\0224\n/APP_TASK_MANAGE" +
-      "R_CREATE_BACKPORT_RESOURCES_TASK\020\365\007\022&\n!A" +
-      "PP_TASK_MANAGER_CREATE_LINT_TASK\020\366\007\0227\n2A",
-      "PP_TASK_MANAGER_CREATE_MERGE_JNILIBS_FOL" +
-      "DERS_TASK\020\367\007\022(\n#APP_TASK_MANAGER_CREATE_" +
-      "SHADER_TASK\020\370\007\0227\n2APP_TASK_MANAGER_CREAT" +
-      "E_EXTERNAL_NATIVE_BUILD_TASK\020\371\007\0226\n1APP_T" +
-      "ASK_MANAGER_CREATE_STRIP_NATIVE_LIBRARY_" +
-      "TASK\020\372\007\0220\n+LIB_TASK_MANAGER_CREATE_MERGE" +
-      "_MANIFEST_TASK\020\320\017\0225\n0LIB_TASK_MANAGER_CR" +
-      "EATE_GENERATE_RES_VALUES_TASK\020\321\017\0225\n0LIB_" +
-      "TASK_MANAGER_CREATE_CREATE_RENDERSCRIPT_" +
-      "TASK\020\322\017\0221\n,LIB_TASK_MANAGER_CREATE_MERGE",
-      "_RESOURCES_TASK\020\323\017\022.\n)LIB_TASK_MANAGER_C" +
-      "REATE_MERGE_ASSETS_TASK\020\324\017\022.\n)LIB_TASK_M" +
-      "ANAGER_CREATE_BUILD_CONFIG_TASK\020\325\017\022-\n(LI" +
-      "B_TASK_MANAGER_CREATE_PROCESS_RES_TASK\020\326" +
-      "\017\022&\n!LIB_TASK_MANAGER_CREATE_AIDL_TASK\020\327" +
-      "\017\022)\n$LIB_TASK_MANAGER_CREATE_COMPILE_TAS" +
-      "K\020\330\017\022%\n LIB_TASK_MANAGER_CREATE_NDK_TASK" +
-      "\020\331\017\022\'\n\"LIB_TASK_MANAGER_CREATE_SPLIT_TAS" +
-      "K\020\332\017\022+\n&LIB_TASK_MANAGER_CREATE_PACKAGIN" +
-      "G_TASK\020\333\017\0225\n0LIB_TASK_MANAGER_CREATE_MER",
-      "GE_PROGUARD_FILE_TASK\020\334\017\0222\n-LIB_TASK_MAN" +
-      "AGER_CREATE_POST_COMPILATION_TASK\020\335\017\022*\n%" +
-      "LIB_TASK_MANAGER_CREATE_PROGUARD_TASK\020\336\017" +
-      "\022.\n)LIB_TASK_MANAGER_CREATE_PACKAGE_LOCA" +
-      "L_JAR\020\337\017\0224\n/LIB_TASK_MANAGER_CREATE_BACK" +
-      "PORT_RESOURCES_TASK\020\340\017\022&\n!LIB_TASK_MANAG" +
-      "ER_CREATE_LINT_TASK\020\341\017\022(\n#LIB_TASK_MANAG" +
-      "ER_CREATE_SHADER_TASK\020\342\017\0227\n2LIB_TASK_MAN" +
-      "AGER_CREATE_EXTERNAL_NATIVE_BUILD_TASK\020\343" +
-      "\017\022\033\n\026GENERIC_TASK_EXECUTION\020\270\027\022\026\n\021TASK_A",
-      "IDL_COMPILE\020\271\027\022\020\n\013TASK_DELETE\020\272\027\022\030\n\023TASK" +
-      "_CHECK_MANIFEST\020\273\027\022#\n\036TASK_PREPARE_DEPEN" +
-      "DENCIES_TASK\020\274\027\022\036\n\031TASK_RENDERSCRIPT_COM" +
-      "PILE\020\275\027\022\037\n\032TASK_GENERATE_BUILD_CONFIG\020\276\027" +
-      "\022\026\n\021TASK_MERGE_ASSETS\020\277\027\022\035\n\030TASK_GENERAT" +
-      "E_RES_VALUES\020\300\027\022\031\n\024TASK_MERGE_RESOURCES\020" +
-      "\301\027\022\031\n\024TASK_MERGE_MANIFESTS\020\302\027\022#\n\036TASK_PR" +
-      "OCESS_ANDROID_RESOURCES\020\303\027\022\026\n\021TASK_JAVA_" +
-      "COMPILE\020\304\027\022\025\n\020TASK_NDK_COMPILE\020\305\027\022\021\n\014TAS" +
-      "K_PRE_DEX\020\306\027\022\r\n\010TASK_DEX\020\307\027\022\033\n\026TASK_PACK",
-      "AGE_SPLIT_RES\020\310\027\022\033\n\026TASK_PROCESS_RESOURC" +
-      "ES\020\311\027\022\037\n\032TASK_VALIDATE_SIGNING_TASK\020\312\027\022\035" +
-      "\n\030TASK_PACKAGE_APPLICATION\020\313\027\022\031\n\024TASK_SP" +
-      "LIT_ZIP_ALIGN\020\314\027\022\023\n\016TASK_ZIP_ALIGN\020\315\027\022\016\n" +
-      "\tTASK_COPY\020\316\027\022\016\n\tTASK_LINT\020\317\027\022\033\n\026TASK_FI" +
-      "LE_VERIFICATION\020\322\027\022=\n8TASK_EXTERNAL_NATI" +
-      "VE_BUILD_GENERATE_JSON_PROCESS_PER_ABI\020\323" +
-      "\027\0225\n0TASK_EXTERNAL_NATIVE_BUILD_GENERATE" +
-      "_JSON_PROCESS\020\324\027\022\037\n\032TASK_TRANSFORM_PREPA" +
-      "RATION\020\320\027\022\023\n\016TASK_TRANSFORM\020\321\027\"\222\016\n\023Gradl",
-      "eTaskExecution\0226\n\004type\030\001 \001(\0162(.android_s" +
-      "tudio.GradleTaskExecution.Type\022\020\n\010did_wo" +
-      "rk\030\002 \001(\010\022\017\n\007skipped\030\003 \001(\010\022\022\n\nup_to_date\030" +
-      "\004 \001(\010\022\016\n\006failed\030\005 \001(\010\"\373\014\n\004Type\022\025\n\021UNKNOW" +
-      "N_TASK_TYPE\020\000\022\020\n\014AIDL_COMPILE\020\001\022\017\n\013ANDRO" +
-      "ID_JAR\020\002\022\030\n\024ANDROID_JAVA_COMPILE\020\003\022\022\n\016AN" +
-      "DROID_REPORT\020\004\022\025\n\021ANDROID_UNIT_TEST\020\005\022\022\n" +
-      "\016BUILD_EMULATOR\020\006\022\025\n\021BUILD_INFO_LOADER\020\007" +
-      "\022\022\n\016CHECK_MANIFEST\020\010\022\037\n\033COMPATIBLE_SCREE" +
-      "NS_MANIFEST\020\t\022\035\n\031CREATE_MANIFEST_KEEP_LI",
-      "ST\020\n\022\"\n\036DATA_BINDING_EXPORT_BUILD_INFO\020\013" +
-      "\022 \n\034DATA_BINDING_PROCESS_LAYOUTS\020\014\022\025\n\021DE" +
-      "PENDENCY_REPORT\020\r\022#\n\037DEVICE_PROVIDER_INS" +
-      "TRUMENT_TEST\020\016\022\031\n\025EXTERNAL_BUILD_ANCHOR\020" +
-      "\017\022\036\n\032EXTERNAL_NATIVE_BUILD_JSON\020\020\022\031\n\025EXT" +
-      "ERNAL_NATIVE_BUILD\020\021\022\027\n\023EXTRACT_ANNOTATI" +
-      "ONS\020\022\022\032\n\026EXTRACT_JAVA_RESOURCES\020\023\022\032\n\026EXT" +
-      "RACT_PROGUARD_FILES\020\024\022!\n\035FAST_DEPLOY_RUN" +
-      "TIME_EXTRACTOR\020\025\022\025\n\021FILTERED_JAR_COPY\020\026\022" +
-      "\025\n\021GENERATE_APK_DATA\020\027\022\031\n\025GENERATE_BUILD",
-      "_CONFIG\020\030\022!\n\035GENERATE_INSTANT_RUN_APP_IN" +
-      "FO\020\031\022\027\n\023GENERATE_RES_VALUES\020\032\022\032\n\026GENERAT" +
-      "E_SPLIT_ABI_RES\020\033\022\023\n\017GOOGLE_SERVICES\020\034\022\031" +
-      "\n\025INCREMENTAL_SAFEGUARD\020\035\022\023\n\017INSTALL_VAR" +
-      "IANT\020\036\022!\n\035INSTANT_RUN_SPLIT_APK_BUILDER\020" +
-      "\037\022\027\n\023INSTANT_RUN_WRAPPER\020 \022\032\n\026INVOKE_MAN" +
-      "IFEST_MERGER\020!\022\026\n\022JACK_JACOCO_REPORT\020\"\022\021" +
-      "\n\rJACOCO_REPORT\020#\022\010\n\004LINT\020$\022\020\n\014LINT_COMP" +
-      "ILE\020%\022\016\n\nMERGE_FILE\020&\022\023\n\017MERGE_MANIFESTS" +
-      "\020\'\022\023\n\017MERGE_RESOURCES\020(\022\034\n\030MERGE_SOURCE_",
-      "SET_FOLDERS\020)\022\030\n\024MOCKABLE_ANDROID_JAR\020*\022" +
-      "\017\n\013NDK_COMPILE\020+\022\007\n\003NDK\020,\022\027\n\023PACKAGE_APP" +
-      "LICATION\020-\022\025\n\021PACKAGE_SPLIT_ABI\020.\022\025\n\021PAC" +
-      "KAGE_SPLIT_RES\020/\022\021\n\rPRE_COLD_SWAP\0200\022\030\n\024P" +
-      "REPARE_DEPENDENCIES\0201\022\023\n\017PREPARE_LIBRARY" +
-      "\0202\022\035\n\031PROCESS_ANDROID_RESOURCES\0203\022\024\n\020PRO" +
-      "CESS_MANIFEST\0204\022\031\n\025PROCESS_TEST_MANIFEST" +
-      "\0205\022\030\n\024RENDERSCRIPT_COMPILE\0206\022\022\n\016SHADER_C" +
-      "OMPILE\0207\022\022\n\016SIGNING_REPORT\0208\022\024\n\020SINGLE_F" +
-      "ILE_COPY\0209\022\017\n\013SOURCE_SETS\020:\022\023\n\017SPLIT_ZIP",
-      "_ALIGN\020;\022\020\n\014STREAM_BASED\020<\022\026\n\022STRIP_DEBU" +
-      "G_SYMBOL\020=\022\026\n\022STRIP_DEPENDENCIES\020>\022\031\n\025TE" +
-      "ST_MODULE_PRO_GUARD\020?\022\017\n\013TEST_SERVER\020@\022\r" +
-      "\n\tTRANSFORM\020A\022\r\n\tUNINSTALL\020B\022\024\n\020VALIDATE" +
-      "_SIGNING\020C\022\r\n\tZIP_ALIGN\020D\022\020\n\014JAVA_COMPIL" +
-      "E\020E\"\337\003\n\030GradleTransformExecution\022;\n\004type" +
-      "\030\001 \001(\0162-.android_studio.GradleTransformE" +
-      "xecution.Type\022\026\n\016is_incremental\030\002 \001(\010\"\355\002" +
-      "\n\004Type\022\032\n\026UNKNOWN_TRANSFORM_TYPE\020\000\022\007\n\003DE" +
-      "X\020\001\022\020\n\014EXTRACT_JARS\020\002\022\023\n\017INSTANT_RUN_DEX",
-      "\020\003\022\026\n\022INSTANT_RUN_SLICER\020\004\022\017\n\013INSTANT_RU" +
-      "N\020\005\022\027\n\023INSTANT_RUN_VERIFER\020\006\022\020\n\014JACK_PRE" +
-      "_DEX\020\007\022\010\n\004JACK\020\010\022\n\n\006JACOCO\020\t\022\017\n\013JAR_MERG" +
-      "ING\020\n\022\017\n\013LIBRARY_JAR\020\013\022\024\n\020LIBRARY_JNI_LI" +
-      "BS\020\014\022\030\n\024MERGE_JAVA_RESOURCES\020\r\022\r\n\tMULTI_" +
-      "DEX\020\016\022\020\n\014NEW_SHRINKER\020\017\022\027\n\023NO_CHANGES_VE" +
-      "RIFIER\020\020\022\r\n\tPRO_GUARD\020\021\022\024\n\020SHRINK_RESOUR" +
-      "CES\020\022\"\350\010\n\020InstantRunStatus\022>\n\nbuild_mode" +
-      "\030\001 \001(\0162*.android_studio.InstantRunStatus" +
-      ".BuildMode\022H\n\017patching_policy\030\002 \001(\0162/.an",
-      "droid_studio.InstantRunStatus.PatchingPo" +
-      "licy\022H\n\017verifier_status\030\003 \001(\0162/.android_" +
-      "studio.InstantRunStatus.VerifierStatus\0224" +
-      "\n\010artifact\030\004 \003(\0132\".android_studio.Instan" +
-      "tRunArtifact\"E\n\tBuildMode\022\026\n\022UNKNOWN_BUI" +
-      "LD_MODE\020\000\022\014\n\010HOT_WARM\020\001\022\010\n\004COLD\020\002\022\010\n\004FUL" +
-      "L\020\003\"]\n\016PatchingPolicy\022\033\n\027UNKNOWN_PATCHIN" +
-      "G_POLICY\020\000\022\020\n\014PRE_LOLLIPOP\020\001\022\r\n\tMULTI_DE" +
-      "X\020\002\022\r\n\tMULTI_APK\020\003\"\243\005\n\016VerifierStatus\022\033\n" +
-      "\027UNKNOWN_VERIFIER_STATUS\020\000\022\016\n\nCOMPATIBLE",
-      "\020\001\022\013\n\007NOT_RUN\020\002\022\030\n\024INSTANT_RUN_DISABLED\020" +
-      "\003\022\027\n\023INSTANT_RUN_FAILURE\020\004\022\017\n\013CLASS_ADDE" +
-      "D\020\005\022\030\n\024PARENT_CLASS_CHANGED\020\006\022!\n\035IMPLEME" +
-      "NTED_INTERFACES_CHANGE\020\007\022\033\n\027CLASS_ANNOTA" +
-      "TION_CHANGE\020\010\022\035\n\031STATIC_INITIALIZER_CHAN" +
-      "GE\020\t\022 \n\034CONSTRUCTOR_SIGNATURE_CHANGE\020\n\022\033" +
-      "\n\027METHOD_SIGNATURE_CHANGE\020\013\022\034\n\030METHOD_AN" +
-      "NOTATION_CHANGE\020\014\022\022\n\016METHOD_DELETED\020\r\022\020\n" +
-      "\014METHOD_ADDED\020\016\022\017\n\013FIELD_ADDED\020\017\022\021\n\rFIEL" +
-      "D_REMOVED\020\020\022\025\n\021FIELD_TYPE_CHANGE\020\021\022\022\n\016R_",
-      "CLASS_CHANGE\020\022\022\023\n\017REFLECTION_USED\020\023\022\032\n\026J" +
-      "AVA_RESOURCES_CHANGED\020\024\022\026\n\022DEPENDENCY_CH" +
-      "ANGED\020\025\022\030\n\024MANIFEST_FILE_CHANGE\020\026\022\037\n\033BIN" +
-      "ARY_MANIFEST_FILE_CHANGE\020\027\022\027\n\023COLD_SWAP_" +
-      "REQUESTED\020\030\022\030\n\024FULL_BUILD_REQUESTED\020\031\022\021\n" +
-      "\rINITIAL_BUILD\020\032\"\261\001\n\022InstantRunArtifact\022" +
-      "5\n\004type\030\001 \001(\0162\'.android_studio.InstantRu" +
-      "nArtifact.Type\"d\n\004Type\022\010\n\004MAIN\020\001\022\016\n\nSPLI" +
-      "T_MAIN\020\002\022\016\n\nRELOAD_DEX\020\003\022\017\n\013RESTART_DEX\020" +
-      "\004\022\007\n\003DEX\020\005\022\t\n\005SPLIT\020\006\022\r\n\tRESOURCES\020\007\"(\n\023",
-      "LLDBFrontendDetails\022\021\n\texit_code\030\001 \001(\005\"-" +
-      "\n\024FirebaseErrorDetails\022\025\n\rerror_message\030" +
-      "\001 \001(\t\"\244\001\n\021GfxTracingDetails\022\022\n\ntotal_tim" +
-      "e\030\001 \001(\003\022\017\n\007command\030\002 \001(\t\022\025\n\rerror_messag" +
-      "e\030\003 \001(\t\022\022\n\ntrace_path\030\004 \001(\t\022\024\n\014image_for" +
-      "mat\030\005 \001(\t\022\023\n\013image_width\030\006 \001(\003\022\024\n\014image_" +
-      "height\030\007 \001(\003\"C\n\023TestRecorderDetails\022\023\n\013e" +
-      "vent_count\030\001 \001(\003\022\027\n\017assertion_count\030\002 \001(" +
-      "\003\"\356\001\n\rUIActionStats\022\031\n\021action_class_name" +
-      "\030\001 \001(\t\022\023\n\013invocations\030\002 \001(\003\022E\n\017invocatio",
-      "n_kind\030\003 \001(\0162,.android_studio.UIActionSt" +
-      "ats.InvocationKind\"f\n\016InvocationKind\022\033\n\027" +
-      "UNKNOWN_INVOCATION_KIND\020\000\022\013\n\007TOOLBAR\020\001\022\010" +
-      "\n\004MENU\020\002\022\025\n\021KEYBOARD_SHORTCUT\020\003\022\t\n\005MACRO" +
-      "\020\004\"\206\001\n\016MachineDetails\022\021\n\ttotal_ram\030\001 \001(\003" +
-      "\022\022\n\ntotal_disk\030\002 \001(\003\022/\n\007display\030\003 \003(\0132\036." +
-      "android_studio.DisplayDetails\022\034\n\024availab" +
-      "le_processors\030\004 \001(\005\"q\n\016DisplayDetails\022\r\n" +
-      "\005width\030\001 \001(\003\022\016\n\006height\030\002 \001(\003\022 \n\030dots_per" +
-      "_inch_horizontal\030\003 \001(\005\022\036\n\026dots_per_inch_",
-      "vertical\030\004 \001(\005\"\310\001\n\020JavaProcessStats\022\031\n\021h" +
-      "eap_memory_usage\030\001 \001(\003\022\035\n\025non_heap_memor" +
-      "y_usage\030\002 \001(\003\022\032\n\022loaded_class_count\030\003 \001(" +
-      "\005\022\024\n\014thread_count\030\004 \001(\005\022H\n\030garbage_colle" +
-      "ction_stats\030\005 \003(\0132&.android_studio.Garba" +
-      "geCollectionStats\"O\n\026GarbageCollectionSt" +
-      "ats\022\014\n\004name\030\001 \001(\t\022\026\n\016gc_collections\030\002 \001(" +
-      "\003\022\017\n\007gc_time\030\003 \001(\003\"\265\003\n\nJvmDetails\022\014\n\004nam" +
-      "e\030\001 \001(\t\022\017\n\007version\030\002 \001(\t\022\016\n\006vendor\030\003 \001(\t" +
-      "\022\031\n\021minimum_heap_size\030\004 \001(\003\022\031\n\021maximum_h",
-      "eap_size\030\005 \001(\003\022$\n\034maximum_permanent_spac" +
-      "e_size\030\006 \001(\003\022\037\n\027maximum_code_cache_size\030" +
-      "\007 \001(\003\022!\n\031soft_reference_lru_policy\030\010 \001(\003" +
-      "\022F\n\021garbage_collector\030\t \001(\0162+.android_st" +
-      "udio.JvmDetails.GarbageCollector\"\217\001\n\020Gar" +
-      "bageCollector\022\022\n\016UNSPECIFIED_GC\020\000\022\034\n\030CON" +
-      "CURRENT_MARK_SWEEP_GC\020\001\022\024\n\020GARBAGE_FIRST" +
-      "_GC\020\002\022\017\n\013PARALLEL_GC\020\003\022\023\n\017PARALLEL_OLD_G" +
-      "C\020\004\022\r\n\tSERIAL_GC\020\005B;\n%com.google.wireles" +
-      "s.android.sdk.statsB\022AndroidStudioStats"
+      "\005 \001(\t\022K\n\017ide_build_cause\030\006 \001(\01622.android" +
+      "_studio.InstantRun.InstantRunIdeBuildCau",
+      "se\"\242\001\n\030InstantRunDeploymentKind\022\'\n#UNKNO" +
+      "WN_INSTANT_RUN_DEPLOYMENT_KIND\020\000\022\n\n\006LEGA" +
+      "CY\020\001\022\014\n\010FULL_APK\020\002\022\r\n\tSPLIT_APK\020\003\022\007\n\003DEX" +
+      "\020\004\022\014\n\010HOT_SWAP\020\005\022\r\n\tWARM_SWAP\020\006\022\016\n\nNO_CH" +
+      "ANGES\020\007\"\277\003\n\024InstantRunBuildCause\022#\n\037UNKN" +
+      "OWN_INSTANT_RUN_BUILD_CAUSE\020\000\022\016\n\nCOMPATI" +
+      "BLE\020\001\022\023\n\017MANIFEST_CHANGE\020\002\022\025\n\021FIELD_TYPE" +
+      "_CHANGE\020\003\022\021\n\rFIELD_REMOVED\020\004\022\017\n\013FIELD_AD" +
+      "DED\020\005\022\022\n\016METHOD_DELETED\020\006\022\020\n\014METHOD_ADDE" +
+      "D\020\007\022\017\n\013CLASS_ADDED\020\010\022\035\n\031STATIC_INITIALIZ",
+      "ER_CHANGE\020\t\022\033\n\027CLASS_ANNOTATION_CHANGE\020\n" +
+      "\022\023\n\017RESOURCE_CHANGE\020\013\022\037\n\033IMPLEMENTS_INTE" +
+      "RFACE_CHANGE\020\014\022\022\n\016R_CLASS_CHANGE\020\r\022\027\n\023PA" +
+      "RENT_CLASS_CHANGE\020\016\022\034\n\030METHOD_ANNOTATION" +
+      "_CHANGE\020\017\022\031\n\025API_LEVEL_UNSUPPORTED\020\020\022\023\n\017" +
+      "REFLECTION_USED\020\021\"\260\003\n\027InstantRunIdeBuild" +
+      "Cause\022\'\n#UNKNOWN_INSTANT_RUN_IDE_BUILD_C" +
+      "AUSE\020\000\022\r\n\tNO_DEVICE\020\001\022\025\n\021APP_NOT_INSTALL" +
+      "ED\020\002\022\032\n\026MISMATCHING_TIMESTAMPS\020\003\022\036\n\032USER" +
+      "_REQUESTED_CLEAN_BUILD\020\004\022\037\n\033API_TOO_LOW_",
+      "FOR_INSTANT_RUN\020\005\022 \n\034FIRST_INSTALLATION_" +
+      "TO_DEVICE\020\006\022\035\n\031MANIFEST_RESOURCE_CHANGED" +
+      "\020\007\022\036\n\032FREEZE_SWAP_REQUIRES_API21\020\010\022\'\n#FR" +
+      "EEZE_SWAP_REQUIRES_WORKING_RUN_AS\020\t\022\023\n\017A" +
+      "PP_NOT_RUNNING\020\n\022\037\n\033APP_USES_MULTIPLE_PR" +
+      "OCESSES\020\013\022\025\n\021INCREMENTAL_BUILD\020\014\022\022\n\016NO_I" +
+      "NSTANT_RUN\020\r\"k\n\013MetaMetrics\022\032\n\022failed_co" +
+      "nnections\030\001 \001(\005\022!\n\031bytes_sent_in_last_up" +
+      "load\030\002 \001(\003\022\035\n\025failed_server_replies\030\003 \001(" +
+      "\005\"\200\004\n\007TestRun\022H\n\024test_invocation_type\030\001 ",
+      "\001(\0162*.android_studio.TestRun.TestInvocat" +
+      "ionType\022 \n\030number_of_tests_executed\030\002 \001(" +
+      "\005\0223\n\ttest_kind\030\003 \001(\0162 .android_studio.Te" +
+      "stRun.TestKind\022\017\n\007crashed\030\004 \001(\010\022\026\n\016gradl" +
+      "e_version\030\005 \001(\t\022\035\n\025code_coverage_enabled" +
+      "\030\006 \001(\010\0225\n\016test_libraries\030\007 \001(\0132\035.android" +
+      "_studio.TestLibraries\"\210\001\n\022TestInvocation" +
+      "Type\022 \n\034UNKNOWN_TEST_INVOCATION_TYPE\020\000\022\017" +
+      "\n\013GRADLE_TEST\020\001\022\027\n\023ANDROID_STUDIO_TEST\020\002" +
+      "\022&\n\"ANDROID_STUDIO_THROUGH_GRADLE_TEST\020\003",
+      "\"J\n\010TestKind\022\025\n\021UNKNOWN_TEST_KIND\020\000\022\r\n\tU" +
+      "NIT_TEST\020\001\022\030\n\024INSTRUMENTATION_TEST\020\002\"\205\001\n" +
+      "\rTestLibraries\022$\n\034test_support_library_v" +
+      "ersion\030\001 \001(\t\022\030\n\020espresso_version\030\002 \001(\t\022\033" +
+      "\n\023robolectric_version\030\003 \001(\t\022\027\n\017mockito_v" +
+      "ersion\030\004 \001(\t\"\311\001\n\nHypervisor\022=\n\rhyper_v_s" +
+      "tate\030\001 \001(\0162&.android_studio.Hypervisor.H" +
+      "yperVState\"|\n\013HyperVState\022\030\n\024UNKNOWN_HYP" +
+      "ERV_STATE\020\000\022\021\n\rHYPERV_ABSENT\020\001\022\024\n\020HYPERV" +
+      "_INSTALLED\020\002\022\022\n\016HYPERV_RUNNING\020\003\022\026\n\022HYPE",
+      "RV_CHECK_ERROR\020\004\"k\n\014EmulatorHost\022\030\n\020cpu_" +
+      "manufacturer\030\001 \001(\t\022\024\n\014virt_support\030\002 \001(\010" +
+      "\022\025\n\rrunning_in_vm\030\003 \001(\010\022\024\n\014os_bit_count\030" +
+      "\004 \001(\003\"\310\003\n\022GradleBuildProfile\022\026\n\016gradle_v" +
+      "ersion\030\002 \001(\t\022\017\n\007os_name\030\006 \001(\t\022\022\n\nos_vers" +
+      "ion\030\007 \001(\t\022\024\n\014java_version\030\010 \001(\t\022\027\n\017java_" +
+      "vm_version\030\t \001(\t\022\022\n\nmax_memory\030\n \001(\003\022\022\n\n" +
+      "build_time\030\013 \001(\003\022\020\n\010gc_count\030\014 \001(\003\022\017\n\007gc" +
+      "_time\030\r \001(\003\0223\n\007project\030\016 \003(\0132\".android_s" +
+      "tudio.GradleBuildProject\022>\n\rmemory_sampl",
+      "e\030\017 \003(\0132\'.android_studio.GradleBuildMemo" +
+      "rySample\0224\n\004span\030\020 \003(\0132&.android_studio." +
+      "GradleBuildProfileSpan\022<\n\022instant_run_st" +
+      "atus\030\021 \001(\0132 .android_studio.InstantRunSt" +
+      "atus\022\022\n\nproject_id\030\022 \001(\t\"\207\004\n\022GradleBuild" +
+      "Project\022\n\n\002id\030\001 \001(\003\022\036\n\026android_plugin_ve" +
+      "rsion\030\002 \001(\t\022E\n\016android_plugin\030\003 \001(\0162-.an" +
+      "droid_studio.GradleBuildProject.PluginTy" +
+      "pe\022N\n\021plugin_generation\030\004 \001(\01623.android_" +
+      "studio.GradleBuildProject.PluginGenerati",
+      "on\022\033\n\023build_tools_version\030\005 \001(\t\022:\n\007metri" +
+      "cs\030\006 \001(\0132).android_studio.GradleBuildPro" +
+      "jectMetrics\0223\n\007variant\030\007 \003(\0132\".android_s" +
+      "tudio.GradleBuildVariant\"M\n\nPluginType\022\027" +
+      "\n\023UNKNOWN_PLUGIN_TYPE\020\000\022\017\n\013APPLICATION\020\001" +
+      "\022\013\n\007LIBRARY\020\002\022\010\n\004TEST\020\003\"Q\n\020PluginGenerat" +
+      "ion\022\035\n\031UNKNOWN_PLUGIN_GENERATION\020\000\022\t\n\005FI" +
+      "RST\020\001\022\023\n\017COMPONENT_MODEL\020\002\"a\n\031GradleBuil" +
+      "dProjectMetrics\022\027\n\017metrics_time_ns\030\001 \001(\003" +
+      "\022\020\n\010apk_size\030\002 \001(\003\022\031\n\021resources_ap_size\030",
+      "\003 \001(\003\"\266\002\n\022GradleBuildVariant\022\n\n\002id\030\001 \001(\003" +
+      "\022\020\n\010is_debug\030\002 \001(\010\022\020\n\010use_jack\030\003 \001(\010\022\026\n\016" +
+      "minify_enabled\030\004 \001(\010\022\024\n\014use_multidex\030\005 \001" +
+      "(\010\022\033\n\023use_legacy_multidex\030\006 \001(\010\022D\n\014varia" +
+      "nt_type\030\007 \001(\0162..android_studio.GradleBui" +
+      "ldVariant.VariantType\022\021\n\ttested_id\030\010 \001(\003" +
+      "\"L\n\013VariantType\022\017\n\013APPLICATION\020\000\022\013\n\007LIBR" +
+      "ARY\020\001\022\020\n\014ANDROID_TEST\020\002\022\r\n\tUNIT_TEST\020\003\"R" +
+      "\n\027GradleBuildMemorySample\022\022\n\ngc_time_ms\030" +
+      "\001 \001(\003\022\020\n\010gc_count\030\002 \001(\003\022\021\n\ttimestamp\030\003 \001",
+      "(\003\"\361\034\n\026GradleBuildProfileSpan\022\n\n\002id\030\001 \001(" +
+      "\003\022\021\n\tparent_id\030\002 \001(\003\022\030\n\020start_time_in_ms" +
+      "\030\003 \001(\003\022\026\n\016duration_in_ms\030\004 \001(\003\022B\n\004type\030\005" +
+      " \001(\01624.android_studio.GradleBuildProfile" +
+      "Span.ExecutionType\022;\n\ttransform\030\006 \001(\0132(." +
+      "android_studio.GradleTransformExecution\022" +
+      "1\n\004task\030\t \001(\0132#.android_studio.GradleTas" +
+      "kExecution\022\017\n\007project\030\007 \001(\003\022\017\n\007variant\030\010" +
+      " \001(\003\"\257\032\n\rExecutionType\022\032\n\026SOME_RANDOM_PR" +
+      "OCESSING\020\001\022!\n\035BASE_PLUGIN_PROJECT_CONFIG",
+      "URE\020\002\022/\n+BASE_PLUGIN_PROJECT_BASE_EXTENS" +
+      "ION_CREATION\020\003\022&\n\"BASE_PLUGIN_PROJECT_TA" +
+      "SKS_CREATION\020\004\022\036\n\032BASE_PLUGIN_BUILD_FINI" +
+      "SHED\020\005\022\035\n\031TASK_MANAGER_CREATE_TASKS\020\006\022$\n" +
+      " BASE_PLUGIN_CREATE_ANDROID_TASKS\020\007\022(\n$V" +
+      "ARIANT_MANAGER_CREATE_ANDROID_TASKS\020\010\022,\n" +
+      "(VARIANT_MANAGER_CREATE_TASKS_FOR_VARIAN" +
+      "T\020\t\022%\n!VARIANT_MANAGER_CREATE_LINT_TASKS" +
+      "\020\n\022&\n\"VARIANT_MANAGER_CREATE_TESTS_TASKS" +
+      "\020\013\022#\n\037VARIANT_MANAGER_CREATE_VARIANTS\020\014\022",
+      "\030\n\024RESOLVE_DEPENDENCIES\020\r\022\022\n\016TASK_EXECUT" +
+      "ION\020\016\022\024\n\020INITIAL_METADATA\020d\022\022\n\016FINAL_MET" +
+      "ADATA\020e\022\022\n\016GENERAL_CONFIG\020f\022\022\n\016VARIANT_C" +
+      "ONFIG\020g\0221\n-VARIANT_MANAGER_EXTERNAL_NATI" +
+      "VE_CONFIG_VALUES\020h\022\017\n\013APK_METRICS\020i\0220\n+A" +
+      "PP_TASK_MANAGER_CREATE_MERGE_MANIFEST_TA" +
+      "SK\020\350\007\0225\n0APP_TASK_MANAGER_CREATE_GENERAT" +
+      "E_RES_VALUES_TASK\020\351\007\0225\n0APP_TASK_MANAGER" +
+      "_CREATE_CREATE_RENDERSCRIPT_TASK\020\352\007\0221\n,A" +
+      "PP_TASK_MANAGER_CREATE_MERGE_RESOURCES_T",
+      "ASK\020\353\007\022.\n)APP_TASK_MANAGER_CREATE_MERGE_" +
+      "ASSETS_TASK\020\354\007\022.\n)APP_TASK_MANAGER_CREAT" +
+      "E_BUILD_CONFIG_TASK\020\355\007\022-\n(APP_TASK_MANAG" +
+      "ER_CREATE_PROCESS_RES_TASK\020\356\007\022&\n!APP_TAS" +
+      "K_MANAGER_CREATE_AIDL_TASK\020\357\007\022)\n$APP_TAS" +
+      "K_MANAGER_CREATE_COMPILE_TASK\020\360\007\022%\n APP_" +
+      "TASK_MANAGER_CREATE_NDK_TASK\020\361\007\022\'\n\"APP_T" +
+      "ASK_MANAGER_CREATE_SPLIT_TASK\020\362\007\022+\n&APP_" +
+      "TASK_MANAGER_CREATE_PACKAGING_TASK\020\363\007\0226\n" +
+      "1APP_TASK_MANAGER_CREATE_PREPROCESS_RESO",
+      "URCES_TASK\020\364\007\0224\n/APP_TASK_MANAGER_CREATE" +
+      "_BACKPORT_RESOURCES_TASK\020\365\007\022&\n!APP_TASK_" +
+      "MANAGER_CREATE_LINT_TASK\020\366\007\0227\n2APP_TASK_" +
+      "MANAGER_CREATE_MERGE_JNILIBS_FOLDERS_TAS" +
+      "K\020\367\007\022(\n#APP_TASK_MANAGER_CREATE_SHADER_T" +
+      "ASK\020\370\007\0227\n2APP_TASK_MANAGER_CREATE_EXTERN" +
+      "AL_NATIVE_BUILD_TASK\020\371\007\0226\n1APP_TASK_MANA" +
+      "GER_CREATE_STRIP_NATIVE_LIBRARY_TASK\020\372\007\022" +
+      "0\n+LIB_TASK_MANAGER_CREATE_MERGE_MANIFES" +
+      "T_TASK\020\320\017\0225\n0LIB_TASK_MANAGER_CREATE_GEN",
+      "ERATE_RES_VALUES_TASK\020\321\017\0225\n0LIB_TASK_MAN" +
+      "AGER_CREATE_CREATE_RENDERSCRIPT_TASK\020\322\017\022" +
+      "1\n,LIB_TASK_MANAGER_CREATE_MERGE_RESOURC" +
+      "ES_TASK\020\323\017\022.\n)LIB_TASK_MANAGER_CREATE_ME" +
+      "RGE_ASSETS_TASK\020\324\017\022.\n)LIB_TASK_MANAGER_C" +
+      "REATE_BUILD_CONFIG_TASK\020\325\017\022-\n(LIB_TASK_M" +
+      "ANAGER_CREATE_PROCESS_RES_TASK\020\326\017\022&\n!LIB" +
+      "_TASK_MANAGER_CREATE_AIDL_TASK\020\327\017\022)\n$LIB" +
+      "_TASK_MANAGER_CREATE_COMPILE_TASK\020\330\017\022%\n " +
+      "LIB_TASK_MANAGER_CREATE_NDK_TASK\020\331\017\022\'\n\"L",
+      "IB_TASK_MANAGER_CREATE_SPLIT_TASK\020\332\017\022+\n&" +
+      "LIB_TASK_MANAGER_CREATE_PACKAGING_TASK\020\333" +
+      "\017\0225\n0LIB_TASK_MANAGER_CREATE_MERGE_PROGU" +
+      "ARD_FILE_TASK\020\334\017\0222\n-LIB_TASK_MANAGER_CRE" +
+      "ATE_POST_COMPILATION_TASK\020\335\017\022*\n%LIB_TASK" +
+      "_MANAGER_CREATE_PROGUARD_TASK\020\336\017\022.\n)LIB_" +
+      "TASK_MANAGER_CREATE_PACKAGE_LOCAL_JAR\020\337\017" +
+      "\0224\n/LIB_TASK_MANAGER_CREATE_BACKPORT_RES" +
+      "OURCES_TASK\020\340\017\022&\n!LIB_TASK_MANAGER_CREAT" +
+      "E_LINT_TASK\020\341\017\022(\n#LIB_TASK_MANAGER_CREAT",
+      "E_SHADER_TASK\020\342\017\0227\n2LIB_TASK_MANAGER_CRE" +
+      "ATE_EXTERNAL_NATIVE_BUILD_TASK\020\343\017\022\033\n\026GEN" +
+      "ERIC_TASK_EXECUTION\020\270\027\022\026\n\021TASK_AIDL_COMP" +
+      "ILE\020\271\027\022\020\n\013TASK_DELETE\020\272\027\022\030\n\023TASK_CHECK_M" +
+      "ANIFEST\020\273\027\022#\n\036TASK_PREPARE_DEPENDENCIES_" +
+      "TASK\020\274\027\022\036\n\031TASK_RENDERSCRIPT_COMPILE\020\275\027\022" +
+      "\037\n\032TASK_GENERATE_BUILD_CONFIG\020\276\027\022\026\n\021TASK" +
+      "_MERGE_ASSETS\020\277\027\022\035\n\030TASK_GENERATE_RES_VA" +
+      "LUES\020\300\027\022\031\n\024TASK_MERGE_RESOURCES\020\301\027\022\031\n\024TA" +
+      "SK_MERGE_MANIFESTS\020\302\027\022#\n\036TASK_PROCESS_AN",
+      "DROID_RESOURCES\020\303\027\022\026\n\021TASK_JAVA_COMPILE\020" +
+      "\304\027\022\025\n\020TASK_NDK_COMPILE\020\305\027\022\021\n\014TASK_PRE_DE" +
+      "X\020\306\027\022\r\n\010TASK_DEX\020\307\027\022\033\n\026TASK_PACKAGE_SPLI" +
+      "T_RES\020\310\027\022\033\n\026TASK_PROCESS_RESOURCES\020\311\027\022\037\n" +
+      "\032TASK_VALIDATE_SIGNING_TASK\020\312\027\022\035\n\030TASK_P" +
+      "ACKAGE_APPLICATION\020\313\027\022\031\n\024TASK_SPLIT_ZIP_" +
+      "ALIGN\020\314\027\022\023\n\016TASK_ZIP_ALIGN\020\315\027\022\016\n\tTASK_CO" +
+      "PY\020\316\027\022\016\n\tTASK_LINT\020\317\027\022\033\n\026TASK_FILE_VERIF" +
+      "ICATION\020\322\027\022=\n8TASK_EXTERNAL_NATIVE_BUILD" +
+      "_GENERATE_JSON_PROCESS_PER_ABI\020\323\027\0225\n0TAS",
+      "K_EXTERNAL_NATIVE_BUILD_GENERATE_JSON_PR" +
+      "OCESS\020\324\027\022\037\n\032TASK_TRANSFORM_PREPARATION\020\320" +
+      "\027\022\023\n\016TASK_TRANSFORM\020\321\027\"\222\016\n\023GradleTaskExe" +
+      "cution\0226\n\004type\030\001 \001(\0162(.android_studio.Gr" +
+      "adleTaskExecution.Type\022\020\n\010did_work\030\002 \001(\010" +
+      "\022\017\n\007skipped\030\003 \001(\010\022\022\n\nup_to_date\030\004 \001(\010\022\016\n" +
+      "\006failed\030\005 \001(\010\"\373\014\n\004Type\022\025\n\021UNKNOWN_TASK_T" +
+      "YPE\020\000\022\020\n\014AIDL_COMPILE\020\001\022\017\n\013ANDROID_JAR\020\002" +
+      "\022\030\n\024ANDROID_JAVA_COMPILE\020\003\022\022\n\016ANDROID_RE" +
+      "PORT\020\004\022\025\n\021ANDROID_UNIT_TEST\020\005\022\022\n\016BUILD_E",
+      "MULATOR\020\006\022\025\n\021BUILD_INFO_LOADER\020\007\022\022\n\016CHEC" +
+      "K_MANIFEST\020\010\022\037\n\033COMPATIBLE_SCREENS_MANIF" +
+      "EST\020\t\022\035\n\031CREATE_MANIFEST_KEEP_LIST\020\n\022\"\n\036" +
+      "DATA_BINDING_EXPORT_BUILD_INFO\020\013\022 \n\034DATA" +
+      "_BINDING_PROCESS_LAYOUTS\020\014\022\025\n\021DEPENDENCY" +
+      "_REPORT\020\r\022#\n\037DEVICE_PROVIDER_INSTRUMENT_" +
+      "TEST\020\016\022\031\n\025EXTERNAL_BUILD_ANCHOR\020\017\022\036\n\032EXT" +
+      "ERNAL_NATIVE_BUILD_JSON\020\020\022\031\n\025EXTERNAL_NA" +
+      "TIVE_BUILD\020\021\022\027\n\023EXTRACT_ANNOTATIONS\020\022\022\032\n" +
+      "\026EXTRACT_JAVA_RESOURCES\020\023\022\032\n\026EXTRACT_PRO",
+      "GUARD_FILES\020\024\022!\n\035FAST_DEPLOY_RUNTIME_EXT" +
+      "RACTOR\020\025\022\025\n\021FILTERED_JAR_COPY\020\026\022\025\n\021GENER" +
+      "ATE_APK_DATA\020\027\022\031\n\025GENERATE_BUILD_CONFIG\020" +
+      "\030\022!\n\035GENERATE_INSTANT_RUN_APP_INFO\020\031\022\027\n\023" +
+      "GENERATE_RES_VALUES\020\032\022\032\n\026GENERATE_SPLIT_" +
+      "ABI_RES\020\033\022\023\n\017GOOGLE_SERVICES\020\034\022\031\n\025INCREM" +
+      "ENTAL_SAFEGUARD\020\035\022\023\n\017INSTALL_VARIANT\020\036\022!" +
+      "\n\035INSTANT_RUN_SPLIT_APK_BUILDER\020\037\022\027\n\023INS" +
+      "TANT_RUN_WRAPPER\020 \022\032\n\026INVOKE_MANIFEST_ME" +
+      "RGER\020!\022\026\n\022JACK_JACOCO_REPORT\020\"\022\021\n\rJACOCO",
+      "_REPORT\020#\022\010\n\004LINT\020$\022\020\n\014LINT_COMPILE\020%\022\016\n" +
+      "\nMERGE_FILE\020&\022\023\n\017MERGE_MANIFESTS\020\'\022\023\n\017ME" +
+      "RGE_RESOURCES\020(\022\034\n\030MERGE_SOURCE_SET_FOLD" +
+      "ERS\020)\022\030\n\024MOCKABLE_ANDROID_JAR\020*\022\017\n\013NDK_C" +
+      "OMPILE\020+\022\007\n\003NDK\020,\022\027\n\023PACKAGE_APPLICATION" +
+      "\020-\022\025\n\021PACKAGE_SPLIT_ABI\020.\022\025\n\021PACKAGE_SPL" +
+      "IT_RES\020/\022\021\n\rPRE_COLD_SWAP\0200\022\030\n\024PREPARE_D" +
+      "EPENDENCIES\0201\022\023\n\017PREPARE_LIBRARY\0202\022\035\n\031PR" +
+      "OCESS_ANDROID_RESOURCES\0203\022\024\n\020PROCESS_MAN" +
+      "IFEST\0204\022\031\n\025PROCESS_TEST_MANIFEST\0205\022\030\n\024RE",
+      "NDERSCRIPT_COMPILE\0206\022\022\n\016SHADER_COMPILE\0207" +
+      "\022\022\n\016SIGNING_REPORT\0208\022\024\n\020SINGLE_FILE_COPY" +
+      "\0209\022\017\n\013SOURCE_SETS\020:\022\023\n\017SPLIT_ZIP_ALIGN\020;" +
+      "\022\020\n\014STREAM_BASED\020<\022\026\n\022STRIP_DEBUG_SYMBOL" +
+      "\020=\022\026\n\022STRIP_DEPENDENCIES\020>\022\031\n\025TEST_MODUL" +
+      "E_PRO_GUARD\020?\022\017\n\013TEST_SERVER\020@\022\r\n\tTRANSF" +
+      "ORM\020A\022\r\n\tUNINSTALL\020B\022\024\n\020VALIDATE_SIGNING" +
+      "\020C\022\r\n\tZIP_ALIGN\020D\022\020\n\014JAVA_COMPILE\020E\"\337\003\n\030" +
+      "GradleTransformExecution\022;\n\004type\030\001 \001(\0162-" +
+      ".android_studio.GradleTransformExecution",
+      ".Type\022\026\n\016is_incremental\030\002 \001(\010\"\355\002\n\004Type\022\032" +
+      "\n\026UNKNOWN_TRANSFORM_TYPE\020\000\022\007\n\003DEX\020\001\022\020\n\014E" +
+      "XTRACT_JARS\020\002\022\023\n\017INSTANT_RUN_DEX\020\003\022\026\n\022IN" +
+      "STANT_RUN_SLICER\020\004\022\017\n\013INSTANT_RUN\020\005\022\027\n\023I" +
+      "NSTANT_RUN_VERIFER\020\006\022\020\n\014JACK_PRE_DEX\020\007\022\010" +
+      "\n\004JACK\020\010\022\n\n\006JACOCO\020\t\022\017\n\013JAR_MERGING\020\n\022\017\n" +
+      "\013LIBRARY_JAR\020\013\022\024\n\020LIBRARY_JNI_LIBS\020\014\022\030\n\024" +
+      "MERGE_JAVA_RESOURCES\020\r\022\r\n\tMULTI_DEX\020\016\022\020\n" +
+      "\014NEW_SHRINKER\020\017\022\027\n\023NO_CHANGES_VERIFIER\020\020" +
+      "\022\r\n\tPRO_GUARD\020\021\022\024\n\020SHRINK_RESOURCES\020\022\"\350\010",
+      "\n\020InstantRunStatus\022>\n\nbuild_mode\030\001 \001(\0162*" +
+      ".android_studio.InstantRunStatus.BuildMo" +
+      "de\022H\n\017patching_policy\030\002 \001(\0162/.android_st" +
+      "udio.InstantRunStatus.PatchingPolicy\022H\n\017" +
+      "verifier_status\030\003 \001(\0162/.android_studio.I" +
+      "nstantRunStatus.VerifierStatus\0224\n\010artifa" +
+      "ct\030\004 \003(\0132\".android_studio.InstantRunArti" +
+      "fact\"E\n\tBuildMode\022\026\n\022UNKNOWN_BUILD_MODE\020" +
+      "\000\022\014\n\010HOT_WARM\020\001\022\010\n\004COLD\020\002\022\010\n\004FULL\020\003\"]\n\016P" +
+      "atchingPolicy\022\033\n\027UNKNOWN_PATCHING_POLICY",
+      "\020\000\022\020\n\014PRE_LOLLIPOP\020\001\022\r\n\tMULTI_DEX\020\002\022\r\n\tM" +
+      "ULTI_APK\020\003\"\243\005\n\016VerifierStatus\022\033\n\027UNKNOWN" +
+      "_VERIFIER_STATUS\020\000\022\016\n\nCOMPATIBLE\020\001\022\013\n\007NO" +
+      "T_RUN\020\002\022\030\n\024INSTANT_RUN_DISABLED\020\003\022\027\n\023INS" +
+      "TANT_RUN_FAILURE\020\004\022\017\n\013CLASS_ADDED\020\005\022\030\n\024P" +
+      "ARENT_CLASS_CHANGED\020\006\022!\n\035IMPLEMENTED_INT" +
+      "ERFACES_CHANGE\020\007\022\033\n\027CLASS_ANNOTATION_CHA" +
+      "NGE\020\010\022\035\n\031STATIC_INITIALIZER_CHANGE\020\t\022 \n\034" +
+      "CONSTRUCTOR_SIGNATURE_CHANGE\020\n\022\033\n\027METHOD" +
+      "_SIGNATURE_CHANGE\020\013\022\034\n\030METHOD_ANNOTATION",
+      "_CHANGE\020\014\022\022\n\016METHOD_DELETED\020\r\022\020\n\014METHOD_" +
+      "ADDED\020\016\022\017\n\013FIELD_ADDED\020\017\022\021\n\rFIELD_REMOVE" +
+      "D\020\020\022\025\n\021FIELD_TYPE_CHANGE\020\021\022\022\n\016R_CLASS_CH" +
+      "ANGE\020\022\022\023\n\017REFLECTION_USED\020\023\022\032\n\026JAVA_RESO" +
+      "URCES_CHANGED\020\024\022\026\n\022DEPENDENCY_CHANGED\020\025\022" +
+      "\030\n\024MANIFEST_FILE_CHANGE\020\026\022\037\n\033BINARY_MANI" +
+      "FEST_FILE_CHANGE\020\027\022\027\n\023COLD_SWAP_REQUESTE" +
+      "D\020\030\022\030\n\024FULL_BUILD_REQUESTED\020\031\022\021\n\rINITIAL" +
+      "_BUILD\020\032\"\261\001\n\022InstantRunArtifact\0225\n\004type\030" +
+      "\001 \001(\0162\'.android_studio.InstantRunArtifac",
+      "t.Type\"d\n\004Type\022\010\n\004MAIN\020\001\022\016\n\nSPLIT_MAIN\020\002" +
+      "\022\016\n\nRELOAD_DEX\020\003\022\017\n\013RESTART_DEX\020\004\022\007\n\003DEX" +
+      "\020\005\022\t\n\005SPLIT\020\006\022\r\n\tRESOURCES\020\007\"(\n\023LLDBFron" +
+      "tendDetails\022\021\n\texit_code\030\001 \001(\005\"-\n\024Fireba" +
+      "seErrorDetails\022\025\n\rerror_message\030\001 \001(\t\"\244\001" +
+      "\n\021GfxTracingDetails\022\022\n\ntotal_time\030\001 \001(\003\022" +
+      "\017\n\007command\030\002 \001(\t\022\025\n\rerror_message\030\003 \001(\t\022" +
+      "\022\n\ntrace_path\030\004 \001(\t\022\024\n\014image_format\030\005 \001(" +
+      "\t\022\023\n\013image_width\030\006 \001(\003\022\024\n\014image_height\030\007" +
+      " \001(\003\"C\n\023TestRecorderDetails\022\023\n\013event_cou",
+      "nt\030\001 \001(\003\022\027\n\017assertion_count\030\002 \001(\003\"\356\001\n\rUI" +
+      "ActionStats\022\031\n\021action_class_name\030\001 \001(\t\022\023" +
+      "\n\013invocations\030\002 \001(\003\022E\n\017invocation_kind\030\003" +
+      " \001(\0162,.android_studio.UIActionStats.Invo" +
+      "cationKind\"f\n\016InvocationKind\022\033\n\027UNKNOWN_" +
+      "INVOCATION_KIND\020\000\022\013\n\007TOOLBAR\020\001\022\010\n\004MENU\020\002" +
+      "\022\025\n\021KEYBOARD_SHORTCUT\020\003\022\t\n\005MACRO\020\004\"\206\001\n\016M" +
+      "achineDetails\022\021\n\ttotal_ram\030\001 \001(\003\022\022\n\ntota" +
+      "l_disk\030\002 \001(\003\022/\n\007display\030\003 \003(\0132\036.android_" +
+      "studio.DisplayDetails\022\034\n\024available_proce",
+      "ssors\030\004 \001(\005\"q\n\016DisplayDetails\022\r\n\005width\030\001" +
+      " \001(\003\022\016\n\006height\030\002 \001(\003\022 \n\030dots_per_inch_ho" +
+      "rizontal\030\003 \001(\005\022\036\n\026dots_per_inch_vertical" +
+      "\030\004 \001(\005\"\310\001\n\020JavaProcessStats\022\031\n\021heap_memo" +
+      "ry_usage\030\001 \001(\003\022\035\n\025non_heap_memory_usage\030" +
+      "\002 \001(\003\022\032\n\022loaded_class_count\030\003 \001(\005\022\024\n\014thr" +
+      "ead_count\030\004 \001(\005\022H\n\030garbage_collection_st" +
+      "ats\030\005 \003(\0132&.android_studio.GarbageCollec" +
+      "tionStats\"O\n\026GarbageCollectionStats\022\014\n\004n" +
+      "ame\030\001 \001(\t\022\026\n\016gc_collections\030\002 \001(\003\022\017\n\007gc_",
+      "time\030\003 \001(\003\"\265\003\n\nJvmDetails\022\014\n\004name\030\001 \001(\t\022" +
+      "\017\n\007version\030\002 \001(\t\022\016\n\006vendor\030\003 \001(\t\022\031\n\021mini" +
+      "mum_heap_size\030\004 \001(\003\022\031\n\021maximum_heap_size" +
+      "\030\005 \001(\003\022$\n\034maximum_permanent_space_size\030\006" +
+      " \001(\003\022\037\n\027maximum_code_cache_size\030\007 \001(\003\022!\n" +
+      "\031soft_reference_lru_policy\030\010 \001(\003\022F\n\021garb" +
+      "age_collector\030\t \001(\0162+.android_studio.Jvm" +
+      "Details.GarbageCollector\"\217\001\n\020GarbageColl" +
+      "ector\022\022\n\016UNSPECIFIED_GC\020\000\022\034\n\030CONCURRENT_" +
+      "MARK_SWEEP_GC\020\001\022\024\n\020GARBAGE_FIRST_GC\020\002\022\017\n",
+      "\013PARALLEL_GC\020\003\022\023\n\017PARALLEL_OLD_GC\020\004\022\r\n\tS" +
+      "ERIAL_GC\020\005B;\n%com.google.wireless.androi" +
+      "d.sdk.statsB\022AndroidStudioStats"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -62235,7 +62677,7 @@ public final class AndroidStudioStats {
           internal_static_android_studio_InstantRun_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_android_studio_InstantRun_descriptor,
-              new java.lang.String[] { "DeploymentKind", "InstantRunBuildCause", "BuildTime", "SessionId", });
+              new java.lang.String[] { "DeploymentKind", "InstantRunBuildCause", "BuildTime", "SessionId", "IdeBuildCause", });
           internal_static_android_studio_MetaMetrics_descriptor =
             getDescriptor().getMessageTypes().get(14);
           internal_static_android_studio_MetaMetrics_fieldAccessorTable = new
