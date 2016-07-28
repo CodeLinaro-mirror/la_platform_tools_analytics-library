@@ -50322,6 +50322,14 @@ public final class AndroidStudioStats {
        * <code>INITIAL_BUILD = 26;</code>
        */
       INITIAL_BUILD(26, 26),
+      /**
+       * <code>NO_CHANGES = 27;</code>
+       */
+      NO_CHANGES(27, 27),
+      /**
+       * <code>CHANGE_IN_SERIALIZABLE_CLASS_WITHOUT_VERSION_UID = 28;</code>
+       */
+      CHANGE_IN_SERIALIZABLE_CLASS_WITHOUT_VERSION_UID(28, 28),
       ;
 
       /**
@@ -50481,6 +50489,14 @@ public final class AndroidStudioStats {
        * <code>INITIAL_BUILD = 26;</code>
        */
       public static final int INITIAL_BUILD_VALUE = 26;
+      /**
+       * <code>NO_CHANGES = 27;</code>
+       */
+      public static final int NO_CHANGES_VALUE = 27;
+      /**
+       * <code>CHANGE_IN_SERIALIZABLE_CLASS_WITHOUT_VERSION_UID = 28;</code>
+       */
+      public static final int CHANGE_IN_SERIALIZABLE_CLASS_WITHOUT_VERSION_UID_VALUE = 28;
 
 
       public final int getNumber() { return value; }
@@ -50514,6 +50530,8 @@ public final class AndroidStudioStats {
           case 24: return COLD_SWAP_REQUESTED;
           case 25: return FULL_BUILD_REQUESTED;
           case 26: return INITIAL_BUILD;
+          case 27: return NO_CHANGES;
+          case 28: return CHANGE_IN_SERIALIZABLE_CLASS_WITHOUT_VERSION_UID;
           default: return null;
         }
       }
@@ -62514,7 +62532,7 @@ public final class AndroidStudioStats {
       "\013LIBRARY_JAR\020\013\022\024\n\020LIBRARY_JNI_LIBS\020\014\022\030\n\024" +
       "MERGE_JAVA_RESOURCES\020\r\022\r\n\tMULTI_DEX\020\016\022\020\n" +
       "\014NEW_SHRINKER\020\017\022\027\n\023NO_CHANGES_VERIFIER\020\020" +
-      "\022\r\n\tPRO_GUARD\020\021\022\024\n\020SHRINK_RESOURCES\020\022\"\350\010",
+      "\022\r\n\tPRO_GUARD\020\021\022\024\n\020SHRINK_RESOURCES\020\022\"\256\t",
       "\n\020InstantRunStatus\022>\n\nbuild_mode\030\001 \001(\0162*" +
       ".android_studio.InstantRunStatus.BuildMo" +
       "de\022H\n\017patching_policy\030\002 \001(\0162/.android_st" +
@@ -62526,7 +62544,7 @@ public final class AndroidStudioStats {
       "\000\022\014\n\010HOT_WARM\020\001\022\010\n\004COLD\020\002\022\010\n\004FULL\020\003\"]\n\016P" +
       "atchingPolicy\022\033\n\027UNKNOWN_PATCHING_POLICY",
       "\020\000\022\020\n\014PRE_LOLLIPOP\020\001\022\r\n\tMULTI_DEX\020\002\022\r\n\tM" +
-      "ULTI_APK\020\003\"\243\005\n\016VerifierStatus\022\033\n\027UNKNOWN" +
+      "ULTI_APK\020\003\"\351\005\n\016VerifierStatus\022\033\n\027UNKNOWN" +
       "_VERIFIER_STATUS\020\000\022\016\n\nCOMPATIBLE\020\001\022\013\n\007NO" +
       "T_RUN\020\002\022\030\n\024INSTANT_RUN_DISABLED\020\003\022\027\n\023INS" +
       "TANT_RUN_FAILURE\020\004\022\017\n\013CLASS_ADDED\020\005\022\030\n\024P" +
@@ -62543,51 +62561,53 @@ public final class AndroidStudioStats {
       "\030\n\024MANIFEST_FILE_CHANGE\020\026\022\037\n\033BINARY_MANI" +
       "FEST_FILE_CHANGE\020\027\022\027\n\023COLD_SWAP_REQUESTE" +
       "D\020\030\022\030\n\024FULL_BUILD_REQUESTED\020\031\022\021\n\rINITIAL" +
-      "_BUILD\020\032\"\261\001\n\022InstantRunArtifact\0225\n\004type\030" +
-      "\001 \001(\0162\'.android_studio.InstantRunArtifac",
-      "t.Type\"d\n\004Type\022\010\n\004MAIN\020\001\022\016\n\nSPLIT_MAIN\020\002" +
-      "\022\016\n\nRELOAD_DEX\020\003\022\017\n\013RESTART_DEX\020\004\022\007\n\003DEX" +
-      "\020\005\022\t\n\005SPLIT\020\006\022\r\n\tRESOURCES\020\007\"(\n\023LLDBFron" +
-      "tendDetails\022\021\n\texit_code\030\001 \001(\005\"-\n\024Fireba" +
-      "seErrorDetails\022\025\n\rerror_message\030\001 \001(\t\"\244\001" +
-      "\n\021GfxTracingDetails\022\022\n\ntotal_time\030\001 \001(\003\022" +
-      "\017\n\007command\030\002 \001(\t\022\025\n\rerror_message\030\003 \001(\t\022" +
-      "\022\n\ntrace_path\030\004 \001(\t\022\024\n\014image_format\030\005 \001(" +
-      "\t\022\023\n\013image_width\030\006 \001(\003\022\024\n\014image_height\030\007" +
-      " \001(\003\"C\n\023TestRecorderDetails\022\023\n\013event_cou",
-      "nt\030\001 \001(\003\022\027\n\017assertion_count\030\002 \001(\003\"\356\001\n\rUI" +
-      "ActionStats\022\031\n\021action_class_name\030\001 \001(\t\022\023" +
-      "\n\013invocations\030\002 \001(\003\022E\n\017invocation_kind\030\003" +
-      " \001(\0162,.android_studio.UIActionStats.Invo" +
-      "cationKind\"f\n\016InvocationKind\022\033\n\027UNKNOWN_" +
-      "INVOCATION_KIND\020\000\022\013\n\007TOOLBAR\020\001\022\010\n\004MENU\020\002" +
-      "\022\025\n\021KEYBOARD_SHORTCUT\020\003\022\t\n\005MACRO\020\004\"\206\001\n\016M" +
-      "achineDetails\022\021\n\ttotal_ram\030\001 \001(\003\022\022\n\ntota" +
-      "l_disk\030\002 \001(\003\022/\n\007display\030\003 \003(\0132\036.android_" +
-      "studio.DisplayDetails\022\034\n\024available_proce",
-      "ssors\030\004 \001(\005\"q\n\016DisplayDetails\022\r\n\005width\030\001" +
-      " \001(\003\022\016\n\006height\030\002 \001(\003\022 \n\030dots_per_inch_ho" +
-      "rizontal\030\003 \001(\005\022\036\n\026dots_per_inch_vertical" +
-      "\030\004 \001(\005\"\310\001\n\020JavaProcessStats\022\031\n\021heap_memo" +
-      "ry_usage\030\001 \001(\003\022\035\n\025non_heap_memory_usage\030" +
-      "\002 \001(\003\022\032\n\022loaded_class_count\030\003 \001(\005\022\024\n\014thr" +
-      "ead_count\030\004 \001(\005\022H\n\030garbage_collection_st" +
-      "ats\030\005 \003(\0132&.android_studio.GarbageCollec" +
-      "tionStats\"O\n\026GarbageCollectionStats\022\014\n\004n" +
-      "ame\030\001 \001(\t\022\026\n\016gc_collections\030\002 \001(\003\022\017\n\007gc_",
-      "time\030\003 \001(\003\"\265\003\n\nJvmDetails\022\014\n\004name\030\001 \001(\t\022" +
-      "\017\n\007version\030\002 \001(\t\022\016\n\006vendor\030\003 \001(\t\022\031\n\021mini" +
-      "mum_heap_size\030\004 \001(\003\022\031\n\021maximum_heap_size" +
-      "\030\005 \001(\003\022$\n\034maximum_permanent_space_size\030\006" +
-      " \001(\003\022\037\n\027maximum_code_cache_size\030\007 \001(\003\022!\n" +
-      "\031soft_reference_lru_policy\030\010 \001(\003\022F\n\021garb" +
-      "age_collector\030\t \001(\0162+.android_studio.Jvm" +
-      "Details.GarbageCollector\"\217\001\n\020GarbageColl" +
-      "ector\022\022\n\016UNSPECIFIED_GC\020\000\022\034\n\030CONCURRENT_" +
-      "MARK_SWEEP_GC\020\001\022\024\n\020GARBAGE_FIRST_GC\020\002\022\017\n",
-      "\013PARALLEL_GC\020\003\022\023\n\017PARALLEL_OLD_GC\020\004\022\r\n\tS" +
-      "ERIAL_GC\020\005B;\n%com.google.wireless.androi" +
-      "d.sdk.statsB\022AndroidStudioStats"
+      "_BUILD\020\032\022\016\n\nNO_CHANGES\020\033\0224\n0CHANGE_IN_SE" +
+      "RIALIZABLE_CLASS_WITHOUT_VERSION_UID\020\034\"\261",
+      "\001\n\022InstantRunArtifact\0225\n\004type\030\001 \001(\0162\'.an" +
+      "droid_studio.InstantRunArtifact.Type\"d\n\004" +
+      "Type\022\010\n\004MAIN\020\001\022\016\n\nSPLIT_MAIN\020\002\022\016\n\nRELOAD" +
+      "_DEX\020\003\022\017\n\013RESTART_DEX\020\004\022\007\n\003DEX\020\005\022\t\n\005SPLI" +
+      "T\020\006\022\r\n\tRESOURCES\020\007\"(\n\023LLDBFrontendDetail" +
+      "s\022\021\n\texit_code\030\001 \001(\005\"-\n\024FirebaseErrorDet" +
+      "ails\022\025\n\rerror_message\030\001 \001(\t\"\244\001\n\021GfxTraci" +
+      "ngDetails\022\022\n\ntotal_time\030\001 \001(\003\022\017\n\007command" +
+      "\030\002 \001(\t\022\025\n\rerror_message\030\003 \001(\t\022\022\n\ntrace_p" +
+      "ath\030\004 \001(\t\022\024\n\014image_format\030\005 \001(\t\022\023\n\013image",
+      "_width\030\006 \001(\003\022\024\n\014image_height\030\007 \001(\003\"C\n\023Te" +
+      "stRecorderDetails\022\023\n\013event_count\030\001 \001(\003\022\027" +
+      "\n\017assertion_count\030\002 \001(\003\"\356\001\n\rUIActionStat" +
+      "s\022\031\n\021action_class_name\030\001 \001(\t\022\023\n\013invocati" +
+      "ons\030\002 \001(\003\022E\n\017invocation_kind\030\003 \001(\0162,.and" +
+      "roid_studio.UIActionStats.InvocationKind" +
+      "\"f\n\016InvocationKind\022\033\n\027UNKNOWN_INVOCATION" +
+      "_KIND\020\000\022\013\n\007TOOLBAR\020\001\022\010\n\004MENU\020\002\022\025\n\021KEYBOA" +
+      "RD_SHORTCUT\020\003\022\t\n\005MACRO\020\004\"\206\001\n\016MachineDeta" +
+      "ils\022\021\n\ttotal_ram\030\001 \001(\003\022\022\n\ntotal_disk\030\002 \001",
+      "(\003\022/\n\007display\030\003 \003(\0132\036.android_studio.Dis" +
+      "playDetails\022\034\n\024available_processors\030\004 \001(" +
+      "\005\"q\n\016DisplayDetails\022\r\n\005width\030\001 \001(\003\022\016\n\006he" +
+      "ight\030\002 \001(\003\022 \n\030dots_per_inch_horizontal\030\003" +
+      " \001(\005\022\036\n\026dots_per_inch_vertical\030\004 \001(\005\"\310\001\n" +
+      "\020JavaProcessStats\022\031\n\021heap_memory_usage\030\001" +
+      " \001(\003\022\035\n\025non_heap_memory_usage\030\002 \001(\003\022\032\n\022l" +
+      "oaded_class_count\030\003 \001(\005\022\024\n\014thread_count\030" +
+      "\004 \001(\005\022H\n\030garbage_collection_stats\030\005 \003(\0132" +
+      "&.android_studio.GarbageCollectionStats\"",
+      "O\n\026GarbageCollectionStats\022\014\n\004name\030\001 \001(\t\022" +
+      "\026\n\016gc_collections\030\002 \001(\003\022\017\n\007gc_time\030\003 \001(\003" +
+      "\"\265\003\n\nJvmDetails\022\014\n\004name\030\001 \001(\t\022\017\n\007version" +
+      "\030\002 \001(\t\022\016\n\006vendor\030\003 \001(\t\022\031\n\021minimum_heap_s" +
+      "ize\030\004 \001(\003\022\031\n\021maximum_heap_size\030\005 \001(\003\022$\n\034" +
+      "maximum_permanent_space_size\030\006 \001(\003\022\037\n\027ma" +
+      "ximum_code_cache_size\030\007 \001(\003\022!\n\031soft_refe" +
+      "rence_lru_policy\030\010 \001(\003\022F\n\021garbage_collec" +
+      "tor\030\t \001(\0162+.android_studio.JvmDetails.Ga" +
+      "rbageCollector\"\217\001\n\020GarbageCollector\022\022\n\016U",
+      "NSPECIFIED_GC\020\000\022\034\n\030CONCURRENT_MARK_SWEEP" +
+      "_GC\020\001\022\024\n\020GARBAGE_FIRST_GC\020\002\022\017\n\013PARALLEL_" +
+      "GC\020\003\022\023\n\017PARALLEL_OLD_GC\020\004\022\r\n\tSERIAL_GC\020\005" +
+      "B;\n%com.google.wireless.android.sdk.stat" +
+      "sB\022AndroidStudioStats"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
