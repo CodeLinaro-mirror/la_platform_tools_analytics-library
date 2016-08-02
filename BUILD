@@ -1,414 +1,84 @@
 # This file has been automatically generated, please do not modify directly.
-load("//tools/base/bazel:bazel.bzl", "kotlin_library", "groovy_library", "kotlin_groovy_library", "fileset")
+load("//tools/base/bazel:bazel.bzl", "iml_module")
 
-java_library(
-  name = "analytics-publisher",
-  srcs = glob([
-      "publisher/src/main/java/**/*.java",
-    ]),
-  resource_strip_prefix = "tools/analytics-library/analytics-publisher.resources",
-  resources = [
-      "//tools/analytics-library:analytics-publisher.res",
+iml_module(
+    name = "analytics-publisher",
+    srcs = ["publisher/src/main/java"],
+    test_srcs = ["publisher/src/test/java"],
+    deps = [
+        "//tools/idea:lib/guava-18.0",
+        "//tools/idea:lib/hamcrest-core-1.3[test]",
+        "//tools/idea:lib/junit-4.12[test]",
+        "//tools/base/annotations:android-annotations[module]",
+        "//prebuilts/tools/common/m2:repository/com/google/truth/truth/0.28/truth-0.28[test]",
+        "//prebuilts/tools/common/m2:repository/com/google/truth/truth/0.28/truth-0.28-sources[test]",
+        "//tools/analytics-library:analytics-protos[module]",
+        "//tools/analytics-library:analytics-shared[module]",
+        "//tools/base/testutils:testutils[module, test]",
+        "//tools/base/common:common[module]",
+        "//tools/analytics-library:analytics-tracker[module, test]",
     ],
-  deps = [
-      "@local_jdk//:langtools-neverlink",
-      "//tools/idea:lib/guava-18.0",
-      "//tools/idea:lib/hamcrest-core-1.3",
-      "//tools/idea:lib/junit-4.12",
-      "//tools/base/annotations:android-annotations",
-      "//prebuilts/tools/common/m2:repository/com/google/truth/truth/0.28/truth-0.28",
-      "//prebuilts/tools/common/m2:repository/com/google/truth/truth/0.28/truth-0.28-sources",
-      "//tools/analytics-library:analytics-protos",
-      "//tools/analytics-library:analytics-shared",
-      "//tools/base/testutils:testutils",
-      "//tools/base/common:common",
-      "//tools/analytics-library:analytics-tracker",
+    exports = [
+        "//tools/idea:lib/guava-18.0",
+        "//tools/base/annotations:android-annotations",
     ],
-  exports = [
-      "//tools/idea:lib/guava-18.0",
-      "//tools/base/annotations:android-annotations",
-    ],
-  javacopts = ["-extra_checks:off"],
-  visibility = ["//visibility:public"],
+    javacopts = ["-extra_checks:off"],
+    visibility = ["//visibility:public"],
 )
 
-java_library(
-  name = "analytics-tracker",
-  srcs = glob([
-      "tracker/src/main/java/**/*.java",
-    ]),
-  resource_strip_prefix = "tools/analytics-library/analytics-tracker.resources",
-  resources = [
-      "//tools/analytics-library:analytics-tracker.res",
+iml_module(
+    name = "analytics-tracker",
+    srcs = ["tracker/src/main/java"],
+    test_srcs = ["tracker/src/test/java"],
+    deps = [
+        "//tools/idea:lib/guava-18.0",
+        "//tools/idea:lib/hamcrest-core-1.3[test]",
+        "//tools/idea:lib/junit-4.12[test]",
+        "//tools/base/annotations:android-annotations[module]",
+        "//prebuilts/tools/common/m2:repository/com/google/truth/truth/0.28/truth-0.28[test]",
+        "//prebuilts/tools/common/m2:repository/com/google/truth/truth/0.28/truth-0.28-sources[test]",
+        "//tools/analytics-library:analytics-protos[module]",
+        "//tools/analytics-library:analytics-shared[module]",
+        "//tools/base/testutils:testutils[module, test]",
+        "//tools/base/common:common[module]",
     ],
-  deps = [
-      "@local_jdk//:langtools-neverlink",
-      "//tools/idea:lib/guava-18.0",
-      "//tools/idea:lib/hamcrest-core-1.3",
-      "//tools/idea:lib/junit-4.12",
-      "//tools/base/annotations:android-annotations",
-      "//prebuilts/tools/common/m2:repository/com/google/truth/truth/0.28/truth-0.28",
-      "//prebuilts/tools/common/m2:repository/com/google/truth/truth/0.28/truth-0.28-sources",
-      "//tools/analytics-library:analytics-protos",
-      "//tools/analytics-library:analytics-shared",
-      "//tools/base/testutils:testutils",
-      "//tools/base/common:common",
+    exports = [
+        "//tools/idea:lib/guava-18.0",
+        "//tools/base/annotations:android-annotations",
     ],
-  exports = [
-      "//tools/idea:lib/guava-18.0",
-      "//tools/base/annotations:android-annotations",
-    ],
-  javacopts = ["-extra_checks:off"],
-  visibility = ["//visibility:public"],
+    javacopts = ["-extra_checks:off"],
+    visibility = ["//visibility:public"],
 )
 
-java_library(
-  name = "analytics-tracker_testlib",
-  srcs = glob([
-      "tracker/src/test/java/**/*.java",
-    ]),
-  resource_strip_prefix = "tools/analytics-library/analytics-tracker_testlib.resources",
-  resources = [
-      "//tools/analytics-library:analytics-tracker_testlib.res",
+iml_module(
+    name = "analytics-shared",
+    srcs = ["shared/src/main/java"],
+    test_srcs = ["shared/src/test/java"],
+    deps = [
+        "//tools/idea:lib/guava-18.0",
+        "//tools/idea:lib/hamcrest-core-1.3[test]",
+        "//tools/idea:lib/junit-4.12[test]",
+        "//tools/base/annotations:android-annotations[module]",
+        "//prebuilts/tools/common/m2:repository/com/google/truth/truth/0.28/truth-0.28[test]",
+        "//prebuilts/tools/common/m2:repository/com/google/truth/truth/0.28/truth-0.28-sources[test]",
+        "//tools/idea:lib/gson-2.5",
+        "//tools/analytics-library:analytics-protos[module]",
+        "//tools/base/testutils:testutils[module, test]",
+        "//tools/base/common:common[module]",
     ],
-  deps = [
-      "@local_jdk//:langtools-neverlink",
-      "//tools/analytics-library:analytics-tracker",
-      "//tools/idea:lib/guava-18.0",
-      "//tools/idea:lib/hamcrest-core-1.3",
-      "//tools/idea:lib/junit-4.12",
-      "//tools/base/annotations:android-annotations",
-      "//prebuilts/tools/common/m2:repository/com/google/truth/truth/0.28/truth-0.28",
-      "//prebuilts/tools/common/m2:repository/com/google/truth/truth/0.28/truth-0.28-sources",
-      "//tools/analytics-library:analytics-protos",
-      "//tools/analytics-library:analytics-shared",
-      "//tools/analytics-library:analytics-shared_testlib",
-      "//tools/base/testutils:testutils",
-      "//tools/base/testutils:testutils_testlib",
-      "//tools/base/common:common",
-      "//tools/base/common:common_testlib",
+    exports = [
+        "//tools/idea:lib/guava-18.0",
+        "//tools/base/annotations:android-annotations",
     ],
-  exports = [
-      "//tools/analytics-library:analytics-tracker",
-      "//tools/idea:lib/guava-18.0",
-      "//tools/base/annotations:android-annotations",
-    ],
-  javacopts = ["-extra_checks:off"],
-  visibility = ["//visibility:public"],
+    javacopts = ["-extra_checks:off"],
+    visibility = ["//visibility:public"],
 )
 
-java_library(
-  name = "analytics-shared",
-  srcs = glob([
-      "shared/src/main/java/**/*.java",
-    ]),
-  resource_strip_prefix = "tools/analytics-library/analytics-shared.resources",
-  resources = [
-      "//tools/analytics-library:analytics-shared.res",
-    ],
-  deps = [
-      "@local_jdk//:langtools-neverlink",
-      "//tools/idea:lib/guava-18.0",
-      "//tools/idea:lib/hamcrest-core-1.3",
-      "//tools/idea:lib/junit-4.12",
-      "//tools/base/annotations:android-annotations",
-      "//prebuilts/tools/common/m2:repository/com/google/truth/truth/0.28/truth-0.28",
-      "//prebuilts/tools/common/m2:repository/com/google/truth/truth/0.28/truth-0.28-sources",
-      "//tools/idea:lib/gson-2.5",
-      "//tools/analytics-library:analytics-protos",
-      "//tools/base/testutils:testutils",
-      "//tools/base/common:common",
-    ],
-  exports = [
-      "//tools/idea:lib/guava-18.0",
-      "//tools/base/annotations:android-annotations",
-    ],
-  javacopts = ["-extra_checks:off"],
-  visibility = ["//visibility:public"],
-)
-
-java_test(
-  name = "analytics-tracker_tests",
-  srcs = glob([
-    ]),
-  runtime_deps = [
-      ":analytics-tracker_testlib",
-      "//tools/base/testutils:testutils",
-    ],
-  jvm_flags = [
-      "-Dtest.suite.jar=analytics-tracker_testlib.jar",
-    ],
-  test_class = "com.android.testutils.JarTestSuite",
-  javacopts = ["-extra_checks:off"],
-  visibility = ["//visibility:public"],
-)
-
-fileset(
-  name = "analytics-tracker_testlib.res",
-  srcs = glob([
-      "tracker/src/test/java/**/*",
-    ],
-    exclude = [
-      "**/* *",
-      "**/*.java",
-      "**/*.kt",
-      "**/*.groovy",
-      "**/*$*",
-      "**/.DS_Store",
-    ]),
-  mappings = {
-      "tracker/src/test/java": "analytics-tracker_testlib.resources",
-    },
-  deps = [
-      "@local_jdk//:langtools-neverlink",
-    ],
-)
-
-fileset(
-  name = "analytics-publisher.res",
-  srcs = glob([
-      "publisher/src/main/java/**/*",
-    ],
-    exclude = [
-      "**/* *",
-      "**/*.java",
-      "**/*.kt",
-      "**/*.groovy",
-      "**/*$*",
-      "**/.DS_Store",
-    ]),
-  mappings = {
-      "publisher/src/main/java": "analytics-publisher.resources",
-    },
-  deps = [
-      "@local_jdk//:langtools-neverlink",
-    ],
-)
-
-java_library(
-  name = "analytics-shared_testlib",
-  srcs = glob([
-      "shared/src/test/java/**/*.java",
-    ]),
-  resource_strip_prefix = "tools/analytics-library/analytics-shared_testlib.resources",
-  resources = [
-      "//tools/analytics-library:analytics-shared_testlib.res",
-    ],
-  deps = [
-      "@local_jdk//:langtools-neverlink",
-      "//tools/analytics-library:analytics-shared",
-      "//tools/idea:lib/guava-18.0",
-      "//tools/idea:lib/hamcrest-core-1.3",
-      "//tools/idea:lib/junit-4.12",
-      "//tools/base/annotations:android-annotations",
-      "//prebuilts/tools/common/m2:repository/com/google/truth/truth/0.28/truth-0.28",
-      "//prebuilts/tools/common/m2:repository/com/google/truth/truth/0.28/truth-0.28-sources",
-      "//tools/idea:lib/gson-2.5",
-      "//tools/analytics-library:analytics-protos",
-      "//tools/base/testutils:testutils",
-      "//tools/base/testutils:testutils_testlib",
-      "//tools/base/common:common",
-      "//tools/base/common:common_testlib",
-    ],
-  exports = [
-      "//tools/analytics-library:analytics-shared",
-      "//tools/idea:lib/guava-18.0",
-      "//tools/base/annotations:android-annotations",
-    ],
-  javacopts = ["-extra_checks:off"],
-  visibility = ["//visibility:public"],
-)
-
-fileset(
-  name = "analytics-shared.res",
-  srcs = glob([
-      "shared/src/main/java/**/*",
-    ],
-    exclude = [
-      "**/* *",
-      "**/*.java",
-      "**/*.kt",
-      "**/*.groovy",
-      "**/*$*",
-      "**/.DS_Store",
-    ]),
-  mappings = {
-      "shared/src/main/java": "analytics-shared.resources",
-    },
-  deps = [
-      "@local_jdk//:langtools-neverlink",
-    ],
-)
-
-java_library(
-  name = "analytics-protos",
-  srcs = glob([
-      "protos/src/main/java/**/*.java",
-    ]),
-  resource_strip_prefix = "tools/analytics-library/analytics-protos.resources",
-  resources = [
-      "//tools/analytics-library:analytics-protos.res",
-    ],
-  deps = [
-      "@local_jdk//:langtools-neverlink",
-      "//tools/idea:lib/protobuf-2.5.0",
-    ],
-  exports = [
-      "//tools/idea:lib/protobuf-2.5.0",
-    ],
-  javacopts = ["-extra_checks:off"],
-  visibility = ["//visibility:public"],
-)
-
-java_test(
-  name = "analytics-shared_tests",
-  srcs = glob([
-    ]),
-  runtime_deps = [
-      ":analytics-shared_testlib",
-      "//tools/base/testutils:testutils",
-    ],
-  jvm_flags = [
-      "-Dtest.suite.jar=analytics-shared_testlib.jar",
-    ],
-  test_class = "com.android.testutils.JarTestSuite",
-  javacopts = ["-extra_checks:off"],
-  visibility = ["//visibility:public"],
-)
-
-fileset(
-  name = "analytics-protos.res",
-  srcs = glob([
-      "protos/src/main/java/**/*",
-    ],
-    exclude = [
-      "**/* *",
-      "**/*.java",
-      "**/*.kt",
-      "**/*.groovy",
-      "**/*$*",
-      "**/.DS_Store",
-    ]),
-  mappings = {
-      "protos/src/main/java": "analytics-protos.resources",
-    },
-  deps = [
-      "@local_jdk//:langtools-neverlink",
-    ],
-)
-
-fileset(
-  name = "analytics-shared_testlib.res",
-  srcs = glob([
-      "shared/src/test/java/**/*",
-    ],
-    exclude = [
-      "**/* *",
-      "**/*.java",
-      "**/*.kt",
-      "**/*.groovy",
-      "**/*$*",
-      "**/.DS_Store",
-    ]),
-  mappings = {
-      "shared/src/test/java": "analytics-shared_testlib.resources",
-    },
-  deps = [
-      "@local_jdk//:langtools-neverlink",
-    ],
-)
-
-java_library(
-  name = "analytics-publisher_testlib",
-  srcs = glob([
-      "publisher/src/test/java/**/*.java",
-    ]),
-  resource_strip_prefix = "tools/analytics-library/analytics-publisher_testlib.resources",
-  resources = [
-      "//tools/analytics-library:analytics-publisher_testlib.res",
-    ],
-  deps = [
-      "@local_jdk//:langtools-neverlink",
-      "//tools/analytics-library:analytics-publisher",
-      "//tools/idea:lib/guava-18.0",
-      "//tools/idea:lib/hamcrest-core-1.3",
-      "//tools/idea:lib/junit-4.12",
-      "//tools/base/annotations:android-annotations",
-      "//prebuilts/tools/common/m2:repository/com/google/truth/truth/0.28/truth-0.28",
-      "//prebuilts/tools/common/m2:repository/com/google/truth/truth/0.28/truth-0.28-sources",
-      "//tools/analytics-library:analytics-protos",
-      "//tools/analytics-library:analytics-shared",
-      "//tools/analytics-library:analytics-shared_testlib",
-      "//tools/base/testutils:testutils",
-      "//tools/base/testutils:testutils_testlib",
-      "//tools/base/common:common",
-      "//tools/base/common:common_testlib",
-      "//tools/analytics-library:analytics-tracker",
-      "//tools/analytics-library:analytics-tracker_testlib",
-    ],
-  exports = [
-      "//tools/analytics-library:analytics-publisher",
-      "//tools/idea:lib/guava-18.0",
-      "//tools/base/annotations:android-annotations",
-    ],
-  javacopts = ["-extra_checks:off"],
-  visibility = ["//visibility:public"],
-)
-
-fileset(
-  name = "analytics-tracker.res",
-  srcs = glob([
-      "tracker/src/main/java/**/*",
-    ],
-    exclude = [
-      "**/* *",
-      "**/*.java",
-      "**/*.kt",
-      "**/*.groovy",
-      "**/*$*",
-      "**/.DS_Store",
-    ]),
-  mappings = {
-      "tracker/src/main/java": "analytics-tracker.resources",
-    },
-  deps = [
-      "@local_jdk//:langtools-neverlink",
-    ],
-)
-
-fileset(
-  name = "analytics-publisher_testlib.res",
-  srcs = glob([
-      "publisher/src/test/java/**/*",
-    ],
-    exclude = [
-      "**/* *",
-      "**/*.java",
-      "**/*.kt",
-      "**/*.groovy",
-      "**/*$*",
-      "**/.DS_Store",
-    ]),
-  mappings = {
-      "publisher/src/test/java": "analytics-publisher_testlib.resources",
-    },
-  deps = [
-      "@local_jdk//:langtools-neverlink",
-    ],
-)
-
-java_test(
-  name = "analytics-publisher_tests",
-  srcs = glob([
-    ]),
-  runtime_deps = [
-      ":analytics-publisher_testlib",
-      "//tools/base/testutils:testutils",
-    ],
-  jvm_flags = [
-      "-Dtest.suite.jar=analytics-publisher_testlib.jar",
-    ],
-  test_class = "com.android.testutils.JarTestSuite",
-  javacopts = ["-extra_checks:off"],
-  visibility = ["//visibility:public"],
+iml_module(
+    name = "analytics-protos",
+    srcs = ["protos/src/main/java"],
+    deps = ["//tools/idea:lib/protobuf-2.5.0"],
+    exports = ["//tools/idea:lib/protobuf-2.5.0"],
+    javacopts = ["-extra_checks:off"],
+    visibility = ["//visibility:public"],
 )
