@@ -119,6 +119,7 @@ public class AnalyticsPublisherTest {
             // Override the date provider to the publisher so we can reliably check if date based
             // properties are set correctly.
             VirtualTimeDateProvider dateProvider = new VirtualTimeDateProvider(vs);
+            UsageTracker.sDateProvider = dateProvider;
             GoogleAnalyticsPublisher.sDateProvider = dateProvider;
             // move the scheduler ahead so we get non zero values for the date provider.
             vs.advanceBy(1, TimeUnit.MINUTES);
@@ -182,6 +183,7 @@ public class AnalyticsPublisherTest {
             assertEquals(logged.build(), retrieved);
         } finally {
             GoogleAnalyticsPublisher.sDateProvider = DateProvider.SYSTEM;
+            UsageTracker.sDateProvider = DateProvider.SYSTEM;
             EnvironmentFakes.setSystemEnvironment();
         }
         // ensure the spool directory is empty after succesfully publishing the analytics.
@@ -304,6 +306,7 @@ public class AnalyticsPublisherTest {
             // time, we need to fix the time in this test.
             VirtualTimeDateProvider dateProvider = new VirtualTimeDateProvider(vs);
             GoogleAnalyticsPublisher.sDateProvider = dateProvider;
+            UsageTracker.sDateProvider = dateProvider;
 
             // override the os.* system properties so the test runs reliably no matter which
             // it is run on.
@@ -353,7 +356,7 @@ public class AnalyticsPublisherTest {
                                             // ensure that the previous failure is reported in the
                                             // meta metrics.
                                             .setFailedServerReplies(1)
-                                            .setBytesSentInLastUpload(166)
+                                            .setBytesSentInLastUpload(169)
                                             .build())
                             .build(),
                     metaStudioEvent);
@@ -388,13 +391,14 @@ public class AnalyticsPublisherTest {
                                     MetaMetrics.newBuilder()
                                             .setFailedConnections(0)
                                             .setFailedServerReplies(0)
-                                            .setBytesSentInLastUpload(167)
+                                            .setBytesSentInLastUpload(170)
                                             .build())
                             .build(),
                     metaStudioEvent);
             googleAnalyticsPublisher.close();
         } finally {
             GoogleAnalyticsPublisher.sDateProvider = DateProvider.SYSTEM;
+            UsageTracker.sDateProvider = DateProvider.SYSTEM;
             EnvironmentFakes.setSystemEnvironment();
         }
     }
