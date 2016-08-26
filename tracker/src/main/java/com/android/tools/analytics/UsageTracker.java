@@ -18,13 +18,12 @@ package com.android.tools.analytics;
 
 import com.android.annotations.NonNull;
 import com.android.annotations.VisibleForTesting;
+import com.android.utils.DateProvider;
 import com.android.utils.ILogger;
-import com.google.wireless.android.sdk.stats.AndroidStudioStats;
 import com.google.wireless.android.play.playlog.proto.ClientAnalytics;
-
+import com.google.wireless.android.sdk.stats.AndroidStudioStats;
 import java.io.IOException;
 import java.nio.file.Paths;
-import java.util.Date;
 import java.util.UUID;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -41,6 +40,7 @@ public abstract class UsageTracker implements AutoCloseable {
     private static final Object sGate = new Object();
 
     @VisibleForTesting static final String sSessionId = UUID.randomUUID().toString();
+    @VisibleForTesting public static DateProvider sDateProvider = DateProvider.SYSTEM;
     private static UsageTracker sInstance = new NullUsageTracker(new AnalyticsSettings(), null);
 
     private final AnalyticsSettings mAnalyticsSettings;
@@ -48,6 +48,7 @@ public abstract class UsageTracker implements AutoCloseable {
 
     private int mMaxJournalSize;
     private long mMaxJournalTime;
+    private long mStartTimeMs = sDateProvider.now().getTime();
 
     protected UsageTracker(
             AnalyticsSettings analyticsSettings, ScheduledExecutorService scheduler) {
@@ -101,9 +102,11 @@ public abstract class UsageTracker implements AutoCloseable {
     /** Logs usage data provided in the @{link AndroidStudioStats.AndroidStudioEvent}. */
     public void log(@NonNull AndroidStudioStats.AndroidStudioEvent.Builder studioEvent) {
         studioEvent.setStudioSessionId(sSessionId);
+        long now = sDateProvider.now().getTime();
         logDetails(
                 ClientAnalytics.LogEvent.newBuilder()
-                        .setEventTimeMs(new Date().getTime())
+                        .setEventTimeMs(now)
+                        .setEventUptimeMs(now - mStartTimeMs)
                         .setSourceExtension(studioEvent.build().toByteString()));
     }
 

@@ -16,15 +16,15 @@
 
 package com.android.tools.analytics;
 
+import static org.junit.Assert.*;
+
+import com.android.testutils.VirtualTimeDateProvider;
 import com.android.testutils.VirtualTimeScheduler;
+import com.android.utils.DateProvider;
 import com.android.utils.StdLogger;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.google.wireless.android.play.playlog.proto.ClientAnalytics;
 import com.google.wireless.android.sdk.stats.AndroidStudioStats;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
-
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -40,8 +40,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
-
-import static org.junit.Assert.*;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.rules.TemporaryFolder;
 
 /**
  * Tests for {@link JournalingUsageTracker}.
@@ -450,6 +451,50 @@ public class JournalingUsageTrackerTest {
             assertTrue(getSpoolDetails(testSpoolDir.getRoot().toPath()).getLockedFiles().isEmpty());
         } finally {
             EnvironmentFakes.setSystemEnvironment();
+        }
+    }
+
+    @Test
+    public void eventTimeTest() throws Exception {
+        // create virtual time for scheduling and expected time events are logged
+        VirtualTimeScheduler virtualTimeScheduler = new VirtualTimeScheduler();
+        // move time ahead by one minutes to use as the start time of the application/logging framework
+        virtualTimeScheduler.advanceBy(1, TimeUnit.MINUTES);
+        VirtualTimeDateProvider dateProvider = new VirtualTimeDateProvider(virtualTimeScheduler);
+        UsageTracker.sDateProvider = dateProvider;
+        try {
+            JournalingUsageTracker journalingUsageTracker =
+                    new JournalingUsageTracker(
+                            new AnalyticsSettings(),
+                            virtualTimeScheduler,
+                            testSpoolDir.getRoot().toPath());
+
+            // move time ahead by two minutes after creating the usage tracker to use as current time of event logged.
+            virtualTimeScheduler.advanceBy(2, TimeUnit.MINUTES);
+
+            // Create a log entry and log it.
+            AndroidStudioStats.AndroidStudioEvent.Builder event = createAndroidStudioEvent(42);
+            journalingUsageTracker.log(event);
+            // close the tracker so we can read the results from disk
+            virtualTimeScheduler.advanceBy(0);
+            journalingUsageTracker.close();
+
+            // read spooled log entries
+            SpoolDetails results = getSpoolDetails(testSpoolDir.getRoot().toPath());
+            // there should only be one track file.
+            assertEquals(1, results.getCompletedLogs().size());
+            for (Map.Entry<Path, List<ClientAnalytics.LogEvent>> entry :
+                    results.getCompletedLogs().entrySet()) {
+                // with only one log entry
+                assertEquals(1, entry.getValue().size());
+                ClientAnalytics.LogEvent logEntry = entry.getValue().get(0);
+                // the application should be running for two minutes
+                assertEquals(TimeUnit.MINUTES.toMillis(2), logEntry.getEventUptimeMs());
+                // and the event should be recorded at 3 minutes since epoch.
+                assertEquals(TimeUnit.MINUTES.toMillis(3), logEntry.getEventTimeMs());
+            }
+        } finally {
+            UsageTracker.sDateProvider = DateProvider.SYSTEM;
         }
     }
 
