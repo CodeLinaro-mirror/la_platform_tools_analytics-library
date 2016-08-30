@@ -1,4 +1,3 @@
-# This file has been automatically generated, please do not modify directly.
 load("//tools/base/bazel:bazel.bzl", "iml_module")
 
 iml_module(
@@ -75,4 +74,66 @@ iml_module(
     ],
     javacopts = ["-extra_checks:off"],
     visibility = ["//visibility:public"],
+)
+
+# TODO: Change iml_module generator to prepend "studio." to names above.
+# TODO: Split this BUILD file into separate BUILD files in subdirectories.
+java_library(
+    name = "tools.analytics-shared",
+    srcs = glob(["shared/src/main/java/**"]),
+    deps = [
+        ":analytics-protos",
+        "//tools/base/annotations",
+        "//tools/base/common:tools.common",
+        "//tools/base/third_party:com.google.code.gson_gson",
+        "//tools/base/third_party:com.google.guava_guava",
+    ],
+    visibility = ["//visibility:public"],
+)
+
+java_test(
+    name = "tools.analytics-shared_tests",
+    srcs = glob(["shared/src/test/java/**"]),
+    deps = [
+        ":analytics-protos",
+        ":tools.analytics-shared",
+        "//tools/base/annotations",
+        "//tools/base/common:tools.common",
+        "//tools/base/testutils:tools.testutils",
+        "//tools/base/third_party:com.google.code.gson_gson",
+        "//tools/base/third_party:com.google.truth_truth",
+        "//tools/base/third_party:junit_junit",
+    ],
+    test_class = "com.android.testutils.JarTestSuite",
+    jvm_flags = ["-Dtest.suite.jar=tools.analytics-shared_tests.jar"],
+)
+
+java_library(
+    name = "tools.analytics-tracker",
+    srcs = glob(["tracker/src/main/java/**"]),
+    deps = [
+        ":analytics-protos",
+        ":tools.analytics-shared",
+        "//tools/base/annotations",
+        "//tools/base/common:tools.common",
+        "//tools/base/third_party:com.google.guava_guava",
+    ],
+    visibility = ["//visibility:public"],
+)
+
+java_test(
+    name = "tools.analytics-tracker_tests",
+    srcs = glob(["tracker/src/test/java/**"]),
+    deps = [
+        ":analytics-protos",
+        ":tools.analytics-shared",
+        ":tools.analytics-tracker",
+        "//tools/base/annotations",
+        "//tools/base/common:tools.common",
+        "//tools/base/testutils:tools.testutils",
+        "//tools/base/third_party:com.google.truth_truth",
+        "//tools/base/third_party:junit_junit",
+    ],
+    test_class = "com.android.testutils.JarTestSuite",
+    jvm_flags = ["-Dtest.suite.jar=tools.analytics-tracker_tests.jar"],
 )
