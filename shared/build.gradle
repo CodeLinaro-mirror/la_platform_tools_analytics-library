@@ -5,7 +5,7 @@ dependencies {
     compile project(':analytics-library:protos')
     compile project(':base:annotations')
     compile project(':base:common')
-    compile 'com.google.guava:guava:17.0'
+    compile 'com.google.guava:guava:18.0'
     compile 'com.google.code.gson:gson:2.2.4'
 
     testCompile 'junit:junit:4.12'
