@@ -1007,10 +1007,14 @@ message GradleBuildProject {
     LIBRARY = 2;
     // The 'com.android.test' plugin.
     TEST = 3;
+    // The 'com.android.atom' plugin.
+    ATOM = 4;
+    // The 'com.android.instantapp' plugin.
+    INSTANTAPP = 5;
   }
   enum PluginGeneration {
     UNKNOWN_PLUGIN_GENERATION = 0;
-    // The 'com.android.[application,library,test] plugins.
+    // The 'com.android.[application,library,test,atom,instantapp] plugins.
     FIRST = 1;
     // The 'com.android.model.[application,library]' plugins
     COMPONENT_MODEL = 2;
@@ -1036,6 +1040,8 @@ message GradleBuildProject {
   optional .android_studio.GradleBuildProjectMetrics metrics = 6;
   // The variants in this project
   repeated .android_studio.GradleBuildVariant variant = 7;
+  // For instantApps, the number of dependent atoms.
+  optional int64 atoms = 8;
 }
 
 message GradleBuildProjectMetrics {
@@ -1060,6 +1066,10 @@ message GradleBuildVariant {
     ANDROID_TEST = 2;
     // For building unit tests to run locally.
     UNIT_TEST = 3;
+    // For building an atombundle.
+    ATOM = 4;
+    // For building an IAPK.
+    INSTANTAPP = 5;
   }
   // Identifier, local to this AndroidStudioEvent, for the variant.
   //  Can be used to correlate spans (GradleBuildProfileSpan) with this
@@ -1193,6 +1203,27 @@ message GradleBuildProfileSpan {
     // Transform execution
     TASK_TRANSFORM_PREPARATION = 3024;
     TASK_TRANSFORM = 3025;
+    // AtomTaskManager per variant tasks.
+    ATOM_TASK_MANAGER_CREATE_MERGE_MANIFEST_TASK = 4000;
+    ATOM_TASK_MANAGER_CREATE_GENERATE_RES_VALUES_TASK = 4001;
+    ATOM_TASK_MANAGER_CREATE_CREATE_RENDERSCRIPT_TASK = 4002;
+    ATOM_TASK_MANAGER_CREATE_MERGE_RESOURCES_TASK = 4003;
+    ATOM_TASK_MANAGER_CREATE_MERGE_ASSETS_TASK = 4004;
+    ATOM_TASK_MANAGER_CREATE_BUILD_CONFIG_TASK = 4005;
+    ATOM_TASK_MANAGER_CREATE_PROCESS_RES_TASK = 4006;
+    ATOM_TASK_MANAGER_CREATE_AIDL_TASK = 4007;
+    ATOM_TASK_MANAGER_CREATE_SHADER_TASK = 4008;
+    ATOM_TASK_MANAGER_CREATE_NDK_TASK = 4009;
+    ATOM_TASK_MANAGER_CREATE_EXTERNAL_NATIVE_BUILD_TASK = 4010;
+    ATOM_TASK_MANAGER_CREATE_MERGE_JNILIBS_FOLDERS_TASK = 4011;
+    ATOM_TASK_MANAGER_CREATE_COMPILE_TASK = 4012;
+    ATOM_TASK_MANAGER_CREATE_BUNDLING_TASK = 4013;
+    ATOM_TASK_MANAGER_CREATE_LINT_TASK = 4014;
+    // InstantAppTaskManager per variant tasks.
+    INSTANTAPP_TASK_MANAGER_CREATE_MERGE_MANIFEST_TASK = 5000;
+    INSTANTAPP_TASK_MANAGER_CREATE_ATOM_PACKAGING_TASKS = 5001;
+    INSTANTAPP_TASK_MANAGER_CREATE_PROCESS_RES_TASK = 5002;
+    INSTANTAPP_TASK_MANAGER_CREATE_PACKAGING_TASK = 5003;
   }
   // Identifier for this span, created by sequentially allocating IDs to spans
   //  as they start. Used only for the parent-child relationship of spans, to
