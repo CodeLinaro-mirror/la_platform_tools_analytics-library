@@ -18,5 +18,6 @@
     <orderEntry type="module" module-name="testutils" scope="TEST" />
     <orderEntry type="module" module-name="common" />
     <orderEntry type="module" module-name="analytics-tracker-base" scope="TEST" />
+    <orderEntry type="module" module-name="analytics-protos-base" />
   </component>
 </module>
