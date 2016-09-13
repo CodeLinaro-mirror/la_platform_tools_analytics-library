@@ -18,7 +18,6 @@ package com.android.tools.analytics;
 
 import com.android.annotations.NonNull;
 import com.android.utils.ILogger;
-
 import java.nio.file.Paths;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -47,17 +46,20 @@ public abstract class AnalyticsPublisher implements AutoCloseable {
      *
      * @param analyticsSettings used to check opt-in vs opt-out status.
      * @param scheduler used to schedule jobs for publishing.
+     * @param applicationBuild version information about the app publishing analytics.
      */
     public static AnalyticsPublisher initialize(
             @NonNull AnalyticsSettings analyticsSettings,
-            @NonNull ScheduledExecutorService scheduler) {
+            @NonNull ScheduledExecutorService scheduler,
+            @NonNull String applicationBuild) {
         synchronized (sGate) {
             if (analyticsSettings.hasOptedIn() && !analyticsSettings.hasDebugDisablePublishing()) {
                 sInstance =
                         new GoogleAnalyticsPublisher(
                                 analyticsSettings,
                                 scheduler,
-                                Paths.get(AnalyticsPaths.getSpoolDirectory()));
+                                Paths.get(AnalyticsPaths.getSpoolDirectory()),
+                                applicationBuild);
             } else {
                 sInstance = new NullAnalyticsPublisher(analyticsSettings, scheduler);
             }
@@ -66,8 +68,8 @@ public abstract class AnalyticsPublisher implements AutoCloseable {
     }
 
     /**
-     * Retrieved the configured publisher based on a call to
-     * {@link #initialize(AnalyticsSettings, ScheduledExecutorService)}
+     * Retrieved the configured publisher based on a call to {@link #initialize(AnalyticsSettings,
+     * ScheduledExecutorService, String)}
      */
     @NonNull
     public static AnalyticsPublisher getInstance() {
@@ -100,7 +102,10 @@ public abstract class AnalyticsPublisher implements AutoCloseable {
 
     /** Closes the current publisher and creates a new instance. */
     public static void updatePublisher(
-            ILogger logger, AnalyticsSettings settings, ScheduledExecutorService scheduler) {
+            @NonNull ILogger logger,
+            @NonNull AnalyticsSettings settings,
+            @NonNull ScheduledExecutorService scheduler,
+            @NonNull String applicationBuild) {
         AnalyticsPublisher current = getInstance();
         if (current != null) {
             try {
@@ -109,6 +114,6 @@ public abstract class AnalyticsPublisher implements AutoCloseable {
                 logger.error(e, "Unable to close existing analytics publisher");
             }
         }
-        initialize(settings, scheduler);
+        initialize(settings, scheduler, applicationBuild);
     }
 }

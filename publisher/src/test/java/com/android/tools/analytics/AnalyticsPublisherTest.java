@@ -65,7 +65,7 @@ public class AnalyticsPublisherTest {
             // Instantiate the publisher
             GoogleAnalyticsPublisher googleAnalyticsPublisher =
                     new GoogleAnalyticsPublisher(
-                            analyticsSettings, vs, testSpoolDir.getRoot().toPath());
+                            analyticsSettings, vs, testSpoolDir.getRoot().toPath(), "1.2.3.4");
             googleAnalyticsPublisher.setServerUrl(stub.getUrl());
 
             // Ensure the publisher's initial values are as expected.
@@ -131,7 +131,7 @@ public class AnalyticsPublisherTest {
 
             GoogleAnalyticsPublisher googleAnalyticsPublisher =
                     new GoogleAnalyticsPublisher(
-                            analyticsSettings, vs, testSpoolDir.getRoot().toPath());
+                            analyticsSettings, vs, testSpoolDir.getRoot().toPath(), "1.2.3.4");
             googleAnalyticsPublisher.setServerUrl(stub.getUrl());
 
             // advance time to make the publisher run its first publishing job.
@@ -159,6 +159,7 @@ public class AnalyticsPublisherTest {
             assertEquals("linux", cdi.getOs());
             assertEquals("3.13", cdi.getOsMajorVersion());
             assertEquals("3.13.0-85-generic", cdi.getOsFullVersion());
+            assertEquals("1.2.3.4", cdi.getApplicationBuild());
 
             assertEquals(2, request.getLogEventCount());
             ClientAnalytics.LogEvent metaEvent = request.getLogEvent(0);
@@ -227,7 +228,7 @@ public class AnalyticsPublisherTest {
             AnalyticsSettings analyticsSettings = getTestAnalyticsSettings();
             GoogleAnalyticsPublisher googleAnalyticsPublisher =
                     new GoogleAnalyticsPublisher(
-                            analyticsSettings, vs, testSpoolDir.getRoot().toPath());
+                            analyticsSettings, vs, testSpoolDir.getRoot().toPath(), "1.2.3.4");
 
             // set the url to publish to to a reserved port which we know the server cannot connect to.
             // https://www.iana.org/assignments/service-names-port-numbers/service-names-port-numbers.txt
@@ -315,7 +316,7 @@ public class AnalyticsPublisherTest {
 
             GoogleAnalyticsPublisher googleAnalyticsPublisher =
                     new GoogleAnalyticsPublisher(
-                            analyticsSettings, vs, testSpoolDir.getRoot().toPath());
+                            analyticsSettings, vs, testSpoolDir.getRoot().toPath(), "1.2.3.4");
             googleAnalyticsPublisher.setServerUrl(stub.getUrl());
 
             // Instruct to make the server stub fail the http request in the next call.
@@ -356,7 +357,7 @@ public class AnalyticsPublisherTest {
                                             // ensure that the previous failure is reported in the
                                             // meta metrics.
                                             .setFailedServerReplies(1)
-                                            .setBytesSentInLastUpload(169)
+                                            .setBytesSentInLastUpload(178)
                                             .build())
                             .build(),
                     metaStudioEvent);
@@ -391,7 +392,7 @@ public class AnalyticsPublisherTest {
                                     MetaMetrics.newBuilder()
                                             .setFailedConnections(0)
                                             .setFailedServerReplies(0)
-                                            .setBytesSentInLastUpload(170)
+                                            .setBytesSentInLastUpload(179)
                                             .build())
                             .build(),
                     metaStudioEvent);
@@ -420,7 +421,7 @@ public class AnalyticsPublisherTest {
             AnalyticsSettings analyticsSettings = getTestAnalyticsSettings();
             GoogleAnalyticsPublisher googleAnalyticsPublisher =
                     new GoogleAnalyticsPublisher(
-                            analyticsSettings, vs, testSpoolDir.getRoot().toPath());
+                            analyticsSettings, vs, testSpoolDir.getRoot().toPath(), "1.2.3.4");
             googleAnalyticsPublisher.setServerUrl(stub.getUrl());
 
             // Execute the first publish job.
@@ -476,7 +477,7 @@ public class AnalyticsPublisherTest {
             try (ServerStub stub = new ServerStub()) {
                 GoogleAnalyticsPublisher googleAnalyticsPublisher =
                         new GoogleAnalyticsPublisher(
-                                analyticsSettings, vs, testSpoolDir.getRoot().toPath());
+                                analyticsSettings, vs, testSpoolDir.getRoot().toPath(), "1.2.3.4");
                 googleAnalyticsPublisher.setServerUrl(stub.getUrl());
 
                 // Execute the first publish job.
@@ -541,7 +542,7 @@ public class AnalyticsPublisherTest {
             AnalyticsSettings analyticsSettings = getTestAnalyticsSettings();
             GoogleAnalyticsPublisher googleAnalyticsPublisher =
                     new GoogleAnalyticsPublisher(
-                            analyticsSettings, vs, testSpoolDir.getRoot().toPath());
+                            analyticsSettings, vs, testSpoolDir.getRoot().toPath(), "1.2.3.4");
             googleAnalyticsPublisher.setServerUrl(stub.getUrl());
 
             // Ensure a job is queued to publish analytics.
@@ -596,7 +597,7 @@ public class AnalyticsPublisherTest {
             // Create an instance of the publisher with a customized connection creation function.
             GoogleAnalyticsPublisher googleAnalyticsPublisher =
                     new GoogleAnalyticsPublisher(
-                            analyticsSettings, vs, testSpoolDir.getRoot().toPath());
+                            analyticsSettings, vs, testSpoolDir.getRoot().toPath(), "1.2.3.4");
             googleAnalyticsPublisher.setCreateConnection(
                     () -> (HttpURLConnection) stub.getUrl().openConnection());
             // set the url to publish to to a reserved port which we know the server cannot connect
@@ -628,7 +629,8 @@ public class AnalyticsPublisherTest {
             AnalyticsSettings settings = getTestAnalyticsSettings();
 
             // update the publisher, first call will initialize.
-            AnalyticsPublisher.updatePublisher(new StdLogger(StdLogger.Level.ERROR), settings, vs);
+            AnalyticsPublisher.updatePublisher(
+                    new StdLogger(StdLogger.Level.ERROR), settings, vs, "1.2.3.4");
             AnalyticsPublisher afterFirstUpdate = AnalyticsPublisher.getInstance();
             assertTrue(afterFirstUpdate instanceof GoogleAnalyticsPublisher);
             assertEquals(settings, afterFirstUpdate.getAnalyticsSettings());
@@ -640,7 +642,8 @@ public class AnalyticsPublisherTest {
 
             // update again, but now opt-ed out.
             settings.setHasOptedIn(false);
-            AnalyticsPublisher.updatePublisher(new StdLogger(StdLogger.Level.ERROR), settings, vs);
+            AnalyticsPublisher.updatePublisher(
+                    new StdLogger(StdLogger.Level.ERROR), settings, vs, "1.2.3.4");
             AnalyticsPublisher afterSecondUpdate = AnalyticsPublisher.getInstance();
             assertTrue(afterSecondUpdate instanceof NullAnalyticsPublisher);
             assertEquals(settings, afterFirstUpdate.getAnalyticsSettings());

@@ -16,6 +16,7 @@
 
 package com.android.tools.analytics;
 
+import com.android.annotations.NonNull;
 import com.android.annotations.VisibleForTesting;
 import com.android.utils.DateProvider;
 import com.android.utils.ILogger;
@@ -62,6 +63,7 @@ public class GoogleAnalyticsPublisher extends AnalyticsPublisher {
 
     private final Path mSpoolLocation;
     private final ClientAnalytics.LogRequest mBaseLogRequest;
+    private final String mApplicationBuild;
 
     private ScheduledFuture<?> mPublishJob;
     private int mScheduleVersion = 0;
@@ -80,15 +82,19 @@ public class GoogleAnalyticsPublisher extends AnalyticsPublisher {
      * @param analyticsSettings used for sending pseudoanonymous ID along with the analytics.
      * @param spoolLocation location to look for .trk files to upload.
      * @param scheduler used for scheduling periodic checks of the spool location.
+     * @param applicationBuild version information about the app publishing analytics.
      */
     GoogleAnalyticsPublisher(
-            AnalyticsSettings analyticsSettings,
-            ScheduledExecutorService scheduler,
-            Path spoolLocation) {
+            @NonNull AnalyticsSettings analyticsSettings,
+            @NonNull ScheduledExecutorService scheduler,
+            @NonNull Path spoolLocation,
+            @NonNull String applicationBuild) {
         super(analyticsSettings, scheduler);
-        this.mSpoolLocation = spoolLocation;
+        mSpoolLocation = spoolLocation;
+        mApplicationBuild = applicationBuild;
+
         // Create a LogRequest to use as a template for all LogRequest objects.
-        this.mBaseLogRequest =
+        mBaseLogRequest =
                 ClientAnalytics.LogRequest.newBuilder()
                         .setClientInfo(
                                 ClientAnalytics.ClientInfo.newBuilder()
@@ -97,6 +103,7 @@ public class GoogleAnalyticsPublisher extends AnalyticsPublisher {
                                         .setDesktopClientInfo(
                                                 ClientAnalytics.DesktopClientInfo.newBuilder()
                                                         .setLoggingId(analyticsSettings.getUserId())
+                                                        .setApplicationBuild(applicationBuild)
                                                         .setOs(CommonMetricsData.getOsName())
                                                         .setOsMajorVersion(
                                                                 CommonMetricsData
