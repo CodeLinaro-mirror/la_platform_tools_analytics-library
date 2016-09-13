@@ -23,6 +23,7 @@ import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.InetSocketAddress;
 import java.net.MalformedURLException;
@@ -32,6 +33,7 @@ import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.zip.GZIPInputStream;
 
 /**
  * A tiny webserver used to stub out the Google Analytics server in tests.
@@ -104,7 +106,11 @@ public class ServerStub implements HttpHandler, AutoCloseable {
             } else {
                 SettableFuture<ClientAnalytics.LogRequest> data = SettableFuture.create();
                 try {
-                    data.set(ClientAnalytics.LogRequest.parseFrom(httpExchange.getRequestBody()));
+                    InputStream body = httpExchange.getRequestBody();
+                    if (isZipped(httpExchange)) {
+                        body = new GZIPInputStream(body);
+                    }
+                    data.set(ClientAnalytics.LogRequest.parseFrom(body));
                     httpExchange.sendResponseHeaders(HTTP_OK, 0);
                 } catch (IOException e) {
                     byte[] response = "Bad Request".getBytes(Charsets.UTF_8);
@@ -116,5 +122,17 @@ public class ServerStub implements HttpHandler, AutoCloseable {
                 mResults.add(data);
             }
         }
+    }
+
+    /** Checks if the request body is gzipped. */
+    private boolean isZipped(HttpExchange httpExchange) {
+        if (!httpExchange.getRequestHeaders().containsKey("Content-Encoding")) {
+            return false;
+        }
+        List<String> values = httpExchange.getRequestHeaders().get("Content-Encoding");
+        if (values.size() == 0) {
+            return false;
+        }
+        return values.get(values.size() - 1).equals("gzip");
     }
 }

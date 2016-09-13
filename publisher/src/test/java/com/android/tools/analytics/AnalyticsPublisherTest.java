@@ -77,8 +77,13 @@ public class AnalyticsPublisherTest {
             assertEquals(1, vs.getQueue().size());
             assertEquals(TimeUnit.MINUTES.toNanos(10), vs.getQueue().peek().getTick());
         } finally {
-            EnvironmentFakes.setSystemEnvironment();
+            cleanEnvironment();
         }
+    }
+
+    private void cleanEnvironment() {
+        EnvironmentFakes.setSystemEnvironment();
+        AnalyticsPublisher.sInstance = null;
     }
 
     /**
@@ -185,7 +190,7 @@ public class AnalyticsPublisherTest {
         } finally {
             GoogleAnalyticsPublisher.sDateProvider = DateProvider.SYSTEM;
             UsageTracker.sDateProvider = DateProvider.SYSTEM;
-            EnvironmentFakes.setSystemEnvironment();
+            cleanEnvironment();
         }
         // ensure the spool directory is empty after succesfully publishing the analytics.
         assertEquals(0, testSpoolDir.getRoot().listFiles().length);
@@ -275,7 +280,7 @@ public class AnalyticsPublisherTest {
                             .build(),
                     metaStudioEvent);
         } finally {
-            EnvironmentFakes.setSystemEnvironment();
+            cleanEnvironment();
         }
     }
 
@@ -357,7 +362,7 @@ public class AnalyticsPublisherTest {
                                             // ensure that the previous failure is reported in the
                                             // meta metrics.
                                             .setFailedServerReplies(1)
-                                            .setBytesSentInLastUpload(178)
+                                            .setBytesSentInLastUpload(10)
                                             .build())
                             .build(),
                     metaStudioEvent);
@@ -392,7 +397,7 @@ public class AnalyticsPublisherTest {
                                     MetaMetrics.newBuilder()
                                             .setFailedConnections(0)
                                             .setFailedServerReplies(0)
-                                            .setBytesSentInLastUpload(179)
+                                            .setBytesSentInLastUpload(10)
                                             .build())
                             .build(),
                     metaStudioEvent);
@@ -400,7 +405,7 @@ public class AnalyticsPublisherTest {
         } finally {
             GoogleAnalyticsPublisher.sDateProvider = DateProvider.SYSTEM;
             UsageTracker.sDateProvider = DateProvider.SYSTEM;
-            EnvironmentFakes.setSystemEnvironment();
+            cleanEnvironment();
         }
     }
 
@@ -435,7 +440,7 @@ public class AnalyticsPublisherTest {
             List<Future<ClientAnalytics.LogRequest>> results = stub.getResults();
             assertEquals(0, results.size());
         } finally {
-            EnvironmentFakes.setSystemEnvironment();
+            cleanEnvironment();
         }
     }
 
@@ -515,7 +520,7 @@ public class AnalyticsPublisherTest {
                 assertEquals(expected, actual);
             }
         } finally {
-            EnvironmentFakes.setSystemEnvironment();
+            cleanEnvironment();
         }
     }
 
@@ -569,7 +574,7 @@ public class AnalyticsPublisherTest {
             List<Future<ClientAnalytics.LogRequest>> results = stub.getResults();
             assertEquals(1, results.size());
         } finally {
-            EnvironmentFakes.setSystemEnvironment();
+            cleanEnvironment();
         }
     }
 
@@ -613,7 +618,7 @@ public class AnalyticsPublisherTest {
             List<Future<ClientAnalytics.LogRequest>> results = stub.getResults();
             assertEquals(1, results.size());
         } finally {
-            EnvironmentFakes.setSystemEnvironment();
+            cleanEnvironment();
         }
     }
 
@@ -652,7 +657,7 @@ public class AnalyticsPublisherTest {
             // ensure job from first publisher has been canceled as part of update.
             assertTrue(job.isCancelled());
         } finally {
-            EnvironmentFakes.setSystemEnvironment();
+            cleanEnvironment();
         }
     }
 

@@ -17,6 +17,7 @@
 package com.android.tools.analytics;
 
 import com.android.annotations.NonNull;
+import com.android.annotations.VisibleForTesting;
 import com.android.utils.ILogger;
 import java.nio.file.Paths;
 import java.util.concurrent.ScheduledExecutorService;
@@ -29,7 +30,8 @@ import java.util.concurrent.TimeUnit;
  */
 public abstract class AnalyticsPublisher implements AutoCloseable {
     private static final Object sGate = new Object();
-    private static AnalyticsPublisher sInstance;
+    @VisibleForTesting
+    static AnalyticsPublisher sInstance;
     private long mPublishIntervalNanos = TimeUnit.MINUTES.toNanos(10);
 
     private final AnalyticsSettings mAnalyticsSettings;

@@ -21,13 +21,10 @@ import com.android.annotations.VisibleForTesting;
 import com.android.utils.DateProvider;
 import com.android.utils.ILogger;
 import com.android.utils.StdLogger;
+import com.google.common.io.CountingOutputStream;
 import com.google.wireless.android.play.playlog.proto.ClientAnalytics;
 import com.google.wireless.android.sdk.stats.AndroidStudioStats;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.RandomAccessFile;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -45,6 +42,7 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
+import java.util.zip.GZIPOutputStream;
 
 /*
  * Publish collected analytics to Google's servers.
@@ -272,13 +270,21 @@ public class GoogleAnalyticsPublisher extends AnalyticsPublisher {
         }
         connection.setRequestMethod("POST");
         connection.setDoOutput(true);
-        OutputStream body = connection.getOutputStream();
+
+        // GZip the content to save bandwidth.
+        connection.setRequestProperty("Content-Encoding", "gzip");
         byte[] requestBytes = request.toByteArray();
-        body.write(requestBytes);
-        mBytesSentInLastPublish = requestBytes.length;
-        body.close();
+
+        try (OutputStream output = connection.getOutputStream();
+             BufferedOutputStream buffered = new BufferedOutputStream(output);
+             CountingOutputStream counted = new CountingOutputStream(buffered);
+             GZIPOutputStream zipped = new GZIPOutputStream(counted)) {
+             zipped.write(requestBytes);
+             mBytesSentInLastPublish = counted.getCount();
+        }
 
         connection.connect();
+
         int responseCode = connection.getResponseCode();
         if (!isSuccess(responseCode)) {
             mLogger.error(
