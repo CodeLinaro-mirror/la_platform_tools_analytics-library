@@ -5,8 +5,8 @@
 //   blaze build //logs/proto/wireless/android/sdk/stats:studio_stats_stripped
 
 // NOTE: Do not use oneof in this proto as we need to compile it with the
-//  open source 2.5 version of the protobuf compiler for Android Studio which
-//  does not support the oneof feature.
+// open source 2.5 version of the protobuf compiler for Android Studio which
+// does not support the oneof feature.
 syntax = "proto2";
 
 package android_studio;
@@ -16,6 +16,8 @@ option java_outer_classname = "AndroidStudioStats";
 
 message AndroidStudioEvent {
   // Describes a group of event kinds related to each other.
+  // This is redundant in the presence of EventKind + event specific message,
+  // and is only necessary for events originally sent to GA.
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -24,7 +26,7 @@ message AndroidStudioEvent {
     // Stats on builds from Studio.
     STUDIO_BUILD = 2;
     // The event is related to usage of 'Google Developer Services'
-    //  inside Android Studio.
+    // inside Android Studio.
     DEVELOPER_SERVICES = 3;
     // The event is related to interaction between Android Studio and Gradle.
     GRADLE_SYNC = 4;
@@ -39,7 +41,7 @@ message AndroidStudioEvent {
     // The event is related to Theme Editor.
     THEME_EDITOR = 9;
     // The event is related to App Indexing integration.
-    //  (http://go/studio-app-indexing)
+    // (http://go/studio-app-indexing)
     APP_INDEXING = 10;
     // The event is related to C++ debugging.
     LLDB = 11;
@@ -69,7 +71,7 @@ message AndroidStudioEvent {
     STUDIO_UI = 23;
   }
   // Specific kind of event, primary separation key of all Android Studio
-  //  related events.
+  // related events.
   enum EventKind {
     UNKNOWN_EVENT_KIND = 0;
     // An APK (android application) is deployed.
@@ -137,7 +139,7 @@ message AndroidStudioEvent {
     // SDK Manager QuickFix Wizard invocation to install LLDB package failed.
     LLDB_INSTALL_FAILED = 32;
     // SDK Manager QuickFix Wizard invocation to install LLDB package completed
-    //  successfully.
+    // successfully.
     LLDB_INSTALL_COMPLETED = 33;
     // A watchpoint was added to native code.
     LLDB_SESSION_USED_WATCHPOINTS = 34;
@@ -258,6 +260,8 @@ message AndroidStudioEvent {
     STUDIO_UI_ACTION_STATS = 97;
     // Stats on the current running Android Studio process.
     STUDIO_PROCESS_STATS = 98;
+    // Stats on Studio's performance
+    STUDIO_PERFORMANCE_STATS = 99;
   }
   // Represents different Performance Monitoring types.
   enum MonitorType {
@@ -295,7 +299,7 @@ message AndroidStudioEvent {
     NATIVE = 3;
   }
   // Represents the different Google Developer Services that can be
-  //  (semi-)automatically integrated into Android Applications.
+  // (semi-)automatically integrated into Android Applications.
   enum DeveloperServiceKind {
     UNKNOWN_DEVELOPER_SERVICE_KIND = 0;
     GOOGLE_CLOUD_MESSAGING = 1;
@@ -369,17 +373,19 @@ message AndroidStudioEvent {
     UNSUPPORTED_GRADLE_VERSION = 13;
   }
   // Describes a group of event kinds related to each other.
+  // Necessary only for events that were originally being reported to Google
+  // Analytics (GA).
   optional .android_studio.AndroidStudioEvent.EventCategory category = 1;
   // Specific kind of event, primary separation key of all Android Studio
-  //  related events.
+  // related events.
   optional .android_studio.AndroidStudioEvent.EventKind kind = 2;
   // The session id is a UUID tracking a single instance of Android Studio
-  //  to associate events together such as kind = TEST_RUN
+  // to associate events together such as kind = TEST_RUN
   optional string studio_session_id = 3;
   // set when kind = STUDIO_PING
-  //  or kind = EMULATOR_PING
-  //  or ANDROID_STUDIO_TEST
-  //  or ANDROID_STUDIO_THROUGH_GRADLE
+  // or kind = EMULATOR_PING
+  // or ANDROID_STUDIO_TEST
+  // or ANDROID_STUDIO_THROUGH_GRADLE
   optional .android_studio.ProductDetails product_details = 4;
   // set when kind = MONITOR_ACTIVATED or kind = MONITOR_RUNNING
   optional .android_studio.AndroidStudioEvent.MonitorType monitor_type = 5;
@@ -396,18 +402,18 @@ message AndroidStudioEvent {
   // set when kind = LLDB_SESSION_STARTED
   optional .android_studio.AndroidStudioEvent.DebuggerType debugger_type = 11;
   // set when kind = LLDB_LAUNCHED
-  //  or kind = DEPLOYMENT_APK
-  //  or kind = DEPLOYMENT_EMULATOR
-  //  or kind = CLOUD_TESTING_CONFIGURE_CLOUD_DEVICE
-  //  or kind = CLOUD_TESTING_LAUNCH_CLOUD_DEVICE
-  //  or kind = CLOUD_TESTING_DEBUG_FROM_RESULTS
-  //  or kind = TEST_RUN
+  // or kind = DEPLOYMENT_APK
+  // or kind = DEPLOYMENT_EMULATOR
+  // or kind = CLOUD_TESTING_CONFIGURE_CLOUD_DEVICE
+  // or kind = CLOUD_TESTING_LAUNCH_CLOUD_DEVICE
+  // or kind = CLOUD_TESTING_DEBUG_FROM_RESULTS
+  // or kind = TEST_RUN
   optional .android_studio.DeviceInfo device_info = 12;
   // set when kind = LLDB_SESSION_FAILED or kind = LLDB_INSTALL_FAILED
-  //  e.g. 'failed to get reply to handshake packet'
+  // e.g. 'failed to get reply to handshake packet'
   optional string lldb_session_failure_message = 13;
   // set when kind = DEVELOPER_SERVICES_INSTALLED
-  //  or kind = DEVELOPER_SERVICES_REMOVED
+  // or kind = DEVELOPER_SERVICES_REMOVED
   optional .android_studio.AndroidStudioEvent.DeveloperServiceKind developer_service_kind = 14;
   // set when category = GRADLE_SYNC
   optional string gradle_version = 15;
@@ -415,7 +421,7 @@ message AndroidStudioEvent {
   // set when kind = GRADLE_SYNC_FAILURE
   optional .android_studio.AndroidStudioEvent.GradleSyncFailure gradle_sync_failure = 16;
   // set when kind = GRADLE_SYNC_FAILURE and gradle_sync_failure = *_NOT_FOUND
-  //  e.g. 'org.gradle.api.internal.DemoClass.demoMethod'
+  // e.g. 'org.gradle.api.internal.DemoClass.demoMethod'
   optional string gradle_missing_signature = 17;
   // set when kind = TEMPLATE_RENDERER
   optional .android_studio.AndroidStudioEvent.TemplateRenderer template_renderer = 18;
@@ -442,10 +448,10 @@ message AndroidStudioEvent {
   // set when kind = LLDB_FRONTEND_EXITED
   optional .android_studio.LLDBFrontendDetails lldb_frontend_details = 29;
   // set when kind = FIREBASE_ASSISTANT_ERROR_PRESENTED or
-  //  kind FIREBASE_ASSISTANT_SILENT_ERROR
+  // kind FIREBASE_ASSISTANT_SILENT_ERROR
   optional .android_studio.FirebaseErrorDetails firebase_error_details = 30;
   // Client-side salted (rotating every 28 days), sha256 of the project id.
-  //  set when kind = PROJECT_STRUCTURE_*.
+  // set when kind = PROJECT_STRUCTURE_*.
   optional string project_id = 31;
   // set when kind = GFX_TRACE_*
   optional .android_studio.GfxTracingDetails gfx_tracing_details = 32;
@@ -459,6 +465,8 @@ message AndroidStudioEvent {
   optional .android_studio.JvmDetails jvm_details = 36;
   // set when kind = STUDIO_PROCESS_STATS
   optional .android_studio.JavaProcessStats java_process_stats = 37;
+  // set when kind = STUDIO_PERFORMANCE_STATS
+  optional .android_studio.StudioPerformanceStats studio_performance_stats = 38;
 }
 
 // Describes a product, e.g. Android Studio or Emulator.
@@ -504,7 +512,7 @@ message ProductDetails {
   optional string version = 3;
   // e.g. 2.0.0.11
   // Historical: never used as it was not providing enough info. Use channel
-  //  instead as it distinguishes between different kinds of preview releases.
+  // instead as it distinguishes between different kinds of preview releases.
   optional bool preview = 4;
   // The CPU archtecture the product is running on.
   optional .android_studio.ProductDetails.CpuArchitecture os_architecture = 5;
@@ -538,12 +546,12 @@ message DeviceInfo {
   // serial number of the device, salted & sha256ed on the client.
   optional string anonymized_serial_number = 1;
   // Tags used to build the android version on this device.
-  //  e.g. 'release-keys' or 'test-keys' or 'A100_V001'
-  //  TODO(jvg): ask loglaunch folks: ST_SOFTWARE_ID datapol?
+  // e.g. 'release-keys' or 'test-keys' or 'A100_V001'
+  // TODO(jvg): ask loglaunch folks: ST_SOFTWARE_ID datapol?
   optional string build_tags = 2;
   // Type of build this device is running.
-  //  e.g. 'user' or 'userdebug' or 'eng' or 'alphabuild'
-  //  TODO(jvg): ask loglaunch folks: ST_SOFTWARE_ID datapol?
+  // e.g. 'user' or 'userdebug' or 'eng' or 'alphabuild'
+  // TODO(jvg): ask loglaunch folks: ST_SOFTWARE_ID datapol?
   optional string build_type = 3;
   // Android version e.g. '5.1.1'
   optional string build_version_release = 4;
@@ -674,10 +682,10 @@ message EmulatorUiEvent {
     UNKONWN_EMULATOR_UI_EVENT_TYPE = 0;
     BUTTON_PRESS = 1;
     // Generated when a user action changes the value of certain field from
-    //  its default value.
+    // its default value.
     OPTION_SET_TO_NON_DEFAULT = 2;
     // Generated to report the index of an option selected by the user in a
-    //  drop-down menu / radio button etc.
+    // drop-down menu / radio button etc.
     OPTION_SELECTED = 3;
   }
   // Tracks the context of the Emulator UI.
@@ -686,16 +694,16 @@ message EmulatorUiEvent {
     EXTENDED_WINDOW_OPEN = 1;
   }
   // Id of the UI element, baked in the emulator binary.
-  //  TODO(jvg): ask logs ticket folks what kind of datapol annotation
-  //  it is not freeform, but we cannot make this an enum
+  // TODO(jvg): ask logs ticket folks what kind of datapol annotation
+  // it is not freeform, but we cannot make this an enum
   optional string element_id = 1;
   // The type of UI event
   optional .android_studio.EmulatorUiEvent.EmulatorUiEventType type = 2;
   // The current context of the event.
   optional .android_studio.EmulatorUiEvent.EmulatorUiEventContext context = 3;
   // This value is an opaque numeric type. The exact schema of the UI metrics
-  //  is not specific here. e.g., |value| may represent a boolean, a "count", or
-  //  an index into the list of items in a drop down menu.
+  // is not specific here. e.g., |value| may represent a boolean, a "count", or
+  // an index into the list of items in a drop down menu.
   optional int64 value = 4;
 }
 
@@ -710,7 +718,7 @@ message GradleBuildDetails {
   // indicates whether the IDE thinks whether this plugin version supports IR
   optional bool model_supports_ir = 4;
   // indicates whether the current variant supports IR, but this can be changed
-  //  without a notification
+  // without a notification
   optional bool variant_supports_ir = 5;
   // per library metrics.
   repeated .android_studio.GradleLibrary libraries = 6;
@@ -743,9 +751,9 @@ message GradleModule {
 // Per Android module Gradle metrics.
 message GradleAndroidModule {
   // Client-side salted, sha256 of the application id
-  //  the app_id is the id for the user's android app
-  //  which we salt with a client unique salt and then sha256
-  //  so it is anonymized and is unique per user, but has a 1-N relation.
+  // the app_id is the id for the user's android app
+  // which we salt with a client unique salt and then sha256
+  // so it is anonymized and is unique per user, but has a 1-N relation.
   optional string app_id = 1;
   // Client-side salted, sha256 of the module name.
   optional string module_name = 2;
@@ -776,9 +784,9 @@ message GradleNativeAndroidModule {
     CMAKE = 4;
   }
   // Client-side salted, sha256 of the application id
-  //  the app_id is the id for the user's android app
-  //  which we salt with a client unique salt and then sha256
-  //  so it is anonymized and is unique per user, but has a 1-N relation.
+  // the app_id is the id for the user's android app
+  // which we salt with a client unique salt and then sha256
+  // so it is anonymized and is unique per user, but has a 1-N relation.
   optional string app_id = 1;
   // Client-side salted, sha256 of the module name.
   optional string module_name = 2;
@@ -821,7 +829,7 @@ message InstantRun {
     REFLECTION_USED = 17;
   }
   // The different reasons InstantRun chose the build mode it did from the IDE's
-  //  perspective.
+  // perspective.
   enum InstantRunIdeBuildCause {
     // reasons for clean build
     UNKNOWN_INSTANT_RUN_IDE_BUILD_CAUSE = 0;
@@ -845,28 +853,28 @@ message InstantRun {
   // What kind of Instant Run deployment was chosen.
   optional .android_studio.InstantRun.InstantRunDeploymentKind deployment_kind = 1;
   // what was the reason for chosing that kind of deployment from the gradle
-  //  side.
+  // side.
   optional .android_studio.InstantRun.InstantRunBuildCause instant_run_build_cause = 3;
-  // time the InstantRun enabled took in seconds.
+  // time the InstantRun enabled took in milliseconds.
   optional int64 build_time = 4;
   // The session id is a UUID within a single run of Android Studio
-  //  tracking multiple HOT_SWAP & DEX builds in the same
-  //  IR session (starting at FULL_APK and ending before FULL_APK).
+  // tracking multiple HOT_SWAP & DEX builds in the same
+  // IR session (starting at FULL_APK and ending before FULL_APK).
   optional string session_id = 5;
   // what was the reason for chosing that kind of deployment from the IDE
-  //  side.
+  // side.
   optional .android_studio.InstantRun.InstantRunIdeBuildCause ide_build_cause = 6;
 }
 
 // describes Metrics on Metrics.
 message MetaMetrics {
   // number of times connecting to the clearcut server failed since
-  //  the last successful upload.
+  // the last successful upload.
   optional int32 failed_connections = 1;
   // number of bytes used to send metrics in the last upload.
   optional int64 bytes_sent_in_last_upload = 2;
   // number of times the clearcut server failed with an http error since
-  //  the last successful upload.
+  // the last successful upload.
   optional int32 failed_server_replies = 3;
 }
 
@@ -895,7 +903,7 @@ message TestRun {
   // What kind of test is run.
   optional .android_studio.TestRun.TestKind test_kind = 3;
   // Whether the test run finished successfully (regardless of results) or
-  //  tooling error happened.
+  // tooling error happened.
   optional bool crashed = 4;
   // Set when test_invocation_type = GRADLE or ANDROID_STUDIO_THROUGH_GRADLE
   optional string gradle_version = 5;
@@ -909,7 +917,7 @@ message TestRun {
 // Provides details on commonly used test libraries.
 message TestLibraries {
   // The exact version of the given library that this project uses.
-  //  Not present if project doesn't use a given library.
+  // Not present if project doesn't use a given library.
   optional string test_support_library_version = 1;
   // e.g. '0.5'
   optional string espresso_version = 2;
@@ -941,7 +949,7 @@ message Hypervisor {
 // Describes the status of the machine running the emulator.
 message EmulatorHost {
   // CPU manufacturer of the host, used as certain hypervisors are limited
-  //  to a certain manufacturer.
+  // to a certain manufacturer.
   optional string cpu_manufacturer = 1;
   // AMD, INTEL, ...
   // Does the host support virtualization technology
@@ -949,32 +957,32 @@ message EmulatorHost {
   // Is the host itself running inside a virtual machine.
   optional bool running_in_vm = 3;
   // May differ from os_architecture field as it is calculated differently,
-  //  trying to compensate the JVM bittness.
+  // trying to compensate the JVM bittness.
   optional int64 os_bit_count = 4;
 }
 
 // Detailed profiling information for the gradle build.
 message GradleBuildProfile {
   // Version of the open source Gradle application used.
-  //  e.g. "2.14" or "3.0-20160617000025+0000"
+  // e.g. "2.14" or "3.0-20160617000025+0000"
   optional string gradle_version = 2;
   // The value of the "os.name" system property.
-  //  e.g. "Linux"
+  // e.g. "Linux"
   optional string os_name = 6;
   // The value of the "os.version" system property.
-  //  e.g. "3.13.0-86-generic"
+  // e.g. "3.13.0-86-generic"
   optional string os_version = 7;
   // The value of the "java.version" system property.
-  //  e.g. "1.8.0_40-ea"
+  // e.g. "1.8.0_40-ea"
   optional string java_version = 8;
   // The value of the "java.vm.version" system property.
-  //  e.g. "25.40-b25"
+  // e.g. "25.40-b25"
   optional string java_vm_version = 9;
   // The value of Runtime.getRuntime().maxMemory()
   optional int64 max_memory = 10;
-  // The total time taken for this build.
-  //  This does not include Gradle's startup (before plugin apply) or shutdown
-  //  (after BuildListener#buildFinished(BuildResult) called.
+  // The total time taken for this build in milliseconds.
+  // This does not include Gradle's startup (before plugin apply) or shutdown
+  // (after BuildListener#buildFinished(BuildResult) called.
   optional int64 build_time = 11;
   // The number of garbage collections during this build
   optional int64 gc_count = 12;
@@ -989,12 +997,12 @@ message GradleBuildProfile {
   // For instant run builds: the resulting instant run build info.
   optional .android_studio.InstantRunStatus instant_run_status = 17;
   // Client-side salted, sha256 of the root project path.
-  //  This exists to allow multiple instant run builds in one project by one
-  //  user to be correlated.
-  // 
-  //  The salt is rotated every 28 days, so it is not a permenant pseudonymous
-  //  identifier. It is anonymized and is unique per user, but has a 1-N
-  //  relation.
+  // This exists to allow multiple instant run builds in one project by one
+  // user to be correlated.
+  //
+  // The salt is rotated every 28 days, so it is not a permenant pseudonymous
+  // identifier. It is anonymized and is unique per user, but has a 1-N
+  // relation.
   optional string project_id = 18;
 }
 
@@ -1020,14 +1028,14 @@ message GradleBuildProject {
     COMPONENT_MODEL = 2;
   }
   // Identifier, local to the containing AndroidStudioEvent, for the project.
-  //  Can be used to correlate spans (GradleBuildProfileSpan) with this
-  //  project for this build only. Is created by sequentially
-  //  numbering projects as they are encountered.
-  //  Is not stable across build invocations.
+  // Can be used to correlate spans (GradleBuildProfileSpan) with this
+  // project for this build only. Is created by sequentially
+  // numbering projects as they are encountered.
+  // Is not stable across build invocations.
   optional int64 id = 1;
   // Version of our Android Gradle plugin supporting android builds.
-  //  e.g. '2.0-beta1'
-  //  For the experimental plugin this is the gradle-core version.
+  // e.g. '2.0-beta1'
+  // For the experimental plugin this is the gradle-core version.
   optional string android_plugin_version = 2;
   // Which Android Gradle plugin is used.
   optional .android_studio.GradleBuildProject.PluginType android_plugin = 3;
@@ -1036,7 +1044,7 @@ message GradleBuildProject {
   // The build tools version used, e.g. '24.0.0 rc2'
   optional string build_tools_version = 5;
   // Statistics about the project build.
-  //  Will be used to characterize and bucket projects for subgroup analysis.
+  // Will be used to characterize and bucket projects for subgroup analysis.
   optional .android_studio.GradleBuildProjectMetrics metrics = 6;
   // The variants in this project
   repeated .android_studio.GradleBuildVariant variant = 7;
@@ -1055,8 +1063,8 @@ message GradleBuildProjectMetrics {
 
 message GradleBuildVariant {
   // The nature of this variant.
-  //  The test variants have an associated tested variant.
-  //  See com.android.builder.core.VariantType
+  // The test variants have an associated tested variant.
+  // See com.android.builder.core.VariantType
   enum VariantType {
     // For building an APK.
     APPLICATION = 0;
@@ -1072,10 +1080,10 @@ message GradleBuildVariant {
     INSTANTAPP = 5;
   }
   // Identifier, local to this AndroidStudioEvent, for the variant.
-  //  Can be used to correlate spans (GradleBuildProfileSpan) with this
-  //  project for this build only. Is created by sequentially
-  //  numbering variants as they are created.
-  //  Is not stable across build invocations.
+  // Can be used to correlate spans (GradleBuildProfileSpan) with this
+  // project for this build only. Is created by sequentially
+  // numbering variants as they are created.
+  // Is not stable across build invocations.
   optional int64 id = 1;
   // Whether the variant is debuggable.
   optional bool is_debug = 2;
@@ -1086,7 +1094,7 @@ message GradleBuildVariant {
   // Is multidex enabled for the variant
   optional bool use_multidex = 5;
   // Is legacy (pre-api 19) multidex enabled for the variant.
-  //  Only can true if use_multidex is also true.
+  // Only can true if use_multidex is also true.
   optional bool use_legacy_multidex = 6;
   // The type of variant.
   optional .android_studio.GradleBuildVariant.VariantType variant_type = 7;
@@ -1104,10 +1112,10 @@ message GradleBuildMemorySample {
 }
 
 // A single execution span from a build.
-//  For example, a task execution or creation of some tasks for a variant.
+// For example, a task execution or creation of some tasks for a variant.
 message GradleBuildProfileSpan {
   // The type of execution.
-  //  This was originally com.android.builder.profile.ExecutionType.
+  // This was originally com.android.builder.profile.ExecutionType.
   enum ExecutionType {
     SOME_RANDOM_PROCESSING = 1;
     BASE_PLUGIN_PROJECT_CONFIGURE = 2;
@@ -1171,8 +1179,8 @@ message GradleBuildProfileSpan {
     LIB_TASK_MANAGER_CREATE_SHADER_TASK = 2018;
     LIB_TASK_MANAGER_CREATE_EXTERNAL_NATIVE_BUILD_TASK = 2019;
     // Task execution: Deprecated, use TASK_EXECUTION and
-    //  GradleTaskExecution#Type instead.
-    //  Deprecated July 2016.
+    // GradleTaskExecution#Type instead.
+    // Deprecated July 2016.
     GENERIC_TASK_EXECUTION = 3000;
     TASK_AIDL_COMPILE = 3001;
     TASK_DELETE = 3002;
@@ -1226,12 +1234,12 @@ message GradleBuildProfileSpan {
     INSTANTAPP_TASK_MANAGER_CREATE_PACKAGING_TASK = 5003;
   }
   // Identifier for this span, created by sequentially allocating IDs to spans
-  //  as they start. Used only for the parent-child relationship of spans, to
-  //  show execution that is part of another span.
-  //  Not stable or meaningful across builds.
+  // as they start. Used only for the parent-child relationship of spans, to
+  // show execution that is part of another span.
+  // Not stable or meaningful across builds.
   optional int64 id = 1;
   // For nested spans: the id for containing span.
-  //  See GradleBuildProfileSpan.id.
+  // See GradleBuildProfileSpan.id.
   optional int64 parent_id = 2;
   // The start time of this event
   optional int64 start_time_in_ms = 3;
@@ -1240,19 +1248,19 @@ message GradleBuildProfileSpan {
   // The type of event recorded
   optional .android_studio.GradleBuildProfileSpan.ExecutionType type = 5;
   // More informations about the execution of TransformTasks.
-  //  Only used when executionType is TASK_TRANSFORM_PREPARATION or
-  //  TASK_TRANSFORM.
+  // Only used when executionType is TASK_TRANSFORM_PREPARATION or
+  // TASK_TRANSFORM.
   optional .android_studio.GradleTransformExecution transform = 6;
   // More informations about the execution of Tasks.
-  //  Only used when executionType is TASK_EXECUTION
+  // Only used when executionType is TASK_EXECUTION
   optional .android_studio.GradleTaskExecution task = 9;
   // Session id of the GradleBuildProject that this span is part of.
-  //  The ID is not stable nor meaningful over multiple GradleBuildProfile.
-  //  See GradleBuildProfile.id
+  // The ID is not stable nor meaningful over multiple GradleBuildProfile.
+  // See GradleBuildProfile.id
   optional int64 project = 7;
   // Session id of the GradleBuildVariant that this span is part of.
-  //  The ID is not stable nor meaningful over multiple GradleBuildProfile.
-  //  See GradleBuildVariant.id
+  // The ID is not stable nor meaningful over multiple GradleBuildProfile.
+  // See GradleBuildVariant.id
   optional int64 variant = 8;
 }
 
@@ -1328,13 +1336,25 @@ message GradleTaskExecution {
     VALIDATE_SIGNING = 67;
     ZIP_ALIGN = 68;
     JAVA_COMPILE = 69;
+    BUILD_INFO_WRITER = 70;
+    BUNDLE_ATOM = 71;
+    CHECK_MANIFEST_IN_INSTANT_RUN_MODE = 72;
+    EXTERNAL_NATIVE_CLEAN = 73;
+    GENERATE_ATOM_METADATA = 74;
+    GENERATE_INSTANT_APP_METADATA = 75;
+    JAVA_PRE_COMPILE = 76;
+    MERGE_DEX_ATOM_RES_CLASS = 77;
+    PACKAGE_ATOM = 78;
+    PACKAGE_INSTANT_APP = 79;
+    PREPARE_ATOM = 80;
+    PROCESS_INSTANT_APP_RESOURCES = 81;
   }
   // The task implementing class.
-  //  Custom tasks are recorded as UNKNOWN_TASK_TYPE.
+  // Custom tasks are recorded as UNKNOWN_TASK_TYPE.
   optional .android_studio.GradleTaskExecution.Type type = 1;
   // Whether the task did work (TaskState#getDidWork())
-  //  This is not necessarily the inverse of up_to_date: see
-  //  https://docs.gradle.org/current/javadoc/org/gradle/api/tasks/TaskState.html#getDidWork()
+  // This is not necessarily the inverse of up_to_date: see
+  // https://docs.gradle.org/current/javadoc/org/gradle/api/tasks/TaskState.html#getDidWork()
   optional bool did_work = 2;
   // Whether the task was skipped (TaskState#getSkipped())
   optional bool skipped = 3;
@@ -1366,12 +1386,15 @@ message GradleTransformExecution {
     NO_CHANGES_VERIFIER = 16;
     PRO_GUARD = 17;
     SHRINK_RESOURCES = 18;
+    DATA_BINDING_MERGE_ARTIFACTS = 19;
+    INSTANT_RUN_VERIFIER = 20;
+    STRIP_DEBUG_SYMBOL = 21;
   }
   // The transform implementing class.
-  //  Custom transforms are recorded as UNKNOWN_TRANSFORM_TYPE.
+  // Custom transforms are recorded as UNKNOWN_TRANSFORM_TYPE.
   optional .android_studio.GradleTransformExecution.Type type = 1;
   // Whether the transform could be (in the case of TASK_TRANSFORM_PREPARATION)
-  //  or was (in the case of TASK_TRANSFORM) incremental.
+  // or was (in the case of TASK_TRANSFORM) incremental.
   optional bool is_incremental = 2;
 }
 
@@ -1427,7 +1450,7 @@ message InstantRunStatus {
     DEPENDENCY_CHANGED = 21;
     MANIFEST_FILE_CHANGE = 22;
     // the binary manifest file changed, probably due to references to resources which ID changed
-    //  since last build.
+    // since last build.
     BINARY_MANIFEST_FILE_CHANGE = 23;
     COLD_SWAP_REQUESTED = 24;
     FULL_BUILD_REQUESTED = 25;
@@ -1436,35 +1459,35 @@ message InstantRunStatus {
     CHANGE_IN_SERIALIZABLE_CLASS_WITHOUT_VERSION_UID = 28;
   }
   // The type of artifacts built in this invocation.
-  //  e.g. COLD for when the changes cannot be hot-swapped, either due to the
-  //  app not running on the users device or the changes cannot be hot swapped.
+  // e.g. COLD for when the changes cannot be hot-swapped, either due to the
+  // app not running on the users device or the changes cannot be hot swapped.
   optional .android_studio.InstantRunStatus.BuildMode build_mode = 1;
   // The type of deploy that the build can generate artifacts for.
   optional .android_studio.InstantRunStatus.PatchingPolicy patching_policy = 2;
   // The result of the verifier run, whether the users change can be hot-swapped
-  //  or requires a cold swap or full build is determined by the verifier.
+  // or requires a cold swap or full build is determined by the verifier.
   optional .android_studio.InstantRunStatus.VerifierStatus verifier_status = 3;
   // The built artifacts stored in the build info.
-  //  Artifacts that were built, but superseeded (e.g. a main APK contains
-  //  resources, so the resources do not need to be reported separately) are
-  //  not included.
+  // Artifacts that were built, but superseeded (e.g. a main APK contains
+  // resources, so the resources do not need to be reported separately) are
+  // not included.
   repeated .android_studio.InstantRunArtifact artifact = 4;
 }
 
 message InstantRunArtifact {
   enum Type {
     // Main APK file for 19, and 21 platforms when using
-    //  PatchingPolicy.MULTI_DEX.
+    // PatchingPolicy.MULTI_DEX.
     MAIN = 1;
     // Main APK file when application is using PatchingPolicy.MULTI_DEX.
     SPLIT_MAIN = 2;
     // Reload dex file that can be used to patch application live.
     RELOAD_DEX = 3;
     // Restart.dex file that can be used for Dalvik to restart applications
-    //  with minimum set of changes delivered.
+    // with minimum set of changes delivered.
     RESTART_DEX = 4;
     // Shard dex file that can be used to replace originally installed
-    //  multi-dex shard.
+    // multi-dex shard.
     DEX = 5;
     // Pure split (code only) that can be installed individually on M+ devices.
     SPLIT = 6;
@@ -1495,10 +1518,10 @@ message GfxTracingDetails {
   // Error message when tracing fails.
   optional string error_message = 3;
   // A path describing the kind of details from the trace. This is a mix
-  //  of class names (of our code) and random ids generated for the trace.
-  //  e.g. 'Capture(7c6e72eebe2e6d76751b0328971e7fb29ceed82b).Atoms[6307].' +
-  //       'Resource<e1b2a028ce62a97b235172963ddee35f386c6940>.' +
-  //       'Thumbnail<RGBA,100x100>.As<RGBA>'
+  // of class names (of our code) and random ids generated for the trace.
+  // e.g. 'Capture(7c6e72eebe2e6d76751b0328971e7fb29ceed82b).Atoms[6307].' +
+  //      'Resource<e1b2a028ce62a97b235172963ddee35f386c6940>.' +
+  //      'Thumbnail<RGBA,100x100>.As<RGBA>'
   optional string trace_path = 4;
   // the image format of the gpu image being traced. e.g. 'image/png'
   optional string image_format = 5;
@@ -1525,9 +1548,10 @@ message UIActionStats {
     MENU = 2;
     KEYBOARD_SHORTCUT = 3;
     MACRO = 4;
+    MOUSE = 5;
   }
   // java class name (our code, not customer) of the UI Action reported on
-  //  e.g. 'com.android.build.instant_run.HotSwapBuildAction'
+  // e.g. 'com.android.build.instant_run.HotSwapBuildAction'
   optional string action_class_name = 1;
   // How often since the last report this action was invoked.
   optional int64 invocations = 2;
@@ -1605,16 +1629,22 @@ message JvmDetails {
   // VM Option specified to set maximum heap_size in bytes ("-Xmx" flag).
   optional int64 maximum_heap_size = 5;
   // VM Option specified to set maximum permanent space size in bytes.
-  //  ("-XX:MaxPermSize" flag)
+  // ("-XX:MaxPermSize" flag)
   optional int64 maximum_permanent_space_size = 6;
   // VM Option specified to set maximum permanent space size in bytes.
-  //  ("-XX:ReservedCodeCacheSize" flag)
+  // ("-XX:ReservedCodeCacheSize" flag)
   optional int64 maximum_code_cache_size = 7;
   // VM Option specified to set time soft referenced objects remain alive in ms.
-  //  ("-XX:SoftRefLRUPolicyMSPerMB" flag)
+  // ("-XX:SoftRefLRUPolicyMSPerMB" flag)
   optional int64 soft_reference_lru_policy = 8;
   // Type of Garbage Collector to use (various VM Option flags).
   optional .android_studio.JvmDetails.GarbageCollector garbage_collector = 9;
+}
+
+// Stats on Studio's performance
+message StudioPerformanceStats {
+  // Time for which the UI was blocked in milliseconds
+  optional int32 ui_freeze_time_ms = 1;
 }
 
 

@@ -17,6 +17,8 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * Describes a group of event kinds related to each other.
+     * Necessary only for events that were originally being reported to Google
+     * Analytics (GA).
      * </pre>
      */
     boolean hasCategory();
@@ -25,6 +27,8 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * Describes a group of event kinds related to each other.
+     * Necessary only for events that were originally being reported to Google
+     * Analytics (GA).
      * </pre>
      */
     com.google.wireless.android.sdk.stats.AndroidStudioStats.AndroidStudioEvent.EventCategory getCategory();
@@ -35,7 +39,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * Specific kind of event, primary separation key of all Android Studio
-     *  related events.
+     * related events.
      * </pre>
      */
     boolean hasKind();
@@ -44,7 +48,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * Specific kind of event, primary separation key of all Android Studio
-     *  related events.
+     * related events.
      * </pre>
      */
     com.google.wireless.android.sdk.stats.AndroidStudioStats.AndroidStudioEvent.EventKind getKind();
@@ -55,7 +59,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * The session id is a UUID tracking a single instance of Android Studio
-     *  to associate events together such as kind = TEST_RUN
+     * to associate events together such as kind = TEST_RUN
      * </pre>
      */
     boolean hasStudioSessionId();
@@ -64,7 +68,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * The session id is a UUID tracking a single instance of Android Studio
-     *  to associate events together such as kind = TEST_RUN
+     * to associate events together such as kind = TEST_RUN
      * </pre>
      */
     java.lang.String getStudioSessionId();
@@ -73,7 +77,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * The session id is a UUID tracking a single instance of Android Studio
-     *  to associate events together such as kind = TEST_RUN
+     * to associate events together such as kind = TEST_RUN
      * </pre>
      */
     com.google.protobuf.ByteString
@@ -85,9 +89,9 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * set when kind = STUDIO_PING
-     *  or kind = EMULATOR_PING
-     *  or ANDROID_STUDIO_TEST
-     *  or ANDROID_STUDIO_THROUGH_GRADLE
+     * or kind = EMULATOR_PING
+     * or ANDROID_STUDIO_TEST
+     * or ANDROID_STUDIO_THROUGH_GRADLE
      * </pre>
      */
     boolean hasProductDetails();
@@ -96,9 +100,9 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * set when kind = STUDIO_PING
-     *  or kind = EMULATOR_PING
-     *  or ANDROID_STUDIO_TEST
-     *  or ANDROID_STUDIO_THROUGH_GRADLE
+     * or kind = EMULATOR_PING
+     * or ANDROID_STUDIO_TEST
+     * or ANDROID_STUDIO_THROUGH_GRADLE
      * </pre>
      */
     com.google.wireless.android.sdk.stats.AndroidStudioStats.ProductDetails getProductDetails();
@@ -107,9 +111,9 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * set when kind = STUDIO_PING
-     *  or kind = EMULATOR_PING
-     *  or ANDROID_STUDIO_TEST
-     *  or ANDROID_STUDIO_THROUGH_GRADLE
+     * or kind = EMULATOR_PING
+     * or ANDROID_STUDIO_TEST
+     * or ANDROID_STUDIO_THROUGH_GRADLE
      * </pre>
      */
     com.google.wireless.android.sdk.stats.AndroidStudioStats.ProductDetailsOrBuilder getProductDetailsOrBuilder();
@@ -255,12 +259,12 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * set when kind = LLDB_LAUNCHED
-     *  or kind = DEPLOYMENT_APK
-     *  or kind = DEPLOYMENT_EMULATOR
-     *  or kind = CLOUD_TESTING_CONFIGURE_CLOUD_DEVICE
-     *  or kind = CLOUD_TESTING_LAUNCH_CLOUD_DEVICE
-     *  or kind = CLOUD_TESTING_DEBUG_FROM_RESULTS
-     *  or kind = TEST_RUN
+     * or kind = DEPLOYMENT_APK
+     * or kind = DEPLOYMENT_EMULATOR
+     * or kind = CLOUD_TESTING_CONFIGURE_CLOUD_DEVICE
+     * or kind = CLOUD_TESTING_LAUNCH_CLOUD_DEVICE
+     * or kind = CLOUD_TESTING_DEBUG_FROM_RESULTS
+     * or kind = TEST_RUN
      * </pre>
      */
     boolean hasDeviceInfo();
@@ -269,12 +273,12 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * set when kind = LLDB_LAUNCHED
-     *  or kind = DEPLOYMENT_APK
-     *  or kind = DEPLOYMENT_EMULATOR
-     *  or kind = CLOUD_TESTING_CONFIGURE_CLOUD_DEVICE
-     *  or kind = CLOUD_TESTING_LAUNCH_CLOUD_DEVICE
-     *  or kind = CLOUD_TESTING_DEBUG_FROM_RESULTS
-     *  or kind = TEST_RUN
+     * or kind = DEPLOYMENT_APK
+     * or kind = DEPLOYMENT_EMULATOR
+     * or kind = CLOUD_TESTING_CONFIGURE_CLOUD_DEVICE
+     * or kind = CLOUD_TESTING_LAUNCH_CLOUD_DEVICE
+     * or kind = CLOUD_TESTING_DEBUG_FROM_RESULTS
+     * or kind = TEST_RUN
      * </pre>
      */
     com.google.wireless.android.sdk.stats.AndroidStudioStats.DeviceInfo getDeviceInfo();
@@ -283,12 +287,12 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * set when kind = LLDB_LAUNCHED
-     *  or kind = DEPLOYMENT_APK
-     *  or kind = DEPLOYMENT_EMULATOR
-     *  or kind = CLOUD_TESTING_CONFIGURE_CLOUD_DEVICE
-     *  or kind = CLOUD_TESTING_LAUNCH_CLOUD_DEVICE
-     *  or kind = CLOUD_TESTING_DEBUG_FROM_RESULTS
-     *  or kind = TEST_RUN
+     * or kind = DEPLOYMENT_APK
+     * or kind = DEPLOYMENT_EMULATOR
+     * or kind = CLOUD_TESTING_CONFIGURE_CLOUD_DEVICE
+     * or kind = CLOUD_TESTING_LAUNCH_CLOUD_DEVICE
+     * or kind = CLOUD_TESTING_DEBUG_FROM_RESULTS
+     * or kind = TEST_RUN
      * </pre>
      */
     com.google.wireless.android.sdk.stats.AndroidStudioStats.DeviceInfoOrBuilder getDeviceInfoOrBuilder();
@@ -299,7 +303,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * set when kind = LLDB_SESSION_FAILED or kind = LLDB_INSTALL_FAILED
-     *  e.g. 'failed to get reply to handshake packet'
+     * e.g. 'failed to get reply to handshake packet'
      * </pre>
      */
     boolean hasLldbSessionFailureMessage();
@@ -308,7 +312,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * set when kind = LLDB_SESSION_FAILED or kind = LLDB_INSTALL_FAILED
-     *  e.g. 'failed to get reply to handshake packet'
+     * e.g. 'failed to get reply to handshake packet'
      * </pre>
      */
     java.lang.String getLldbSessionFailureMessage();
@@ -317,7 +321,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * set when kind = LLDB_SESSION_FAILED or kind = LLDB_INSTALL_FAILED
-     *  e.g. 'failed to get reply to handshake packet'
+     * e.g. 'failed to get reply to handshake packet'
      * </pre>
      */
     com.google.protobuf.ByteString
@@ -329,7 +333,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * set when kind = DEVELOPER_SERVICES_INSTALLED
-     *  or kind = DEVELOPER_SERVICES_REMOVED
+     * or kind = DEVELOPER_SERVICES_REMOVED
      * </pre>
      */
     boolean hasDeveloperServiceKind();
@@ -338,7 +342,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * set when kind = DEVELOPER_SERVICES_INSTALLED
-     *  or kind = DEVELOPER_SERVICES_REMOVED
+     * or kind = DEVELOPER_SERVICES_REMOVED
      * </pre>
      */
     com.google.wireless.android.sdk.stats.AndroidStudioStats.AndroidStudioEvent.DeveloperServiceKind getDeveloperServiceKind();
@@ -396,7 +400,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * set when kind = GRADLE_SYNC_FAILURE and gradle_sync_failure = *_NOT_FOUND
-     *  e.g. 'org.gradle.api.internal.DemoClass.demoMethod'
+     * e.g. 'org.gradle.api.internal.DemoClass.demoMethod'
      * </pre>
      */
     boolean hasGradleMissingSignature();
@@ -405,7 +409,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * set when kind = GRADLE_SYNC_FAILURE and gradle_sync_failure = *_NOT_FOUND
-     *  e.g. 'org.gradle.api.internal.DemoClass.demoMethod'
+     * e.g. 'org.gradle.api.internal.DemoClass.demoMethod'
      * </pre>
      */
     java.lang.String getGradleMissingSignature();
@@ -414,7 +418,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * set when kind = GRADLE_SYNC_FAILURE and gradle_sync_failure = *_NOT_FOUND
-     *  e.g. 'org.gradle.api.internal.DemoClass.demoMethod'
+     * e.g. 'org.gradle.api.internal.DemoClass.demoMethod'
      * </pre>
      */
     com.google.protobuf.ByteString
@@ -730,7 +734,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * set when kind = FIREBASE_ASSISTANT_ERROR_PRESENTED or
-     *  kind FIREBASE_ASSISTANT_SILENT_ERROR
+     * kind FIREBASE_ASSISTANT_SILENT_ERROR
      * </pre>
      */
     boolean hasFirebaseErrorDetails();
@@ -739,7 +743,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * set when kind = FIREBASE_ASSISTANT_ERROR_PRESENTED or
-     *  kind FIREBASE_ASSISTANT_SILENT_ERROR
+     * kind FIREBASE_ASSISTANT_SILENT_ERROR
      * </pre>
      */
     com.google.wireless.android.sdk.stats.AndroidStudioStats.FirebaseErrorDetails getFirebaseErrorDetails();
@@ -748,7 +752,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * set when kind = FIREBASE_ASSISTANT_ERROR_PRESENTED or
-     *  kind FIREBASE_ASSISTANT_SILENT_ERROR
+     * kind FIREBASE_ASSISTANT_SILENT_ERROR
      * </pre>
      */
     com.google.wireless.android.sdk.stats.AndroidStudioStats.FirebaseErrorDetailsOrBuilder getFirebaseErrorDetailsOrBuilder();
@@ -759,7 +763,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * Client-side salted (rotating every 28 days), sha256 of the project id.
-     *  set when kind = PROJECT_STRUCTURE_*.
+     * set when kind = PROJECT_STRUCTURE_*.
      * </pre>
      */
     boolean hasProjectId();
@@ -768,7 +772,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * Client-side salted (rotating every 28 days), sha256 of the project id.
-     *  set when kind = PROJECT_STRUCTURE_*.
+     * set when kind = PROJECT_STRUCTURE_*.
      * </pre>
      */
     java.lang.String getProjectId();
@@ -777,7 +781,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * Client-side salted (rotating every 28 days), sha256 of the project id.
-     *  set when kind = PROJECT_STRUCTURE_*.
+     * set when kind = PROJECT_STRUCTURE_*.
      * </pre>
      */
     com.google.protobuf.ByteString
@@ -938,6 +942,32 @@ public final class AndroidStudioStats {
      * </pre>
      */
     com.google.wireless.android.sdk.stats.AndroidStudioStats.JavaProcessStatsOrBuilder getJavaProcessStatsOrBuilder();
+
+    // optional .android_studio.StudioPerformanceStats studio_performance_stats = 38;
+    /**
+     * <code>optional .android_studio.StudioPerformanceStats studio_performance_stats = 38;</code>
+     *
+     * <pre>
+     * set when kind = STUDIO_PERFORMANCE_STATS
+     * </pre>
+     */
+    boolean hasStudioPerformanceStats();
+    /**
+     * <code>optional .android_studio.StudioPerformanceStats studio_performance_stats = 38;</code>
+     *
+     * <pre>
+     * set when kind = STUDIO_PERFORMANCE_STATS
+     * </pre>
+     */
+    com.google.wireless.android.sdk.stats.AndroidStudioStats.StudioPerformanceStats getStudioPerformanceStats();
+    /**
+     * <code>optional .android_studio.StudioPerformanceStats studio_performance_stats = 38;</code>
+     *
+     * <pre>
+     * set when kind = STUDIO_PERFORMANCE_STATS
+     * </pre>
+     */
+    com.google.wireless.android.sdk.stats.AndroidStudioStats.StudioPerformanceStatsOrBuilder getStudioPerformanceStatsOrBuilder();
   }
   /**
    * Protobuf type {@code android_studio.AndroidStudioEvent}
@@ -1390,6 +1420,19 @@ public final class AndroidStudioStats {
               bitField1_ |= 0x00000010;
               break;
             }
+            case 306: {
+              com.google.wireless.android.sdk.stats.AndroidStudioStats.StudioPerformanceStats.Builder subBuilder = null;
+              if (((bitField1_ & 0x00000020) == 0x00000020)) {
+                subBuilder = studioPerformanceStats_.toBuilder();
+              }
+              studioPerformanceStats_ = input.readMessage(com.google.wireless.android.sdk.stats.AndroidStudioStats.StudioPerformanceStats.PARSER, extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(studioPerformanceStats_);
+                studioPerformanceStats_ = subBuilder.buildPartial();
+              }
+              bitField1_ |= 0x00000020;
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -1434,6 +1477,8 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * Describes a group of event kinds related to each other.
+     * This is redundant in the presence of EventKind + event specific message,
+     * and is only necessary for events originally sent to GA.
      * </pre>
      */
     public enum EventCategory
@@ -1467,7 +1512,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * The event is related to usage of 'Google Developer Services'
-       *  inside Android Studio.
+       * inside Android Studio.
        * </pre>
        */
       DEVELOPER_SERVICES(3, 3),
@@ -1524,7 +1569,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * The event is related to App Indexing integration.
-       *  (http://go/studio-app-indexing)
+       * (http://go/studio-app-indexing)
        * </pre>
        */
       APP_INDEXING(10, 10),
@@ -1663,7 +1708,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * The event is related to usage of 'Google Developer Services'
-       *  inside Android Studio.
+       * inside Android Studio.
        * </pre>
        */
       public static final int DEVELOPER_SERVICES_VALUE = 3;
@@ -1720,7 +1765,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * The event is related to App Indexing integration.
-       *  (http://go/studio-app-indexing)
+       * (http://go/studio-app-indexing)
        * </pre>
        */
       public static final int APP_INDEXING_VALUE = 10;
@@ -1914,7 +1959,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * Specific kind of event, primary separation key of all Android Studio
-     *  related events.
+     * related events.
      * </pre>
      */
     public enum EventKind
@@ -2184,7 +2229,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * SDK Manager QuickFix Wizard invocation to install LLDB package completed
-       *  successfully.
+       * successfully.
        * </pre>
        */
       LLDB_INSTALL_COMPLETED(33, 33),
@@ -2664,6 +2709,14 @@ public final class AndroidStudioStats {
        * </pre>
        */
       STUDIO_PROCESS_STATS(95, 98),
+      /**
+       * <code>STUDIO_PERFORMANCE_STATS = 99;</code>
+       *
+       * <pre>
+       * Stats on Studio's performance
+       * </pre>
+       */
+      STUDIO_PERFORMANCE_STATS(96, 99),
       ;
 
       /**
@@ -2931,7 +2984,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * SDK Manager QuickFix Wizard invocation to install LLDB package completed
-       *  successfully.
+       * successfully.
        * </pre>
        */
       public static final int LLDB_INSTALL_COMPLETED_VALUE = 33;
@@ -3411,6 +3464,14 @@ public final class AndroidStudioStats {
        * </pre>
        */
       public static final int STUDIO_PROCESS_STATS_VALUE = 98;
+      /**
+       * <code>STUDIO_PERFORMANCE_STATS = 99;</code>
+       *
+       * <pre>
+       * Stats on Studio's performance
+       * </pre>
+       */
+      public static final int STUDIO_PERFORMANCE_STATS_VALUE = 99;
 
 
       public final int getNumber() { return value; }
@@ -3513,6 +3574,7 @@ public final class AndroidStudioStats {
           case 96: return GFX_TRACE_OPEN;
           case 97: return STUDIO_UI_ACTION_STATS;
           case 98: return STUDIO_PROCESS_STATS;
+          case 99: return STUDIO_PERFORMANCE_STATS;
           default: return null;
         }
       }
@@ -4048,7 +4110,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * Represents the different Google Developer Services that can be
-     *  (semi-)automatically integrated into Android Applications.
+     * (semi-)automatically integrated into Android Applications.
      * </pre>
      */
     public enum DeveloperServiceKind
@@ -4834,6 +4896,8 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * Describes a group of event kinds related to each other.
+     * Necessary only for events that were originally being reported to Google
+     * Analytics (GA).
      * </pre>
      */
     public boolean hasCategory() {
@@ -4844,6 +4908,8 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * Describes a group of event kinds related to each other.
+     * Necessary only for events that were originally being reported to Google
+     * Analytics (GA).
      * </pre>
      */
     public com.google.wireless.android.sdk.stats.AndroidStudioStats.AndroidStudioEvent.EventCategory getCategory() {
@@ -4858,7 +4924,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * Specific kind of event, primary separation key of all Android Studio
-     *  related events.
+     * related events.
      * </pre>
      */
     public boolean hasKind() {
@@ -4869,7 +4935,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * Specific kind of event, primary separation key of all Android Studio
-     *  related events.
+     * related events.
      * </pre>
      */
     public com.google.wireless.android.sdk.stats.AndroidStudioStats.AndroidStudioEvent.EventKind getKind() {
@@ -4884,7 +4950,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * The session id is a UUID tracking a single instance of Android Studio
-     *  to associate events together such as kind = TEST_RUN
+     * to associate events together such as kind = TEST_RUN
      * </pre>
      */
     public boolean hasStudioSessionId() {
@@ -4895,7 +4961,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * The session id is a UUID tracking a single instance of Android Studio
-     *  to associate events together such as kind = TEST_RUN
+     * to associate events together such as kind = TEST_RUN
      * </pre>
      */
     public java.lang.String getStudioSessionId() {
@@ -4917,7 +4983,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * The session id is a UUID tracking a single instance of Android Studio
-     *  to associate events together such as kind = TEST_RUN
+     * to associate events together such as kind = TEST_RUN
      * </pre>
      */
     public com.google.protobuf.ByteString
@@ -4942,9 +5008,9 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * set when kind = STUDIO_PING
-     *  or kind = EMULATOR_PING
-     *  or ANDROID_STUDIO_TEST
-     *  or ANDROID_STUDIO_THROUGH_GRADLE
+     * or kind = EMULATOR_PING
+     * or ANDROID_STUDIO_TEST
+     * or ANDROID_STUDIO_THROUGH_GRADLE
      * </pre>
      */
     public boolean hasProductDetails() {
@@ -4955,9 +5021,9 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * set when kind = STUDIO_PING
-     *  or kind = EMULATOR_PING
-     *  or ANDROID_STUDIO_TEST
-     *  or ANDROID_STUDIO_THROUGH_GRADLE
+     * or kind = EMULATOR_PING
+     * or ANDROID_STUDIO_TEST
+     * or ANDROID_STUDIO_THROUGH_GRADLE
      * </pre>
      */
     public com.google.wireless.android.sdk.stats.AndroidStudioStats.ProductDetails getProductDetails() {
@@ -4968,9 +5034,9 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * set when kind = STUDIO_PING
-     *  or kind = EMULATOR_PING
-     *  or ANDROID_STUDIO_TEST
-     *  or ANDROID_STUDIO_THROUGH_GRADLE
+     * or kind = EMULATOR_PING
+     * or ANDROID_STUDIO_TEST
+     * or ANDROID_STUDIO_THROUGH_GRADLE
      * </pre>
      */
     public com.google.wireless.android.sdk.stats.AndroidStudioStats.ProductDetailsOrBuilder getProductDetailsOrBuilder() {
@@ -5184,12 +5250,12 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * set when kind = LLDB_LAUNCHED
-     *  or kind = DEPLOYMENT_APK
-     *  or kind = DEPLOYMENT_EMULATOR
-     *  or kind = CLOUD_TESTING_CONFIGURE_CLOUD_DEVICE
-     *  or kind = CLOUD_TESTING_LAUNCH_CLOUD_DEVICE
-     *  or kind = CLOUD_TESTING_DEBUG_FROM_RESULTS
-     *  or kind = TEST_RUN
+     * or kind = DEPLOYMENT_APK
+     * or kind = DEPLOYMENT_EMULATOR
+     * or kind = CLOUD_TESTING_CONFIGURE_CLOUD_DEVICE
+     * or kind = CLOUD_TESTING_LAUNCH_CLOUD_DEVICE
+     * or kind = CLOUD_TESTING_DEBUG_FROM_RESULTS
+     * or kind = TEST_RUN
      * </pre>
      */
     public boolean hasDeviceInfo() {
@@ -5200,12 +5266,12 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * set when kind = LLDB_LAUNCHED
-     *  or kind = DEPLOYMENT_APK
-     *  or kind = DEPLOYMENT_EMULATOR
-     *  or kind = CLOUD_TESTING_CONFIGURE_CLOUD_DEVICE
-     *  or kind = CLOUD_TESTING_LAUNCH_CLOUD_DEVICE
-     *  or kind = CLOUD_TESTING_DEBUG_FROM_RESULTS
-     *  or kind = TEST_RUN
+     * or kind = DEPLOYMENT_APK
+     * or kind = DEPLOYMENT_EMULATOR
+     * or kind = CLOUD_TESTING_CONFIGURE_CLOUD_DEVICE
+     * or kind = CLOUD_TESTING_LAUNCH_CLOUD_DEVICE
+     * or kind = CLOUD_TESTING_DEBUG_FROM_RESULTS
+     * or kind = TEST_RUN
      * </pre>
      */
     public com.google.wireless.android.sdk.stats.AndroidStudioStats.DeviceInfo getDeviceInfo() {
@@ -5216,12 +5282,12 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * set when kind = LLDB_LAUNCHED
-     *  or kind = DEPLOYMENT_APK
-     *  or kind = DEPLOYMENT_EMULATOR
-     *  or kind = CLOUD_TESTING_CONFIGURE_CLOUD_DEVICE
-     *  or kind = CLOUD_TESTING_LAUNCH_CLOUD_DEVICE
-     *  or kind = CLOUD_TESTING_DEBUG_FROM_RESULTS
-     *  or kind = TEST_RUN
+     * or kind = DEPLOYMENT_APK
+     * or kind = DEPLOYMENT_EMULATOR
+     * or kind = CLOUD_TESTING_CONFIGURE_CLOUD_DEVICE
+     * or kind = CLOUD_TESTING_LAUNCH_CLOUD_DEVICE
+     * or kind = CLOUD_TESTING_DEBUG_FROM_RESULTS
+     * or kind = TEST_RUN
      * </pre>
      */
     public com.google.wireless.android.sdk.stats.AndroidStudioStats.DeviceInfoOrBuilder getDeviceInfoOrBuilder() {
@@ -5236,7 +5302,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * set when kind = LLDB_SESSION_FAILED or kind = LLDB_INSTALL_FAILED
-     *  e.g. 'failed to get reply to handshake packet'
+     * e.g. 'failed to get reply to handshake packet'
      * </pre>
      */
     public boolean hasLldbSessionFailureMessage() {
@@ -5247,7 +5313,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * set when kind = LLDB_SESSION_FAILED or kind = LLDB_INSTALL_FAILED
-     *  e.g. 'failed to get reply to handshake packet'
+     * e.g. 'failed to get reply to handshake packet'
      * </pre>
      */
     public java.lang.String getLldbSessionFailureMessage() {
@@ -5269,7 +5335,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * set when kind = LLDB_SESSION_FAILED or kind = LLDB_INSTALL_FAILED
-     *  e.g. 'failed to get reply to handshake packet'
+     * e.g. 'failed to get reply to handshake packet'
      * </pre>
      */
     public com.google.protobuf.ByteString
@@ -5294,7 +5360,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * set when kind = DEVELOPER_SERVICES_INSTALLED
-     *  or kind = DEVELOPER_SERVICES_REMOVED
+     * or kind = DEVELOPER_SERVICES_REMOVED
      * </pre>
      */
     public boolean hasDeveloperServiceKind() {
@@ -5305,7 +5371,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * set when kind = DEVELOPER_SERVICES_INSTALLED
-     *  or kind = DEVELOPER_SERVICES_REMOVED
+     * or kind = DEVELOPER_SERVICES_REMOVED
      * </pre>
      */
     public com.google.wireless.android.sdk.stats.AndroidStudioStats.AndroidStudioEvent.DeveloperServiceKind getDeveloperServiceKind() {
@@ -5401,7 +5467,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * set when kind = GRADLE_SYNC_FAILURE and gradle_sync_failure = *_NOT_FOUND
-     *  e.g. 'org.gradle.api.internal.DemoClass.demoMethod'
+     * e.g. 'org.gradle.api.internal.DemoClass.demoMethod'
      * </pre>
      */
     public boolean hasGradleMissingSignature() {
@@ -5412,7 +5478,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * set when kind = GRADLE_SYNC_FAILURE and gradle_sync_failure = *_NOT_FOUND
-     *  e.g. 'org.gradle.api.internal.DemoClass.demoMethod'
+     * e.g. 'org.gradle.api.internal.DemoClass.demoMethod'
      * </pre>
      */
     public java.lang.String getGradleMissingSignature() {
@@ -5434,7 +5500,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * set when kind = GRADLE_SYNC_FAILURE and gradle_sync_failure = *_NOT_FOUND
-     *  e.g. 'org.gradle.api.internal.DemoClass.demoMethod'
+     * e.g. 'org.gradle.api.internal.DemoClass.demoMethod'
      * </pre>
      */
     public com.google.protobuf.ByteString
@@ -5857,7 +5923,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * set when kind = FIREBASE_ASSISTANT_ERROR_PRESENTED or
-     *  kind FIREBASE_ASSISTANT_SILENT_ERROR
+     * kind FIREBASE_ASSISTANT_SILENT_ERROR
      * </pre>
      */
     public boolean hasFirebaseErrorDetails() {
@@ -5868,7 +5934,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * set when kind = FIREBASE_ASSISTANT_ERROR_PRESENTED or
-     *  kind FIREBASE_ASSISTANT_SILENT_ERROR
+     * kind FIREBASE_ASSISTANT_SILENT_ERROR
      * </pre>
      */
     public com.google.wireless.android.sdk.stats.AndroidStudioStats.FirebaseErrorDetails getFirebaseErrorDetails() {
@@ -5879,7 +5945,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * set when kind = FIREBASE_ASSISTANT_ERROR_PRESENTED or
-     *  kind FIREBASE_ASSISTANT_SILENT_ERROR
+     * kind FIREBASE_ASSISTANT_SILENT_ERROR
      * </pre>
      */
     public com.google.wireless.android.sdk.stats.AndroidStudioStats.FirebaseErrorDetailsOrBuilder getFirebaseErrorDetailsOrBuilder() {
@@ -5894,7 +5960,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * Client-side salted (rotating every 28 days), sha256 of the project id.
-     *  set when kind = PROJECT_STRUCTURE_*.
+     * set when kind = PROJECT_STRUCTURE_*.
      * </pre>
      */
     public boolean hasProjectId() {
@@ -5905,7 +5971,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * Client-side salted (rotating every 28 days), sha256 of the project id.
-     *  set when kind = PROJECT_STRUCTURE_*.
+     * set when kind = PROJECT_STRUCTURE_*.
      * </pre>
      */
     public java.lang.String getProjectId() {
@@ -5927,7 +5993,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * Client-side salted (rotating every 28 days), sha256 of the project id.
-     *  set when kind = PROJECT_STRUCTURE_*.
+     * set when kind = PROJECT_STRUCTURE_*.
      * </pre>
      */
     public com.google.protobuf.ByteString
@@ -6148,6 +6214,40 @@ public final class AndroidStudioStats {
       return javaProcessStats_;
     }
 
+    // optional .android_studio.StudioPerformanceStats studio_performance_stats = 38;
+    public static final int STUDIO_PERFORMANCE_STATS_FIELD_NUMBER = 38;
+    private com.google.wireless.android.sdk.stats.AndroidStudioStats.StudioPerformanceStats studioPerformanceStats_;
+    /**
+     * <code>optional .android_studio.StudioPerformanceStats studio_performance_stats = 38;</code>
+     *
+     * <pre>
+     * set when kind = STUDIO_PERFORMANCE_STATS
+     * </pre>
+     */
+    public boolean hasStudioPerformanceStats() {
+      return ((bitField1_ & 0x00000020) == 0x00000020);
+    }
+    /**
+     * <code>optional .android_studio.StudioPerformanceStats studio_performance_stats = 38;</code>
+     *
+     * <pre>
+     * set when kind = STUDIO_PERFORMANCE_STATS
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.AndroidStudioStats.StudioPerformanceStats getStudioPerformanceStats() {
+      return studioPerformanceStats_;
+    }
+    /**
+     * <code>optional .android_studio.StudioPerformanceStats studio_performance_stats = 38;</code>
+     *
+     * <pre>
+     * set when kind = STUDIO_PERFORMANCE_STATS
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.AndroidStudioStats.StudioPerformanceStatsOrBuilder getStudioPerformanceStatsOrBuilder() {
+      return studioPerformanceStats_;
+    }
+
     private void initFields() {
       category_ = com.google.wireless.android.sdk.stats.AndroidStudioStats.AndroidStudioEvent.EventCategory.NO_EVENT_CATEGORY;
       kind_ = com.google.wireless.android.sdk.stats.AndroidStudioStats.AndroidStudioEvent.EventKind.UNKNOWN_EVENT_KIND;
@@ -6186,6 +6286,7 @@ public final class AndroidStudioStats {
       machineDetails_ = com.google.wireless.android.sdk.stats.AndroidStudioStats.MachineDetails.getDefaultInstance();
       jvmDetails_ = com.google.wireless.android.sdk.stats.AndroidStudioStats.JvmDetails.getDefaultInstance();
       javaProcessStats_ = com.google.wireless.android.sdk.stats.AndroidStudioStats.JavaProcessStats.getDefaultInstance();
+      studioPerformanceStats_ = com.google.wireless.android.sdk.stats.AndroidStudioStats.StudioPerformanceStats.getDefaultInstance();
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -6309,6 +6410,9 @@ public final class AndroidStudioStats {
       }
       if (((bitField1_ & 0x00000010) == 0x00000010)) {
         output.writeMessage(37, javaProcessStats_);
+      }
+      if (((bitField1_ & 0x00000020) == 0x00000020)) {
+        output.writeMessage(38, studioPerformanceStats_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -6467,6 +6571,10 @@ public final class AndroidStudioStats {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(37, javaProcessStats_);
       }
+      if (((bitField1_ & 0x00000020) == 0x00000020)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(38, studioPerformanceStats_);
+      }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
       return size;
@@ -6595,6 +6703,7 @@ public final class AndroidStudioStats {
           getMachineDetailsFieldBuilder();
           getJvmDetailsFieldBuilder();
           getJavaProcessStatsFieldBuilder();
+          getStudioPerformanceStatsFieldBuilder();
         }
       }
       private static Builder create() {
@@ -6757,6 +6866,12 @@ public final class AndroidStudioStats {
           javaProcessStatsBuilder_.clear();
         }
         bitField1_ = (bitField1_ & ~0x00000010);
+        if (studioPerformanceStatsBuilder_ == null) {
+          studioPerformanceStats_ = com.google.wireless.android.sdk.stats.AndroidStudioStats.StudioPerformanceStats.getDefaultInstance();
+        } else {
+          studioPerformanceStatsBuilder_.clear();
+        }
+        bitField1_ = (bitField1_ & ~0x00000020);
         return this;
       }
 
@@ -7015,6 +7130,14 @@ public final class AndroidStudioStats {
         } else {
           result.javaProcessStats_ = javaProcessStatsBuilder_.build();
         }
+        if (((from_bitField1_ & 0x00000020) == 0x00000020)) {
+          to_bitField1_ |= 0x00000020;
+        }
+        if (studioPerformanceStatsBuilder_ == null) {
+          result.studioPerformanceStats_ = studioPerformanceStats_;
+        } else {
+          result.studioPerformanceStats_ = studioPerformanceStatsBuilder_.build();
+        }
         result.bitField0_ = to_bitField0_;
         result.bitField1_ = to_bitField1_;
         onBuilt();
@@ -7155,6 +7278,9 @@ public final class AndroidStudioStats {
         if (other.hasJavaProcessStats()) {
           mergeJavaProcessStats(other.getJavaProcessStats());
         }
+        if (other.hasStudioPerformanceStats()) {
+          mergeStudioPerformanceStats(other.getStudioPerformanceStats());
+        }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
@@ -7190,6 +7316,8 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * Describes a group of event kinds related to each other.
+       * Necessary only for events that were originally being reported to Google
+       * Analytics (GA).
        * </pre>
        */
       public boolean hasCategory() {
@@ -7200,6 +7328,8 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * Describes a group of event kinds related to each other.
+       * Necessary only for events that were originally being reported to Google
+       * Analytics (GA).
        * </pre>
        */
       public com.google.wireless.android.sdk.stats.AndroidStudioStats.AndroidStudioEvent.EventCategory getCategory() {
@@ -7210,6 +7340,8 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * Describes a group of event kinds related to each other.
+       * Necessary only for events that were originally being reported to Google
+       * Analytics (GA).
        * </pre>
        */
       public Builder setCategory(com.google.wireless.android.sdk.stats.AndroidStudioStats.AndroidStudioEvent.EventCategory value) {
@@ -7226,6 +7358,8 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * Describes a group of event kinds related to each other.
+       * Necessary only for events that were originally being reported to Google
+       * Analytics (GA).
        * </pre>
        */
       public Builder clearCategory() {
@@ -7242,7 +7376,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * Specific kind of event, primary separation key of all Android Studio
-       *  related events.
+       * related events.
        * </pre>
        */
       public boolean hasKind() {
@@ -7253,7 +7387,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * Specific kind of event, primary separation key of all Android Studio
-       *  related events.
+       * related events.
        * </pre>
        */
       public com.google.wireless.android.sdk.stats.AndroidStudioStats.AndroidStudioEvent.EventKind getKind() {
@@ -7264,7 +7398,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * Specific kind of event, primary separation key of all Android Studio
-       *  related events.
+       * related events.
        * </pre>
        */
       public Builder setKind(com.google.wireless.android.sdk.stats.AndroidStudioStats.AndroidStudioEvent.EventKind value) {
@@ -7281,7 +7415,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * Specific kind of event, primary separation key of all Android Studio
-       *  related events.
+       * related events.
        * </pre>
        */
       public Builder clearKind() {
@@ -7298,7 +7432,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * The session id is a UUID tracking a single instance of Android Studio
-       *  to associate events together such as kind = TEST_RUN
+       * to associate events together such as kind = TEST_RUN
        * </pre>
        */
       public boolean hasStudioSessionId() {
@@ -7309,7 +7443,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * The session id is a UUID tracking a single instance of Android Studio
-       *  to associate events together such as kind = TEST_RUN
+       * to associate events together such as kind = TEST_RUN
        * </pre>
        */
       public java.lang.String getStudioSessionId() {
@@ -7328,7 +7462,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * The session id is a UUID tracking a single instance of Android Studio
-       *  to associate events together such as kind = TEST_RUN
+       * to associate events together such as kind = TEST_RUN
        * </pre>
        */
       public com.google.protobuf.ByteString
@@ -7349,7 +7483,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * The session id is a UUID tracking a single instance of Android Studio
-       *  to associate events together such as kind = TEST_RUN
+       * to associate events together such as kind = TEST_RUN
        * </pre>
        */
       public Builder setStudioSessionId(
@@ -7367,7 +7501,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * The session id is a UUID tracking a single instance of Android Studio
-       *  to associate events together such as kind = TEST_RUN
+       * to associate events together such as kind = TEST_RUN
        * </pre>
        */
       public Builder clearStudioSessionId() {
@@ -7381,7 +7515,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * The session id is a UUID tracking a single instance of Android Studio
-       *  to associate events together such as kind = TEST_RUN
+       * to associate events together such as kind = TEST_RUN
        * </pre>
        */
       public Builder setStudioSessionIdBytes(
@@ -7404,9 +7538,9 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * set when kind = STUDIO_PING
-       *  or kind = EMULATOR_PING
-       *  or ANDROID_STUDIO_TEST
-       *  or ANDROID_STUDIO_THROUGH_GRADLE
+       * or kind = EMULATOR_PING
+       * or ANDROID_STUDIO_TEST
+       * or ANDROID_STUDIO_THROUGH_GRADLE
        * </pre>
        */
       public boolean hasProductDetails() {
@@ -7417,9 +7551,9 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * set when kind = STUDIO_PING
-       *  or kind = EMULATOR_PING
-       *  or ANDROID_STUDIO_TEST
-       *  or ANDROID_STUDIO_THROUGH_GRADLE
+       * or kind = EMULATOR_PING
+       * or ANDROID_STUDIO_TEST
+       * or ANDROID_STUDIO_THROUGH_GRADLE
        * </pre>
        */
       public com.google.wireless.android.sdk.stats.AndroidStudioStats.ProductDetails getProductDetails() {
@@ -7434,9 +7568,9 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * set when kind = STUDIO_PING
-       *  or kind = EMULATOR_PING
-       *  or ANDROID_STUDIO_TEST
-       *  or ANDROID_STUDIO_THROUGH_GRADLE
+       * or kind = EMULATOR_PING
+       * or ANDROID_STUDIO_TEST
+       * or ANDROID_STUDIO_THROUGH_GRADLE
        * </pre>
        */
       public Builder setProductDetails(com.google.wireless.android.sdk.stats.AndroidStudioStats.ProductDetails value) {
@@ -7457,9 +7591,9 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * set when kind = STUDIO_PING
-       *  or kind = EMULATOR_PING
-       *  or ANDROID_STUDIO_TEST
-       *  or ANDROID_STUDIO_THROUGH_GRADLE
+       * or kind = EMULATOR_PING
+       * or ANDROID_STUDIO_TEST
+       * or ANDROID_STUDIO_THROUGH_GRADLE
        * </pre>
        */
       public Builder setProductDetails(
@@ -7478,9 +7612,9 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * set when kind = STUDIO_PING
-       *  or kind = EMULATOR_PING
-       *  or ANDROID_STUDIO_TEST
-       *  or ANDROID_STUDIO_THROUGH_GRADLE
+       * or kind = EMULATOR_PING
+       * or ANDROID_STUDIO_TEST
+       * or ANDROID_STUDIO_THROUGH_GRADLE
        * </pre>
        */
       public Builder mergeProductDetails(com.google.wireless.android.sdk.stats.AndroidStudioStats.ProductDetails value) {
@@ -7504,9 +7638,9 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * set when kind = STUDIO_PING
-       *  or kind = EMULATOR_PING
-       *  or ANDROID_STUDIO_TEST
-       *  or ANDROID_STUDIO_THROUGH_GRADLE
+       * or kind = EMULATOR_PING
+       * or ANDROID_STUDIO_TEST
+       * or ANDROID_STUDIO_THROUGH_GRADLE
        * </pre>
        */
       public Builder clearProductDetails() {
@@ -7524,9 +7658,9 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * set when kind = STUDIO_PING
-       *  or kind = EMULATOR_PING
-       *  or ANDROID_STUDIO_TEST
-       *  or ANDROID_STUDIO_THROUGH_GRADLE
+       * or kind = EMULATOR_PING
+       * or ANDROID_STUDIO_TEST
+       * or ANDROID_STUDIO_THROUGH_GRADLE
        * </pre>
        */
       public com.google.wireless.android.sdk.stats.AndroidStudioStats.ProductDetails.Builder getProductDetailsBuilder() {
@@ -7539,9 +7673,9 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * set when kind = STUDIO_PING
-       *  or kind = EMULATOR_PING
-       *  or ANDROID_STUDIO_TEST
-       *  or ANDROID_STUDIO_THROUGH_GRADLE
+       * or kind = EMULATOR_PING
+       * or ANDROID_STUDIO_TEST
+       * or ANDROID_STUDIO_THROUGH_GRADLE
        * </pre>
        */
       public com.google.wireless.android.sdk.stats.AndroidStudioStats.ProductDetailsOrBuilder getProductDetailsOrBuilder() {
@@ -7556,9 +7690,9 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * set when kind = STUDIO_PING
-       *  or kind = EMULATOR_PING
-       *  or ANDROID_STUDIO_TEST
-       *  or ANDROID_STUDIO_THROUGH_GRADLE
+       * or kind = EMULATOR_PING
+       * or ANDROID_STUDIO_TEST
+       * or ANDROID_STUDIO_THROUGH_GRADLE
        * </pre>
        */
       private com.google.protobuf.SingleFieldBuilder<
@@ -7988,12 +8122,12 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * set when kind = LLDB_LAUNCHED
-       *  or kind = DEPLOYMENT_APK
-       *  or kind = DEPLOYMENT_EMULATOR
-       *  or kind = CLOUD_TESTING_CONFIGURE_CLOUD_DEVICE
-       *  or kind = CLOUD_TESTING_LAUNCH_CLOUD_DEVICE
-       *  or kind = CLOUD_TESTING_DEBUG_FROM_RESULTS
-       *  or kind = TEST_RUN
+       * or kind = DEPLOYMENT_APK
+       * or kind = DEPLOYMENT_EMULATOR
+       * or kind = CLOUD_TESTING_CONFIGURE_CLOUD_DEVICE
+       * or kind = CLOUD_TESTING_LAUNCH_CLOUD_DEVICE
+       * or kind = CLOUD_TESTING_DEBUG_FROM_RESULTS
+       * or kind = TEST_RUN
        * </pre>
        */
       public boolean hasDeviceInfo() {
@@ -8004,12 +8138,12 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * set when kind = LLDB_LAUNCHED
-       *  or kind = DEPLOYMENT_APK
-       *  or kind = DEPLOYMENT_EMULATOR
-       *  or kind = CLOUD_TESTING_CONFIGURE_CLOUD_DEVICE
-       *  or kind = CLOUD_TESTING_LAUNCH_CLOUD_DEVICE
-       *  or kind = CLOUD_TESTING_DEBUG_FROM_RESULTS
-       *  or kind = TEST_RUN
+       * or kind = DEPLOYMENT_APK
+       * or kind = DEPLOYMENT_EMULATOR
+       * or kind = CLOUD_TESTING_CONFIGURE_CLOUD_DEVICE
+       * or kind = CLOUD_TESTING_LAUNCH_CLOUD_DEVICE
+       * or kind = CLOUD_TESTING_DEBUG_FROM_RESULTS
+       * or kind = TEST_RUN
        * </pre>
        */
       public com.google.wireless.android.sdk.stats.AndroidStudioStats.DeviceInfo getDeviceInfo() {
@@ -8024,12 +8158,12 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * set when kind = LLDB_LAUNCHED
-       *  or kind = DEPLOYMENT_APK
-       *  or kind = DEPLOYMENT_EMULATOR
-       *  or kind = CLOUD_TESTING_CONFIGURE_CLOUD_DEVICE
-       *  or kind = CLOUD_TESTING_LAUNCH_CLOUD_DEVICE
-       *  or kind = CLOUD_TESTING_DEBUG_FROM_RESULTS
-       *  or kind = TEST_RUN
+       * or kind = DEPLOYMENT_APK
+       * or kind = DEPLOYMENT_EMULATOR
+       * or kind = CLOUD_TESTING_CONFIGURE_CLOUD_DEVICE
+       * or kind = CLOUD_TESTING_LAUNCH_CLOUD_DEVICE
+       * or kind = CLOUD_TESTING_DEBUG_FROM_RESULTS
+       * or kind = TEST_RUN
        * </pre>
        */
       public Builder setDeviceInfo(com.google.wireless.android.sdk.stats.AndroidStudioStats.DeviceInfo value) {
@@ -8050,12 +8184,12 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * set when kind = LLDB_LAUNCHED
-       *  or kind = DEPLOYMENT_APK
-       *  or kind = DEPLOYMENT_EMULATOR
-       *  or kind = CLOUD_TESTING_CONFIGURE_CLOUD_DEVICE
-       *  or kind = CLOUD_TESTING_LAUNCH_CLOUD_DEVICE
-       *  or kind = CLOUD_TESTING_DEBUG_FROM_RESULTS
-       *  or kind = TEST_RUN
+       * or kind = DEPLOYMENT_APK
+       * or kind = DEPLOYMENT_EMULATOR
+       * or kind = CLOUD_TESTING_CONFIGURE_CLOUD_DEVICE
+       * or kind = CLOUD_TESTING_LAUNCH_CLOUD_DEVICE
+       * or kind = CLOUD_TESTING_DEBUG_FROM_RESULTS
+       * or kind = TEST_RUN
        * </pre>
        */
       public Builder setDeviceInfo(
@@ -8074,12 +8208,12 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * set when kind = LLDB_LAUNCHED
-       *  or kind = DEPLOYMENT_APK
-       *  or kind = DEPLOYMENT_EMULATOR
-       *  or kind = CLOUD_TESTING_CONFIGURE_CLOUD_DEVICE
-       *  or kind = CLOUD_TESTING_LAUNCH_CLOUD_DEVICE
-       *  or kind = CLOUD_TESTING_DEBUG_FROM_RESULTS
-       *  or kind = TEST_RUN
+       * or kind = DEPLOYMENT_APK
+       * or kind = DEPLOYMENT_EMULATOR
+       * or kind = CLOUD_TESTING_CONFIGURE_CLOUD_DEVICE
+       * or kind = CLOUD_TESTING_LAUNCH_CLOUD_DEVICE
+       * or kind = CLOUD_TESTING_DEBUG_FROM_RESULTS
+       * or kind = TEST_RUN
        * </pre>
        */
       public Builder mergeDeviceInfo(com.google.wireless.android.sdk.stats.AndroidStudioStats.DeviceInfo value) {
@@ -8103,12 +8237,12 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * set when kind = LLDB_LAUNCHED
-       *  or kind = DEPLOYMENT_APK
-       *  or kind = DEPLOYMENT_EMULATOR
-       *  or kind = CLOUD_TESTING_CONFIGURE_CLOUD_DEVICE
-       *  or kind = CLOUD_TESTING_LAUNCH_CLOUD_DEVICE
-       *  or kind = CLOUD_TESTING_DEBUG_FROM_RESULTS
-       *  or kind = TEST_RUN
+       * or kind = DEPLOYMENT_APK
+       * or kind = DEPLOYMENT_EMULATOR
+       * or kind = CLOUD_TESTING_CONFIGURE_CLOUD_DEVICE
+       * or kind = CLOUD_TESTING_LAUNCH_CLOUD_DEVICE
+       * or kind = CLOUD_TESTING_DEBUG_FROM_RESULTS
+       * or kind = TEST_RUN
        * </pre>
        */
       public Builder clearDeviceInfo() {
@@ -8126,12 +8260,12 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * set when kind = LLDB_LAUNCHED
-       *  or kind = DEPLOYMENT_APK
-       *  or kind = DEPLOYMENT_EMULATOR
-       *  or kind = CLOUD_TESTING_CONFIGURE_CLOUD_DEVICE
-       *  or kind = CLOUD_TESTING_LAUNCH_CLOUD_DEVICE
-       *  or kind = CLOUD_TESTING_DEBUG_FROM_RESULTS
-       *  or kind = TEST_RUN
+       * or kind = DEPLOYMENT_APK
+       * or kind = DEPLOYMENT_EMULATOR
+       * or kind = CLOUD_TESTING_CONFIGURE_CLOUD_DEVICE
+       * or kind = CLOUD_TESTING_LAUNCH_CLOUD_DEVICE
+       * or kind = CLOUD_TESTING_DEBUG_FROM_RESULTS
+       * or kind = TEST_RUN
        * </pre>
        */
       public com.google.wireless.android.sdk.stats.AndroidStudioStats.DeviceInfo.Builder getDeviceInfoBuilder() {
@@ -8144,12 +8278,12 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * set when kind = LLDB_LAUNCHED
-       *  or kind = DEPLOYMENT_APK
-       *  or kind = DEPLOYMENT_EMULATOR
-       *  or kind = CLOUD_TESTING_CONFIGURE_CLOUD_DEVICE
-       *  or kind = CLOUD_TESTING_LAUNCH_CLOUD_DEVICE
-       *  or kind = CLOUD_TESTING_DEBUG_FROM_RESULTS
-       *  or kind = TEST_RUN
+       * or kind = DEPLOYMENT_APK
+       * or kind = DEPLOYMENT_EMULATOR
+       * or kind = CLOUD_TESTING_CONFIGURE_CLOUD_DEVICE
+       * or kind = CLOUD_TESTING_LAUNCH_CLOUD_DEVICE
+       * or kind = CLOUD_TESTING_DEBUG_FROM_RESULTS
+       * or kind = TEST_RUN
        * </pre>
        */
       public com.google.wireless.android.sdk.stats.AndroidStudioStats.DeviceInfoOrBuilder getDeviceInfoOrBuilder() {
@@ -8164,12 +8298,12 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * set when kind = LLDB_LAUNCHED
-       *  or kind = DEPLOYMENT_APK
-       *  or kind = DEPLOYMENT_EMULATOR
-       *  or kind = CLOUD_TESTING_CONFIGURE_CLOUD_DEVICE
-       *  or kind = CLOUD_TESTING_LAUNCH_CLOUD_DEVICE
-       *  or kind = CLOUD_TESTING_DEBUG_FROM_RESULTS
-       *  or kind = TEST_RUN
+       * or kind = DEPLOYMENT_APK
+       * or kind = DEPLOYMENT_EMULATOR
+       * or kind = CLOUD_TESTING_CONFIGURE_CLOUD_DEVICE
+       * or kind = CLOUD_TESTING_LAUNCH_CLOUD_DEVICE
+       * or kind = CLOUD_TESTING_DEBUG_FROM_RESULTS
+       * or kind = TEST_RUN
        * </pre>
        */
       private com.google.protobuf.SingleFieldBuilder<
@@ -8193,7 +8327,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * set when kind = LLDB_SESSION_FAILED or kind = LLDB_INSTALL_FAILED
-       *  e.g. 'failed to get reply to handshake packet'
+       * e.g. 'failed to get reply to handshake packet'
        * </pre>
        */
       public boolean hasLldbSessionFailureMessage() {
@@ -8204,7 +8338,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * set when kind = LLDB_SESSION_FAILED or kind = LLDB_INSTALL_FAILED
-       *  e.g. 'failed to get reply to handshake packet'
+       * e.g. 'failed to get reply to handshake packet'
        * </pre>
        */
       public java.lang.String getLldbSessionFailureMessage() {
@@ -8223,7 +8357,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * set when kind = LLDB_SESSION_FAILED or kind = LLDB_INSTALL_FAILED
-       *  e.g. 'failed to get reply to handshake packet'
+       * e.g. 'failed to get reply to handshake packet'
        * </pre>
        */
       public com.google.protobuf.ByteString
@@ -8244,7 +8378,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * set when kind = LLDB_SESSION_FAILED or kind = LLDB_INSTALL_FAILED
-       *  e.g. 'failed to get reply to handshake packet'
+       * e.g. 'failed to get reply to handshake packet'
        * </pre>
        */
       public Builder setLldbSessionFailureMessage(
@@ -8262,7 +8396,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * set when kind = LLDB_SESSION_FAILED or kind = LLDB_INSTALL_FAILED
-       *  e.g. 'failed to get reply to handshake packet'
+       * e.g. 'failed to get reply to handshake packet'
        * </pre>
        */
       public Builder clearLldbSessionFailureMessage() {
@@ -8276,7 +8410,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * set when kind = LLDB_SESSION_FAILED or kind = LLDB_INSTALL_FAILED
-       *  e.g. 'failed to get reply to handshake packet'
+       * e.g. 'failed to get reply to handshake packet'
        * </pre>
        */
       public Builder setLldbSessionFailureMessageBytes(
@@ -8297,7 +8431,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * set when kind = DEVELOPER_SERVICES_INSTALLED
-       *  or kind = DEVELOPER_SERVICES_REMOVED
+       * or kind = DEVELOPER_SERVICES_REMOVED
        * </pre>
        */
       public boolean hasDeveloperServiceKind() {
@@ -8308,7 +8442,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * set when kind = DEVELOPER_SERVICES_INSTALLED
-       *  or kind = DEVELOPER_SERVICES_REMOVED
+       * or kind = DEVELOPER_SERVICES_REMOVED
        * </pre>
        */
       public com.google.wireless.android.sdk.stats.AndroidStudioStats.AndroidStudioEvent.DeveloperServiceKind getDeveloperServiceKind() {
@@ -8319,7 +8453,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * set when kind = DEVELOPER_SERVICES_INSTALLED
-       *  or kind = DEVELOPER_SERVICES_REMOVED
+       * or kind = DEVELOPER_SERVICES_REMOVED
        * </pre>
        */
       public Builder setDeveloperServiceKind(com.google.wireless.android.sdk.stats.AndroidStudioStats.AndroidStudioEvent.DeveloperServiceKind value) {
@@ -8336,7 +8470,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * set when kind = DEVELOPER_SERVICES_INSTALLED
-       *  or kind = DEVELOPER_SERVICES_REMOVED
+       * or kind = DEVELOPER_SERVICES_REMOVED
        * </pre>
        */
       public Builder clearDeveloperServiceKind() {
@@ -8507,7 +8641,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * set when kind = GRADLE_SYNC_FAILURE and gradle_sync_failure = *_NOT_FOUND
-       *  e.g. 'org.gradle.api.internal.DemoClass.demoMethod'
+       * e.g. 'org.gradle.api.internal.DemoClass.demoMethod'
        * </pre>
        */
       public boolean hasGradleMissingSignature() {
@@ -8518,7 +8652,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * set when kind = GRADLE_SYNC_FAILURE and gradle_sync_failure = *_NOT_FOUND
-       *  e.g. 'org.gradle.api.internal.DemoClass.demoMethod'
+       * e.g. 'org.gradle.api.internal.DemoClass.demoMethod'
        * </pre>
        */
       public java.lang.String getGradleMissingSignature() {
@@ -8537,7 +8671,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * set when kind = GRADLE_SYNC_FAILURE and gradle_sync_failure = *_NOT_FOUND
-       *  e.g. 'org.gradle.api.internal.DemoClass.demoMethod'
+       * e.g. 'org.gradle.api.internal.DemoClass.demoMethod'
        * </pre>
        */
       public com.google.protobuf.ByteString
@@ -8558,7 +8692,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * set when kind = GRADLE_SYNC_FAILURE and gradle_sync_failure = *_NOT_FOUND
-       *  e.g. 'org.gradle.api.internal.DemoClass.demoMethod'
+       * e.g. 'org.gradle.api.internal.DemoClass.demoMethod'
        * </pre>
        */
       public Builder setGradleMissingSignature(
@@ -8576,7 +8710,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * set when kind = GRADLE_SYNC_FAILURE and gradle_sync_failure = *_NOT_FOUND
-       *  e.g. 'org.gradle.api.internal.DemoClass.demoMethod'
+       * e.g. 'org.gradle.api.internal.DemoClass.demoMethod'
        * </pre>
        */
       public Builder clearGradleMissingSignature() {
@@ -8590,7 +8724,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * set when kind = GRADLE_SYNC_FAILURE and gradle_sync_failure = *_NOT_FOUND
-       *  e.g. 'org.gradle.api.internal.DemoClass.demoMethod'
+       * e.g. 'org.gradle.api.internal.DemoClass.demoMethod'
        * </pre>
        */
       public Builder setGradleMissingSignatureBytes(
@@ -10348,7 +10482,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * set when kind = FIREBASE_ASSISTANT_ERROR_PRESENTED or
-       *  kind FIREBASE_ASSISTANT_SILENT_ERROR
+       * kind FIREBASE_ASSISTANT_SILENT_ERROR
        * </pre>
        */
       public boolean hasFirebaseErrorDetails() {
@@ -10359,7 +10493,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * set when kind = FIREBASE_ASSISTANT_ERROR_PRESENTED or
-       *  kind FIREBASE_ASSISTANT_SILENT_ERROR
+       * kind FIREBASE_ASSISTANT_SILENT_ERROR
        * </pre>
        */
       public com.google.wireless.android.sdk.stats.AndroidStudioStats.FirebaseErrorDetails getFirebaseErrorDetails() {
@@ -10374,7 +10508,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * set when kind = FIREBASE_ASSISTANT_ERROR_PRESENTED or
-       *  kind FIREBASE_ASSISTANT_SILENT_ERROR
+       * kind FIREBASE_ASSISTANT_SILENT_ERROR
        * </pre>
        */
       public Builder setFirebaseErrorDetails(com.google.wireless.android.sdk.stats.AndroidStudioStats.FirebaseErrorDetails value) {
@@ -10395,7 +10529,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * set when kind = FIREBASE_ASSISTANT_ERROR_PRESENTED or
-       *  kind FIREBASE_ASSISTANT_SILENT_ERROR
+       * kind FIREBASE_ASSISTANT_SILENT_ERROR
        * </pre>
        */
       public Builder setFirebaseErrorDetails(
@@ -10414,7 +10548,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * set when kind = FIREBASE_ASSISTANT_ERROR_PRESENTED or
-       *  kind FIREBASE_ASSISTANT_SILENT_ERROR
+       * kind FIREBASE_ASSISTANT_SILENT_ERROR
        * </pre>
        */
       public Builder mergeFirebaseErrorDetails(com.google.wireless.android.sdk.stats.AndroidStudioStats.FirebaseErrorDetails value) {
@@ -10438,7 +10572,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * set when kind = FIREBASE_ASSISTANT_ERROR_PRESENTED or
-       *  kind FIREBASE_ASSISTANT_SILENT_ERROR
+       * kind FIREBASE_ASSISTANT_SILENT_ERROR
        * </pre>
        */
       public Builder clearFirebaseErrorDetails() {
@@ -10456,7 +10590,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * set when kind = FIREBASE_ASSISTANT_ERROR_PRESENTED or
-       *  kind FIREBASE_ASSISTANT_SILENT_ERROR
+       * kind FIREBASE_ASSISTANT_SILENT_ERROR
        * </pre>
        */
       public com.google.wireless.android.sdk.stats.AndroidStudioStats.FirebaseErrorDetails.Builder getFirebaseErrorDetailsBuilder() {
@@ -10469,7 +10603,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * set when kind = FIREBASE_ASSISTANT_ERROR_PRESENTED or
-       *  kind FIREBASE_ASSISTANT_SILENT_ERROR
+       * kind FIREBASE_ASSISTANT_SILENT_ERROR
        * </pre>
        */
       public com.google.wireless.android.sdk.stats.AndroidStudioStats.FirebaseErrorDetailsOrBuilder getFirebaseErrorDetailsOrBuilder() {
@@ -10484,7 +10618,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * set when kind = FIREBASE_ASSISTANT_ERROR_PRESENTED or
-       *  kind FIREBASE_ASSISTANT_SILENT_ERROR
+       * kind FIREBASE_ASSISTANT_SILENT_ERROR
        * </pre>
        */
       private com.google.protobuf.SingleFieldBuilder<
@@ -10508,7 +10642,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * Client-side salted (rotating every 28 days), sha256 of the project id.
-       *  set when kind = PROJECT_STRUCTURE_*.
+       * set when kind = PROJECT_STRUCTURE_*.
        * </pre>
        */
       public boolean hasProjectId() {
@@ -10519,7 +10653,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * Client-side salted (rotating every 28 days), sha256 of the project id.
-       *  set when kind = PROJECT_STRUCTURE_*.
+       * set when kind = PROJECT_STRUCTURE_*.
        * </pre>
        */
       public java.lang.String getProjectId() {
@@ -10538,7 +10672,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * Client-side salted (rotating every 28 days), sha256 of the project id.
-       *  set when kind = PROJECT_STRUCTURE_*.
+       * set when kind = PROJECT_STRUCTURE_*.
        * </pre>
        */
       public com.google.protobuf.ByteString
@@ -10559,7 +10693,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * Client-side salted (rotating every 28 days), sha256 of the project id.
-       *  set when kind = PROJECT_STRUCTURE_*.
+       * set when kind = PROJECT_STRUCTURE_*.
        * </pre>
        */
       public Builder setProjectId(
@@ -10577,7 +10711,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * Client-side salted (rotating every 28 days), sha256 of the project id.
-       *  set when kind = PROJECT_STRUCTURE_*.
+       * set when kind = PROJECT_STRUCTURE_*.
        * </pre>
        */
       public Builder clearProjectId() {
@@ -10591,7 +10725,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * Client-side salted (rotating every 28 days), sha256 of the project id.
-       *  set when kind = PROJECT_STRUCTURE_*.
+       * set when kind = PROJECT_STRUCTURE_*.
        * </pre>
        */
       public Builder setProjectIdBytes(
@@ -11523,6 +11657,159 @@ public final class AndroidStudioStats {
         return javaProcessStatsBuilder_;
       }
 
+      // optional .android_studio.StudioPerformanceStats studio_performance_stats = 38;
+      private com.google.wireless.android.sdk.stats.AndroidStudioStats.StudioPerformanceStats studioPerformanceStats_ = com.google.wireless.android.sdk.stats.AndroidStudioStats.StudioPerformanceStats.getDefaultInstance();
+      private com.google.protobuf.SingleFieldBuilder<
+          com.google.wireless.android.sdk.stats.AndroidStudioStats.StudioPerformanceStats, com.google.wireless.android.sdk.stats.AndroidStudioStats.StudioPerformanceStats.Builder, com.google.wireless.android.sdk.stats.AndroidStudioStats.StudioPerformanceStatsOrBuilder> studioPerformanceStatsBuilder_;
+      /**
+       * <code>optional .android_studio.StudioPerformanceStats studio_performance_stats = 38;</code>
+       *
+       * <pre>
+       * set when kind = STUDIO_PERFORMANCE_STATS
+       * </pre>
+       */
+      public boolean hasStudioPerformanceStats() {
+        return ((bitField1_ & 0x00000020) == 0x00000020);
+      }
+      /**
+       * <code>optional .android_studio.StudioPerformanceStats studio_performance_stats = 38;</code>
+       *
+       * <pre>
+       * set when kind = STUDIO_PERFORMANCE_STATS
+       * </pre>
+       */
+      public com.google.wireless.android.sdk.stats.AndroidStudioStats.StudioPerformanceStats getStudioPerformanceStats() {
+        if (studioPerformanceStatsBuilder_ == null) {
+          return studioPerformanceStats_;
+        } else {
+          return studioPerformanceStatsBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>optional .android_studio.StudioPerformanceStats studio_performance_stats = 38;</code>
+       *
+       * <pre>
+       * set when kind = STUDIO_PERFORMANCE_STATS
+       * </pre>
+       */
+      public Builder setStudioPerformanceStats(com.google.wireless.android.sdk.stats.AndroidStudioStats.StudioPerformanceStats value) {
+        if (studioPerformanceStatsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          studioPerformanceStats_ = value;
+          onChanged();
+        } else {
+          studioPerformanceStatsBuilder_.setMessage(value);
+        }
+        bitField1_ |= 0x00000020;
+        return this;
+      }
+      /**
+       * <code>optional .android_studio.StudioPerformanceStats studio_performance_stats = 38;</code>
+       *
+       * <pre>
+       * set when kind = STUDIO_PERFORMANCE_STATS
+       * </pre>
+       */
+      public Builder setStudioPerformanceStats(
+          com.google.wireless.android.sdk.stats.AndroidStudioStats.StudioPerformanceStats.Builder builderForValue) {
+        if (studioPerformanceStatsBuilder_ == null) {
+          studioPerformanceStats_ = builderForValue.build();
+          onChanged();
+        } else {
+          studioPerformanceStatsBuilder_.setMessage(builderForValue.build());
+        }
+        bitField1_ |= 0x00000020;
+        return this;
+      }
+      /**
+       * <code>optional .android_studio.StudioPerformanceStats studio_performance_stats = 38;</code>
+       *
+       * <pre>
+       * set when kind = STUDIO_PERFORMANCE_STATS
+       * </pre>
+       */
+      public Builder mergeStudioPerformanceStats(com.google.wireless.android.sdk.stats.AndroidStudioStats.StudioPerformanceStats value) {
+        if (studioPerformanceStatsBuilder_ == null) {
+          if (((bitField1_ & 0x00000020) == 0x00000020) &&
+              studioPerformanceStats_ != com.google.wireless.android.sdk.stats.AndroidStudioStats.StudioPerformanceStats.getDefaultInstance()) {
+            studioPerformanceStats_ =
+              com.google.wireless.android.sdk.stats.AndroidStudioStats.StudioPerformanceStats.newBuilder(studioPerformanceStats_).mergeFrom(value).buildPartial();
+          } else {
+            studioPerformanceStats_ = value;
+          }
+          onChanged();
+        } else {
+          studioPerformanceStatsBuilder_.mergeFrom(value);
+        }
+        bitField1_ |= 0x00000020;
+        return this;
+      }
+      /**
+       * <code>optional .android_studio.StudioPerformanceStats studio_performance_stats = 38;</code>
+       *
+       * <pre>
+       * set when kind = STUDIO_PERFORMANCE_STATS
+       * </pre>
+       */
+      public Builder clearStudioPerformanceStats() {
+        if (studioPerformanceStatsBuilder_ == null) {
+          studioPerformanceStats_ = com.google.wireless.android.sdk.stats.AndroidStudioStats.StudioPerformanceStats.getDefaultInstance();
+          onChanged();
+        } else {
+          studioPerformanceStatsBuilder_.clear();
+        }
+        bitField1_ = (bitField1_ & ~0x00000020);
+        return this;
+      }
+      /**
+       * <code>optional .android_studio.StudioPerformanceStats studio_performance_stats = 38;</code>
+       *
+       * <pre>
+       * set when kind = STUDIO_PERFORMANCE_STATS
+       * </pre>
+       */
+      public com.google.wireless.android.sdk.stats.AndroidStudioStats.StudioPerformanceStats.Builder getStudioPerformanceStatsBuilder() {
+        bitField1_ |= 0x00000020;
+        onChanged();
+        return getStudioPerformanceStatsFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>optional .android_studio.StudioPerformanceStats studio_performance_stats = 38;</code>
+       *
+       * <pre>
+       * set when kind = STUDIO_PERFORMANCE_STATS
+       * </pre>
+       */
+      public com.google.wireless.android.sdk.stats.AndroidStudioStats.StudioPerformanceStatsOrBuilder getStudioPerformanceStatsOrBuilder() {
+        if (studioPerformanceStatsBuilder_ != null) {
+          return studioPerformanceStatsBuilder_.getMessageOrBuilder();
+        } else {
+          return studioPerformanceStats_;
+        }
+      }
+      /**
+       * <code>optional .android_studio.StudioPerformanceStats studio_performance_stats = 38;</code>
+       *
+       * <pre>
+       * set when kind = STUDIO_PERFORMANCE_STATS
+       * </pre>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          com.google.wireless.android.sdk.stats.AndroidStudioStats.StudioPerformanceStats, com.google.wireless.android.sdk.stats.AndroidStudioStats.StudioPerformanceStats.Builder, com.google.wireless.android.sdk.stats.AndroidStudioStats.StudioPerformanceStatsOrBuilder> 
+          getStudioPerformanceStatsFieldBuilder() {
+        if (studioPerformanceStatsBuilder_ == null) {
+          studioPerformanceStatsBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              com.google.wireless.android.sdk.stats.AndroidStudioStats.StudioPerformanceStats, com.google.wireless.android.sdk.stats.AndroidStudioStats.StudioPerformanceStats.Builder, com.google.wireless.android.sdk.stats.AndroidStudioStats.StudioPerformanceStatsOrBuilder>(
+                  studioPerformanceStats_,
+                  getParentForChildren(),
+                  isClean());
+          studioPerformanceStats_ = null;
+        }
+        return studioPerformanceStatsBuilder_;
+      }
+
       // @@protoc_insertion_point(builder_scope:android_studio.AndroidStudioEvent)
     }
 
@@ -11619,7 +11906,7 @@ public final class AndroidStudioStats {
      * <pre>
      * e.g. 2.0.0.11
      * Historical: never used as it was not providing enough info. Use channel
-     *  instead as it distinguishes between different kinds of preview releases.
+     * instead as it distinguishes between different kinds of preview releases.
      * </pre>
      */
     boolean hasPreview();
@@ -11629,7 +11916,7 @@ public final class AndroidStudioStats {
      * <pre>
      * e.g. 2.0.0.11
      * Historical: never used as it was not providing enough info. Use channel
-     *  instead as it distinguishes between different kinds of preview releases.
+     * instead as it distinguishes between different kinds of preview releases.
      * </pre>
      */
     boolean getPreview();
@@ -12410,7 +12697,7 @@ public final class AndroidStudioStats {
      * <pre>
      * e.g. 2.0.0.11
      * Historical: never used as it was not providing enough info. Use channel
-     *  instead as it distinguishes between different kinds of preview releases.
+     * instead as it distinguishes between different kinds of preview releases.
      * </pre>
      */
     public boolean hasPreview() {
@@ -12422,7 +12709,7 @@ public final class AndroidStudioStats {
      * <pre>
      * e.g. 2.0.0.11
      * Historical: never used as it was not providing enough info. Use channel
-     *  instead as it distinguishes between different kinds of preview releases.
+     * instead as it distinguishes between different kinds of preview releases.
      * </pre>
      */
     public boolean getPreview() {
@@ -13059,7 +13346,7 @@ public final class AndroidStudioStats {
        * <pre>
        * e.g. 2.0.0.11
        * Historical: never used as it was not providing enough info. Use channel
-       *  instead as it distinguishes between different kinds of preview releases.
+       * instead as it distinguishes between different kinds of preview releases.
        * </pre>
        */
       public boolean hasPreview() {
@@ -13071,7 +13358,7 @@ public final class AndroidStudioStats {
        * <pre>
        * e.g. 2.0.0.11
        * Historical: never used as it was not providing enough info. Use channel
-       *  instead as it distinguishes between different kinds of preview releases.
+       * instead as it distinguishes between different kinds of preview releases.
        * </pre>
        */
       public boolean getPreview() {
@@ -13083,7 +13370,7 @@ public final class AndroidStudioStats {
        * <pre>
        * e.g. 2.0.0.11
        * Historical: never used as it was not providing enough info. Use channel
-       *  instead as it distinguishes between different kinds of preview releases.
+       * instead as it distinguishes between different kinds of preview releases.
        * </pre>
        */
       public Builder setPreview(boolean value) {
@@ -13098,7 +13385,7 @@ public final class AndroidStudioStats {
        * <pre>
        * e.g. 2.0.0.11
        * Historical: never used as it was not providing enough info. Use channel
-       *  instead as it distinguishes between different kinds of preview releases.
+       * instead as it distinguishes between different kinds of preview releases.
        * </pre>
        */
       public Builder clearPreview() {
@@ -13259,8 +13546,8 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * Tags used to build the android version on this device.
-     *  e.g. 'release-keys' or 'test-keys' or 'A100_V001'
-     *  TODO(jvg): ask loglaunch folks: ST_SOFTWARE_ID datapol?
+     * e.g. 'release-keys' or 'test-keys' or 'A100_V001'
+     * TODO(jvg): ask loglaunch folks: ST_SOFTWARE_ID datapol?
      * </pre>
      */
     boolean hasBuildTags();
@@ -13269,8 +13556,8 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * Tags used to build the android version on this device.
-     *  e.g. 'release-keys' or 'test-keys' or 'A100_V001'
-     *  TODO(jvg): ask loglaunch folks: ST_SOFTWARE_ID datapol?
+     * e.g. 'release-keys' or 'test-keys' or 'A100_V001'
+     * TODO(jvg): ask loglaunch folks: ST_SOFTWARE_ID datapol?
      * </pre>
      */
     java.lang.String getBuildTags();
@@ -13279,8 +13566,8 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * Tags used to build the android version on this device.
-     *  e.g. 'release-keys' or 'test-keys' or 'A100_V001'
-     *  TODO(jvg): ask loglaunch folks: ST_SOFTWARE_ID datapol?
+     * e.g. 'release-keys' or 'test-keys' or 'A100_V001'
+     * TODO(jvg): ask loglaunch folks: ST_SOFTWARE_ID datapol?
      * </pre>
      */
     com.google.protobuf.ByteString
@@ -13292,8 +13579,8 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * Type of build this device is running.
-     *  e.g. 'user' or 'userdebug' or 'eng' or 'alphabuild'
-     *  TODO(jvg): ask loglaunch folks: ST_SOFTWARE_ID datapol?
+     * e.g. 'user' or 'userdebug' or 'eng' or 'alphabuild'
+     * TODO(jvg): ask loglaunch folks: ST_SOFTWARE_ID datapol?
      * </pre>
      */
     boolean hasBuildType();
@@ -13302,8 +13589,8 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * Type of build this device is running.
-     *  e.g. 'user' or 'userdebug' or 'eng' or 'alphabuild'
-     *  TODO(jvg): ask loglaunch folks: ST_SOFTWARE_ID datapol?
+     * e.g. 'user' or 'userdebug' or 'eng' or 'alphabuild'
+     * TODO(jvg): ask loglaunch folks: ST_SOFTWARE_ID datapol?
      * </pre>
      */
     java.lang.String getBuildType();
@@ -13312,8 +13599,8 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * Type of build this device is running.
-     *  e.g. 'user' or 'userdebug' or 'eng' or 'alphabuild'
-     *  TODO(jvg): ask loglaunch folks: ST_SOFTWARE_ID datapol?
+     * e.g. 'user' or 'userdebug' or 'eng' or 'alphabuild'
+     * TODO(jvg): ask loglaunch folks: ST_SOFTWARE_ID datapol?
      * </pre>
      */
     com.google.protobuf.ByteString
@@ -13972,8 +14259,8 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * Tags used to build the android version on this device.
-     *  e.g. 'release-keys' or 'test-keys' or 'A100_V001'
-     *  TODO(jvg): ask loglaunch folks: ST_SOFTWARE_ID datapol?
+     * e.g. 'release-keys' or 'test-keys' or 'A100_V001'
+     * TODO(jvg): ask loglaunch folks: ST_SOFTWARE_ID datapol?
      * </pre>
      */
     public boolean hasBuildTags() {
@@ -13984,8 +14271,8 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * Tags used to build the android version on this device.
-     *  e.g. 'release-keys' or 'test-keys' or 'A100_V001'
-     *  TODO(jvg): ask loglaunch folks: ST_SOFTWARE_ID datapol?
+     * e.g. 'release-keys' or 'test-keys' or 'A100_V001'
+     * TODO(jvg): ask loglaunch folks: ST_SOFTWARE_ID datapol?
      * </pre>
      */
     public java.lang.String getBuildTags() {
@@ -14007,8 +14294,8 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * Tags used to build the android version on this device.
-     *  e.g. 'release-keys' or 'test-keys' or 'A100_V001'
-     *  TODO(jvg): ask loglaunch folks: ST_SOFTWARE_ID datapol?
+     * e.g. 'release-keys' or 'test-keys' or 'A100_V001'
+     * TODO(jvg): ask loglaunch folks: ST_SOFTWARE_ID datapol?
      * </pre>
      */
     public com.google.protobuf.ByteString
@@ -14033,8 +14320,8 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * Type of build this device is running.
-     *  e.g. 'user' or 'userdebug' or 'eng' or 'alphabuild'
-     *  TODO(jvg): ask loglaunch folks: ST_SOFTWARE_ID datapol?
+     * e.g. 'user' or 'userdebug' or 'eng' or 'alphabuild'
+     * TODO(jvg): ask loglaunch folks: ST_SOFTWARE_ID datapol?
      * </pre>
      */
     public boolean hasBuildType() {
@@ -14045,8 +14332,8 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * Type of build this device is running.
-     *  e.g. 'user' or 'userdebug' or 'eng' or 'alphabuild'
-     *  TODO(jvg): ask loglaunch folks: ST_SOFTWARE_ID datapol?
+     * e.g. 'user' or 'userdebug' or 'eng' or 'alphabuild'
+     * TODO(jvg): ask loglaunch folks: ST_SOFTWARE_ID datapol?
      * </pre>
      */
     public java.lang.String getBuildType() {
@@ -14068,8 +14355,8 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * Type of build this device is running.
-     *  e.g. 'user' or 'userdebug' or 'eng' or 'alphabuild'
-     *  TODO(jvg): ask loglaunch folks: ST_SOFTWARE_ID datapol?
+     * e.g. 'user' or 'userdebug' or 'eng' or 'alphabuild'
+     * TODO(jvg): ask loglaunch folks: ST_SOFTWARE_ID datapol?
      * </pre>
      */
     public com.google.protobuf.ByteString
@@ -14881,8 +15168,8 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * Tags used to build the android version on this device.
-       *  e.g. 'release-keys' or 'test-keys' or 'A100_V001'
-       *  TODO(jvg): ask loglaunch folks: ST_SOFTWARE_ID datapol?
+       * e.g. 'release-keys' or 'test-keys' or 'A100_V001'
+       * TODO(jvg): ask loglaunch folks: ST_SOFTWARE_ID datapol?
        * </pre>
        */
       public boolean hasBuildTags() {
@@ -14893,8 +15180,8 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * Tags used to build the android version on this device.
-       *  e.g. 'release-keys' or 'test-keys' or 'A100_V001'
-       *  TODO(jvg): ask loglaunch folks: ST_SOFTWARE_ID datapol?
+       * e.g. 'release-keys' or 'test-keys' or 'A100_V001'
+       * TODO(jvg): ask loglaunch folks: ST_SOFTWARE_ID datapol?
        * </pre>
        */
       public java.lang.String getBuildTags() {
@@ -14913,8 +15200,8 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * Tags used to build the android version on this device.
-       *  e.g. 'release-keys' or 'test-keys' or 'A100_V001'
-       *  TODO(jvg): ask loglaunch folks: ST_SOFTWARE_ID datapol?
+       * e.g. 'release-keys' or 'test-keys' or 'A100_V001'
+       * TODO(jvg): ask loglaunch folks: ST_SOFTWARE_ID datapol?
        * </pre>
        */
       public com.google.protobuf.ByteString
@@ -14935,8 +15222,8 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * Tags used to build the android version on this device.
-       *  e.g. 'release-keys' or 'test-keys' or 'A100_V001'
-       *  TODO(jvg): ask loglaunch folks: ST_SOFTWARE_ID datapol?
+       * e.g. 'release-keys' or 'test-keys' or 'A100_V001'
+       * TODO(jvg): ask loglaunch folks: ST_SOFTWARE_ID datapol?
        * </pre>
        */
       public Builder setBuildTags(
@@ -14954,8 +15241,8 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * Tags used to build the android version on this device.
-       *  e.g. 'release-keys' or 'test-keys' or 'A100_V001'
-       *  TODO(jvg): ask loglaunch folks: ST_SOFTWARE_ID datapol?
+       * e.g. 'release-keys' or 'test-keys' or 'A100_V001'
+       * TODO(jvg): ask loglaunch folks: ST_SOFTWARE_ID datapol?
        * </pre>
        */
       public Builder clearBuildTags() {
@@ -14969,8 +15256,8 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * Tags used to build the android version on this device.
-       *  e.g. 'release-keys' or 'test-keys' or 'A100_V001'
-       *  TODO(jvg): ask loglaunch folks: ST_SOFTWARE_ID datapol?
+       * e.g. 'release-keys' or 'test-keys' or 'A100_V001'
+       * TODO(jvg): ask loglaunch folks: ST_SOFTWARE_ID datapol?
        * </pre>
        */
       public Builder setBuildTagsBytes(
@@ -14991,8 +15278,8 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * Type of build this device is running.
-       *  e.g. 'user' or 'userdebug' or 'eng' or 'alphabuild'
-       *  TODO(jvg): ask loglaunch folks: ST_SOFTWARE_ID datapol?
+       * e.g. 'user' or 'userdebug' or 'eng' or 'alphabuild'
+       * TODO(jvg): ask loglaunch folks: ST_SOFTWARE_ID datapol?
        * </pre>
        */
       public boolean hasBuildType() {
@@ -15003,8 +15290,8 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * Type of build this device is running.
-       *  e.g. 'user' or 'userdebug' or 'eng' or 'alphabuild'
-       *  TODO(jvg): ask loglaunch folks: ST_SOFTWARE_ID datapol?
+       * e.g. 'user' or 'userdebug' or 'eng' or 'alphabuild'
+       * TODO(jvg): ask loglaunch folks: ST_SOFTWARE_ID datapol?
        * </pre>
        */
       public java.lang.String getBuildType() {
@@ -15023,8 +15310,8 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * Type of build this device is running.
-       *  e.g. 'user' or 'userdebug' or 'eng' or 'alphabuild'
-       *  TODO(jvg): ask loglaunch folks: ST_SOFTWARE_ID datapol?
+       * e.g. 'user' or 'userdebug' or 'eng' or 'alphabuild'
+       * TODO(jvg): ask loglaunch folks: ST_SOFTWARE_ID datapol?
        * </pre>
        */
       public com.google.protobuf.ByteString
@@ -15045,8 +15332,8 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * Type of build this device is running.
-       *  e.g. 'user' or 'userdebug' or 'eng' or 'alphabuild'
-       *  TODO(jvg): ask loglaunch folks: ST_SOFTWARE_ID datapol?
+       * e.g. 'user' or 'userdebug' or 'eng' or 'alphabuild'
+       * TODO(jvg): ask loglaunch folks: ST_SOFTWARE_ID datapol?
        * </pre>
        */
       public Builder setBuildType(
@@ -15064,8 +15351,8 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * Type of build this device is running.
-       *  e.g. 'user' or 'userdebug' or 'eng' or 'alphabuild'
-       *  TODO(jvg): ask loglaunch folks: ST_SOFTWARE_ID datapol?
+       * e.g. 'user' or 'userdebug' or 'eng' or 'alphabuild'
+       * TODO(jvg): ask loglaunch folks: ST_SOFTWARE_ID datapol?
        * </pre>
        */
       public Builder clearBuildType() {
@@ -15079,8 +15366,8 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * Type of build this device is running.
-       *  e.g. 'user' or 'userdebug' or 'eng' or 'alphabuild'
-       *  TODO(jvg): ask loglaunch folks: ST_SOFTWARE_ID datapol?
+       * e.g. 'user' or 'userdebug' or 'eng' or 'alphabuild'
+       * TODO(jvg): ask loglaunch folks: ST_SOFTWARE_ID datapol?
        * </pre>
        */
       public Builder setBuildTypeBytes(
@@ -21788,8 +22075,8 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * Id of the UI element, baked in the emulator binary.
-     *  TODO(jvg): ask logs ticket folks what kind of datapol annotation
-     *  it is not freeform, but we cannot make this an enum
+     * TODO(jvg): ask logs ticket folks what kind of datapol annotation
+     * it is not freeform, but we cannot make this an enum
      * </pre>
      */
     boolean hasElementId();
@@ -21798,8 +22085,8 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * Id of the UI element, baked in the emulator binary.
-     *  TODO(jvg): ask logs ticket folks what kind of datapol annotation
-     *  it is not freeform, but we cannot make this an enum
+     * TODO(jvg): ask logs ticket folks what kind of datapol annotation
+     * it is not freeform, but we cannot make this an enum
      * </pre>
      */
     java.lang.String getElementId();
@@ -21808,8 +22095,8 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * Id of the UI element, baked in the emulator binary.
-     *  TODO(jvg): ask logs ticket folks what kind of datapol annotation
-     *  it is not freeform, but we cannot make this an enum
+     * TODO(jvg): ask logs ticket folks what kind of datapol annotation
+     * it is not freeform, but we cannot make this an enum
      * </pre>
      */
     com.google.protobuf.ByteString
@@ -21857,8 +22144,8 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * This value is an opaque numeric type. The exact schema of the UI metrics
-     *  is not specific here. e.g., |value| may represent a boolean, a "count", or
-     *  an index into the list of items in a drop down menu.
+     * is not specific here. e.g., |value| may represent a boolean, a "count", or
+     * an index into the list of items in a drop down menu.
      * </pre>
      */
     boolean hasValue();
@@ -21867,8 +22154,8 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * This value is an opaque numeric type. The exact schema of the UI metrics
-     *  is not specific here. e.g., |value| may represent a boolean, a "count", or
-     *  an index into the list of items in a drop down menu.
+     * is not specific here. e.g., |value| may represent a boolean, a "count", or
+     * an index into the list of items in a drop down menu.
      * </pre>
      */
     long getValue();
@@ -22021,7 +22308,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * Generated when a user action changes the value of certain field from
-       *  its default value.
+       * its default value.
        * </pre>
        */
       OPTION_SET_TO_NON_DEFAULT(2, 2),
@@ -22030,7 +22317,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * Generated to report the index of an option selected by the user in a
-       *  drop-down menu / radio button etc.
+       * drop-down menu / radio button etc.
        * </pre>
        */
       OPTION_SELECTED(3, 3),
@@ -22049,7 +22336,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * Generated when a user action changes the value of certain field from
-       *  its default value.
+       * its default value.
        * </pre>
        */
       public static final int OPTION_SET_TO_NON_DEFAULT_VALUE = 2;
@@ -22058,7 +22345,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * Generated to report the index of an option selected by the user in a
-       *  drop-down menu / radio button etc.
+       * drop-down menu / radio button etc.
        * </pre>
        */
       public static final int OPTION_SELECTED_VALUE = 3;
@@ -22218,8 +22505,8 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * Id of the UI element, baked in the emulator binary.
-     *  TODO(jvg): ask logs ticket folks what kind of datapol annotation
-     *  it is not freeform, but we cannot make this an enum
+     * TODO(jvg): ask logs ticket folks what kind of datapol annotation
+     * it is not freeform, but we cannot make this an enum
      * </pre>
      */
     public boolean hasElementId() {
@@ -22230,8 +22517,8 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * Id of the UI element, baked in the emulator binary.
-     *  TODO(jvg): ask logs ticket folks what kind of datapol annotation
-     *  it is not freeform, but we cannot make this an enum
+     * TODO(jvg): ask logs ticket folks what kind of datapol annotation
+     * it is not freeform, but we cannot make this an enum
      * </pre>
      */
     public java.lang.String getElementId() {
@@ -22253,8 +22540,8 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * Id of the UI element, baked in the emulator binary.
-     *  TODO(jvg): ask logs ticket folks what kind of datapol annotation
-     *  it is not freeform, but we cannot make this an enum
+     * TODO(jvg): ask logs ticket folks what kind of datapol annotation
+     * it is not freeform, but we cannot make this an enum
      * </pre>
      */
     public com.google.protobuf.ByteString
@@ -22327,8 +22614,8 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * This value is an opaque numeric type. The exact schema of the UI metrics
-     *  is not specific here. e.g., |value| may represent a boolean, a "count", or
-     *  an index into the list of items in a drop down menu.
+     * is not specific here. e.g., |value| may represent a boolean, a "count", or
+     * an index into the list of items in a drop down menu.
      * </pre>
      */
     public boolean hasValue() {
@@ -22339,8 +22626,8 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * This value is an opaque numeric type. The exact schema of the UI metrics
-     *  is not specific here. e.g., |value| may represent a boolean, a "count", or
-     *  an index into the list of items in a drop down menu.
+     * is not specific here. e.g., |value| may represent a boolean, a "count", or
+     * an index into the list of items in a drop down menu.
      * </pre>
      */
     public long getValue() {
@@ -22638,8 +22925,8 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * Id of the UI element, baked in the emulator binary.
-       *  TODO(jvg): ask logs ticket folks what kind of datapol annotation
-       *  it is not freeform, but we cannot make this an enum
+       * TODO(jvg): ask logs ticket folks what kind of datapol annotation
+       * it is not freeform, but we cannot make this an enum
        * </pre>
        */
       public boolean hasElementId() {
@@ -22650,8 +22937,8 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * Id of the UI element, baked in the emulator binary.
-       *  TODO(jvg): ask logs ticket folks what kind of datapol annotation
-       *  it is not freeform, but we cannot make this an enum
+       * TODO(jvg): ask logs ticket folks what kind of datapol annotation
+       * it is not freeform, but we cannot make this an enum
        * </pre>
        */
       public java.lang.String getElementId() {
@@ -22670,8 +22957,8 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * Id of the UI element, baked in the emulator binary.
-       *  TODO(jvg): ask logs ticket folks what kind of datapol annotation
-       *  it is not freeform, but we cannot make this an enum
+       * TODO(jvg): ask logs ticket folks what kind of datapol annotation
+       * it is not freeform, but we cannot make this an enum
        * </pre>
        */
       public com.google.protobuf.ByteString
@@ -22692,8 +22979,8 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * Id of the UI element, baked in the emulator binary.
-       *  TODO(jvg): ask logs ticket folks what kind of datapol annotation
-       *  it is not freeform, but we cannot make this an enum
+       * TODO(jvg): ask logs ticket folks what kind of datapol annotation
+       * it is not freeform, but we cannot make this an enum
        * </pre>
        */
       public Builder setElementId(
@@ -22711,8 +22998,8 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * Id of the UI element, baked in the emulator binary.
-       *  TODO(jvg): ask logs ticket folks what kind of datapol annotation
-       *  it is not freeform, but we cannot make this an enum
+       * TODO(jvg): ask logs ticket folks what kind of datapol annotation
+       * it is not freeform, but we cannot make this an enum
        * </pre>
        */
       public Builder clearElementId() {
@@ -22726,8 +23013,8 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * Id of the UI element, baked in the emulator binary.
-       *  TODO(jvg): ask logs ticket folks what kind of datapol annotation
-       *  it is not freeform, but we cannot make this an enum
+       * TODO(jvg): ask logs ticket folks what kind of datapol annotation
+       * it is not freeform, but we cannot make this an enum
        * </pre>
        */
       public Builder setElementIdBytes(
@@ -22852,8 +23139,8 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * This value is an opaque numeric type. The exact schema of the UI metrics
-       *  is not specific here. e.g., |value| may represent a boolean, a "count", or
-       *  an index into the list of items in a drop down menu.
+       * is not specific here. e.g., |value| may represent a boolean, a "count", or
+       * an index into the list of items in a drop down menu.
        * </pre>
        */
       public boolean hasValue() {
@@ -22864,8 +23151,8 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * This value is an opaque numeric type. The exact schema of the UI metrics
-       *  is not specific here. e.g., |value| may represent a boolean, a "count", or
-       *  an index into the list of items in a drop down menu.
+       * is not specific here. e.g., |value| may represent a boolean, a "count", or
+       * an index into the list of items in a drop down menu.
        * </pre>
        */
       public long getValue() {
@@ -22876,8 +23163,8 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * This value is an opaque numeric type. The exact schema of the UI metrics
-       *  is not specific here. e.g., |value| may represent a boolean, a "count", or
-       *  an index into the list of items in a drop down menu.
+       * is not specific here. e.g., |value| may represent a boolean, a "count", or
+       * an index into the list of items in a drop down menu.
        * </pre>
        */
       public Builder setValue(long value) {
@@ -22891,8 +23178,8 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * This value is an opaque numeric type. The exact schema of the UI metrics
-       *  is not specific here. e.g., |value| may represent a boolean, a "count", or
-       *  an index into the list of items in a drop down menu.
+       * is not specific here. e.g., |value| may represent a boolean, a "count", or
+       * an index into the list of items in a drop down menu.
        * </pre>
        */
       public Builder clearValue() {
@@ -23012,7 +23299,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * indicates whether the current variant supports IR, but this can be changed
-     *  without a notification
+     * without a notification
      * </pre>
      */
     boolean hasVariantSupportsIr();
@@ -23021,7 +23308,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * indicates whether the current variant supports IR, but this can be changed
-     *  without a notification
+     * without a notification
      * </pre>
      */
     boolean getVariantSupportsIr();
@@ -23536,7 +23823,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * indicates whether the current variant supports IR, but this can be changed
-     *  without a notification
+     * without a notification
      * </pre>
      */
     public boolean hasVariantSupportsIr() {
@@ -23547,7 +23834,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * indicates whether the current variant supports IR, but this can be changed
-     *  without a notification
+     * without a notification
      * </pre>
      */
     public boolean getVariantSupportsIr() {
@@ -24582,7 +24869,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * indicates whether the current variant supports IR, but this can be changed
-       *  without a notification
+       * without a notification
        * </pre>
        */
       public boolean hasVariantSupportsIr() {
@@ -24593,7 +24880,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * indicates whether the current variant supports IR, but this can be changed
-       *  without a notification
+       * without a notification
        * </pre>
        */
       public boolean getVariantSupportsIr() {
@@ -24604,7 +24891,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * indicates whether the current variant supports IR, but this can be changed
-       *  without a notification
+       * without a notification
        * </pre>
        */
       public Builder setVariantSupportsIr(boolean value) {
@@ -24618,7 +24905,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * indicates whether the current variant supports IR, but this can be changed
-       *  without a notification
+       * without a notification
        * </pre>
        */
       public Builder clearVariantSupportsIr() {
@@ -27107,9 +27394,9 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * Client-side salted, sha256 of the application id
-     *  the app_id is the id for the user's android app
-     *  which we salt with a client unique salt and then sha256
-     *  so it is anonymized and is unique per user, but has a 1-N relation.
+     * the app_id is the id for the user's android app
+     * which we salt with a client unique salt and then sha256
+     * so it is anonymized and is unique per user, but has a 1-N relation.
      * </pre>
      */
     boolean hasAppId();
@@ -27118,9 +27405,9 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * Client-side salted, sha256 of the application id
-     *  the app_id is the id for the user's android app
-     *  which we salt with a client unique salt and then sha256
-     *  so it is anonymized and is unique per user, but has a 1-N relation.
+     * the app_id is the id for the user's android app
+     * which we salt with a client unique salt and then sha256
+     * so it is anonymized and is unique per user, but has a 1-N relation.
      * </pre>
      */
     java.lang.String getAppId();
@@ -27129,9 +27416,9 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * Client-side salted, sha256 of the application id
-     *  the app_id is the id for the user's android app
-     *  which we salt with a client unique salt and then sha256
-     *  so it is anonymized and is unique per user, but has a 1-N relation.
+     * the app_id is the id for the user's android app
+     * which we salt with a client unique salt and then sha256
+     * so it is anonymized and is unique per user, but has a 1-N relation.
      * </pre>
      */
     com.google.protobuf.ByteString
@@ -27392,9 +27679,9 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * Client-side salted, sha256 of the application id
-     *  the app_id is the id for the user's android app
-     *  which we salt with a client unique salt and then sha256
-     *  so it is anonymized and is unique per user, but has a 1-N relation.
+     * the app_id is the id for the user's android app
+     * which we salt with a client unique salt and then sha256
+     * so it is anonymized and is unique per user, but has a 1-N relation.
      * </pre>
      */
     public boolean hasAppId() {
@@ -27405,9 +27692,9 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * Client-side salted, sha256 of the application id
-     *  the app_id is the id for the user's android app
-     *  which we salt with a client unique salt and then sha256
-     *  so it is anonymized and is unique per user, but has a 1-N relation.
+     * the app_id is the id for the user's android app
+     * which we salt with a client unique salt and then sha256
+     * so it is anonymized and is unique per user, but has a 1-N relation.
      * </pre>
      */
     public java.lang.String getAppId() {
@@ -27429,9 +27716,9 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * Client-side salted, sha256 of the application id
-     *  the app_id is the id for the user's android app
-     *  which we salt with a client unique salt and then sha256
-     *  so it is anonymized and is unique per user, but has a 1-N relation.
+     * the app_id is the id for the user's android app
+     * which we salt with a client unique salt and then sha256
+     * so it is anonymized and is unique per user, but has a 1-N relation.
      * </pre>
      */
     public com.google.protobuf.ByteString
@@ -27967,9 +28254,9 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * Client-side salted, sha256 of the application id
-       *  the app_id is the id for the user's android app
-       *  which we salt with a client unique salt and then sha256
-       *  so it is anonymized and is unique per user, but has a 1-N relation.
+       * the app_id is the id for the user's android app
+       * which we salt with a client unique salt and then sha256
+       * so it is anonymized and is unique per user, but has a 1-N relation.
        * </pre>
        */
       public boolean hasAppId() {
@@ -27980,9 +28267,9 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * Client-side salted, sha256 of the application id
-       *  the app_id is the id for the user's android app
-       *  which we salt with a client unique salt and then sha256
-       *  so it is anonymized and is unique per user, but has a 1-N relation.
+       * the app_id is the id for the user's android app
+       * which we salt with a client unique salt and then sha256
+       * so it is anonymized and is unique per user, but has a 1-N relation.
        * </pre>
        */
       public java.lang.String getAppId() {
@@ -28001,9 +28288,9 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * Client-side salted, sha256 of the application id
-       *  the app_id is the id for the user's android app
-       *  which we salt with a client unique salt and then sha256
-       *  so it is anonymized and is unique per user, but has a 1-N relation.
+       * the app_id is the id for the user's android app
+       * which we salt with a client unique salt and then sha256
+       * so it is anonymized and is unique per user, but has a 1-N relation.
        * </pre>
        */
       public com.google.protobuf.ByteString
@@ -28024,9 +28311,9 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * Client-side salted, sha256 of the application id
-       *  the app_id is the id for the user's android app
-       *  which we salt with a client unique salt and then sha256
-       *  so it is anonymized and is unique per user, but has a 1-N relation.
+       * the app_id is the id for the user's android app
+       * which we salt with a client unique salt and then sha256
+       * so it is anonymized and is unique per user, but has a 1-N relation.
        * </pre>
        */
       public Builder setAppId(
@@ -28044,9 +28331,9 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * Client-side salted, sha256 of the application id
-       *  the app_id is the id for the user's android app
-       *  which we salt with a client unique salt and then sha256
-       *  so it is anonymized and is unique per user, but has a 1-N relation.
+       * the app_id is the id for the user's android app
+       * which we salt with a client unique salt and then sha256
+       * so it is anonymized and is unique per user, but has a 1-N relation.
        * </pre>
        */
       public Builder clearAppId() {
@@ -28060,9 +28347,9 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * Client-side salted, sha256 of the application id
-       *  the app_id is the id for the user's android app
-       *  which we salt with a client unique salt and then sha256
-       *  so it is anonymized and is unique per user, but has a 1-N relation.
+       * the app_id is the id for the user's android app
+       * which we salt with a client unique salt and then sha256
+       * so it is anonymized and is unique per user, but has a 1-N relation.
        * </pre>
        */
       public Builder setAppIdBytes(
@@ -28439,9 +28726,9 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * Client-side salted, sha256 of the application id
-     *  the app_id is the id for the user's android app
-     *  which we salt with a client unique salt and then sha256
-     *  so it is anonymized and is unique per user, but has a 1-N relation.
+     * the app_id is the id for the user's android app
+     * which we salt with a client unique salt and then sha256
+     * so it is anonymized and is unique per user, but has a 1-N relation.
      * </pre>
      */
     boolean hasAppId();
@@ -28450,9 +28737,9 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * Client-side salted, sha256 of the application id
-     *  the app_id is the id for the user's android app
-     *  which we salt with a client unique salt and then sha256
-     *  so it is anonymized and is unique per user, but has a 1-N relation.
+     * the app_id is the id for the user's android app
+     * which we salt with a client unique salt and then sha256
+     * so it is anonymized and is unique per user, but has a 1-N relation.
      * </pre>
      */
     java.lang.String getAppId();
@@ -28461,9 +28748,9 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * Client-side salted, sha256 of the application id
-     *  the app_id is the id for the user's android app
-     *  which we salt with a client unique salt and then sha256
-     *  so it is anonymized and is unique per user, but has a 1-N relation.
+     * the app_id is the id for the user's android app
+     * which we salt with a client unique salt and then sha256
+     * so it is anonymized and is unique per user, but has a 1-N relation.
      * </pre>
      */
     com.google.protobuf.ByteString
@@ -28783,9 +29070,9 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * Client-side salted, sha256 of the application id
-     *  the app_id is the id for the user's android app
-     *  which we salt with a client unique salt and then sha256
-     *  so it is anonymized and is unique per user, but has a 1-N relation.
+     * the app_id is the id for the user's android app
+     * which we salt with a client unique salt and then sha256
+     * so it is anonymized and is unique per user, but has a 1-N relation.
      * </pre>
      */
     public boolean hasAppId() {
@@ -28796,9 +29083,9 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * Client-side salted, sha256 of the application id
-     *  the app_id is the id for the user's android app
-     *  which we salt with a client unique salt and then sha256
-     *  so it is anonymized and is unique per user, but has a 1-N relation.
+     * the app_id is the id for the user's android app
+     * which we salt with a client unique salt and then sha256
+     * so it is anonymized and is unique per user, but has a 1-N relation.
      * </pre>
      */
     public java.lang.String getAppId() {
@@ -28820,9 +29107,9 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * Client-side salted, sha256 of the application id
-     *  the app_id is the id for the user's android app
-     *  which we salt with a client unique salt and then sha256
-     *  so it is anonymized and is unique per user, but has a 1-N relation.
+     * the app_id is the id for the user's android app
+     * which we salt with a client unique salt and then sha256
+     * so it is anonymized and is unique per user, but has a 1-N relation.
      * </pre>
      */
     public com.google.protobuf.ByteString
@@ -29194,9 +29481,9 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * Client-side salted, sha256 of the application id
-       *  the app_id is the id for the user's android app
-       *  which we salt with a client unique salt and then sha256
-       *  so it is anonymized and is unique per user, but has a 1-N relation.
+       * the app_id is the id for the user's android app
+       * which we salt with a client unique salt and then sha256
+       * so it is anonymized and is unique per user, but has a 1-N relation.
        * </pre>
        */
       public boolean hasAppId() {
@@ -29207,9 +29494,9 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * Client-side salted, sha256 of the application id
-       *  the app_id is the id for the user's android app
-       *  which we salt with a client unique salt and then sha256
-       *  so it is anonymized and is unique per user, but has a 1-N relation.
+       * the app_id is the id for the user's android app
+       * which we salt with a client unique salt and then sha256
+       * so it is anonymized and is unique per user, but has a 1-N relation.
        * </pre>
        */
       public java.lang.String getAppId() {
@@ -29228,9 +29515,9 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * Client-side salted, sha256 of the application id
-       *  the app_id is the id for the user's android app
-       *  which we salt with a client unique salt and then sha256
-       *  so it is anonymized and is unique per user, but has a 1-N relation.
+       * the app_id is the id for the user's android app
+       * which we salt with a client unique salt and then sha256
+       * so it is anonymized and is unique per user, but has a 1-N relation.
        * </pre>
        */
       public com.google.protobuf.ByteString
@@ -29251,9 +29538,9 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * Client-side salted, sha256 of the application id
-       *  the app_id is the id for the user's android app
-       *  which we salt with a client unique salt and then sha256
-       *  so it is anonymized and is unique per user, but has a 1-N relation.
+       * the app_id is the id for the user's android app
+       * which we salt with a client unique salt and then sha256
+       * so it is anonymized and is unique per user, but has a 1-N relation.
        * </pre>
        */
       public Builder setAppId(
@@ -29271,9 +29558,9 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * Client-side salted, sha256 of the application id
-       *  the app_id is the id for the user's android app
-       *  which we salt with a client unique salt and then sha256
-       *  so it is anonymized and is unique per user, but has a 1-N relation.
+       * the app_id is the id for the user's android app
+       * which we salt with a client unique salt and then sha256
+       * so it is anonymized and is unique per user, but has a 1-N relation.
        * </pre>
        */
       public Builder clearAppId() {
@@ -29287,9 +29574,9 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * Client-side salted, sha256 of the application id
-       *  the app_id is the id for the user's android app
-       *  which we salt with a client unique salt and then sha256
-       *  so it is anonymized and is unique per user, but has a 1-N relation.
+       * the app_id is the id for the user's android app
+       * which we salt with a client unique salt and then sha256
+       * so it is anonymized and is unique per user, but has a 1-N relation.
        * </pre>
        */
       public Builder setAppIdBytes(
@@ -29491,7 +29778,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * what was the reason for chosing that kind of deployment from the gradle
-     *  side.
+     * side.
      * </pre>
      */
     boolean hasInstantRunBuildCause();
@@ -29500,7 +29787,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * what was the reason for chosing that kind of deployment from the gradle
-     *  side.
+     * side.
      * </pre>
      */
     com.google.wireless.android.sdk.stats.AndroidStudioStats.InstantRun.InstantRunBuildCause getInstantRunBuildCause();
@@ -29510,7 +29797,7 @@ public final class AndroidStudioStats {
      * <code>optional int64 build_time = 4;</code>
      *
      * <pre>
-     * time the InstantRun enabled took in seconds.
+     * time the InstantRun enabled took in milliseconds.
      * </pre>
      */
     boolean hasBuildTime();
@@ -29518,7 +29805,7 @@ public final class AndroidStudioStats {
      * <code>optional int64 build_time = 4;</code>
      *
      * <pre>
-     * time the InstantRun enabled took in seconds.
+     * time the InstantRun enabled took in milliseconds.
      * </pre>
      */
     long getBuildTime();
@@ -29529,8 +29816,8 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * The session id is a UUID within a single run of Android Studio
-     *  tracking multiple HOT_SWAP &amp; DEX builds in the same
-     *  IR session (starting at FULL_APK and ending before FULL_APK).
+     * tracking multiple HOT_SWAP &amp; DEX builds in the same
+     * IR session (starting at FULL_APK and ending before FULL_APK).
      * </pre>
      */
     boolean hasSessionId();
@@ -29539,8 +29826,8 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * The session id is a UUID within a single run of Android Studio
-     *  tracking multiple HOT_SWAP &amp; DEX builds in the same
-     *  IR session (starting at FULL_APK and ending before FULL_APK).
+     * tracking multiple HOT_SWAP &amp; DEX builds in the same
+     * IR session (starting at FULL_APK and ending before FULL_APK).
      * </pre>
      */
     java.lang.String getSessionId();
@@ -29549,8 +29836,8 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * The session id is a UUID within a single run of Android Studio
-     *  tracking multiple HOT_SWAP &amp; DEX builds in the same
-     *  IR session (starting at FULL_APK and ending before FULL_APK).
+     * tracking multiple HOT_SWAP &amp; DEX builds in the same
+     * IR session (starting at FULL_APK and ending before FULL_APK).
      * </pre>
      */
     com.google.protobuf.ByteString
@@ -29562,7 +29849,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * what was the reason for chosing that kind of deployment from the IDE
-     *  side.
+     * side.
      * </pre>
      */
     boolean hasIdeBuildCause();
@@ -29571,7 +29858,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * what was the reason for chosing that kind of deployment from the IDE
-     *  side.
+     * side.
      * </pre>
      */
     com.google.wireless.android.sdk.stats.AndroidStudioStats.InstantRun.InstantRunIdeBuildCause getIdeBuildCause();
@@ -30088,7 +30375,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * The different reasons InstantRun chose the build mode it did from the IDE's
-     *  perspective.
+     * perspective.
      * </pre>
      */
     public enum InstantRunIdeBuildCause
@@ -30343,7 +30630,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * what was the reason for chosing that kind of deployment from the gradle
-     *  side.
+     * side.
      * </pre>
      */
     public boolean hasInstantRunBuildCause() {
@@ -30354,7 +30641,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * what was the reason for chosing that kind of deployment from the gradle
-     *  side.
+     * side.
      * </pre>
      */
     public com.google.wireless.android.sdk.stats.AndroidStudioStats.InstantRun.InstantRunBuildCause getInstantRunBuildCause() {
@@ -30368,7 +30655,7 @@ public final class AndroidStudioStats {
      * <code>optional int64 build_time = 4;</code>
      *
      * <pre>
-     * time the InstantRun enabled took in seconds.
+     * time the InstantRun enabled took in milliseconds.
      * </pre>
      */
     public boolean hasBuildTime() {
@@ -30378,7 +30665,7 @@ public final class AndroidStudioStats {
      * <code>optional int64 build_time = 4;</code>
      *
      * <pre>
-     * time the InstantRun enabled took in seconds.
+     * time the InstantRun enabled took in milliseconds.
      * </pre>
      */
     public long getBuildTime() {
@@ -30393,8 +30680,8 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * The session id is a UUID within a single run of Android Studio
-     *  tracking multiple HOT_SWAP &amp; DEX builds in the same
-     *  IR session (starting at FULL_APK and ending before FULL_APK).
+     * tracking multiple HOT_SWAP &amp; DEX builds in the same
+     * IR session (starting at FULL_APK and ending before FULL_APK).
      * </pre>
      */
     public boolean hasSessionId() {
@@ -30405,8 +30692,8 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * The session id is a UUID within a single run of Android Studio
-     *  tracking multiple HOT_SWAP &amp; DEX builds in the same
-     *  IR session (starting at FULL_APK and ending before FULL_APK).
+     * tracking multiple HOT_SWAP &amp; DEX builds in the same
+     * IR session (starting at FULL_APK and ending before FULL_APK).
      * </pre>
      */
     public java.lang.String getSessionId() {
@@ -30428,8 +30715,8 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * The session id is a UUID within a single run of Android Studio
-     *  tracking multiple HOT_SWAP &amp; DEX builds in the same
-     *  IR session (starting at FULL_APK and ending before FULL_APK).
+     * tracking multiple HOT_SWAP &amp; DEX builds in the same
+     * IR session (starting at FULL_APK and ending before FULL_APK).
      * </pre>
      */
     public com.google.protobuf.ByteString
@@ -30454,7 +30741,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * what was the reason for chosing that kind of deployment from the IDE
-     *  side.
+     * side.
      * </pre>
      */
     public boolean hasIdeBuildCause() {
@@ -30465,7 +30752,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * what was the reason for chosing that kind of deployment from the IDE
-     *  side.
+     * side.
      * </pre>
      */
     public com.google.wireless.android.sdk.stats.AndroidStudioStats.InstantRun.InstantRunIdeBuildCause getIdeBuildCause() {
@@ -30832,7 +31119,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * what was the reason for chosing that kind of deployment from the gradle
-       *  side.
+       * side.
        * </pre>
        */
       public boolean hasInstantRunBuildCause() {
@@ -30843,7 +31130,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * what was the reason for chosing that kind of deployment from the gradle
-       *  side.
+       * side.
        * </pre>
        */
       public com.google.wireless.android.sdk.stats.AndroidStudioStats.InstantRun.InstantRunBuildCause getInstantRunBuildCause() {
@@ -30854,7 +31141,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * what was the reason for chosing that kind of deployment from the gradle
-       *  side.
+       * side.
        * </pre>
        */
       public Builder setInstantRunBuildCause(com.google.wireless.android.sdk.stats.AndroidStudioStats.InstantRun.InstantRunBuildCause value) {
@@ -30871,7 +31158,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * what was the reason for chosing that kind of deployment from the gradle
-       *  side.
+       * side.
        * </pre>
        */
       public Builder clearInstantRunBuildCause() {
@@ -30887,7 +31174,7 @@ public final class AndroidStudioStats {
        * <code>optional int64 build_time = 4;</code>
        *
        * <pre>
-       * time the InstantRun enabled took in seconds.
+       * time the InstantRun enabled took in milliseconds.
        * </pre>
        */
       public boolean hasBuildTime() {
@@ -30897,7 +31184,7 @@ public final class AndroidStudioStats {
        * <code>optional int64 build_time = 4;</code>
        *
        * <pre>
-       * time the InstantRun enabled took in seconds.
+       * time the InstantRun enabled took in milliseconds.
        * </pre>
        */
       public long getBuildTime() {
@@ -30907,7 +31194,7 @@ public final class AndroidStudioStats {
        * <code>optional int64 build_time = 4;</code>
        *
        * <pre>
-       * time the InstantRun enabled took in seconds.
+       * time the InstantRun enabled took in milliseconds.
        * </pre>
        */
       public Builder setBuildTime(long value) {
@@ -30920,7 +31207,7 @@ public final class AndroidStudioStats {
        * <code>optional int64 build_time = 4;</code>
        *
        * <pre>
-       * time the InstantRun enabled took in seconds.
+       * time the InstantRun enabled took in milliseconds.
        * </pre>
        */
       public Builder clearBuildTime() {
@@ -30937,8 +31224,8 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * The session id is a UUID within a single run of Android Studio
-       *  tracking multiple HOT_SWAP &amp; DEX builds in the same
-       *  IR session (starting at FULL_APK and ending before FULL_APK).
+       * tracking multiple HOT_SWAP &amp; DEX builds in the same
+       * IR session (starting at FULL_APK and ending before FULL_APK).
        * </pre>
        */
       public boolean hasSessionId() {
@@ -30949,8 +31236,8 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * The session id is a UUID within a single run of Android Studio
-       *  tracking multiple HOT_SWAP &amp; DEX builds in the same
-       *  IR session (starting at FULL_APK and ending before FULL_APK).
+       * tracking multiple HOT_SWAP &amp; DEX builds in the same
+       * IR session (starting at FULL_APK and ending before FULL_APK).
        * </pre>
        */
       public java.lang.String getSessionId() {
@@ -30969,8 +31256,8 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * The session id is a UUID within a single run of Android Studio
-       *  tracking multiple HOT_SWAP &amp; DEX builds in the same
-       *  IR session (starting at FULL_APK and ending before FULL_APK).
+       * tracking multiple HOT_SWAP &amp; DEX builds in the same
+       * IR session (starting at FULL_APK and ending before FULL_APK).
        * </pre>
        */
       public com.google.protobuf.ByteString
@@ -30991,8 +31278,8 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * The session id is a UUID within a single run of Android Studio
-       *  tracking multiple HOT_SWAP &amp; DEX builds in the same
-       *  IR session (starting at FULL_APK and ending before FULL_APK).
+       * tracking multiple HOT_SWAP &amp; DEX builds in the same
+       * IR session (starting at FULL_APK and ending before FULL_APK).
        * </pre>
        */
       public Builder setSessionId(
@@ -31010,8 +31297,8 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * The session id is a UUID within a single run of Android Studio
-       *  tracking multiple HOT_SWAP &amp; DEX builds in the same
-       *  IR session (starting at FULL_APK and ending before FULL_APK).
+       * tracking multiple HOT_SWAP &amp; DEX builds in the same
+       * IR session (starting at FULL_APK and ending before FULL_APK).
        * </pre>
        */
       public Builder clearSessionId() {
@@ -31025,8 +31312,8 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * The session id is a UUID within a single run of Android Studio
-       *  tracking multiple HOT_SWAP &amp; DEX builds in the same
-       *  IR session (starting at FULL_APK and ending before FULL_APK).
+       * tracking multiple HOT_SWAP &amp; DEX builds in the same
+       * IR session (starting at FULL_APK and ending before FULL_APK).
        * </pre>
        */
       public Builder setSessionIdBytes(
@@ -31047,7 +31334,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * what was the reason for chosing that kind of deployment from the IDE
-       *  side.
+       * side.
        * </pre>
        */
       public boolean hasIdeBuildCause() {
@@ -31058,7 +31345,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * what was the reason for chosing that kind of deployment from the IDE
-       *  side.
+       * side.
        * </pre>
        */
       public com.google.wireless.android.sdk.stats.AndroidStudioStats.InstantRun.InstantRunIdeBuildCause getIdeBuildCause() {
@@ -31069,7 +31356,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * what was the reason for chosing that kind of deployment from the IDE
-       *  side.
+       * side.
        * </pre>
        */
       public Builder setIdeBuildCause(com.google.wireless.android.sdk.stats.AndroidStudioStats.InstantRun.InstantRunIdeBuildCause value) {
@@ -31086,7 +31373,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * what was the reason for chosing that kind of deployment from the IDE
-       *  side.
+       * side.
        * </pre>
        */
       public Builder clearIdeBuildCause() {
@@ -31116,7 +31403,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * number of times connecting to the clearcut server failed since
-     *  the last successful upload.
+     * the last successful upload.
      * </pre>
      */
     boolean hasFailedConnections();
@@ -31125,7 +31412,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * number of times connecting to the clearcut server failed since
-     *  the last successful upload.
+     * the last successful upload.
      * </pre>
      */
     int getFailedConnections();
@@ -31154,7 +31441,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * number of times the clearcut server failed with an http error since
-     *  the last successful upload.
+     * the last successful upload.
      * </pre>
      */
     boolean hasFailedServerReplies();
@@ -31163,7 +31450,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * number of times the clearcut server failed with an http error since
-     *  the last successful upload.
+     * the last successful upload.
      * </pre>
      */
     int getFailedServerReplies();
@@ -31286,7 +31573,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * number of times connecting to the clearcut server failed since
-     *  the last successful upload.
+     * the last successful upload.
      * </pre>
      */
     public boolean hasFailedConnections() {
@@ -31297,7 +31584,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * number of times connecting to the clearcut server failed since
-     *  the last successful upload.
+     * the last successful upload.
      * </pre>
      */
     public int getFailedConnections() {
@@ -31336,7 +31623,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * number of times the clearcut server failed with an http error since
-     *  the last successful upload.
+     * the last successful upload.
      * </pre>
      */
     public boolean hasFailedServerReplies() {
@@ -31347,7 +31634,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * number of times the clearcut server failed with an http error since
-     *  the last successful upload.
+     * the last successful upload.
      * </pre>
      */
     public int getFailedServerReplies() {
@@ -31626,7 +31913,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * number of times connecting to the clearcut server failed since
-       *  the last successful upload.
+       * the last successful upload.
        * </pre>
        */
       public boolean hasFailedConnections() {
@@ -31637,7 +31924,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * number of times connecting to the clearcut server failed since
-       *  the last successful upload.
+       * the last successful upload.
        * </pre>
        */
       public int getFailedConnections() {
@@ -31648,7 +31935,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * number of times connecting to the clearcut server failed since
-       *  the last successful upload.
+       * the last successful upload.
        * </pre>
        */
       public Builder setFailedConnections(int value) {
@@ -31662,7 +31949,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * number of times connecting to the clearcut server failed since
-       *  the last successful upload.
+       * the last successful upload.
        * </pre>
        */
       public Builder clearFailedConnections() {
@@ -31728,7 +32015,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * number of times the clearcut server failed with an http error since
-       *  the last successful upload.
+       * the last successful upload.
        * </pre>
        */
       public boolean hasFailedServerReplies() {
@@ -31739,7 +32026,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * number of times the clearcut server failed with an http error since
-       *  the last successful upload.
+       * the last successful upload.
        * </pre>
        */
       public int getFailedServerReplies() {
@@ -31750,7 +32037,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * number of times the clearcut server failed with an http error since
-       *  the last successful upload.
+       * the last successful upload.
        * </pre>
        */
       public Builder setFailedServerReplies(int value) {
@@ -31764,7 +32051,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * number of times the clearcut server failed with an http error since
-       *  the last successful upload.
+       * the last successful upload.
        * </pre>
        */
       public Builder clearFailedServerReplies() {
@@ -31848,7 +32135,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * Whether the test run finished successfully (regardless of results) or
-     *  tooling error happened.
+     * tooling error happened.
      * </pre>
      */
     boolean hasCrashed();
@@ -31857,7 +32144,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * Whether the test run finished successfully (regardless of results) or
-     *  tooling error happened.
+     * tooling error happened.
      * </pre>
      */
     boolean getCrashed();
@@ -32388,7 +32675,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * Whether the test run finished successfully (regardless of results) or
-     *  tooling error happened.
+     * tooling error happened.
      * </pre>
      */
     public boolean hasCrashed() {
@@ -32399,7 +32686,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * Whether the test run finished successfully (regardless of results) or
-     *  tooling error happened.
+     * tooling error happened.
      * </pre>
      */
     public boolean getCrashed() {
@@ -33025,7 +33312,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * Whether the test run finished successfully (regardless of results) or
-       *  tooling error happened.
+       * tooling error happened.
        * </pre>
        */
       public boolean hasCrashed() {
@@ -33036,7 +33323,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * Whether the test run finished successfully (regardless of results) or
-       *  tooling error happened.
+       * tooling error happened.
        * </pre>
        */
       public boolean getCrashed() {
@@ -33047,7 +33334,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * Whether the test run finished successfully (regardless of results) or
-       *  tooling error happened.
+       * tooling error happened.
        * </pre>
        */
       public Builder setCrashed(boolean value) {
@@ -33061,7 +33348,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * Whether the test run finished successfully (regardless of results) or
-       *  tooling error happened.
+       * tooling error happened.
        * </pre>
        */
       public Builder clearCrashed() {
@@ -33395,7 +33682,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * The exact version of the given library that this project uses.
-     *  Not present if project doesn't use a given library.
+     * Not present if project doesn't use a given library.
      * </pre>
      */
     boolean hasTestSupportLibraryVersion();
@@ -33404,7 +33691,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * The exact version of the given library that this project uses.
-     *  Not present if project doesn't use a given library.
+     * Not present if project doesn't use a given library.
      * </pre>
      */
     java.lang.String getTestSupportLibraryVersion();
@@ -33413,7 +33700,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * The exact version of the given library that this project uses.
-     *  Not present if project doesn't use a given library.
+     * Not present if project doesn't use a given library.
      * </pre>
      */
     com.google.protobuf.ByteString
@@ -33623,7 +33910,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * The exact version of the given library that this project uses.
-     *  Not present if project doesn't use a given library.
+     * Not present if project doesn't use a given library.
      * </pre>
      */
     public boolean hasTestSupportLibraryVersion() {
@@ -33634,7 +33921,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * The exact version of the given library that this project uses.
-     *  Not present if project doesn't use a given library.
+     * Not present if project doesn't use a given library.
      * </pre>
      */
     public java.lang.String getTestSupportLibraryVersion() {
@@ -33656,7 +33943,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * The exact version of the given library that this project uses.
-     *  Not present if project doesn't use a given library.
+     * Not present if project doesn't use a given library.
      * </pre>
      */
     public com.google.protobuf.ByteString
@@ -34135,7 +34422,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * The exact version of the given library that this project uses.
-       *  Not present if project doesn't use a given library.
+       * Not present if project doesn't use a given library.
        * </pre>
        */
       public boolean hasTestSupportLibraryVersion() {
@@ -34146,7 +34433,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * The exact version of the given library that this project uses.
-       *  Not present if project doesn't use a given library.
+       * Not present if project doesn't use a given library.
        * </pre>
        */
       public java.lang.String getTestSupportLibraryVersion() {
@@ -34165,7 +34452,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * The exact version of the given library that this project uses.
-       *  Not present if project doesn't use a given library.
+       * Not present if project doesn't use a given library.
        * </pre>
        */
       public com.google.protobuf.ByteString
@@ -34186,7 +34473,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * The exact version of the given library that this project uses.
-       *  Not present if project doesn't use a given library.
+       * Not present if project doesn't use a given library.
        * </pre>
        */
       public Builder setTestSupportLibraryVersion(
@@ -34204,7 +34491,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * The exact version of the given library that this project uses.
-       *  Not present if project doesn't use a given library.
+       * Not present if project doesn't use a given library.
        * </pre>
        */
       public Builder clearTestSupportLibraryVersion() {
@@ -34218,7 +34505,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * The exact version of the given library that this project uses.
-       *  Not present if project doesn't use a given library.
+       * Not present if project doesn't use a given library.
        * </pre>
        */
       public Builder setTestSupportLibraryVersionBytes(
@@ -35104,7 +35391,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * CPU manufacturer of the host, used as certain hypervisors are limited
-     *  to a certain manufacturer.
+     * to a certain manufacturer.
      * </pre>
      */
     boolean hasCpuManufacturer();
@@ -35113,7 +35400,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * CPU manufacturer of the host, used as certain hypervisors are limited
-     *  to a certain manufacturer.
+     * to a certain manufacturer.
      * </pre>
      */
     java.lang.String getCpuManufacturer();
@@ -35122,7 +35409,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * CPU manufacturer of the host, used as certain hypervisors are limited
-     *  to a certain manufacturer.
+     * to a certain manufacturer.
      * </pre>
      */
     com.google.protobuf.ByteString
@@ -35172,7 +35459,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * May differ from os_architecture field as it is calculated differently,
-     *  trying to compensate the JVM bittness.
+     * trying to compensate the JVM bittness.
      * </pre>
      */
     boolean hasOsBitCount();
@@ -35181,7 +35468,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * May differ from os_architecture field as it is calculated differently,
-     *  trying to compensate the JVM bittness.
+     * trying to compensate the JVM bittness.
      * </pre>
      */
     long getOsBitCount();
@@ -35309,7 +35596,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * CPU manufacturer of the host, used as certain hypervisors are limited
-     *  to a certain manufacturer.
+     * to a certain manufacturer.
      * </pre>
      */
     public boolean hasCpuManufacturer() {
@@ -35320,7 +35607,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * CPU manufacturer of the host, used as certain hypervisors are limited
-     *  to a certain manufacturer.
+     * to a certain manufacturer.
      * </pre>
      */
     public java.lang.String getCpuManufacturer() {
@@ -35342,7 +35629,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * CPU manufacturer of the host, used as certain hypervisors are limited
-     *  to a certain manufacturer.
+     * to a certain manufacturer.
      * </pre>
      */
     public com.google.protobuf.ByteString
@@ -35417,7 +35704,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * May differ from os_architecture field as it is calculated differently,
-     *  trying to compensate the JVM bittness.
+     * trying to compensate the JVM bittness.
      * </pre>
      */
     public boolean hasOsBitCount() {
@@ -35428,7 +35715,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * May differ from os_architecture field as it is calculated differently,
-     *  trying to compensate the JVM bittness.
+     * trying to compensate the JVM bittness.
      * </pre>
      */
     public long getOsBitCount() {
@@ -35726,7 +36013,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * CPU manufacturer of the host, used as certain hypervisors are limited
-       *  to a certain manufacturer.
+       * to a certain manufacturer.
        * </pre>
        */
       public boolean hasCpuManufacturer() {
@@ -35737,7 +36024,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * CPU manufacturer of the host, used as certain hypervisors are limited
-       *  to a certain manufacturer.
+       * to a certain manufacturer.
        * </pre>
        */
       public java.lang.String getCpuManufacturer() {
@@ -35756,7 +36043,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * CPU manufacturer of the host, used as certain hypervisors are limited
-       *  to a certain manufacturer.
+       * to a certain manufacturer.
        * </pre>
        */
       public com.google.protobuf.ByteString
@@ -35777,7 +36064,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * CPU manufacturer of the host, used as certain hypervisors are limited
-       *  to a certain manufacturer.
+       * to a certain manufacturer.
        * </pre>
        */
       public Builder setCpuManufacturer(
@@ -35795,7 +36082,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * CPU manufacturer of the host, used as certain hypervisors are limited
-       *  to a certain manufacturer.
+       * to a certain manufacturer.
        * </pre>
        */
       public Builder clearCpuManufacturer() {
@@ -35809,7 +36096,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * CPU manufacturer of the host, used as certain hypervisors are limited
-       *  to a certain manufacturer.
+       * to a certain manufacturer.
        * </pre>
        */
       public Builder setCpuManufacturerBytes(
@@ -35932,7 +36219,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * May differ from os_architecture field as it is calculated differently,
-       *  trying to compensate the JVM bittness.
+       * trying to compensate the JVM bittness.
        * </pre>
        */
       public boolean hasOsBitCount() {
@@ -35943,7 +36230,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * May differ from os_architecture field as it is calculated differently,
-       *  trying to compensate the JVM bittness.
+       * trying to compensate the JVM bittness.
        * </pre>
        */
       public long getOsBitCount() {
@@ -35954,7 +36241,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * May differ from os_architecture field as it is calculated differently,
-       *  trying to compensate the JVM bittness.
+       * trying to compensate the JVM bittness.
        * </pre>
        */
       public Builder setOsBitCount(long value) {
@@ -35968,7 +36255,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * May differ from os_architecture field as it is calculated differently,
-       *  trying to compensate the JVM bittness.
+       * trying to compensate the JVM bittness.
        * </pre>
        */
       public Builder clearOsBitCount() {
@@ -35998,7 +36285,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * Version of the open source Gradle application used.
-     *  e.g. "2.14" or "3.0-20160617000025+0000"
+     * e.g. "2.14" or "3.0-20160617000025+0000"
      * </pre>
      */
     boolean hasGradleVersion();
@@ -36007,7 +36294,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * Version of the open source Gradle application used.
-     *  e.g. "2.14" or "3.0-20160617000025+0000"
+     * e.g. "2.14" or "3.0-20160617000025+0000"
      * </pre>
      */
     java.lang.String getGradleVersion();
@@ -36016,7 +36303,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * Version of the open source Gradle application used.
-     *  e.g. "2.14" or "3.0-20160617000025+0000"
+     * e.g. "2.14" or "3.0-20160617000025+0000"
      * </pre>
      */
     com.google.protobuf.ByteString
@@ -36028,7 +36315,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * The value of the "os.name" system property.
-     *  e.g. "Linux"
+     * e.g. "Linux"
      * </pre>
      */
     boolean hasOsName();
@@ -36037,7 +36324,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * The value of the "os.name" system property.
-     *  e.g. "Linux"
+     * e.g. "Linux"
      * </pre>
      */
     java.lang.String getOsName();
@@ -36046,7 +36333,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * The value of the "os.name" system property.
-     *  e.g. "Linux"
+     * e.g. "Linux"
      * </pre>
      */
     com.google.protobuf.ByteString
@@ -36058,7 +36345,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * The value of the "os.version" system property.
-     *  e.g. "3.13.0-86-generic"
+     * e.g. "3.13.0-86-generic"
      * </pre>
      */
     boolean hasOsVersion();
@@ -36067,7 +36354,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * The value of the "os.version" system property.
-     *  e.g. "3.13.0-86-generic"
+     * e.g. "3.13.0-86-generic"
      * </pre>
      */
     java.lang.String getOsVersion();
@@ -36076,7 +36363,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * The value of the "os.version" system property.
-     *  e.g. "3.13.0-86-generic"
+     * e.g. "3.13.0-86-generic"
      * </pre>
      */
     com.google.protobuf.ByteString
@@ -36088,7 +36375,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * The value of the "java.version" system property.
-     *  e.g. "1.8.0_40-ea"
+     * e.g. "1.8.0_40-ea"
      * </pre>
      */
     boolean hasJavaVersion();
@@ -36097,7 +36384,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * The value of the "java.version" system property.
-     *  e.g. "1.8.0_40-ea"
+     * e.g. "1.8.0_40-ea"
      * </pre>
      */
     java.lang.String getJavaVersion();
@@ -36106,7 +36393,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * The value of the "java.version" system property.
-     *  e.g. "1.8.0_40-ea"
+     * e.g. "1.8.0_40-ea"
      * </pre>
      */
     com.google.protobuf.ByteString
@@ -36118,7 +36405,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * The value of the "java.vm.version" system property.
-     *  e.g. "25.40-b25"
+     * e.g. "25.40-b25"
      * </pre>
      */
     boolean hasJavaVmVersion();
@@ -36127,7 +36414,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * The value of the "java.vm.version" system property.
-     *  e.g. "25.40-b25"
+     * e.g. "25.40-b25"
      * </pre>
      */
     java.lang.String getJavaVmVersion();
@@ -36136,7 +36423,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * The value of the "java.vm.version" system property.
-     *  e.g. "25.40-b25"
+     * e.g. "25.40-b25"
      * </pre>
      */
     com.google.protobuf.ByteString
@@ -36165,9 +36452,9 @@ public final class AndroidStudioStats {
      * <code>optional int64 build_time = 11;</code>
      *
      * <pre>
-     * The total time taken for this build.
-     *  This does not include Gradle's startup (before plugin apply) or shutdown
-     *  (after BuildListener#buildFinished(BuildResult) called.
+     * The total time taken for this build in milliseconds.
+     * This does not include Gradle's startup (before plugin apply) or shutdown
+     * (after BuildListener#buildFinished(BuildResult) called.
      * </pre>
      */
     boolean hasBuildTime();
@@ -36175,9 +36462,9 @@ public final class AndroidStudioStats {
      * <code>optional int64 build_time = 11;</code>
      *
      * <pre>
-     * The total time taken for this build.
-     *  This does not include Gradle's startup (before plugin apply) or shutdown
-     *  (after BuildListener#buildFinished(BuildResult) called.
+     * The total time taken for this build in milliseconds.
+     * This does not include Gradle's startup (before plugin apply) or shutdown
+     * (after BuildListener#buildFinished(BuildResult) called.
      * </pre>
      */
     long getBuildTime();
@@ -36385,12 +36672,12 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * Client-side salted, sha256 of the root project path.
-     *  This exists to allow multiple instant run builds in one project by one
-     *  user to be correlated.
-     * 
-     *  The salt is rotated every 28 days, so it is not a permenant pseudonymous
-     *  identifier. It is anonymized and is unique per user, but has a 1-N
-     *  relation.
+     * This exists to allow multiple instant run builds in one project by one
+     * user to be correlated.
+     *
+     * The salt is rotated every 28 days, so it is not a permenant pseudonymous
+     * identifier. It is anonymized and is unique per user, but has a 1-N
+     * relation.
      * </pre>
      */
     boolean hasProjectId();
@@ -36399,12 +36686,12 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * Client-side salted, sha256 of the root project path.
-     *  This exists to allow multiple instant run builds in one project by one
-     *  user to be correlated.
-     * 
-     *  The salt is rotated every 28 days, so it is not a permenant pseudonymous
-     *  identifier. It is anonymized and is unique per user, but has a 1-N
-     *  relation.
+     * This exists to allow multiple instant run builds in one project by one
+     * user to be correlated.
+     *
+     * The salt is rotated every 28 days, so it is not a permenant pseudonymous
+     * identifier. It is anonymized and is unique per user, but has a 1-N
+     * relation.
      * </pre>
      */
     java.lang.String getProjectId();
@@ -36413,12 +36700,12 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * Client-side salted, sha256 of the root project path.
-     *  This exists to allow multiple instant run builds in one project by one
-     *  user to be correlated.
-     * 
-     *  The salt is rotated every 28 days, so it is not a permenant pseudonymous
-     *  identifier. It is anonymized and is unique per user, but has a 1-N
-     *  relation.
+     * This exists to allow multiple instant run builds in one project by one
+     * user to be correlated.
+     *
+     * The salt is rotated every 28 days, so it is not a permenant pseudonymous
+     * identifier. It is anonymized and is unique per user, but has a 1-N
+     * relation.
      * </pre>
      */
     com.google.protobuf.ByteString
@@ -36623,7 +36910,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * Version of the open source Gradle application used.
-     *  e.g. "2.14" or "3.0-20160617000025+0000"
+     * e.g. "2.14" or "3.0-20160617000025+0000"
      * </pre>
      */
     public boolean hasGradleVersion() {
@@ -36634,7 +36921,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * Version of the open source Gradle application used.
-     *  e.g. "2.14" or "3.0-20160617000025+0000"
+     * e.g. "2.14" or "3.0-20160617000025+0000"
      * </pre>
      */
     public java.lang.String getGradleVersion() {
@@ -36656,7 +36943,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * Version of the open source Gradle application used.
-     *  e.g. "2.14" or "3.0-20160617000025+0000"
+     * e.g. "2.14" or "3.0-20160617000025+0000"
      * </pre>
      */
     public com.google.protobuf.ByteString
@@ -36681,7 +36968,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * The value of the "os.name" system property.
-     *  e.g. "Linux"
+     * e.g. "Linux"
      * </pre>
      */
     public boolean hasOsName() {
@@ -36692,7 +36979,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * The value of the "os.name" system property.
-     *  e.g. "Linux"
+     * e.g. "Linux"
      * </pre>
      */
     public java.lang.String getOsName() {
@@ -36714,7 +37001,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * The value of the "os.name" system property.
-     *  e.g. "Linux"
+     * e.g. "Linux"
      * </pre>
      */
     public com.google.protobuf.ByteString
@@ -36739,7 +37026,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * The value of the "os.version" system property.
-     *  e.g. "3.13.0-86-generic"
+     * e.g. "3.13.0-86-generic"
      * </pre>
      */
     public boolean hasOsVersion() {
@@ -36750,7 +37037,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * The value of the "os.version" system property.
-     *  e.g. "3.13.0-86-generic"
+     * e.g. "3.13.0-86-generic"
      * </pre>
      */
     public java.lang.String getOsVersion() {
@@ -36772,7 +37059,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * The value of the "os.version" system property.
-     *  e.g. "3.13.0-86-generic"
+     * e.g. "3.13.0-86-generic"
      * </pre>
      */
     public com.google.protobuf.ByteString
@@ -36797,7 +37084,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * The value of the "java.version" system property.
-     *  e.g. "1.8.0_40-ea"
+     * e.g. "1.8.0_40-ea"
      * </pre>
      */
     public boolean hasJavaVersion() {
@@ -36808,7 +37095,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * The value of the "java.version" system property.
-     *  e.g. "1.8.0_40-ea"
+     * e.g. "1.8.0_40-ea"
      * </pre>
      */
     public java.lang.String getJavaVersion() {
@@ -36830,7 +37117,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * The value of the "java.version" system property.
-     *  e.g. "1.8.0_40-ea"
+     * e.g. "1.8.0_40-ea"
      * </pre>
      */
     public com.google.protobuf.ByteString
@@ -36855,7 +37142,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * The value of the "java.vm.version" system property.
-     *  e.g. "25.40-b25"
+     * e.g. "25.40-b25"
      * </pre>
      */
     public boolean hasJavaVmVersion() {
@@ -36866,7 +37153,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * The value of the "java.vm.version" system property.
-     *  e.g. "25.40-b25"
+     * e.g. "25.40-b25"
      * </pre>
      */
     public java.lang.String getJavaVmVersion() {
@@ -36888,7 +37175,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * The value of the "java.vm.version" system property.
-     *  e.g. "25.40-b25"
+     * e.g. "25.40-b25"
      * </pre>
      */
     public com.google.protobuf.ByteString
@@ -36936,9 +37223,9 @@ public final class AndroidStudioStats {
      * <code>optional int64 build_time = 11;</code>
      *
      * <pre>
-     * The total time taken for this build.
-     *  This does not include Gradle's startup (before plugin apply) or shutdown
-     *  (after BuildListener#buildFinished(BuildResult) called.
+     * The total time taken for this build in milliseconds.
+     * This does not include Gradle's startup (before plugin apply) or shutdown
+     * (after BuildListener#buildFinished(BuildResult) called.
      * </pre>
      */
     public boolean hasBuildTime() {
@@ -36948,9 +37235,9 @@ public final class AndroidStudioStats {
      * <code>optional int64 build_time = 11;</code>
      *
      * <pre>
-     * The total time taken for this build.
-     *  This does not include Gradle's startup (before plugin apply) or shutdown
-     *  (after BuildListener#buildFinished(BuildResult) called.
+     * The total time taken for this build in milliseconds.
+     * This does not include Gradle's startup (before plugin apply) or shutdown
+     * (after BuildListener#buildFinished(BuildResult) called.
      * </pre>
      */
     public long getBuildTime() {
@@ -37215,12 +37502,12 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * Client-side salted, sha256 of the root project path.
-     *  This exists to allow multiple instant run builds in one project by one
-     *  user to be correlated.
-     * 
-     *  The salt is rotated every 28 days, so it is not a permenant pseudonymous
-     *  identifier. It is anonymized and is unique per user, but has a 1-N
-     *  relation.
+     * This exists to allow multiple instant run builds in one project by one
+     * user to be correlated.
+     *
+     * The salt is rotated every 28 days, so it is not a permenant pseudonymous
+     * identifier. It is anonymized and is unique per user, but has a 1-N
+     * relation.
      * </pre>
      */
     public boolean hasProjectId() {
@@ -37231,12 +37518,12 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * Client-side salted, sha256 of the root project path.
-     *  This exists to allow multiple instant run builds in one project by one
-     *  user to be correlated.
-     * 
-     *  The salt is rotated every 28 days, so it is not a permenant pseudonymous
-     *  identifier. It is anonymized and is unique per user, but has a 1-N
-     *  relation.
+     * This exists to allow multiple instant run builds in one project by one
+     * user to be correlated.
+     *
+     * The salt is rotated every 28 days, so it is not a permenant pseudonymous
+     * identifier. It is anonymized and is unique per user, but has a 1-N
+     * relation.
      * </pre>
      */
     public java.lang.String getProjectId() {
@@ -37258,12 +37545,12 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * Client-side salted, sha256 of the root project path.
-     *  This exists to allow multiple instant run builds in one project by one
-     *  user to be correlated.
-     * 
-     *  The salt is rotated every 28 days, so it is not a permenant pseudonymous
-     *  identifier. It is anonymized and is unique per user, but has a 1-N
-     *  relation.
+     * This exists to allow multiple instant run builds in one project by one
+     * user to be correlated.
+     *
+     * The salt is rotated every 28 days, so it is not a permenant pseudonymous
+     * identifier. It is anonymized and is unique per user, but has a 1-N
+     * relation.
      * </pre>
      */
     public com.google.protobuf.ByteString
@@ -37859,7 +38146,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * Version of the open source Gradle application used.
-       *  e.g. "2.14" or "3.0-20160617000025+0000"
+       * e.g. "2.14" or "3.0-20160617000025+0000"
        * </pre>
        */
       public boolean hasGradleVersion() {
@@ -37870,7 +38157,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * Version of the open source Gradle application used.
-       *  e.g. "2.14" or "3.0-20160617000025+0000"
+       * e.g. "2.14" or "3.0-20160617000025+0000"
        * </pre>
        */
       public java.lang.String getGradleVersion() {
@@ -37889,7 +38176,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * Version of the open source Gradle application used.
-       *  e.g. "2.14" or "3.0-20160617000025+0000"
+       * e.g. "2.14" or "3.0-20160617000025+0000"
        * </pre>
        */
       public com.google.protobuf.ByteString
@@ -37910,7 +38197,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * Version of the open source Gradle application used.
-       *  e.g. "2.14" or "3.0-20160617000025+0000"
+       * e.g. "2.14" or "3.0-20160617000025+0000"
        * </pre>
        */
       public Builder setGradleVersion(
@@ -37928,7 +38215,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * Version of the open source Gradle application used.
-       *  e.g. "2.14" or "3.0-20160617000025+0000"
+       * e.g. "2.14" or "3.0-20160617000025+0000"
        * </pre>
        */
       public Builder clearGradleVersion() {
@@ -37942,7 +38229,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * Version of the open source Gradle application used.
-       *  e.g. "2.14" or "3.0-20160617000025+0000"
+       * e.g. "2.14" or "3.0-20160617000025+0000"
        * </pre>
        */
       public Builder setGradleVersionBytes(
@@ -37963,7 +38250,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * The value of the "os.name" system property.
-       *  e.g. "Linux"
+       * e.g. "Linux"
        * </pre>
        */
       public boolean hasOsName() {
@@ -37974,7 +38261,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * The value of the "os.name" system property.
-       *  e.g. "Linux"
+       * e.g. "Linux"
        * </pre>
        */
       public java.lang.String getOsName() {
@@ -37993,7 +38280,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * The value of the "os.name" system property.
-       *  e.g. "Linux"
+       * e.g. "Linux"
        * </pre>
        */
       public com.google.protobuf.ByteString
@@ -38014,7 +38301,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * The value of the "os.name" system property.
-       *  e.g. "Linux"
+       * e.g. "Linux"
        * </pre>
        */
       public Builder setOsName(
@@ -38032,7 +38319,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * The value of the "os.name" system property.
-       *  e.g. "Linux"
+       * e.g. "Linux"
        * </pre>
        */
       public Builder clearOsName() {
@@ -38046,7 +38333,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * The value of the "os.name" system property.
-       *  e.g. "Linux"
+       * e.g. "Linux"
        * </pre>
        */
       public Builder setOsNameBytes(
@@ -38067,7 +38354,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * The value of the "os.version" system property.
-       *  e.g. "3.13.0-86-generic"
+       * e.g. "3.13.0-86-generic"
        * </pre>
        */
       public boolean hasOsVersion() {
@@ -38078,7 +38365,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * The value of the "os.version" system property.
-       *  e.g. "3.13.0-86-generic"
+       * e.g. "3.13.0-86-generic"
        * </pre>
        */
       public java.lang.String getOsVersion() {
@@ -38097,7 +38384,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * The value of the "os.version" system property.
-       *  e.g. "3.13.0-86-generic"
+       * e.g. "3.13.0-86-generic"
        * </pre>
        */
       public com.google.protobuf.ByteString
@@ -38118,7 +38405,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * The value of the "os.version" system property.
-       *  e.g. "3.13.0-86-generic"
+       * e.g. "3.13.0-86-generic"
        * </pre>
        */
       public Builder setOsVersion(
@@ -38136,7 +38423,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * The value of the "os.version" system property.
-       *  e.g. "3.13.0-86-generic"
+       * e.g. "3.13.0-86-generic"
        * </pre>
        */
       public Builder clearOsVersion() {
@@ -38150,7 +38437,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * The value of the "os.version" system property.
-       *  e.g. "3.13.0-86-generic"
+       * e.g. "3.13.0-86-generic"
        * </pre>
        */
       public Builder setOsVersionBytes(
@@ -38171,7 +38458,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * The value of the "java.version" system property.
-       *  e.g. "1.8.0_40-ea"
+       * e.g. "1.8.0_40-ea"
        * </pre>
        */
       public boolean hasJavaVersion() {
@@ -38182,7 +38469,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * The value of the "java.version" system property.
-       *  e.g. "1.8.0_40-ea"
+       * e.g. "1.8.0_40-ea"
        * </pre>
        */
       public java.lang.String getJavaVersion() {
@@ -38201,7 +38488,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * The value of the "java.version" system property.
-       *  e.g. "1.8.0_40-ea"
+       * e.g. "1.8.0_40-ea"
        * </pre>
        */
       public com.google.protobuf.ByteString
@@ -38222,7 +38509,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * The value of the "java.version" system property.
-       *  e.g. "1.8.0_40-ea"
+       * e.g. "1.8.0_40-ea"
        * </pre>
        */
       public Builder setJavaVersion(
@@ -38240,7 +38527,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * The value of the "java.version" system property.
-       *  e.g. "1.8.0_40-ea"
+       * e.g. "1.8.0_40-ea"
        * </pre>
        */
       public Builder clearJavaVersion() {
@@ -38254,7 +38541,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * The value of the "java.version" system property.
-       *  e.g. "1.8.0_40-ea"
+       * e.g. "1.8.0_40-ea"
        * </pre>
        */
       public Builder setJavaVersionBytes(
@@ -38275,7 +38562,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * The value of the "java.vm.version" system property.
-       *  e.g. "25.40-b25"
+       * e.g. "25.40-b25"
        * </pre>
        */
       public boolean hasJavaVmVersion() {
@@ -38286,7 +38573,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * The value of the "java.vm.version" system property.
-       *  e.g. "25.40-b25"
+       * e.g. "25.40-b25"
        * </pre>
        */
       public java.lang.String getJavaVmVersion() {
@@ -38305,7 +38592,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * The value of the "java.vm.version" system property.
-       *  e.g. "25.40-b25"
+       * e.g. "25.40-b25"
        * </pre>
        */
       public com.google.protobuf.ByteString
@@ -38326,7 +38613,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * The value of the "java.vm.version" system property.
-       *  e.g. "25.40-b25"
+       * e.g. "25.40-b25"
        * </pre>
        */
       public Builder setJavaVmVersion(
@@ -38344,7 +38631,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * The value of the "java.vm.version" system property.
-       *  e.g. "25.40-b25"
+       * e.g. "25.40-b25"
        * </pre>
        */
       public Builder clearJavaVmVersion() {
@@ -38358,7 +38645,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * The value of the "java.vm.version" system property.
-       *  e.g. "25.40-b25"
+       * e.g. "25.40-b25"
        * </pre>
        */
       public Builder setJavaVmVersionBytes(
@@ -38427,9 +38714,9 @@ public final class AndroidStudioStats {
        * <code>optional int64 build_time = 11;</code>
        *
        * <pre>
-       * The total time taken for this build.
-       *  This does not include Gradle's startup (before plugin apply) or shutdown
-       *  (after BuildListener#buildFinished(BuildResult) called.
+       * The total time taken for this build in milliseconds.
+       * This does not include Gradle's startup (before plugin apply) or shutdown
+       * (after BuildListener#buildFinished(BuildResult) called.
        * </pre>
        */
       public boolean hasBuildTime() {
@@ -38439,9 +38726,9 @@ public final class AndroidStudioStats {
        * <code>optional int64 build_time = 11;</code>
        *
        * <pre>
-       * The total time taken for this build.
-       *  This does not include Gradle's startup (before plugin apply) or shutdown
-       *  (after BuildListener#buildFinished(BuildResult) called.
+       * The total time taken for this build in milliseconds.
+       * This does not include Gradle's startup (before plugin apply) or shutdown
+       * (after BuildListener#buildFinished(BuildResult) called.
        * </pre>
        */
       public long getBuildTime() {
@@ -38451,9 +38738,9 @@ public final class AndroidStudioStats {
        * <code>optional int64 build_time = 11;</code>
        *
        * <pre>
-       * The total time taken for this build.
-       *  This does not include Gradle's startup (before plugin apply) or shutdown
-       *  (after BuildListener#buildFinished(BuildResult) called.
+       * The total time taken for this build in milliseconds.
+       * This does not include Gradle's startup (before plugin apply) or shutdown
+       * (after BuildListener#buildFinished(BuildResult) called.
        * </pre>
        */
       public Builder setBuildTime(long value) {
@@ -38466,9 +38753,9 @@ public final class AndroidStudioStats {
        * <code>optional int64 build_time = 11;</code>
        *
        * <pre>
-       * The total time taken for this build.
-       *  This does not include Gradle's startup (before plugin apply) or shutdown
-       *  (after BuildListener#buildFinished(BuildResult) called.
+       * The total time taken for this build in milliseconds.
+       * This does not include Gradle's startup (before plugin apply) or shutdown
+       * (after BuildListener#buildFinished(BuildResult) called.
        * </pre>
        */
       public Builder clearBuildTime() {
@@ -39672,12 +39959,12 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * Client-side salted, sha256 of the root project path.
-       *  This exists to allow multiple instant run builds in one project by one
-       *  user to be correlated.
-       * 
-       *  The salt is rotated every 28 days, so it is not a permenant pseudonymous
-       *  identifier. It is anonymized and is unique per user, but has a 1-N
-       *  relation.
+       * This exists to allow multiple instant run builds in one project by one
+       * user to be correlated.
+       *
+       * The salt is rotated every 28 days, so it is not a permenant pseudonymous
+       * identifier. It is anonymized and is unique per user, but has a 1-N
+       * relation.
        * </pre>
        */
       public boolean hasProjectId() {
@@ -39688,12 +39975,12 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * Client-side salted, sha256 of the root project path.
-       *  This exists to allow multiple instant run builds in one project by one
-       *  user to be correlated.
-       * 
-       *  The salt is rotated every 28 days, so it is not a permenant pseudonymous
-       *  identifier. It is anonymized and is unique per user, but has a 1-N
-       *  relation.
+       * This exists to allow multiple instant run builds in one project by one
+       * user to be correlated.
+       *
+       * The salt is rotated every 28 days, so it is not a permenant pseudonymous
+       * identifier. It is anonymized and is unique per user, but has a 1-N
+       * relation.
        * </pre>
        */
       public java.lang.String getProjectId() {
@@ -39712,12 +39999,12 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * Client-side salted, sha256 of the root project path.
-       *  This exists to allow multiple instant run builds in one project by one
-       *  user to be correlated.
-       * 
-       *  The salt is rotated every 28 days, so it is not a permenant pseudonymous
-       *  identifier. It is anonymized and is unique per user, but has a 1-N
-       *  relation.
+       * This exists to allow multiple instant run builds in one project by one
+       * user to be correlated.
+       *
+       * The salt is rotated every 28 days, so it is not a permenant pseudonymous
+       * identifier. It is anonymized and is unique per user, but has a 1-N
+       * relation.
        * </pre>
        */
       public com.google.protobuf.ByteString
@@ -39738,12 +40025,12 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * Client-side salted, sha256 of the root project path.
-       *  This exists to allow multiple instant run builds in one project by one
-       *  user to be correlated.
-       * 
-       *  The salt is rotated every 28 days, so it is not a permenant pseudonymous
-       *  identifier. It is anonymized and is unique per user, but has a 1-N
-       *  relation.
+       * This exists to allow multiple instant run builds in one project by one
+       * user to be correlated.
+       *
+       * The salt is rotated every 28 days, so it is not a permenant pseudonymous
+       * identifier. It is anonymized and is unique per user, but has a 1-N
+       * relation.
        * </pre>
        */
       public Builder setProjectId(
@@ -39761,12 +40048,12 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * Client-side salted, sha256 of the root project path.
-       *  This exists to allow multiple instant run builds in one project by one
-       *  user to be correlated.
-       * 
-       *  The salt is rotated every 28 days, so it is not a permenant pseudonymous
-       *  identifier. It is anonymized and is unique per user, but has a 1-N
-       *  relation.
+       * This exists to allow multiple instant run builds in one project by one
+       * user to be correlated.
+       *
+       * The salt is rotated every 28 days, so it is not a permenant pseudonymous
+       * identifier. It is anonymized and is unique per user, but has a 1-N
+       * relation.
        * </pre>
        */
       public Builder clearProjectId() {
@@ -39780,12 +40067,12 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * Client-side salted, sha256 of the root project path.
-       *  This exists to allow multiple instant run builds in one project by one
-       *  user to be correlated.
-       * 
-       *  The salt is rotated every 28 days, so it is not a permenant pseudonymous
-       *  identifier. It is anonymized and is unique per user, but has a 1-N
-       *  relation.
+       * This exists to allow multiple instant run builds in one project by one
+       * user to be correlated.
+       *
+       * The salt is rotated every 28 days, so it is not a permenant pseudonymous
+       * identifier. It is anonymized and is unique per user, but has a 1-N
+       * relation.
        * </pre>
        */
       public Builder setProjectIdBytes(
@@ -39819,10 +40106,10 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * Identifier, local to the containing AndroidStudioEvent, for the project.
-     *  Can be used to correlate spans (GradleBuildProfileSpan) with this
-     *  project for this build only. Is created by sequentially
-     *  numbering projects as they are encountered.
-     *  Is not stable across build invocations.
+     * Can be used to correlate spans (GradleBuildProfileSpan) with this
+     * project for this build only. Is created by sequentially
+     * numbering projects as they are encountered.
+     * Is not stable across build invocations.
      * </pre>
      */
     boolean hasId();
@@ -39831,10 +40118,10 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * Identifier, local to the containing AndroidStudioEvent, for the project.
-     *  Can be used to correlate spans (GradleBuildProfileSpan) with this
-     *  project for this build only. Is created by sequentially
-     *  numbering projects as they are encountered.
-     *  Is not stable across build invocations.
+     * Can be used to correlate spans (GradleBuildProfileSpan) with this
+     * project for this build only. Is created by sequentially
+     * numbering projects as they are encountered.
+     * Is not stable across build invocations.
      * </pre>
      */
     long getId();
@@ -39845,8 +40132,8 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * Version of our Android Gradle plugin supporting android builds.
-     *  e.g. '2.0-beta1'
-     *  For the experimental plugin this is the gradle-core version.
+     * e.g. '2.0-beta1'
+     * For the experimental plugin this is the gradle-core version.
      * </pre>
      */
     boolean hasAndroidPluginVersion();
@@ -39855,8 +40142,8 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * Version of our Android Gradle plugin supporting android builds.
-     *  e.g. '2.0-beta1'
-     *  For the experimental plugin this is the gradle-core version.
+     * e.g. '2.0-beta1'
+     * For the experimental plugin this is the gradle-core version.
      * </pre>
      */
     java.lang.String getAndroidPluginVersion();
@@ -39865,8 +40152,8 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * Version of our Android Gradle plugin supporting android builds.
-     *  e.g. '2.0-beta1'
-     *  For the experimental plugin this is the gradle-core version.
+     * e.g. '2.0-beta1'
+     * For the experimental plugin this is the gradle-core version.
      * </pre>
      */
     com.google.protobuf.ByteString
@@ -39941,7 +40228,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * Statistics about the project build.
-     *  Will be used to characterize and bucket projects for subgroup analysis.
+     * Will be used to characterize and bucket projects for subgroup analysis.
      * </pre>
      */
     boolean hasMetrics();
@@ -39950,7 +40237,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * Statistics about the project build.
-     *  Will be used to characterize and bucket projects for subgroup analysis.
+     * Will be used to characterize and bucket projects for subgroup analysis.
      * </pre>
      */
     com.google.wireless.android.sdk.stats.AndroidStudioStats.GradleBuildProjectMetrics getMetrics();
@@ -39959,7 +40246,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * Statistics about the project build.
-     *  Will be used to characterize and bucket projects for subgroup analysis.
+     * Will be used to characterize and bucket projects for subgroup analysis.
      * </pre>
      */
     com.google.wireless.android.sdk.stats.AndroidStudioStats.GradleBuildProjectMetricsOrBuilder getMetricsOrBuilder();
@@ -40457,10 +40744,10 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * Identifier, local to the containing AndroidStudioEvent, for the project.
-     *  Can be used to correlate spans (GradleBuildProfileSpan) with this
-     *  project for this build only. Is created by sequentially
-     *  numbering projects as they are encountered.
-     *  Is not stable across build invocations.
+     * Can be used to correlate spans (GradleBuildProfileSpan) with this
+     * project for this build only. Is created by sequentially
+     * numbering projects as they are encountered.
+     * Is not stable across build invocations.
      * </pre>
      */
     public boolean hasId() {
@@ -40471,10 +40758,10 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * Identifier, local to the containing AndroidStudioEvent, for the project.
-     *  Can be used to correlate spans (GradleBuildProfileSpan) with this
-     *  project for this build only. Is created by sequentially
-     *  numbering projects as they are encountered.
-     *  Is not stable across build invocations.
+     * Can be used to correlate spans (GradleBuildProfileSpan) with this
+     * project for this build only. Is created by sequentially
+     * numbering projects as they are encountered.
+     * Is not stable across build invocations.
      * </pre>
      */
     public long getId() {
@@ -40489,8 +40776,8 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * Version of our Android Gradle plugin supporting android builds.
-     *  e.g. '2.0-beta1'
-     *  For the experimental plugin this is the gradle-core version.
+     * e.g. '2.0-beta1'
+     * For the experimental plugin this is the gradle-core version.
      * </pre>
      */
     public boolean hasAndroidPluginVersion() {
@@ -40501,8 +40788,8 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * Version of our Android Gradle plugin supporting android builds.
-     *  e.g. '2.0-beta1'
-     *  For the experimental plugin this is the gradle-core version.
+     * e.g. '2.0-beta1'
+     * For the experimental plugin this is the gradle-core version.
      * </pre>
      */
     public java.lang.String getAndroidPluginVersion() {
@@ -40524,8 +40811,8 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * Version of our Android Gradle plugin supporting android builds.
-     *  e.g. '2.0-beta1'
-     *  For the experimental plugin this is the gradle-core version.
+     * e.g. '2.0-beta1'
+     * For the experimental plugin this is the gradle-core version.
      * </pre>
      */
     public com.google.protobuf.ByteString
@@ -40653,7 +40940,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * Statistics about the project build.
-     *  Will be used to characterize and bucket projects for subgroup analysis.
+     * Will be used to characterize and bucket projects for subgroup analysis.
      * </pre>
      */
     public boolean hasMetrics() {
@@ -40664,7 +40951,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * Statistics about the project build.
-     *  Will be used to characterize and bucket projects for subgroup analysis.
+     * Will be used to characterize and bucket projects for subgroup analysis.
      * </pre>
      */
     public com.google.wireless.android.sdk.stats.AndroidStudioStats.GradleBuildProjectMetrics getMetrics() {
@@ -40675,7 +40962,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * Statistics about the project build.
-     *  Will be used to characterize and bucket projects for subgroup analysis.
+     * Will be used to characterize and bucket projects for subgroup analysis.
      * </pre>
      */
     public com.google.wireless.android.sdk.stats.AndroidStudioStats.GradleBuildProjectMetricsOrBuilder getMetricsOrBuilder() {
@@ -41161,10 +41448,10 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * Identifier, local to the containing AndroidStudioEvent, for the project.
-       *  Can be used to correlate spans (GradleBuildProfileSpan) with this
-       *  project for this build only. Is created by sequentially
-       *  numbering projects as they are encountered.
-       *  Is not stable across build invocations.
+       * Can be used to correlate spans (GradleBuildProfileSpan) with this
+       * project for this build only. Is created by sequentially
+       * numbering projects as they are encountered.
+       * Is not stable across build invocations.
        * </pre>
        */
       public boolean hasId() {
@@ -41175,10 +41462,10 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * Identifier, local to the containing AndroidStudioEvent, for the project.
-       *  Can be used to correlate spans (GradleBuildProfileSpan) with this
-       *  project for this build only. Is created by sequentially
-       *  numbering projects as they are encountered.
-       *  Is not stable across build invocations.
+       * Can be used to correlate spans (GradleBuildProfileSpan) with this
+       * project for this build only. Is created by sequentially
+       * numbering projects as they are encountered.
+       * Is not stable across build invocations.
        * </pre>
        */
       public long getId() {
@@ -41189,10 +41476,10 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * Identifier, local to the containing AndroidStudioEvent, for the project.
-       *  Can be used to correlate spans (GradleBuildProfileSpan) with this
-       *  project for this build only. Is created by sequentially
-       *  numbering projects as they are encountered.
-       *  Is not stable across build invocations.
+       * Can be used to correlate spans (GradleBuildProfileSpan) with this
+       * project for this build only. Is created by sequentially
+       * numbering projects as they are encountered.
+       * Is not stable across build invocations.
        * </pre>
        */
       public Builder setId(long value) {
@@ -41206,10 +41493,10 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * Identifier, local to the containing AndroidStudioEvent, for the project.
-       *  Can be used to correlate spans (GradleBuildProfileSpan) with this
-       *  project for this build only. Is created by sequentially
-       *  numbering projects as they are encountered.
-       *  Is not stable across build invocations.
+       * Can be used to correlate spans (GradleBuildProfileSpan) with this
+       * project for this build only. Is created by sequentially
+       * numbering projects as they are encountered.
+       * Is not stable across build invocations.
        * </pre>
        */
       public Builder clearId() {
@@ -41226,8 +41513,8 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * Version of our Android Gradle plugin supporting android builds.
-       *  e.g. '2.0-beta1'
-       *  For the experimental plugin this is the gradle-core version.
+       * e.g. '2.0-beta1'
+       * For the experimental plugin this is the gradle-core version.
        * </pre>
        */
       public boolean hasAndroidPluginVersion() {
@@ -41238,8 +41525,8 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * Version of our Android Gradle plugin supporting android builds.
-       *  e.g. '2.0-beta1'
-       *  For the experimental plugin this is the gradle-core version.
+       * e.g. '2.0-beta1'
+       * For the experimental plugin this is the gradle-core version.
        * </pre>
        */
       public java.lang.String getAndroidPluginVersion() {
@@ -41258,8 +41545,8 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * Version of our Android Gradle plugin supporting android builds.
-       *  e.g. '2.0-beta1'
-       *  For the experimental plugin this is the gradle-core version.
+       * e.g. '2.0-beta1'
+       * For the experimental plugin this is the gradle-core version.
        * </pre>
        */
       public com.google.protobuf.ByteString
@@ -41280,8 +41567,8 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * Version of our Android Gradle plugin supporting android builds.
-       *  e.g. '2.0-beta1'
-       *  For the experimental plugin this is the gradle-core version.
+       * e.g. '2.0-beta1'
+       * For the experimental plugin this is the gradle-core version.
        * </pre>
        */
       public Builder setAndroidPluginVersion(
@@ -41299,8 +41586,8 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * Version of our Android Gradle plugin supporting android builds.
-       *  e.g. '2.0-beta1'
-       *  For the experimental plugin this is the gradle-core version.
+       * e.g. '2.0-beta1'
+       * For the experimental plugin this is the gradle-core version.
        * </pre>
        */
       public Builder clearAndroidPluginVersion() {
@@ -41314,8 +41601,8 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * Version of our Android Gradle plugin supporting android builds.
-       *  e.g. '2.0-beta1'
-       *  For the experimental plugin this is the gradle-core version.
+       * e.g. '2.0-beta1'
+       * For the experimental plugin this is the gradle-core version.
        * </pre>
        */
       public Builder setAndroidPluginVersionBytes(
@@ -41540,7 +41827,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * Statistics about the project build.
-       *  Will be used to characterize and bucket projects for subgroup analysis.
+       * Will be used to characterize and bucket projects for subgroup analysis.
        * </pre>
        */
       public boolean hasMetrics() {
@@ -41551,7 +41838,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * Statistics about the project build.
-       *  Will be used to characterize and bucket projects for subgroup analysis.
+       * Will be used to characterize and bucket projects for subgroup analysis.
        * </pre>
        */
       public com.google.wireless.android.sdk.stats.AndroidStudioStats.GradleBuildProjectMetrics getMetrics() {
@@ -41566,7 +41853,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * Statistics about the project build.
-       *  Will be used to characterize and bucket projects for subgroup analysis.
+       * Will be used to characterize and bucket projects for subgroup analysis.
        * </pre>
        */
       public Builder setMetrics(com.google.wireless.android.sdk.stats.AndroidStudioStats.GradleBuildProjectMetrics value) {
@@ -41587,7 +41874,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * Statistics about the project build.
-       *  Will be used to characterize and bucket projects for subgroup analysis.
+       * Will be used to characterize and bucket projects for subgroup analysis.
        * </pre>
        */
       public Builder setMetrics(
@@ -41606,7 +41893,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * Statistics about the project build.
-       *  Will be used to characterize and bucket projects for subgroup analysis.
+       * Will be used to characterize and bucket projects for subgroup analysis.
        * </pre>
        */
       public Builder mergeMetrics(com.google.wireless.android.sdk.stats.AndroidStudioStats.GradleBuildProjectMetrics value) {
@@ -41630,7 +41917,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * Statistics about the project build.
-       *  Will be used to characterize and bucket projects for subgroup analysis.
+       * Will be used to characterize and bucket projects for subgroup analysis.
        * </pre>
        */
       public Builder clearMetrics() {
@@ -41648,7 +41935,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * Statistics about the project build.
-       *  Will be used to characterize and bucket projects for subgroup analysis.
+       * Will be used to characterize and bucket projects for subgroup analysis.
        * </pre>
        */
       public com.google.wireless.android.sdk.stats.AndroidStudioStats.GradleBuildProjectMetrics.Builder getMetricsBuilder() {
@@ -41661,7 +41948,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * Statistics about the project build.
-       *  Will be used to characterize and bucket projects for subgroup analysis.
+       * Will be used to characterize and bucket projects for subgroup analysis.
        * </pre>
        */
       public com.google.wireless.android.sdk.stats.AndroidStudioStats.GradleBuildProjectMetricsOrBuilder getMetricsOrBuilder() {
@@ -41676,7 +41963,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * Statistics about the project build.
-       *  Will be used to characterize and bucket projects for subgroup analysis.
+       * Will be used to characterize and bucket projects for subgroup analysis.
        * </pre>
        */
       private com.google.protobuf.SingleFieldBuilder<
@@ -42728,10 +43015,10 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * Identifier, local to this AndroidStudioEvent, for the variant.
-     *  Can be used to correlate spans (GradleBuildProfileSpan) with this
-     *  project for this build only. Is created by sequentially
-     *  numbering variants as they are created.
-     *  Is not stable across build invocations.
+     * Can be used to correlate spans (GradleBuildProfileSpan) with this
+     * project for this build only. Is created by sequentially
+     * numbering variants as they are created.
+     * Is not stable across build invocations.
      * </pre>
      */
     boolean hasId();
@@ -42740,10 +43027,10 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * Identifier, local to this AndroidStudioEvent, for the variant.
-     *  Can be used to correlate spans (GradleBuildProfileSpan) with this
-     *  project for this build only. Is created by sequentially
-     *  numbering variants as they are created.
-     *  Is not stable across build invocations.
+     * Can be used to correlate spans (GradleBuildProfileSpan) with this
+     * project for this build only. Is created by sequentially
+     * numbering variants as they are created.
+     * Is not stable across build invocations.
      * </pre>
      */
     long getId();
@@ -42826,7 +43113,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * Is legacy (pre-api 19) multidex enabled for the variant.
-     *  Only can true if use_multidex is also true.
+     * Only can true if use_multidex is also true.
      * </pre>
      */
     boolean hasUseLegacyMultidex();
@@ -42835,7 +43122,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * Is legacy (pre-api 19) multidex enabled for the variant.
-     *  Only can true if use_multidex is also true.
+     * Only can true if use_multidex is also true.
      * </pre>
      */
     boolean getUseLegacyMultidex();
@@ -43017,8 +43304,8 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * The nature of this variant.
-     *  The test variants have an associated tested variant.
-     *  See com.android.builder.core.VariantType
+     * The test variants have an associated tested variant.
+     * See com.android.builder.core.VariantType
      * </pre>
      */
     public enum VariantType
@@ -43193,10 +43480,10 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * Identifier, local to this AndroidStudioEvent, for the variant.
-     *  Can be used to correlate spans (GradleBuildProfileSpan) with this
-     *  project for this build only. Is created by sequentially
-     *  numbering variants as they are created.
-     *  Is not stable across build invocations.
+     * Can be used to correlate spans (GradleBuildProfileSpan) with this
+     * project for this build only. Is created by sequentially
+     * numbering variants as they are created.
+     * Is not stable across build invocations.
      * </pre>
      */
     public boolean hasId() {
@@ -43207,10 +43494,10 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * Identifier, local to this AndroidStudioEvent, for the variant.
-     *  Can be used to correlate spans (GradleBuildProfileSpan) with this
-     *  project for this build only. Is created by sequentially
-     *  numbering variants as they are created.
-     *  Is not stable across build invocations.
+     * Can be used to correlate spans (GradleBuildProfileSpan) with this
+     * project for this build only. Is created by sequentially
+     * numbering variants as they are created.
+     * Is not stable across build invocations.
      * </pre>
      */
     public long getId() {
@@ -43321,7 +43608,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * Is legacy (pre-api 19) multidex enabled for the variant.
-     *  Only can true if use_multidex is also true.
+     * Only can true if use_multidex is also true.
      * </pre>
      */
     public boolean hasUseLegacyMultidex() {
@@ -43332,7 +43619,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * Is legacy (pre-api 19) multidex enabled for the variant.
-     *  Only can true if use_multidex is also true.
+     * Only can true if use_multidex is also true.
      * </pre>
      */
     public boolean getUseLegacyMultidex() {
@@ -43740,10 +44027,10 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * Identifier, local to this AndroidStudioEvent, for the variant.
-       *  Can be used to correlate spans (GradleBuildProfileSpan) with this
-       *  project for this build only. Is created by sequentially
-       *  numbering variants as they are created.
-       *  Is not stable across build invocations.
+       * Can be used to correlate spans (GradleBuildProfileSpan) with this
+       * project for this build only. Is created by sequentially
+       * numbering variants as they are created.
+       * Is not stable across build invocations.
        * </pre>
        */
       public boolean hasId() {
@@ -43754,10 +44041,10 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * Identifier, local to this AndroidStudioEvent, for the variant.
-       *  Can be used to correlate spans (GradleBuildProfileSpan) with this
-       *  project for this build only. Is created by sequentially
-       *  numbering variants as they are created.
-       *  Is not stable across build invocations.
+       * Can be used to correlate spans (GradleBuildProfileSpan) with this
+       * project for this build only. Is created by sequentially
+       * numbering variants as they are created.
+       * Is not stable across build invocations.
        * </pre>
        */
       public long getId() {
@@ -43768,10 +44055,10 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * Identifier, local to this AndroidStudioEvent, for the variant.
-       *  Can be used to correlate spans (GradleBuildProfileSpan) with this
-       *  project for this build only. Is created by sequentially
-       *  numbering variants as they are created.
-       *  Is not stable across build invocations.
+       * Can be used to correlate spans (GradleBuildProfileSpan) with this
+       * project for this build only. Is created by sequentially
+       * numbering variants as they are created.
+       * Is not stable across build invocations.
        * </pre>
        */
       public Builder setId(long value) {
@@ -43785,10 +44072,10 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * Identifier, local to this AndroidStudioEvent, for the variant.
-       *  Can be used to correlate spans (GradleBuildProfileSpan) with this
-       *  project for this build only. Is created by sequentially
-       *  numbering variants as they are created.
-       *  Is not stable across build invocations.
+       * Can be used to correlate spans (GradleBuildProfileSpan) with this
+       * project for this build only. Is created by sequentially
+       * numbering variants as they are created.
+       * Is not stable across build invocations.
        * </pre>
        */
       public Builder clearId() {
@@ -44001,7 +44288,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * Is legacy (pre-api 19) multidex enabled for the variant.
-       *  Only can true if use_multidex is also true.
+       * Only can true if use_multidex is also true.
        * </pre>
        */
       public boolean hasUseLegacyMultidex() {
@@ -44012,7 +44299,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * Is legacy (pre-api 19) multidex enabled for the variant.
-       *  Only can true if use_multidex is also true.
+       * Only can true if use_multidex is also true.
        * </pre>
        */
       public boolean getUseLegacyMultidex() {
@@ -44023,7 +44310,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * Is legacy (pre-api 19) multidex enabled for the variant.
-       *  Only can true if use_multidex is also true.
+       * Only can true if use_multidex is also true.
        * </pre>
        */
       public Builder setUseLegacyMultidex(boolean value) {
@@ -44037,7 +44324,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * Is legacy (pre-api 19) multidex enabled for the variant.
-       *  Only can true if use_multidex is also true.
+       * Only can true if use_multidex is also true.
        * </pre>
        */
       public Builder clearUseLegacyMultidex() {
@@ -44822,9 +45109,9 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * Identifier for this span, created by sequentially allocating IDs to spans
-     *  as they start. Used only for the parent-child relationship of spans, to
-     *  show execution that is part of another span.
-     *  Not stable or meaningful across builds.
+     * as they start. Used only for the parent-child relationship of spans, to
+     * show execution that is part of another span.
+     * Not stable or meaningful across builds.
      * </pre>
      */
     boolean hasId();
@@ -44833,9 +45120,9 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * Identifier for this span, created by sequentially allocating IDs to spans
-     *  as they start. Used only for the parent-child relationship of spans, to
-     *  show execution that is part of another span.
-     *  Not stable or meaningful across builds.
+     * as they start. Used only for the parent-child relationship of spans, to
+     * show execution that is part of another span.
+     * Not stable or meaningful across builds.
      * </pre>
      */
     long getId();
@@ -44846,7 +45133,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * For nested spans: the id for containing span.
-     *  See GradleBuildProfileSpan.id.
+     * See GradleBuildProfileSpan.id.
      * </pre>
      */
     boolean hasParentId();
@@ -44855,7 +45142,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * For nested spans: the id for containing span.
-     *  See GradleBuildProfileSpan.id.
+     * See GradleBuildProfileSpan.id.
      * </pre>
      */
     long getParentId();
@@ -44920,8 +45207,8 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * More informations about the execution of TransformTasks.
-     *  Only used when executionType is TASK_TRANSFORM_PREPARATION or
-     *  TASK_TRANSFORM.
+     * Only used when executionType is TASK_TRANSFORM_PREPARATION or
+     * TASK_TRANSFORM.
      * </pre>
      */
     boolean hasTransform();
@@ -44930,8 +45217,8 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * More informations about the execution of TransformTasks.
-     *  Only used when executionType is TASK_TRANSFORM_PREPARATION or
-     *  TASK_TRANSFORM.
+     * Only used when executionType is TASK_TRANSFORM_PREPARATION or
+     * TASK_TRANSFORM.
      * </pre>
      */
     com.google.wireless.android.sdk.stats.AndroidStudioStats.GradleTransformExecution getTransform();
@@ -44940,8 +45227,8 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * More informations about the execution of TransformTasks.
-     *  Only used when executionType is TASK_TRANSFORM_PREPARATION or
-     *  TASK_TRANSFORM.
+     * Only used when executionType is TASK_TRANSFORM_PREPARATION or
+     * TASK_TRANSFORM.
      * </pre>
      */
     com.google.wireless.android.sdk.stats.AndroidStudioStats.GradleTransformExecutionOrBuilder getTransformOrBuilder();
@@ -44952,7 +45239,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * More informations about the execution of Tasks.
-     *  Only used when executionType is TASK_EXECUTION
+     * Only used when executionType is TASK_EXECUTION
      * </pre>
      */
     boolean hasTask();
@@ -44961,7 +45248,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * More informations about the execution of Tasks.
-     *  Only used when executionType is TASK_EXECUTION
+     * Only used when executionType is TASK_EXECUTION
      * </pre>
      */
     com.google.wireless.android.sdk.stats.AndroidStudioStats.GradleTaskExecution getTask();
@@ -44970,7 +45257,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * More informations about the execution of Tasks.
-     *  Only used when executionType is TASK_EXECUTION
+     * Only used when executionType is TASK_EXECUTION
      * </pre>
      */
     com.google.wireless.android.sdk.stats.AndroidStudioStats.GradleTaskExecutionOrBuilder getTaskOrBuilder();
@@ -44981,8 +45268,8 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * Session id of the GradleBuildProject that this span is part of.
-     *  The ID is not stable nor meaningful over multiple GradleBuildProfile.
-     *  See GradleBuildProfile.id
+     * The ID is not stable nor meaningful over multiple GradleBuildProfile.
+     * See GradleBuildProfile.id
      * </pre>
      */
     boolean hasProject();
@@ -44991,8 +45278,8 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * Session id of the GradleBuildProject that this span is part of.
-     *  The ID is not stable nor meaningful over multiple GradleBuildProfile.
-     *  See GradleBuildProfile.id
+     * The ID is not stable nor meaningful over multiple GradleBuildProfile.
+     * See GradleBuildProfile.id
      * </pre>
      */
     long getProject();
@@ -45003,8 +45290,8 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * Session id of the GradleBuildVariant that this span is part of.
-     *  The ID is not stable nor meaningful over multiple GradleBuildProfile.
-     *  See GradleBuildVariant.id
+     * The ID is not stable nor meaningful over multiple GradleBuildProfile.
+     * See GradleBuildVariant.id
      * </pre>
      */
     boolean hasVariant();
@@ -45013,8 +45300,8 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * Session id of the GradleBuildVariant that this span is part of.
-     *  The ID is not stable nor meaningful over multiple GradleBuildProfile.
-     *  See GradleBuildVariant.id
+     * The ID is not stable nor meaningful over multiple GradleBuildProfile.
+     * See GradleBuildVariant.id
      * </pre>
      */
     long getVariant();
@@ -45024,7 +45311,7 @@ public final class AndroidStudioStats {
    *
    * <pre>
    * A single execution span from a build.
-   *  For example, a task execution or creation of some tasks for a variant.
+   * For example, a task execution or creation of some tasks for a variant.
    * </pre>
    */
   public static final class GradleBuildProfileSpan extends
@@ -45186,7 +45473,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * The type of execution.
-     *  This was originally com.android.builder.profile.ExecutionType.
+     * This was originally com.android.builder.profile.ExecutionType.
      * </pre>
      */
     public enum ExecutionType
@@ -45440,8 +45727,8 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * Task execution: Deprecated, use TASK_EXECUTION and
-       *  GradleTaskExecution#Type instead.
-       *  Deprecated July 2016.
+       * GradleTaskExecution#Type instead.
+       * Deprecated July 2016.
        * </pre>
        */
       GENERIC_TASK_EXECUTION(59, 3000),
@@ -45896,8 +46183,8 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * Task execution: Deprecated, use TASK_EXECUTION and
-       *  GradleTaskExecution#Type instead.
-       *  Deprecated July 2016.
+       * GradleTaskExecution#Type instead.
+       * Deprecated July 2016.
        * </pre>
        */
       public static final int GENERIC_TASK_EXECUTION_VALUE = 3000;
@@ -46274,9 +46561,9 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * Identifier for this span, created by sequentially allocating IDs to spans
-     *  as they start. Used only for the parent-child relationship of spans, to
-     *  show execution that is part of another span.
-     *  Not stable or meaningful across builds.
+     * as they start. Used only for the parent-child relationship of spans, to
+     * show execution that is part of another span.
+     * Not stable or meaningful across builds.
      * </pre>
      */
     public boolean hasId() {
@@ -46287,9 +46574,9 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * Identifier for this span, created by sequentially allocating IDs to spans
-     *  as they start. Used only for the parent-child relationship of spans, to
-     *  show execution that is part of another span.
-     *  Not stable or meaningful across builds.
+     * as they start. Used only for the parent-child relationship of spans, to
+     * show execution that is part of another span.
+     * Not stable or meaningful across builds.
      * </pre>
      */
     public long getId() {
@@ -46304,7 +46591,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * For nested spans: the id for containing span.
-     *  See GradleBuildProfileSpan.id.
+     * See GradleBuildProfileSpan.id.
      * </pre>
      */
     public boolean hasParentId() {
@@ -46315,7 +46602,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * For nested spans: the id for containing span.
-     *  See GradleBuildProfileSpan.id.
+     * See GradleBuildProfileSpan.id.
      * </pre>
      */
     public long getParentId() {
@@ -46402,8 +46689,8 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * More informations about the execution of TransformTasks.
-     *  Only used when executionType is TASK_TRANSFORM_PREPARATION or
-     *  TASK_TRANSFORM.
+     * Only used when executionType is TASK_TRANSFORM_PREPARATION or
+     * TASK_TRANSFORM.
      * </pre>
      */
     public boolean hasTransform() {
@@ -46414,8 +46701,8 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * More informations about the execution of TransformTasks.
-     *  Only used when executionType is TASK_TRANSFORM_PREPARATION or
-     *  TASK_TRANSFORM.
+     * Only used when executionType is TASK_TRANSFORM_PREPARATION or
+     * TASK_TRANSFORM.
      * </pre>
      */
     public com.google.wireless.android.sdk.stats.AndroidStudioStats.GradleTransformExecution getTransform() {
@@ -46426,8 +46713,8 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * More informations about the execution of TransformTasks.
-     *  Only used when executionType is TASK_TRANSFORM_PREPARATION or
-     *  TASK_TRANSFORM.
+     * Only used when executionType is TASK_TRANSFORM_PREPARATION or
+     * TASK_TRANSFORM.
      * </pre>
      */
     public com.google.wireless.android.sdk.stats.AndroidStudioStats.GradleTransformExecutionOrBuilder getTransformOrBuilder() {
@@ -46442,7 +46729,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * More informations about the execution of Tasks.
-     *  Only used when executionType is TASK_EXECUTION
+     * Only used when executionType is TASK_EXECUTION
      * </pre>
      */
     public boolean hasTask() {
@@ -46453,7 +46740,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * More informations about the execution of Tasks.
-     *  Only used when executionType is TASK_EXECUTION
+     * Only used when executionType is TASK_EXECUTION
      * </pre>
      */
     public com.google.wireless.android.sdk.stats.AndroidStudioStats.GradleTaskExecution getTask() {
@@ -46464,7 +46751,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * More informations about the execution of Tasks.
-     *  Only used when executionType is TASK_EXECUTION
+     * Only used when executionType is TASK_EXECUTION
      * </pre>
      */
     public com.google.wireless.android.sdk.stats.AndroidStudioStats.GradleTaskExecutionOrBuilder getTaskOrBuilder() {
@@ -46479,8 +46766,8 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * Session id of the GradleBuildProject that this span is part of.
-     *  The ID is not stable nor meaningful over multiple GradleBuildProfile.
-     *  See GradleBuildProfile.id
+     * The ID is not stable nor meaningful over multiple GradleBuildProfile.
+     * See GradleBuildProfile.id
      * </pre>
      */
     public boolean hasProject() {
@@ -46491,8 +46778,8 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * Session id of the GradleBuildProject that this span is part of.
-     *  The ID is not stable nor meaningful over multiple GradleBuildProfile.
-     *  See GradleBuildProfile.id
+     * The ID is not stable nor meaningful over multiple GradleBuildProfile.
+     * See GradleBuildProfile.id
      * </pre>
      */
     public long getProject() {
@@ -46507,8 +46794,8 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * Session id of the GradleBuildVariant that this span is part of.
-     *  The ID is not stable nor meaningful over multiple GradleBuildProfile.
-     *  See GradleBuildVariant.id
+     * The ID is not stable nor meaningful over multiple GradleBuildProfile.
+     * See GradleBuildVariant.id
      * </pre>
      */
     public boolean hasVariant() {
@@ -46519,8 +46806,8 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * Session id of the GradleBuildVariant that this span is part of.
-     *  The ID is not stable nor meaningful over multiple GradleBuildProfile.
-     *  See GradleBuildVariant.id
+     * The ID is not stable nor meaningful over multiple GradleBuildProfile.
+     * See GradleBuildVariant.id
      * </pre>
      */
     public long getVariant() {
@@ -46705,7 +46992,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * A single execution span from a build.
-     *  For example, a task execution or creation of some tasks for a variant.
+     * For example, a task execution or creation of some tasks for a variant.
      * </pre>
      */
     public static final class Builder extends
@@ -46920,9 +47207,9 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * Identifier for this span, created by sequentially allocating IDs to spans
-       *  as they start. Used only for the parent-child relationship of spans, to
-       *  show execution that is part of another span.
-       *  Not stable or meaningful across builds.
+       * as they start. Used only for the parent-child relationship of spans, to
+       * show execution that is part of another span.
+       * Not stable or meaningful across builds.
        * </pre>
        */
       public boolean hasId() {
@@ -46933,9 +47220,9 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * Identifier for this span, created by sequentially allocating IDs to spans
-       *  as they start. Used only for the parent-child relationship of spans, to
-       *  show execution that is part of another span.
-       *  Not stable or meaningful across builds.
+       * as they start. Used only for the parent-child relationship of spans, to
+       * show execution that is part of another span.
+       * Not stable or meaningful across builds.
        * </pre>
        */
       public long getId() {
@@ -46946,9 +47233,9 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * Identifier for this span, created by sequentially allocating IDs to spans
-       *  as they start. Used only for the parent-child relationship of spans, to
-       *  show execution that is part of another span.
-       *  Not stable or meaningful across builds.
+       * as they start. Used only for the parent-child relationship of spans, to
+       * show execution that is part of another span.
+       * Not stable or meaningful across builds.
        * </pre>
        */
       public Builder setId(long value) {
@@ -46962,9 +47249,9 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * Identifier for this span, created by sequentially allocating IDs to spans
-       *  as they start. Used only for the parent-child relationship of spans, to
-       *  show execution that is part of another span.
-       *  Not stable or meaningful across builds.
+       * as they start. Used only for the parent-child relationship of spans, to
+       * show execution that is part of another span.
+       * Not stable or meaningful across builds.
        * </pre>
        */
       public Builder clearId() {
@@ -46981,7 +47268,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * For nested spans: the id for containing span.
-       *  See GradleBuildProfileSpan.id.
+       * See GradleBuildProfileSpan.id.
        * </pre>
        */
       public boolean hasParentId() {
@@ -46992,7 +47279,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * For nested spans: the id for containing span.
-       *  See GradleBuildProfileSpan.id.
+       * See GradleBuildProfileSpan.id.
        * </pre>
        */
       public long getParentId() {
@@ -47003,7 +47290,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * For nested spans: the id for containing span.
-       *  See GradleBuildProfileSpan.id.
+       * See GradleBuildProfileSpan.id.
        * </pre>
        */
       public Builder setParentId(long value) {
@@ -47017,7 +47304,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * For nested spans: the id for containing span.
-       *  See GradleBuildProfileSpan.id.
+       * See GradleBuildProfileSpan.id.
        * </pre>
        */
       public Builder clearParentId() {
@@ -47186,8 +47473,8 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * More informations about the execution of TransformTasks.
-       *  Only used when executionType is TASK_TRANSFORM_PREPARATION or
-       *  TASK_TRANSFORM.
+       * Only used when executionType is TASK_TRANSFORM_PREPARATION or
+       * TASK_TRANSFORM.
        * </pre>
        */
       public boolean hasTransform() {
@@ -47198,8 +47485,8 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * More informations about the execution of TransformTasks.
-       *  Only used when executionType is TASK_TRANSFORM_PREPARATION or
-       *  TASK_TRANSFORM.
+       * Only used when executionType is TASK_TRANSFORM_PREPARATION or
+       * TASK_TRANSFORM.
        * </pre>
        */
       public com.google.wireless.android.sdk.stats.AndroidStudioStats.GradleTransformExecution getTransform() {
@@ -47214,8 +47501,8 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * More informations about the execution of TransformTasks.
-       *  Only used when executionType is TASK_TRANSFORM_PREPARATION or
-       *  TASK_TRANSFORM.
+       * Only used when executionType is TASK_TRANSFORM_PREPARATION or
+       * TASK_TRANSFORM.
        * </pre>
        */
       public Builder setTransform(com.google.wireless.android.sdk.stats.AndroidStudioStats.GradleTransformExecution value) {
@@ -47236,8 +47523,8 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * More informations about the execution of TransformTasks.
-       *  Only used when executionType is TASK_TRANSFORM_PREPARATION or
-       *  TASK_TRANSFORM.
+       * Only used when executionType is TASK_TRANSFORM_PREPARATION or
+       * TASK_TRANSFORM.
        * </pre>
        */
       public Builder setTransform(
@@ -47256,8 +47543,8 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * More informations about the execution of TransformTasks.
-       *  Only used when executionType is TASK_TRANSFORM_PREPARATION or
-       *  TASK_TRANSFORM.
+       * Only used when executionType is TASK_TRANSFORM_PREPARATION or
+       * TASK_TRANSFORM.
        * </pre>
        */
       public Builder mergeTransform(com.google.wireless.android.sdk.stats.AndroidStudioStats.GradleTransformExecution value) {
@@ -47281,8 +47568,8 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * More informations about the execution of TransformTasks.
-       *  Only used when executionType is TASK_TRANSFORM_PREPARATION or
-       *  TASK_TRANSFORM.
+       * Only used when executionType is TASK_TRANSFORM_PREPARATION or
+       * TASK_TRANSFORM.
        * </pre>
        */
       public Builder clearTransform() {
@@ -47300,8 +47587,8 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * More informations about the execution of TransformTasks.
-       *  Only used when executionType is TASK_TRANSFORM_PREPARATION or
-       *  TASK_TRANSFORM.
+       * Only used when executionType is TASK_TRANSFORM_PREPARATION or
+       * TASK_TRANSFORM.
        * </pre>
        */
       public com.google.wireless.android.sdk.stats.AndroidStudioStats.GradleTransformExecution.Builder getTransformBuilder() {
@@ -47314,8 +47601,8 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * More informations about the execution of TransformTasks.
-       *  Only used when executionType is TASK_TRANSFORM_PREPARATION or
-       *  TASK_TRANSFORM.
+       * Only used when executionType is TASK_TRANSFORM_PREPARATION or
+       * TASK_TRANSFORM.
        * </pre>
        */
       public com.google.wireless.android.sdk.stats.AndroidStudioStats.GradleTransformExecutionOrBuilder getTransformOrBuilder() {
@@ -47330,8 +47617,8 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * More informations about the execution of TransformTasks.
-       *  Only used when executionType is TASK_TRANSFORM_PREPARATION or
-       *  TASK_TRANSFORM.
+       * Only used when executionType is TASK_TRANSFORM_PREPARATION or
+       * TASK_TRANSFORM.
        * </pre>
        */
       private com.google.protobuf.SingleFieldBuilder<
@@ -47357,7 +47644,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * More informations about the execution of Tasks.
-       *  Only used when executionType is TASK_EXECUTION
+       * Only used when executionType is TASK_EXECUTION
        * </pre>
        */
       public boolean hasTask() {
@@ -47368,7 +47655,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * More informations about the execution of Tasks.
-       *  Only used when executionType is TASK_EXECUTION
+       * Only used when executionType is TASK_EXECUTION
        * </pre>
        */
       public com.google.wireless.android.sdk.stats.AndroidStudioStats.GradleTaskExecution getTask() {
@@ -47383,7 +47670,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * More informations about the execution of Tasks.
-       *  Only used when executionType is TASK_EXECUTION
+       * Only used when executionType is TASK_EXECUTION
        * </pre>
        */
       public Builder setTask(com.google.wireless.android.sdk.stats.AndroidStudioStats.GradleTaskExecution value) {
@@ -47404,7 +47691,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * More informations about the execution of Tasks.
-       *  Only used when executionType is TASK_EXECUTION
+       * Only used when executionType is TASK_EXECUTION
        * </pre>
        */
       public Builder setTask(
@@ -47423,7 +47710,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * More informations about the execution of Tasks.
-       *  Only used when executionType is TASK_EXECUTION
+       * Only used when executionType is TASK_EXECUTION
        * </pre>
        */
       public Builder mergeTask(com.google.wireless.android.sdk.stats.AndroidStudioStats.GradleTaskExecution value) {
@@ -47447,7 +47734,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * More informations about the execution of Tasks.
-       *  Only used when executionType is TASK_EXECUTION
+       * Only used when executionType is TASK_EXECUTION
        * </pre>
        */
       public Builder clearTask() {
@@ -47465,7 +47752,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * More informations about the execution of Tasks.
-       *  Only used when executionType is TASK_EXECUTION
+       * Only used when executionType is TASK_EXECUTION
        * </pre>
        */
       public com.google.wireless.android.sdk.stats.AndroidStudioStats.GradleTaskExecution.Builder getTaskBuilder() {
@@ -47478,7 +47765,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * More informations about the execution of Tasks.
-       *  Only used when executionType is TASK_EXECUTION
+       * Only used when executionType is TASK_EXECUTION
        * </pre>
        */
       public com.google.wireless.android.sdk.stats.AndroidStudioStats.GradleTaskExecutionOrBuilder getTaskOrBuilder() {
@@ -47493,7 +47780,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * More informations about the execution of Tasks.
-       *  Only used when executionType is TASK_EXECUTION
+       * Only used when executionType is TASK_EXECUTION
        * </pre>
        */
       private com.google.protobuf.SingleFieldBuilder<
@@ -47517,8 +47804,8 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * Session id of the GradleBuildProject that this span is part of.
-       *  The ID is not stable nor meaningful over multiple GradleBuildProfile.
-       *  See GradleBuildProfile.id
+       * The ID is not stable nor meaningful over multiple GradleBuildProfile.
+       * See GradleBuildProfile.id
        * </pre>
        */
       public boolean hasProject() {
@@ -47529,8 +47816,8 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * Session id of the GradleBuildProject that this span is part of.
-       *  The ID is not stable nor meaningful over multiple GradleBuildProfile.
-       *  See GradleBuildProfile.id
+       * The ID is not stable nor meaningful over multiple GradleBuildProfile.
+       * See GradleBuildProfile.id
        * </pre>
        */
       public long getProject() {
@@ -47541,8 +47828,8 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * Session id of the GradleBuildProject that this span is part of.
-       *  The ID is not stable nor meaningful over multiple GradleBuildProfile.
-       *  See GradleBuildProfile.id
+       * The ID is not stable nor meaningful over multiple GradleBuildProfile.
+       * See GradleBuildProfile.id
        * </pre>
        */
       public Builder setProject(long value) {
@@ -47556,8 +47843,8 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * Session id of the GradleBuildProject that this span is part of.
-       *  The ID is not stable nor meaningful over multiple GradleBuildProfile.
-       *  See GradleBuildProfile.id
+       * The ID is not stable nor meaningful over multiple GradleBuildProfile.
+       * See GradleBuildProfile.id
        * </pre>
        */
       public Builder clearProject() {
@@ -47574,8 +47861,8 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * Session id of the GradleBuildVariant that this span is part of.
-       *  The ID is not stable nor meaningful over multiple GradleBuildProfile.
-       *  See GradleBuildVariant.id
+       * The ID is not stable nor meaningful over multiple GradleBuildProfile.
+       * See GradleBuildVariant.id
        * </pre>
        */
       public boolean hasVariant() {
@@ -47586,8 +47873,8 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * Session id of the GradleBuildVariant that this span is part of.
-       *  The ID is not stable nor meaningful over multiple GradleBuildProfile.
-       *  See GradleBuildVariant.id
+       * The ID is not stable nor meaningful over multiple GradleBuildProfile.
+       * See GradleBuildVariant.id
        * </pre>
        */
       public long getVariant() {
@@ -47598,8 +47885,8 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * Session id of the GradleBuildVariant that this span is part of.
-       *  The ID is not stable nor meaningful over multiple GradleBuildProfile.
-       *  See GradleBuildVariant.id
+       * The ID is not stable nor meaningful over multiple GradleBuildProfile.
+       * See GradleBuildVariant.id
        * </pre>
        */
       public Builder setVariant(long value) {
@@ -47613,8 +47900,8 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * Session id of the GradleBuildVariant that this span is part of.
-       *  The ID is not stable nor meaningful over multiple GradleBuildProfile.
-       *  See GradleBuildVariant.id
+       * The ID is not stable nor meaningful over multiple GradleBuildProfile.
+       * See GradleBuildVariant.id
        * </pre>
        */
       public Builder clearVariant() {
@@ -47644,7 +47931,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * The task implementing class.
-     *  Custom tasks are recorded as UNKNOWN_TASK_TYPE.
+     * Custom tasks are recorded as UNKNOWN_TASK_TYPE.
      * </pre>
      */
     boolean hasType();
@@ -47653,7 +47940,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * The task implementing class.
-     *  Custom tasks are recorded as UNKNOWN_TASK_TYPE.
+     * Custom tasks are recorded as UNKNOWN_TASK_TYPE.
      * </pre>
      */
     com.google.wireless.android.sdk.stats.AndroidStudioStats.GradleTaskExecution.Type getType();
@@ -47664,8 +47951,8 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * Whether the task did work (TaskState#getDidWork())
-     *  This is not necessarily the inverse of up_to_date: see
-     *  https://docs.gradle.org/current/javadoc/org/gradle/api/tasks/TaskState.html#getDidWork()
+     * This is not necessarily the inverse of up_to_date: see
+     * https://docs.gradle.org/current/javadoc/org/gradle/api/tasks/TaskState.html#getDidWork()
      * </pre>
      */
     boolean hasDidWork();
@@ -47674,8 +47961,8 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * Whether the task did work (TaskState#getDidWork())
-     *  This is not necessarily the inverse of up_to_date: see
-     *  https://docs.gradle.org/current/javadoc/org/gradle/api/tasks/TaskState.html#getDidWork()
+     * This is not necessarily the inverse of up_to_date: see
+     * https://docs.gradle.org/current/javadoc/org/gradle/api/tasks/TaskState.html#getDidWork()
      * </pre>
      */
     boolean getDidWork();
@@ -48140,6 +48427,54 @@ public final class AndroidStudioStats {
        * <code>JAVA_COMPILE = 69;</code>
        */
       JAVA_COMPILE(69, 69),
+      /**
+       * <code>BUILD_INFO_WRITER = 70;</code>
+       */
+      BUILD_INFO_WRITER(70, 70),
+      /**
+       * <code>BUNDLE_ATOM = 71;</code>
+       */
+      BUNDLE_ATOM(71, 71),
+      /**
+       * <code>CHECK_MANIFEST_IN_INSTANT_RUN_MODE = 72;</code>
+       */
+      CHECK_MANIFEST_IN_INSTANT_RUN_MODE(72, 72),
+      /**
+       * <code>EXTERNAL_NATIVE_CLEAN = 73;</code>
+       */
+      EXTERNAL_NATIVE_CLEAN(73, 73),
+      /**
+       * <code>GENERATE_ATOM_METADATA = 74;</code>
+       */
+      GENERATE_ATOM_METADATA(74, 74),
+      /**
+       * <code>GENERATE_INSTANT_APP_METADATA = 75;</code>
+       */
+      GENERATE_INSTANT_APP_METADATA(75, 75),
+      /**
+       * <code>JAVA_PRE_COMPILE = 76;</code>
+       */
+      JAVA_PRE_COMPILE(76, 76),
+      /**
+       * <code>MERGE_DEX_ATOM_RES_CLASS = 77;</code>
+       */
+      MERGE_DEX_ATOM_RES_CLASS(77, 77),
+      /**
+       * <code>PACKAGE_ATOM = 78;</code>
+       */
+      PACKAGE_ATOM(78, 78),
+      /**
+       * <code>PACKAGE_INSTANT_APP = 79;</code>
+       */
+      PACKAGE_INSTANT_APP(79, 79),
+      /**
+       * <code>PREPARE_ATOM = 80;</code>
+       */
+      PREPARE_ATOM(80, 80),
+      /**
+       * <code>PROCESS_INSTANT_APP_RESOURCES = 81;</code>
+       */
+      PROCESS_INSTANT_APP_RESOURCES(81, 81),
       ;
 
       /**
@@ -48422,6 +48757,54 @@ public final class AndroidStudioStats {
        * <code>JAVA_COMPILE = 69;</code>
        */
       public static final int JAVA_COMPILE_VALUE = 69;
+      /**
+       * <code>BUILD_INFO_WRITER = 70;</code>
+       */
+      public static final int BUILD_INFO_WRITER_VALUE = 70;
+      /**
+       * <code>BUNDLE_ATOM = 71;</code>
+       */
+      public static final int BUNDLE_ATOM_VALUE = 71;
+      /**
+       * <code>CHECK_MANIFEST_IN_INSTANT_RUN_MODE = 72;</code>
+       */
+      public static final int CHECK_MANIFEST_IN_INSTANT_RUN_MODE_VALUE = 72;
+      /**
+       * <code>EXTERNAL_NATIVE_CLEAN = 73;</code>
+       */
+      public static final int EXTERNAL_NATIVE_CLEAN_VALUE = 73;
+      /**
+       * <code>GENERATE_ATOM_METADATA = 74;</code>
+       */
+      public static final int GENERATE_ATOM_METADATA_VALUE = 74;
+      /**
+       * <code>GENERATE_INSTANT_APP_METADATA = 75;</code>
+       */
+      public static final int GENERATE_INSTANT_APP_METADATA_VALUE = 75;
+      /**
+       * <code>JAVA_PRE_COMPILE = 76;</code>
+       */
+      public static final int JAVA_PRE_COMPILE_VALUE = 76;
+      /**
+       * <code>MERGE_DEX_ATOM_RES_CLASS = 77;</code>
+       */
+      public static final int MERGE_DEX_ATOM_RES_CLASS_VALUE = 77;
+      /**
+       * <code>PACKAGE_ATOM = 78;</code>
+       */
+      public static final int PACKAGE_ATOM_VALUE = 78;
+      /**
+       * <code>PACKAGE_INSTANT_APP = 79;</code>
+       */
+      public static final int PACKAGE_INSTANT_APP_VALUE = 79;
+      /**
+       * <code>PREPARE_ATOM = 80;</code>
+       */
+      public static final int PREPARE_ATOM_VALUE = 80;
+      /**
+       * <code>PROCESS_INSTANT_APP_RESOURCES = 81;</code>
+       */
+      public static final int PROCESS_INSTANT_APP_RESOURCES_VALUE = 81;
 
 
       public final int getNumber() { return value; }
@@ -48498,6 +48881,18 @@ public final class AndroidStudioStats {
           case 67: return VALIDATE_SIGNING;
           case 68: return ZIP_ALIGN;
           case 69: return JAVA_COMPILE;
+          case 70: return BUILD_INFO_WRITER;
+          case 71: return BUNDLE_ATOM;
+          case 72: return CHECK_MANIFEST_IN_INSTANT_RUN_MODE;
+          case 73: return EXTERNAL_NATIVE_CLEAN;
+          case 74: return GENERATE_ATOM_METADATA;
+          case 75: return GENERATE_INSTANT_APP_METADATA;
+          case 76: return JAVA_PRE_COMPILE;
+          case 77: return MERGE_DEX_ATOM_RES_CLASS;
+          case 78: return PACKAGE_ATOM;
+          case 79: return PACKAGE_INSTANT_APP;
+          case 80: return PREPARE_ATOM;
+          case 81: return PROCESS_INSTANT_APP_RESOURCES;
           default: return null;
         }
       }
@@ -48558,7 +48953,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * The task implementing class.
-     *  Custom tasks are recorded as UNKNOWN_TASK_TYPE.
+     * Custom tasks are recorded as UNKNOWN_TASK_TYPE.
      * </pre>
      */
     public boolean hasType() {
@@ -48569,7 +48964,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * The task implementing class.
-     *  Custom tasks are recorded as UNKNOWN_TASK_TYPE.
+     * Custom tasks are recorded as UNKNOWN_TASK_TYPE.
      * </pre>
      */
     public com.google.wireless.android.sdk.stats.AndroidStudioStats.GradleTaskExecution.Type getType() {
@@ -48584,8 +48979,8 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * Whether the task did work (TaskState#getDidWork())
-     *  This is not necessarily the inverse of up_to_date: see
-     *  https://docs.gradle.org/current/javadoc/org/gradle/api/tasks/TaskState.html#getDidWork()
+     * This is not necessarily the inverse of up_to_date: see
+     * https://docs.gradle.org/current/javadoc/org/gradle/api/tasks/TaskState.html#getDidWork()
      * </pre>
      */
     public boolean hasDidWork() {
@@ -48596,8 +48991,8 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * Whether the task did work (TaskState#getDidWork())
-     *  This is not necessarily the inverse of up_to_date: see
-     *  https://docs.gradle.org/current/javadoc/org/gradle/api/tasks/TaskState.html#getDidWork()
+     * This is not necessarily the inverse of up_to_date: see
+     * https://docs.gradle.org/current/javadoc/org/gradle/api/tasks/TaskState.html#getDidWork()
      * </pre>
      */
     public boolean getDidWork() {
@@ -48978,7 +49373,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * The task implementing class.
-       *  Custom tasks are recorded as UNKNOWN_TASK_TYPE.
+       * Custom tasks are recorded as UNKNOWN_TASK_TYPE.
        * </pre>
        */
       public boolean hasType() {
@@ -48989,7 +49384,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * The task implementing class.
-       *  Custom tasks are recorded as UNKNOWN_TASK_TYPE.
+       * Custom tasks are recorded as UNKNOWN_TASK_TYPE.
        * </pre>
        */
       public com.google.wireless.android.sdk.stats.AndroidStudioStats.GradleTaskExecution.Type getType() {
@@ -49000,7 +49395,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * The task implementing class.
-       *  Custom tasks are recorded as UNKNOWN_TASK_TYPE.
+       * Custom tasks are recorded as UNKNOWN_TASK_TYPE.
        * </pre>
        */
       public Builder setType(com.google.wireless.android.sdk.stats.AndroidStudioStats.GradleTaskExecution.Type value) {
@@ -49017,7 +49412,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * The task implementing class.
-       *  Custom tasks are recorded as UNKNOWN_TASK_TYPE.
+       * Custom tasks are recorded as UNKNOWN_TASK_TYPE.
        * </pre>
        */
       public Builder clearType() {
@@ -49034,8 +49429,8 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * Whether the task did work (TaskState#getDidWork())
-       *  This is not necessarily the inverse of up_to_date: see
-       *  https://docs.gradle.org/current/javadoc/org/gradle/api/tasks/TaskState.html#getDidWork()
+       * This is not necessarily the inverse of up_to_date: see
+       * https://docs.gradle.org/current/javadoc/org/gradle/api/tasks/TaskState.html#getDidWork()
        * </pre>
        */
       public boolean hasDidWork() {
@@ -49046,8 +49441,8 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * Whether the task did work (TaskState#getDidWork())
-       *  This is not necessarily the inverse of up_to_date: see
-       *  https://docs.gradle.org/current/javadoc/org/gradle/api/tasks/TaskState.html#getDidWork()
+       * This is not necessarily the inverse of up_to_date: see
+       * https://docs.gradle.org/current/javadoc/org/gradle/api/tasks/TaskState.html#getDidWork()
        * </pre>
        */
       public boolean getDidWork() {
@@ -49058,8 +49453,8 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * Whether the task did work (TaskState#getDidWork())
-       *  This is not necessarily the inverse of up_to_date: see
-       *  https://docs.gradle.org/current/javadoc/org/gradle/api/tasks/TaskState.html#getDidWork()
+       * This is not necessarily the inverse of up_to_date: see
+       * https://docs.gradle.org/current/javadoc/org/gradle/api/tasks/TaskState.html#getDidWork()
        * </pre>
        */
       public Builder setDidWork(boolean value) {
@@ -49073,8 +49468,8 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * Whether the task did work (TaskState#getDidWork())
-       *  This is not necessarily the inverse of up_to_date: see
-       *  https://docs.gradle.org/current/javadoc/org/gradle/api/tasks/TaskState.html#getDidWork()
+       * This is not necessarily the inverse of up_to_date: see
+       * https://docs.gradle.org/current/javadoc/org/gradle/api/tasks/TaskState.html#getDidWork()
        * </pre>
        */
       public Builder clearDidWork() {
@@ -49251,7 +49646,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * The transform implementing class.
-     *  Custom transforms are recorded as UNKNOWN_TRANSFORM_TYPE.
+     * Custom transforms are recorded as UNKNOWN_TRANSFORM_TYPE.
      * </pre>
      */
     boolean hasType();
@@ -49260,7 +49655,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * The transform implementing class.
-     *  Custom transforms are recorded as UNKNOWN_TRANSFORM_TYPE.
+     * Custom transforms are recorded as UNKNOWN_TRANSFORM_TYPE.
      * </pre>
      */
     com.google.wireless.android.sdk.stats.AndroidStudioStats.GradleTransformExecution.Type getType();
@@ -49271,7 +49666,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * Whether the transform could be (in the case of TASK_TRANSFORM_PREPARATION)
-     *  or was (in the case of TASK_TRANSFORM) incremental.
+     * or was (in the case of TASK_TRANSFORM) incremental.
      * </pre>
      */
     boolean hasIsIncremental();
@@ -49280,7 +49675,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * Whether the transform could be (in the case of TASK_TRANSFORM_PREPARATION)
-     *  or was (in the case of TASK_TRANSFORM) incremental.
+     * or was (in the case of TASK_TRANSFORM) incremental.
      * </pre>
      */
     boolean getIsIncremental();
@@ -49476,6 +49871,18 @@ public final class AndroidStudioStats {
        * <code>SHRINK_RESOURCES = 18;</code>
        */
       SHRINK_RESOURCES(18, 18),
+      /**
+       * <code>DATA_BINDING_MERGE_ARTIFACTS = 19;</code>
+       */
+      DATA_BINDING_MERGE_ARTIFACTS(19, 19),
+      /**
+       * <code>INSTANT_RUN_VERIFIER = 20;</code>
+       */
+      INSTANT_RUN_VERIFIER(20, 20),
+      /**
+       * <code>STRIP_DEBUG_SYMBOL = 21;</code>
+       */
+      STRIP_DEBUG_SYMBOL(21, 21),
       ;
 
       /**
@@ -49554,6 +49961,18 @@ public final class AndroidStudioStats {
        * <code>SHRINK_RESOURCES = 18;</code>
        */
       public static final int SHRINK_RESOURCES_VALUE = 18;
+      /**
+       * <code>DATA_BINDING_MERGE_ARTIFACTS = 19;</code>
+       */
+      public static final int DATA_BINDING_MERGE_ARTIFACTS_VALUE = 19;
+      /**
+       * <code>INSTANT_RUN_VERIFIER = 20;</code>
+       */
+      public static final int INSTANT_RUN_VERIFIER_VALUE = 20;
+      /**
+       * <code>STRIP_DEBUG_SYMBOL = 21;</code>
+       */
+      public static final int STRIP_DEBUG_SYMBOL_VALUE = 21;
 
 
       public final int getNumber() { return value; }
@@ -49579,6 +49998,9 @@ public final class AndroidStudioStats {
           case 16: return NO_CHANGES_VERIFIER;
           case 17: return PRO_GUARD;
           case 18: return SHRINK_RESOURCES;
+          case 19: return DATA_BINDING_MERGE_ARTIFACTS;
+          case 20: return INSTANT_RUN_VERIFIER;
+          case 21: return STRIP_DEBUG_SYMBOL;
           default: return null;
         }
       }
@@ -49639,7 +50061,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * The transform implementing class.
-     *  Custom transforms are recorded as UNKNOWN_TRANSFORM_TYPE.
+     * Custom transforms are recorded as UNKNOWN_TRANSFORM_TYPE.
      * </pre>
      */
     public boolean hasType() {
@@ -49650,7 +50072,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * The transform implementing class.
-     *  Custom transforms are recorded as UNKNOWN_TRANSFORM_TYPE.
+     * Custom transforms are recorded as UNKNOWN_TRANSFORM_TYPE.
      * </pre>
      */
     public com.google.wireless.android.sdk.stats.AndroidStudioStats.GradleTransformExecution.Type getType() {
@@ -49665,7 +50087,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * Whether the transform could be (in the case of TASK_TRANSFORM_PREPARATION)
-     *  or was (in the case of TASK_TRANSFORM) incremental.
+     * or was (in the case of TASK_TRANSFORM) incremental.
      * </pre>
      */
     public boolean hasIsIncremental() {
@@ -49676,7 +50098,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * Whether the transform could be (in the case of TASK_TRANSFORM_PREPARATION)
-     *  or was (in the case of TASK_TRANSFORM) incremental.
+     * or was (in the case of TASK_TRANSFORM) incremental.
      * </pre>
      */
     public boolean getIsIncremental() {
@@ -49934,7 +50356,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * The transform implementing class.
-       *  Custom transforms are recorded as UNKNOWN_TRANSFORM_TYPE.
+       * Custom transforms are recorded as UNKNOWN_TRANSFORM_TYPE.
        * </pre>
        */
       public boolean hasType() {
@@ -49945,7 +50367,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * The transform implementing class.
-       *  Custom transforms are recorded as UNKNOWN_TRANSFORM_TYPE.
+       * Custom transforms are recorded as UNKNOWN_TRANSFORM_TYPE.
        * </pre>
        */
       public com.google.wireless.android.sdk.stats.AndroidStudioStats.GradleTransformExecution.Type getType() {
@@ -49956,7 +50378,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * The transform implementing class.
-       *  Custom transforms are recorded as UNKNOWN_TRANSFORM_TYPE.
+       * Custom transforms are recorded as UNKNOWN_TRANSFORM_TYPE.
        * </pre>
        */
       public Builder setType(com.google.wireless.android.sdk.stats.AndroidStudioStats.GradleTransformExecution.Type value) {
@@ -49973,7 +50395,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * The transform implementing class.
-       *  Custom transforms are recorded as UNKNOWN_TRANSFORM_TYPE.
+       * Custom transforms are recorded as UNKNOWN_TRANSFORM_TYPE.
        * </pre>
        */
       public Builder clearType() {
@@ -49990,7 +50412,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * Whether the transform could be (in the case of TASK_TRANSFORM_PREPARATION)
-       *  or was (in the case of TASK_TRANSFORM) incremental.
+       * or was (in the case of TASK_TRANSFORM) incremental.
        * </pre>
        */
       public boolean hasIsIncremental() {
@@ -50001,7 +50423,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * Whether the transform could be (in the case of TASK_TRANSFORM_PREPARATION)
-       *  or was (in the case of TASK_TRANSFORM) incremental.
+       * or was (in the case of TASK_TRANSFORM) incremental.
        * </pre>
        */
       public boolean getIsIncremental() {
@@ -50012,7 +50434,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * Whether the transform could be (in the case of TASK_TRANSFORM_PREPARATION)
-       *  or was (in the case of TASK_TRANSFORM) incremental.
+       * or was (in the case of TASK_TRANSFORM) incremental.
        * </pre>
        */
       public Builder setIsIncremental(boolean value) {
@@ -50026,7 +50448,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * Whether the transform could be (in the case of TASK_TRANSFORM_PREPARATION)
-       *  or was (in the case of TASK_TRANSFORM) incremental.
+       * or was (in the case of TASK_TRANSFORM) incremental.
        * </pre>
        */
       public Builder clearIsIncremental() {
@@ -50056,8 +50478,8 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * The type of artifacts built in this invocation.
-     *  e.g. COLD for when the changes cannot be hot-swapped, either due to the
-     *  app not running on the users device or the changes cannot be hot swapped.
+     * e.g. COLD for when the changes cannot be hot-swapped, either due to the
+     * app not running on the users device or the changes cannot be hot swapped.
      * </pre>
      */
     boolean hasBuildMode();
@@ -50066,8 +50488,8 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * The type of artifacts built in this invocation.
-     *  e.g. COLD for when the changes cannot be hot-swapped, either due to the
-     *  app not running on the users device or the changes cannot be hot swapped.
+     * e.g. COLD for when the changes cannot be hot-swapped, either due to the
+     * app not running on the users device or the changes cannot be hot swapped.
      * </pre>
      */
     com.google.wireless.android.sdk.stats.AndroidStudioStats.InstantRunStatus.BuildMode getBuildMode();
@@ -50096,7 +50518,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * The result of the verifier run, whether the users change can be hot-swapped
-     *  or requires a cold swap or full build is determined by the verifier.
+     * or requires a cold swap or full build is determined by the verifier.
      * </pre>
      */
     boolean hasVerifierStatus();
@@ -50105,7 +50527,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * The result of the verifier run, whether the users change can be hot-swapped
-     *  or requires a cold swap or full build is determined by the verifier.
+     * or requires a cold swap or full build is determined by the verifier.
      * </pre>
      */
     com.google.wireless.android.sdk.stats.AndroidStudioStats.InstantRunStatus.VerifierStatus getVerifierStatus();
@@ -50116,9 +50538,9 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * The built artifacts stored in the build info.
-     *  Artifacts that were built, but superseeded (e.g. a main APK contains
-     *  resources, so the resources do not need to be reported separately) are
-     *  not included.
+     * Artifacts that were built, but superseeded (e.g. a main APK contains
+     * resources, so the resources do not need to be reported separately) are
+     * not included.
      * </pre>
      */
     java.util.List<com.google.wireless.android.sdk.stats.AndroidStudioStats.InstantRunArtifact> 
@@ -50128,9 +50550,9 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * The built artifacts stored in the build info.
-     *  Artifacts that were built, but superseeded (e.g. a main APK contains
-     *  resources, so the resources do not need to be reported separately) are
-     *  not included.
+     * Artifacts that were built, but superseeded (e.g. a main APK contains
+     * resources, so the resources do not need to be reported separately) are
+     * not included.
      * </pre>
      */
     com.google.wireless.android.sdk.stats.AndroidStudioStats.InstantRunArtifact getArtifact(int index);
@@ -50139,9 +50561,9 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * The built artifacts stored in the build info.
-     *  Artifacts that were built, but superseeded (e.g. a main APK contains
-     *  resources, so the resources do not need to be reported separately) are
-     *  not included.
+     * Artifacts that were built, but superseeded (e.g. a main APK contains
+     * resources, so the resources do not need to be reported separately) are
+     * not included.
      * </pre>
      */
     int getArtifactCount();
@@ -50150,9 +50572,9 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * The built artifacts stored in the build info.
-     *  Artifacts that were built, but superseeded (e.g. a main APK contains
-     *  resources, so the resources do not need to be reported separately) are
-     *  not included.
+     * Artifacts that were built, but superseeded (e.g. a main APK contains
+     * resources, so the resources do not need to be reported separately) are
+     * not included.
      * </pre>
      */
     java.util.List<? extends com.google.wireless.android.sdk.stats.AndroidStudioStats.InstantRunArtifactOrBuilder> 
@@ -50162,9 +50584,9 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * The built artifacts stored in the build info.
-     *  Artifacts that were built, but superseeded (e.g. a main APK contains
-     *  resources, so the resources do not need to be reported separately) are
-     *  not included.
+     * Artifacts that were built, but superseeded (e.g. a main APK contains
+     * resources, so the resources do not need to be reported separately) are
+     * not included.
      * </pre>
      */
     com.google.wireless.android.sdk.stats.AndroidStudioStats.InstantRunArtifactOrBuilder getArtifactOrBuilder(
@@ -50674,7 +51096,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * the binary manifest file changed, probably due to references to resources which ID changed
-       *  since last build.
+       * since last build.
        * </pre>
        */
       BINARY_MANIFEST_FILE_CHANGE(23, 23),
@@ -50841,7 +51263,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * the binary manifest file changed, probably due to references to resources which ID changed
-       *  since last build.
+       * since last build.
        * </pre>
        */
       public static final int BINARY_MANIFEST_FILE_CHANGE_VALUE = 23;
@@ -50960,8 +51382,8 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * The type of artifacts built in this invocation.
-     *  e.g. COLD for when the changes cannot be hot-swapped, either due to the
-     *  app not running on the users device or the changes cannot be hot swapped.
+     * e.g. COLD for when the changes cannot be hot-swapped, either due to the
+     * app not running on the users device or the changes cannot be hot swapped.
      * </pre>
      */
     public boolean hasBuildMode() {
@@ -50972,8 +51394,8 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * The type of artifacts built in this invocation.
-     *  e.g. COLD for when the changes cannot be hot-swapped, either due to the
-     *  app not running on the users device or the changes cannot be hot swapped.
+     * e.g. COLD for when the changes cannot be hot-swapped, either due to the
+     * app not running on the users device or the changes cannot be hot swapped.
      * </pre>
      */
     public com.google.wireless.android.sdk.stats.AndroidStudioStats.InstantRunStatus.BuildMode getBuildMode() {
@@ -51012,7 +51434,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * The result of the verifier run, whether the users change can be hot-swapped
-     *  or requires a cold swap or full build is determined by the verifier.
+     * or requires a cold swap or full build is determined by the verifier.
      * </pre>
      */
     public boolean hasVerifierStatus() {
@@ -51023,7 +51445,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * The result of the verifier run, whether the users change can be hot-swapped
-     *  or requires a cold swap or full build is determined by the verifier.
+     * or requires a cold swap or full build is determined by the verifier.
      * </pre>
      */
     public com.google.wireless.android.sdk.stats.AndroidStudioStats.InstantRunStatus.VerifierStatus getVerifierStatus() {
@@ -51038,9 +51460,9 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * The built artifacts stored in the build info.
-     *  Artifacts that were built, but superseeded (e.g. a main APK contains
-     *  resources, so the resources do not need to be reported separately) are
-     *  not included.
+     * Artifacts that were built, but superseeded (e.g. a main APK contains
+     * resources, so the resources do not need to be reported separately) are
+     * not included.
      * </pre>
      */
     public java.util.List<com.google.wireless.android.sdk.stats.AndroidStudioStats.InstantRunArtifact> getArtifactList() {
@@ -51051,9 +51473,9 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * The built artifacts stored in the build info.
-     *  Artifacts that were built, but superseeded (e.g. a main APK contains
-     *  resources, so the resources do not need to be reported separately) are
-     *  not included.
+     * Artifacts that were built, but superseeded (e.g. a main APK contains
+     * resources, so the resources do not need to be reported separately) are
+     * not included.
      * </pre>
      */
     public java.util.List<? extends com.google.wireless.android.sdk.stats.AndroidStudioStats.InstantRunArtifactOrBuilder> 
@@ -51065,9 +51487,9 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * The built artifacts stored in the build info.
-     *  Artifacts that were built, but superseeded (e.g. a main APK contains
-     *  resources, so the resources do not need to be reported separately) are
-     *  not included.
+     * Artifacts that were built, but superseeded (e.g. a main APK contains
+     * resources, so the resources do not need to be reported separately) are
+     * not included.
      * </pre>
      */
     public int getArtifactCount() {
@@ -51078,9 +51500,9 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * The built artifacts stored in the build info.
-     *  Artifacts that were built, but superseeded (e.g. a main APK contains
-     *  resources, so the resources do not need to be reported separately) are
-     *  not included.
+     * Artifacts that were built, but superseeded (e.g. a main APK contains
+     * resources, so the resources do not need to be reported separately) are
+     * not included.
      * </pre>
      */
     public com.google.wireless.android.sdk.stats.AndroidStudioStats.InstantRunArtifact getArtifact(int index) {
@@ -51091,9 +51513,9 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * The built artifacts stored in the build info.
-     *  Artifacts that were built, but superseeded (e.g. a main APK contains
-     *  resources, so the resources do not need to be reported separately) are
-     *  not included.
+     * Artifacts that were built, but superseeded (e.g. a main APK contains
+     * resources, so the resources do not need to be reported separately) are
+     * not included.
      * </pre>
      */
     public com.google.wireless.android.sdk.stats.AndroidStudioStats.InstantRunArtifactOrBuilder getArtifactOrBuilder(
@@ -51419,8 +51841,8 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * The type of artifacts built in this invocation.
-       *  e.g. COLD for when the changes cannot be hot-swapped, either due to the
-       *  app not running on the users device or the changes cannot be hot swapped.
+       * e.g. COLD for when the changes cannot be hot-swapped, either due to the
+       * app not running on the users device or the changes cannot be hot swapped.
        * </pre>
        */
       public boolean hasBuildMode() {
@@ -51431,8 +51853,8 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * The type of artifacts built in this invocation.
-       *  e.g. COLD for when the changes cannot be hot-swapped, either due to the
-       *  app not running on the users device or the changes cannot be hot swapped.
+       * e.g. COLD for when the changes cannot be hot-swapped, either due to the
+       * app not running on the users device or the changes cannot be hot swapped.
        * </pre>
        */
       public com.google.wireless.android.sdk.stats.AndroidStudioStats.InstantRunStatus.BuildMode getBuildMode() {
@@ -51443,8 +51865,8 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * The type of artifacts built in this invocation.
-       *  e.g. COLD for when the changes cannot be hot-swapped, either due to the
-       *  app not running on the users device or the changes cannot be hot swapped.
+       * e.g. COLD for when the changes cannot be hot-swapped, either due to the
+       * app not running on the users device or the changes cannot be hot swapped.
        * </pre>
        */
       public Builder setBuildMode(com.google.wireless.android.sdk.stats.AndroidStudioStats.InstantRunStatus.BuildMode value) {
@@ -51461,8 +51883,8 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * The type of artifacts built in this invocation.
-       *  e.g. COLD for when the changes cannot be hot-swapped, either due to the
-       *  app not running on the users device or the changes cannot be hot swapped.
+       * e.g. COLD for when the changes cannot be hot-swapped, either due to the
+       * app not running on the users device or the changes cannot be hot swapped.
        * </pre>
        */
       public Builder clearBuildMode() {
@@ -51531,7 +51953,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * The result of the verifier run, whether the users change can be hot-swapped
-       *  or requires a cold swap or full build is determined by the verifier.
+       * or requires a cold swap or full build is determined by the verifier.
        * </pre>
        */
       public boolean hasVerifierStatus() {
@@ -51542,7 +51964,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * The result of the verifier run, whether the users change can be hot-swapped
-       *  or requires a cold swap or full build is determined by the verifier.
+       * or requires a cold swap or full build is determined by the verifier.
        * </pre>
        */
       public com.google.wireless.android.sdk.stats.AndroidStudioStats.InstantRunStatus.VerifierStatus getVerifierStatus() {
@@ -51553,7 +51975,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * The result of the verifier run, whether the users change can be hot-swapped
-       *  or requires a cold swap or full build is determined by the verifier.
+       * or requires a cold swap or full build is determined by the verifier.
        * </pre>
        */
       public Builder setVerifierStatus(com.google.wireless.android.sdk.stats.AndroidStudioStats.InstantRunStatus.VerifierStatus value) {
@@ -51570,7 +51992,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * The result of the verifier run, whether the users change can be hot-swapped
-       *  or requires a cold swap or full build is determined by the verifier.
+       * or requires a cold swap or full build is determined by the verifier.
        * </pre>
        */
       public Builder clearVerifierStatus() {
@@ -51598,9 +52020,9 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * The built artifacts stored in the build info.
-       *  Artifacts that were built, but superseeded (e.g. a main APK contains
-       *  resources, so the resources do not need to be reported separately) are
-       *  not included.
+       * Artifacts that were built, but superseeded (e.g. a main APK contains
+       * resources, so the resources do not need to be reported separately) are
+       * not included.
        * </pre>
        */
       public java.util.List<com.google.wireless.android.sdk.stats.AndroidStudioStats.InstantRunArtifact> getArtifactList() {
@@ -51615,9 +52037,9 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * The built artifacts stored in the build info.
-       *  Artifacts that were built, but superseeded (e.g. a main APK contains
-       *  resources, so the resources do not need to be reported separately) are
-       *  not included.
+       * Artifacts that were built, but superseeded (e.g. a main APK contains
+       * resources, so the resources do not need to be reported separately) are
+       * not included.
        * </pre>
        */
       public int getArtifactCount() {
@@ -51632,9 +52054,9 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * The built artifacts stored in the build info.
-       *  Artifacts that were built, but superseeded (e.g. a main APK contains
-       *  resources, so the resources do not need to be reported separately) are
-       *  not included.
+       * Artifacts that were built, but superseeded (e.g. a main APK contains
+       * resources, so the resources do not need to be reported separately) are
+       * not included.
        * </pre>
        */
       public com.google.wireless.android.sdk.stats.AndroidStudioStats.InstantRunArtifact getArtifact(int index) {
@@ -51649,9 +52071,9 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * The built artifacts stored in the build info.
-       *  Artifacts that were built, but superseeded (e.g. a main APK contains
-       *  resources, so the resources do not need to be reported separately) are
-       *  not included.
+       * Artifacts that were built, but superseeded (e.g. a main APK contains
+       * resources, so the resources do not need to be reported separately) are
+       * not included.
        * </pre>
        */
       public Builder setArtifact(
@@ -51673,9 +52095,9 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * The built artifacts stored in the build info.
-       *  Artifacts that were built, but superseeded (e.g. a main APK contains
-       *  resources, so the resources do not need to be reported separately) are
-       *  not included.
+       * Artifacts that were built, but superseeded (e.g. a main APK contains
+       * resources, so the resources do not need to be reported separately) are
+       * not included.
        * </pre>
        */
       public Builder setArtifact(
@@ -51694,9 +52116,9 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * The built artifacts stored in the build info.
-       *  Artifacts that were built, but superseeded (e.g. a main APK contains
-       *  resources, so the resources do not need to be reported separately) are
-       *  not included.
+       * Artifacts that were built, but superseeded (e.g. a main APK contains
+       * resources, so the resources do not need to be reported separately) are
+       * not included.
        * </pre>
        */
       public Builder addArtifact(com.google.wireless.android.sdk.stats.AndroidStudioStats.InstantRunArtifact value) {
@@ -51717,9 +52139,9 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * The built artifacts stored in the build info.
-       *  Artifacts that were built, but superseeded (e.g. a main APK contains
-       *  resources, so the resources do not need to be reported separately) are
-       *  not included.
+       * Artifacts that were built, but superseeded (e.g. a main APK contains
+       * resources, so the resources do not need to be reported separately) are
+       * not included.
        * </pre>
        */
       public Builder addArtifact(
@@ -51741,9 +52163,9 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * The built artifacts stored in the build info.
-       *  Artifacts that were built, but superseeded (e.g. a main APK contains
-       *  resources, so the resources do not need to be reported separately) are
-       *  not included.
+       * Artifacts that were built, but superseeded (e.g. a main APK contains
+       * resources, so the resources do not need to be reported separately) are
+       * not included.
        * </pre>
        */
       public Builder addArtifact(
@@ -51762,9 +52184,9 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * The built artifacts stored in the build info.
-       *  Artifacts that were built, but superseeded (e.g. a main APK contains
-       *  resources, so the resources do not need to be reported separately) are
-       *  not included.
+       * Artifacts that were built, but superseeded (e.g. a main APK contains
+       * resources, so the resources do not need to be reported separately) are
+       * not included.
        * </pre>
        */
       public Builder addArtifact(
@@ -51783,9 +52205,9 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * The built artifacts stored in the build info.
-       *  Artifacts that were built, but superseeded (e.g. a main APK contains
-       *  resources, so the resources do not need to be reported separately) are
-       *  not included.
+       * Artifacts that were built, but superseeded (e.g. a main APK contains
+       * resources, so the resources do not need to be reported separately) are
+       * not included.
        * </pre>
        */
       public Builder addAllArtifact(
@@ -51804,9 +52226,9 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * The built artifacts stored in the build info.
-       *  Artifacts that were built, but superseeded (e.g. a main APK contains
-       *  resources, so the resources do not need to be reported separately) are
-       *  not included.
+       * Artifacts that were built, but superseeded (e.g. a main APK contains
+       * resources, so the resources do not need to be reported separately) are
+       * not included.
        * </pre>
        */
       public Builder clearArtifact() {
@@ -51824,9 +52246,9 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * The built artifacts stored in the build info.
-       *  Artifacts that were built, but superseeded (e.g. a main APK contains
-       *  resources, so the resources do not need to be reported separately) are
-       *  not included.
+       * Artifacts that were built, but superseeded (e.g. a main APK contains
+       * resources, so the resources do not need to be reported separately) are
+       * not included.
        * </pre>
        */
       public Builder removeArtifact(int index) {
@@ -51844,9 +52266,9 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * The built artifacts stored in the build info.
-       *  Artifacts that were built, but superseeded (e.g. a main APK contains
-       *  resources, so the resources do not need to be reported separately) are
-       *  not included.
+       * Artifacts that were built, but superseeded (e.g. a main APK contains
+       * resources, so the resources do not need to be reported separately) are
+       * not included.
        * </pre>
        */
       public com.google.wireless.android.sdk.stats.AndroidStudioStats.InstantRunArtifact.Builder getArtifactBuilder(
@@ -51858,9 +52280,9 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * The built artifacts stored in the build info.
-       *  Artifacts that were built, but superseeded (e.g. a main APK contains
-       *  resources, so the resources do not need to be reported separately) are
-       *  not included.
+       * Artifacts that were built, but superseeded (e.g. a main APK contains
+       * resources, so the resources do not need to be reported separately) are
+       * not included.
        * </pre>
        */
       public com.google.wireless.android.sdk.stats.AndroidStudioStats.InstantRunArtifactOrBuilder getArtifactOrBuilder(
@@ -51875,9 +52297,9 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * The built artifacts stored in the build info.
-       *  Artifacts that were built, but superseeded (e.g. a main APK contains
-       *  resources, so the resources do not need to be reported separately) are
-       *  not included.
+       * Artifacts that were built, but superseeded (e.g. a main APK contains
+       * resources, so the resources do not need to be reported separately) are
+       * not included.
        * </pre>
        */
       public java.util.List<? extends com.google.wireless.android.sdk.stats.AndroidStudioStats.InstantRunArtifactOrBuilder> 
@@ -51893,9 +52315,9 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * The built artifacts stored in the build info.
-       *  Artifacts that were built, but superseeded (e.g. a main APK contains
-       *  resources, so the resources do not need to be reported separately) are
-       *  not included.
+       * Artifacts that were built, but superseeded (e.g. a main APK contains
+       * resources, so the resources do not need to be reported separately) are
+       * not included.
        * </pre>
        */
       public com.google.wireless.android.sdk.stats.AndroidStudioStats.InstantRunArtifact.Builder addArtifactBuilder() {
@@ -51907,9 +52329,9 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * The built artifacts stored in the build info.
-       *  Artifacts that were built, but superseeded (e.g. a main APK contains
-       *  resources, so the resources do not need to be reported separately) are
-       *  not included.
+       * Artifacts that were built, but superseeded (e.g. a main APK contains
+       * resources, so the resources do not need to be reported separately) are
+       * not included.
        * </pre>
        */
       public com.google.wireless.android.sdk.stats.AndroidStudioStats.InstantRunArtifact.Builder addArtifactBuilder(
@@ -51922,9 +52344,9 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * The built artifacts stored in the build info.
-       *  Artifacts that were built, but superseeded (e.g. a main APK contains
-       *  resources, so the resources do not need to be reported separately) are
-       *  not included.
+       * Artifacts that were built, but superseeded (e.g. a main APK contains
+       * resources, so the resources do not need to be reported separately) are
+       * not included.
        * </pre>
        */
       public java.util.List<com.google.wireless.android.sdk.stats.AndroidStudioStats.InstantRunArtifact.Builder> 
@@ -52081,7 +52503,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * Main APK file for 19, and 21 platforms when using
-       *  PatchingPolicy.MULTI_DEX.
+       * PatchingPolicy.MULTI_DEX.
        * </pre>
        */
       MAIN(0, 1),
@@ -52106,7 +52528,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * Restart.dex file that can be used for Dalvik to restart applications
-       *  with minimum set of changes delivered.
+       * with minimum set of changes delivered.
        * </pre>
        */
       RESTART_DEX(3, 4),
@@ -52115,7 +52537,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * Shard dex file that can be used to replace originally installed
-       *  multi-dex shard.
+       * multi-dex shard.
        * </pre>
        */
       DEX(4, 5),
@@ -52142,7 +52564,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * Main APK file for 19, and 21 platforms when using
-       *  PatchingPolicy.MULTI_DEX.
+       * PatchingPolicy.MULTI_DEX.
        * </pre>
        */
       public static final int MAIN_VALUE = 1;
@@ -52167,7 +52589,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * Restart.dex file that can be used for Dalvik to restart applications
-       *  with minimum set of changes delivered.
+       * with minimum set of changes delivered.
        * </pre>
        */
       public static final int RESTART_DEX_VALUE = 4;
@@ -52176,7 +52598,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * Shard dex file that can be used to replace originally installed
-       *  multi-dex shard.
+       * multi-dex shard.
        * </pre>
        */
       public static final int DEX_VALUE = 5;
@@ -53595,10 +54017,10 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * A path describing the kind of details from the trace. This is a mix
-     *  of class names (of our code) and random ids generated for the trace.
-     *  e.g. 'Capture(7c6e72eebe2e6d76751b0328971e7fb29ceed82b).Atoms[6307].' +
-     *       'Resource&lt;e1b2a028ce62a97b235172963ddee35f386c6940&gt;.' +
-     *       'Thumbnail&lt;RGBA,100x100&gt;.As&lt;RGBA&gt;'
+     * of class names (of our code) and random ids generated for the trace.
+     * e.g. 'Capture(7c6e72eebe2e6d76751b0328971e7fb29ceed82b).Atoms[6307].' +
+     *      'Resource&lt;e1b2a028ce62a97b235172963ddee35f386c6940&gt;.' +
+     *      'Thumbnail&lt;RGBA,100x100&gt;.As&lt;RGBA&gt;'
      * </pre>
      */
     boolean hasTracePath();
@@ -53607,10 +54029,10 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * A path describing the kind of details from the trace. This is a mix
-     *  of class names (of our code) and random ids generated for the trace.
-     *  e.g. 'Capture(7c6e72eebe2e6d76751b0328971e7fb29ceed82b).Atoms[6307].' +
-     *       'Resource&lt;e1b2a028ce62a97b235172963ddee35f386c6940&gt;.' +
-     *       'Thumbnail&lt;RGBA,100x100&gt;.As&lt;RGBA&gt;'
+     * of class names (of our code) and random ids generated for the trace.
+     * e.g. 'Capture(7c6e72eebe2e6d76751b0328971e7fb29ceed82b).Atoms[6307].' +
+     *      'Resource&lt;e1b2a028ce62a97b235172963ddee35f386c6940&gt;.' +
+     *      'Thumbnail&lt;RGBA,100x100&gt;.As&lt;RGBA&gt;'
      * </pre>
      */
     java.lang.String getTracePath();
@@ -53619,10 +54041,10 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * A path describing the kind of details from the trace. This is a mix
-     *  of class names (of our code) and random ids generated for the trace.
-     *  e.g. 'Capture(7c6e72eebe2e6d76751b0328971e7fb29ceed82b).Atoms[6307].' +
-     *       'Resource&lt;e1b2a028ce62a97b235172963ddee35f386c6940&gt;.' +
-     *       'Thumbnail&lt;RGBA,100x100&gt;.As&lt;RGBA&gt;'
+     * of class names (of our code) and random ids generated for the trace.
+     * e.g. 'Capture(7c6e72eebe2e6d76751b0328971e7fb29ceed82b).Atoms[6307].' +
+     *      'Resource&lt;e1b2a028ce62a97b235172963ddee35f386c6940&gt;.' +
+     *      'Thumbnail&lt;RGBA,100x100&gt;.As&lt;RGBA&gt;'
      * </pre>
      */
     com.google.protobuf.ByteString
@@ -53963,10 +54385,10 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * A path describing the kind of details from the trace. This is a mix
-     *  of class names (of our code) and random ids generated for the trace.
-     *  e.g. 'Capture(7c6e72eebe2e6d76751b0328971e7fb29ceed82b).Atoms[6307].' +
-     *       'Resource&lt;e1b2a028ce62a97b235172963ddee35f386c6940&gt;.' +
-     *       'Thumbnail&lt;RGBA,100x100&gt;.As&lt;RGBA&gt;'
+     * of class names (of our code) and random ids generated for the trace.
+     * e.g. 'Capture(7c6e72eebe2e6d76751b0328971e7fb29ceed82b).Atoms[6307].' +
+     *      'Resource&lt;e1b2a028ce62a97b235172963ddee35f386c6940&gt;.' +
+     *      'Thumbnail&lt;RGBA,100x100&gt;.As&lt;RGBA&gt;'
      * </pre>
      */
     public boolean hasTracePath() {
@@ -53977,10 +54399,10 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * A path describing the kind of details from the trace. This is a mix
-     *  of class names (of our code) and random ids generated for the trace.
-     *  e.g. 'Capture(7c6e72eebe2e6d76751b0328971e7fb29ceed82b).Atoms[6307].' +
-     *       'Resource&lt;e1b2a028ce62a97b235172963ddee35f386c6940&gt;.' +
-     *       'Thumbnail&lt;RGBA,100x100&gt;.As&lt;RGBA&gt;'
+     * of class names (of our code) and random ids generated for the trace.
+     * e.g. 'Capture(7c6e72eebe2e6d76751b0328971e7fb29ceed82b).Atoms[6307].' +
+     *      'Resource&lt;e1b2a028ce62a97b235172963ddee35f386c6940&gt;.' +
+     *      'Thumbnail&lt;RGBA,100x100&gt;.As&lt;RGBA&gt;'
      * </pre>
      */
     public java.lang.String getTracePath() {
@@ -54002,10 +54424,10 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * A path describing the kind of details from the trace. This is a mix
-     *  of class names (of our code) and random ids generated for the trace.
-     *  e.g. 'Capture(7c6e72eebe2e6d76751b0328971e7fb29ceed82b).Atoms[6307].' +
-     *       'Resource&lt;e1b2a028ce62a97b235172963ddee35f386c6940&gt;.' +
-     *       'Thumbnail&lt;RGBA,100x100&gt;.As&lt;RGBA&gt;'
+     * of class names (of our code) and random ids generated for the trace.
+     * e.g. 'Capture(7c6e72eebe2e6d76751b0328971e7fb29ceed82b).Atoms[6307].' +
+     *      'Resource&lt;e1b2a028ce62a97b235172963ddee35f386c6940&gt;.' +
+     *      'Thumbnail&lt;RGBA,100x100&gt;.As&lt;RGBA&gt;'
      * </pre>
      */
     public com.google.protobuf.ByteString
@@ -54718,10 +55140,10 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * A path describing the kind of details from the trace. This is a mix
-       *  of class names (of our code) and random ids generated for the trace.
-       *  e.g. 'Capture(7c6e72eebe2e6d76751b0328971e7fb29ceed82b).Atoms[6307].' +
-       *       'Resource&lt;e1b2a028ce62a97b235172963ddee35f386c6940&gt;.' +
-       *       'Thumbnail&lt;RGBA,100x100&gt;.As&lt;RGBA&gt;'
+       * of class names (of our code) and random ids generated for the trace.
+       * e.g. 'Capture(7c6e72eebe2e6d76751b0328971e7fb29ceed82b).Atoms[6307].' +
+       *      'Resource&lt;e1b2a028ce62a97b235172963ddee35f386c6940&gt;.' +
+       *      'Thumbnail&lt;RGBA,100x100&gt;.As&lt;RGBA&gt;'
        * </pre>
        */
       public boolean hasTracePath() {
@@ -54732,10 +55154,10 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * A path describing the kind of details from the trace. This is a mix
-       *  of class names (of our code) and random ids generated for the trace.
-       *  e.g. 'Capture(7c6e72eebe2e6d76751b0328971e7fb29ceed82b).Atoms[6307].' +
-       *       'Resource&lt;e1b2a028ce62a97b235172963ddee35f386c6940&gt;.' +
-       *       'Thumbnail&lt;RGBA,100x100&gt;.As&lt;RGBA&gt;'
+       * of class names (of our code) and random ids generated for the trace.
+       * e.g. 'Capture(7c6e72eebe2e6d76751b0328971e7fb29ceed82b).Atoms[6307].' +
+       *      'Resource&lt;e1b2a028ce62a97b235172963ddee35f386c6940&gt;.' +
+       *      'Thumbnail&lt;RGBA,100x100&gt;.As&lt;RGBA&gt;'
        * </pre>
        */
       public java.lang.String getTracePath() {
@@ -54754,10 +55176,10 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * A path describing the kind of details from the trace. This is a mix
-       *  of class names (of our code) and random ids generated for the trace.
-       *  e.g. 'Capture(7c6e72eebe2e6d76751b0328971e7fb29ceed82b).Atoms[6307].' +
-       *       'Resource&lt;e1b2a028ce62a97b235172963ddee35f386c6940&gt;.' +
-       *       'Thumbnail&lt;RGBA,100x100&gt;.As&lt;RGBA&gt;'
+       * of class names (of our code) and random ids generated for the trace.
+       * e.g. 'Capture(7c6e72eebe2e6d76751b0328971e7fb29ceed82b).Atoms[6307].' +
+       *      'Resource&lt;e1b2a028ce62a97b235172963ddee35f386c6940&gt;.' +
+       *      'Thumbnail&lt;RGBA,100x100&gt;.As&lt;RGBA&gt;'
        * </pre>
        */
       public com.google.protobuf.ByteString
@@ -54778,10 +55200,10 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * A path describing the kind of details from the trace. This is a mix
-       *  of class names (of our code) and random ids generated for the trace.
-       *  e.g. 'Capture(7c6e72eebe2e6d76751b0328971e7fb29ceed82b).Atoms[6307].' +
-       *       'Resource&lt;e1b2a028ce62a97b235172963ddee35f386c6940&gt;.' +
-       *       'Thumbnail&lt;RGBA,100x100&gt;.As&lt;RGBA&gt;'
+       * of class names (of our code) and random ids generated for the trace.
+       * e.g. 'Capture(7c6e72eebe2e6d76751b0328971e7fb29ceed82b).Atoms[6307].' +
+       *      'Resource&lt;e1b2a028ce62a97b235172963ddee35f386c6940&gt;.' +
+       *      'Thumbnail&lt;RGBA,100x100&gt;.As&lt;RGBA&gt;'
        * </pre>
        */
       public Builder setTracePath(
@@ -54799,10 +55221,10 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * A path describing the kind of details from the trace. This is a mix
-       *  of class names (of our code) and random ids generated for the trace.
-       *  e.g. 'Capture(7c6e72eebe2e6d76751b0328971e7fb29ceed82b).Atoms[6307].' +
-       *       'Resource&lt;e1b2a028ce62a97b235172963ddee35f386c6940&gt;.' +
-       *       'Thumbnail&lt;RGBA,100x100&gt;.As&lt;RGBA&gt;'
+       * of class names (of our code) and random ids generated for the trace.
+       * e.g. 'Capture(7c6e72eebe2e6d76751b0328971e7fb29ceed82b).Atoms[6307].' +
+       *      'Resource&lt;e1b2a028ce62a97b235172963ddee35f386c6940&gt;.' +
+       *      'Thumbnail&lt;RGBA,100x100&gt;.As&lt;RGBA&gt;'
        * </pre>
        */
       public Builder clearTracePath() {
@@ -54816,10 +55238,10 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * A path describing the kind of details from the trace. This is a mix
-       *  of class names (of our code) and random ids generated for the trace.
-       *  e.g. 'Capture(7c6e72eebe2e6d76751b0328971e7fb29ceed82b).Atoms[6307].' +
-       *       'Resource&lt;e1b2a028ce62a97b235172963ddee35f386c6940&gt;.' +
-       *       'Thumbnail&lt;RGBA,100x100&gt;.As&lt;RGBA&gt;'
+       * of class names (of our code) and random ids generated for the trace.
+       * e.g. 'Capture(7c6e72eebe2e6d76751b0328971e7fb29ceed82b).Atoms[6307].' +
+       *      'Resource&lt;e1b2a028ce62a97b235172963ddee35f386c6940&gt;.' +
+       *      'Thumbnail&lt;RGBA,100x100&gt;.As&lt;RGBA&gt;'
        * </pre>
        */
       public Builder setTracePathBytes(
@@ -55598,7 +56020,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * java class name (our code, not customer) of the UI Action reported on
-     *  e.g. 'com.android.build.instant_run.HotSwapBuildAction'
+     * e.g. 'com.android.build.instant_run.HotSwapBuildAction'
      * </pre>
      */
     boolean hasActionClassName();
@@ -55607,7 +56029,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * java class name (our code, not customer) of the UI Action reported on
-     *  e.g. 'com.android.build.instant_run.HotSwapBuildAction'
+     * e.g. 'com.android.build.instant_run.HotSwapBuildAction'
      * </pre>
      */
     java.lang.String getActionClassName();
@@ -55616,7 +56038,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * java class name (our code, not customer) of the UI Action reported on
-     *  e.g. 'com.android.build.instant_run.HotSwapBuildAction'
+     * e.g. 'com.android.build.instant_run.HotSwapBuildAction'
      * </pre>
      */
     com.google.protobuf.ByteString
@@ -55802,6 +56224,10 @@ public final class AndroidStudioStats {
        * <code>MACRO = 4;</code>
        */
       MACRO(4, 4),
+      /**
+       * <code>MOUSE = 5;</code>
+       */
+      MOUSE(5, 5),
       ;
 
       /**
@@ -55824,6 +56250,10 @@ public final class AndroidStudioStats {
        * <code>MACRO = 4;</code>
        */
       public static final int MACRO_VALUE = 4;
+      /**
+       * <code>MOUSE = 5;</code>
+       */
+      public static final int MOUSE_VALUE = 5;
 
 
       public final int getNumber() { return value; }
@@ -55835,6 +56265,7 @@ public final class AndroidStudioStats {
           case 2: return MENU;
           case 3: return KEYBOARD_SHORTCUT;
           case 4: return MACRO;
+          case 5: return MOUSE;
           default: return null;
         }
       }
@@ -55895,7 +56326,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * java class name (our code, not customer) of the UI Action reported on
-     *  e.g. 'com.android.build.instant_run.HotSwapBuildAction'
+     * e.g. 'com.android.build.instant_run.HotSwapBuildAction'
      * </pre>
      */
     public boolean hasActionClassName() {
@@ -55906,7 +56337,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * java class name (our code, not customer) of the UI Action reported on
-     *  e.g. 'com.android.build.instant_run.HotSwapBuildAction'
+     * e.g. 'com.android.build.instant_run.HotSwapBuildAction'
      * </pre>
      */
     public java.lang.String getActionClassName() {
@@ -55928,7 +56359,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * java class name (our code, not customer) of the UI Action reported on
-     *  e.g. 'com.android.build.instant_run.HotSwapBuildAction'
+     * e.g. 'com.android.build.instant_run.HotSwapBuildAction'
      * </pre>
      */
     public com.google.protobuf.ByteString
@@ -56267,7 +56698,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * java class name (our code, not customer) of the UI Action reported on
-       *  e.g. 'com.android.build.instant_run.HotSwapBuildAction'
+       * e.g. 'com.android.build.instant_run.HotSwapBuildAction'
        * </pre>
        */
       public boolean hasActionClassName() {
@@ -56278,7 +56709,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * java class name (our code, not customer) of the UI Action reported on
-       *  e.g. 'com.android.build.instant_run.HotSwapBuildAction'
+       * e.g. 'com.android.build.instant_run.HotSwapBuildAction'
        * </pre>
        */
       public java.lang.String getActionClassName() {
@@ -56297,7 +56728,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * java class name (our code, not customer) of the UI Action reported on
-       *  e.g. 'com.android.build.instant_run.HotSwapBuildAction'
+       * e.g. 'com.android.build.instant_run.HotSwapBuildAction'
        * </pre>
        */
       public com.google.protobuf.ByteString
@@ -56318,7 +56749,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * java class name (our code, not customer) of the UI Action reported on
-       *  e.g. 'com.android.build.instant_run.HotSwapBuildAction'
+       * e.g. 'com.android.build.instant_run.HotSwapBuildAction'
        * </pre>
        */
       public Builder setActionClassName(
@@ -56336,7 +56767,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * java class name (our code, not customer) of the UI Action reported on
-       *  e.g. 'com.android.build.instant_run.HotSwapBuildAction'
+       * e.g. 'com.android.build.instant_run.HotSwapBuildAction'
        * </pre>
        */
       public Builder clearActionClassName() {
@@ -56350,7 +56781,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * java class name (our code, not customer) of the UI Action reported on
-       *  e.g. 'com.android.build.instant_run.HotSwapBuildAction'
+       * e.g. 'com.android.build.instant_run.HotSwapBuildAction'
        * </pre>
        */
       public Builder setActionClassNameBytes(
@@ -60515,7 +60946,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * VM Option specified to set maximum permanent space size in bytes.
-     *  ("-XX:MaxPermSize" flag)
+     * ("-XX:MaxPermSize" flag)
      * </pre>
      */
     boolean hasMaximumPermanentSpaceSize();
@@ -60524,7 +60955,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * VM Option specified to set maximum permanent space size in bytes.
-     *  ("-XX:MaxPermSize" flag)
+     * ("-XX:MaxPermSize" flag)
      * </pre>
      */
     long getMaximumPermanentSpaceSize();
@@ -60535,7 +60966,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * VM Option specified to set maximum permanent space size in bytes.
-     *  ("-XX:ReservedCodeCacheSize" flag)
+     * ("-XX:ReservedCodeCacheSize" flag)
      * </pre>
      */
     boolean hasMaximumCodeCacheSize();
@@ -60544,7 +60975,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * VM Option specified to set maximum permanent space size in bytes.
-     *  ("-XX:ReservedCodeCacheSize" flag)
+     * ("-XX:ReservedCodeCacheSize" flag)
      * </pre>
      */
     long getMaximumCodeCacheSize();
@@ -60555,7 +60986,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * VM Option specified to set time soft referenced objects remain alive in ms.
-     *  ("-XX:SoftRefLRUPolicyMSPerMB" flag)
+     * ("-XX:SoftRefLRUPolicyMSPerMB" flag)
      * </pre>
      */
     boolean hasSoftReferenceLruPolicy();
@@ -60564,7 +60995,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * VM Option specified to set time soft referenced objects remain alive in ms.
-     *  ("-XX:SoftRefLRUPolicyMSPerMB" flag)
+     * ("-XX:SoftRefLRUPolicyMSPerMB" flag)
      * </pre>
      */
     long getSoftReferenceLruPolicy();
@@ -61076,7 +61507,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * VM Option specified to set maximum permanent space size in bytes.
-     *  ("-XX:MaxPermSize" flag)
+     * ("-XX:MaxPermSize" flag)
      * </pre>
      */
     public boolean hasMaximumPermanentSpaceSize() {
@@ -61087,7 +61518,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * VM Option specified to set maximum permanent space size in bytes.
-     *  ("-XX:MaxPermSize" flag)
+     * ("-XX:MaxPermSize" flag)
      * </pre>
      */
     public long getMaximumPermanentSpaceSize() {
@@ -61102,7 +61533,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * VM Option specified to set maximum permanent space size in bytes.
-     *  ("-XX:ReservedCodeCacheSize" flag)
+     * ("-XX:ReservedCodeCacheSize" flag)
      * </pre>
      */
     public boolean hasMaximumCodeCacheSize() {
@@ -61113,7 +61544,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * VM Option specified to set maximum permanent space size in bytes.
-     *  ("-XX:ReservedCodeCacheSize" flag)
+     * ("-XX:ReservedCodeCacheSize" flag)
      * </pre>
      */
     public long getMaximumCodeCacheSize() {
@@ -61128,7 +61559,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * VM Option specified to set time soft referenced objects remain alive in ms.
-     *  ("-XX:SoftRefLRUPolicyMSPerMB" flag)
+     * ("-XX:SoftRefLRUPolicyMSPerMB" flag)
      * </pre>
      */
     public boolean hasSoftReferenceLruPolicy() {
@@ -61139,7 +61570,7 @@ public final class AndroidStudioStats {
      *
      * <pre>
      * VM Option specified to set time soft referenced objects remain alive in ms.
-     *  ("-XX:SoftRefLRUPolicyMSPerMB" flag)
+     * ("-XX:SoftRefLRUPolicyMSPerMB" flag)
      * </pre>
      */
     public long getSoftReferenceLruPolicy() {
@@ -61942,7 +62373,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * VM Option specified to set maximum permanent space size in bytes.
-       *  ("-XX:MaxPermSize" flag)
+       * ("-XX:MaxPermSize" flag)
        * </pre>
        */
       public boolean hasMaximumPermanentSpaceSize() {
@@ -61953,7 +62384,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * VM Option specified to set maximum permanent space size in bytes.
-       *  ("-XX:MaxPermSize" flag)
+       * ("-XX:MaxPermSize" flag)
        * </pre>
        */
       public long getMaximumPermanentSpaceSize() {
@@ -61964,7 +62395,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * VM Option specified to set maximum permanent space size in bytes.
-       *  ("-XX:MaxPermSize" flag)
+       * ("-XX:MaxPermSize" flag)
        * </pre>
        */
       public Builder setMaximumPermanentSpaceSize(long value) {
@@ -61978,7 +62409,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * VM Option specified to set maximum permanent space size in bytes.
-       *  ("-XX:MaxPermSize" flag)
+       * ("-XX:MaxPermSize" flag)
        * </pre>
        */
       public Builder clearMaximumPermanentSpaceSize() {
@@ -61995,7 +62426,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * VM Option specified to set maximum permanent space size in bytes.
-       *  ("-XX:ReservedCodeCacheSize" flag)
+       * ("-XX:ReservedCodeCacheSize" flag)
        * </pre>
        */
       public boolean hasMaximumCodeCacheSize() {
@@ -62006,7 +62437,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * VM Option specified to set maximum permanent space size in bytes.
-       *  ("-XX:ReservedCodeCacheSize" flag)
+       * ("-XX:ReservedCodeCacheSize" flag)
        * </pre>
        */
       public long getMaximumCodeCacheSize() {
@@ -62017,7 +62448,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * VM Option specified to set maximum permanent space size in bytes.
-       *  ("-XX:ReservedCodeCacheSize" flag)
+       * ("-XX:ReservedCodeCacheSize" flag)
        * </pre>
        */
       public Builder setMaximumCodeCacheSize(long value) {
@@ -62031,7 +62462,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * VM Option specified to set maximum permanent space size in bytes.
-       *  ("-XX:ReservedCodeCacheSize" flag)
+       * ("-XX:ReservedCodeCacheSize" flag)
        * </pre>
        */
       public Builder clearMaximumCodeCacheSize() {
@@ -62048,7 +62479,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * VM Option specified to set time soft referenced objects remain alive in ms.
-       *  ("-XX:SoftRefLRUPolicyMSPerMB" flag)
+       * ("-XX:SoftRefLRUPolicyMSPerMB" flag)
        * </pre>
        */
       public boolean hasSoftReferenceLruPolicy() {
@@ -62059,7 +62490,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * VM Option specified to set time soft referenced objects remain alive in ms.
-       *  ("-XX:SoftRefLRUPolicyMSPerMB" flag)
+       * ("-XX:SoftRefLRUPolicyMSPerMB" flag)
        * </pre>
        */
       public long getSoftReferenceLruPolicy() {
@@ -62070,7 +62501,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * VM Option specified to set time soft referenced objects remain alive in ms.
-       *  ("-XX:SoftRefLRUPolicyMSPerMB" flag)
+       * ("-XX:SoftRefLRUPolicyMSPerMB" flag)
        * </pre>
        */
       public Builder setSoftReferenceLruPolicy(long value) {
@@ -62084,7 +62515,7 @@ public final class AndroidStudioStats {
        *
        * <pre>
        * VM Option specified to set time soft referenced objects remain alive in ms.
-       *  ("-XX:SoftRefLRUPolicyMSPerMB" flag)
+       * ("-XX:SoftRefLRUPolicyMSPerMB" flag)
        * </pre>
        */
       public Builder clearSoftReferenceLruPolicy() {
@@ -62155,6 +62586,442 @@ public final class AndroidStudioStats {
     }
 
     // @@protoc_insertion_point(class_scope:android_studio.JvmDetails)
+  }
+
+  public interface StudioPerformanceStatsOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // optional int32 ui_freeze_time_ms = 1;
+    /**
+     * <code>optional int32 ui_freeze_time_ms = 1;</code>
+     *
+     * <pre>
+     * Time for which the UI was blocked in milliseconds
+     * </pre>
+     */
+    boolean hasUiFreezeTimeMs();
+    /**
+     * <code>optional int32 ui_freeze_time_ms = 1;</code>
+     *
+     * <pre>
+     * Time for which the UI was blocked in milliseconds
+     * </pre>
+     */
+    int getUiFreezeTimeMs();
+  }
+  /**
+   * Protobuf type {@code android_studio.StudioPerformanceStats}
+   *
+   * <pre>
+   * Stats on Studio's performance
+   * </pre>
+   */
+  public static final class StudioPerformanceStats extends
+      com.google.protobuf.GeneratedMessage
+      implements StudioPerformanceStatsOrBuilder {
+    // Use StudioPerformanceStats.newBuilder() to construct.
+    private StudioPerformanceStats(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private StudioPerformanceStats(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final StudioPerformanceStats defaultInstance;
+    public static StudioPerformanceStats getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public StudioPerformanceStats getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private StudioPerformanceStats(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              bitField0_ |= 0x00000001;
+              uiFreezeTimeMs_ = input.readInt32();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.google.wireless.android.sdk.stats.AndroidStudioStats.internal_static_android_studio_StudioPerformanceStats_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.google.wireless.android.sdk.stats.AndroidStudioStats.internal_static_android_studio_StudioPerformanceStats_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.google.wireless.android.sdk.stats.AndroidStudioStats.StudioPerformanceStats.class, com.google.wireless.android.sdk.stats.AndroidStudioStats.StudioPerformanceStats.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<StudioPerformanceStats> PARSER =
+        new com.google.protobuf.AbstractParser<StudioPerformanceStats>() {
+      public StudioPerformanceStats parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new StudioPerformanceStats(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<StudioPerformanceStats> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // optional int32 ui_freeze_time_ms = 1;
+    public static final int UI_FREEZE_TIME_MS_FIELD_NUMBER = 1;
+    private int uiFreezeTimeMs_;
+    /**
+     * <code>optional int32 ui_freeze_time_ms = 1;</code>
+     *
+     * <pre>
+     * Time for which the UI was blocked in milliseconds
+     * </pre>
+     */
+    public boolean hasUiFreezeTimeMs() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>optional int32 ui_freeze_time_ms = 1;</code>
+     *
+     * <pre>
+     * Time for which the UI was blocked in milliseconds
+     * </pre>
+     */
+    public int getUiFreezeTimeMs() {
+      return uiFreezeTimeMs_;
+    }
+
+    private void initFields() {
+      uiFreezeTimeMs_ = 0;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeInt32(1, uiFreezeTimeMs_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, uiFreezeTimeMs_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static com.google.wireless.android.sdk.stats.AndroidStudioStats.StudioPerformanceStats parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.google.wireless.android.sdk.stats.AndroidStudioStats.StudioPerformanceStats parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.google.wireless.android.sdk.stats.AndroidStudioStats.StudioPerformanceStats parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.google.wireless.android.sdk.stats.AndroidStudioStats.StudioPerformanceStats parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.google.wireless.android.sdk.stats.AndroidStudioStats.StudioPerformanceStats parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.google.wireless.android.sdk.stats.AndroidStudioStats.StudioPerformanceStats parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static com.google.wireless.android.sdk.stats.AndroidStudioStats.StudioPerformanceStats parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static com.google.wireless.android.sdk.stats.AndroidStudioStats.StudioPerformanceStats parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static com.google.wireless.android.sdk.stats.AndroidStudioStats.StudioPerformanceStats parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.google.wireless.android.sdk.stats.AndroidStudioStats.StudioPerformanceStats parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(com.google.wireless.android.sdk.stats.AndroidStudioStats.StudioPerformanceStats prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code android_studio.StudioPerformanceStats}
+     *
+     * <pre>
+     * Stats on Studio's performance
+     * </pre>
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements com.google.wireless.android.sdk.stats.AndroidStudioStats.StudioPerformanceStatsOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.google.wireless.android.sdk.stats.AndroidStudioStats.internal_static_android_studio_StudioPerformanceStats_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.google.wireless.android.sdk.stats.AndroidStudioStats.internal_static_android_studio_StudioPerformanceStats_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.google.wireless.android.sdk.stats.AndroidStudioStats.StudioPerformanceStats.class, com.google.wireless.android.sdk.stats.AndroidStudioStats.StudioPerformanceStats.Builder.class);
+      }
+
+      // Construct using com.google.wireless.android.sdk.stats.AndroidStudioStats.StudioPerformanceStats.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        uiFreezeTimeMs_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.google.wireless.android.sdk.stats.AndroidStudioStats.internal_static_android_studio_StudioPerformanceStats_descriptor;
+      }
+
+      public com.google.wireless.android.sdk.stats.AndroidStudioStats.StudioPerformanceStats getDefaultInstanceForType() {
+        return com.google.wireless.android.sdk.stats.AndroidStudioStats.StudioPerformanceStats.getDefaultInstance();
+      }
+
+      public com.google.wireless.android.sdk.stats.AndroidStudioStats.StudioPerformanceStats build() {
+        com.google.wireless.android.sdk.stats.AndroidStudioStats.StudioPerformanceStats result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public com.google.wireless.android.sdk.stats.AndroidStudioStats.StudioPerformanceStats buildPartial() {
+        com.google.wireless.android.sdk.stats.AndroidStudioStats.StudioPerformanceStats result = new com.google.wireless.android.sdk.stats.AndroidStudioStats.StudioPerformanceStats(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.uiFreezeTimeMs_ = uiFreezeTimeMs_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.google.wireless.android.sdk.stats.AndroidStudioStats.StudioPerformanceStats) {
+          return mergeFrom((com.google.wireless.android.sdk.stats.AndroidStudioStats.StudioPerformanceStats)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.google.wireless.android.sdk.stats.AndroidStudioStats.StudioPerformanceStats other) {
+        if (other == com.google.wireless.android.sdk.stats.AndroidStudioStats.StudioPerformanceStats.getDefaultInstance()) return this;
+        if (other.hasUiFreezeTimeMs()) {
+          setUiFreezeTimeMs(other.getUiFreezeTimeMs());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.google.wireless.android.sdk.stats.AndroidStudioStats.StudioPerformanceStats parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.google.wireless.android.sdk.stats.AndroidStudioStats.StudioPerformanceStats) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // optional int32 ui_freeze_time_ms = 1;
+      private int uiFreezeTimeMs_ ;
+      /**
+       * <code>optional int32 ui_freeze_time_ms = 1;</code>
+       *
+       * <pre>
+       * Time for which the UI was blocked in milliseconds
+       * </pre>
+       */
+      public boolean hasUiFreezeTimeMs() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>optional int32 ui_freeze_time_ms = 1;</code>
+       *
+       * <pre>
+       * Time for which the UI was blocked in milliseconds
+       * </pre>
+       */
+      public int getUiFreezeTimeMs() {
+        return uiFreezeTimeMs_;
+      }
+      /**
+       * <code>optional int32 ui_freeze_time_ms = 1;</code>
+       *
+       * <pre>
+       * Time for which the UI was blocked in milliseconds
+       * </pre>
+       */
+      public Builder setUiFreezeTimeMs(int value) {
+        bitField0_ |= 0x00000001;
+        uiFreezeTimeMs_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 ui_freeze_time_ms = 1;</code>
+       *
+       * <pre>
+       * Time for which the UI was blocked in milliseconds
+       * </pre>
+       */
+      public Builder clearUiFreezeTimeMs() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        uiFreezeTimeMs_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:android_studio.StudioPerformanceStats)
+    }
+
+    static {
+      defaultInstance = new StudioPerformanceStats(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:android_studio.StudioPerformanceStats)
   }
 
   private static com.google.protobuf.Descriptors.Descriptor
@@ -62352,6 +63219,11 @@ public final class AndroidStudioStats {
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_android_studio_JvmDetails_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_android_studio_StudioPerformanceStats_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_android_studio_StudioPerformanceStats_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -62361,7 +63233,7 @@ public final class AndroidStudioStats {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\022studio_stats.proto\022\016android_studio\"\261;\n" +
+      "\n\022studio_stats.proto\022\016android_studio\"\231<\n" +
       "\022AndroidStudioEvent\022B\n\010category\030\001 \001(\01620." +
       "android_studio.AndroidStudioEvent.EventC" +
       "ategory\022:\n\004kind\030\002 \001(\0162,.android_studio.A" +
@@ -62414,593 +63286,608 @@ public final class AndroidStudioStats {
       "etails\030# \001(\0132\036.android_studio.MachineDet" +
       "ails\022/\n\013jvm_details\030$ \001(\0132\032.android_stud" +
       "io.JvmDetails\022<\n\022java_process_stats\030% \001(" +
-      "\0132 .android_studio.JavaProcessStats\"\237\003\n\r" +
-      "EventCategory\022\025\n\021NO_EVENT_CATEGORY\020\000\022\016\n\n" +
-      "DEPLOYMENT\020\001\022\020\n\014STUDIO_BUILD\020\002\022\026\n\022DEVELO" +
-      "PER_SERVICES\020\003\022\017\n\013GRADLE_SYNC\020\004\022\r\n\tPROFI" +
-      "LING\020\005\022\013\n\007MONITOR\020\006\022\017\n\013SDK_MANAGER\020\007\022\014\n\010" +
-      "TEMPLATE\020\010\022\020\n\014THEME_EDITOR\020\t\022\020\n\014APP_INDE" +
-      "XING\020\n\022\010\n\004LLDB\020\013\022\021\n\rCLOUD_TESTING\020\014\022\010\n\004P",
-      "ING\020\r\022\t\n\005TESTS\020\016\022\010\n\004META\020\017\022\017\n\013EMULATOR_U" +
-      "I\020\020\022\n\n\006SYSTEM\020\021\022\034\n\030PROJECT_STRUCTURE_DIA" +
-      "LOG\020\022\022\n\n\006GRADLE\020\023\022\026\n\022FIREBASE_ASSISTANT\020" +
-      "\024\022\020\n\014GPU_PROFILER\020\025\022\021\n\rTEST_RECORDER\020\026\022\r" +
-      "\n\tSTUDIO_UI\020\027\"\207\030\n\tEventKind\022\026\n\022UNKNOWN_E" +
-      "VENT_KIND\020\000\022\022\n\016DEPLOYMENT_APK\020\001\022\032\n\026DEPLO" +
-      "YMENT_TO_EMULATOR\020\002\022 \n\034DEVELOPER_SERVICE" +
-      "S_INSTALLED\020\003\022\036\n\032DEVELOPER_SERVICES_REMO" +
-      "VED\020\004\022\027\n\023GRADLE_SYNC_STARTED\020\005\022\025\n\021GRADLE" +
-      "_SYNC_ENDED\020\006\022\027\n\023GRADLE_SYNC_SKIPPED\020\007\022\027",
-      "\n\023GRADLE_SYNC_FAILURE\020\010\022\035\n\031GRADLE_CPP_SY" +
-      "NC_COMPLETED\020\t\022\025\n\021PROFILING_CAPTURE\020\n\022\022\n" +
-      "\016PROFILING_OPEN\020\013\022\033\n\027PROFILING_CONVERT_H" +
-      "PROF\020\014\022\032\n\026PROFILING_ANALYSIS_RUN\020\r\022\025\n\021MO" +
-      "NITOR_ACTIVATED\020\016\022\023\n\017MONITOR_RUNNING\020\017\022\037" +
-      "\n\033SDK_MANAGER_TOOLBAR_CLICKED\020\020\022#\n\037SDK_M" +
-      "ANAGER_STANDALONE_LAUNCHED\020\021\022\026\n\022SDK_MANA" +
-      "GER_LOADED\020\022\022\023\n\017TEMPLATE_RENDER\020\023\022\025\n\021THE" +
-      "ME_EDITOR_OPEN\020\024\022\"\n\036APP_INDEXING_DEEP_LI" +
-      "NK_CREATED\020\025\022!\n\035APP_INDEXING_API_CODE_CR",
-      "EATED\020\026\022#\n\037APP_INDEXING_DEEP_LINK_LAUNCH" +
-      "ED\020\027\022!\n\035APP_INDEXING_TRIGGER_QUICKFIX\020\030\022" +
-      "!\n\035APP_INDEXING_SHOW_FEAG_DIALOG\020\031\022 \n\034AP" +
-      "P_INDEXING_START_FEAG_TASK\020\032\022\021\n\rLLDB_LAU" +
-      "NCHED\020\033\022\030\n\024LLDB_SESSION_STARTED\020\034\022\027\n\023LLD" +
-      "B_SESSION_FAILED\020\035\022\032\n\026LLDB_SESSION_COMPL" +
-      "ETED\020\036\022\030\n\024LLDB_INSTALL_STARTED\020\037\022\027\n\023LLDB" +
-      "_INSTALL_FAILED\020 \022\032\n\026LLDB_INSTALL_COMPLE" +
-      "TED\020!\022!\n\035LLDB_SESSION_USED_WATCHPOINTS\020\"" +
-      "\022(\n$CLOUD_TESTING_CONFIGURE_CLOUD_DEVICE",
-      "\020#\022\"\n\036CLOUD_TESTING_CONFIGURE_MATRIX\020$\022%" +
-      "\n!CLOUD_TESTING_LAUNCH_CLOUD_DEVICE\020%\022!\n" +
-      "\035CLOUD_TESTING_RUN_TEST_MATRIX\020&\022\037\n\033CLOU" +
-      "D_TESTING_BACKEND_ERROR\020\'\022$\n CLOUD_TESTI" +
-      "NG_DEBUG_FROM_RESULTS\020(\022,\n(CLOUD_TESTING" +
-      "_COMPARE_SCREENSHOTS_OPENED\020)\022\020\n\014STUDIO_" +
-      "CRASH\020*\022\030\n\024GRADLE_BUILD_DETAILS\020,\022\017\n\013INS" +
-      "TANT_RUN\020-\022\017\n\013STUDIO_PING\020.\022\021\n\rEMULATOR_" +
-      "PING\020/\022\020\n\014META_METRICS\0200\022\014\n\010TEST_RUN\0202\022\025" +
-      "\n\021EMULATOR_UI_EVENT\0203\022\016\n\nHYPERVISOR\0204\022\021\n",
-      "\rEMULATOR_HOST\0205\022!\n\035PROJECT_STRUCTURE_DI" +
-      "ALOG_OPEN\0206\022!\n\035PROJECT_STRUCTURE_DIALOG_" +
-      "SAVE\0207\022*\n&PROJECT_STRUCTURE_DIALOG_TOP_T" +
-      "AB_CLICK\0208\022)\n%PROJECT_STRUCTURE_DIALOG_T" +
-      "OP_TAB_SAVE\0209\022+\n\'PROJECT_STRUCTURE_DIALO" +
-      "G_LEFT_NAV_CLICK\020:\022*\n&PROJECT_STRUCTURE_" +
-      "DIALOG_LEFT_NAV_SAVE\020;\022\030\n\024GRADLE_BUILD_P" +
-      "ROFILE\020<\022\030\n\024LLDB_FRONTEND_EXITED\020=\022&\n\"FI" +
-      "REBASE_ASSISTANT_PROJECT_CREATED\020>\022,\n(FI" +
-      "REBASE_ASSISTANT_PROJECT_CREATE_FAILED\020?",
-      "\022\'\n#FIREBASE_ASSISTANT_PROJECT_UPGRADED\020" +
-      "@\022-\n)FIREBASE_ASSISTANT_PROJECT_UPGRADE_" +
-      "FAILED\020B\0223\n/FIREBASE_ASSISTANT_PROJECT_C" +
-      "ONFIG_CREATE_FAILED\020C\022&\n\"FIREBASE_ASSIST" +
-      "ANT_PROJECT_UPDATED\020D\022,\n(FIREBASE_ASSIST" +
-      "ANT_PROJECT_UPDATE_FAILED\020E\0222\n.FIREBASE_" +
-      "ASSISTANT_PROJECT_CONFIG_WRITE_FAILED\020F\022" +
-      "!\n\035FIREBASE_ASSISTANT_TOS_FAILED\020G\022$\n FI" +
-      "REBASE_ASSISTANT_ATTEMPT_LOGIN\020H\022$\n FIRE" +
-      "BASE_ASSISTANT_LOGIN_SUCCESS\020I\022,\n(FIREBA",
-      "SE_ASSISTANT_RECONNECT_DIALOG_SYNC\020J\022(\n$" +
-      "FIREBASE_ASSISTANT_CONNECT_REQUESTED\020K\022\033" +
-      "\n\027FIREBASE_ASSISTANT_OPEN\020L\022,\n(FIREBASE_" +
-      "ASSISTANT_CONNECT_DIALOG_OPENED\020M\022*\n&FIR" +
-      "EBASE_ASSISTANT_CONNECT_DIALOG_SYNC\020N\022&\n" +
-      "\"FIREBASE_ASSISTANT_ERROR_PRESENTED\020O\022#\n" +
-      "\037FIREBASE_ASSISTANT_SILENT_ERROR\020P\022.\n*FI" +
-      "REBASE_ASSISTANT_RECONNECT_DIALOG_OPENED" +
-      "\020Q\022\030\n\024GFX_TRACE_INIT_ERROR\020R\022\024\n\020GFX_TRAC" +
-      "E_CLOSED\020S\022\036\n\032GFX_TRACE_PARAMETER_EDITED",
-      "\020T\022\033\n\027GFX_TRACE_TRACE_STARTED\020U\022\033\n\027GFX_T" +
-      "RACE_TRACE_STOPPED\020V\022\036\n\032GFX_TRACE_COMMAN" +
-      "D_SELECTED\020W\022\032\n\026GFX_TRACE_LINK_CLICKED\020X" +
-      "\022\033\n\027GFX_TRACE_MEMORY_VIEWED\020Y\022\034\n\030GFX_TRA" +
-      "CE_TEXTURE_VIEWED\020Z\022\037\n\033LEGACY_IDEA_ANDRO" +
-      "ID_PROJECT\020[\022%\n!TEST_RECORDER_GENERATE_T" +
-      "EST_CLASS\020\\\022/\n+TEST_RECORDER_MISSING_ESP" +
-      "RESSO_DEPENDENCIES\020]\0225\n1TEST_RECORDER_MI" +
-      "SSING_INSTRUMENTATION_TEST_FOLDER\020^\022\030\n\024T" +
-      "EST_RECORDER_LAUNCH\020_\022\022\n\016GFX_TRACE_OPEN\020",
-      "`\022\032\n\026STUDIO_UI_ACTION_STATS\020a\022\030\n\024STUDIO_" +
-      "PROCESS_STATS\020b\"R\n\013MonitorType\022\030\n\024UNKNOW" +
-      "N_MONITOR_TYPE\020\000\022\007\n\003CPU\020\001\022\007\n\003GPU\020\002\022\n\n\006ME" +
-      "MORY\020\003\022\013\n\007NETWORK\020\004\"\321\001\n\023ProfilerCaptureT" +
-      "ype\022!\n\035UNKNOWN_PROFILER_CAPTURE_TYPE\020\000\022\016" +
-      "\n\nALLOCATION\020\001\022\010\n\004FILE\020\002\022\r\n\tGFX_TRACE\020\003\022" +
-      "\010\n\004HEAP\020\004\022\017\n\013SYSTEM_INFO\020\005\022\014\n\010VM_TRACE\020\006" +
-      "\022\022\n\016METHOD_TRACING\020\007\022\035\n\031LAYOUT_INSPECTOR" +
-      "_SNAPSHOT\020\010\022\022\n\016HIERARCHY_VIEW\020\t\"m\n\024RunCo" +
-      "nfigurationType\022\"\n\036UNKNOWN_RUN_CONFIGURA",
-      "TION_TYPE\020\000\022\013\n\007ANDROID\020\001\022\022\n\016ANDROID_NATI" +
-      "VE\020\002\022\020\n\014ANDROID_TEST\020\003\"K\n\014DebuggerType\022\031" +
-      "\n\025UNKNOWN_DEBUGGER_TYPE\020\000\022\010\n\004JAVA\020\001\022\n\n\006H" +
-      "YBRID\020\002\022\n\n\006NATIVE\020\003\"\261\002\n\024DeveloperService" +
-      "Kind\022\"\n\036UNKNOWN_DEVELOPER_SERVICE_KIND\020\000" +
-      "\022\032\n\026GOOGLE_CLOUD_MESSAGING\020\001\022\n\n\006AD_MOB\020\002" +
-      "\022\022\n\016GOOGLE_SIGN_IN\020\003\022\024\n\020GOOGLE_ANALYTICS" +
-      "\020\004\022\014\n\010FIREBASE\020\005\022\025\n\021REALTIME_DATABASE\020\006\022" +
-      "\022\n\016AUTHENTICATION\020\007\022\023\n\017CRASH_REPORTING\020\010" +
-      "\022\021\n\rNOTIFICATIONS\020\t\022\021\n\rREMOTE_CONFIG\020\n\022\013",
-      "\n\007STORAGE\020\013\022\017\n\013APP_INVITES\020\014\022\021\n\rDYNAMIC_" +
-      "LINKS\020\r\"\247\006\n\020TemplateRenderer\022\035\n\031UNKNOWN_" +
-      "TEMPLATE_RENDERER\020\000\022\034\n\030CUSTOM_TEMPLATE_R" +
-      "ENDERER\020\001\022\022\n\016ANDROID_MODULE\020\002\022\023\n\017ANDROID" +
-      "_PROJECT\020\003\022\022\n\016EMPTY_ACTIVITY\020\004\022\022\n\016BLANK_" +
-      "ACTIVITY\020\005\022\023\n\017LAYOUT_XML_FILE\020\006\022\022\n\016FRAGM" +
-      "ENT_BLANK\020\007\022\036\n\032NAVIGATION_DRAWER_ACTIVIT" +
-      "Y\020\010\022\023\n\017VALUES_XML_FILE\020\t\022\030\n\024GOOGLE_MAPS_" +
-      "ACTIVITY\020\n\022\022\n\016LOGIN_ACTIVITY\020\013\022\021\n\rASSETS" +
-      "_FOLDER\020\014\022\023\n\017TABBED_ACTIVITY\020\r\022\026\n\022SCROLL",
-      "ING_ACTIVITY\020\016\022\027\n\023FULLSCREEN_ACTIVITY\020\017\022" +
-      "\013\n\007SERVICE\020\020\022\020\n\014JAVA_LIBRARY\020\021\022\025\n\021SETTIN" +
-      "GS_ACTIVITY\020\022\022\021\n\rFRAGMENT_LIST\020\023\022\026\n\022MAST" +
-      "ER_DETAIL_FLOW\020\024\022\027\n\023ANDROID_WEAR_MODULE\020" +
-      "\025\022\026\n\022BROADCAST_RECEIVER\020\026\022\r\n\tAIDL_FILE\020\027" +
-      "\022\022\n\016INTENT_SERVICE\020\030\022\016\n\nJNI_FOLDER\020\031\022\017\n\013" +
-      "JAVA_FOLDER\020\032\022\017\n\013CUSTOM_VIEW\020\033\022\025\n\021ANDROI" +
-      "D_TV_MODULE\020\034\022\036\n\032GOOGLE_ADMOBS_ADS_ACTIV" +
-      "ITY\020\035\022\033\n\027ALWAYS_ON_WEAR_ACTIVITY\020\036\022\016\n\nRE" +
-      "S_FOLDER\020\037\022\027\n\023ANDROID_TV_ACTIVITY\020 \022\027\n\023B",
-      "LANK_WEAR_ACTIVITY\020!\022\023\n\017BASIC_ACTIVITIY\020" +
-      "\"\022\016\n\nAPP_WIDGET\020#\"\374\002\n\021GradleSyncFailure\022" +
-      "\032\n\026UNKNOWN_GRADLE_FAILURE\020\000\022\025\n\021CONNECTIO" +
-      "N_DENIED\020\001\022\023\n\017CLASS_NOT_FOUND\020\002\022\030\n\024DSL_M" +
-      "ETHOD_NOT_FOUND\020\003\022\027\n\023FAILED_TO_PARSE_SDK" +
-      "\020\004\022\024\n\020METHOD_NOT_FOUND\020\005\022\034\n\030MISSING_ANDR" +
-      "OID_PLATFORM\020\006\022 \n\034MISSING_ANDROID_SUPPOR" +
-      "T_REPO\020\007\022\027\n\023MISSING_BUILD_TOOLS\020\010\022\021\n\rOUT" +
-      "_OF_MEMORY\020\t\022\021\n\rSDK_NOT_FOUND\020\n\022\020\n\014UNKNO" +
-      "WN_HOST\020\013\022%\n!UNSUPPORTED_ANDROID_MODEL_V",
-      "ERSION\020\014\022\036\n\032UNSUPPORTED_GRADLE_VERSION\020\r" +
-      "\"\362\004\n\016ProductDetails\022;\n\007product\030\001 \001(\0162*.a" +
-      "ndroid_studio.ProductDetails.ProductKind" +
-      "\022\r\n\005build\030\002 \001(\t\022\017\n\007version\030\003 \001(\t\022\017\n\007prev" +
-      "iew\030\004 \001(\010\022G\n\017os_architecture\030\005 \001(\0162..and" +
-      "roid_studio.ProductDetails.CpuArchitectu" +
-      "re\022H\n\007channel\030\006 \001(\01627.android_studio.Pro" +
-      "ductDetails.SoftwareLifeCycleChannel\"e\n\030" +
-      "SoftwareLifeCycleChannel\022\036\n\032UNKNOWN_LIFE" +
-      "_CYCLE_CHANNEL\020\000\022\n\n\006CANARY\020\001\022\007\n\003DEV\020\002\022\010\n",
-      "\004BETA\020\003\022\n\n\006STABLE\020\004\"R\n\013ProductKind\022\023\n\017UN" +
-      "KNOWN_PRODUCT\020\000\022\n\n\006STUDIO\020\001\022\014\n\010EMULATOR\020" +
-      "\002\022\n\n\006GRADLE\020\003\022\010\n\004DDMS\020\004\"^\n\006OSKind\022\023\n\017UNK" +
-      "NOWN_OS_KIND\020\000\022\014\n\010OTHER_OS\020\001\022\013\n\007WINDOWS\020" +
-      "\002\022\013\n\007MAC_OSX\020\003\022\t\n\005LINUX\020\004\022\014\n\010FREE_BSD\020\005\"" +
-      "D\n\017CpuArchitecture\022\034\n\030UNKNOWN_CPU_ARCHIT" +
-      "ECTURE\020\000\022\007\n\003X86\020\001\022\n\n\006X86_64\020\002\"\217\005\n\nDevice" +
-      "Info\022 \n\030anonymized_serial_number\030\001 \001(\t\022\022" +
-      "\n\nbuild_tags\030\002 \001(\t\022\022\n\nbuild_type\030\003 \001(\t\022\035" +
-      "\n\025build_version_release\030\004 \001(\t\022\027\n\017build_a",
-      "pi_level\030\005 \001(\005\022F\n\007cpu_abi\030\006 \001(\01625.androi" +
-      "d_studio.DeviceInfo.ApplicationBinaryInt" +
-      "erface\022\024\n\014manufacturer\030\007 \001(\t\022\r\n\005model\030\010 " +
-      "\001(\t\022:\n\013device_type\030\t \001(\0162%.android_studi" +
-      "o.DeviceInfo.DeviceType\022\034\n\024build_api_lev" +
-      "el_full\030\n \001(\t\"\300\001\n\032ApplicationBinaryInter" +
-      "face\022\017\n\013UNKNOWN_ABI\020\000\022\020\n\014ARME_ABI_V7A\020\001\022" +
-      "\013\n\007X86_ABI\020\002\022\021\n\rARM64_V8A_ABI\020\003\022\016\n\nX86_6" +
-      "4_ABI\020\004\022\014\n\010ARME_ABI\020\005\022\014\n\010MIPS_ABI\020\006\022\017\n\013M" +
-      "IPS_R2_ABI\020\007\022\020\n\014ARME_ABI_V6L\020\010\022\020\n\014ARME_A",
-      "BI_V6J\020\t\"u\n\nDeviceType\022\027\n\023UNKNOWN_DEVICE" +
-      "_TYPE\020\000\022\022\n\016LOCAL_PHYSICAL\020\001\022\022\n\016LOCAL_EMU" +
-      "LATOR\020\002\022\022\n\016CLOUD_EMULATOR\020\003\022\022\n\016CLOUD_PHY" +
-      "SICAL\020\004\"\215\001\n\013StudioCrash\022\017\n\007actions\030\001 \001(\003" +
-      "\022\022\n\nexceptions\030\002 \001(\003\022\017\n\007crashes\030\003 \001(\003\022!\n" +
-      "\031bundled_plugin_exceptions\030\004 \001(\003\022%\n\035non_" +
-      "bundled_plugin_exceptions\030\005 \001(\003\"H\n\023Emula" +
-      "torGuestGlInfo\022\016\n\006vendor\030\001 \001(\t\022\020\n\010render" +
-      "er\030\002 \001(\t\022\017\n\007version\030\003 \001(\t\"y\n\017EmulatorGpu" +
-      "Info\022\014\n\004make\030\001 \001(\t\022\r\n\005model\030\002 \001(\t\022\021\n\tdev",
-      "ice_id\030\003 \001(\t\022\023\n\013revision_id\030\004 \001(\t\022\017\n\007ver" +
-      "sion\030\005 \001(\t\022\020\n\010renderer\030\006 \001(\t\"\325\007\n\017Emulato" +
-      "rDetails\022H\n\nguest_arch\030\001 \001(\01624.android_s" +
-      "tudio.EmulatorDetails.GuestCpuArchitectu" +
-      "re\022\023\n\013system_time\030\002 \001(\003\022\021\n\tuser_time\030\003 \001" +
-      "(\003\022\017\n\007crashes\030\004 \001(\003\022\021\n\twall_time\030\005 \001(\003\022\024" +
-      "\n\014exit_started\030\006 \001(\010\022\027\n\017guest_api_level\030" +
-      "\007 \001(\003\022\031\n\021guest_gpu_enabled\030\010 \001(\010\022\027\n\017is_o" +
-      "pengl_alive\030\n \001(\010\022I\n\014adb_liveness\030\013 \001(\0162" +
-      "3.android_studio.EmulatorDetails.Emulato",
-      "rAdbLiveness\0225\n\010guest_gl\030\014 \001(\0132#.android" +
-      "_studio.EmulatorGuestGlInfo\0221\n\010host_gpu\030" +
-      "\r \003(\0132\037.android_studio.EmulatorGpuInfo\022K" +
-      "\n\rsession_phase\030\016 \001(\01624.android_studio.E" +
-      "mulatorDetails.EmulatorSessionPhase\"\224\001\n\023" +
-      "EmulatorAdbLiveness\022!\n\035UNKNOWN_EMULATOR_" +
-      "ADB_LIVENESS\020\000\022\022\n\016FAILURE_NO_ADB\020\001\022\016\n\nAD" +
-      "B_ONLINE\020\002\022\033\n\027FAILURE_ADB_SERVER_DEAD\020\003\022" +
-      "\031\n\025FAILURE_EMULATOR_DEAD\020\004\"\262\001\n\024EmulatorS" +
-      "essionPhase\022\"\n\036UNKNOWN_EMULATOR_SESSION_",
-      "PHASE\020\000\022\014\n\010LAUNCHER\020\001\022\021\n\rPARSE_OPTIONS\020\002" +
-      "\022\020\n\014INIT_GENERAL\020\003\022\014\n\010INIT_GPU\020\004\022\016\n\nINIT" +
-      "_ACCEL\020\005\022\023\n\017RUNNING_GENERAL\020\006\022\020\n\014EXIT_GE" +
-      "NERAL\020\007\"{\n\024GuestCpuArchitecture\022\"\n\036UNKNO" +
-      "WN_GUEST_CPU_ARCHITECTURE\020\000\022\007\n\003X86\020\001\022\n\n\006" +
-      "X86_64\020\002\022\007\n\003ARM\020\003\022\n\n\006ARM_64\020\004\022\010\n\004MIPS\020\005\022" +
-      "\013\n\007MIPS_64\020\006\"\234\003\n\017EmulatorUiEvent\022\022\n\nelem" +
-      "ent_id\030\001 \001(\t\022A\n\004type\030\002 \001(\01623.android_stu" +
-      "dio.EmulatorUiEvent.EmulatorUiEventType\022" +
-      "G\n\007context\030\003 \001(\01626.android_studio.Emulat",
-      "orUiEvent.EmulatorUiEventContext\022\r\n\005valu" +
-      "e\030\004 \001(\003\"\177\n\023EmulatorUiEventType\022\"\n\036UNKONW" +
-      "N_EMULATOR_UI_EVENT_TYPE\020\000\022\020\n\014BUTTON_PRE" +
-      "SS\020\001\022\035\n\031OPTION_SET_TO_NON_DEFAULT\020\002\022\023\n\017O" +
-      "PTION_SELECTED\020\003\"Y\n\026EmulatorUiEventConte" +
-      "xt\022%\n!UNKNOWN_EMULATOR_UI_EVENT_CONTEXT\020" +
-      "\000\022\030\n\024EXTENDED_WINDOW_OPEN\020\001\"\207\003\n\022GradleBu" +
-      "ildDetails\022\036\n\026android_plugin_version\030\001 \001" +
-      "(\t\022\026\n\016gradle_version\030\002 \001(\t\022\027\n\017user_enabl" +
-      "ed_ir\030\003 \001(\010\022\031\n\021model_supports_ir\030\004 \001(\010\022\033",
-      "\n\023variant_supports_ir\030\005 \001(\010\0220\n\tlibraries" +
-      "\030\006 \003(\0132\035.android_studio.GradleLibrary\022-\n" +
-      "\007modules\030\007 \003(\0132\034.android_studio.GradleMo" +
-      "dule\022<\n\017android_modules\030\010 \003(\0132#.android_" +
-      "studio.GradleAndroidModule\022I\n\026native_and" +
-      "roid_modules\030\t \003(\0132).android_studio.Grad" +
-      "leNativeAndroidModule\"K\n\rGradleLibrary\022\034" +
-      "\n\024jar_dependency_count\030\001 \001(\003\022\034\n\024aar_depe" +
-      "ndency_count\030\002 \001(\003\"^\n\014GradleModule\022\032\n\022to" +
-      "tal_module_count\030\001 \001(\003\022\030\n\020app_module_cou",
-      "nt\030\002 \001(\003\022\030\n\020lib_module_count\030\003 \001(\003\"\266\001\n\023G" +
-      "radleAndroidModule\022\016\n\006app_id\030\001 \001(\t\022\023\n\013mo" +
-      "dule_name\030\002 \001(\t\022\022\n\nis_library\030\003 \001(\010\022\030\n\020b" +
-      "uild_type_count\030\004 \001(\003\022\024\n\014flavor_count\030\005 " +
-      "\001(\003\022\030\n\020flavor_dimension\030\006 \001(\003\022\034\n\024signing" +
-      "_config_count\030\007 \001(\003\"\240\002\n\031GradleNativeAndr" +
-      "oidModule\022\016\n\006app_id\030\001 \001(\t\022\023\n\013module_name" +
-      "\030\002 \001(\t\022Z\n\021build_system_type\030\003 \001(\0162?.andr" +
-      "oid_studio.GradleNativeAndroidModule.Nat" +
-      "iveBuildSystemType\"\201\001\n\025NativeBuildSystem",
-      "Type\022$\n UNKNOWN_NATIVE_BUILD_SYSTEM_TYPE" +
-      "\020\000\022\027\n\023GRADLE_EXPERIMENTAL\020\001\022\017\n\013NDK_COMPI" +
-      "LE\020\002\022\r\n\tNDK_BUILD\020\003\022\t\n\005CMAKE\020\004\"\273\n\n\nInsta" +
-      "ntRun\022L\n\017deployment_kind\030\001 \001(\01623.android" +
-      "_studio.InstantRun.InstantRunDeploymentK" +
-      "ind\022P\n\027instant_run_build_cause\030\003 \001(\0162/.a" +
-      "ndroid_studio.InstantRun.InstantRunBuild" +
-      "Cause\022\022\n\nbuild_time\030\004 \001(\003\022\022\n\nsession_id\030" +
-      "\005 \001(\t\022K\n\017ide_build_cause\030\006 \001(\01622.android" +
-      "_studio.InstantRun.InstantRunIdeBuildCau",
-      "se\"\242\001\n\030InstantRunDeploymentKind\022\'\n#UNKNO" +
-      "WN_INSTANT_RUN_DEPLOYMENT_KIND\020\000\022\n\n\006LEGA" +
-      "CY\020\001\022\014\n\010FULL_APK\020\002\022\r\n\tSPLIT_APK\020\003\022\007\n\003DEX" +
-      "\020\004\022\014\n\010HOT_SWAP\020\005\022\r\n\tWARM_SWAP\020\006\022\016\n\nNO_CH" +
-      "ANGES\020\007\"\277\003\n\024InstantRunBuildCause\022#\n\037UNKN" +
-      "OWN_INSTANT_RUN_BUILD_CAUSE\020\000\022\016\n\nCOMPATI" +
-      "BLE\020\001\022\023\n\017MANIFEST_CHANGE\020\002\022\025\n\021FIELD_TYPE" +
-      "_CHANGE\020\003\022\021\n\rFIELD_REMOVED\020\004\022\017\n\013FIELD_AD" +
-      "DED\020\005\022\022\n\016METHOD_DELETED\020\006\022\020\n\014METHOD_ADDE" +
-      "D\020\007\022\017\n\013CLASS_ADDED\020\010\022\035\n\031STATIC_INITIALIZ",
-      "ER_CHANGE\020\t\022\033\n\027CLASS_ANNOTATION_CHANGE\020\n" +
-      "\022\023\n\017RESOURCE_CHANGE\020\013\022\037\n\033IMPLEMENTS_INTE" +
-      "RFACE_CHANGE\020\014\022\022\n\016R_CLASS_CHANGE\020\r\022\027\n\023PA" +
-      "RENT_CLASS_CHANGE\020\016\022\034\n\030METHOD_ANNOTATION" +
-      "_CHANGE\020\017\022\031\n\025API_LEVEL_UNSUPPORTED\020\020\022\023\n\017" +
-      "REFLECTION_USED\020\021\"\260\003\n\027InstantRunIdeBuild" +
-      "Cause\022\'\n#UNKNOWN_INSTANT_RUN_IDE_BUILD_C" +
-      "AUSE\020\000\022\r\n\tNO_DEVICE\020\001\022\025\n\021APP_NOT_INSTALL" +
-      "ED\020\002\022\032\n\026MISMATCHING_TIMESTAMPS\020\003\022\036\n\032USER" +
-      "_REQUESTED_CLEAN_BUILD\020\004\022\037\n\033API_TOO_LOW_",
-      "FOR_INSTANT_RUN\020\005\022 \n\034FIRST_INSTALLATION_" +
-      "TO_DEVICE\020\006\022\035\n\031MANIFEST_RESOURCE_CHANGED" +
-      "\020\007\022\036\n\032FREEZE_SWAP_REQUIRES_API21\020\010\022\'\n#FR" +
-      "EEZE_SWAP_REQUIRES_WORKING_RUN_AS\020\t\022\023\n\017A" +
-      "PP_NOT_RUNNING\020\n\022\037\n\033APP_USES_MULTIPLE_PR" +
-      "OCESSES\020\013\022\025\n\021INCREMENTAL_BUILD\020\014\022\022\n\016NO_I" +
-      "NSTANT_RUN\020\r\"k\n\013MetaMetrics\022\032\n\022failed_co" +
-      "nnections\030\001 \001(\005\022!\n\031bytes_sent_in_last_up" +
-      "load\030\002 \001(\003\022\035\n\025failed_server_replies\030\003 \001(" +
-      "\005\"\200\004\n\007TestRun\022H\n\024test_invocation_type\030\001 ",
-      "\001(\0162*.android_studio.TestRun.TestInvocat" +
-      "ionType\022 \n\030number_of_tests_executed\030\002 \001(" +
-      "\005\0223\n\ttest_kind\030\003 \001(\0162 .android_studio.Te" +
-      "stRun.TestKind\022\017\n\007crashed\030\004 \001(\010\022\026\n\016gradl" +
-      "e_version\030\005 \001(\t\022\035\n\025code_coverage_enabled" +
-      "\030\006 \001(\010\0225\n\016test_libraries\030\007 \001(\0132\035.android" +
-      "_studio.TestLibraries\"\210\001\n\022TestInvocation" +
-      "Type\022 \n\034UNKNOWN_TEST_INVOCATION_TYPE\020\000\022\017" +
-      "\n\013GRADLE_TEST\020\001\022\027\n\023ANDROID_STUDIO_TEST\020\002" +
-      "\022&\n\"ANDROID_STUDIO_THROUGH_GRADLE_TEST\020\003",
-      "\"J\n\010TestKind\022\025\n\021UNKNOWN_TEST_KIND\020\000\022\r\n\tU" +
-      "NIT_TEST\020\001\022\030\n\024INSTRUMENTATION_TEST\020\002\"\205\001\n" +
-      "\rTestLibraries\022$\n\034test_support_library_v" +
-      "ersion\030\001 \001(\t\022\030\n\020espresso_version\030\002 \001(\t\022\033" +
-      "\n\023robolectric_version\030\003 \001(\t\022\027\n\017mockito_v" +
-      "ersion\030\004 \001(\t\"\311\001\n\nHypervisor\022=\n\rhyper_v_s" +
-      "tate\030\001 \001(\0162&.android_studio.Hypervisor.H" +
-      "yperVState\"|\n\013HyperVState\022\030\n\024UNKNOWN_HYP" +
-      "ERV_STATE\020\000\022\021\n\rHYPERV_ABSENT\020\001\022\024\n\020HYPERV" +
-      "_INSTALLED\020\002\022\022\n\016HYPERV_RUNNING\020\003\022\026\n\022HYPE",
-      "RV_CHECK_ERROR\020\004\"k\n\014EmulatorHost\022\030\n\020cpu_" +
-      "manufacturer\030\001 \001(\t\022\024\n\014virt_support\030\002 \001(\010" +
-      "\022\025\n\rrunning_in_vm\030\003 \001(\010\022\024\n\014os_bit_count\030" +
-      "\004 \001(\003\"\310\003\n\022GradleBuildProfile\022\026\n\016gradle_v" +
-      "ersion\030\002 \001(\t\022\017\n\007os_name\030\006 \001(\t\022\022\n\nos_vers" +
-      "ion\030\007 \001(\t\022\024\n\014java_version\030\010 \001(\t\022\027\n\017java_" +
-      "vm_version\030\t \001(\t\022\022\n\nmax_memory\030\n \001(\003\022\022\n\n" +
-      "build_time\030\013 \001(\003\022\020\n\010gc_count\030\014 \001(\003\022\017\n\007gc" +
-      "_time\030\r \001(\003\0223\n\007project\030\016 \003(\0132\".android_s" +
-      "tudio.GradleBuildProject\022>\n\rmemory_sampl",
-      "e\030\017 \003(\0132\'.android_studio.GradleBuildMemo" +
-      "rySample\0224\n\004span\030\020 \003(\0132&.android_studio." +
-      "GradleBuildProfileSpan\022<\n\022instant_run_st" +
-      "atus\030\021 \001(\0132 .android_studio.InstantRunSt" +
-      "atus\022\022\n\nproject_id\030\022 \001(\t\"\260\004\n\022GradleBuild" +
-      "Project\022\n\n\002id\030\001 \001(\003\022\036\n\026android_plugin_ve" +
-      "rsion\030\002 \001(\t\022E\n\016android_plugin\030\003 \001(\0162-.an" +
-      "droid_studio.GradleBuildProject.PluginTy" +
-      "pe\022N\n\021plugin_generation\030\004 \001(\01623.android_" +
-      "studio.GradleBuildProject.PluginGenerati",
-      "on\022\033\n\023build_tools_version\030\005 \001(\t\022:\n\007metri" +
-      "cs\030\006 \001(\0132).android_studio.GradleBuildPro" +
-      "jectMetrics\0223\n\007variant\030\007 \003(\0132\".android_s" +
-      "tudio.GradleBuildVariant\022\r\n\005atoms\030\010 \001(\003\"" +
-      "g\n\nPluginType\022\027\n\023UNKNOWN_PLUGIN_TYPE\020\000\022\017" +
-      "\n\013APPLICATION\020\001\022\013\n\007LIBRARY\020\002\022\010\n\004TEST\020\003\022\010" +
-      "\n\004ATOM\020\004\022\016\n\nINSTANTAPP\020\005\"Q\n\020PluginGenera" +
-      "tion\022\035\n\031UNKNOWN_PLUGIN_GENERATION\020\000\022\t\n\005F" +
-      "IRST\020\001\022\023\n\017COMPONENT_MODEL\020\002\"a\n\031GradleBui" +
-      "ldProjectMetrics\022\027\n\017metrics_time_ns\030\001 \001(",
-      "\003\022\020\n\010apk_size\030\002 \001(\003\022\031\n\021resources_ap_size" +
-      "\030\003 \001(\003\"\320\002\n\022GradleBuildVariant\022\n\n\002id\030\001 \001(" +
-      "\003\022\020\n\010is_debug\030\002 \001(\010\022\020\n\010use_jack\030\003 \001(\010\022\026\n" +
-      "\016minify_enabled\030\004 \001(\010\022\024\n\014use_multidex\030\005 " +
-      "\001(\010\022\033\n\023use_legacy_multidex\030\006 \001(\010\022D\n\014vari" +
-      "ant_type\030\007 \001(\0162..android_studio.GradleBu" +
-      "ildVariant.VariantType\022\021\n\ttested_id\030\010 \001(" +
-      "\003\"f\n\013VariantType\022\017\n\013APPLICATION\020\000\022\013\n\007LIB" +
-      "RARY\020\001\022\020\n\014ANDROID_TEST\020\002\022\r\n\tUNIT_TEST\020\003\022" +
-      "\010\n\004ATOM\020\004\022\016\n\nINSTANTAPP\020\005\"R\n\027GradleBuild",
-      "MemorySample\022\022\n\ngc_time_ms\030\001 \001(\003\022\020\n\010gc_c" +
-      "ount\030\002 \001(\003\022\021\n\ttimestamp\030\003 \001(\003\"\251$\n\026Gradle" +
-      "BuildProfileSpan\022\n\n\002id\030\001 \001(\003\022\021\n\tparent_i" +
-      "d\030\002 \001(\003\022\030\n\020start_time_in_ms\030\003 \001(\003\022\026\n\016dur" +
-      "ation_in_ms\030\004 \001(\003\022B\n\004type\030\005 \001(\01624.androi" +
-      "d_studio.GradleBuildProfileSpan.Executio" +
-      "nType\022;\n\ttransform\030\006 \001(\0132(.android_studi" +
-      "o.GradleTransformExecution\0221\n\004task\030\t \001(\013" +
-      "2#.android_studio.GradleTaskExecution\022\017\n" +
-      "\007project\030\007 \001(\003\022\017\n\007variant\030\010 \001(\003\"\347!\n\rExec",
-      "utionType\022\032\n\026SOME_RANDOM_PROCESSING\020\001\022!\n" +
-      "\035BASE_PLUGIN_PROJECT_CONFIGURE\020\002\022/\n+BASE" +
-      "_PLUGIN_PROJECT_BASE_EXTENSION_CREATION\020" +
-      "\003\022&\n\"BASE_PLUGIN_PROJECT_TASKS_CREATION\020" +
-      "\004\022\036\n\032BASE_PLUGIN_BUILD_FINISHED\020\005\022\035\n\031TAS" +
-      "K_MANAGER_CREATE_TASKS\020\006\022$\n BASE_PLUGIN_" +
-      "CREATE_ANDROID_TASKS\020\007\022(\n$VARIANT_MANAGE" +
-      "R_CREATE_ANDROID_TASKS\020\010\022,\n(VARIANT_MANA" +
-      "GER_CREATE_TASKS_FOR_VARIANT\020\t\022%\n!VARIAN" +
-      "T_MANAGER_CREATE_LINT_TASKS\020\n\022&\n\"VARIANT",
-      "_MANAGER_CREATE_TESTS_TASKS\020\013\022#\n\037VARIANT" +
-      "_MANAGER_CREATE_VARIANTS\020\014\022\030\n\024RESOLVE_DE" +
-      "PENDENCIES\020\r\022\022\n\016TASK_EXECUTION\020\016\022\024\n\020INIT" +
-      "IAL_METADATA\020d\022\022\n\016FINAL_METADATA\020e\022\022\n\016GE" +
-      "NERAL_CONFIG\020f\022\022\n\016VARIANT_CONFIG\020g\0221\n-VA" +
-      "RIANT_MANAGER_EXTERNAL_NATIVE_CONFIG_VAL" +
-      "UES\020h\022\017\n\013APK_METRICS\020i\0220\n+APP_TASK_MANAG" +
-      "ER_CREATE_MERGE_MANIFEST_TASK\020\350\007\0225\n0APP_" +
-      "TASK_MANAGER_CREATE_GENERATE_RES_VALUES_" +
-      "TASK\020\351\007\0225\n0APP_TASK_MANAGER_CREATE_CREAT",
-      "E_RENDERSCRIPT_TASK\020\352\007\0221\n,APP_TASK_MANAG" +
-      "ER_CREATE_MERGE_RESOURCES_TASK\020\353\007\022.\n)APP" +
-      "_TASK_MANAGER_CREATE_MERGE_ASSETS_TASK\020\354" +
-      "\007\022.\n)APP_TASK_MANAGER_CREATE_BUILD_CONFI" +
-      "G_TASK\020\355\007\022-\n(APP_TASK_MANAGER_CREATE_PRO" +
-      "CESS_RES_TASK\020\356\007\022&\n!APP_TASK_MANAGER_CRE" +
-      "ATE_AIDL_TASK\020\357\007\022)\n$APP_TASK_MANAGER_CRE" +
-      "ATE_COMPILE_TASK\020\360\007\022%\n APP_TASK_MANAGER_" +
-      "CREATE_NDK_TASK\020\361\007\022\'\n\"APP_TASK_MANAGER_C" +
-      "REATE_SPLIT_TASK\020\362\007\022+\n&APP_TASK_MANAGER_",
-      "CREATE_PACKAGING_TASK\020\363\007\0226\n1APP_TASK_MAN" +
-      "AGER_CREATE_PREPROCESS_RESOURCES_TASK\020\364\007" +
-      "\0224\n/APP_TASK_MANAGER_CREATE_BACKPORT_RES" +
-      "OURCES_TASK\020\365\007\022&\n!APP_TASK_MANAGER_CREAT" +
-      "E_LINT_TASK\020\366\007\0227\n2APP_TASK_MANAGER_CREAT" +
-      "E_MERGE_JNILIBS_FOLDERS_TASK\020\367\007\022(\n#APP_T" +
-      "ASK_MANAGER_CREATE_SHADER_TASK\020\370\007\0227\n2APP" +
-      "_TASK_MANAGER_CREATE_EXTERNAL_NATIVE_BUI" +
-      "LD_TASK\020\371\007\0226\n1APP_TASK_MANAGER_CREATE_ST" +
-      "RIP_NATIVE_LIBRARY_TASK\020\372\007\0220\n+LIB_TASK_M",
-      "ANAGER_CREATE_MERGE_MANIFEST_TASK\020\320\017\0225\n0" +
-      "LIB_TASK_MANAGER_CREATE_GENERATE_RES_VAL" +
-      "UES_TASK\020\321\017\0225\n0LIB_TASK_MANAGER_CREATE_C" +
-      "REATE_RENDERSCRIPT_TASK\020\322\017\0221\n,LIB_TASK_M" +
-      "ANAGER_CREATE_MERGE_RESOURCES_TASK\020\323\017\022.\n" +
-      ")LIB_TASK_MANAGER_CREATE_MERGE_ASSETS_TA" +
-      "SK\020\324\017\022.\n)LIB_TASK_MANAGER_CREATE_BUILD_C" +
-      "ONFIG_TASK\020\325\017\022-\n(LIB_TASK_MANAGER_CREATE" +
-      "_PROCESS_RES_TASK\020\326\017\022&\n!LIB_TASK_MANAGER" +
-      "_CREATE_AIDL_TASK\020\327\017\022)\n$LIB_TASK_MANAGER",
-      "_CREATE_COMPILE_TASK\020\330\017\022%\n LIB_TASK_MANA" +
-      "GER_CREATE_NDK_TASK\020\331\017\022\'\n\"LIB_TASK_MANAG" +
-      "ER_CREATE_SPLIT_TASK\020\332\017\022+\n&LIB_TASK_MANA" +
-      "GER_CREATE_PACKAGING_TASK\020\333\017\0225\n0LIB_TASK" +
-      "_MANAGER_CREATE_MERGE_PROGUARD_FILE_TASK" +
-      "\020\334\017\0222\n-LIB_TASK_MANAGER_CREATE_POST_COMP" +
-      "ILATION_TASK\020\335\017\022*\n%LIB_TASK_MANAGER_CREA" +
-      "TE_PROGUARD_TASK\020\336\017\022.\n)LIB_TASK_MANAGER_" +
-      "CREATE_PACKAGE_LOCAL_JAR\020\337\017\0224\n/LIB_TASK_" +
-      "MANAGER_CREATE_BACKPORT_RESOURCES_TASK\020\340",
-      "\017\022&\n!LIB_TASK_MANAGER_CREATE_LINT_TASK\020\341" +
-      "\017\022(\n#LIB_TASK_MANAGER_CREATE_SHADER_TASK" +
-      "\020\342\017\0227\n2LIB_TASK_MANAGER_CREATE_EXTERNAL_" +
-      "NATIVE_BUILD_TASK\020\343\017\022\033\n\026GENERIC_TASK_EXE" +
-      "CUTION\020\270\027\022\026\n\021TASK_AIDL_COMPILE\020\271\027\022\020\n\013TAS" +
-      "K_DELETE\020\272\027\022\030\n\023TASK_CHECK_MANIFEST\020\273\027\022#\n" +
-      "\036TASK_PREPARE_DEPENDENCIES_TASK\020\274\027\022\036\n\031TA" +
-      "SK_RENDERSCRIPT_COMPILE\020\275\027\022\037\n\032TASK_GENER" +
-      "ATE_BUILD_CONFIG\020\276\027\022\026\n\021TASK_MERGE_ASSETS" +
-      "\020\277\027\022\035\n\030TASK_GENERATE_RES_VALUES\020\300\027\022\031\n\024TA",
-      "SK_MERGE_RESOURCES\020\301\027\022\031\n\024TASK_MERGE_MANI" +
-      "FESTS\020\302\027\022#\n\036TASK_PROCESS_ANDROID_RESOURC" +
-      "ES\020\303\027\022\026\n\021TASK_JAVA_COMPILE\020\304\027\022\025\n\020TASK_ND" +
-      "K_COMPILE\020\305\027\022\021\n\014TASK_PRE_DEX\020\306\027\022\r\n\010TASK_" +
-      "DEX\020\307\027\022\033\n\026TASK_PACKAGE_SPLIT_RES\020\310\027\022\033\n\026T" +
-      "ASK_PROCESS_RESOURCES\020\311\027\022\037\n\032TASK_VALIDAT" +
-      "E_SIGNING_TASK\020\312\027\022\035\n\030TASK_PACKAGE_APPLIC" +
-      "ATION\020\313\027\022\031\n\024TASK_SPLIT_ZIP_ALIGN\020\314\027\022\023\n\016T" +
-      "ASK_ZIP_ALIGN\020\315\027\022\016\n\tTASK_COPY\020\316\027\022\016\n\tTASK" +
-      "_LINT\020\317\027\022\033\n\026TASK_FILE_VERIFICATION\020\322\027\022=\n",
-      "8TASK_EXTERNAL_NATIVE_BUILD_GENERATE_JSO" +
-      "N_PROCESS_PER_ABI\020\323\027\0225\n0TASK_EXTERNAL_NA" +
-      "TIVE_BUILD_GENERATE_JSON_PROCESS\020\324\027\022\037\n\032T" +
-      "ASK_TRANSFORM_PREPARATION\020\320\027\022\023\n\016TASK_TRA" +
-      "NSFORM\020\321\027\0221\n,ATOM_TASK_MANAGER_CREATE_ME" +
-      "RGE_MANIFEST_TASK\020\240\037\0226\n1ATOM_TASK_MANAGE" +
-      "R_CREATE_GENERATE_RES_VALUES_TASK\020\241\037\0226\n1" +
-      "ATOM_TASK_MANAGER_CREATE_CREATE_RENDERSC" +
-      "RIPT_TASK\020\242\037\0222\n-ATOM_TASK_MANAGER_CREATE" +
-      "_MERGE_RESOURCES_TASK\020\243\037\022/\n*ATOM_TASK_MA",
-      "NAGER_CREATE_MERGE_ASSETS_TASK\020\244\037\022/\n*ATO" +
-      "M_TASK_MANAGER_CREATE_BUILD_CONFIG_TASK\020" +
-      "\245\037\022.\n)ATOM_TASK_MANAGER_CREATE_PROCESS_R" +
-      "ES_TASK\020\246\037\022\'\n\"ATOM_TASK_MANAGER_CREATE_A" +
-      "IDL_TASK\020\247\037\022)\n$ATOM_TASK_MANAGER_CREATE_" +
-      "SHADER_TASK\020\250\037\022&\n!ATOM_TASK_MANAGER_CREA" +
-      "TE_NDK_TASK\020\251\037\0228\n3ATOM_TASK_MANAGER_CREA" +
-      "TE_EXTERNAL_NATIVE_BUILD_TASK\020\252\037\0228\n3ATOM" +
-      "_TASK_MANAGER_CREATE_MERGE_JNILIBS_FOLDE" +
-      "RS_TASK\020\253\037\022*\n%ATOM_TASK_MANAGER_CREATE_C",
-      "OMPILE_TASK\020\254\037\022+\n&ATOM_TASK_MANAGER_CREA" +
-      "TE_BUNDLING_TASK\020\255\037\022\'\n\"ATOM_TASK_MANAGER" +
-      "_CREATE_LINT_TASK\020\256\037\0227\n2INSTANTAPP_TASK_" +
-      "MANAGER_CREATE_MERGE_MANIFEST_TASK\020\210\'\0228\n" +
-      "3INSTANTAPP_TASK_MANAGER_CREATE_ATOM_PAC" +
-      "KAGING_TASKS\020\211\'\0224\n/INSTANTAPP_TASK_MANAG" +
-      "ER_CREATE_PROCESS_RES_TASK\020\212\'\0222\n-INSTANT" +
-      "APP_TASK_MANAGER_CREATE_PACKAGING_TASK\020\213" +
-      "\'\"\222\016\n\023GradleTaskExecution\0226\n\004type\030\001 \001(\0162" +
-      "(.android_studio.GradleTaskExecution.Typ",
-      "e\022\020\n\010did_work\030\002 \001(\010\022\017\n\007skipped\030\003 \001(\010\022\022\n\n" +
-      "up_to_date\030\004 \001(\010\022\016\n\006failed\030\005 \001(\010\"\373\014\n\004Typ" +
-      "e\022\025\n\021UNKNOWN_TASK_TYPE\020\000\022\020\n\014AIDL_COMPILE" +
-      "\020\001\022\017\n\013ANDROID_JAR\020\002\022\030\n\024ANDROID_JAVA_COMP" +
-      "ILE\020\003\022\022\n\016ANDROID_REPORT\020\004\022\025\n\021ANDROID_UNI" +
-      "T_TEST\020\005\022\022\n\016BUILD_EMULATOR\020\006\022\025\n\021BUILD_IN" +
-      "FO_LOADER\020\007\022\022\n\016CHECK_MANIFEST\020\010\022\037\n\033COMPA" +
-      "TIBLE_SCREENS_MANIFEST\020\t\022\035\n\031CREATE_MANIF" +
-      "EST_KEEP_LIST\020\n\022\"\n\036DATA_BINDING_EXPORT_B" +
-      "UILD_INFO\020\013\022 \n\034DATA_BINDING_PROCESS_LAYO",
-      "UTS\020\014\022\025\n\021DEPENDENCY_REPORT\020\r\022#\n\037DEVICE_P" +
-      "ROVIDER_INSTRUMENT_TEST\020\016\022\031\n\025EXTERNAL_BU" +
-      "ILD_ANCHOR\020\017\022\036\n\032EXTERNAL_NATIVE_BUILD_JS" +
-      "ON\020\020\022\031\n\025EXTERNAL_NATIVE_BUILD\020\021\022\027\n\023EXTRA" +
-      "CT_ANNOTATIONS\020\022\022\032\n\026EXTRACT_JAVA_RESOURC" +
-      "ES\020\023\022\032\n\026EXTRACT_PROGUARD_FILES\020\024\022!\n\035FAST" +
-      "_DEPLOY_RUNTIME_EXTRACTOR\020\025\022\025\n\021FILTERED_" +
-      "JAR_COPY\020\026\022\025\n\021GENERATE_APK_DATA\020\027\022\031\n\025GEN" +
-      "ERATE_BUILD_CONFIG\020\030\022!\n\035GENERATE_INSTANT" +
-      "_RUN_APP_INFO\020\031\022\027\n\023GENERATE_RES_VALUES\020\032",
-      "\022\032\n\026GENERATE_SPLIT_ABI_RES\020\033\022\023\n\017GOOGLE_S" +
-      "ERVICES\020\034\022\031\n\025INCREMENTAL_SAFEGUARD\020\035\022\023\n\017" +
-      "INSTALL_VARIANT\020\036\022!\n\035INSTANT_RUN_SPLIT_A" +
-      "PK_BUILDER\020\037\022\027\n\023INSTANT_RUN_WRAPPER\020 \022\032\n" +
-      "\026INVOKE_MANIFEST_MERGER\020!\022\026\n\022JACK_JACOCO" +
-      "_REPORT\020\"\022\021\n\rJACOCO_REPORT\020#\022\010\n\004LINT\020$\022\020" +
-      "\n\014LINT_COMPILE\020%\022\016\n\nMERGE_FILE\020&\022\023\n\017MERG" +
-      "E_MANIFESTS\020\'\022\023\n\017MERGE_RESOURCES\020(\022\034\n\030ME" +
-      "RGE_SOURCE_SET_FOLDERS\020)\022\030\n\024MOCKABLE_AND" +
-      "ROID_JAR\020*\022\017\n\013NDK_COMPILE\020+\022\007\n\003NDK\020,\022\027\n\023",
-      "PACKAGE_APPLICATION\020-\022\025\n\021PACKAGE_SPLIT_A" +
-      "BI\020.\022\025\n\021PACKAGE_SPLIT_RES\020/\022\021\n\rPRE_COLD_" +
-      "SWAP\0200\022\030\n\024PREPARE_DEPENDENCIES\0201\022\023\n\017PREP" +
-      "ARE_LIBRARY\0202\022\035\n\031PROCESS_ANDROID_RESOURC" +
-      "ES\0203\022\024\n\020PROCESS_MANIFEST\0204\022\031\n\025PROCESS_TE" +
-      "ST_MANIFEST\0205\022\030\n\024RENDERSCRIPT_COMPILE\0206\022" +
-      "\022\n\016SHADER_COMPILE\0207\022\022\n\016SIGNING_REPORT\0208\022" +
-      "\024\n\020SINGLE_FILE_COPY\0209\022\017\n\013SOURCE_SETS\020:\022\023" +
-      "\n\017SPLIT_ZIP_ALIGN\020;\022\020\n\014STREAM_BASED\020<\022\026\n" +
-      "\022STRIP_DEBUG_SYMBOL\020=\022\026\n\022STRIP_DEPENDENC",
-      "IES\020>\022\031\n\025TEST_MODULE_PRO_GUARD\020?\022\017\n\013TEST" +
-      "_SERVER\020@\022\r\n\tTRANSFORM\020A\022\r\n\tUNINSTALL\020B\022" +
-      "\024\n\020VALIDATE_SIGNING\020C\022\r\n\tZIP_ALIGN\020D\022\020\n\014" +
-      "JAVA_COMPILE\020E\"\337\003\n\030GradleTransformExecut" +
-      "ion\022;\n\004type\030\001 \001(\0162-.android_studio.Gradl" +
-      "eTransformExecution.Type\022\026\n\016is_increment" +
-      "al\030\002 \001(\010\"\355\002\n\004Type\022\032\n\026UNKNOWN_TRANSFORM_T" +
-      "YPE\020\000\022\007\n\003DEX\020\001\022\020\n\014EXTRACT_JARS\020\002\022\023\n\017INST" +
-      "ANT_RUN_DEX\020\003\022\026\n\022INSTANT_RUN_SLICER\020\004\022\017\n" +
-      "\013INSTANT_RUN\020\005\022\027\n\023INSTANT_RUN_VERIFER\020\006\022",
-      "\020\n\014JACK_PRE_DEX\020\007\022\010\n\004JACK\020\010\022\n\n\006JACOCO\020\t\022" +
-      "\017\n\013JAR_MERGING\020\n\022\017\n\013LIBRARY_JAR\020\013\022\024\n\020LIB" +
-      "RARY_JNI_LIBS\020\014\022\030\n\024MERGE_JAVA_RESOURCES\020" +
-      "\r\022\r\n\tMULTI_DEX\020\016\022\020\n\014NEW_SHRINKER\020\017\022\027\n\023NO" +
-      "_CHANGES_VERIFIER\020\020\022\r\n\tPRO_GUARD\020\021\022\024\n\020SH" +
-      "RINK_RESOURCES\020\022\"\256\t\n\020InstantRunStatus\022>\n" +
-      "\nbuild_mode\030\001 \001(\0162*.android_studio.Insta" +
-      "ntRunStatus.BuildMode\022H\n\017patching_policy" +
-      "\030\002 \001(\0162/.android_studio.InstantRunStatus" +
-      ".PatchingPolicy\022H\n\017verifier_status\030\003 \001(\016",
-      "2/.android_studio.InstantRunStatus.Verif" +
-      "ierStatus\0224\n\010artifact\030\004 \003(\0132\".android_st" +
-      "udio.InstantRunArtifact\"E\n\tBuildMode\022\026\n\022" +
-      "UNKNOWN_BUILD_MODE\020\000\022\014\n\010HOT_WARM\020\001\022\010\n\004CO" +
-      "LD\020\002\022\010\n\004FULL\020\003\"]\n\016PatchingPolicy\022\033\n\027UNKN" +
-      "OWN_PATCHING_POLICY\020\000\022\020\n\014PRE_LOLLIPOP\020\001\022" +
-      "\r\n\tMULTI_DEX\020\002\022\r\n\tMULTI_APK\020\003\"\351\005\n\016Verifi" +
-      "erStatus\022\033\n\027UNKNOWN_VERIFIER_STATUS\020\000\022\016\n" +
-      "\nCOMPATIBLE\020\001\022\013\n\007NOT_RUN\020\002\022\030\n\024INSTANT_RU" +
-      "N_DISABLED\020\003\022\027\n\023INSTANT_RUN_FAILURE\020\004\022\017\n",
-      "\013CLASS_ADDED\020\005\022\030\n\024PARENT_CLASS_CHANGED\020\006" +
-      "\022!\n\035IMPLEMENTED_INTERFACES_CHANGE\020\007\022\033\n\027C" +
-      "LASS_ANNOTATION_CHANGE\020\010\022\035\n\031STATIC_INITI" +
-      "ALIZER_CHANGE\020\t\022 \n\034CONSTRUCTOR_SIGNATURE" +
-      "_CHANGE\020\n\022\033\n\027METHOD_SIGNATURE_CHANGE\020\013\022\034" +
-      "\n\030METHOD_ANNOTATION_CHANGE\020\014\022\022\n\016METHOD_D" +
-      "ELETED\020\r\022\020\n\014METHOD_ADDED\020\016\022\017\n\013FIELD_ADDE" +
-      "D\020\017\022\021\n\rFIELD_REMOVED\020\020\022\025\n\021FIELD_TYPE_CHA" +
-      "NGE\020\021\022\022\n\016R_CLASS_CHANGE\020\022\022\023\n\017REFLECTION_" +
-      "USED\020\023\022\032\n\026JAVA_RESOURCES_CHANGED\020\024\022\026\n\022DE",
-      "PENDENCY_CHANGED\020\025\022\030\n\024MANIFEST_FILE_CHAN" +
-      "GE\020\026\022\037\n\033BINARY_MANIFEST_FILE_CHANGE\020\027\022\027\n" +
-      "\023COLD_SWAP_REQUESTED\020\030\022\030\n\024FULL_BUILD_REQ" +
-      "UESTED\020\031\022\021\n\rINITIAL_BUILD\020\032\022\016\n\nNO_CHANGE" +
-      "S\020\033\0224\n0CHANGE_IN_SERIALIZABLE_CLASS_WITH" +
-      "OUT_VERSION_UID\020\034\"\261\001\n\022InstantRunArtifact" +
-      "\0225\n\004type\030\001 \001(\0162\'.android_studio.InstantR" +
-      "unArtifact.Type\"d\n\004Type\022\010\n\004MAIN\020\001\022\016\n\nSPL" +
-      "IT_MAIN\020\002\022\016\n\nRELOAD_DEX\020\003\022\017\n\013RESTART_DEX" +
-      "\020\004\022\007\n\003DEX\020\005\022\t\n\005SPLIT\020\006\022\r\n\tRESOURCES\020\007\"(\n",
-      "\023LLDBFrontendDetails\022\021\n\texit_code\030\001 \001(\005\"" +
-      "-\n\024FirebaseErrorDetails\022\025\n\rerror_message" +
-      "\030\001 \001(\t\"\244\001\n\021GfxTracingDetails\022\022\n\ntotal_ti" +
-      "me\030\001 \001(\003\022\017\n\007command\030\002 \001(\t\022\025\n\rerror_messa" +
-      "ge\030\003 \001(\t\022\022\n\ntrace_path\030\004 \001(\t\022\024\n\014image_fo" +
-      "rmat\030\005 \001(\t\022\023\n\013image_width\030\006 \001(\003\022\024\n\014image" +
-      "_height\030\007 \001(\003\"C\n\023TestRecorderDetails\022\023\n\013" +
-      "event_count\030\001 \001(\003\022\027\n\017assertion_count\030\002 \001" +
-      "(\003\"\356\001\n\rUIActionStats\022\031\n\021action_class_nam" +
-      "e\030\001 \001(\t\022\023\n\013invocations\030\002 \001(\003\022E\n\017invocati",
-      "on_kind\030\003 \001(\0162,.android_studio.UIActionS" +
-      "tats.InvocationKind\"f\n\016InvocationKind\022\033\n" +
-      "\027UNKNOWN_INVOCATION_KIND\020\000\022\013\n\007TOOLBAR\020\001\022" +
-      "\010\n\004MENU\020\002\022\025\n\021KEYBOARD_SHORTCUT\020\003\022\t\n\005MACR" +
-      "O\020\004\"\206\001\n\016MachineDetails\022\021\n\ttotal_ram\030\001 \001(" +
-      "\003\022\022\n\ntotal_disk\030\002 \001(\003\022/\n\007display\030\003 \003(\0132\036" +
-      ".android_studio.DisplayDetails\022\034\n\024availa" +
-      "ble_processors\030\004 \001(\005\"q\n\016DisplayDetails\022\r" +
-      "\n\005width\030\001 \001(\003\022\016\n\006height\030\002 \001(\003\022 \n\030dots_pe" +
-      "r_inch_horizontal\030\003 \001(\005\022\036\n\026dots_per_inch",
-      "_vertical\030\004 \001(\005\"\310\001\n\020JavaProcessStats\022\031\n\021" +
-      "heap_memory_usage\030\001 \001(\003\022\035\n\025non_heap_memo" +
-      "ry_usage\030\002 \001(\003\022\032\n\022loaded_class_count\030\003 \001" +
-      "(\005\022\024\n\014thread_count\030\004 \001(\005\022H\n\030garbage_coll" +
-      "ection_stats\030\005 \003(\0132&.android_studio.Garb" +
-      "ageCollectionStats\"O\n\026GarbageCollectionS" +
-      "tats\022\014\n\004name\030\001 \001(\t\022\026\n\016gc_collections\030\002 \001" +
-      "(\003\022\017\n\007gc_time\030\003 \001(\003\"\265\003\n\nJvmDetails\022\014\n\004na" +
-      "me\030\001 \001(\t\022\017\n\007version\030\002 \001(\t\022\016\n\006vendor\030\003 \001(" +
-      "\t\022\031\n\021minimum_heap_size\030\004 \001(\003\022\031\n\021maximum_",
-      "heap_size\030\005 \001(\003\022$\n\034maximum_permanent_spa" +
-      "ce_size\030\006 \001(\003\022\037\n\027maximum_code_cache_size" +
-      "\030\007 \001(\003\022!\n\031soft_reference_lru_policy\030\010 \001(" +
-      "\003\022F\n\021garbage_collector\030\t \001(\0162+.android_s" +
-      "tudio.JvmDetails.GarbageCollector\"\217\001\n\020Ga" +
-      "rbageCollector\022\022\n\016UNSPECIFIED_GC\020\000\022\034\n\030CO" +
-      "NCURRENT_MARK_SWEEP_GC\020\001\022\024\n\020GARBAGE_FIRS" +
-      "T_GC\020\002\022\017\n\013PARALLEL_GC\020\003\022\023\n\017PARALLEL_OLD_" +
-      "GC\020\004\022\r\n\tSERIAL_GC\020\005B;\n%com.google.wirele" +
-      "ss.android.sdk.statsB\022AndroidStudioStats"
+      "\0132 .android_studio.JavaProcessStats\022H\n\030s" +
+      "tudio_performance_stats\030& \001(\0132&.android_" +
+      "studio.StudioPerformanceStats\"\237\003\n\rEventC" +
+      "ategory\022\025\n\021NO_EVENT_CATEGORY\020\000\022\016\n\nDEPLOY" +
+      "MENT\020\001\022\020\n\014STUDIO_BUILD\020\002\022\026\n\022DEVELOPER_SE" +
+      "RVICES\020\003\022\017\n\013GRADLE_SYNC\020\004\022\r\n\tPROFILING\020\005" +
+      "\022\013\n\007MONITOR\020\006\022\017\n\013SDK_MANAGER\020\007\022\014\n\010TEMPLA",
+      "TE\020\010\022\020\n\014THEME_EDITOR\020\t\022\020\n\014APP_INDEXING\020\n" +
+      "\022\010\n\004LLDB\020\013\022\021\n\rCLOUD_TESTING\020\014\022\010\n\004PING\020\r\022" +
+      "\t\n\005TESTS\020\016\022\010\n\004META\020\017\022\017\n\013EMULATOR_UI\020\020\022\n\n" +
+      "\006SYSTEM\020\021\022\034\n\030PROJECT_STRUCTURE_DIALOG\020\022\022" +
+      "\n\n\006GRADLE\020\023\022\026\n\022FIREBASE_ASSISTANT\020\024\022\020\n\014G" +
+      "PU_PROFILER\020\025\022\021\n\rTEST_RECORDER\020\026\022\r\n\tSTUD" +
+      "IO_UI\020\027\"\245\030\n\tEventKind\022\026\n\022UNKNOWN_EVENT_K" +
+      "IND\020\000\022\022\n\016DEPLOYMENT_APK\020\001\022\032\n\026DEPLOYMENT_" +
+      "TO_EMULATOR\020\002\022 \n\034DEVELOPER_SERVICES_INST" +
+      "ALLED\020\003\022\036\n\032DEVELOPER_SERVICES_REMOVED\020\004\022",
+      "\027\n\023GRADLE_SYNC_STARTED\020\005\022\025\n\021GRADLE_SYNC_" +
+      "ENDED\020\006\022\027\n\023GRADLE_SYNC_SKIPPED\020\007\022\027\n\023GRAD" +
+      "LE_SYNC_FAILURE\020\010\022\035\n\031GRADLE_CPP_SYNC_COM" +
+      "PLETED\020\t\022\025\n\021PROFILING_CAPTURE\020\n\022\022\n\016PROFI" +
+      "LING_OPEN\020\013\022\033\n\027PROFILING_CONVERT_HPROF\020\014" +
+      "\022\032\n\026PROFILING_ANALYSIS_RUN\020\r\022\025\n\021MONITOR_" +
+      "ACTIVATED\020\016\022\023\n\017MONITOR_RUNNING\020\017\022\037\n\033SDK_" +
+      "MANAGER_TOOLBAR_CLICKED\020\020\022#\n\037SDK_MANAGER" +
+      "_STANDALONE_LAUNCHED\020\021\022\026\n\022SDK_MANAGER_LO" +
+      "ADED\020\022\022\023\n\017TEMPLATE_RENDER\020\023\022\025\n\021THEME_EDI",
+      "TOR_OPEN\020\024\022\"\n\036APP_INDEXING_DEEP_LINK_CRE" +
+      "ATED\020\025\022!\n\035APP_INDEXING_API_CODE_CREATED\020" +
+      "\026\022#\n\037APP_INDEXING_DEEP_LINK_LAUNCHED\020\027\022!" +
+      "\n\035APP_INDEXING_TRIGGER_QUICKFIX\020\030\022!\n\035APP" +
+      "_INDEXING_SHOW_FEAG_DIALOG\020\031\022 \n\034APP_INDE" +
+      "XING_START_FEAG_TASK\020\032\022\021\n\rLLDB_LAUNCHED\020" +
+      "\033\022\030\n\024LLDB_SESSION_STARTED\020\034\022\027\n\023LLDB_SESS" +
+      "ION_FAILED\020\035\022\032\n\026LLDB_SESSION_COMPLETED\020\036" +
+      "\022\030\n\024LLDB_INSTALL_STARTED\020\037\022\027\n\023LLDB_INSTA" +
+      "LL_FAILED\020 \022\032\n\026LLDB_INSTALL_COMPLETED\020!\022",
+      "!\n\035LLDB_SESSION_USED_WATCHPOINTS\020\"\022(\n$CL" +
+      "OUD_TESTING_CONFIGURE_CLOUD_DEVICE\020#\022\"\n\036" +
+      "CLOUD_TESTING_CONFIGURE_MATRIX\020$\022%\n!CLOU" +
+      "D_TESTING_LAUNCH_CLOUD_DEVICE\020%\022!\n\035CLOUD" +
+      "_TESTING_RUN_TEST_MATRIX\020&\022\037\n\033CLOUD_TEST" +
+      "ING_BACKEND_ERROR\020\'\022$\n CLOUD_TESTING_DEB" +
+      "UG_FROM_RESULTS\020(\022,\n(CLOUD_TESTING_COMPA" +
+      "RE_SCREENSHOTS_OPENED\020)\022\020\n\014STUDIO_CRASH\020" +
+      "*\022\030\n\024GRADLE_BUILD_DETAILS\020,\022\017\n\013INSTANT_R" +
+      "UN\020-\022\017\n\013STUDIO_PING\020.\022\021\n\rEMULATOR_PING\020/",
+      "\022\020\n\014META_METRICS\0200\022\014\n\010TEST_RUN\0202\022\025\n\021EMUL" +
+      "ATOR_UI_EVENT\0203\022\016\n\nHYPERVISOR\0204\022\021\n\rEMULA" +
+      "TOR_HOST\0205\022!\n\035PROJECT_STRUCTURE_DIALOG_O" +
+      "PEN\0206\022!\n\035PROJECT_STRUCTURE_DIALOG_SAVE\0207" +
+      "\022*\n&PROJECT_STRUCTURE_DIALOG_TOP_TAB_CLI" +
+      "CK\0208\022)\n%PROJECT_STRUCTURE_DIALOG_TOP_TAB" +
+      "_SAVE\0209\022+\n\'PROJECT_STRUCTURE_DIALOG_LEFT" +
+      "_NAV_CLICK\020:\022*\n&PROJECT_STRUCTURE_DIALOG" +
+      "_LEFT_NAV_SAVE\020;\022\030\n\024GRADLE_BUILD_PROFILE" +
+      "\020<\022\030\n\024LLDB_FRONTEND_EXITED\020=\022&\n\"FIREBASE",
+      "_ASSISTANT_PROJECT_CREATED\020>\022,\n(FIREBASE" +
+      "_ASSISTANT_PROJECT_CREATE_FAILED\020?\022\'\n#FI" +
+      "REBASE_ASSISTANT_PROJECT_UPGRADED\020@\022-\n)F" +
+      "IREBASE_ASSISTANT_PROJECT_UPGRADE_FAILED" +
+      "\020B\0223\n/FIREBASE_ASSISTANT_PROJECT_CONFIG_" +
+      "CREATE_FAILED\020C\022&\n\"FIREBASE_ASSISTANT_PR" +
+      "OJECT_UPDATED\020D\022,\n(FIREBASE_ASSISTANT_PR" +
+      "OJECT_UPDATE_FAILED\020E\0222\n.FIREBASE_ASSIST" +
+      "ANT_PROJECT_CONFIG_WRITE_FAILED\020F\022!\n\035FIR" +
+      "EBASE_ASSISTANT_TOS_FAILED\020G\022$\n FIREBASE",
+      "_ASSISTANT_ATTEMPT_LOGIN\020H\022$\n FIREBASE_A" +
+      "SSISTANT_LOGIN_SUCCESS\020I\022,\n(FIREBASE_ASS" +
+      "ISTANT_RECONNECT_DIALOG_SYNC\020J\022(\n$FIREBA" +
+      "SE_ASSISTANT_CONNECT_REQUESTED\020K\022\033\n\027FIRE" +
+      "BASE_ASSISTANT_OPEN\020L\022,\n(FIREBASE_ASSIST" +
+      "ANT_CONNECT_DIALOG_OPENED\020M\022*\n&FIREBASE_" +
+      "ASSISTANT_CONNECT_DIALOG_SYNC\020N\022&\n\"FIREB" +
+      "ASE_ASSISTANT_ERROR_PRESENTED\020O\022#\n\037FIREB" +
+      "ASE_ASSISTANT_SILENT_ERROR\020P\022.\n*FIREBASE" +
+      "_ASSISTANT_RECONNECT_DIALOG_OPENED\020Q\022\030\n\024",
+      "GFX_TRACE_INIT_ERROR\020R\022\024\n\020GFX_TRACE_CLOS" +
+      "ED\020S\022\036\n\032GFX_TRACE_PARAMETER_EDITED\020T\022\033\n\027" +
+      "GFX_TRACE_TRACE_STARTED\020U\022\033\n\027GFX_TRACE_T" +
+      "RACE_STOPPED\020V\022\036\n\032GFX_TRACE_COMMAND_SELE" +
+      "CTED\020W\022\032\n\026GFX_TRACE_LINK_CLICKED\020X\022\033\n\027GF" +
+      "X_TRACE_MEMORY_VIEWED\020Y\022\034\n\030GFX_TRACE_TEX" +
+      "TURE_VIEWED\020Z\022\037\n\033LEGACY_IDEA_ANDROID_PRO" +
+      "JECT\020[\022%\n!TEST_RECORDER_GENERATE_TEST_CL" +
+      "ASS\020\\\022/\n+TEST_RECORDER_MISSING_ESPRESSO_" +
+      "DEPENDENCIES\020]\0225\n1TEST_RECORDER_MISSING_",
+      "INSTRUMENTATION_TEST_FOLDER\020^\022\030\n\024TEST_RE" +
+      "CORDER_LAUNCH\020_\022\022\n\016GFX_TRACE_OPEN\020`\022\032\n\026S" +
+      "TUDIO_UI_ACTION_STATS\020a\022\030\n\024STUDIO_PROCES" +
+      "S_STATS\020b\022\034\n\030STUDIO_PERFORMANCE_STATS\020c\"" +
+      "R\n\013MonitorType\022\030\n\024UNKNOWN_MONITOR_TYPE\020\000" +
+      "\022\007\n\003CPU\020\001\022\007\n\003GPU\020\002\022\n\n\006MEMORY\020\003\022\013\n\007NETWOR" +
+      "K\020\004\"\321\001\n\023ProfilerCaptureType\022!\n\035UNKNOWN_P" +
+      "ROFILER_CAPTURE_TYPE\020\000\022\016\n\nALLOCATION\020\001\022\010" +
+      "\n\004FILE\020\002\022\r\n\tGFX_TRACE\020\003\022\010\n\004HEAP\020\004\022\017\n\013SYS" +
+      "TEM_INFO\020\005\022\014\n\010VM_TRACE\020\006\022\022\n\016METHOD_TRACI",
+      "NG\020\007\022\035\n\031LAYOUT_INSPECTOR_SNAPSHOT\020\010\022\022\n\016H" +
+      "IERARCHY_VIEW\020\t\"m\n\024RunConfigurationType\022" +
+      "\"\n\036UNKNOWN_RUN_CONFIGURATION_TYPE\020\000\022\013\n\007A" +
+      "NDROID\020\001\022\022\n\016ANDROID_NATIVE\020\002\022\020\n\014ANDROID_" +
+      "TEST\020\003\"K\n\014DebuggerType\022\031\n\025UNKNOWN_DEBUGG" +
+      "ER_TYPE\020\000\022\010\n\004JAVA\020\001\022\n\n\006HYBRID\020\002\022\n\n\006NATIV" +
+      "E\020\003\"\261\002\n\024DeveloperServiceKind\022\"\n\036UNKNOWN_" +
+      "DEVELOPER_SERVICE_KIND\020\000\022\032\n\026GOOGLE_CLOUD" +
+      "_MESSAGING\020\001\022\n\n\006AD_MOB\020\002\022\022\n\016GOOGLE_SIGN_" +
+      "IN\020\003\022\024\n\020GOOGLE_ANALYTICS\020\004\022\014\n\010FIREBASE\020\005",
+      "\022\025\n\021REALTIME_DATABASE\020\006\022\022\n\016AUTHENTICATIO" +
+      "N\020\007\022\023\n\017CRASH_REPORTING\020\010\022\021\n\rNOTIFICATION" +
+      "S\020\t\022\021\n\rREMOTE_CONFIG\020\n\022\013\n\007STORAGE\020\013\022\017\n\013A" +
+      "PP_INVITES\020\014\022\021\n\rDYNAMIC_LINKS\020\r\"\247\006\n\020Temp" +
+      "lateRenderer\022\035\n\031UNKNOWN_TEMPLATE_RENDERE" +
+      "R\020\000\022\034\n\030CUSTOM_TEMPLATE_RENDERER\020\001\022\022\n\016AND" +
+      "ROID_MODULE\020\002\022\023\n\017ANDROID_PROJECT\020\003\022\022\n\016EM" +
+      "PTY_ACTIVITY\020\004\022\022\n\016BLANK_ACTIVITY\020\005\022\023\n\017LA" +
+      "YOUT_XML_FILE\020\006\022\022\n\016FRAGMENT_BLANK\020\007\022\036\n\032N" +
+      "AVIGATION_DRAWER_ACTIVITY\020\010\022\023\n\017VALUES_XM",
+      "L_FILE\020\t\022\030\n\024GOOGLE_MAPS_ACTIVITY\020\n\022\022\n\016LO" +
+      "GIN_ACTIVITY\020\013\022\021\n\rASSETS_FOLDER\020\014\022\023\n\017TAB" +
+      "BED_ACTIVITY\020\r\022\026\n\022SCROLLING_ACTIVITY\020\016\022\027" +
+      "\n\023FULLSCREEN_ACTIVITY\020\017\022\013\n\007SERVICE\020\020\022\020\n\014" +
+      "JAVA_LIBRARY\020\021\022\025\n\021SETTINGS_ACTIVITY\020\022\022\021\n" +
+      "\rFRAGMENT_LIST\020\023\022\026\n\022MASTER_DETAIL_FLOW\020\024" +
+      "\022\027\n\023ANDROID_WEAR_MODULE\020\025\022\026\n\022BROADCAST_R" +
+      "ECEIVER\020\026\022\r\n\tAIDL_FILE\020\027\022\022\n\016INTENT_SERVI" +
+      "CE\020\030\022\016\n\nJNI_FOLDER\020\031\022\017\n\013JAVA_FOLDER\020\032\022\017\n" +
+      "\013CUSTOM_VIEW\020\033\022\025\n\021ANDROID_TV_MODULE\020\034\022\036\n",
+      "\032GOOGLE_ADMOBS_ADS_ACTIVITY\020\035\022\033\n\027ALWAYS_" +
+      "ON_WEAR_ACTIVITY\020\036\022\016\n\nRES_FOLDER\020\037\022\027\n\023AN" +
+      "DROID_TV_ACTIVITY\020 \022\027\n\023BLANK_WEAR_ACTIVI" +
+      "TY\020!\022\023\n\017BASIC_ACTIVITIY\020\"\022\016\n\nAPP_WIDGET\020" +
+      "#\"\374\002\n\021GradleSyncFailure\022\032\n\026UNKNOWN_GRADL" +
+      "E_FAILURE\020\000\022\025\n\021CONNECTION_DENIED\020\001\022\023\n\017CL" +
+      "ASS_NOT_FOUND\020\002\022\030\n\024DSL_METHOD_NOT_FOUND\020" +
+      "\003\022\027\n\023FAILED_TO_PARSE_SDK\020\004\022\024\n\020METHOD_NOT" +
+      "_FOUND\020\005\022\034\n\030MISSING_ANDROID_PLATFORM\020\006\022 " +
+      "\n\034MISSING_ANDROID_SUPPORT_REPO\020\007\022\027\n\023MISS",
+      "ING_BUILD_TOOLS\020\010\022\021\n\rOUT_OF_MEMORY\020\t\022\021\n\r" +
+      "SDK_NOT_FOUND\020\n\022\020\n\014UNKNOWN_HOST\020\013\022%\n!UNS" +
+      "UPPORTED_ANDROID_MODEL_VERSION\020\014\022\036\n\032UNSU" +
+      "PPORTED_GRADLE_VERSION\020\r\"\362\004\n\016ProductDeta" +
+      "ils\022;\n\007product\030\001 \001(\0162*.android_studio.Pr" +
+      "oductDetails.ProductKind\022\r\n\005build\030\002 \001(\t\022" +
+      "\017\n\007version\030\003 \001(\t\022\017\n\007preview\030\004 \001(\010\022G\n\017os_" +
+      "architecture\030\005 \001(\0162..android_studio.Prod" +
+      "uctDetails.CpuArchitecture\022H\n\007channel\030\006 " +
+      "\001(\01627.android_studio.ProductDetails.Soft",
+      "wareLifeCycleChannel\"e\n\030SoftwareLifeCycl" +
+      "eChannel\022\036\n\032UNKNOWN_LIFE_CYCLE_CHANNEL\020\000" +
+      "\022\n\n\006CANARY\020\001\022\007\n\003DEV\020\002\022\010\n\004BETA\020\003\022\n\n\006STABL" +
+      "E\020\004\"R\n\013ProductKind\022\023\n\017UNKNOWN_PRODUCT\020\000\022" +
+      "\n\n\006STUDIO\020\001\022\014\n\010EMULATOR\020\002\022\n\n\006GRADLE\020\003\022\010\n" +
+      "\004DDMS\020\004\"^\n\006OSKind\022\023\n\017UNKNOWN_OS_KIND\020\000\022\014" +
+      "\n\010OTHER_OS\020\001\022\013\n\007WINDOWS\020\002\022\013\n\007MAC_OSX\020\003\022\t" +
+      "\n\005LINUX\020\004\022\014\n\010FREE_BSD\020\005\"D\n\017CpuArchitectu" +
+      "re\022\034\n\030UNKNOWN_CPU_ARCHITECTURE\020\000\022\007\n\003X86\020" +
+      "\001\022\n\n\006X86_64\020\002\"\217\005\n\nDeviceInfo\022 \n\030anonymiz",
+      "ed_serial_number\030\001 \001(\t\022\022\n\nbuild_tags\030\002 \001" +
+      "(\t\022\022\n\nbuild_type\030\003 \001(\t\022\035\n\025build_version_" +
+      "release\030\004 \001(\t\022\027\n\017build_api_level\030\005 \001(\005\022F" +
+      "\n\007cpu_abi\030\006 \001(\01625.android_studio.DeviceI" +
+      "nfo.ApplicationBinaryInterface\022\024\n\014manufa" +
+      "cturer\030\007 \001(\t\022\r\n\005model\030\010 \001(\t\022:\n\013device_ty" +
+      "pe\030\t \001(\0162%.android_studio.DeviceInfo.Dev" +
+      "iceType\022\034\n\024build_api_level_full\030\n \001(\t\"\300\001" +
+      "\n\032ApplicationBinaryInterface\022\017\n\013UNKNOWN_" +
+      "ABI\020\000\022\020\n\014ARME_ABI_V7A\020\001\022\013\n\007X86_ABI\020\002\022\021\n\r",
+      "ARM64_V8A_ABI\020\003\022\016\n\nX86_64_ABI\020\004\022\014\n\010ARME_" +
+      "ABI\020\005\022\014\n\010MIPS_ABI\020\006\022\017\n\013MIPS_R2_ABI\020\007\022\020\n\014" +
+      "ARME_ABI_V6L\020\010\022\020\n\014ARME_ABI_V6J\020\t\"u\n\nDevi" +
+      "ceType\022\027\n\023UNKNOWN_DEVICE_TYPE\020\000\022\022\n\016LOCAL" +
+      "_PHYSICAL\020\001\022\022\n\016LOCAL_EMULATOR\020\002\022\022\n\016CLOUD" +
+      "_EMULATOR\020\003\022\022\n\016CLOUD_PHYSICAL\020\004\"\215\001\n\013Stud" +
+      "ioCrash\022\017\n\007actions\030\001 \001(\003\022\022\n\nexceptions\030\002" +
+      " \001(\003\022\017\n\007crashes\030\003 \001(\003\022!\n\031bundled_plugin_" +
+      "exceptions\030\004 \001(\003\022%\n\035non_bundled_plugin_e" +
+      "xceptions\030\005 \001(\003\"H\n\023EmulatorGuestGlInfo\022\016",
+      "\n\006vendor\030\001 \001(\t\022\020\n\010renderer\030\002 \001(\t\022\017\n\007vers" +
+      "ion\030\003 \001(\t\"y\n\017EmulatorGpuInfo\022\014\n\004make\030\001 \001" +
+      "(\t\022\r\n\005model\030\002 \001(\t\022\021\n\tdevice_id\030\003 \001(\t\022\023\n\013" +
+      "revision_id\030\004 \001(\t\022\017\n\007version\030\005 \001(\t\022\020\n\010re" +
+      "nderer\030\006 \001(\t\"\325\007\n\017EmulatorDetails\022H\n\ngues" +
+      "t_arch\030\001 \001(\01624.android_studio.EmulatorDe" +
+      "tails.GuestCpuArchitecture\022\023\n\013system_tim" +
+      "e\030\002 \001(\003\022\021\n\tuser_time\030\003 \001(\003\022\017\n\007crashes\030\004 " +
+      "\001(\003\022\021\n\twall_time\030\005 \001(\003\022\024\n\014exit_started\030\006" +
+      " \001(\010\022\027\n\017guest_api_level\030\007 \001(\003\022\031\n\021guest_g",
+      "pu_enabled\030\010 \001(\010\022\027\n\017is_opengl_alive\030\n \001(" +
+      "\010\022I\n\014adb_liveness\030\013 \001(\01623.android_studio" +
+      ".EmulatorDetails.EmulatorAdbLiveness\0225\n\010" +
+      "guest_gl\030\014 \001(\0132#.android_studio.Emulator" +
+      "GuestGlInfo\0221\n\010host_gpu\030\r \003(\0132\037.android_" +
+      "studio.EmulatorGpuInfo\022K\n\rsession_phase\030" +
+      "\016 \001(\01624.android_studio.EmulatorDetails.E" +
+      "mulatorSessionPhase\"\224\001\n\023EmulatorAdbLiven" +
+      "ess\022!\n\035UNKNOWN_EMULATOR_ADB_LIVENESS\020\000\022\022" +
+      "\n\016FAILURE_NO_ADB\020\001\022\016\n\nADB_ONLINE\020\002\022\033\n\027FA",
+      "ILURE_ADB_SERVER_DEAD\020\003\022\031\n\025FAILURE_EMULA" +
+      "TOR_DEAD\020\004\"\262\001\n\024EmulatorSessionPhase\022\"\n\036U" +
+      "NKNOWN_EMULATOR_SESSION_PHASE\020\000\022\014\n\010LAUNC" +
+      "HER\020\001\022\021\n\rPARSE_OPTIONS\020\002\022\020\n\014INIT_GENERAL" +
+      "\020\003\022\014\n\010INIT_GPU\020\004\022\016\n\nINIT_ACCEL\020\005\022\023\n\017RUNN" +
+      "ING_GENERAL\020\006\022\020\n\014EXIT_GENERAL\020\007\"{\n\024Guest" +
+      "CpuArchitecture\022\"\n\036UNKNOWN_GUEST_CPU_ARC" +
+      "HITECTURE\020\000\022\007\n\003X86\020\001\022\n\n\006X86_64\020\002\022\007\n\003ARM\020" +
+      "\003\022\n\n\006ARM_64\020\004\022\010\n\004MIPS\020\005\022\013\n\007MIPS_64\020\006\"\234\003\n" +
+      "\017EmulatorUiEvent\022\022\n\nelement_id\030\001 \001(\t\022A\n\004",
+      "type\030\002 \001(\01623.android_studio.EmulatorUiEv" +
+      "ent.EmulatorUiEventType\022G\n\007context\030\003 \001(\016" +
+      "26.android_studio.EmulatorUiEvent.Emulat" +
+      "orUiEventContext\022\r\n\005value\030\004 \001(\003\"\177\n\023Emula" +
+      "torUiEventType\022\"\n\036UNKONWN_EMULATOR_UI_EV" +
+      "ENT_TYPE\020\000\022\020\n\014BUTTON_PRESS\020\001\022\035\n\031OPTION_S" +
+      "ET_TO_NON_DEFAULT\020\002\022\023\n\017OPTION_SELECTED\020\003" +
+      "\"Y\n\026EmulatorUiEventContext\022%\n!UNKNOWN_EM" +
+      "ULATOR_UI_EVENT_CONTEXT\020\000\022\030\n\024EXTENDED_WI" +
+      "NDOW_OPEN\020\001\"\207\003\n\022GradleBuildDetails\022\036\n\026an",
+      "droid_plugin_version\030\001 \001(\t\022\026\n\016gradle_ver" +
+      "sion\030\002 \001(\t\022\027\n\017user_enabled_ir\030\003 \001(\010\022\031\n\021m" +
+      "odel_supports_ir\030\004 \001(\010\022\033\n\023variant_suppor" +
+      "ts_ir\030\005 \001(\010\0220\n\tlibraries\030\006 \003(\0132\035.android" +
+      "_studio.GradleLibrary\022-\n\007modules\030\007 \003(\0132\034" +
+      ".android_studio.GradleModule\022<\n\017android_" +
+      "modules\030\010 \003(\0132#.android_studio.GradleAnd" +
+      "roidModule\022I\n\026native_android_modules\030\t \003" +
+      "(\0132).android_studio.GradleNativeAndroidM" +
+      "odule\"K\n\rGradleLibrary\022\034\n\024jar_dependency",
+      "_count\030\001 \001(\003\022\034\n\024aar_dependency_count\030\002 \001" +
+      "(\003\"^\n\014GradleModule\022\032\n\022total_module_count" +
+      "\030\001 \001(\003\022\030\n\020app_module_count\030\002 \001(\003\022\030\n\020lib_" +
+      "module_count\030\003 \001(\003\"\266\001\n\023GradleAndroidModu" +
+      "le\022\016\n\006app_id\030\001 \001(\t\022\023\n\013module_name\030\002 \001(\t\022" +
+      "\022\n\nis_library\030\003 \001(\010\022\030\n\020build_type_count\030" +
+      "\004 \001(\003\022\024\n\014flavor_count\030\005 \001(\003\022\030\n\020flavor_di" +
+      "mension\030\006 \001(\003\022\034\n\024signing_config_count\030\007 " +
+      "\001(\003\"\240\002\n\031GradleNativeAndroidModule\022\016\n\006app" +
+      "_id\030\001 \001(\t\022\023\n\013module_name\030\002 \001(\t\022Z\n\021build_",
+      "system_type\030\003 \001(\0162?.android_studio.Gradl" +
+      "eNativeAndroidModule.NativeBuildSystemTy" +
+      "pe\"\201\001\n\025NativeBuildSystemType\022$\n UNKNOWN_" +
+      "NATIVE_BUILD_SYSTEM_TYPE\020\000\022\027\n\023GRADLE_EXP" +
+      "ERIMENTAL\020\001\022\017\n\013NDK_COMPILE\020\002\022\r\n\tNDK_BUIL" +
+      "D\020\003\022\t\n\005CMAKE\020\004\"\273\n\n\nInstantRun\022L\n\017deploym" +
+      "ent_kind\030\001 \001(\01623.android_studio.InstantR" +
+      "un.InstantRunDeploymentKind\022P\n\027instant_r" +
+      "un_build_cause\030\003 \001(\0162/.android_studio.In" +
+      "stantRun.InstantRunBuildCause\022\022\n\nbuild_t",
+      "ime\030\004 \001(\003\022\022\n\nsession_id\030\005 \001(\t\022K\n\017ide_bui" +
+      "ld_cause\030\006 \001(\01622.android_studio.InstantR" +
+      "un.InstantRunIdeBuildCause\"\242\001\n\030InstantRu" +
+      "nDeploymentKind\022\'\n#UNKNOWN_INSTANT_RUN_D" +
+      "EPLOYMENT_KIND\020\000\022\n\n\006LEGACY\020\001\022\014\n\010FULL_APK" +
+      "\020\002\022\r\n\tSPLIT_APK\020\003\022\007\n\003DEX\020\004\022\014\n\010HOT_SWAP\020\005" +
+      "\022\r\n\tWARM_SWAP\020\006\022\016\n\nNO_CHANGES\020\007\"\277\003\n\024Inst" +
+      "antRunBuildCause\022#\n\037UNKNOWN_INSTANT_RUN_" +
+      "BUILD_CAUSE\020\000\022\016\n\nCOMPATIBLE\020\001\022\023\n\017MANIFES" +
+      "T_CHANGE\020\002\022\025\n\021FIELD_TYPE_CHANGE\020\003\022\021\n\rFIE",
+      "LD_REMOVED\020\004\022\017\n\013FIELD_ADDED\020\005\022\022\n\016METHOD_" +
+      "DELETED\020\006\022\020\n\014METHOD_ADDED\020\007\022\017\n\013CLASS_ADD" +
+      "ED\020\010\022\035\n\031STATIC_INITIALIZER_CHANGE\020\t\022\033\n\027C" +
+      "LASS_ANNOTATION_CHANGE\020\n\022\023\n\017RESOURCE_CHA" +
+      "NGE\020\013\022\037\n\033IMPLEMENTS_INTERFACE_CHANGE\020\014\022\022" +
+      "\n\016R_CLASS_CHANGE\020\r\022\027\n\023PARENT_CLASS_CHANG" +
+      "E\020\016\022\034\n\030METHOD_ANNOTATION_CHANGE\020\017\022\031\n\025API" +
+      "_LEVEL_UNSUPPORTED\020\020\022\023\n\017REFLECTION_USED\020" +
+      "\021\"\260\003\n\027InstantRunIdeBuildCause\022\'\n#UNKNOWN" +
+      "_INSTANT_RUN_IDE_BUILD_CAUSE\020\000\022\r\n\tNO_DEV",
+      "ICE\020\001\022\025\n\021APP_NOT_INSTALLED\020\002\022\032\n\026MISMATCH" +
+      "ING_TIMESTAMPS\020\003\022\036\n\032USER_REQUESTED_CLEAN" +
+      "_BUILD\020\004\022\037\n\033API_TOO_LOW_FOR_INSTANT_RUN\020" +
+      "\005\022 \n\034FIRST_INSTALLATION_TO_DEVICE\020\006\022\035\n\031M" +
+      "ANIFEST_RESOURCE_CHANGED\020\007\022\036\n\032FREEZE_SWA" +
+      "P_REQUIRES_API21\020\010\022\'\n#FREEZE_SWAP_REQUIR" +
+      "ES_WORKING_RUN_AS\020\t\022\023\n\017APP_NOT_RUNNING\020\n" +
+      "\022\037\n\033APP_USES_MULTIPLE_PROCESSES\020\013\022\025\n\021INC" +
+      "REMENTAL_BUILD\020\014\022\022\n\016NO_INSTANT_RUN\020\r\"k\n\013" +
+      "MetaMetrics\022\032\n\022failed_connections\030\001 \001(\005\022",
+      "!\n\031bytes_sent_in_last_upload\030\002 \001(\003\022\035\n\025fa" +
+      "iled_server_replies\030\003 \001(\005\"\200\004\n\007TestRun\022H\n" +
+      "\024test_invocation_type\030\001 \001(\0162*.android_st" +
+      "udio.TestRun.TestInvocationType\022 \n\030numbe" +
+      "r_of_tests_executed\030\002 \001(\005\0223\n\ttest_kind\030\003" +
+      " \001(\0162 .android_studio.TestRun.TestKind\022\017" +
+      "\n\007crashed\030\004 \001(\010\022\026\n\016gradle_version\030\005 \001(\t\022" +
+      "\035\n\025code_coverage_enabled\030\006 \001(\010\0225\n\016test_l" +
+      "ibraries\030\007 \001(\0132\035.android_studio.TestLibr" +
+      "aries\"\210\001\n\022TestInvocationType\022 \n\034UNKNOWN_",
+      "TEST_INVOCATION_TYPE\020\000\022\017\n\013GRADLE_TEST\020\001\022" +
+      "\027\n\023ANDROID_STUDIO_TEST\020\002\022&\n\"ANDROID_STUD" +
+      "IO_THROUGH_GRADLE_TEST\020\003\"J\n\010TestKind\022\025\n\021" +
+      "UNKNOWN_TEST_KIND\020\000\022\r\n\tUNIT_TEST\020\001\022\030\n\024IN" +
+      "STRUMENTATION_TEST\020\002\"\205\001\n\rTestLibraries\022$" +
+      "\n\034test_support_library_version\030\001 \001(\t\022\030\n\020" +
+      "espresso_version\030\002 \001(\t\022\033\n\023robolectric_ve" +
+      "rsion\030\003 \001(\t\022\027\n\017mockito_version\030\004 \001(\t\"\311\001\n" +
+      "\nHypervisor\022=\n\rhyper_v_state\030\001 \001(\0162&.and" +
+      "roid_studio.Hypervisor.HyperVState\"|\n\013Hy",
+      "perVState\022\030\n\024UNKNOWN_HYPERV_STATE\020\000\022\021\n\rH" +
+      "YPERV_ABSENT\020\001\022\024\n\020HYPERV_INSTALLED\020\002\022\022\n\016" +
+      "HYPERV_RUNNING\020\003\022\026\n\022HYPERV_CHECK_ERROR\020\004" +
+      "\"k\n\014EmulatorHost\022\030\n\020cpu_manufacturer\030\001 \001" +
+      "(\t\022\024\n\014virt_support\030\002 \001(\010\022\025\n\rrunning_in_v" +
+      "m\030\003 \001(\010\022\024\n\014os_bit_count\030\004 \001(\003\"\310\003\n\022Gradle" +
+      "BuildProfile\022\026\n\016gradle_version\030\002 \001(\t\022\017\n\007" +
+      "os_name\030\006 \001(\t\022\022\n\nos_version\030\007 \001(\t\022\024\n\014jav" +
+      "a_version\030\010 \001(\t\022\027\n\017java_vm_version\030\t \001(\t" +
+      "\022\022\n\nmax_memory\030\n \001(\003\022\022\n\nbuild_time\030\013 \001(\003",
+      "\022\020\n\010gc_count\030\014 \001(\003\022\017\n\007gc_time\030\r \001(\003\0223\n\007p" +
+      "roject\030\016 \003(\0132\".android_studio.GradleBuil" +
+      "dProject\022>\n\rmemory_sample\030\017 \003(\0132\'.androi" +
+      "d_studio.GradleBuildMemorySample\0224\n\004span" +
+      "\030\020 \003(\0132&.android_studio.GradleBuildProfi" +
+      "leSpan\022<\n\022instant_run_status\030\021 \001(\0132 .and" +
+      "roid_studio.InstantRunStatus\022\022\n\nproject_" +
+      "id\030\022 \001(\t\"\260\004\n\022GradleBuildProject\022\n\n\002id\030\001 " +
+      "\001(\003\022\036\n\026android_plugin_version\030\002 \001(\t\022E\n\016a" +
+      "ndroid_plugin\030\003 \001(\0162-.android_studio.Gra",
+      "dleBuildProject.PluginType\022N\n\021plugin_gen" +
+      "eration\030\004 \001(\01623.android_studio.GradleBui" +
+      "ldProject.PluginGeneration\022\033\n\023build_tool" +
+      "s_version\030\005 \001(\t\022:\n\007metrics\030\006 \001(\0132).andro" +
+      "id_studio.GradleBuildProjectMetrics\0223\n\007v" +
+      "ariant\030\007 \003(\0132\".android_studio.GradleBuil" +
+      "dVariant\022\r\n\005atoms\030\010 \001(\003\"g\n\nPluginType\022\027\n" +
+      "\023UNKNOWN_PLUGIN_TYPE\020\000\022\017\n\013APPLICATION\020\001\022" +
+      "\013\n\007LIBRARY\020\002\022\010\n\004TEST\020\003\022\010\n\004ATOM\020\004\022\016\n\nINST" +
+      "ANTAPP\020\005\"Q\n\020PluginGeneration\022\035\n\031UNKNOWN_",
+      "PLUGIN_GENERATION\020\000\022\t\n\005FIRST\020\001\022\023\n\017COMPON" +
+      "ENT_MODEL\020\002\"a\n\031GradleBuildProjectMetrics" +
+      "\022\027\n\017metrics_time_ns\030\001 \001(\003\022\020\n\010apk_size\030\002 " +
+      "\001(\003\022\031\n\021resources_ap_size\030\003 \001(\003\"\320\002\n\022Gradl" +
+      "eBuildVariant\022\n\n\002id\030\001 \001(\003\022\020\n\010is_debug\030\002 " +
+      "\001(\010\022\020\n\010use_jack\030\003 \001(\010\022\026\n\016minify_enabled\030" +
+      "\004 \001(\010\022\024\n\014use_multidex\030\005 \001(\010\022\033\n\023use_legac" +
+      "y_multidex\030\006 \001(\010\022D\n\014variant_type\030\007 \001(\0162." +
+      ".android_studio.GradleBuildVariant.Varia" +
+      "ntType\022\021\n\ttested_id\030\010 \001(\003\"f\n\013VariantType",
+      "\022\017\n\013APPLICATION\020\000\022\013\n\007LIBRARY\020\001\022\020\n\014ANDROI" +
+      "D_TEST\020\002\022\r\n\tUNIT_TEST\020\003\022\010\n\004ATOM\020\004\022\016\n\nINS" +
+      "TANTAPP\020\005\"R\n\027GradleBuildMemorySample\022\022\n\n" +
+      "gc_time_ms\030\001 \001(\003\022\020\n\010gc_count\030\002 \001(\003\022\021\n\tti" +
+      "mestamp\030\003 \001(\003\"\251$\n\026GradleBuildProfileSpan" +
+      "\022\n\n\002id\030\001 \001(\003\022\021\n\tparent_id\030\002 \001(\003\022\030\n\020start" +
+      "_time_in_ms\030\003 \001(\003\022\026\n\016duration_in_ms\030\004 \001(" +
+      "\003\022B\n\004type\030\005 \001(\01624.android_studio.GradleB" +
+      "uildProfileSpan.ExecutionType\022;\n\ttransfo" +
+      "rm\030\006 \001(\0132(.android_studio.GradleTransfor",
+      "mExecution\0221\n\004task\030\t \001(\0132#.android_studi" +
+      "o.GradleTaskExecution\022\017\n\007project\030\007 \001(\003\022\017" +
+      "\n\007variant\030\010 \001(\003\"\347!\n\rExecutionType\022\032\n\026SOM" +
+      "E_RANDOM_PROCESSING\020\001\022!\n\035BASE_PLUGIN_PRO" +
+      "JECT_CONFIGURE\020\002\022/\n+BASE_PLUGIN_PROJECT_" +
+      "BASE_EXTENSION_CREATION\020\003\022&\n\"BASE_PLUGIN" +
+      "_PROJECT_TASKS_CREATION\020\004\022\036\n\032BASE_PLUGIN" +
+      "_BUILD_FINISHED\020\005\022\035\n\031TASK_MANAGER_CREATE" +
+      "_TASKS\020\006\022$\n BASE_PLUGIN_CREATE_ANDROID_T" +
+      "ASKS\020\007\022(\n$VARIANT_MANAGER_CREATE_ANDROID",
+      "_TASKS\020\010\022,\n(VARIANT_MANAGER_CREATE_TASKS" +
+      "_FOR_VARIANT\020\t\022%\n!VARIANT_MANAGER_CREATE" +
+      "_LINT_TASKS\020\n\022&\n\"VARIANT_MANAGER_CREATE_" +
+      "TESTS_TASKS\020\013\022#\n\037VARIANT_MANAGER_CREATE_" +
+      "VARIANTS\020\014\022\030\n\024RESOLVE_DEPENDENCIES\020\r\022\022\n\016" +
+      "TASK_EXECUTION\020\016\022\024\n\020INITIAL_METADATA\020d\022\022" +
+      "\n\016FINAL_METADATA\020e\022\022\n\016GENERAL_CONFIG\020f\022\022" +
+      "\n\016VARIANT_CONFIG\020g\0221\n-VARIANT_MANAGER_EX" +
+      "TERNAL_NATIVE_CONFIG_VALUES\020h\022\017\n\013APK_MET" +
+      "RICS\020i\0220\n+APP_TASK_MANAGER_CREATE_MERGE_",
+      "MANIFEST_TASK\020\350\007\0225\n0APP_TASK_MANAGER_CRE" +
+      "ATE_GENERATE_RES_VALUES_TASK\020\351\007\0225\n0APP_T" +
+      "ASK_MANAGER_CREATE_CREATE_RENDERSCRIPT_T" +
+      "ASK\020\352\007\0221\n,APP_TASK_MANAGER_CREATE_MERGE_" +
+      "RESOURCES_TASK\020\353\007\022.\n)APP_TASK_MANAGER_CR" +
+      "EATE_MERGE_ASSETS_TASK\020\354\007\022.\n)APP_TASK_MA" +
+      "NAGER_CREATE_BUILD_CONFIG_TASK\020\355\007\022-\n(APP" +
+      "_TASK_MANAGER_CREATE_PROCESS_RES_TASK\020\356\007" +
+      "\022&\n!APP_TASK_MANAGER_CREATE_AIDL_TASK\020\357\007" +
+      "\022)\n$APP_TASK_MANAGER_CREATE_COMPILE_TASK",
+      "\020\360\007\022%\n APP_TASK_MANAGER_CREATE_NDK_TASK\020" +
+      "\361\007\022\'\n\"APP_TASK_MANAGER_CREATE_SPLIT_TASK" +
+      "\020\362\007\022+\n&APP_TASK_MANAGER_CREATE_PACKAGING" +
+      "_TASK\020\363\007\0226\n1APP_TASK_MANAGER_CREATE_PREP" +
+      "ROCESS_RESOURCES_TASK\020\364\007\0224\n/APP_TASK_MAN" +
+      "AGER_CREATE_BACKPORT_RESOURCES_TASK\020\365\007\022&" +
+      "\n!APP_TASK_MANAGER_CREATE_LINT_TASK\020\366\007\0227" +
+      "\n2APP_TASK_MANAGER_CREATE_MERGE_JNILIBS_" +
+      "FOLDERS_TASK\020\367\007\022(\n#APP_TASK_MANAGER_CREA" +
+      "TE_SHADER_TASK\020\370\007\0227\n2APP_TASK_MANAGER_CR",
+      "EATE_EXTERNAL_NATIVE_BUILD_TASK\020\371\007\0226\n1AP" +
+      "P_TASK_MANAGER_CREATE_STRIP_NATIVE_LIBRA" +
+      "RY_TASK\020\372\007\0220\n+LIB_TASK_MANAGER_CREATE_ME" +
+      "RGE_MANIFEST_TASK\020\320\017\0225\n0LIB_TASK_MANAGER" +
+      "_CREATE_GENERATE_RES_VALUES_TASK\020\321\017\0225\n0L" +
+      "IB_TASK_MANAGER_CREATE_CREATE_RENDERSCRI" +
+      "PT_TASK\020\322\017\0221\n,LIB_TASK_MANAGER_CREATE_ME" +
+      "RGE_RESOURCES_TASK\020\323\017\022.\n)LIB_TASK_MANAGE" +
+      "R_CREATE_MERGE_ASSETS_TASK\020\324\017\022.\n)LIB_TAS" +
+      "K_MANAGER_CREATE_BUILD_CONFIG_TASK\020\325\017\022-\n",
+      "(LIB_TASK_MANAGER_CREATE_PROCESS_RES_TAS" +
+      "K\020\326\017\022&\n!LIB_TASK_MANAGER_CREATE_AIDL_TAS" +
+      "K\020\327\017\022)\n$LIB_TASK_MANAGER_CREATE_COMPILE_" +
+      "TASK\020\330\017\022%\n LIB_TASK_MANAGER_CREATE_NDK_T" +
+      "ASK\020\331\017\022\'\n\"LIB_TASK_MANAGER_CREATE_SPLIT_" +
+      "TASK\020\332\017\022+\n&LIB_TASK_MANAGER_CREATE_PACKA" +
+      "GING_TASK\020\333\017\0225\n0LIB_TASK_MANAGER_CREATE_" +
+      "MERGE_PROGUARD_FILE_TASK\020\334\017\0222\n-LIB_TASK_" +
+      "MANAGER_CREATE_POST_COMPILATION_TASK\020\335\017\022" +
+      "*\n%LIB_TASK_MANAGER_CREATE_PROGUARD_TASK",
+      "\020\336\017\022.\n)LIB_TASK_MANAGER_CREATE_PACKAGE_L" +
+      "OCAL_JAR\020\337\017\0224\n/LIB_TASK_MANAGER_CREATE_B" +
+      "ACKPORT_RESOURCES_TASK\020\340\017\022&\n!LIB_TASK_MA" +
+      "NAGER_CREATE_LINT_TASK\020\341\017\022(\n#LIB_TASK_MA" +
+      "NAGER_CREATE_SHADER_TASK\020\342\017\0227\n2LIB_TASK_" +
+      "MANAGER_CREATE_EXTERNAL_NATIVE_BUILD_TAS" +
+      "K\020\343\017\022\033\n\026GENERIC_TASK_EXECUTION\020\270\027\022\026\n\021TAS" +
+      "K_AIDL_COMPILE\020\271\027\022\020\n\013TASK_DELETE\020\272\027\022\030\n\023T" +
+      "ASK_CHECK_MANIFEST\020\273\027\022#\n\036TASK_PREPARE_DE" +
+      "PENDENCIES_TASK\020\274\027\022\036\n\031TASK_RENDERSCRIPT_",
+      "COMPILE\020\275\027\022\037\n\032TASK_GENERATE_BUILD_CONFIG" +
+      "\020\276\027\022\026\n\021TASK_MERGE_ASSETS\020\277\027\022\035\n\030TASK_GENE" +
+      "RATE_RES_VALUES\020\300\027\022\031\n\024TASK_MERGE_RESOURC" +
+      "ES\020\301\027\022\031\n\024TASK_MERGE_MANIFESTS\020\302\027\022#\n\036TASK" +
+      "_PROCESS_ANDROID_RESOURCES\020\303\027\022\026\n\021TASK_JA" +
+      "VA_COMPILE\020\304\027\022\025\n\020TASK_NDK_COMPILE\020\305\027\022\021\n\014" +
+      "TASK_PRE_DEX\020\306\027\022\r\n\010TASK_DEX\020\307\027\022\033\n\026TASK_P" +
+      "ACKAGE_SPLIT_RES\020\310\027\022\033\n\026TASK_PROCESS_RESO" +
+      "URCES\020\311\027\022\037\n\032TASK_VALIDATE_SIGNING_TASK\020\312" +
+      "\027\022\035\n\030TASK_PACKAGE_APPLICATION\020\313\027\022\031\n\024TASK",
+      "_SPLIT_ZIP_ALIGN\020\314\027\022\023\n\016TASK_ZIP_ALIGN\020\315\027" +
+      "\022\016\n\tTASK_COPY\020\316\027\022\016\n\tTASK_LINT\020\317\027\022\033\n\026TASK" +
+      "_FILE_VERIFICATION\020\322\027\022=\n8TASK_EXTERNAL_N" +
+      "ATIVE_BUILD_GENERATE_JSON_PROCESS_PER_AB" +
+      "I\020\323\027\0225\n0TASK_EXTERNAL_NATIVE_BUILD_GENER" +
+      "ATE_JSON_PROCESS\020\324\027\022\037\n\032TASK_TRANSFORM_PR" +
+      "EPARATION\020\320\027\022\023\n\016TASK_TRANSFORM\020\321\027\0221\n,ATO" +
+      "M_TASK_MANAGER_CREATE_MERGE_MANIFEST_TAS" +
+      "K\020\240\037\0226\n1ATOM_TASK_MANAGER_CREATE_GENERAT" +
+      "E_RES_VALUES_TASK\020\241\037\0226\n1ATOM_TASK_MANAGE",
+      "R_CREATE_CREATE_RENDERSCRIPT_TASK\020\242\037\0222\n-" +
+      "ATOM_TASK_MANAGER_CREATE_MERGE_RESOURCES" +
+      "_TASK\020\243\037\022/\n*ATOM_TASK_MANAGER_CREATE_MER" +
+      "GE_ASSETS_TASK\020\244\037\022/\n*ATOM_TASK_MANAGER_C" +
+      "REATE_BUILD_CONFIG_TASK\020\245\037\022.\n)ATOM_TASK_" +
+      "MANAGER_CREATE_PROCESS_RES_TASK\020\246\037\022\'\n\"AT" +
+      "OM_TASK_MANAGER_CREATE_AIDL_TASK\020\247\037\022)\n$A" +
+      "TOM_TASK_MANAGER_CREATE_SHADER_TASK\020\250\037\022&" +
+      "\n!ATOM_TASK_MANAGER_CREATE_NDK_TASK\020\251\037\0228" +
+      "\n3ATOM_TASK_MANAGER_CREATE_EXTERNAL_NATI",
+      "VE_BUILD_TASK\020\252\037\0228\n3ATOM_TASK_MANAGER_CR" +
+      "EATE_MERGE_JNILIBS_FOLDERS_TASK\020\253\037\022*\n%AT" +
+      "OM_TASK_MANAGER_CREATE_COMPILE_TASK\020\254\037\022+" +
+      "\n&ATOM_TASK_MANAGER_CREATE_BUNDLING_TASK" +
+      "\020\255\037\022\'\n\"ATOM_TASK_MANAGER_CREATE_LINT_TAS" +
+      "K\020\256\037\0227\n2INSTANTAPP_TASK_MANAGER_CREATE_M" +
+      "ERGE_MANIFEST_TASK\020\210\'\0228\n3INSTANTAPP_TASK" +
+      "_MANAGER_CREATE_ATOM_PACKAGING_TASKS\020\211\'\022" +
+      "4\n/INSTANTAPP_TASK_MANAGER_CREATE_PROCES" +
+      "S_RES_TASK\020\212\'\0222\n-INSTANTAPP_TASK_MANAGER",
+      "_CREATE_PACKAGING_TASK\020\213\'\"\320\020\n\023GradleTask" +
+      "Execution\0226\n\004type\030\001 \001(\0162(.android_studio" +
+      ".GradleTaskExecution.Type\022\020\n\010did_work\030\002 " +
+      "\001(\010\022\017\n\007skipped\030\003 \001(\010\022\022\n\nup_to_date\030\004 \001(\010" +
+      "\022\016\n\006failed\030\005 \001(\010\"\271\017\n\004Type\022\025\n\021UNKNOWN_TAS" +
+      "K_TYPE\020\000\022\020\n\014AIDL_COMPILE\020\001\022\017\n\013ANDROID_JA" +
+      "R\020\002\022\030\n\024ANDROID_JAVA_COMPILE\020\003\022\022\n\016ANDROID" +
+      "_REPORT\020\004\022\025\n\021ANDROID_UNIT_TEST\020\005\022\022\n\016BUIL" +
+      "D_EMULATOR\020\006\022\025\n\021BUILD_INFO_LOADER\020\007\022\022\n\016C" +
+      "HECK_MANIFEST\020\010\022\037\n\033COMPATIBLE_SCREENS_MA",
+      "NIFEST\020\t\022\035\n\031CREATE_MANIFEST_KEEP_LIST\020\n\022" +
+      "\"\n\036DATA_BINDING_EXPORT_BUILD_INFO\020\013\022 \n\034D" +
+      "ATA_BINDING_PROCESS_LAYOUTS\020\014\022\025\n\021DEPENDE" +
+      "NCY_REPORT\020\r\022#\n\037DEVICE_PROVIDER_INSTRUME" +
+      "NT_TEST\020\016\022\031\n\025EXTERNAL_BUILD_ANCHOR\020\017\022\036\n\032" +
+      "EXTERNAL_NATIVE_BUILD_JSON\020\020\022\031\n\025EXTERNAL" +
+      "_NATIVE_BUILD\020\021\022\027\n\023EXTRACT_ANNOTATIONS\020\022" +
+      "\022\032\n\026EXTRACT_JAVA_RESOURCES\020\023\022\032\n\026EXTRACT_" +
+      "PROGUARD_FILES\020\024\022!\n\035FAST_DEPLOY_RUNTIME_" +
+      "EXTRACTOR\020\025\022\025\n\021FILTERED_JAR_COPY\020\026\022\025\n\021GE",
+      "NERATE_APK_DATA\020\027\022\031\n\025GENERATE_BUILD_CONF" +
+      "IG\020\030\022!\n\035GENERATE_INSTANT_RUN_APP_INFO\020\031\022" +
+      "\027\n\023GENERATE_RES_VALUES\020\032\022\032\n\026GENERATE_SPL" +
+      "IT_ABI_RES\020\033\022\023\n\017GOOGLE_SERVICES\020\034\022\031\n\025INC" +
+      "REMENTAL_SAFEGUARD\020\035\022\023\n\017INSTALL_VARIANT\020" +
+      "\036\022!\n\035INSTANT_RUN_SPLIT_APK_BUILDER\020\037\022\027\n\023" +
+      "INSTANT_RUN_WRAPPER\020 \022\032\n\026INVOKE_MANIFEST" +
+      "_MERGER\020!\022\026\n\022JACK_JACOCO_REPORT\020\"\022\021\n\rJAC" +
+      "OCO_REPORT\020#\022\010\n\004LINT\020$\022\020\n\014LINT_COMPILE\020%" +
+      "\022\016\n\nMERGE_FILE\020&\022\023\n\017MERGE_MANIFESTS\020\'\022\023\n",
+      "\017MERGE_RESOURCES\020(\022\034\n\030MERGE_SOURCE_SET_F" +
+      "OLDERS\020)\022\030\n\024MOCKABLE_ANDROID_JAR\020*\022\017\n\013ND" +
+      "K_COMPILE\020+\022\007\n\003NDK\020,\022\027\n\023PACKAGE_APPLICAT" +
+      "ION\020-\022\025\n\021PACKAGE_SPLIT_ABI\020.\022\025\n\021PACKAGE_" +
+      "SPLIT_RES\020/\022\021\n\rPRE_COLD_SWAP\0200\022\030\n\024PREPAR" +
+      "E_DEPENDENCIES\0201\022\023\n\017PREPARE_LIBRARY\0202\022\035\n" +
+      "\031PROCESS_ANDROID_RESOURCES\0203\022\024\n\020PROCESS_" +
+      "MANIFEST\0204\022\031\n\025PROCESS_TEST_MANIFEST\0205\022\030\n" +
+      "\024RENDERSCRIPT_COMPILE\0206\022\022\n\016SHADER_COMPIL" +
+      "E\0207\022\022\n\016SIGNING_REPORT\0208\022\024\n\020SINGLE_FILE_C",
+      "OPY\0209\022\017\n\013SOURCE_SETS\020:\022\023\n\017SPLIT_ZIP_ALIG" +
+      "N\020;\022\020\n\014STREAM_BASED\020<\022\026\n\022STRIP_DEBUG_SYM" +
+      "BOL\020=\022\026\n\022STRIP_DEPENDENCIES\020>\022\031\n\025TEST_MO" +
+      "DULE_PRO_GUARD\020?\022\017\n\013TEST_SERVER\020@\022\r\n\tTRA" +
+      "NSFORM\020A\022\r\n\tUNINSTALL\020B\022\024\n\020VALIDATE_SIGN" +
+      "ING\020C\022\r\n\tZIP_ALIGN\020D\022\020\n\014JAVA_COMPILE\020E\022\025" +
+      "\n\021BUILD_INFO_WRITER\020F\022\017\n\013BUNDLE_ATOM\020G\022&" +
+      "\n\"CHECK_MANIFEST_IN_INSTANT_RUN_MODE\020H\022\031" +
+      "\n\025EXTERNAL_NATIVE_CLEAN\020I\022\032\n\026GENERATE_AT" +
+      "OM_METADATA\020J\022!\n\035GENERATE_INSTANT_APP_ME",
+      "TADATA\020K\022\024\n\020JAVA_PRE_COMPILE\020L\022\034\n\030MERGE_" +
+      "DEX_ATOM_RES_CLASS\020M\022\020\n\014PACKAGE_ATOM\020N\022\027" +
+      "\n\023PACKAGE_INSTANT_APP\020O\022\020\n\014PREPARE_ATOM\020" +
+      "P\022!\n\035PROCESS_INSTANT_APP_RESOURCES\020Q\"\263\004\n" +
+      "\030GradleTransformExecution\022;\n\004type\030\001 \001(\0162" +
+      "-.android_studio.GradleTransformExecutio" +
+      "n.Type\022\026\n\016is_incremental\030\002 \001(\010\"\301\003\n\004Type\022" +
+      "\032\n\026UNKNOWN_TRANSFORM_TYPE\020\000\022\007\n\003DEX\020\001\022\020\n\014" +
+      "EXTRACT_JARS\020\002\022\023\n\017INSTANT_RUN_DEX\020\003\022\026\n\022I" +
+      "NSTANT_RUN_SLICER\020\004\022\017\n\013INSTANT_RUN\020\005\022\027\n\023",
+      "INSTANT_RUN_VERIFER\020\006\022\020\n\014JACK_PRE_DEX\020\007\022" +
+      "\010\n\004JACK\020\010\022\n\n\006JACOCO\020\t\022\017\n\013JAR_MERGING\020\n\022\017" +
+      "\n\013LIBRARY_JAR\020\013\022\024\n\020LIBRARY_JNI_LIBS\020\014\022\030\n" +
+      "\024MERGE_JAVA_RESOURCES\020\r\022\r\n\tMULTI_DEX\020\016\022\020" +
+      "\n\014NEW_SHRINKER\020\017\022\027\n\023NO_CHANGES_VERIFIER\020" +
+      "\020\022\r\n\tPRO_GUARD\020\021\022\024\n\020SHRINK_RESOURCES\020\022\022 " +
+      "\n\034DATA_BINDING_MERGE_ARTIFACTS\020\023\022\030\n\024INST" +
+      "ANT_RUN_VERIFIER\020\024\022\026\n\022STRIP_DEBUG_SYMBOL" +
+      "\020\025\"\256\t\n\020InstantRunStatus\022>\n\nbuild_mode\030\001 " +
+      "\001(\0162*.android_studio.InstantRunStatus.Bu",
+      "ildMode\022H\n\017patching_policy\030\002 \001(\0162/.andro" +
+      "id_studio.InstantRunStatus.PatchingPolic" +
+      "y\022H\n\017verifier_status\030\003 \001(\0162/.android_stu" +
+      "dio.InstantRunStatus.VerifierStatus\0224\n\010a" +
+      "rtifact\030\004 \003(\0132\".android_studio.InstantRu" +
+      "nArtifact\"E\n\tBuildMode\022\026\n\022UNKNOWN_BUILD_" +
+      "MODE\020\000\022\014\n\010HOT_WARM\020\001\022\010\n\004COLD\020\002\022\010\n\004FULL\020\003" +
+      "\"]\n\016PatchingPolicy\022\033\n\027UNKNOWN_PATCHING_P" +
+      "OLICY\020\000\022\020\n\014PRE_LOLLIPOP\020\001\022\r\n\tMULTI_DEX\020\002" +
+      "\022\r\n\tMULTI_APK\020\003\"\351\005\n\016VerifierStatus\022\033\n\027UN",
+      "KNOWN_VERIFIER_STATUS\020\000\022\016\n\nCOMPATIBLE\020\001\022" +
+      "\013\n\007NOT_RUN\020\002\022\030\n\024INSTANT_RUN_DISABLED\020\003\022\027" +
+      "\n\023INSTANT_RUN_FAILURE\020\004\022\017\n\013CLASS_ADDED\020\005" +
+      "\022\030\n\024PARENT_CLASS_CHANGED\020\006\022!\n\035IMPLEMENTE" +
+      "D_INTERFACES_CHANGE\020\007\022\033\n\027CLASS_ANNOTATIO" +
+      "N_CHANGE\020\010\022\035\n\031STATIC_INITIALIZER_CHANGE\020" +
+      "\t\022 \n\034CONSTRUCTOR_SIGNATURE_CHANGE\020\n\022\033\n\027M" +
+      "ETHOD_SIGNATURE_CHANGE\020\013\022\034\n\030METHOD_ANNOT" +
+      "ATION_CHANGE\020\014\022\022\n\016METHOD_DELETED\020\r\022\020\n\014ME" +
+      "THOD_ADDED\020\016\022\017\n\013FIELD_ADDED\020\017\022\021\n\rFIELD_R",
+      "EMOVED\020\020\022\025\n\021FIELD_TYPE_CHANGE\020\021\022\022\n\016R_CLA" +
+      "SS_CHANGE\020\022\022\023\n\017REFLECTION_USED\020\023\022\032\n\026JAVA" +
+      "_RESOURCES_CHANGED\020\024\022\026\n\022DEPENDENCY_CHANG" +
+      "ED\020\025\022\030\n\024MANIFEST_FILE_CHANGE\020\026\022\037\n\033BINARY" +
+      "_MANIFEST_FILE_CHANGE\020\027\022\027\n\023COLD_SWAP_REQ" +
+      "UESTED\020\030\022\030\n\024FULL_BUILD_REQUESTED\020\031\022\021\n\rIN" +
+      "ITIAL_BUILD\020\032\022\016\n\nNO_CHANGES\020\033\0224\n0CHANGE_" +
+      "IN_SERIALIZABLE_CLASS_WITHOUT_VERSION_UI" +
+      "D\020\034\"\261\001\n\022InstantRunArtifact\0225\n\004type\030\001 \001(\016" +
+      "2\'.android_studio.InstantRunArtifact.Typ",
+      "e\"d\n\004Type\022\010\n\004MAIN\020\001\022\016\n\nSPLIT_MAIN\020\002\022\016\n\nR" +
+      "ELOAD_DEX\020\003\022\017\n\013RESTART_DEX\020\004\022\007\n\003DEX\020\005\022\t\n" +
+      "\005SPLIT\020\006\022\r\n\tRESOURCES\020\007\"(\n\023LLDBFrontendD" +
+      "etails\022\021\n\texit_code\030\001 \001(\005\"-\n\024FirebaseErr" +
+      "orDetails\022\025\n\rerror_message\030\001 \001(\t\"\244\001\n\021Gfx" +
+      "TracingDetails\022\022\n\ntotal_time\030\001 \001(\003\022\017\n\007co" +
+      "mmand\030\002 \001(\t\022\025\n\rerror_message\030\003 \001(\t\022\022\n\ntr" +
+      "ace_path\030\004 \001(\t\022\024\n\014image_format\030\005 \001(\t\022\023\n\013" +
+      "image_width\030\006 \001(\003\022\024\n\014image_height\030\007 \001(\003\"" +
+      "C\n\023TestRecorderDetails\022\023\n\013event_count\030\001 ",
+      "\001(\003\022\027\n\017assertion_count\030\002 \001(\003\"\371\001\n\rUIActio" +
+      "nStats\022\031\n\021action_class_name\030\001 \001(\t\022\023\n\013inv" +
+      "ocations\030\002 \001(\003\022E\n\017invocation_kind\030\003 \001(\0162" +
+      ",.android_studio.UIActionStats.Invocatio" +
+      "nKind\"q\n\016InvocationKind\022\033\n\027UNKNOWN_INVOC" +
+      "ATION_KIND\020\000\022\013\n\007TOOLBAR\020\001\022\010\n\004MENU\020\002\022\025\n\021K" +
+      "EYBOARD_SHORTCUT\020\003\022\t\n\005MACRO\020\004\022\t\n\005MOUSE\020\005" +
+      "\"\206\001\n\016MachineDetails\022\021\n\ttotal_ram\030\001 \001(\003\022\022" +
+      "\n\ntotal_disk\030\002 \001(\003\022/\n\007display\030\003 \003(\0132\036.an" +
+      "droid_studio.DisplayDetails\022\034\n\024available",
+      "_processors\030\004 \001(\005\"q\n\016DisplayDetails\022\r\n\005w" +
+      "idth\030\001 \001(\003\022\016\n\006height\030\002 \001(\003\022 \n\030dots_per_i" +
+      "nch_horizontal\030\003 \001(\005\022\036\n\026dots_per_inch_ve" +
+      "rtical\030\004 \001(\005\"\310\001\n\020JavaProcessStats\022\031\n\021hea" +
+      "p_memory_usage\030\001 \001(\003\022\035\n\025non_heap_memory_" +
+      "usage\030\002 \001(\003\022\032\n\022loaded_class_count\030\003 \001(\005\022" +
+      "\024\n\014thread_count\030\004 \001(\005\022H\n\030garbage_collect" +
+      "ion_stats\030\005 \003(\0132&.android_studio.Garbage" +
+      "CollectionStats\"O\n\026GarbageCollectionStat" +
+      "s\022\014\n\004name\030\001 \001(\t\022\026\n\016gc_collections\030\002 \001(\003\022",
+      "\017\n\007gc_time\030\003 \001(\003\"\265\003\n\nJvmDetails\022\014\n\004name\030" +
+      "\001 \001(\t\022\017\n\007version\030\002 \001(\t\022\016\n\006vendor\030\003 \001(\t\022\031" +
+      "\n\021minimum_heap_size\030\004 \001(\003\022\031\n\021maximum_hea" +
+      "p_size\030\005 \001(\003\022$\n\034maximum_permanent_space_" +
+      "size\030\006 \001(\003\022\037\n\027maximum_code_cache_size\030\007 " +
+      "\001(\003\022!\n\031soft_reference_lru_policy\030\010 \001(\003\022F" +
+      "\n\021garbage_collector\030\t \001(\0162+.android_stud" +
+      "io.JvmDetails.GarbageCollector\"\217\001\n\020Garba" +
+      "geCollector\022\022\n\016UNSPECIFIED_GC\020\000\022\034\n\030CONCU" +
+      "RRENT_MARK_SWEEP_GC\020\001\022\024\n\020GARBAGE_FIRST_G",
+      "C\020\002\022\017\n\013PARALLEL_GC\020\003\022\023\n\017PARALLEL_OLD_GC\020" +
+      "\004\022\r\n\tSERIAL_GC\020\005\"3\n\026StudioPerformanceSta" +
+      "ts\022\031\n\021ui_freeze_time_ms\030\001 \001(\005B;\n%com.goo" +
+      "gle.wireless.android.sdk.statsB\022AndroidS" +
+      "tudioStats"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -63012,7 +63899,7 @@ public final class AndroidStudioStats {
           internal_static_android_studio_AndroidStudioEvent_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_android_studio_AndroidStudioEvent_descriptor,
-              new java.lang.String[] { "Category", "Kind", "StudioSessionId", "ProductDetails", "MonitorType", "MonitorPaused", "ProfilerCaptureType", "CloudTestingErrorMessage", "CloudTestingLoadedScreenshotsCount", "RunConfigurationType", "DebuggerType", "DeviceInfo", "LldbSessionFailureMessage", "DeveloperServiceKind", "GradleVersion", "GradleSyncFailure", "GradleMissingSignature", "TemplateRenderer", "StudioCrash", "GradleBuildDetails", "InstantRun", "MetaMetrics", "EmulatorDetails", "TestRun", "EmulatorUiEvent", "Hypervisor", "EmulatorHost", "GradleBuildProfile", "LldbFrontendDetails", "FirebaseErrorDetails", "ProjectId", "GfxTracingDetails", "TestRecorderDetails", "UiActionStats", "MachineDetails", "JvmDetails", "JavaProcessStats", });
+              new java.lang.String[] { "Category", "Kind", "StudioSessionId", "ProductDetails", "MonitorType", "MonitorPaused", "ProfilerCaptureType", "CloudTestingErrorMessage", "CloudTestingLoadedScreenshotsCount", "RunConfigurationType", "DebuggerType", "DeviceInfo", "LldbSessionFailureMessage", "DeveloperServiceKind", "GradleVersion", "GradleSyncFailure", "GradleMissingSignature", "TemplateRenderer", "StudioCrash", "GradleBuildDetails", "InstantRun", "MetaMetrics", "EmulatorDetails", "TestRun", "EmulatorUiEvent", "Hypervisor", "EmulatorHost", "GradleBuildProfile", "LldbFrontendDetails", "FirebaseErrorDetails", "ProjectId", "GfxTracingDetails", "TestRecorderDetails", "UiActionStats", "MachineDetails", "JvmDetails", "JavaProcessStats", "StudioPerformanceStats", });
           internal_static_android_studio_ProductDetails_descriptor =
             getDescriptor().getMessageTypes().get(1);
           internal_static_android_studio_ProductDetails_fieldAccessorTable = new
@@ -63241,6 +64128,12 @@ public final class AndroidStudioStats {
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_android_studio_JvmDetails_descriptor,
               new java.lang.String[] { "Name", "Version", "Vendor", "MinimumHeapSize", "MaximumHeapSize", "MaximumPermanentSpaceSize", "MaximumCodeCacheSize", "SoftReferenceLruPolicy", "GarbageCollector", });
+          internal_static_android_studio_StudioPerformanceStats_descriptor =
+            getDescriptor().getMessageTypes().get(39);
+          internal_static_android_studio_StudioPerformanceStats_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_android_studio_StudioPerformanceStats_descriptor,
+              new java.lang.String[] { "UiFreezeTimeMs", });
           return null;
         }
       };
