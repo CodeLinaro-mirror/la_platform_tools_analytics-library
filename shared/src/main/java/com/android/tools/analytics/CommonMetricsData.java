@@ -347,6 +347,7 @@ public class CommonMetricsData {
                 .setNonHeapMemoryUsage(memoryBean.getNonHeapMemoryUsage().getUsed())
                 .setLoadedClassCount(classLoadingBean.getLoadedClassCount())
                 .addAllGarbageCollectionStats(getGarbageCollectionStats())
+                .setThreadCount(HostData.getThreadBean().getThreadCount())
                 .build();
     }
 

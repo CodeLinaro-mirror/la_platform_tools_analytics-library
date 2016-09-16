@@ -25,6 +25,7 @@ import com.android.tools.analytics.stubs.StubGraphicsEnvironment;
 import com.android.tools.analytics.stubs.StubMemoryBean;
 import com.android.tools.analytics.stubs.StubOperatingSystemMXBean;
 import com.android.tools.analytics.stubs.StubRuntimeMXBean;
+import com.android.tools.analytics.stubs.StubThreadBean;
 import com.google.common.collect.ImmutableList;
 import com.google.wireless.android.sdk.stats.AndroidStudioStats.DeviceInfo.ApplicationBinaryInterface;
 import com.google.wireless.android.sdk.stats.AndroidStudioStats.DisplayDetails;
@@ -478,6 +479,14 @@ public class CommonMetricsDataTest {
                         }
                     };
 
+            HostData.sThreadBean =
+                    new StubThreadBean() {
+                        @Override
+                        public int getThreadCount() {
+                            return 5;
+                        }
+                    };
+
             JavaProcessStats expected =
                     JavaProcessStats.newBuilder()
                             .setHeapMemoryUsage(2)
@@ -495,6 +504,7 @@ public class CommonMetricsDataTest {
                                             .setGcCollections(404)
                                             .setGcTime(512)
                                             .build())
+                            .setThreadCount(5)
                             .build();
 
             JavaProcessStats result = CommonMetricsData.getJavaProcessStats();

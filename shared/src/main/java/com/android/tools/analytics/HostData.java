@@ -23,6 +23,7 @@ import java.lang.management.GarbageCollectorMXBean;
 import java.lang.management.ManagementFactory;
 import java.lang.management.MemoryMXBean;
 import java.lang.management.RuntimeMXBean;
+import java.lang.management.ThreadMXBean;
 import java.util.List;
 
 /**
@@ -31,12 +32,14 @@ import java.util.List;
  */
 @VisibleForTesting
 class HostData {
+
     @VisibleForTesting static OperatingSystemMXBean sOsBean;
     @VisibleForTesting static RuntimeMXBean sRuntimeBean;
     @VisibleForTesting static GraphicsEnvironment sGraphicsEnvironment;
     @VisibleForTesting static MemoryMXBean sMemoryBean;
     @VisibleForTesting static ClassLoadingMXBean sClassLoadingBean;
     @VisibleForTesting static List<GarbageCollectorMXBean> sGarbageCollectorBeans;
+    @VisibleForTesting static ThreadMXBean sThreadBean;
 
     public static OperatingSystemMXBean getOsBean() {
         if (sOsBean == null) {
@@ -79,4 +82,12 @@ class HostData {
         }
         return sGarbageCollectorBeans;
     }
+
+    public static ThreadMXBean getThreadBean() {
+        if (sThreadBean == null) {
+            sThreadBean = ManagementFactory.getThreadMXBean();
+        }
+        return sThreadBean;
+    }
+
 }
