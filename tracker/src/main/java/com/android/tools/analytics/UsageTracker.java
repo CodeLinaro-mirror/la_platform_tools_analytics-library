@@ -39,7 +39,7 @@ import java.util.concurrent.TimeUnit;
 public abstract class UsageTracker implements AutoCloseable {
     private static final Object sGate = new Object();
 
-    @VisibleForTesting static final String sSessionId = UUID.randomUUID().toString();
+    @VisibleForTesting static String sSessionId = UUID.randomUUID().toString();
     @VisibleForTesting public static DateProvider sDateProvider = DateProvider.SYSTEM;
     private static UsageTracker sInstance = new NullUsageTracker(new AnalyticsSettings(), null);
 

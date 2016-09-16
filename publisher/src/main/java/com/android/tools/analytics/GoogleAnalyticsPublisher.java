@@ -24,7 +24,12 @@ import com.android.utils.StdLogger;
 import com.google.common.io.CountingOutputStream;
 import com.google.wireless.android.play.playlog.proto.ClientAnalytics;
 import com.google.wireless.android.sdk.stats.AndroidStudioStats;
-import java.io.*;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.RandomAccessFile;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -274,13 +279,13 @@ public class GoogleAnalyticsPublisher extends AnalyticsPublisher {
         // GZip the content to save bandwidth.
         connection.setRequestProperty("Content-Encoding", "gzip");
         byte[] requestBytes = request.toByteArray();
-
         try (OutputStream output = connection.getOutputStream();
-             BufferedOutputStream buffered = new BufferedOutputStream(output);
-             CountingOutputStream counted = new CountingOutputStream(buffered);
-             GZIPOutputStream zipped = new GZIPOutputStream(counted)) {
-             zipped.write(requestBytes);
-             mBytesSentInLastPublish = counted.getCount();
+                BufferedOutputStream buffered = new BufferedOutputStream(output);
+                CountingOutputStream counted = new CountingOutputStream(buffered)) {
+            try (GZIPOutputStream zipped = new GZIPOutputStream(counted, true)) {
+                zipped.write(requestBytes);
+            }
+            mBytesSentInLastPublish = counted.getCount();
         }
 
         connection.connect();

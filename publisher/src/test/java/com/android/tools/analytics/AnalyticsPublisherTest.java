@@ -36,7 +36,6 @@ import java.net.URL;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.UUID;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import org.junit.Rule;
@@ -92,8 +91,7 @@ public class AnalyticsPublisherTest {
     private static AnalyticsSettings getTestAnalyticsSettings() {
         AnalyticsSettings analyticsSettings = new AnalyticsSettings();
         analyticsSettings.setHasOptedIn(true);
-        String uid = UUID.randomUUID().toString();
-        analyticsSettings.setUserId(uid);
+        analyticsSettings.setUserId("f59e9566-2416-42a9-a159-b91fa484e4d7");
         return analyticsSettings;
     }
 
@@ -298,9 +296,14 @@ public class AnalyticsPublisherTest {
             // Use the JournalingUsageTracker to place some .trk files with events in the spool
             // directory.
             VirtualTimeScheduler vs = new VirtualTimeScheduler();
+
+            // hardcode session id to ensure stable compression sizes.
+            UsageTracker.sSessionId = "2a2a42e3-80b4-418f-8e19-21af36146a58";
+
             JournalingUsageTracker journalingUsageTracker =
                     new JournalingUsageTracker(
                             new AnalyticsSettings(), vs, testSpoolDir.getRoot().toPath());
+
             journalingUsageTracker.log(logged);
             vs.advanceBy(0);
             journalingUsageTracker.close();
@@ -362,7 +365,7 @@ public class AnalyticsPublisherTest {
                                             // ensure that the previous failure is reported in the
                                             // meta metrics.
                                             .setFailedServerReplies(1)
-                                            .setBytesSentInLastUpload(10)
+                                            .setBytesSentInLastUpload(194)
                                             .build())
                             .build(),
                     metaStudioEvent);
@@ -397,7 +400,7 @@ public class AnalyticsPublisherTest {
                                     MetaMetrics.newBuilder()
                                             .setFailedConnections(0)
                                             .setFailedServerReplies(0)
-                                            .setBytesSentInLastUpload(10)
+                                            .setBytesSentInLastUpload(195)
                                             .build())
                             .build(),
                     metaStudioEvent);
