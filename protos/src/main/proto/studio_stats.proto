@@ -264,6 +264,10 @@ message AndroidStudioEvent {
     STUDIO_PERFORMANCE_STATS = 99;
     // Performance stats for LLDB operations.
     LLDB_PERFORMANCE_STATS = 100;
+    // User opened a project in the IDE.
+    STUDIO_PROJECT_OPENED = 101;
+    // User closed a project in the IDE.
+    STUDIO_PROJECT_CLOSED = 102;
   }
   // Represents different Performance Monitoring types.
   enum MonitorType {
@@ -471,6 +475,8 @@ message AndroidStudioEvent {
   optional .android_studio.StudioPerformanceStats studio_performance_stats = 38;
   // set when kind = LLDB_PERFORMANCE_STATS
   optional .android_studio.LldbPerformanceStats lldb_performance_stats = 39;
+  // set when kind = STUDIO_PROJECT_OPENED or STUDIO_PROJECT_CLOSED
+  optional .android_studio.StudioProjectChange studio_project_change = 40;
 }
 
 // Describes a product, e.g. Android Studio or Emulator.
@@ -1714,6 +1720,12 @@ message LldbPercentileEstimator {
 message LldbPerformanceStats {
   // Collection of estimations of performance metrics.
   repeated .android_studio.LldbPercentileEstimator estimator = 1;
+}
+
+// Details around user opening or closing projects.
+message StudioProjectChange {
+  // amount of projects open in same Android Studio instance.
+  optional int32 projects_open = 1;
 }
 
 
