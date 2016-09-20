@@ -262,6 +262,8 @@ message AndroidStudioEvent {
     STUDIO_PROCESS_STATS = 98;
     // Stats on Studio's performance
     STUDIO_PERFORMANCE_STATS = 99;
+    // Performance stats for LLDB operations.
+    LLDB_PERFORMANCE_STATS = 100;
   }
   // Represents different Performance Monitoring types.
   enum MonitorType {
@@ -467,6 +469,8 @@ message AndroidStudioEvent {
   optional .android_studio.JavaProcessStats java_process_stats = 37;
   // set when kind = STUDIO_PERFORMANCE_STATS
   optional .android_studio.StudioPerformanceStats studio_performance_stats = 38;
+  // set when kind = LLDB_PERFORMANCE_STATS
+  optional .android_studio.LldbPerformanceStats lldb_performance_stats = 39;
 }
 
 // Describes a product, e.g. Android Studio or Emulator.
@@ -609,6 +613,12 @@ message EmulatorGpuInfo {
   optional string renderer = 6;
 }
 
+// Set of emulator feature flags to report ones used during current session.
+message EmulatorFeatures {
+  optional bool gps = 1;
+  optional bool sensors = 2;
+}
+
 // Metrics related to the Emulator.
 message EmulatorDetails {
   // Emulator instance liveness as determined via adb connectivity.
@@ -647,6 +657,17 @@ message EmulatorDetails {
     MIPS = 5;
     MIPS_64 = 6;
   }
+  // Rendering method emulator uses for the reporter session.
+  enum EmulatorRenderer {
+    UNKNOWN_EMULATOR_RENDERER = 0;
+    HOST = 1;
+    OFF = 2;
+    GUEST = 3;
+    MESA = 4;
+    SWIFTSHADER = 5;
+    ANGLE = 6;
+    ERROR_IN_EMULATOR_RENDERER = 255;
+  }
   // Cpu architecture of the guest.
   optional .android_studio.EmulatorDetails.GuestCpuArchitecture guest_arch = 1;
   // cpu time spent in kernel mode in milliseconds since last metrics report.
@@ -673,6 +694,12 @@ message EmulatorDetails {
   repeated .android_studio.EmulatorGpuInfo host_gpu = 13;
   // The "phase" of an emulator session where crash happened.
   optional .android_studio.EmulatorDetails.EmulatorSessionPhase session_phase = 14;
+  // The emulator core version (e.g. QEMU engine's version).
+  optional string core_version = 15;
+  // Renderer of the current emulator session.
+  optional .android_studio.EmulatorDetails.EmulatorRenderer renderer = 16;
+  // Flags for the used featurs.
+  optional .android_studio.EmulatorFeatures used_features = 17;
 }
 
 // Describes a user clicking on some part of the Emulator UI.
@@ -1645,6 +1672,48 @@ message JvmDetails {
 message StudioPerformanceStats {
   // Time for which the UI was blocked in milliseconds
   optional int32 ui_freeze_time_ms = 1;
+}
+
+// One bucket of a PercentileEstimator.
+message PercentileBucket {
+  // The target percentile for this bucket.
+  optional double target_percentile = 1;
+  // Estimated value at this bucket.
+  optional double value = 2;
+  // Number of samples less than value.
+  optional uint64 count = 3;
+}
+
+// Estimation of target percentiles of a stream of data.
+message PercentileEstimator {
+  // Either raw_sample or bucket should be empty.
+  // Raw samples when there were not enough samples to interpolate.
+  repeated double raw_sample = 2;
+  // 2n + 3 buckets representing an estimation for n target percentiles.
+  repeated .android_studio.PercentileBucket bucket = 3;
+}
+
+message LldbPercentileEstimator {
+  // Metric types that can be monitored.
+  enum Metric {
+    ATTACH_TIME_MICROS = 0;
+    STEP_RESUME_RESPONSE_TIME_MICROS = 1;
+    GET_VARIABLES_TIME_MICROS = 2;
+    GET_VARIABLE_CHILDREN_RANGE_TIME_MICROS = 3;
+    GET_FRAMES_TIME_MICROS = 4;
+    ADD_SYMBOLIC_BREAKPOINT_TIME_MICROS = 5;
+    ADD_BREAKPOINT_TIME_MICROS = 6;
+  }
+  // Type of performance metric.
+  optional .android_studio.LldbPercentileEstimator.Metric metric = 1;
+  // Estimator for metric.
+  optional .android_studio.PercentileEstimator estimator = 2;
+}
+
+// Estimations of percentiles of time spent on LLDB operations.
+message LldbPerformanceStats {
+  // Collection of estimations of performance metrics.
+  repeated .android_studio.LldbPercentileEstimator estimator = 1;
 }
 
 
