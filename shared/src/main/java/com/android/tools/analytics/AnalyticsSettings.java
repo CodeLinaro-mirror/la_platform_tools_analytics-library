@@ -223,13 +223,13 @@ public class AnalyticsSettings {
             try {
                 sInstance = loadSettings();
             } catch (IOException e) {
-                logger.error(e, "Unable to load analytics settings.");
+                logger.info("Unable to load analytics settings: %s", e.getMessage());
             }
             if (sInstance == null) {
                 try {
                     sInstance = createNewAnalyticsSettings();
                 } catch (IOException e) {
-                    logger.error(e, "Unable to create new analytics settings.");
+                    logger.info("Unable to create new analytics settings: %s", e.getMessage());
                 }
             }
             if (sInstance == null) {
