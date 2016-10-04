@@ -187,7 +187,7 @@ public class AnalyticsSettings {
     static AnalyticsSettings createNewAnalyticsSettings() throws IOException {
         AnalyticsSettings settings = new AnalyticsSettings();
 
-        File uidFile = Paths.get(AnalyticsPaths.getAndroidSettingsHome(), "uid.txt").toFile();
+        File uidFile = Paths.get(AnalyticsPaths.getAndEnsureAndroidSettingsHome(), "uid.txt").toFile();
         if (uidFile.exists()) {
             try {
                 String uid = Files.readFirstLine(uidFile, Charsets.UTF_8);
@@ -254,7 +254,7 @@ public class AnalyticsSettings {
      * home.
      */
     private static File getSettingsFile() {
-        return Paths.get(AnalyticsPaths.getAndroidSettingsHome(), "analytics.settings").toFile();
+        return Paths.get(AnalyticsPaths.getAndEnsureAndroidSettingsHome(), "analytics.settings").toFile();
     }
 
     /**

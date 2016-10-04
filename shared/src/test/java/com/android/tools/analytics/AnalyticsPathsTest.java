@@ -17,14 +17,21 @@
 package com.android.tools.analytics;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.After;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TemporaryFolder;
+
+import java.io.File;
 
 /**
  * Tests for {@link AnalyticsPaths}.
  */
 public class AnalyticsPathsTest {
+    @Rule
+    public TemporaryFolder testConfigDir = new TemporaryFolder();
 
     @After
     public void setSystemEnvironment() throws Exception {
@@ -37,12 +44,22 @@ public class AnalyticsPathsTest {
         EnvironmentFakes.setNoEnvironmentVariable();
         assertEquals(
                 System.getProperty("user.home") + "/.android",
-                AnalyticsPaths.getAndroidSettingsHome());
+                AnalyticsPaths.getAndEnsureAndroidSettingsHome());
 
         // Test using the ANDROID_SDK_HOME environment variable.
         String customRoot = "/a/b/c";
         EnvironmentFakes.setCustomAndroidSdkHomeEnvironment(customRoot);
-        assertEquals(customRoot, AnalyticsPaths.getAndroidSettingsHome());
+        assertEquals(customRoot, AnalyticsPaths.getAndEnsureAndroidSettingsHome());
+    }
+
+    @Test
+    public void getAndroidSettingsHomeCreated() throws Exception {
+        String customPath = testConfigDir.getRoot().toPath().resolve(".android").toString();
+        EnvironmentFakes.setCustomAndroidSdkHomeEnvironment(customPath);
+        assertEquals(customPath, AnalyticsPaths.getAndEnsureAndroidSettingsHome());
+        File androidHomeFile = new File(customPath);
+        assertTrue(androidHomeFile.exists());
+        assertTrue(androidHomeFile.isDirectory());
     }
 
     @Test

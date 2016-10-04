@@ -18,6 +18,7 @@ package com.android.tools.analytics;
 
 import com.google.common.base.Strings;
 
+import java.io.File;
 import java.nio.file.Paths;
 
 /**
@@ -28,17 +29,18 @@ public class AnalyticsPaths {
      * Gets the spooling directory used for temporary storage of analytics data.
      */
     public static String getSpoolDirectory() {
-        return Paths.get(getAndroidSettingsHome(), "metrics", "spool").toString();
+        return Paths.get(getAndEnsureAndroidSettingsHome(), "metrics", "spool").toString();
     }
 
     /**
      * Gets the directory used to store android related settings (usually ~/.android).
      */
-    public static String getAndroidSettingsHome() {
-        String env = Environment.getInstance().getVariable("ANDROID_SDK_HOME");
-        if (!Strings.isNullOrEmpty(env)) {
-            return env;
+    public static String getAndEnsureAndroidSettingsHome() {
+        String home = Environment.getInstance().getVariable("ANDROID_SDK_HOME");
+        if (Strings.isNullOrEmpty(home)) {
+            home = Paths.get(System.getProperty("user.home"), ".android").toString();
         }
-        return Paths.get(System.getProperty("user.home"), ".android").toString();
+        new File(home).mkdirs();
+        return home;
     }
 }
