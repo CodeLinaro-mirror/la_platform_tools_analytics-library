@@ -7,6 +7,7 @@ iml_module(
     exports = ["//tools/idea/.idea/libraries:protobuf"],
     javacopts = ["-extra_checks:off"],
     visibility = ["//visibility:public"],
+    tags = ["managed"],
 )
 
 iml_module(
@@ -29,6 +30,7 @@ iml_module(
     ],
     javacopts = ["-extra_checks:off"],
     visibility = ["//visibility:public"],
+    tags = ["managed"],
 )
 
 iml_module(
@@ -51,6 +53,7 @@ iml_module(
     ],
     javacopts = ["-extra_checks:off"],
     visibility = ["//visibility:public"],
+    tags = ["managed"],
 )
 
 iml_module(
@@ -74,6 +77,7 @@ iml_module(
     ],
     javacopts = ["-extra_checks:off"],
     visibility = ["//visibility:public"],
+    tags = ["managed"],
 )
 
 # TODO: Change iml_module generator to prepend "studio." to names above.
