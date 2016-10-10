@@ -16,6 +16,7 @@
 
 package com.android.tools.analytics;
 
+import com.android.prefs.AndroidLocation;
 import com.google.common.base.Strings;
 
 import java.io.File;
@@ -36,11 +37,11 @@ public class AnalyticsPaths {
      * Gets the directory used to store android related settings (usually ~/.android).
      */
     public static String getAndEnsureAndroidSettingsHome() {
-        String home = Environment.getInstance().getVariable("ANDROID_SDK_HOME");
-        if (Strings.isNullOrEmpty(home)) {
-            home = Paths.get(System.getProperty("user.home"), ".android").toString();
+        try {
+            return AndroidLocation.getFolder();
         }
-        new File(home).mkdirs();
-        return home;
+        catch (AndroidLocation.AndroidLocationException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
