@@ -457,6 +457,10 @@ public  final class GradleTaskExecution extends
      * <code>PROCESS_INSTANT_APP_RESOURCES = 81;</code>
      */
     PROCESS_INSTANT_APP_RESOURCES(81, 81),
+    /**
+     * <code>CLEAN_BUILD_CACHE = 82;</code>
+     */
+    CLEAN_BUILD_CACHE(82, 82),
     ;
 
     /**
@@ -787,6 +791,10 @@ public  final class GradleTaskExecution extends
      * <code>PROCESS_INSTANT_APP_RESOURCES = 81;</code>
      */
     public static final int PROCESS_INSTANT_APP_RESOURCES_VALUE = 81;
+    /**
+     * <code>CLEAN_BUILD_CACHE = 82;</code>
+     */
+    public static final int CLEAN_BUILD_CACHE_VALUE = 82;
 
 
     public final int getNumber() { return value; }
@@ -875,6 +883,7 @@ public  final class GradleTaskExecution extends
         case 79: return PACKAGE_INSTANT_APP;
         case 80: return PREPARE_ATOM;
         case 81: return PROCESS_INSTANT_APP_RESOURCES;
+        case 82: return CLEAN_BUILD_CACHE;
         default: return null;
       }
     }
