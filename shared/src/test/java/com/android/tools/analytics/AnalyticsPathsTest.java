@@ -50,6 +50,17 @@ public class AnalyticsPathsTest {
         String customRoot = "/a/b/c";
         EnvironmentFakes.setCustomAndroidSdkHomeEnvironment(customRoot);
         assertEquals(customRoot, AnalyticsPaths.getAndEnsureAndroidSettingsHome());
+
+        // Test using the ANDROID_SDK_HOME as a system property.
+        String property = "ANDROID_SDK_HOME";
+        String prev = System.getProperty(property);
+        System.setProperty(property, customRoot);
+        assertEquals(customRoot, AnalyticsPaths.getAndEnsureAndroidSettingsHome());
+        if (prev != null) {
+            System.setProperty(property, prev);
+        } else {
+            System.clearProperty(property);
+        }
     }
 
     @Test

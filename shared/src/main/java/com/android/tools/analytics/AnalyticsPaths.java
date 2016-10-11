@@ -38,6 +38,9 @@ public class AnalyticsPaths {
     public static String getAndEnsureAndroidSettingsHome() {
         String home = Environment.getInstance().getVariable("ANDROID_SDK_HOME");
         if (Strings.isNullOrEmpty(home)) {
+            home = System.getProperty("ANDROID_SDK_HOME");
+        }
+        if (Strings.isNullOrEmpty(home)) {
             home = Paths.get(System.getProperty("user.home"), ".android").toString();
         }
         new File(home).mkdirs();
