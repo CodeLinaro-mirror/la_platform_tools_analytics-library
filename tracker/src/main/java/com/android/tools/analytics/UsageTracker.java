@@ -103,11 +103,20 @@ public abstract class UsageTracker implements AutoCloseable {
     public void log(@NonNull AndroidStudioStats.AndroidStudioEvent.Builder studioEvent) {
         studioEvent.setStudioSessionId(sSessionId);
         long now = sDateProvider.now().getTime();
-        logDetails(
-                ClientAnalytics.LogEvent.newBuilder()
-                        .setEventTimeMs(now)
-                        .setEventUptimeMs(now - mStartTimeMs)
-                        .setSourceExtension(studioEvent.build().toByteString()));
+        try {
+            logDetails(
+                    ClientAnalytics.LogEvent.newBuilder()
+                            .setEventTimeMs(now)
+                            .setEventUptimeMs(now - mStartTimeMs)
+                            .setSourceExtension(studioEvent.build().toByteString()));
+        } catch (NullPointerException exception) {
+            // TODO: Temporary fix for http://b.android.com/224994. We should remove this try-catch
+            // block once there is a permanent fix.
+            logDetails(
+                    ClientAnalytics.LogEvent.newBuilder()
+                            .setEventTimeMs(now)
+                            .setEventUptimeMs(now - mStartTimeMs));
+        }
     }
 
     /**
