@@ -18,13 +18,17 @@ package com.android.tools.analytics;
 import com.android.annotations.NonNull;
 import com.android.annotations.VisibleForTesting;
 import com.google.common.base.Strings;
-import com.google.wireless.android.sdk.stats.AndroidStudioStats;
-import com.google.wireless.android.sdk.stats.AndroidStudioStats.DeviceInfo.ApplicationBinaryInterface;
-import com.google.wireless.android.sdk.stats.AndroidStudioStats.JavaProcessStats;
-import com.google.wireless.android.sdk.stats.AndroidStudioStats.JvmDetails;
-import com.google.wireless.android.sdk.stats.AndroidStudioStats.ProductDetails;
+import com.google.wireless.android.sdk.stats.DeviceInfo.ApplicationBinaryInterface;
+import com.google.wireless.android.sdk.stats.DisplayDetails;
+import com.google.wireless.android.sdk.stats.GarbageCollectionStats;
+import com.google.wireless.android.sdk.stats.JavaProcessStats;
+import com.google.wireless.android.sdk.stats.JvmDetails;
+import com.google.wireless.android.sdk.stats.MachineDetails;
+import com.google.wireless.android.sdk.stats.ProductDetails;
 import com.sun.management.OperatingSystemMXBean;
-import java.awt.*;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
+import java.awt.Rectangle;
 import java.io.File;
 import java.lang.management.ClassLoadingMXBean;
 import java.lang.management.GarbageCollectorMXBean;
@@ -58,13 +62,13 @@ public class CommonMetricsData {
 
     /** Used to calculate diffs between different reports of Garbage Collection stats. */
     @VisibleForTesting
-    static class GarbageCollectionStats {
+    static class GarbageCollectionStatsDiffs {
         volatile long collections;
         volatile long time;
     }
 
     @VisibleForTesting
-    static final Map<String, GarbageCollectionStats> sGarbageCollectionStats = new HashMap<>();
+    static final Map<String, GarbageCollectionStatsDiffs> sGarbageCollectionStats = new HashMap<>();
 
     /**
      * Detects and returns the OS architecture: x86, x86_64, ppc. This may differ or be equal to the
@@ -209,10 +213,10 @@ public class CommonMetricsData {
      * @param homePath path to use to track total disk space.
      */
     @NonNull
-    public static AndroidStudioStats.MachineDetails getMachineDetails(@NonNull File homePath) {
+    public static MachineDetails getMachineDetails(@NonNull File homePath) {
         OperatingSystemMXBean osBean = HostData.getOsBean();
 
-        return AndroidStudioStats.MachineDetails.newBuilder()
+        return MachineDetails.newBuilder()
                 .setAvailableProcessors(osBean.getAvailableProcessors())
                 .setTotalRam(osBean.getTotalPhysicalMemorySize())
                 .setTotalDisk(homePath.getTotalSpace())
@@ -222,15 +226,15 @@ public class CommonMetricsData {
 
     /** Gets information about all the displays connected to this machine. */
     @NonNull
-    private static Iterable<? extends AndroidStudioStats.DisplayDetails> getDisplayDetails() {
-        List<AndroidStudioStats.DisplayDetails> displays = new ArrayList<>();
+    private static Iterable<? extends DisplayDetails> getDisplayDetails() {
+        List<DisplayDetails> displays = new ArrayList<>();
 
         GraphicsEnvironment graphics = HostData.getGraphicsEnvironment();
         if (!graphics.isHeadlessInstance()) {
             for (GraphicsDevice device : graphics.getScreenDevices()) {
                 Rectangle bounds = device.getDefaultConfiguration().getBounds();
                 displays.add(
-                        AndroidStudioStats.DisplayDetails.newBuilder()
+                        DisplayDetails.newBuilder()
                                 .setHeight(bounds.height)
                                 .setWidth(bounds.width)
                                 .build());
@@ -356,15 +360,15 @@ public class CommonMetricsData {
      * data since process was started, it reports stats since the last call to this method.
      */
     @VisibleForTesting
-    static List<AndroidStudioStats.GarbageCollectionStats> getGarbageCollectionStats() {
-        List<AndroidStudioStats.GarbageCollectionStats> stats = new ArrayList<>();
+    static List<GarbageCollectionStats> getGarbageCollectionStats() {
+        List<GarbageCollectionStats> stats = new ArrayList<>();
         for (GarbageCollectorMXBean gc : HostData.getGarbageCollectorBeans()) {
             String name = gc.getName();
-            GarbageCollectionStats previous = sGarbageCollectionStats.get(name);
+            GarbageCollectionStatsDiffs previous = sGarbageCollectionStats.get(name);
             if (previous == null) {
-                previous = new GarbageCollectionStats();
+                previous = new GarbageCollectionStatsDiffs();
             }
-            GarbageCollectionStats current = new GarbageCollectionStats();
+            GarbageCollectionStatsDiffs current = new GarbageCollectionStatsDiffs();
             current.collections = gc.getCollectionCount();
             long collectionsDiff = current.collections - previous.collections;
 
@@ -373,7 +377,7 @@ public class CommonMetricsData {
             sGarbageCollectionStats.put(name, current);
 
             stats.add(
-                    AndroidStudioStats.GarbageCollectionStats.newBuilder()
+                    GarbageCollectionStats.newBuilder()
                             .setName(gc.getName())
                             .setGcCollections(collectionsDiff)
                             .setGcTime(timeDiff)

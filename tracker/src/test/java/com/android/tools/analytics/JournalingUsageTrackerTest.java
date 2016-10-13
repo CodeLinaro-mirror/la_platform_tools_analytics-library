@@ -16,7 +16,11 @@
 
 package com.android.tools.analytics;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import com.android.testutils.VirtualTimeDateProvider;
 import com.android.testutils.VirtualTimeScheduler;
@@ -24,7 +28,8 @@ import com.android.utils.DateProvider;
 import com.android.utils.StdLogger;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.google.wireless.android.play.playlog.proto.ClientAnalytics;
-import com.google.wireless.android.sdk.stats.AndroidStudioStats;
+import com.google.wireless.android.sdk.stats.AndroidStudioEvent;
+import com.google.wireless.android.sdk.stats.MetaMetrics;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -68,7 +73,7 @@ public class JournalingUsageTrackerTest {
                             testSpoolDir.getRoot().toPath());
 
             // Create a log entry and log it.
-            AndroidStudioStats.AndroidStudioEvent.Builder logEntry = createAndroidStudioEvent(42);
+            AndroidStudioEvent.Builder logEntry = createAndroidStudioEvent(42);
             journalingUsageTracker.log(logEntry);
             // Ensure this triggers an action on the scheduler and run the action
             assertEquals(1, virtualTimeScheduler.getActionsQueued());
@@ -95,8 +100,7 @@ public class JournalingUsageTrackerTest {
                     afterClose.getCompletedLogs().entrySet()) {
                 assertEquals(1, entry.getValue().size());
                 ClientAnalytics.LogEvent logEvent = entry.getValue().get(0);
-                AndroidStudioStats.AndroidStudioEvent actualEvent =
-                        studioEventFromLogEvent(logEvent);
+                AndroidStudioEvent actualEvent = studioEventFromLogEvent(logEvent);
                 assertEquals(logEntry.build(), actualEvent);
             }
         } finally {
@@ -125,7 +129,7 @@ public class JournalingUsageTrackerTest {
             assertEquals(1, virtualTimeScheduler.getActionsQueued());
 
             // Write an event to the usage tracker
-            AndroidStudioStats.AndroidStudioEvent.Builder logEntry1 = createAndroidStudioEvent(22);
+            AndroidStudioEvent.Builder logEntry1 = createAndroidStudioEvent(22);
             journalingUsageTracker.log(logEntry1);
             // Run the scheduler to write the log to the journal file
             virtualTimeScheduler.advanceBy(0);
@@ -150,13 +154,12 @@ public class JournalingUsageTrackerTest {
                     afterTimeout.getCompletedLogs().entrySet()) {
                 assertEquals(1, entry.getValue().size());
                 ClientAnalytics.LogEvent logEvent = entry.getValue().get(0);
-                AndroidStudioStats.AndroidStudioEvent actualEvent =
-                        studioEventFromLogEvent(logEvent);
+                AndroidStudioEvent actualEvent = studioEventFromLogEvent(logEvent);
                 assertEquals(logEntry1.build(), actualEvent);
             }
 
             // Log another event.
-            AndroidStudioStats.AndroidStudioEvent.Builder logEntry2 = createAndroidStudioEvent(33);
+            AndroidStudioEvent.Builder logEntry2 = createAndroidStudioEvent(33);
             journalingUsageTracker.log(logEntry2);
             virtualTimeScheduler.advanceBy(0);
 
@@ -184,8 +187,7 @@ public class JournalingUsageTrackerTest {
                     afterClose.getCompletedLogs().entrySet()) {
                 assertEquals(1, afterCloseEntry.getValue().size());
                 ClientAnalytics.LogEvent logEvent = afterCloseEntry.getValue().get(0);
-                AndroidStudioStats.AndroidStudioEvent actualEvent =
-                        studioEventFromLogEvent(logEvent);
+                AndroidStudioEvent actualEvent = studioEventFromLogEvent(logEvent);
                 assertEquals(logEntry2.build(), actualEvent);
             }
 
@@ -259,11 +261,11 @@ public class JournalingUsageTrackerTest {
             assertEquals(0, virtualTimeScheduler.getActionsQueued());
 
             // Write two events.
-            AndroidStudioStats.AndroidStudioEvent.Builder event1 = createAndroidStudioEvent(1);
+            AndroidStudioEvent.Builder event1 = createAndroidStudioEvent(1);
             journalingUsageTracker.log(event1);
             virtualTimeScheduler.advanceBy(0);
 
-            AndroidStudioStats.AndroidStudioEvent.Builder event2 = createAndroidStudioEvent(2);
+            AndroidStudioEvent.Builder event2 = createAndroidStudioEvent(2);
             journalingUsageTracker.log(event2);
             virtualTimeScheduler.advanceBy(0);
 
@@ -273,7 +275,7 @@ public class JournalingUsageTrackerTest {
             assertEquals(0, beforeMax.getCompletedLogs().size());
 
             // Write another event
-            AndroidStudioStats.AndroidStudioEvent.Builder event3 = createAndroidStudioEvent(3);
+            AndroidStudioEvent.Builder event3 = createAndroidStudioEvent(3);
             journalingUsageTracker.log(event3);
             virtualTimeScheduler.advanceBy(0);
 
@@ -286,23 +288,20 @@ public class JournalingUsageTrackerTest {
             for (Map.Entry<Path, List<ClientAnalytics.LogEvent>> entry :
                     afterMax.getCompletedLogs().entrySet()) {
                 assertEquals(3, entry.getValue().size());
-                AndroidStudioStats.AndroidStudioEvent actualEvent1 =
-                        studioEventFromLogEvent(entry.getValue().get(0));
+                AndroidStudioEvent actualEvent1 = studioEventFromLogEvent(entry.getValue().get(0));
                 assertEquals(event1.build(), actualEvent1);
-                AndroidStudioStats.AndroidStudioEvent actualEvent2 =
-                        studioEventFromLogEvent(entry.getValue().get(1));
+                AndroidStudioEvent actualEvent2 = studioEventFromLogEvent(entry.getValue().get(1));
                 assertEquals(event2.build(), actualEvent2);
-                AndroidStudioStats.AndroidStudioEvent actualEvent3 =
-                        studioEventFromLogEvent(entry.getValue().get(2));
+                AndroidStudioEvent actualEvent3 = studioEventFromLogEvent(entry.getValue().get(2));
                 assertEquals(event3.build(), actualEvent3);
             }
 
             // Write two more events.
-            AndroidStudioStats.AndroidStudioEvent.Builder event4 = createAndroidStudioEvent(4);
+            AndroidStudioEvent.Builder event4 = createAndroidStudioEvent(4);
             journalingUsageTracker.log(event4);
             virtualTimeScheduler.advanceBy(0);
 
-            AndroidStudioStats.AndroidStudioEvent.Builder event5 = createAndroidStudioEvent(5);
+            AndroidStudioEvent.Builder event5 = createAndroidStudioEvent(5);
             journalingUsageTracker.log(event5);
             virtualTimeScheduler.advanceBy(0);
 
@@ -326,10 +325,10 @@ public class JournalingUsageTrackerTest {
             for (Map.Entry<Path, List<ClientAnalytics.LogEvent>> afterCloseEntry :
                     afterClose.getCompletedLogs().entrySet()) {
                 assertEquals(2, afterCloseEntry.getValue().size());
-                AndroidStudioStats.AndroidStudioEvent actualEvent4 =
+                AndroidStudioEvent actualEvent4 =
                         studioEventFromLogEvent(afterCloseEntry.getValue().get(0));
                 assertEquals(event4.build(), actualEvent4);
-                AndroidStudioStats.AndroidStudioEvent actualEvent5 =
+                AndroidStudioEvent actualEvent5 =
                         studioEventFromLogEvent(afterCloseEntry.getValue().get(1));
                 assertEquals(event5.build(), actualEvent5);
             }
@@ -355,7 +354,7 @@ public class JournalingUsageTrackerTest {
                             testSpoolDir.getRoot().toPath());
 
             // Write an event to ensure track file switch is triggered.
-            AndroidStudioStats.AndroidStudioEvent.Builder event = createAndroidStudioEvent(1);
+            AndroidStudioEvent.Builder event = createAndroidStudioEvent(1);
             journalingUsageTracker.log(event);
             virtualTimeScheduler.advanceBy(0);
 
@@ -473,7 +472,7 @@ public class JournalingUsageTrackerTest {
             virtualTimeScheduler.advanceBy(2, TimeUnit.MINUTES);
 
             // Create a log entry and log it.
-            AndroidStudioStats.AndroidStudioEvent.Builder event = createAndroidStudioEvent(42);
+            AndroidStudioEvent.Builder event = createAndroidStudioEvent(42);
             journalingUsageTracker.log(event);
             // close the tracker so we can read the results from disk
             virtualTimeScheduler.advanceBy(0);
@@ -499,15 +498,14 @@ public class JournalingUsageTrackerTest {
     }
 
     /**
-     * Helper that builds a {@link AndroidStudioStats.AndroidStudioEvent} with a marker to
-     * distinguish this message.
+     * Helper that builds a {@link AndroidStudioEvent} with a marker to distinguish this message.
      */
-    private AndroidStudioStats.AndroidStudioEvent.Builder createAndroidStudioEvent(long marker) {
-        return AndroidStudioStats.AndroidStudioEvent.newBuilder()
-                .setCategory(AndroidStudioStats.AndroidStudioEvent.EventCategory.META)
-                .setKind(AndroidStudioStats.AndroidStudioEvent.EventKind.META_METRICS)
+    private AndroidStudioEvent.Builder createAndroidStudioEvent(long marker) {
+        return AndroidStudioEvent.newBuilder()
+                .setCategory(AndroidStudioEvent.EventCategory.META)
+                .setKind(AndroidStudioEvent.EventKind.META_METRICS)
                 .setMetaMetrics(
-                        AndroidStudioStats.MetaMetrics.newBuilder()
+                        MetaMetrics.newBuilder()
                                 .setBytesSentInLastUpload(marker)
                                 .setFailedConnections(0)
                                 .setFailedServerReplies(0));
@@ -547,11 +545,11 @@ public class JournalingUsageTrackerTest {
     }
 
     /**
-     * Helper that parses the binary blob of a {@link ClientAnalytics.LogEvent} into an
-     * {@link AndroidStudioStats.AndroidStudioEvent}.
+     * Helper that parses the binary blob of a {@link ClientAnalytics.LogEvent} into an {@link
+     * AndroidStudioEvent}.
      */
-    private AndroidStudioStats.AndroidStudioEvent studioEventFromLogEvent(
-            ClientAnalytics.LogEvent logEvent) throws InvalidProtocolBufferException {
-        return AndroidStudioStats.AndroidStudioEvent.parseFrom(logEvent.getSourceExtension());
+    private AndroidStudioEvent studioEventFromLogEvent(ClientAnalytics.LogEvent logEvent)
+            throws InvalidProtocolBufferException {
+        return AndroidStudioEvent.parseFrom(logEvent.getSourceExtension());
     }
 }

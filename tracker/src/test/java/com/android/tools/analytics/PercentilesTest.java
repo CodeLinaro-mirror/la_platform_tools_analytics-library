@@ -15,14 +15,14 @@
  */
 package com.android.tools.analytics;
 
-import com.google.wireless.android.sdk.stats.AndroidStudioStats;
-import org.junit.Test;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
+import com.google.wireless.android.sdk.stats.PercentileEstimator;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
-
-import static org.junit.Assert.*;
+import org.junit.Test;
 
 public class PercentilesTest {
 
@@ -390,7 +390,7 @@ public class PercentilesTest {
     double[] targets = {0.5};
     Percentiles p = createGaussianEstimator(targets, NUM_SAMPLES, null);
 
-    AndroidStudioStats.PercentileEstimator estimatorProto = p.export();
+        PercentileEstimator estimatorProto = p.export();
 
     Percentiles importedEstimator;
     try {

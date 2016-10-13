@@ -21,7 +21,7 @@ import com.android.annotations.VisibleForTesting;
 import com.android.utils.DateProvider;
 import com.android.utils.ILogger;
 import com.google.wireless.android.play.playlog.proto.ClientAnalytics;
-import com.google.wireless.android.sdk.stats.AndroidStudioStats;
+import com.google.wireless.android.sdk.stats.AndroidStudioEvent;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.UUID;
@@ -99,8 +99,8 @@ public abstract class UsageTracker implements AutoCloseable {
         return mScheduler;
     }
 
-    /** Logs usage data provided in the @{link AndroidStudioStats.AndroidStudioEvent}. */
-    public void log(@NonNull AndroidStudioStats.AndroidStudioEvent.Builder studioEvent) {
+    /** Logs usage data provided in the @{link AndroidStudioEvent}. */
+    public void log(@NonNull AndroidStudioEvent.Builder studioEvent) {
         studioEvent.setStudioSessionId(sSessionId);
         long now = sDateProvider.now().getTime();
         try {

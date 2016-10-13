@@ -23,7 +23,8 @@ import com.android.utils.ILogger;
 import com.android.utils.StdLogger;
 import com.google.common.io.CountingOutputStream;
 import com.google.wireless.android.play.playlog.proto.ClientAnalytics;
-import com.google.wireless.android.sdk.stats.AndroidStudioStats;
+import com.google.wireless.android.sdk.stats.AndroidStudioEvent;
+import com.google.wireless.android.sdk.stats.MetaMetrics;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.IOException;
@@ -320,14 +321,11 @@ public class GoogleAnalyticsPublisher extends AnalyticsPublisher {
         return ClientAnalytics.LogEvent.newBuilder()
                 .setEventTimeMs(time)
                 .setSourceExtension(
-                        AndroidStudioStats.AndroidStudioEvent.newBuilder()
-                                .setCategory(
-                                        AndroidStudioStats.AndroidStudioEvent.EventCategory.META)
-                                .setKind(
-                                        AndroidStudioStats.AndroidStudioEvent.EventKind
-                                                .META_METRICS)
+                        AndroidStudioEvent.newBuilder()
+                                .setCategory(AndroidStudioEvent.EventCategory.META)
+                                .setKind(AndroidStudioEvent.EventKind.META_METRICS)
                                 .setMetaMetrics(
-                                        AndroidStudioStats.MetaMetrics.newBuilder()
+                                        MetaMetrics.newBuilder()
                                                 .setBytesSentInLastUpload(mBytesSentInLastPublish)
                                                 .setFailedConnections(mFailedConnections)
                                                 .setFailedServerReplies(mFailedServerReplies))

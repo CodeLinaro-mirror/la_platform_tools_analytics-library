@@ -13,6 +13,7 @@ package android_studio;
 
 option java_package = "com.google.wireless.android.sdk.stats";
 option java_outer_classname = "AndroidStudioStats";
+option java_multiple_files = true;
 
 message AndroidStudioEvent {
   // Describes a group of event kinds related to each other.
@@ -557,11 +558,9 @@ message DeviceInfo {
   optional string anonymized_serial_number = 1;
   // Tags used to build the android version on this device.
   // e.g. 'release-keys' or 'test-keys' or 'A100_V001'
-  // TODO(jvg): ask loglaunch folks: ST_SOFTWARE_ID datapol?
   optional string build_tags = 2;
   // Type of build this device is running.
   // e.g. 'user' or 'userdebug' or 'eng' or 'alphabuild'
-  // TODO(jvg): ask loglaunch folks: ST_SOFTWARE_ID datapol?
   optional string build_type = 3;
   // Android version e.g. '5.1.1'
   optional string build_version_release = 4;
@@ -727,8 +726,6 @@ message EmulatorUiEvent {
     EXTENDED_WINDOW_OPEN = 1;
   }
   // Id of the UI element, baked in the emulator binary.
-  // TODO(jvg): ask logs ticket folks what kind of datapol annotation
-  // it is not freeform, but we cannot make this an enum
   optional string element_id = 1;
   // The type of UI event
   optional .android_studio.EmulatorUiEvent.EmulatorUiEventType type = 2;
@@ -1422,6 +1419,7 @@ message GradleTransformExecution {
     DATA_BINDING_MERGE_ARTIFACTS = 19;
     INSTANT_RUN_VERIFIER = 20;
     STRIP_DEBUG_SYMBOL = 21;
+    LIBRARY_API = 22;
   }
   // The transform implementing class.
   // Custom transforms are recorded as UNKNOWN_TRANSFORM_TYPE.

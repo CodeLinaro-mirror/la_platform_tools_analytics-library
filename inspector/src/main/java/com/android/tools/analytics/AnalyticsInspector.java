@@ -16,8 +16,7 @@
 package com.android.tools.analytics;
 
 import com.google.wireless.android.play.playlog.proto.ClientAnalytics;
-import com.google.wireless.android.sdk.stats.AndroidStudioStats;
-
+import com.google.wireless.android.sdk.stats.AndroidStudioEvent;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -51,9 +50,8 @@ public class AnalyticsInspector {
                     // read all LogEvents from the trackFile.
                     while ((event = ClientAnalytics.LogEvent.parseDelimitedFrom(inputStream))
                             != null) {
-                        AndroidStudioStats.AndroidStudioEvent studioEvent =
-                                AndroidStudioStats.AndroidStudioEvent.parseFrom(
-                                        event.getSourceExtension());
+                        AndroidStudioEvent studioEvent =
+                                AndroidStudioEvent.parseFrom(event.getSourceExtension());
                         System.out.println(studioEvent);
                         System.out.println("---");
                     }

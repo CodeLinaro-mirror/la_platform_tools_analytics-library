@@ -15,11 +15,12 @@
  */
 package com.android.tools.analytics;
 
+import com.google.wireless.android.sdk.stats.PercentileBucket;
+import com.google.wireless.android.sdk.stats.PercentileEstimator;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.PriorityQueue;
-import com.google.wireless.android.sdk.stats.AndroidStudioStats;
 
 /**
  * Percentiles creates an estimation of the value at target percentiles from a data stream.
@@ -221,8 +222,8 @@ public class Percentiles {
     return mergeFromRaw(p, uninterpolatedEstimators);
   }
 
-  public AndroidStudioStats.PercentileEstimator export() {
-    AndroidStudioStats.PercentileEstimator.Builder builder = AndroidStudioStats.PercentileEstimator.newBuilder();
+    public PercentileEstimator export() {
+        PercentileEstimator.Builder builder = PercentileEstimator.newBuilder();
     if (mBuckets == null) {
       for (int i = 0; i < mCount; ++i) {
         builder.addRawSample(mInitialData[i]);
@@ -241,7 +242,8 @@ public class Percentiles {
     }
   }
 
-  public static Percentiles fromProto(AndroidStudioStats.PercentileEstimator e, double[] targets, int rawDataSize) throws MismatchedTargetsException{
+    public static Percentiles fromProto(PercentileEstimator e, double[] targets, int rawDataSize)
+            throws MismatchedTargetsException {
     Percentiles r = new Percentiles(targets, rawDataSize);
 
     if (e.getBucketCount() > 0) {
@@ -257,7 +259,7 @@ public class Percentiles {
         throw new MismatchedTargetsException("Last bucket target percentile was not 1.0");
       }
       for (int i = 1; i < r.mNumBuckets - 1; ++i) {
-        AndroidStudioStats.PercentileBucket b = e.getBucket(i);
+                PercentileBucket b = e.getBucket(i);
         if (b.getTargetPercentile() != markers[i - 1]) {
           throw new MismatchedTargetsException("Mismatched targets at index " + i);
         }
@@ -275,7 +277,7 @@ public class Percentiles {
       r.mBuckets = new Bucket[e.getBucketCount()];
       r.mCount = e.getBucket(e.getBucketCount() - 1).getCount();
       for (int i = 0; i < e.getBucketCount(); ++i) {
-        AndroidStudioStats.PercentileBucket bucket = e.getBucket(i);
+                PercentileBucket bucket = e.getBucket(i);
         r.mBuckets[i] = new Bucket(bucket.getTargetPercentile(), bucket.getValue(), bucket.getCount(), r.mCount);
       }
     }
