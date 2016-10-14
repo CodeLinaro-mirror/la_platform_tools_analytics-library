@@ -3,17 +3,24 @@ load("//tools/base/bazel:bazel.bzl", "iml_module")
 iml_module(
     name = "analytics-protos",
     srcs = ["protos/src/main/java"],
-    deps = ["//tools/idea/.idea/libraries:protobuf"],
-    exports = ["//tools/idea/.idea/libraries:protobuf"],
     javacopts = ["-extra_checks:off"],
-    visibility = ["//visibility:public"],
     tags = ["managed"],
+    visibility = ["//visibility:public"],
+    exports = ["//tools/idea/.idea/libraries:protobuf"],
+    deps = ["//tools/idea/.idea/libraries:protobuf"],
 )
 
 iml_module(
     name = "analytics-shared",
     srcs = ["shared/src/main/java"],
+    javacopts = ["-extra_checks:off"],
+    tags = ["managed"],
     test_srcs = ["shared/src/test/java"],
+    visibility = ["//visibility:public"],
+    exports = [
+        "//tools/idea/.idea/libraries:guava-tools",
+        "//tools/base/annotations:studio.android-annotations",
+    ],
     deps = [
         "//tools/idea/.idea/libraries:guava-tools",
         "//tools/idea/.idea/libraries:JUnit4[test]",
@@ -24,19 +31,19 @@ iml_module(
         "//tools/base/testutils:studio.testutils[module, test]",
         "//tools/base/common:studio.common[module]",
     ],
-    exports = [
-        "//tools/idea/.idea/libraries:guava-tools",
-        "//tools/base/annotations:studio.android-annotations",
-    ],
-    javacopts = ["-extra_checks:off"],
-    visibility = ["//visibility:public"],
-    tags = ["managed"],
 )
 
 iml_module(
     name = "analytics-tracker",
     srcs = ["tracker/src/main/java"],
+    javacopts = ["-extra_checks:off"],
+    tags = ["managed"],
     test_srcs = ["tracker/src/test/java"],
+    visibility = ["//visibility:public"],
+    exports = [
+        "//tools/idea/.idea/libraries:guava-tools",
+        "//tools/base/annotations:studio.android-annotations",
+    ],
     deps = [
         "//tools/idea/.idea/libraries:guava-tools",
         "//tools/idea/.idea/libraries:JUnit4[test]",
@@ -47,19 +54,19 @@ iml_module(
         "//tools/base/testutils:studio.testutils[module, test]",
         "//tools/base/common:studio.common[module]",
     ],
-    exports = [
-        "//tools/idea/.idea/libraries:guava-tools",
-        "//tools/base/annotations:studio.android-annotations",
-    ],
-    javacopts = ["-extra_checks:off"],
-    visibility = ["//visibility:public"],
-    tags = ["managed"],
 )
 
 iml_module(
     name = "analytics-publisher",
     srcs = ["publisher/src/main/java"],
+    javacopts = ["-extra_checks:off"],
+    tags = ["managed"],
     test_srcs = ["publisher/src/test/java"],
+    visibility = ["//visibility:public"],
+    exports = [
+        "//tools/idea/.idea/libraries:guava-tools",
+        "//tools/base/annotations:studio.android-annotations",
+    ],
     deps = [
         "//tools/idea/.idea/libraries:guava-tools",
         "//tools/idea/.idea/libraries:JUnit4[test]",
@@ -71,13 +78,6 @@ iml_module(
         "//tools/base/common:studio.common[module]",
         "//tools/analytics-library:analytics-tracker[module, test]",
     ],
-    exports = [
-        "//tools/idea/.idea/libraries:guava-tools",
-        "//tools/base/annotations:studio.android-annotations",
-    ],
-    javacopts = ["-extra_checks:off"],
-    visibility = ["//visibility:public"],
-    tags = ["managed"],
 )
 
 # TODO: Change iml_module generator to prepend "studio." to names above.
@@ -85,6 +85,7 @@ iml_module(
 java_library(
     name = "tools.analytics-shared",
     srcs = glob(["shared/src/main/java/**"]),
+    visibility = ["//visibility:public"],
     deps = [
         ":analytics-protos",
         "//tools/base/annotations",
@@ -92,12 +93,13 @@ java_library(
         "//tools/base/third_party:com.google.code.gson_gson",
         "//tools/base/third_party:com.google.guava_guava",
     ],
-    visibility = ["//visibility:public"],
 )
 
 java_test(
     name = "tools.analytics-shared_tests",
     srcs = glob(["shared/src/test/java/**"]),
+    jvm_flags = ["-Dtest.suite.jar=tools.analytics-shared_tests.jar"],
+    test_class = "com.android.testutils.JarTestSuite",
     deps = [
         ":analytics-protos",
         ":tools.analytics-shared",
@@ -108,13 +110,12 @@ java_test(
         "//tools/base/third_party:com.google.truth_truth",
         "//tools/base/third_party:junit_junit",
     ],
-    test_class = "com.android.testutils.JarTestSuite",
-    jvm_flags = ["-Dtest.suite.jar=tools.analytics-shared_tests.jar"],
 )
 
 java_library(
     name = "tools.analytics-tracker",
     srcs = glob(["tracker/src/main/java/**"]),
+    visibility = ["//visibility:public"],
     deps = [
         ":analytics-protos",
         ":tools.analytics-shared",
@@ -122,12 +123,13 @@ java_library(
         "//tools/base/common:tools.common",
         "//tools/base/third_party:com.google.guava_guava",
     ],
-    visibility = ["//visibility:public"],
 )
 
 java_test(
     name = "tools.analytics-tracker_tests",
     srcs = glob(["tracker/src/test/java/**"]),
+    jvm_flags = ["-Dtest.suite.jar=tools.analytics-tracker_tests.jar"],
+    test_class = "com.android.testutils.JarTestSuite",
     deps = [
         ":analytics-protos",
         ":tools.analytics-shared",
@@ -138,6 +140,4 @@ java_test(
         "//tools/base/third_party:com.google.truth_truth",
         "//tools/base/third_party:junit_junit",
     ],
-    test_class = "com.android.testutils.JarTestSuite",
-    jvm_flags = ["-Dtest.suite.jar=tools.analytics-tracker_tests.jar"],
 )
