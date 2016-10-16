@@ -3,7 +3,6 @@ load("//tools/base/bazel:bazel.bzl", "iml_module")
 iml_module(
     name = "analytics-protos",
     srcs = ["protos/src/main/java"],
-    javacopts = ["-extra_checks:off"],
     tags = ["managed"],
     visibility = ["//visibility:public"],
     exports = ["//tools/idea/.idea/libraries:protobuf"],
@@ -13,7 +12,6 @@ iml_module(
 iml_module(
     name = "analytics-shared",
     srcs = ["shared/src/main/java"],
-    javacopts = ["-extra_checks:off"],
     tags = ["managed"],
     test_srcs = ["shared/src/test/java"],
     visibility = ["//visibility:public"],
@@ -36,7 +34,6 @@ iml_module(
 iml_module(
     name = "analytics-tracker",
     srcs = ["tracker/src/main/java"],
-    javacopts = ["-extra_checks:off"],
     tags = ["managed"],
     test_srcs = ["tracker/src/test/java"],
     visibility = ["//visibility:public"],
@@ -59,7 +56,6 @@ iml_module(
 iml_module(
     name = "analytics-publisher",
     srcs = ["publisher/src/main/java"],
-    javacopts = ["-extra_checks:off"],
     tags = ["managed"],
     test_srcs = ["publisher/src/test/java"],
     visibility = ["//visibility:public"],
