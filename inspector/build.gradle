@@ -7,6 +7,7 @@ dependencies {
     compile project(':analytics-library:shared')
     compile 'com.google.protobuf:protobuf-java:2.5.0'
     compile 'com.google.guava:guava:17.0'
+    compile 'com.google.code.gson:gson:2.2.4'
 
     testCompile project(':base:testutils')
     testCompile 'junit:junit:4.12'
