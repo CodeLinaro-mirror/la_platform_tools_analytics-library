@@ -101,6 +101,17 @@ public  final class InstantRun extends
             }
             break;
           }
+          case 56: {
+            int rawValue = input.readEnum();
+            com.google.wireless.android.sdk.stats.InstantRunStatus.VerifierStatus value = com.google.wireless.android.sdk.stats.InstantRunStatus.VerifierStatus.valueOf(rawValue);
+            if (value == null) {
+              unknownFields.mergeVarintField(7, rawValue);
+            } else {
+              bitField0_ |= 0x00000020;
+              gradleBuildCause_ = value;
+            }
+            break;
+          }
         }
       }
     } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -769,6 +780,7 @@ public  final class InstantRun extends
    * <code>optional .android_studio.InstantRun.InstantRunBuildCause instant_run_build_cause = 3;</code>
    *
    * <pre>
+   * Historic: we have two enums tracking this, this one was never used.
    * what was the reason for chosing that kind of deployment from the gradle
    * side.
    * </pre>
@@ -780,6 +792,7 @@ public  final class InstantRun extends
    * <code>optional .android_studio.InstantRun.InstantRunBuildCause instant_run_build_cause = 3;</code>
    *
    * <pre>
+   * Historic: we have two enums tracking this, this one was never used.
    * what was the reason for chosing that kind of deployment from the gradle
    * side.
    * </pre>
@@ -899,12 +912,39 @@ public  final class InstantRun extends
     return ideBuildCause_;
   }
 
+  // optional .android_studio.InstantRunStatus.VerifierStatus gradle_build_cause = 7;
+  public static final int GRADLE_BUILD_CAUSE_FIELD_NUMBER = 7;
+  private com.google.wireless.android.sdk.stats.InstantRunStatus.VerifierStatus gradleBuildCause_;
+  /**
+   * <code>optional .android_studio.InstantRunStatus.VerifierStatus gradle_build_cause = 7;</code>
+   *
+   * <pre>
+   * what was the reason for chosing that kind of deployment from the Gradle
+   * side.
+   * </pre>
+   */
+  public boolean hasGradleBuildCause() {
+    return ((bitField0_ & 0x00000020) == 0x00000020);
+  }
+  /**
+   * <code>optional .android_studio.InstantRunStatus.VerifierStatus gradle_build_cause = 7;</code>
+   *
+   * <pre>
+   * what was the reason for chosing that kind of deployment from the Gradle
+   * side.
+   * </pre>
+   */
+  public com.google.wireless.android.sdk.stats.InstantRunStatus.VerifierStatus getGradleBuildCause() {
+    return gradleBuildCause_;
+  }
+
   private void initFields() {
     deploymentKind_ = com.google.wireless.android.sdk.stats.InstantRun.InstantRunDeploymentKind.UNKNOWN_INSTANT_RUN_DEPLOYMENT_KIND;
     instantRunBuildCause_ = com.google.wireless.android.sdk.stats.InstantRun.InstantRunBuildCause.UNKNOWN_INSTANT_RUN_BUILD_CAUSE;
     buildTime_ = 0L;
     sessionId_ = "";
     ideBuildCause_ = com.google.wireless.android.sdk.stats.InstantRun.InstantRunIdeBuildCause.UNKNOWN_INSTANT_RUN_IDE_BUILD_CAUSE;
+    gradleBuildCause_ = com.google.wireless.android.sdk.stats.InstantRunStatus.VerifierStatus.UNKNOWN_VERIFIER_STATUS;
   }
   private byte memoizedIsInitialized = -1;
   public final boolean isInitialized() {
@@ -932,6 +972,9 @@ public  final class InstantRun extends
     }
     if (((bitField0_ & 0x00000010) == 0x00000010)) {
       output.writeEnum(6, ideBuildCause_.getNumber());
+    }
+    if (((bitField0_ & 0x00000020) == 0x00000020)) {
+      output.writeEnum(7, gradleBuildCause_.getNumber());
     }
     getUnknownFields().writeTo(output);
   }
@@ -961,6 +1004,10 @@ public  final class InstantRun extends
     if (((bitField0_ & 0x00000010) == 0x00000010)) {
       size += com.google.protobuf.CodedOutputStream
         .computeEnumSize(6, ideBuildCause_.getNumber());
+    }
+    if (((bitField0_ & 0x00000020) == 0x00000020)) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeEnumSize(7, gradleBuildCause_.getNumber());
     }
     size += getUnknownFields().getSerializedSize();
     memoizedSerializedSize = size;
@@ -1092,6 +1139,8 @@ public  final class InstantRun extends
       bitField0_ = (bitField0_ & ~0x00000008);
       ideBuildCause_ = com.google.wireless.android.sdk.stats.InstantRun.InstantRunIdeBuildCause.UNKNOWN_INSTANT_RUN_IDE_BUILD_CAUSE;
       bitField0_ = (bitField0_ & ~0x00000010);
+      gradleBuildCause_ = com.google.wireless.android.sdk.stats.InstantRunStatus.VerifierStatus.UNKNOWN_VERIFIER_STATUS;
+      bitField0_ = (bitField0_ & ~0x00000020);
       return this;
     }
 
@@ -1140,6 +1189,10 @@ public  final class InstantRun extends
         to_bitField0_ |= 0x00000010;
       }
       result.ideBuildCause_ = ideBuildCause_;
+      if (((from_bitField0_ & 0x00000020) == 0x00000020)) {
+        to_bitField0_ |= 0x00000020;
+      }
+      result.gradleBuildCause_ = gradleBuildCause_;
       result.bitField0_ = to_bitField0_;
       onBuilt();
       return result;
@@ -1172,6 +1225,9 @@ public  final class InstantRun extends
       }
       if (other.hasIdeBuildCause()) {
         setIdeBuildCause(other.getIdeBuildCause());
+      }
+      if (other.hasGradleBuildCause()) {
+        setGradleBuildCause(other.getGradleBuildCause());
       }
       this.mergeUnknownFields(other.getUnknownFields());
       return this;
@@ -1258,6 +1314,7 @@ public  final class InstantRun extends
      * <code>optional .android_studio.InstantRun.InstantRunBuildCause instant_run_build_cause = 3;</code>
      *
      * <pre>
+     * Historic: we have two enums tracking this, this one was never used.
      * what was the reason for chosing that kind of deployment from the gradle
      * side.
      * </pre>
@@ -1269,6 +1326,7 @@ public  final class InstantRun extends
      * <code>optional .android_studio.InstantRun.InstantRunBuildCause instant_run_build_cause = 3;</code>
      *
      * <pre>
+     * Historic: we have two enums tracking this, this one was never used.
      * what was the reason for chosing that kind of deployment from the gradle
      * side.
      * </pre>
@@ -1280,6 +1338,7 @@ public  final class InstantRun extends
      * <code>optional .android_studio.InstantRun.InstantRunBuildCause instant_run_build_cause = 3;</code>
      *
      * <pre>
+     * Historic: we have two enums tracking this, this one was never used.
      * what was the reason for chosing that kind of deployment from the gradle
      * side.
      * </pre>
@@ -1297,6 +1356,7 @@ public  final class InstantRun extends
      * <code>optional .android_studio.InstantRun.InstantRunBuildCause instant_run_build_cause = 3;</code>
      *
      * <pre>
+     * Historic: we have two enums tracking this, this one was never used.
      * what was the reason for chosing that kind of deployment from the gradle
      * side.
      * </pre>
@@ -1519,6 +1579,62 @@ public  final class InstantRun extends
     public Builder clearIdeBuildCause() {
       bitField0_ = (bitField0_ & ~0x00000010);
       ideBuildCause_ = com.google.wireless.android.sdk.stats.InstantRun.InstantRunIdeBuildCause.UNKNOWN_INSTANT_RUN_IDE_BUILD_CAUSE;
+      onChanged();
+      return this;
+    }
+
+    // optional .android_studio.InstantRunStatus.VerifierStatus gradle_build_cause = 7;
+    private com.google.wireless.android.sdk.stats.InstantRunStatus.VerifierStatus gradleBuildCause_ = com.google.wireless.android.sdk.stats.InstantRunStatus.VerifierStatus.UNKNOWN_VERIFIER_STATUS;
+    /**
+     * <code>optional .android_studio.InstantRunStatus.VerifierStatus gradle_build_cause = 7;</code>
+     *
+     * <pre>
+     * what was the reason for chosing that kind of deployment from the Gradle
+     * side.
+     * </pre>
+     */
+    public boolean hasGradleBuildCause() {
+      return ((bitField0_ & 0x00000020) == 0x00000020);
+    }
+    /**
+     * <code>optional .android_studio.InstantRunStatus.VerifierStatus gradle_build_cause = 7;</code>
+     *
+     * <pre>
+     * what was the reason for chosing that kind of deployment from the Gradle
+     * side.
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.InstantRunStatus.VerifierStatus getGradleBuildCause() {
+      return gradleBuildCause_;
+    }
+    /**
+     * <code>optional .android_studio.InstantRunStatus.VerifierStatus gradle_build_cause = 7;</code>
+     *
+     * <pre>
+     * what was the reason for chosing that kind of deployment from the Gradle
+     * side.
+     * </pre>
+     */
+    public Builder setGradleBuildCause(com.google.wireless.android.sdk.stats.InstantRunStatus.VerifierStatus value) {
+      if (value == null) {
+        throw new NullPointerException();
+      }
+      bitField0_ |= 0x00000020;
+      gradleBuildCause_ = value;
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.InstantRunStatus.VerifierStatus gradle_build_cause = 7;</code>
+     *
+     * <pre>
+     * what was the reason for chosing that kind of deployment from the Gradle
+     * side.
+     * </pre>
+     */
+    public Builder clearGradleBuildCause() {
+      bitField0_ = (bitField0_ & ~0x00000020);
+      gradleBuildCause_ = com.google.wireless.android.sdk.stats.InstantRunStatus.VerifierStatus.UNKNOWN_VERIFIER_STATUS;
       onChanged();
       return this;
     }

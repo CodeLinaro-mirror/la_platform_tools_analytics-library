@@ -882,6 +882,7 @@ message InstantRun {
   }
   // What kind of Instant Run deployment was chosen.
   optional .android_studio.InstantRun.InstantRunDeploymentKind deployment_kind = 1;
+  // Historic: we have two enums tracking this, this one was never used.
   // what was the reason for chosing that kind of deployment from the gradle
   // side.
   optional .android_studio.InstantRun.InstantRunBuildCause instant_run_build_cause = 3;
@@ -894,6 +895,9 @@ message InstantRun {
   // what was the reason for chosing that kind of deployment from the IDE
   // side.
   optional .android_studio.InstantRun.InstantRunIdeBuildCause ide_build_cause = 6;
+  // what was the reason for chosing that kind of deployment from the Gradle
+  // side.
+  optional .android_studio.InstantRunStatus.VerifierStatus gradle_build_cause = 7;
 }
 
 // describes Metrics on Metrics.
