@@ -15,10 +15,12 @@ iml_module(
     tags = ["managed"],
     test_srcs = ["shared/src/test/java"],
     visibility = ["//visibility:public"],
+    # do not sort: must match IML order
     exports = [
         "//tools/idea/.idea/libraries:guava-tools",
         "//tools/base/annotations:studio.android-annotations",
     ],
+    # do not sort: must match IML order
     deps = [
         "//tools/idea/.idea/libraries:guava-tools",
         "//tools/idea/.idea/libraries:JUnit4[test]",
@@ -37,10 +39,12 @@ iml_module(
     tags = ["managed"],
     test_srcs = ["tracker/src/test/java"],
     visibility = ["//visibility:public"],
+    # do not sort: must match IML order
     exports = [
         "//tools/idea/.idea/libraries:guava-tools",
         "//tools/base/annotations:studio.android-annotations",
     ],
+    # do not sort: must match IML order
     deps = [
         "//tools/idea/.idea/libraries:guava-tools",
         "//tools/idea/.idea/libraries:JUnit4[test]",
@@ -59,10 +63,12 @@ iml_module(
     tags = ["managed"],
     test_srcs = ["publisher/src/test/java"],
     visibility = ["//visibility:public"],
+    # do not sort: must match IML order
     exports = [
         "//tools/idea/.idea/libraries:guava-tools",
         "//tools/base/annotations:studio.android-annotations",
     ],
+    # do not sort: must match IML order
     deps = [
         "//tools/idea/.idea/libraries:guava-tools",
         "//tools/idea/.idea/libraries:JUnit4[test]",
