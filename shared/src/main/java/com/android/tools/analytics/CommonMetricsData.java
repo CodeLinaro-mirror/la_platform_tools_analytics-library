@@ -356,7 +356,7 @@ public class CommonMetricsData {
     }
 
     /**
-     * Gets stats about the current's process Garbage Collectors. Instead of returning cumulative
+     * Gets stats about the current process' Garbage Collectors. Instead of returning cumulative
      * data since process was started, it reports stats since the last call to this method.
      */
     @VisibleForTesting
