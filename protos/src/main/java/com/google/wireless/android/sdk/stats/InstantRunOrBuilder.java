@@ -29,6 +29,7 @@ public interface InstantRunOrBuilder
    * <code>optional .android_studio.InstantRun.InstantRunBuildCause instant_run_build_cause = 3;</code>
    *
    * <pre>
+   * Historic: we have two enums tracking this, this one was never used.
    * what was the reason for chosing that kind of deployment from the gradle
    * side.
    * </pre>
@@ -38,6 +39,7 @@ public interface InstantRunOrBuilder
    * <code>optional .android_studio.InstantRun.InstantRunBuildCause instant_run_build_cause = 3;</code>
    *
    * <pre>
+   * Historic: we have two enums tracking this, this one was never used.
    * what was the reason for chosing that kind of deployment from the gradle
    * side.
    * </pre>
@@ -114,4 +116,24 @@ public interface InstantRunOrBuilder
    * </pre>
    */
   com.google.wireless.android.sdk.stats.InstantRun.InstantRunIdeBuildCause getIdeBuildCause();
+
+  // optional .android_studio.InstantRunStatus.VerifierStatus gradle_build_cause = 7;
+  /**
+   * <code>optional .android_studio.InstantRunStatus.VerifierStatus gradle_build_cause = 7;</code>
+   *
+   * <pre>
+   * what was the reason for chosing that kind of deployment from the Gradle
+   * side.
+   * </pre>
+   */
+  boolean hasGradleBuildCause();
+  /**
+   * <code>optional .android_studio.InstantRunStatus.VerifierStatus gradle_build_cause = 7;</code>
+   *
+   * <pre>
+   * what was the reason for chosing that kind of deployment from the Gradle
+   * side.
+   * </pre>
+   */
+  com.google.wireless.android.sdk.stats.InstantRunStatus.VerifierStatus getGradleBuildCause();
 }
