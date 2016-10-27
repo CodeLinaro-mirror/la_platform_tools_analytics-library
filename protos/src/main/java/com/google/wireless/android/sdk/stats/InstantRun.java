@@ -295,6 +295,7 @@ public  final class InstantRun extends
    * Protobuf enum {@code android_studio.InstantRun.InstantRunBuildCause}
    *
    * <pre>
+   * Historical, use InstantRunStatus.VerifierStatus instead.
    * The different reasons Instant Run had to do a full build.
    * </pre>
    */
@@ -603,6 +604,10 @@ public  final class InstantRun extends
      * <code>NO_INSTANT_RUN = 13;</code>
      */
     NO_INSTANT_RUN(13, 13),
+    /**
+     * <code>ANDROID_TV_UNSUPPORTED = 14;</code>
+     */
+    ANDROID_TV_UNSUPPORTED(14, 14),
     ;
 
     /**
@@ -677,6 +682,10 @@ public  final class InstantRun extends
      * <code>NO_INSTANT_RUN = 13;</code>
      */
     public static final int NO_INSTANT_RUN_VALUE = 13;
+    /**
+     * <code>ANDROID_TV_UNSUPPORTED = 14;</code>
+     */
+    public static final int ANDROID_TV_UNSUPPORTED_VALUE = 14;
 
 
     public final int getNumber() { return value; }
@@ -697,6 +706,7 @@ public  final class InstantRun extends
         case 11: return APP_USES_MULTIPLE_PROCESSES;
         case 12: return INCREMENTAL_BUILD;
         case 13: return NO_INSTANT_RUN;
+        case 14: return ANDROID_TV_UNSUPPORTED;
         default: return null;
       }
     }
@@ -780,7 +790,7 @@ public  final class InstantRun extends
    * <code>optional .android_studio.InstantRun.InstantRunBuildCause instant_run_build_cause = 3;</code>
    *
    * <pre>
-   * Historic: we have two enums tracking this, this one was never used.
+   * Historical, we had two enums tracking this, this one was never used.
    * what was the reason for chosing that kind of deployment from the gradle
    * side.
    * </pre>
@@ -792,7 +802,7 @@ public  final class InstantRun extends
    * <code>optional .android_studio.InstantRun.InstantRunBuildCause instant_run_build_cause = 3;</code>
    *
    * <pre>
-   * Historic: we have two enums tracking this, this one was never used.
+   * Historical, we had two enums tracking this, this one was never used.
    * what was the reason for chosing that kind of deployment from the gradle
    * side.
    * </pre>
@@ -1314,7 +1324,7 @@ public  final class InstantRun extends
      * <code>optional .android_studio.InstantRun.InstantRunBuildCause instant_run_build_cause = 3;</code>
      *
      * <pre>
-     * Historic: we have two enums tracking this, this one was never used.
+     * Historical, we had two enums tracking this, this one was never used.
      * what was the reason for chosing that kind of deployment from the gradle
      * side.
      * </pre>
@@ -1326,7 +1336,7 @@ public  final class InstantRun extends
      * <code>optional .android_studio.InstantRun.InstantRunBuildCause instant_run_build_cause = 3;</code>
      *
      * <pre>
-     * Historic: we have two enums tracking this, this one was never used.
+     * Historical, we had two enums tracking this, this one was never used.
      * what was the reason for chosing that kind of deployment from the gradle
      * side.
      * </pre>
@@ -1338,7 +1348,7 @@ public  final class InstantRun extends
      * <code>optional .android_studio.InstantRun.InstantRunBuildCause instant_run_build_cause = 3;</code>
      *
      * <pre>
-     * Historic: we have two enums tracking this, this one was never used.
+     * Historical, we had two enums tracking this, this one was never used.
      * what was the reason for chosing that kind of deployment from the gradle
      * side.
      * </pre>
@@ -1356,7 +1366,7 @@ public  final class InstantRun extends
      * <code>optional .android_studio.InstantRun.InstantRunBuildCause instant_run_build_cause = 3;</code>
      *
      * <pre>
-     * Historic: we have two enums tracking this, this one was never used.
+     * Historical, we had two enums tracking this, this one was never used.
      * what was the reason for chosing that kind of deployment from the gradle
      * side.
      * </pre>

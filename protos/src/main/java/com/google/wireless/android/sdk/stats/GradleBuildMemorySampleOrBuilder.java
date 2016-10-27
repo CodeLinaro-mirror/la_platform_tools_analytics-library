@@ -12,6 +12,8 @@ public interface GradleBuildMemorySampleOrBuilder
    *
    * <pre>
    * Garbage collection time since the current daemon started.
+   * Historical: Used in Android Gradle Plugin 2.2.x, circa 2016-10
+   * Replaced by JavaProcessStats.
    * </pre>
    */
   boolean hasGcTimeMs();
@@ -20,6 +22,8 @@ public interface GradleBuildMemorySampleOrBuilder
    *
    * <pre>
    * Garbage collection time since the current daemon started.
+   * Historical: Used in Android Gradle Plugin 2.2.x, circa 2016-10
+   * Replaced by JavaProcessStats.
    * </pre>
    */
   long getGcTimeMs();
@@ -30,6 +34,8 @@ public interface GradleBuildMemorySampleOrBuilder
    *
    * <pre>
    * Garbage collection count since the current daemon started.
+   * Historical: Used in Android Gradle Plugin 2.2.x, circa 2016-10.
+   * Replaced by JavaProcessStats.
    * </pre>
    */
   boolean hasGcCount();
@@ -38,6 +44,8 @@ public interface GradleBuildMemorySampleOrBuilder
    *
    * <pre>
    * Garbage collection count since the current daemon started.
+   * Historical: Used in Android Gradle Plugin 2.2.x, circa 2016-10.
+   * Replaced by JavaProcessStats.
    * </pre>
    */
   long getGcCount();
@@ -59,4 +67,30 @@ public interface GradleBuildMemorySampleOrBuilder
    * </pre>
    */
   long getTimestamp();
+
+  // optional .android_studio.JavaProcessStats java_process_stats = 4;
+  /**
+   * <code>optional .android_studio.JavaProcessStats java_process_stats = 4;</code>
+   *
+   * <pre>
+   * More detailed stats on the current running java process.
+   * </pre>
+   */
+  boolean hasJavaProcessStats();
+  /**
+   * <code>optional .android_studio.JavaProcessStats java_process_stats = 4;</code>
+   *
+   * <pre>
+   * More detailed stats on the current running java process.
+   * </pre>
+   */
+  com.google.wireless.android.sdk.stats.JavaProcessStats getJavaProcessStats();
+  /**
+   * <code>optional .android_studio.JavaProcessStats java_process_stats = 4;</code>
+   *
+   * <pre>
+   * More detailed stats on the current running java process.
+   * </pre>
+   */
+  com.google.wireless.android.sdk.stats.JavaProcessStatsOrBuilder getJavaProcessStatsOrBuilder();
 }
