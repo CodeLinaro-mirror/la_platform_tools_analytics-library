@@ -5298,7 +5298,7 @@ public  final class AndroidStudioEvent extends
    * <code>optional .android_studio.JavaProcessStats java_process_stats = 37;</code>
    *
    * <pre>
-   * set when kind = STUDIO_PROCESS_STATS
+   * set when kind = STUDIO_PROCESS_STATS or kind = GRADLE_BUILD_PROFILE
    * </pre>
    */
   public boolean hasJavaProcessStats() {
@@ -5308,7 +5308,7 @@ public  final class AndroidStudioEvent extends
    * <code>optional .android_studio.JavaProcessStats java_process_stats = 37;</code>
    *
    * <pre>
-   * set when kind = STUDIO_PROCESS_STATS
+   * set when kind = STUDIO_PROCESS_STATS or kind = GRADLE_BUILD_PROFILE
    * </pre>
    */
   public com.google.wireless.android.sdk.stats.JavaProcessStats getJavaProcessStats() {
@@ -5318,7 +5318,7 @@ public  final class AndroidStudioEvent extends
    * <code>optional .android_studio.JavaProcessStats java_process_stats = 37;</code>
    *
    * <pre>
-   * set when kind = STUDIO_PROCESS_STATS
+   * set when kind = STUDIO_PROCESS_STATS or kind = GRADLE_BUILD_PROFILE
    * </pre>
    */
   public com.google.wireless.android.sdk.stats.JavaProcessStatsOrBuilder getJavaProcessStatsOrBuilder() {
@@ -10743,7 +10743,7 @@ public  final class AndroidStudioEvent extends
      * <code>optional .android_studio.JavaProcessStats java_process_stats = 37;</code>
      *
      * <pre>
-     * set when kind = STUDIO_PROCESS_STATS
+     * set when kind = STUDIO_PROCESS_STATS or kind = GRADLE_BUILD_PROFILE
      * </pre>
      */
     public boolean hasJavaProcessStats() {
@@ -10753,7 +10753,7 @@ public  final class AndroidStudioEvent extends
      * <code>optional .android_studio.JavaProcessStats java_process_stats = 37;</code>
      *
      * <pre>
-     * set when kind = STUDIO_PROCESS_STATS
+     * set when kind = STUDIO_PROCESS_STATS or kind = GRADLE_BUILD_PROFILE
      * </pre>
      */
     public com.google.wireless.android.sdk.stats.JavaProcessStats getJavaProcessStats() {
@@ -10767,7 +10767,7 @@ public  final class AndroidStudioEvent extends
      * <code>optional .android_studio.JavaProcessStats java_process_stats = 37;</code>
      *
      * <pre>
-     * set when kind = STUDIO_PROCESS_STATS
+     * set when kind = STUDIO_PROCESS_STATS or kind = GRADLE_BUILD_PROFILE
      * </pre>
      */
     public Builder setJavaProcessStats(com.google.wireless.android.sdk.stats.JavaProcessStats value) {
@@ -10787,7 +10787,7 @@ public  final class AndroidStudioEvent extends
      * <code>optional .android_studio.JavaProcessStats java_process_stats = 37;</code>
      *
      * <pre>
-     * set when kind = STUDIO_PROCESS_STATS
+     * set when kind = STUDIO_PROCESS_STATS or kind = GRADLE_BUILD_PROFILE
      * </pre>
      */
     public Builder setJavaProcessStats(
@@ -10805,7 +10805,7 @@ public  final class AndroidStudioEvent extends
      * <code>optional .android_studio.JavaProcessStats java_process_stats = 37;</code>
      *
      * <pre>
-     * set when kind = STUDIO_PROCESS_STATS
+     * set when kind = STUDIO_PROCESS_STATS or kind = GRADLE_BUILD_PROFILE
      * </pre>
      */
     public Builder mergeJavaProcessStats(com.google.wireless.android.sdk.stats.JavaProcessStats value) {
@@ -10828,7 +10828,7 @@ public  final class AndroidStudioEvent extends
      * <code>optional .android_studio.JavaProcessStats java_process_stats = 37;</code>
      *
      * <pre>
-     * set when kind = STUDIO_PROCESS_STATS
+     * set when kind = STUDIO_PROCESS_STATS or kind = GRADLE_BUILD_PROFILE
      * </pre>
      */
     public Builder clearJavaProcessStats() {
@@ -10845,7 +10845,7 @@ public  final class AndroidStudioEvent extends
      * <code>optional .android_studio.JavaProcessStats java_process_stats = 37;</code>
      *
      * <pre>
-     * set when kind = STUDIO_PROCESS_STATS
+     * set when kind = STUDIO_PROCESS_STATS or kind = GRADLE_BUILD_PROFILE
      * </pre>
      */
     public com.google.wireless.android.sdk.stats.JavaProcessStats.Builder getJavaProcessStatsBuilder() {
@@ -10857,7 +10857,7 @@ public  final class AndroidStudioEvent extends
      * <code>optional .android_studio.JavaProcessStats java_process_stats = 37;</code>
      *
      * <pre>
-     * set when kind = STUDIO_PROCESS_STATS
+     * set when kind = STUDIO_PROCESS_STATS or kind = GRADLE_BUILD_PROFILE
      * </pre>
      */
     public com.google.wireless.android.sdk.stats.JavaProcessStatsOrBuilder getJavaProcessStatsOrBuilder() {
@@ -10871,7 +10871,7 @@ public  final class AndroidStudioEvent extends
      * <code>optional .android_studio.JavaProcessStats java_process_stats = 37;</code>
      *
      * <pre>
-     * set when kind = STUDIO_PROCESS_STATS
+     * set when kind = STUDIO_PROCESS_STATS or kind = GRADLE_BUILD_PROFILE
      * </pre>
      */
     private com.google.protobuf.SingleFieldBuilder<

@@ -29,7 +29,7 @@ public interface InstantRunOrBuilder
    * <code>optional .android_studio.InstantRun.InstantRunBuildCause instant_run_build_cause = 3;</code>
    *
    * <pre>
-   * Historic: we have two enums tracking this, this one was never used.
+   * Historical, we had two enums tracking this, this one was never used.
    * what was the reason for chosing that kind of deployment from the gradle
    * side.
    * </pre>
@@ -39,7 +39,7 @@ public interface InstantRunOrBuilder
    * <code>optional .android_studio.InstantRun.InstantRunBuildCause instant_run_build_cause = 3;</code>
    *
    * <pre>
-   * Historic: we have two enums tracking this, this one was never used.
+   * Historical, we had two enums tracking this, this one was never used.
    * what was the reason for chosing that kind of deployment from the gradle
    * side.
    * </pre>

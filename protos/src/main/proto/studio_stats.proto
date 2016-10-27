@@ -470,7 +470,7 @@ message AndroidStudioEvent {
   optional .android_studio.MachineDetails machine_details = 35;
   // set when kind = STUDIO_PING
   optional .android_studio.JvmDetails jvm_details = 36;
-  // set when kind = STUDIO_PROCESS_STATS
+  // set when kind = STUDIO_PROCESS_STATS or kind = GRADLE_BUILD_PROFILE
   optional .android_studio.JavaProcessStats java_process_stats = 37;
   // set when kind = STUDIO_PERFORMANCE_STATS
   optional .android_studio.StudioPerformanceStats studio_performance_stats = 38;
@@ -837,6 +837,7 @@ message InstantRun {
     WARM_SWAP = 6;
     NO_CHANGES = 7;
   }
+  // Historical, use InstantRunStatus.VerifierStatus instead.
   // The different reasons Instant Run had to do a full build.
   enum InstantRunBuildCause {
     UNKNOWN_INSTANT_RUN_BUILD_CAUSE = 0;
@@ -879,10 +880,11 @@ message InstantRun {
     APP_USES_MULTIPLE_PROCESSES = 11;
     INCREMENTAL_BUILD = 12;
     NO_INSTANT_RUN = 13;
+    ANDROID_TV_UNSUPPORTED = 14;
   }
   // What kind of Instant Run deployment was chosen.
   optional .android_studio.InstantRun.InstantRunDeploymentKind deployment_kind = 1;
-  // Historic: we have two enums tracking this, this one was never used.
+  // Historical, we had two enums tracking this, this one was never used.
   // what was the reason for chosing that kind of deployment from the gradle
   // side.
   optional .android_studio.InstantRun.InstantRunBuildCause instant_run_build_cause = 3;
@@ -1019,8 +1021,10 @@ message GradleBuildProfile {
   // (after BuildListener#buildFinished(BuildResult) called.
   optional int64 build_time = 11;
   // The number of garbage collections during this build
+  // Historical: Used in Android Gradle Plugin 2.2.x, circa 2016-10
   optional int64 gc_count = 12;
   // The time spent garbage collecting during this build.
+  // Historical: Used in Android Gradle Plugin 2.2.x, circa 2016-10
   optional int64 gc_time = 13;
   // The projects that make up this multi-project build.
   repeated .android_studio.GradleBuildProject project = 14;
@@ -1138,11 +1142,17 @@ message GradleBuildVariant {
 
 message GradleBuildMemorySample {
   // Garbage collection time since the current daemon started.
+  // Historical: Used in Android Gradle Plugin 2.2.x, circa 2016-10
+  // Replaced by JavaProcessStats.
   optional int64 gc_time_ms = 1;
   // Garbage collection count since the current daemon started.
+  // Historical: Used in Android Gradle Plugin 2.2.x, circa 2016-10.
+  // Replaced by JavaProcessStats.
   optional int64 gc_count = 2;
   // Time that the memory stats were collected.
   optional int64 timestamp = 3;
+  // More detailed stats on the current running java process.
+  optional .android_studio.JavaProcessStats java_process_stats = 4;
 }
 
 // A single execution span from a build.

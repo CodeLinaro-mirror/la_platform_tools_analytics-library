@@ -544,6 +544,7 @@ public  final class GradleBuildProfile extends
    *
    * <pre>
    * The number of garbage collections during this build
+   * Historical: Used in Android Gradle Plugin 2.2.x, circa 2016-10
    * </pre>
    */
   public boolean hasGcCount() {
@@ -554,6 +555,7 @@ public  final class GradleBuildProfile extends
    *
    * <pre>
    * The number of garbage collections during this build
+   * Historical: Used in Android Gradle Plugin 2.2.x, circa 2016-10
    * </pre>
    */
   public long getGcCount() {
@@ -568,6 +570,7 @@ public  final class GradleBuildProfile extends
    *
    * <pre>
    * The time spent garbage collecting during this build.
+   * Historical: Used in Android Gradle Plugin 2.2.x, circa 2016-10
    * </pre>
    */
   public boolean hasGcTime() {
@@ -578,6 +581,7 @@ public  final class GradleBuildProfile extends
    *
    * <pre>
    * The time spent garbage collecting during this build.
+   * Historical: Used in Android Gradle Plugin 2.2.x, circa 2016-10
    * </pre>
    */
   public long getGcTime() {
@@ -2064,6 +2068,7 @@ public  final class GradleBuildProfile extends
      *
      * <pre>
      * The number of garbage collections during this build
+     * Historical: Used in Android Gradle Plugin 2.2.x, circa 2016-10
      * </pre>
      */
     public boolean hasGcCount() {
@@ -2074,6 +2079,7 @@ public  final class GradleBuildProfile extends
      *
      * <pre>
      * The number of garbage collections during this build
+     * Historical: Used in Android Gradle Plugin 2.2.x, circa 2016-10
      * </pre>
      */
     public long getGcCount() {
@@ -2084,6 +2090,7 @@ public  final class GradleBuildProfile extends
      *
      * <pre>
      * The number of garbage collections during this build
+     * Historical: Used in Android Gradle Plugin 2.2.x, circa 2016-10
      * </pre>
      */
     public Builder setGcCount(long value) {
@@ -2097,6 +2104,7 @@ public  final class GradleBuildProfile extends
      *
      * <pre>
      * The number of garbage collections during this build
+     * Historical: Used in Android Gradle Plugin 2.2.x, circa 2016-10
      * </pre>
      */
     public Builder clearGcCount() {
@@ -2113,6 +2121,7 @@ public  final class GradleBuildProfile extends
      *
      * <pre>
      * The time spent garbage collecting during this build.
+     * Historical: Used in Android Gradle Plugin 2.2.x, circa 2016-10
      * </pre>
      */
     public boolean hasGcTime() {
@@ -2123,6 +2132,7 @@ public  final class GradleBuildProfile extends
      *
      * <pre>
      * The time spent garbage collecting during this build.
+     * Historical: Used in Android Gradle Plugin 2.2.x, circa 2016-10
      * </pre>
      */
     public long getGcTime() {
@@ -2133,6 +2143,7 @@ public  final class GradleBuildProfile extends
      *
      * <pre>
      * The time spent garbage collecting during this build.
+     * Historical: Used in Android Gradle Plugin 2.2.x, circa 2016-10
      * </pre>
      */
     public Builder setGcTime(long value) {
@@ -2146,6 +2157,7 @@ public  final class GradleBuildProfile extends
      *
      * <pre>
      * The time spent garbage collecting during this build.
+     * Historical: Used in Android Gradle Plugin 2.2.x, circa 2016-10
      * </pre>
      */
     public Builder clearGcTime() {

@@ -69,6 +69,19 @@ public  final class GradleBuildMemorySample extends
             timestamp_ = input.readInt64();
             break;
           }
+          case 34: {
+            com.google.wireless.android.sdk.stats.JavaProcessStats.Builder subBuilder = null;
+            if (((bitField0_ & 0x00000008) == 0x00000008)) {
+              subBuilder = javaProcessStats_.toBuilder();
+            }
+            javaProcessStats_ = input.readMessage(com.google.wireless.android.sdk.stats.JavaProcessStats.PARSER, extensionRegistry);
+            if (subBuilder != null) {
+              subBuilder.mergeFrom(javaProcessStats_);
+              javaProcessStats_ = subBuilder.buildPartial();
+            }
+            bitField0_ |= 0x00000008;
+            break;
+          }
         }
       }
     } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -117,6 +130,8 @@ public  final class GradleBuildMemorySample extends
    *
    * <pre>
    * Garbage collection time since the current daemon started.
+   * Historical: Used in Android Gradle Plugin 2.2.x, circa 2016-10
+   * Replaced by JavaProcessStats.
    * </pre>
    */
   public boolean hasGcTimeMs() {
@@ -127,6 +142,8 @@ public  final class GradleBuildMemorySample extends
    *
    * <pre>
    * Garbage collection time since the current daemon started.
+   * Historical: Used in Android Gradle Plugin 2.2.x, circa 2016-10
+   * Replaced by JavaProcessStats.
    * </pre>
    */
   public long getGcTimeMs() {
@@ -141,6 +158,8 @@ public  final class GradleBuildMemorySample extends
    *
    * <pre>
    * Garbage collection count since the current daemon started.
+   * Historical: Used in Android Gradle Plugin 2.2.x, circa 2016-10.
+   * Replaced by JavaProcessStats.
    * </pre>
    */
   public boolean hasGcCount() {
@@ -151,6 +170,8 @@ public  final class GradleBuildMemorySample extends
    *
    * <pre>
    * Garbage collection count since the current daemon started.
+   * Historical: Used in Android Gradle Plugin 2.2.x, circa 2016-10.
+   * Replaced by JavaProcessStats.
    * </pre>
    */
   public long getGcCount() {
@@ -181,10 +202,45 @@ public  final class GradleBuildMemorySample extends
     return timestamp_;
   }
 
+  // optional .android_studio.JavaProcessStats java_process_stats = 4;
+  public static final int JAVA_PROCESS_STATS_FIELD_NUMBER = 4;
+  private com.google.wireless.android.sdk.stats.JavaProcessStats javaProcessStats_;
+  /**
+   * <code>optional .android_studio.JavaProcessStats java_process_stats = 4;</code>
+   *
+   * <pre>
+   * More detailed stats on the current running java process.
+   * </pre>
+   */
+  public boolean hasJavaProcessStats() {
+    return ((bitField0_ & 0x00000008) == 0x00000008);
+  }
+  /**
+   * <code>optional .android_studio.JavaProcessStats java_process_stats = 4;</code>
+   *
+   * <pre>
+   * More detailed stats on the current running java process.
+   * </pre>
+   */
+  public com.google.wireless.android.sdk.stats.JavaProcessStats getJavaProcessStats() {
+    return javaProcessStats_;
+  }
+  /**
+   * <code>optional .android_studio.JavaProcessStats java_process_stats = 4;</code>
+   *
+   * <pre>
+   * More detailed stats on the current running java process.
+   * </pre>
+   */
+  public com.google.wireless.android.sdk.stats.JavaProcessStatsOrBuilder getJavaProcessStatsOrBuilder() {
+    return javaProcessStats_;
+  }
+
   private void initFields() {
     gcTimeMs_ = 0L;
     gcCount_ = 0L;
     timestamp_ = 0L;
+    javaProcessStats_ = com.google.wireless.android.sdk.stats.JavaProcessStats.getDefaultInstance();
   }
   private byte memoizedIsInitialized = -1;
   public final boolean isInitialized() {
@@ -207,6 +263,9 @@ public  final class GradleBuildMemorySample extends
     if (((bitField0_ & 0x00000004) == 0x00000004)) {
       output.writeInt64(3, timestamp_);
     }
+    if (((bitField0_ & 0x00000008) == 0x00000008)) {
+      output.writeMessage(4, javaProcessStats_);
+    }
     getUnknownFields().writeTo(output);
   }
 
@@ -227,6 +286,10 @@ public  final class GradleBuildMemorySample extends
     if (((bitField0_ & 0x00000004) == 0x00000004)) {
       size += com.google.protobuf.CodedOutputStream
         .computeInt64Size(3, timestamp_);
+    }
+    if (((bitField0_ & 0x00000008) == 0x00000008)) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeMessageSize(4, javaProcessStats_);
     }
     size += getUnknownFields().getSerializedSize();
     memoizedSerializedSize = size;
@@ -336,6 +399,7 @@ public  final class GradleBuildMemorySample extends
     }
     private void maybeForceBuilderInitialization() {
       if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        getJavaProcessStatsFieldBuilder();
       }
     }
     private static Builder create() {
@@ -350,6 +414,12 @@ public  final class GradleBuildMemorySample extends
       bitField0_ = (bitField0_ & ~0x00000002);
       timestamp_ = 0L;
       bitField0_ = (bitField0_ & ~0x00000004);
+      if (javaProcessStatsBuilder_ == null) {
+        javaProcessStats_ = com.google.wireless.android.sdk.stats.JavaProcessStats.getDefaultInstance();
+      } else {
+        javaProcessStatsBuilder_.clear();
+      }
+      bitField0_ = (bitField0_ & ~0x00000008);
       return this;
     }
 
@@ -390,6 +460,14 @@ public  final class GradleBuildMemorySample extends
         to_bitField0_ |= 0x00000004;
       }
       result.timestamp_ = timestamp_;
+      if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+        to_bitField0_ |= 0x00000008;
+      }
+      if (javaProcessStatsBuilder_ == null) {
+        result.javaProcessStats_ = javaProcessStats_;
+      } else {
+        result.javaProcessStats_ = javaProcessStatsBuilder_.build();
+      }
       result.bitField0_ = to_bitField0_;
       onBuilt();
       return result;
@@ -414,6 +492,9 @@ public  final class GradleBuildMemorySample extends
       }
       if (other.hasTimestamp()) {
         setTimestamp(other.getTimestamp());
+      }
+      if (other.hasJavaProcessStats()) {
+        mergeJavaProcessStats(other.getJavaProcessStats());
       }
       this.mergeUnknownFields(other.getUnknownFields());
       return this;
@@ -449,6 +530,8 @@ public  final class GradleBuildMemorySample extends
      *
      * <pre>
      * Garbage collection time since the current daemon started.
+     * Historical: Used in Android Gradle Plugin 2.2.x, circa 2016-10
+     * Replaced by JavaProcessStats.
      * </pre>
      */
     public boolean hasGcTimeMs() {
@@ -459,6 +542,8 @@ public  final class GradleBuildMemorySample extends
      *
      * <pre>
      * Garbage collection time since the current daemon started.
+     * Historical: Used in Android Gradle Plugin 2.2.x, circa 2016-10
+     * Replaced by JavaProcessStats.
      * </pre>
      */
     public long getGcTimeMs() {
@@ -469,6 +554,8 @@ public  final class GradleBuildMemorySample extends
      *
      * <pre>
      * Garbage collection time since the current daemon started.
+     * Historical: Used in Android Gradle Plugin 2.2.x, circa 2016-10
+     * Replaced by JavaProcessStats.
      * </pre>
      */
     public Builder setGcTimeMs(long value) {
@@ -482,6 +569,8 @@ public  final class GradleBuildMemorySample extends
      *
      * <pre>
      * Garbage collection time since the current daemon started.
+     * Historical: Used in Android Gradle Plugin 2.2.x, circa 2016-10
+     * Replaced by JavaProcessStats.
      * </pre>
      */
     public Builder clearGcTimeMs() {
@@ -498,6 +587,8 @@ public  final class GradleBuildMemorySample extends
      *
      * <pre>
      * Garbage collection count since the current daemon started.
+     * Historical: Used in Android Gradle Plugin 2.2.x, circa 2016-10.
+     * Replaced by JavaProcessStats.
      * </pre>
      */
     public boolean hasGcCount() {
@@ -508,6 +599,8 @@ public  final class GradleBuildMemorySample extends
      *
      * <pre>
      * Garbage collection count since the current daemon started.
+     * Historical: Used in Android Gradle Plugin 2.2.x, circa 2016-10.
+     * Replaced by JavaProcessStats.
      * </pre>
      */
     public long getGcCount() {
@@ -518,6 +611,8 @@ public  final class GradleBuildMemorySample extends
      *
      * <pre>
      * Garbage collection count since the current daemon started.
+     * Historical: Used in Android Gradle Plugin 2.2.x, circa 2016-10.
+     * Replaced by JavaProcessStats.
      * </pre>
      */
     public Builder setGcCount(long value) {
@@ -531,6 +626,8 @@ public  final class GradleBuildMemorySample extends
      *
      * <pre>
      * Garbage collection count since the current daemon started.
+     * Historical: Used in Android Gradle Plugin 2.2.x, circa 2016-10.
+     * Replaced by JavaProcessStats.
      * </pre>
      */
     public Builder clearGcCount() {
@@ -587,6 +684,159 @@ public  final class GradleBuildMemorySample extends
       timestamp_ = 0L;
       onChanged();
       return this;
+    }
+
+    // optional .android_studio.JavaProcessStats java_process_stats = 4;
+    private com.google.wireless.android.sdk.stats.JavaProcessStats javaProcessStats_ = com.google.wireless.android.sdk.stats.JavaProcessStats.getDefaultInstance();
+    private com.google.protobuf.SingleFieldBuilder<
+        com.google.wireless.android.sdk.stats.JavaProcessStats, com.google.wireless.android.sdk.stats.JavaProcessStats.Builder, com.google.wireless.android.sdk.stats.JavaProcessStatsOrBuilder> javaProcessStatsBuilder_;
+    /**
+     * <code>optional .android_studio.JavaProcessStats java_process_stats = 4;</code>
+     *
+     * <pre>
+     * More detailed stats on the current running java process.
+     * </pre>
+     */
+    public boolean hasJavaProcessStats() {
+      return ((bitField0_ & 0x00000008) == 0x00000008);
+    }
+    /**
+     * <code>optional .android_studio.JavaProcessStats java_process_stats = 4;</code>
+     *
+     * <pre>
+     * More detailed stats on the current running java process.
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.JavaProcessStats getJavaProcessStats() {
+      if (javaProcessStatsBuilder_ == null) {
+        return javaProcessStats_;
+      } else {
+        return javaProcessStatsBuilder_.getMessage();
+      }
+    }
+    /**
+     * <code>optional .android_studio.JavaProcessStats java_process_stats = 4;</code>
+     *
+     * <pre>
+     * More detailed stats on the current running java process.
+     * </pre>
+     */
+    public Builder setJavaProcessStats(com.google.wireless.android.sdk.stats.JavaProcessStats value) {
+      if (javaProcessStatsBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        javaProcessStats_ = value;
+        onChanged();
+      } else {
+        javaProcessStatsBuilder_.setMessage(value);
+      }
+      bitField0_ |= 0x00000008;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.JavaProcessStats java_process_stats = 4;</code>
+     *
+     * <pre>
+     * More detailed stats on the current running java process.
+     * </pre>
+     */
+    public Builder setJavaProcessStats(
+        com.google.wireless.android.sdk.stats.JavaProcessStats.Builder builderForValue) {
+      if (javaProcessStatsBuilder_ == null) {
+        javaProcessStats_ = builderForValue.build();
+        onChanged();
+      } else {
+        javaProcessStatsBuilder_.setMessage(builderForValue.build());
+      }
+      bitField0_ |= 0x00000008;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.JavaProcessStats java_process_stats = 4;</code>
+     *
+     * <pre>
+     * More detailed stats on the current running java process.
+     * </pre>
+     */
+    public Builder mergeJavaProcessStats(com.google.wireless.android.sdk.stats.JavaProcessStats value) {
+      if (javaProcessStatsBuilder_ == null) {
+        if (((bitField0_ & 0x00000008) == 0x00000008) &&
+            javaProcessStats_ != com.google.wireless.android.sdk.stats.JavaProcessStats.getDefaultInstance()) {
+          javaProcessStats_ =
+            com.google.wireless.android.sdk.stats.JavaProcessStats.newBuilder(javaProcessStats_).mergeFrom(value).buildPartial();
+        } else {
+          javaProcessStats_ = value;
+        }
+        onChanged();
+      } else {
+        javaProcessStatsBuilder_.mergeFrom(value);
+      }
+      bitField0_ |= 0x00000008;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.JavaProcessStats java_process_stats = 4;</code>
+     *
+     * <pre>
+     * More detailed stats on the current running java process.
+     * </pre>
+     */
+    public Builder clearJavaProcessStats() {
+      if (javaProcessStatsBuilder_ == null) {
+        javaProcessStats_ = com.google.wireless.android.sdk.stats.JavaProcessStats.getDefaultInstance();
+        onChanged();
+      } else {
+        javaProcessStatsBuilder_.clear();
+      }
+      bitField0_ = (bitField0_ & ~0x00000008);
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.JavaProcessStats java_process_stats = 4;</code>
+     *
+     * <pre>
+     * More detailed stats on the current running java process.
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.JavaProcessStats.Builder getJavaProcessStatsBuilder() {
+      bitField0_ |= 0x00000008;
+      onChanged();
+      return getJavaProcessStatsFieldBuilder().getBuilder();
+    }
+    /**
+     * <code>optional .android_studio.JavaProcessStats java_process_stats = 4;</code>
+     *
+     * <pre>
+     * More detailed stats on the current running java process.
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.JavaProcessStatsOrBuilder getJavaProcessStatsOrBuilder() {
+      if (javaProcessStatsBuilder_ != null) {
+        return javaProcessStatsBuilder_.getMessageOrBuilder();
+      } else {
+        return javaProcessStats_;
+      }
+    }
+    /**
+     * <code>optional .android_studio.JavaProcessStats java_process_stats = 4;</code>
+     *
+     * <pre>
+     * More detailed stats on the current running java process.
+     * </pre>
+     */
+    private com.google.protobuf.SingleFieldBuilder<
+        com.google.wireless.android.sdk.stats.JavaProcessStats, com.google.wireless.android.sdk.stats.JavaProcessStats.Builder, com.google.wireless.android.sdk.stats.JavaProcessStatsOrBuilder> 
+        getJavaProcessStatsFieldBuilder() {
+      if (javaProcessStatsBuilder_ == null) {
+        javaProcessStatsBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+            com.google.wireless.android.sdk.stats.JavaProcessStats, com.google.wireless.android.sdk.stats.JavaProcessStats.Builder, com.google.wireless.android.sdk.stats.JavaProcessStatsOrBuilder>(
+                javaProcessStats_,
+                getParentForChildren(),
+                isClean());
+        javaProcessStats_ = null;
+      }
+      return javaProcessStatsBuilder_;
     }
 
     // @@protoc_insertion_point(builder_scope:android_studio.GradleBuildMemorySample)
