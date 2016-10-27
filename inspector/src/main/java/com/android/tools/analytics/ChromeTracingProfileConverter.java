@@ -25,7 +25,6 @@ import com.google.wireless.android.sdk.stats.GradleBuildProfile;
 import com.google.wireless.android.sdk.stats.GradleBuildProfileSpan;
 import com.google.wireless.android.sdk.stats.GradleBuildProject;
 import com.google.wireless.android.sdk.stats.GradleBuildVariant;
-
 import java.io.IOException;
 import java.nio.file.FileVisitResult;
 import java.nio.file.Files;
@@ -79,18 +78,21 @@ public class ChromeTracingProfileConverter {
             toJson(path);
             System.out.format(Locale.US, "Converted %1$s%n", path.getFileName());
         } else if (Files.isDirectory(path)) {
-            Files.walkFileTree(path, new SimpleFileVisitor<Path>() {
-                @Override
-                public FileVisitResult visitFile(Path file, BasicFileAttributes attrs)
-                        throws IOException {
-                    if (file.getFileName().toString().endsWith(".json")) {
-                        return FileVisitResult.CONTINUE;
-                    }
-                    toJson(file);
-                    System.out.format(Locale.US, "Converted %1$s\n", path.relativize(file));
-                    return FileVisitResult.CONTINUE;
-                }
-            });
+            Files.walkFileTree(
+                    path,
+                    new SimpleFileVisitor<Path>() {
+                        @Override
+                        public FileVisitResult visitFile(Path file, BasicFileAttributes attrs)
+                                throws IOException {
+                            if (file.getFileName().toString().endsWith(".rawproto")) {
+                                toJson(file);
+                                System.out.format(
+                                        Locale.US, "Converted %1$s\n", path.relativize(file));
+                                return FileVisitResult.CONTINUE;
+                            }
+                            return FileVisitResult.CONTINUE;
+                        }
+                    });
         } else {
             throw new AbnormalExitException(
                     String.format(
@@ -100,7 +102,15 @@ public class ChromeTracingProfileConverter {
         }
     }
 
-    private static void toJson(@NonNull Path protoFile) throws IOException, AbnormalExitException {
+    public static Path getJsonOutFile(Path protoFile) {
+        String fileName = protoFile.getFileName().toString();
+        if (fileName.endsWith(".rawproto")) {
+            fileName = fileName.substring(0, fileName.length() - ".rawproto".length());
+        }
+        return protoFile.getParent().resolve(fileName + ".json");
+    }
+
+    public static void toJson(@NonNull Path protoFile) throws IOException, AbnormalExitException {
         GradleBuildProfile profile;
         try {
             profile = GradleBuildProfile
@@ -113,7 +123,7 @@ public class ChromeTracingProfileConverter {
                             e.getMessage(),
                             protoFile));
         }
-        Path out = protoFile.getParent().resolve(protoFile.getFileName() + ".json");
+        Path out = getJsonOutFile(protoFile);
 
         Map<Long, ProjectHolder> projects =
                 profile.getProjectList().stream()
