@@ -776,10 +776,10 @@ public final class AndroidStudioStats {
       "ACKAGING_TASKS\020\211\'\0224\n/INSTANTAPP_TASK_MAN" +
       "AGER_CREATE_PROCESS_RES_TASK\020\212\'\0222\n-INSTA" +
       "NTAPP_TASK_MANAGER_CREATE_PACKAGING_TASK" +
-      "\020\213\'\"\320\020\n\023GradleTaskExecution\0226\n\004type\030\001 \001(",
+      "\020\213\'\"\347\020\n\023GradleTaskExecution\0226\n\004type\030\001 \001(",
       "\0162(.android_studio.GradleTaskExecution.T" +
       "ype\022\020\n\010did_work\030\002 \001(\010\022\017\n\007skipped\030\003 \001(\010\022\022" +
-      "\n\nup_to_date\030\004 \001(\010\022\016\n\006failed\030\005 \001(\010\"\271\017\n\004T" +
+      "\n\nup_to_date\030\004 \001(\010\022\016\n\006failed\030\005 \001(\010\"\320\017\n\004T" +
       "ype\022\025\n\021UNKNOWN_TASK_TYPE\020\000\022\020\n\014AIDL_COMPI" +
       "LE\020\001\022\017\n\013ANDROID_JAR\020\002\022\030\n\024ANDROID_JAVA_CO" +
       "MPILE\020\003\022\022\n\016ANDROID_REPORT\020\004\022\025\n\021ANDROID_U" +
@@ -829,115 +829,116 @@ public final class AndroidStudioStats {
       "OMPILE\020L\022\034\n\030MERGE_DEX_ATOM_RES_CLASS\020M\022\020",
       "\n\014PACKAGE_ATOM\020N\022\027\n\023PACKAGE_INSTANT_APP\020" +
       "O\022\020\n\014PREPARE_ATOM\020P\022!\n\035PROCESS_INSTANT_A" +
-      "PP_RESOURCES\020Q\"\304\004\n\030GradleTransformExecut" +
-      "ion\022;\n\004type\030\001 \001(\0162-.android_studio.Gradl" +
-      "eTransformExecution.Type\022\026\n\016is_increment" +
-      "al\030\002 \001(\010\"\322\003\n\004Type\022\032\n\026UNKNOWN_TRANSFORM_T" +
-      "YPE\020\000\022\007\n\003DEX\020\001\022\020\n\014EXTRACT_JARS\020\002\022\023\n\017INST" +
-      "ANT_RUN_DEX\020\003\022\026\n\022INSTANT_RUN_SLICER\020\004\022\017\n" +
-      "\013INSTANT_RUN\020\005\022\027\n\023INSTANT_RUN_VERIFER\020\006\022" +
-      "\020\n\014JACK_PRE_DEX\020\007\022\010\n\004JACK\020\010\022\n\n\006JACOCO\020\t\022",
-      "\017\n\013JAR_MERGING\020\n\022\017\n\013LIBRARY_JAR\020\013\022\024\n\020LIB" +
-      "RARY_JNI_LIBS\020\014\022\030\n\024MERGE_JAVA_RESOURCES\020" +
-      "\r\022\r\n\tMULTI_DEX\020\016\022\020\n\014NEW_SHRINKER\020\017\022\027\n\023NO" +
-      "_CHANGES_VERIFIER\020\020\022\r\n\tPRO_GUARD\020\021\022\024\n\020SH" +
-      "RINK_RESOURCES\020\022\022 \n\034DATA_BINDING_MERGE_A" +
-      "RTIFACTS\020\023\022\030\n\024INSTANT_RUN_VERIFIER\020\024\022\026\n\022" +
-      "STRIP_DEBUG_SYMBOL\020\025\022\017\n\013LIBRARY_API\020\026\"\256\t" +
-      "\n\020InstantRunStatus\022>\n\nbuild_mode\030\001 \001(\0162*" +
-      ".android_studio.InstantRunStatus.BuildMo" +
-      "de\022H\n\017patching_policy\030\002 \001(\0162/.android_st",
-      "udio.InstantRunStatus.PatchingPolicy\022H\n\017" +
-      "verifier_status\030\003 \001(\0162/.android_studio.I" +
-      "nstantRunStatus.VerifierStatus\0224\n\010artifa" +
-      "ct\030\004 \003(\0132\".android_studio.InstantRunArti" +
-      "fact\"E\n\tBuildMode\022\026\n\022UNKNOWN_BUILD_MODE\020" +
-      "\000\022\014\n\010HOT_WARM\020\001\022\010\n\004COLD\020\002\022\010\n\004FULL\020\003\"]\n\016P" +
-      "atchingPolicy\022\033\n\027UNKNOWN_PATCHING_POLICY" +
-      "\020\000\022\020\n\014PRE_LOLLIPOP\020\001\022\r\n\tMULTI_DEX\020\002\022\r\n\tM" +
-      "ULTI_APK\020\003\"\351\005\n\016VerifierStatus\022\033\n\027UNKNOWN" +
-      "_VERIFIER_STATUS\020\000\022\016\n\nCOMPATIBLE\020\001\022\013\n\007NO",
-      "T_RUN\020\002\022\030\n\024INSTANT_RUN_DISABLED\020\003\022\027\n\023INS" +
-      "TANT_RUN_FAILURE\020\004\022\017\n\013CLASS_ADDED\020\005\022\030\n\024P" +
-      "ARENT_CLASS_CHANGED\020\006\022!\n\035IMPLEMENTED_INT" +
-      "ERFACES_CHANGE\020\007\022\033\n\027CLASS_ANNOTATION_CHA" +
-      "NGE\020\010\022\035\n\031STATIC_INITIALIZER_CHANGE\020\t\022 \n\034" +
-      "CONSTRUCTOR_SIGNATURE_CHANGE\020\n\022\033\n\027METHOD" +
-      "_SIGNATURE_CHANGE\020\013\022\034\n\030METHOD_ANNOTATION" +
-      "_CHANGE\020\014\022\022\n\016METHOD_DELETED\020\r\022\020\n\014METHOD_" +
-      "ADDED\020\016\022\017\n\013FIELD_ADDED\020\017\022\021\n\rFIELD_REMOVE" +
-      "D\020\020\022\025\n\021FIELD_TYPE_CHANGE\020\021\022\022\n\016R_CLASS_CH",
-      "ANGE\020\022\022\023\n\017REFLECTION_USED\020\023\022\032\n\026JAVA_RESO" +
-      "URCES_CHANGED\020\024\022\026\n\022DEPENDENCY_CHANGED\020\025\022" +
-      "\030\n\024MANIFEST_FILE_CHANGE\020\026\022\037\n\033BINARY_MANI" +
-      "FEST_FILE_CHANGE\020\027\022\027\n\023COLD_SWAP_REQUESTE" +
-      "D\020\030\022\030\n\024FULL_BUILD_REQUESTED\020\031\022\021\n\rINITIAL" +
-      "_BUILD\020\032\022\016\n\nNO_CHANGES\020\033\0224\n0CHANGE_IN_SE" +
-      "RIALIZABLE_CLASS_WITHOUT_VERSION_UID\020\034\"\261" +
-      "\001\n\022InstantRunArtifact\0225\n\004type\030\001 \001(\0162\'.an" +
-      "droid_studio.InstantRunArtifact.Type\"d\n\004" +
-      "Type\022\010\n\004MAIN\020\001\022\016\n\nSPLIT_MAIN\020\002\022\016\n\nRELOAD",
-      "_DEX\020\003\022\017\n\013RESTART_DEX\020\004\022\007\n\003DEX\020\005\022\t\n\005SPLI" +
-      "T\020\006\022\r\n\tRESOURCES\020\007\"(\n\023LLDBFrontendDetail" +
-      "s\022\021\n\texit_code\030\001 \001(\005\"-\n\024FirebaseErrorDet" +
-      "ails\022\025\n\rerror_message\030\001 \001(\t\"\244\001\n\021GfxTraci" +
-      "ngDetails\022\022\n\ntotal_time\030\001 \001(\003\022\017\n\007command" +
-      "\030\002 \001(\t\022\025\n\rerror_message\030\003 \001(\t\022\022\n\ntrace_p" +
-      "ath\030\004 \001(\t\022\024\n\014image_format\030\005 \001(\t\022\023\n\013image" +
-      "_width\030\006 \001(\003\022\024\n\014image_height\030\007 \001(\003\"C\n\023Te" +
-      "stRecorderDetails\022\023\n\013event_count\030\001 \001(\003\022\027" +
-      "\n\017assertion_count\030\002 \001(\003\"\371\001\n\rUIActionStat",
-      "s\022\031\n\021action_class_name\030\001 \001(\t\022\023\n\013invocati" +
-      "ons\030\002 \001(\003\022E\n\017invocation_kind\030\003 \001(\0162,.and" +
-      "roid_studio.UIActionStats.InvocationKind" +
-      "\"q\n\016InvocationKind\022\033\n\027UNKNOWN_INVOCATION" +
-      "_KIND\020\000\022\013\n\007TOOLBAR\020\001\022\010\n\004MENU\020\002\022\025\n\021KEYBOA" +
-      "RD_SHORTCUT\020\003\022\t\n\005MACRO\020\004\022\t\n\005MOUSE\020\005\"\206\001\n\016" +
-      "MachineDetails\022\021\n\ttotal_ram\030\001 \001(\003\022\022\n\ntot" +
-      "al_disk\030\002 \001(\003\022/\n\007display\030\003 \003(\0132\036.android" +
-      "_studio.DisplayDetails\022\034\n\024available_proc" +
-      "essors\030\004 \001(\005\"q\n\016DisplayDetails\022\r\n\005width\030",
-      "\001 \001(\003\022\016\n\006height\030\002 \001(\003\022 \n\030dots_per_inch_h" +
-      "orizontal\030\003 \001(\005\022\036\n\026dots_per_inch_vertica" +
-      "l\030\004 \001(\005\"\310\001\n\020JavaProcessStats\022\031\n\021heap_mem" +
-      "ory_usage\030\001 \001(\003\022\035\n\025non_heap_memory_usage" +
-      "\030\002 \001(\003\022\032\n\022loaded_class_count\030\003 \001(\005\022\024\n\014th" +
-      "read_count\030\004 \001(\005\022H\n\030garbage_collection_s" +
-      "tats\030\005 \003(\0132&.android_studio.GarbageColle" +
-      "ctionStats\"O\n\026GarbageCollectionStats\022\014\n\004" +
-      "name\030\001 \001(\t\022\026\n\016gc_collections\030\002 \001(\003\022\017\n\007gc" +
-      "_time\030\003 \001(\003\"\265\003\n\nJvmDetails\022\014\n\004name\030\001 \001(\t",
-      "\022\017\n\007version\030\002 \001(\t\022\016\n\006vendor\030\003 \001(\t\022\031\n\021min" +
-      "imum_heap_size\030\004 \001(\003\022\031\n\021maximum_heap_siz" +
-      "e\030\005 \001(\003\022$\n\034maximum_permanent_space_size\030" +
-      "\006 \001(\003\022\037\n\027maximum_code_cache_size\030\007 \001(\003\022!" +
-      "\n\031soft_reference_lru_policy\030\010 \001(\003\022F\n\021gar" +
-      "bage_collector\030\t \001(\0162+.android_studio.Jv" +
-      "mDetails.GarbageCollector\"\217\001\n\020GarbageCol" +
-      "lector\022\022\n\016UNSPECIFIED_GC\020\000\022\034\n\030CONCURRENT" +
-      "_MARK_SWEEP_GC\020\001\022\024\n\020GARBAGE_FIRST_GC\020\002\022\017" +
-      "\n\013PARALLEL_GC\020\003\022\023\n\017PARALLEL_OLD_GC\020\004\022\r\n\t",
-      "SERIAL_GC\020\005\"3\n\026StudioPerformanceStats\022\031\n" +
-      "\021ui_freeze_time_ms\030\001 \001(\005\"K\n\020PercentileBu" +
-      "cket\022\031\n\021target_percentile\030\001 \001(\001\022\r\n\005value" +
-      "\030\002 \001(\001\022\r\n\005count\030\003 \001(\004\"[\n\023PercentileEstim" +
-      "ator\022\022\n\nraw_sample\030\002 \003(\001\0220\n\006bucket\030\003 \003(\013" +
-      "2 .android_studio.PercentileBucket\"\213\003\n\027L" +
-      "ldbPercentileEstimator\022>\n\006metric\030\001 \001(\0162." +
-      ".android_studio.LldbPercentileEstimator." +
-      "Metric\0226\n\testimator\030\002 \001(\0132#.android_stud" +
-      "io.PercentileEstimator\"\367\001\n\006Metric\022\026\n\022ATT",
-      "ACH_TIME_MICROS\020\000\022$\n STEP_RESUME_RESPONS" +
-      "E_TIME_MICROS\020\001\022\035\n\031GET_VARIABLES_TIME_MI" +
-      "CROS\020\002\022+\n\'GET_VARIABLE_CHILDREN_RANGE_TI" +
-      "ME_MICROS\020\003\022\032\n\026GET_FRAMES_TIME_MICROS\020\004\022" +
-      "\'\n#ADD_SYMBOLIC_BREAKPOINT_TIME_MICROS\020\005" +
-      "\022\036\n\032ADD_BREAKPOINT_TIME_MICROS\020\006\"R\n\024Lldb" +
-      "PerformanceStats\022:\n\testimator\030\001 \003(\0132\'.an" +
-      "droid_studio.LldbPercentileEstimator\",\n\023" +
-      "StudioProjectChange\022\025\n\rprojects_open\030\001 \001" +
-      "(\005B=\n%com.google.wireless.android.sdk.st",
-      "atsB\022AndroidStudioStatsP\001"
+      "PP_RESOURCES\020Q\022\025\n\021CLEAN_BUILD_CACHE\020R\"\304\004" +
+      "\n\030GradleTransformExecution\022;\n\004type\030\001 \001(\016" +
+      "2-.android_studio.GradleTransformExecuti" +
+      "on.Type\022\026\n\016is_incremental\030\002 \001(\010\"\322\003\n\004Type" +
+      "\022\032\n\026UNKNOWN_TRANSFORM_TYPE\020\000\022\007\n\003DEX\020\001\022\020\n" +
+      "\014EXTRACT_JARS\020\002\022\023\n\017INSTANT_RUN_DEX\020\003\022\026\n\022" +
+      "INSTANT_RUN_SLICER\020\004\022\017\n\013INSTANT_RUN\020\005\022\027\n" +
+      "\023INSTANT_RUN_VERIFER\020\006\022\020\n\014JACK_PRE_DEX\020\007",
+      "\022\010\n\004JACK\020\010\022\n\n\006JACOCO\020\t\022\017\n\013JAR_MERGING\020\n\022" +
+      "\017\n\013LIBRARY_JAR\020\013\022\024\n\020LIBRARY_JNI_LIBS\020\014\022\030" +
+      "\n\024MERGE_JAVA_RESOURCES\020\r\022\r\n\tMULTI_DEX\020\016\022" +
+      "\020\n\014NEW_SHRINKER\020\017\022\027\n\023NO_CHANGES_VERIFIER" +
+      "\020\020\022\r\n\tPRO_GUARD\020\021\022\024\n\020SHRINK_RESOURCES\020\022\022" +
+      " \n\034DATA_BINDING_MERGE_ARTIFACTS\020\023\022\030\n\024INS" +
+      "TANT_RUN_VERIFIER\020\024\022\026\n\022STRIP_DEBUG_SYMBO" +
+      "L\020\025\022\017\n\013LIBRARY_API\020\026\"\256\t\n\020InstantRunStatu" +
+      "s\022>\n\nbuild_mode\030\001 \001(\0162*.android_studio.I" +
+      "nstantRunStatus.BuildMode\022H\n\017patching_po",
+      "licy\030\002 \001(\0162/.android_studio.InstantRunSt" +
+      "atus.PatchingPolicy\022H\n\017verifier_status\030\003" +
+      " \001(\0162/.android_studio.InstantRunStatus.V" +
+      "erifierStatus\0224\n\010artifact\030\004 \003(\0132\".androi" +
+      "d_studio.InstantRunArtifact\"E\n\tBuildMode" +
+      "\022\026\n\022UNKNOWN_BUILD_MODE\020\000\022\014\n\010HOT_WARM\020\001\022\010" +
+      "\n\004COLD\020\002\022\010\n\004FULL\020\003\"]\n\016PatchingPolicy\022\033\n\027" +
+      "UNKNOWN_PATCHING_POLICY\020\000\022\020\n\014PRE_LOLLIPO" +
+      "P\020\001\022\r\n\tMULTI_DEX\020\002\022\r\n\tMULTI_APK\020\003\"\351\005\n\016Ve" +
+      "rifierStatus\022\033\n\027UNKNOWN_VERIFIER_STATUS\020",
+      "\000\022\016\n\nCOMPATIBLE\020\001\022\013\n\007NOT_RUN\020\002\022\030\n\024INSTAN" +
+      "T_RUN_DISABLED\020\003\022\027\n\023INSTANT_RUN_FAILURE\020" +
+      "\004\022\017\n\013CLASS_ADDED\020\005\022\030\n\024PARENT_CLASS_CHANG" +
+      "ED\020\006\022!\n\035IMPLEMENTED_INTERFACES_CHANGE\020\007\022" +
+      "\033\n\027CLASS_ANNOTATION_CHANGE\020\010\022\035\n\031STATIC_I" +
+      "NITIALIZER_CHANGE\020\t\022 \n\034CONSTRUCTOR_SIGNA" +
+      "TURE_CHANGE\020\n\022\033\n\027METHOD_SIGNATURE_CHANGE" +
+      "\020\013\022\034\n\030METHOD_ANNOTATION_CHANGE\020\014\022\022\n\016METH" +
+      "OD_DELETED\020\r\022\020\n\014METHOD_ADDED\020\016\022\017\n\013FIELD_" +
+      "ADDED\020\017\022\021\n\rFIELD_REMOVED\020\020\022\025\n\021FIELD_TYPE",
+      "_CHANGE\020\021\022\022\n\016R_CLASS_CHANGE\020\022\022\023\n\017REFLECT" +
+      "ION_USED\020\023\022\032\n\026JAVA_RESOURCES_CHANGED\020\024\022\026" +
+      "\n\022DEPENDENCY_CHANGED\020\025\022\030\n\024MANIFEST_FILE_" +
+      "CHANGE\020\026\022\037\n\033BINARY_MANIFEST_FILE_CHANGE\020" +
+      "\027\022\027\n\023COLD_SWAP_REQUESTED\020\030\022\030\n\024FULL_BUILD" +
+      "_REQUESTED\020\031\022\021\n\rINITIAL_BUILD\020\032\022\016\n\nNO_CH" +
+      "ANGES\020\033\0224\n0CHANGE_IN_SERIALIZABLE_CLASS_" +
+      "WITHOUT_VERSION_UID\020\034\"\261\001\n\022InstantRunArti" +
+      "fact\0225\n\004type\030\001 \001(\0162\'.android_studio.Inst" +
+      "antRunArtifact.Type\"d\n\004Type\022\010\n\004MAIN\020\001\022\016\n",
+      "\nSPLIT_MAIN\020\002\022\016\n\nRELOAD_DEX\020\003\022\017\n\013RESTART" +
+      "_DEX\020\004\022\007\n\003DEX\020\005\022\t\n\005SPLIT\020\006\022\r\n\tRESOURCES\020" +
+      "\007\"(\n\023LLDBFrontendDetails\022\021\n\texit_code\030\001 " +
+      "\001(\005\"-\n\024FirebaseErrorDetails\022\025\n\rerror_mes" +
+      "sage\030\001 \001(\t\"\244\001\n\021GfxTracingDetails\022\022\n\ntota" +
+      "l_time\030\001 \001(\003\022\017\n\007command\030\002 \001(\t\022\025\n\rerror_m" +
+      "essage\030\003 \001(\t\022\022\n\ntrace_path\030\004 \001(\t\022\024\n\014imag" +
+      "e_format\030\005 \001(\t\022\023\n\013image_width\030\006 \001(\003\022\024\n\014i" +
+      "mage_height\030\007 \001(\003\"C\n\023TestRecorderDetails" +
+      "\022\023\n\013event_count\030\001 \001(\003\022\027\n\017assertion_count",
+      "\030\002 \001(\003\"\371\001\n\rUIActionStats\022\031\n\021action_class" +
+      "_name\030\001 \001(\t\022\023\n\013invocations\030\002 \001(\003\022E\n\017invo" +
+      "cation_kind\030\003 \001(\0162,.android_studio.UIAct" +
+      "ionStats.InvocationKind\"q\n\016InvocationKin" +
+      "d\022\033\n\027UNKNOWN_INVOCATION_KIND\020\000\022\013\n\007TOOLBA" +
+      "R\020\001\022\010\n\004MENU\020\002\022\025\n\021KEYBOARD_SHORTCUT\020\003\022\t\n\005" +
+      "MACRO\020\004\022\t\n\005MOUSE\020\005\"\206\001\n\016MachineDetails\022\021\n" +
+      "\ttotal_ram\030\001 \001(\003\022\022\n\ntotal_disk\030\002 \001(\003\022/\n\007" +
+      "display\030\003 \003(\0132\036.android_studio.DisplayDe" +
+      "tails\022\034\n\024available_processors\030\004 \001(\005\"q\n\016D",
+      "isplayDetails\022\r\n\005width\030\001 \001(\003\022\016\n\006height\030\002" +
+      " \001(\003\022 \n\030dots_per_inch_horizontal\030\003 \001(\005\022\036" +
+      "\n\026dots_per_inch_vertical\030\004 \001(\005\"\310\001\n\020JavaP" +
+      "rocessStats\022\031\n\021heap_memory_usage\030\001 \001(\003\022\035" +
+      "\n\025non_heap_memory_usage\030\002 \001(\003\022\032\n\022loaded_" +
+      "class_count\030\003 \001(\005\022\024\n\014thread_count\030\004 \001(\005\022" +
+      "H\n\030garbage_collection_stats\030\005 \003(\0132&.andr" +
+      "oid_studio.GarbageCollectionStats\"O\n\026Gar" +
+      "bageCollectionStats\022\014\n\004name\030\001 \001(\t\022\026\n\016gc_" +
+      "collections\030\002 \001(\003\022\017\n\007gc_time\030\003 \001(\003\"\265\003\n\nJ",
+      "vmDetails\022\014\n\004name\030\001 \001(\t\022\017\n\007version\030\002 \001(\t" +
+      "\022\016\n\006vendor\030\003 \001(\t\022\031\n\021minimum_heap_size\030\004 " +
+      "\001(\003\022\031\n\021maximum_heap_size\030\005 \001(\003\022$\n\034maximu" +
+      "m_permanent_space_size\030\006 \001(\003\022\037\n\027maximum_" +
+      "code_cache_size\030\007 \001(\003\022!\n\031soft_reference_" +
+      "lru_policy\030\010 \001(\003\022F\n\021garbage_collector\030\t " +
+      "\001(\0162+.android_studio.JvmDetails.GarbageC" +
+      "ollector\"\217\001\n\020GarbageCollector\022\022\n\016UNSPECI" +
+      "FIED_GC\020\000\022\034\n\030CONCURRENT_MARK_SWEEP_GC\020\001\022" +
+      "\024\n\020GARBAGE_FIRST_GC\020\002\022\017\n\013PARALLEL_GC\020\003\022\023",
+      "\n\017PARALLEL_OLD_GC\020\004\022\r\n\tSERIAL_GC\020\005\"3\n\026St" +
+      "udioPerformanceStats\022\031\n\021ui_freeze_time_m" +
+      "s\030\001 \001(\005\"K\n\020PercentileBucket\022\031\n\021target_pe" +
+      "rcentile\030\001 \001(\001\022\r\n\005value\030\002 \001(\001\022\r\n\005count\030\003" +
+      " \001(\004\"[\n\023PercentileEstimator\022\022\n\nraw_sampl" +
+      "e\030\002 \003(\001\0220\n\006bucket\030\003 \003(\0132 .android_studio" +
+      ".PercentileBucket\"\213\003\n\027LldbPercentileEsti" +
+      "mator\022>\n\006metric\030\001 \001(\0162..android_studio.L" +
+      "ldbPercentileEstimator.Metric\0226\n\testimat" +
+      "or\030\002 \001(\0132#.android_studio.PercentileEsti",
+      "mator\"\367\001\n\006Metric\022\026\n\022ATTACH_TIME_MICROS\020\000" +
+      "\022$\n STEP_RESUME_RESPONSE_TIME_MICROS\020\001\022\035" +
+      "\n\031GET_VARIABLES_TIME_MICROS\020\002\022+\n\'GET_VAR" +
+      "IABLE_CHILDREN_RANGE_TIME_MICROS\020\003\022\032\n\026GE" +
+      "T_FRAMES_TIME_MICROS\020\004\022\'\n#ADD_SYMBOLIC_B" +
+      "REAKPOINT_TIME_MICROS\020\005\022\036\n\032ADD_BREAKPOIN" +
+      "T_TIME_MICROS\020\006\"R\n\024LldbPerformanceStats\022" +
+      ":\n\testimator\030\001 \003(\0132\'.android_studio.Lldb" +
+      "PercentileEstimator\",\n\023StudioProjectChan" +
+      "ge\022\025\n\rprojects_open\030\001 \001(\005B=\n%com.google.",
+      "wireless.android.sdk.statsB\022AndroidStudi" +
+      "oStatsP\001"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
