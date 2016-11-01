@@ -269,6 +269,12 @@ message AndroidStudioEvent {
     STUDIO_PROJECT_OPENED = 101;
     // User closed a project in the IDE.
     STUDIO_PROJECT_CLOSED = 102;
+    // Feature grouping of tutorials expanded.
+    FIREBASE_ASSISTANT_FEATURE_EXPANDED = 103;
+    // Tutorial opened.
+    FIREBASE_ASSISTANT_TUTORIAL_OPENED = 104;
+    // Tutorial closed via navigation.
+    FIREBASE_ASSISTANT_TUTORIAL_CLOSED = 105;
   }
   // Represents different Performance Monitoring types.
   enum MonitorType {
@@ -478,6 +484,8 @@ message AndroidStudioEvent {
   optional .android_studio.LldbPerformanceStats lldb_performance_stats = 39;
   // set when kind = STUDIO_PROJECT_OPENED or STUDIO_PROJECT_CLOSED
   optional .android_studio.StudioProjectChange studio_project_change = 40;
+  // optionally set when kind = FIREBASE_ASSISTANT_* (except for errors).
+  optional .android_studio.FirebaseContextDetails firebase_context_details = 41;
 }
 
 // Describes a product, e.g. Android Studio or Emulator.
@@ -1553,6 +1561,40 @@ message LLDBFrontendDetails {
 message FirebaseErrorDetails {
   // The error message presented to the user upon Firebase errors.
   optional string error_message = 1;
+}
+
+// Contextual details for Firebase Assistant events. This message acts as a
+// generic container for all events rather than having different messages for
+// each event type. While some fields will be knowingly blank/irrelevant for
+// some event types, frequency of logging is expected to be low enough that
+// this does not represent request/storage bloat.
+message FirebaseContextDetails {
+  enum ConnectStatus {
+    // Unable to determine connection status.
+    UNKNOWN_CONNECT_STATUS = 1;
+    // No modules connected.
+    NOT_CONNECTED = 2;
+    // 1 to N-1 modules were connected in a project with N modules.
+    PARTIALLY_CONNECTED = 3;
+    // All modules connected.
+    CONNECTED = 4;
+  }
+  // Public project id, used for attributing project growth to the plugin.
+  optional string project_id = 1;
+  // Secondary identifier for the project, also stored for more flexibility with
+  // joining the data with other sets.
+  optional string project_number = 2;
+  // Whether the action was performed while the user was logged in.
+  optional bool logged_in = 3;
+  // Whether the action was performed on while the related Studio project's
+  // modules were connected to a Firebase project.
+  optional .android_studio.FirebaseContextDetails.ConnectStatus connect_status = 4;
+  // Tutorial resource event relates to. Restricted to non PII such as the id
+  // of the tutorial that was opened.
+  optional string performed_on = 5;
+  // Time that an action took to be performed. A primary example is how long
+  // a tutorial was open before navigating away.
+  optional int64 duration = 6;
 }
 
 // Details on the GPU Debugger tracing run

@@ -493,6 +493,19 @@ public  final class AndroidStudioEvent extends
             bitField1_ |= 0x00000080;
             break;
           }
+          case 330: {
+            com.google.wireless.android.sdk.stats.FirebaseContextDetails.Builder subBuilder = null;
+            if (((bitField1_ & 0x00000100) == 0x00000100)) {
+              subBuilder = firebaseContextDetails_.toBuilder();
+            }
+            firebaseContextDetails_ = input.readMessage(com.google.wireless.android.sdk.stats.FirebaseContextDetails.PARSER, extensionRegistry);
+            if (subBuilder != null) {
+              subBuilder.mergeFrom(firebaseContextDetails_);
+              firebaseContextDetails_ = subBuilder.buildPartial();
+            }
+            bitField1_ |= 0x00000100;
+            break;
+          }
         }
       }
     } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -1801,6 +1814,30 @@ public  final class AndroidStudioEvent extends
      * </pre>
      */
     STUDIO_PROJECT_CLOSED(99, 102),
+    /**
+     * <code>FIREBASE_ASSISTANT_FEATURE_EXPANDED = 103;</code>
+     *
+     * <pre>
+     * Feature grouping of tutorials expanded.
+     * </pre>
+     */
+    FIREBASE_ASSISTANT_FEATURE_EXPANDED(100, 103),
+    /**
+     * <code>FIREBASE_ASSISTANT_TUTORIAL_OPENED = 104;</code>
+     *
+     * <pre>
+     * Tutorial opened.
+     * </pre>
+     */
+    FIREBASE_ASSISTANT_TUTORIAL_OPENED(101, 104),
+    /**
+     * <code>FIREBASE_ASSISTANT_TUTORIAL_CLOSED = 105;</code>
+     *
+     * <pre>
+     * Tutorial closed via navigation.
+     * </pre>
+     */
+    FIREBASE_ASSISTANT_TUTORIAL_CLOSED(102, 105),
     ;
 
     /**
@@ -2580,6 +2617,30 @@ public  final class AndroidStudioEvent extends
      * </pre>
      */
     public static final int STUDIO_PROJECT_CLOSED_VALUE = 102;
+    /**
+     * <code>FIREBASE_ASSISTANT_FEATURE_EXPANDED = 103;</code>
+     *
+     * <pre>
+     * Feature grouping of tutorials expanded.
+     * </pre>
+     */
+    public static final int FIREBASE_ASSISTANT_FEATURE_EXPANDED_VALUE = 103;
+    /**
+     * <code>FIREBASE_ASSISTANT_TUTORIAL_OPENED = 104;</code>
+     *
+     * <pre>
+     * Tutorial opened.
+     * </pre>
+     */
+    public static final int FIREBASE_ASSISTANT_TUTORIAL_OPENED_VALUE = 104;
+    /**
+     * <code>FIREBASE_ASSISTANT_TUTORIAL_CLOSED = 105;</code>
+     *
+     * <pre>
+     * Tutorial closed via navigation.
+     * </pre>
+     */
+    public static final int FIREBASE_ASSISTANT_TUTORIAL_CLOSED_VALUE = 105;
 
 
     public final int getNumber() { return value; }
@@ -2686,6 +2747,9 @@ public  final class AndroidStudioEvent extends
         case 100: return LLDB_PERFORMANCE_STATS;
         case 101: return STUDIO_PROJECT_OPENED;
         case 102: return STUDIO_PROJECT_CLOSED;
+        case 103: return FIREBASE_ASSISTANT_FEATURE_EXPANDED;
+        case 104: return FIREBASE_ASSISTANT_TUTORIAL_OPENED;
+        case 105: return FIREBASE_ASSISTANT_TUTORIAL_CLOSED;
         default: return null;
       }
     }
@@ -5427,6 +5491,40 @@ public  final class AndroidStudioEvent extends
     return studioProjectChange_;
   }
 
+  // optional .android_studio.FirebaseContextDetails firebase_context_details = 41;
+  public static final int FIREBASE_CONTEXT_DETAILS_FIELD_NUMBER = 41;
+  private com.google.wireless.android.sdk.stats.FirebaseContextDetails firebaseContextDetails_;
+  /**
+   * <code>optional .android_studio.FirebaseContextDetails firebase_context_details = 41;</code>
+   *
+   * <pre>
+   * optionally set when kind = FIREBASE_ASSISTANT_* (except for errors).
+   * </pre>
+   */
+  public boolean hasFirebaseContextDetails() {
+    return ((bitField1_ & 0x00000100) == 0x00000100);
+  }
+  /**
+   * <code>optional .android_studio.FirebaseContextDetails firebase_context_details = 41;</code>
+   *
+   * <pre>
+   * optionally set when kind = FIREBASE_ASSISTANT_* (except for errors).
+   * </pre>
+   */
+  public com.google.wireless.android.sdk.stats.FirebaseContextDetails getFirebaseContextDetails() {
+    return firebaseContextDetails_;
+  }
+  /**
+   * <code>optional .android_studio.FirebaseContextDetails firebase_context_details = 41;</code>
+   *
+   * <pre>
+   * optionally set when kind = FIREBASE_ASSISTANT_* (except for errors).
+   * </pre>
+   */
+  public com.google.wireless.android.sdk.stats.FirebaseContextDetailsOrBuilder getFirebaseContextDetailsOrBuilder() {
+    return firebaseContextDetails_;
+  }
+
   private void initFields() {
     category_ = com.google.wireless.android.sdk.stats.AndroidStudioEvent.EventCategory.NO_EVENT_CATEGORY;
     kind_ = com.google.wireless.android.sdk.stats.AndroidStudioEvent.EventKind.UNKNOWN_EVENT_KIND;
@@ -5468,6 +5566,7 @@ public  final class AndroidStudioEvent extends
     studioPerformanceStats_ = com.google.wireless.android.sdk.stats.StudioPerformanceStats.getDefaultInstance();
     lldbPerformanceStats_ = com.google.wireless.android.sdk.stats.LldbPerformanceStats.getDefaultInstance();
     studioProjectChange_ = com.google.wireless.android.sdk.stats.StudioProjectChange.getDefaultInstance();
+    firebaseContextDetails_ = com.google.wireless.android.sdk.stats.FirebaseContextDetails.getDefaultInstance();
   }
   private byte memoizedIsInitialized = -1;
   public final boolean isInitialized() {
@@ -5600,6 +5699,9 @@ public  final class AndroidStudioEvent extends
     }
     if (((bitField1_ & 0x00000080) == 0x00000080)) {
       output.writeMessage(40, studioProjectChange_);
+    }
+    if (((bitField1_ & 0x00000100) == 0x00000100)) {
+      output.writeMessage(41, firebaseContextDetails_);
     }
     getUnknownFields().writeTo(output);
   }
@@ -5770,6 +5872,10 @@ public  final class AndroidStudioEvent extends
       size += com.google.protobuf.CodedOutputStream
         .computeMessageSize(40, studioProjectChange_);
     }
+    if (((bitField1_ & 0x00000100) == 0x00000100)) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeMessageSize(41, firebaseContextDetails_);
+    }
     size += getUnknownFields().getSerializedSize();
     memoizedSerializedSize = size;
     return size;
@@ -5901,6 +6007,7 @@ public  final class AndroidStudioEvent extends
         getStudioPerformanceStatsFieldBuilder();
         getLldbPerformanceStatsFieldBuilder();
         getStudioProjectChangeFieldBuilder();
+        getFirebaseContextDetailsFieldBuilder();
       }
     }
     private static Builder create() {
@@ -6081,6 +6188,12 @@ public  final class AndroidStudioEvent extends
         studioProjectChangeBuilder_.clear();
       }
       bitField1_ = (bitField1_ & ~0x00000080);
+      if (firebaseContextDetailsBuilder_ == null) {
+        firebaseContextDetails_ = com.google.wireless.android.sdk.stats.FirebaseContextDetails.getDefaultInstance();
+      } else {
+        firebaseContextDetailsBuilder_.clear();
+      }
+      bitField1_ = (bitField1_ & ~0x00000100);
       return this;
     }
 
@@ -6363,6 +6476,14 @@ public  final class AndroidStudioEvent extends
       } else {
         result.studioProjectChange_ = studioProjectChangeBuilder_.build();
       }
+      if (((from_bitField1_ & 0x00000100) == 0x00000100)) {
+        to_bitField1_ |= 0x00000100;
+      }
+      if (firebaseContextDetailsBuilder_ == null) {
+        result.firebaseContextDetails_ = firebaseContextDetails_;
+      } else {
+        result.firebaseContextDetails_ = firebaseContextDetailsBuilder_.build();
+      }
       result.bitField0_ = to_bitField0_;
       result.bitField1_ = to_bitField1_;
       onBuilt();
@@ -6511,6 +6632,9 @@ public  final class AndroidStudioEvent extends
       }
       if (other.hasStudioProjectChange()) {
         mergeStudioProjectChange(other.getStudioProjectChange());
+      }
+      if (other.hasFirebaseContextDetails()) {
+        mergeFirebaseContextDetails(other.getFirebaseContextDetails());
       }
       this.mergeUnknownFields(other.getUnknownFields());
       return this;
@@ -11345,6 +11469,159 @@ public  final class AndroidStudioEvent extends
         studioProjectChange_ = null;
       }
       return studioProjectChangeBuilder_;
+    }
+
+    // optional .android_studio.FirebaseContextDetails firebase_context_details = 41;
+    private com.google.wireless.android.sdk.stats.FirebaseContextDetails firebaseContextDetails_ = com.google.wireless.android.sdk.stats.FirebaseContextDetails.getDefaultInstance();
+    private com.google.protobuf.SingleFieldBuilder<
+        com.google.wireless.android.sdk.stats.FirebaseContextDetails, com.google.wireless.android.sdk.stats.FirebaseContextDetails.Builder, com.google.wireless.android.sdk.stats.FirebaseContextDetailsOrBuilder> firebaseContextDetailsBuilder_;
+    /**
+     * <code>optional .android_studio.FirebaseContextDetails firebase_context_details = 41;</code>
+     *
+     * <pre>
+     * optionally set when kind = FIREBASE_ASSISTANT_* (except for errors).
+     * </pre>
+     */
+    public boolean hasFirebaseContextDetails() {
+      return ((bitField1_ & 0x00000100) == 0x00000100);
+    }
+    /**
+     * <code>optional .android_studio.FirebaseContextDetails firebase_context_details = 41;</code>
+     *
+     * <pre>
+     * optionally set when kind = FIREBASE_ASSISTANT_* (except for errors).
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.FirebaseContextDetails getFirebaseContextDetails() {
+      if (firebaseContextDetailsBuilder_ == null) {
+        return firebaseContextDetails_;
+      } else {
+        return firebaseContextDetailsBuilder_.getMessage();
+      }
+    }
+    /**
+     * <code>optional .android_studio.FirebaseContextDetails firebase_context_details = 41;</code>
+     *
+     * <pre>
+     * optionally set when kind = FIREBASE_ASSISTANT_* (except for errors).
+     * </pre>
+     */
+    public Builder setFirebaseContextDetails(com.google.wireless.android.sdk.stats.FirebaseContextDetails value) {
+      if (firebaseContextDetailsBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        firebaseContextDetails_ = value;
+        onChanged();
+      } else {
+        firebaseContextDetailsBuilder_.setMessage(value);
+      }
+      bitField1_ |= 0x00000100;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.FirebaseContextDetails firebase_context_details = 41;</code>
+     *
+     * <pre>
+     * optionally set when kind = FIREBASE_ASSISTANT_* (except for errors).
+     * </pre>
+     */
+    public Builder setFirebaseContextDetails(
+        com.google.wireless.android.sdk.stats.FirebaseContextDetails.Builder builderForValue) {
+      if (firebaseContextDetailsBuilder_ == null) {
+        firebaseContextDetails_ = builderForValue.build();
+        onChanged();
+      } else {
+        firebaseContextDetailsBuilder_.setMessage(builderForValue.build());
+      }
+      bitField1_ |= 0x00000100;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.FirebaseContextDetails firebase_context_details = 41;</code>
+     *
+     * <pre>
+     * optionally set when kind = FIREBASE_ASSISTANT_* (except for errors).
+     * </pre>
+     */
+    public Builder mergeFirebaseContextDetails(com.google.wireless.android.sdk.stats.FirebaseContextDetails value) {
+      if (firebaseContextDetailsBuilder_ == null) {
+        if (((bitField1_ & 0x00000100) == 0x00000100) &&
+            firebaseContextDetails_ != com.google.wireless.android.sdk.stats.FirebaseContextDetails.getDefaultInstance()) {
+          firebaseContextDetails_ =
+            com.google.wireless.android.sdk.stats.FirebaseContextDetails.newBuilder(firebaseContextDetails_).mergeFrom(value).buildPartial();
+        } else {
+          firebaseContextDetails_ = value;
+        }
+        onChanged();
+      } else {
+        firebaseContextDetailsBuilder_.mergeFrom(value);
+      }
+      bitField1_ |= 0x00000100;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.FirebaseContextDetails firebase_context_details = 41;</code>
+     *
+     * <pre>
+     * optionally set when kind = FIREBASE_ASSISTANT_* (except for errors).
+     * </pre>
+     */
+    public Builder clearFirebaseContextDetails() {
+      if (firebaseContextDetailsBuilder_ == null) {
+        firebaseContextDetails_ = com.google.wireless.android.sdk.stats.FirebaseContextDetails.getDefaultInstance();
+        onChanged();
+      } else {
+        firebaseContextDetailsBuilder_.clear();
+      }
+      bitField1_ = (bitField1_ & ~0x00000100);
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.FirebaseContextDetails firebase_context_details = 41;</code>
+     *
+     * <pre>
+     * optionally set when kind = FIREBASE_ASSISTANT_* (except for errors).
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.FirebaseContextDetails.Builder getFirebaseContextDetailsBuilder() {
+      bitField1_ |= 0x00000100;
+      onChanged();
+      return getFirebaseContextDetailsFieldBuilder().getBuilder();
+    }
+    /**
+     * <code>optional .android_studio.FirebaseContextDetails firebase_context_details = 41;</code>
+     *
+     * <pre>
+     * optionally set when kind = FIREBASE_ASSISTANT_* (except for errors).
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.FirebaseContextDetailsOrBuilder getFirebaseContextDetailsOrBuilder() {
+      if (firebaseContextDetailsBuilder_ != null) {
+        return firebaseContextDetailsBuilder_.getMessageOrBuilder();
+      } else {
+        return firebaseContextDetails_;
+      }
+    }
+    /**
+     * <code>optional .android_studio.FirebaseContextDetails firebase_context_details = 41;</code>
+     *
+     * <pre>
+     * optionally set when kind = FIREBASE_ASSISTANT_* (except for errors).
+     * </pre>
+     */
+    private com.google.protobuf.SingleFieldBuilder<
+        com.google.wireless.android.sdk.stats.FirebaseContextDetails, com.google.wireless.android.sdk.stats.FirebaseContextDetails.Builder, com.google.wireless.android.sdk.stats.FirebaseContextDetailsOrBuilder> 
+        getFirebaseContextDetailsFieldBuilder() {
+      if (firebaseContextDetailsBuilder_ == null) {
+        firebaseContextDetailsBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+            com.google.wireless.android.sdk.stats.FirebaseContextDetails, com.google.wireless.android.sdk.stats.FirebaseContextDetails.Builder, com.google.wireless.android.sdk.stats.FirebaseContextDetailsOrBuilder>(
+                firebaseContextDetails_,
+                getParentForChildren(),
+                isClean());
+        firebaseContextDetails_ = null;
+      }
+      return firebaseContextDetailsBuilder_;
     }
 
     // @@protoc_insertion_point(builder_scope:android_studio.AndroidStudioEvent)

@@ -1015,4 +1015,30 @@ public interface AndroidStudioEventOrBuilder
    * </pre>
    */
   com.google.wireless.android.sdk.stats.StudioProjectChangeOrBuilder getStudioProjectChangeOrBuilder();
+
+  // optional .android_studio.FirebaseContextDetails firebase_context_details = 41;
+  /**
+   * <code>optional .android_studio.FirebaseContextDetails firebase_context_details = 41;</code>
+   *
+   * <pre>
+   * optionally set when kind = FIREBASE_ASSISTANT_* (except for errors).
+   * </pre>
+   */
+  boolean hasFirebaseContextDetails();
+  /**
+   * <code>optional .android_studio.FirebaseContextDetails firebase_context_details = 41;</code>
+   *
+   * <pre>
+   * optionally set when kind = FIREBASE_ASSISTANT_* (except for errors).
+   * </pre>
+   */
+  com.google.wireless.android.sdk.stats.FirebaseContextDetails getFirebaseContextDetails();
+  /**
+   * <code>optional .android_studio.FirebaseContextDetails firebase_context_details = 41;</code>
+   *
+   * <pre>
+   * optionally set when kind = FIREBASE_ASSISTANT_* (except for errors).
+   * </pre>
+   */
+  com.google.wireless.android.sdk.stats.FirebaseContextDetailsOrBuilder getFirebaseContextDetailsOrBuilder();
 }
