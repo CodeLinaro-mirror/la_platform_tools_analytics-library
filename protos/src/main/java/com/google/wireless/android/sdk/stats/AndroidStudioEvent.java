@@ -1838,6 +1838,30 @@ public  final class AndroidStudioEvent extends
      * </pre>
      */
     FIREBASE_ASSISTANT_TUTORIAL_CLOSED(102, 105),
+    /**
+     * <code>FIREBASE_ASSISTANT_PROJECT_UPDATE_DENIED = 106;</code>
+     *
+     * <pre>
+     * Project update failed due to permissions issue.
+     * </pre>
+     */
+    FIREBASE_ASSISTANT_PROJECT_UPDATE_DENIED(103, 106),
+    /**
+     * <code>FIREBASE_ASSISTANT_TOS_ACCEPTED = 107;</code>
+     *
+     * <pre>
+     * Terms of service accepted by user.
+     * </pre>
+     */
+    FIREBASE_ASSISTANT_TOS_ACCEPTED(104, 107),
+    /**
+     * <code>FIREBASE_ASSISTANT_DEPENDENCY_ADDED = 108;</code>
+     *
+     * <pre>
+     * Dependency added.
+     * </pre>
+     */
+    FIREBASE_ASSISTANT_DEPENDENCY_ADDED(105, 108),
     ;
 
     /**
@@ -2641,6 +2665,30 @@ public  final class AndroidStudioEvent extends
      * </pre>
      */
     public static final int FIREBASE_ASSISTANT_TUTORIAL_CLOSED_VALUE = 105;
+    /**
+     * <code>FIREBASE_ASSISTANT_PROJECT_UPDATE_DENIED = 106;</code>
+     *
+     * <pre>
+     * Project update failed due to permissions issue.
+     * </pre>
+     */
+    public static final int FIREBASE_ASSISTANT_PROJECT_UPDATE_DENIED_VALUE = 106;
+    /**
+     * <code>FIREBASE_ASSISTANT_TOS_ACCEPTED = 107;</code>
+     *
+     * <pre>
+     * Terms of service accepted by user.
+     * </pre>
+     */
+    public static final int FIREBASE_ASSISTANT_TOS_ACCEPTED_VALUE = 107;
+    /**
+     * <code>FIREBASE_ASSISTANT_DEPENDENCY_ADDED = 108;</code>
+     *
+     * <pre>
+     * Dependency added.
+     * </pre>
+     */
+    public static final int FIREBASE_ASSISTANT_DEPENDENCY_ADDED_VALUE = 108;
 
 
     public final int getNumber() { return value; }
@@ -2750,6 +2798,9 @@ public  final class AndroidStudioEvent extends
         case 103: return FIREBASE_ASSISTANT_FEATURE_EXPANDED;
         case 104: return FIREBASE_ASSISTANT_TUTORIAL_OPENED;
         case 105: return FIREBASE_ASSISTANT_TUTORIAL_CLOSED;
+        case 106: return FIREBASE_ASSISTANT_PROJECT_UPDATE_DENIED;
+        case 107: return FIREBASE_ASSISTANT_TOS_ACCEPTED;
+        case 108: return FIREBASE_ASSISTANT_DEPENDENCY_ADDED;
         default: return null;
       }
     }
