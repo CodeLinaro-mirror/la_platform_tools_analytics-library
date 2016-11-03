@@ -25,6 +25,7 @@ import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 
 import java.io.File;
+import java.nio.file.Paths;
 
 /**
  * Tests for {@link AnalyticsPaths}.
@@ -43,7 +44,7 @@ public class AnalyticsPathsTest {
         // Test picking the default path ~/.android/ when no environment variable exists.
         EnvironmentFakes.setNoEnvironmentVariable();
         assertEquals(
-                System.getProperty("user.home") + "/.android",
+                Paths.get(System.getProperty("user.home"), ".android").toString(),
                 AnalyticsPaths.getAndEnsureAndroidSettingsHome());
 
         // Test using the ANDROID_SDK_HOME environment variable.
@@ -78,12 +79,12 @@ public class AnalyticsPathsTest {
         // Test picking the default path under ~/.android/ when no environment variable exists.
         EnvironmentFakes.setNoEnvironmentVariable();
         assertEquals(
-                System.getProperty("user.home") + "/.android/metrics/spool",
+                Paths.get(System.getProperty("user.home"), ".android", "metrics", "spool").toString(),
                 AnalyticsPaths.getSpoolDirectory());
 
         // Test using the ANDROID_SDK_HOME environment variable.
         String customRoot = "/a/b/c";
         EnvironmentFakes.setCustomAndroidSdkHomeEnvironment(customRoot);
-        assertEquals(customRoot + "/metrics/spool", AnalyticsPaths.getSpoolDirectory());
+        assertEquals(Paths.get(customRoot, "metrics", "spool").toString(), AnalyticsPaths.getSpoolDirectory());
     }
 }
