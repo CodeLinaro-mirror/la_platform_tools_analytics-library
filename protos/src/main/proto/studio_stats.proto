@@ -275,6 +275,12 @@ message AndroidStudioEvent {
     FIREBASE_ASSISTANT_TUTORIAL_OPENED = 104;
     // Tutorial closed via navigation.
     FIREBASE_ASSISTANT_TUTORIAL_CLOSED = 105;
+    // Project update failed due to permissions issue.
+    FIREBASE_ASSISTANT_PROJECT_UPDATE_DENIED = 106;
+    // Terms of service accepted by user.
+    FIREBASE_ASSISTANT_TOS_ACCEPTED = 107;
+    // Dependency added.
+    FIREBASE_ASSISTANT_DEPENDENCY_ADDED = 108;
   }
   // Represents different Performance Monitoring types.
   enum MonitorType {
