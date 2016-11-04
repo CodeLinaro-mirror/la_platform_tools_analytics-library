@@ -84,12 +84,21 @@ iml_module(
 
 # TODO: Change iml_module generator to prepend "studio." to names above.
 # TODO: Split this BUILD file into separate BUILD files in subdirectories.
+
+load("//tools/base/bazel:proto.bzl", "java_proto_library")
+
+java_proto_library(
+    name = "tools.analytics-protos",
+    srcs = glob(["protos/src/main/proto/*.proto"]),
+    visibility = ["//visibility:public"],
+)
+
 java_library(
     name = "tools.analytics-shared",
     srcs = glob(["shared/src/main/java/**"]),
     visibility = ["//visibility:public"],
     deps = [
-        ":analytics-protos",
+        ":tools.analytics-protos",
         "//tools/base/annotations",
         "//tools/base/common:tools.common",
         "//tools/base/third_party:com.google.code.gson_gson",
@@ -103,7 +112,7 @@ java_test(
     jvm_flags = ["-Dtest.suite.jar=tools.analytics-shared_tests.jar"],
     test_class = "com.android.testutils.JarTestSuite",
     deps = [
-        ":analytics-protos",
+        ":tools.analytics-protos",
         ":tools.analytics-shared",
         "//tools/base/annotations",
         "//tools/base/common:tools.common",
@@ -119,7 +128,7 @@ java_library(
     srcs = glob(["tracker/src/main/java/**"]),
     visibility = ["//visibility:public"],
     deps = [
-        ":analytics-protos",
+        ":tools.analytics-protos",
         ":tools.analytics-shared",
         "//tools/base/annotations",
         "//tools/base/common:tools.common",
@@ -133,13 +142,29 @@ java_test(
     jvm_flags = ["-Dtest.suite.jar=tools.analytics-tracker_tests.jar"],
     test_class = "com.android.testutils.JarTestSuite",
     deps = [
-        ":analytics-protos",
+        ":tools.analytics-protos",
         ":tools.analytics-shared",
         ":tools.analytics-tracker",
         "//tools/base/annotations",
         "//tools/base/common:tools.common",
         "//tools/base/testutils:tools.testutils",
+        "//tools/base/third_party:com.google.protobuf_protobuf-java",
         "//tools/base/third_party:com.google.truth_truth",
         "//tools/base/third_party:junit_junit",
+    ],
+)
+
+java_library(
+    name = "tools.analytics-inspector",
+    srcs = glob(["inspector/src/main/java/**"]),
+    visibility = ["//visibility:public"],
+    deps = [
+        ":tools.analytics-protos",
+        ":tools.analytics-shared",
+        "//tools/base/annotations",
+        "//tools/base/common:tools.common",
+        "//tools/base/third_party:com.google.code.gson_gson",
+        "//tools/base/third_party:com.google.guava_guava",
+        "//tools/base/third_party:com.google.protobuf_protobuf-java",
     ],
 )
