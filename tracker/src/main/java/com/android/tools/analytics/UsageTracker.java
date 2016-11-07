@@ -48,7 +48,8 @@ public abstract class UsageTracker implements AutoCloseable {
 
     private int mMaxJournalSize;
     private long mMaxJournalTime;
-    private long mStartTimeMs = sDateProvider.now().getTime();
+
+    @VisibleForTesting protected long mStartTimeMs = sDateProvider.now().getTime();
 
     protected UsageTracker(
             AnalyticsSettings analyticsSettings, ScheduledExecutorService scheduler) {
@@ -154,6 +155,24 @@ public abstract class UsageTracker implements AutoCloseable {
             }
             return sInstance;
         }
+    }
+
+    /**
+     * Sets the global instance to the provided tracker so tests can provide their own UsageTracker
+     * implementation. NOTE: Should only be used from tests.
+     */
+    @VisibleForTesting
+    public static UsageTracker setInstanceForTest(UsageTracker tracker) {
+        return sInstance = tracker;
+    }
+
+    /**
+     * resets the global instance to the null usage tracker, to clean state in tests. NOTE: Should
+     * only be used from tests.
+     */
+    @VisibleForTesting
+    public static void cleanAfterTesting() {
+        sInstance = new NullUsageTracker(new AnalyticsSettings(), null);
     }
 
     public static AnalyticsSettings updateSettingsAndTracker(

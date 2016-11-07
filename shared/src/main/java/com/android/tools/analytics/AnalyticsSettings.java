@@ -73,7 +73,7 @@ public class AnalyticsSettings {
     private BigInteger mSaltValue;
 
     @SerializedName("saltSkew")
-    private int mSaltSkew;
+    private int mSaltSkew = -1;
 
     /**
      * Gets a user id used for reporting analytics. This id is pseudo-anonymous.
