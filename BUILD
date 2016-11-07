@@ -154,10 +154,11 @@ java_test(
     ],
 )
 
-java_library(
+java_binary(
     name = "tools.analytics-inspector",
     srcs = glob(["inspector/src/main/java/**"]),
     visibility = ["//visibility:public"],
+    main_class = "com.android.tools.analytics.AnalyticsInspector",
     deps = [
         ":tools.analytics-protos",
         ":tools.analytics-shared",
