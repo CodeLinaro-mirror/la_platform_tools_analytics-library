@@ -461,10 +461,6 @@ public  final class GradleTaskExecution extends
      * <code>CLEAN_BUILD_CACHE = 82;</code>
      */
     CLEAN_BUILD_CACHE(82, 82),
-    /**
-     * <code>RESOLVE_DEPENDENCIES = 83;</code>
-     */
-    RESOLVE_DEPENDENCIES(83, 83),
     ;
 
     /**
@@ -799,10 +795,6 @@ public  final class GradleTaskExecution extends
      * <code>CLEAN_BUILD_CACHE = 82;</code>
      */
     public static final int CLEAN_BUILD_CACHE_VALUE = 82;
-    /**
-     * <code>RESOLVE_DEPENDENCIES = 83;</code>
-     */
-    public static final int RESOLVE_DEPENDENCIES_VALUE = 83;
 
 
     public final int getNumber() { return value; }
@@ -892,7 +884,6 @@ public  final class GradleTaskExecution extends
         case 80: return PREPARE_ATOM;
         case 81: return PROCESS_INSTANT_APP_RESOURCES;
         case 82: return CLEAN_BUILD_CACHE;
-        case 83: return RESOLVE_DEPENDENCIES;
         default: return null;
       }
     }
