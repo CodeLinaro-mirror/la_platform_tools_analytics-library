@@ -157,8 +157,8 @@ java_test(
 java_binary(
     name = "tools.analytics-inspector",
     srcs = glob(["inspector/src/main/java/**"]),
-    visibility = ["//visibility:public"],
     main_class = "com.android.tools.analytics.AnalyticsInspector",
+    visibility = ["//visibility:public"],
     deps = [
         ":tools.analytics-protos",
         ":tools.analytics-shared",
