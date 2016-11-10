@@ -1041,4 +1041,30 @@ public interface AndroidStudioEventOrBuilder
    * </pre>
    */
   com.google.wireless.android.sdk.stats.FirebaseContextDetailsOrBuilder getFirebaseContextDetailsOrBuilder();
+
+  // optional .android_studio.LayoutEditorEvent layout_editor_event = 42;
+  /**
+   * <code>optional .android_studio.LayoutEditorEvent layout_editor_event = 42;</code>
+   *
+   * <pre>
+   * set when kind = LAYOUT_EDITOR_EVENT
+   * </pre>
+   */
+  boolean hasLayoutEditorEvent();
+  /**
+   * <code>optional .android_studio.LayoutEditorEvent layout_editor_event = 42;</code>
+   *
+   * <pre>
+   * set when kind = LAYOUT_EDITOR_EVENT
+   * </pre>
+   */
+  com.google.wireless.android.sdk.stats.LayoutEditorEvent getLayoutEditorEvent();
+  /**
+   * <code>optional .android_studio.LayoutEditorEvent layout_editor_event = 42;</code>
+   *
+   * <pre>
+   * set when kind = LAYOUT_EDITOR_EVENT
+   * </pre>
+   */
+  com.google.wireless.android.sdk.stats.LayoutEditorEventOrBuilder getLayoutEditorEventOrBuilder();
 }
