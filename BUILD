@@ -82,6 +82,31 @@ iml_module(
     ],
 )
 
+iml_module(
+    name = "analytics-testing",
+    srcs = ["testing/src/main/java"],
+    tags = ["managed"],
+    test_srcs = ["testing/src/test/java"],
+    visibility = ["//visibility:public"],
+    # do not sort: must match IML order
+    exports = [
+        "//tools/idea/.idea/libraries:guava-tools",
+        "//tools/base/annotations:studio.android-annotations",
+    ],
+    # do not sort: must match IML order
+    deps = [
+        "//tools/idea/.idea/libraries:guava-tools",
+        "//tools/idea/.idea/libraries:JUnit4[test]",
+        "//tools/base/annotations:studio.android-annotations[module]",
+        "//tools/idea/.idea/libraries:truth[test]",
+        "//tools/analytics-library:analytics-protos[module]",
+        "//tools/analytics-library:analytics-shared[module]",
+        "//tools/base/testutils:studio.testutils[module]",
+        "//tools/base/common:studio.common[module]",
+        "//tools/analytics-library:analytics-tracker[module]",
+    ],
+)
+
 # TODO: Change iml_module generator to prepend "studio." to names above.
 # TODO: Split this BUILD file into separate BUILD files in subdirectories.
 
@@ -145,6 +170,42 @@ java_test(
         ":tools.analytics-protos",
         ":tools.analytics-shared",
         ":tools.analytics-tracker",
+        "//tools/base/annotations",
+        "//tools/base/common:tools.common",
+        "//tools/base/testutils:tools.testutils",
+        "//tools/base/third_party:com.google.protobuf_protobuf-java",
+        "//tools/base/third_party:com.google.truth_truth",
+        "//tools/base/third_party:junit_junit",
+    ],
+)
+
+
+java_library(
+    name = "tools.analytics-testing",
+    srcs = glob(["testing/src/main/java/**"]),
+    visibility = ["//visibility:public"],
+    deps = [
+        ":tools.analytics-protos",
+        ":tools.analytics-shared",
+        ":tools.analytics-tracker",
+        "//tools/base/annotations",
+        "//tools/base/common:tools.common",
+        "//tools/base/testutils:tools.testutils",
+        "//tools/base/third_party:com.google.guava_guava",
+        "//tools/base/third_party:com.google.protobuf_protobuf-java",
+    ],
+)
+
+java_test(
+    name = "tools.analytics-testing_tests",
+    srcs = glob(["testing/src/test/java/**"]),
+    jvm_flags = ["-Dtest.suite.jar=tools.analytics-testing_tests.jar"],
+    test_class = "com.android.testutils.JarTestSuite",
+    deps = [
+        ":tools.analytics-protos",
+        ":tools.analytics-shared",
+        ":tools.analytics-tracker",
+        ":tools.analytics-testing",
         "//tools/base/annotations",
         "//tools/base/common:tools.common",
         "//tools/base/testutils:tools.testutils",
