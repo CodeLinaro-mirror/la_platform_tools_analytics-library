@@ -115,6 +115,11 @@ public  final class GradleBuildDetails extends
             nativeAndroidModules_.add(input.readMessage(com.google.wireless.android.sdk.stats.GradleNativeAndroidModule.PARSER, extensionRegistry));
             break;
           }
+          case 82: {
+            bitField0_ |= 0x00000020;
+            appId_ = input.readBytes();
+            break;
+          }
         }
       }
     } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -575,6 +580,67 @@ public  final class GradleBuildDetails extends
     return nativeAndroidModules_.get(index);
   }
 
+  // optional string app_id = 10;
+  public static final int APP_ID_FIELD_NUMBER = 10;
+  private java.lang.Object appId_;
+  /**
+   * <code>optional string app_id = 10;</code>
+   *
+   * <pre>
+   * The app_id is the id for the user's android app
+   * which we salt on the client (28 day rotation) then sha256
+   * so it is anonymized and is unique per user, but has a 1-N relation.
+   * </pre>
+   */
+  public boolean hasAppId() {
+    return ((bitField0_ & 0x00000020) == 0x00000020);
+  }
+  /**
+   * <code>optional string app_id = 10;</code>
+   *
+   * <pre>
+   * The app_id is the id for the user's android app
+   * which we salt on the client (28 day rotation) then sha256
+   * so it is anonymized and is unique per user, but has a 1-N relation.
+   * </pre>
+   */
+  public java.lang.String getAppId() {
+    java.lang.Object ref = appId_;
+    if (ref instanceof java.lang.String) {
+      return (java.lang.String) ref;
+    } else {
+      com.google.protobuf.ByteString bs = 
+          (com.google.protobuf.ByteString) ref;
+      java.lang.String s = bs.toStringUtf8();
+      if (bs.isValidUtf8()) {
+        appId_ = s;
+      }
+      return s;
+    }
+  }
+  /**
+   * <code>optional string app_id = 10;</code>
+   *
+   * <pre>
+   * The app_id is the id for the user's android app
+   * which we salt on the client (28 day rotation) then sha256
+   * so it is anonymized and is unique per user, but has a 1-N relation.
+   * </pre>
+   */
+  public com.google.protobuf.ByteString
+      getAppIdBytes() {
+    java.lang.Object ref = appId_;
+    if (ref instanceof java.lang.String) {
+      com.google.protobuf.ByteString b = 
+          com.google.protobuf.ByteString.copyFromUtf8(
+              (java.lang.String) ref);
+      appId_ = b;
+      return b;
+    } else {
+      return (com.google.protobuf.ByteString) ref;
+    }
+  }
+
   private void initFields() {
     androidPluginVersion_ = "";
     gradleVersion_ = "";
@@ -585,6 +651,7 @@ public  final class GradleBuildDetails extends
     modules_ = java.util.Collections.emptyList();
     androidModules_ = java.util.Collections.emptyList();
     nativeAndroidModules_ = java.util.Collections.emptyList();
+    appId_ = "";
   }
   private byte memoizedIsInitialized = -1;
   public final boolean isInitialized() {
@@ -624,6 +691,9 @@ public  final class GradleBuildDetails extends
     }
     for (int i = 0; i < nativeAndroidModules_.size(); i++) {
       output.writeMessage(9, nativeAndroidModules_.get(i));
+    }
+    if (((bitField0_ & 0x00000020) == 0x00000020)) {
+      output.writeBytes(10, getAppIdBytes());
     }
     getUnknownFields().writeTo(output);
   }
@@ -669,6 +739,10 @@ public  final class GradleBuildDetails extends
     for (int i = 0; i < nativeAndroidModules_.size(); i++) {
       size += com.google.protobuf.CodedOutputStream
         .computeMessageSize(9, nativeAndroidModules_.get(i));
+    }
+    if (((bitField0_ & 0x00000020) == 0x00000020)) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeBytesSize(10, getAppIdBytes());
     }
     size += getUnknownFields().getSerializedSize();
     memoizedSerializedSize = size;
@@ -828,6 +902,8 @@ public  final class GradleBuildDetails extends
       } else {
         nativeAndroidModulesBuilder_.clear();
       }
+      appId_ = "";
+      bitField0_ = (bitField0_ & ~0x00000200);
       return this;
     }
 
@@ -912,6 +988,10 @@ public  final class GradleBuildDetails extends
       } else {
         result.nativeAndroidModules_ = nativeAndroidModulesBuilder_.build();
       }
+      if (((from_bitField0_ & 0x00000200) == 0x00000200)) {
+        to_bitField0_ |= 0x00000020;
+      }
+      result.appId_ = appId_;
       result.bitField0_ = to_bitField0_;
       onBuilt();
       return result;
@@ -1050,6 +1130,11 @@ public  final class GradleBuildDetails extends
             nativeAndroidModulesBuilder_.addAllMessages(other.nativeAndroidModules_);
           }
         }
+      }
+      if (other.hasAppId()) {
+        bitField0_ |= 0x00000200;
+        appId_ = other.appId_;
+        onChanged();
       }
       this.mergeUnknownFields(other.getUnknownFields());
       return this;
@@ -2671,6 +2756,116 @@ public  final class GradleBuildDetails extends
         nativeAndroidModules_ = null;
       }
       return nativeAndroidModulesBuilder_;
+    }
+
+    // optional string app_id = 10;
+    private java.lang.Object appId_ = "";
+    /**
+     * <code>optional string app_id = 10;</code>
+     *
+     * <pre>
+     * The app_id is the id for the user's android app
+     * which we salt on the client (28 day rotation) then sha256
+     * so it is anonymized and is unique per user, but has a 1-N relation.
+     * </pre>
+     */
+    public boolean hasAppId() {
+      return ((bitField0_ & 0x00000200) == 0x00000200);
+    }
+    /**
+     * <code>optional string app_id = 10;</code>
+     *
+     * <pre>
+     * The app_id is the id for the user's android app
+     * which we salt on the client (28 day rotation) then sha256
+     * so it is anonymized and is unique per user, but has a 1-N relation.
+     * </pre>
+     */
+    public java.lang.String getAppId() {
+      java.lang.Object ref = appId_;
+      if (!(ref instanceof java.lang.String)) {
+        java.lang.String s = ((com.google.protobuf.ByteString) ref)
+            .toStringUtf8();
+        appId_ = s;
+        return s;
+      } else {
+        return (java.lang.String) ref;
+      }
+    }
+    /**
+     * <code>optional string app_id = 10;</code>
+     *
+     * <pre>
+     * The app_id is the id for the user's android app
+     * which we salt on the client (28 day rotation) then sha256
+     * so it is anonymized and is unique per user, but has a 1-N relation.
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getAppIdBytes() {
+      java.lang.Object ref = appId_;
+      if (ref instanceof String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        appId_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+    /**
+     * <code>optional string app_id = 10;</code>
+     *
+     * <pre>
+     * The app_id is the id for the user's android app
+     * which we salt on the client (28 day rotation) then sha256
+     * so it is anonymized and is unique per user, but has a 1-N relation.
+     * </pre>
+     */
+    public Builder setAppId(
+        java.lang.String value) {
+      if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000200;
+      appId_ = value;
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>optional string app_id = 10;</code>
+     *
+     * <pre>
+     * The app_id is the id for the user's android app
+     * which we salt on the client (28 day rotation) then sha256
+     * so it is anonymized and is unique per user, but has a 1-N relation.
+     * </pre>
+     */
+    public Builder clearAppId() {
+      bitField0_ = (bitField0_ & ~0x00000200);
+      appId_ = getDefaultInstance().getAppId();
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>optional string app_id = 10;</code>
+     *
+     * <pre>
+     * The app_id is the id for the user's android app
+     * which we salt on the client (28 day rotation) then sha256
+     * so it is anonymized and is unique per user, but has a 1-N relation.
+     * </pre>
+     */
+    public Builder setAppIdBytes(
+        com.google.protobuf.ByteString value) {
+      if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000200;
+      appId_ = value;
+      onChanged();
+      return this;
     }
 
     // @@protoc_insertion_point(builder_scope:android_studio.GradleBuildDetails)

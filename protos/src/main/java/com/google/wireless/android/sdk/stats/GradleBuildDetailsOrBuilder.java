@@ -295,4 +295,37 @@ public interface GradleBuildDetailsOrBuilder
    */
   com.google.wireless.android.sdk.stats.GradleNativeAndroidModuleOrBuilder getNativeAndroidModulesOrBuilder(
       int index);
+
+  // optional string app_id = 10;
+  /**
+   * <code>optional string app_id = 10;</code>
+   *
+   * <pre>
+   * The app_id is the id for the user's android app
+   * which we salt on the client (28 day rotation) then sha256
+   * so it is anonymized and is unique per user, but has a 1-N relation.
+   * </pre>
+   */
+  boolean hasAppId();
+  /**
+   * <code>optional string app_id = 10;</code>
+   *
+   * <pre>
+   * The app_id is the id for the user's android app
+   * which we salt on the client (28 day rotation) then sha256
+   * so it is anonymized and is unique per user, but has a 1-N relation.
+   * </pre>
+   */
+  java.lang.String getAppId();
+  /**
+   * <code>optional string app_id = 10;</code>
+   *
+   * <pre>
+   * The app_id is the id for the user's android app
+   * which we salt on the client (28 day rotation) then sha256
+   * so it is anonymized and is unique per user, but has a 1-N relation.
+   * </pre>
+   */
+  com.google.protobuf.ByteString
+      getAppIdBytes();
 }

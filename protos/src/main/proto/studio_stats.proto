@@ -772,6 +772,10 @@ message GradleBuildDetails {
   repeated .android_studio.GradleAndroidModule android_modules = 8;
   // per native android module metrics
   repeated .android_studio.GradleNativeAndroidModule native_android_modules = 9;
+  // The app_id is the id for the user's android app
+  // which we salt on the client (28 day rotation) then sha256
+  // so it is anonymized and is unique per user, but has a 1-N relation.
+  optional string app_id = 10;
 }
 
 // Per library Gradle metrics.
@@ -1407,7 +1411,6 @@ message GradleTaskExecution {
     PREPARE_ATOM = 80;
     PROCESS_INSTANT_APP_RESOURCES = 81;
     CLEAN_BUILD_CACHE = 82;
-    RESOLVE_DEPENDENCIES = 83;
   }
   // The task implementing class.
   // Custom tasks are recorded as UNKNOWN_TASK_TYPE.
