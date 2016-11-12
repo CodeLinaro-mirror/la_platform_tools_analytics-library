@@ -16,7 +16,7 @@ dependencies {
 }
 
 group = 'com.android.tools.analytics-library'
-archivesBaseName = 'shared'
+archivesBaseName = 'testing'
 version = rootProject.ext.baseVersion
 
 project.ext.pomName = 'Android Tools Analytics Shared Library'
