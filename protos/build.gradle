@@ -8,7 +8,7 @@ protobuf {
 }
 
 dependencies {
-    compile 'com.google.protobuf:protobuf-java:3.0.0'
+    compile libs.protobuf
 }
 
 group = 'com.android.tools.analytics-library'
