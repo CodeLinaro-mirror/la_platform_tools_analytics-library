@@ -506,6 +506,19 @@ public  final class AndroidStudioEvent extends
             bitField1_ |= 0x00000100;
             break;
           }
+          case 338: {
+            com.google.wireless.android.sdk.stats.LayoutEditorEvent.Builder subBuilder = null;
+            if (((bitField1_ & 0x00000200) == 0x00000200)) {
+              subBuilder = layoutEditorEvent_.toBuilder();
+            }
+            layoutEditorEvent_ = input.readMessage(com.google.wireless.android.sdk.stats.LayoutEditorEvent.PARSER, extensionRegistry);
+            if (subBuilder != null) {
+              subBuilder.mergeFrom(layoutEditorEvent_);
+              layoutEditorEvent_ = subBuilder.buildPartial();
+            }
+            bitField1_ |= 0x00000200;
+            break;
+          }
         }
       }
     } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -750,6 +763,14 @@ public  final class AndroidStudioEvent extends
      * </pre>
      */
     STUDIO_UI(23, 23),
+    /**
+     * <code>LAYOUT_EDITOR = 24;</code>
+     *
+     * <pre>
+     * the event is related to the layout editor
+     * </pre>
+     */
+    LAYOUT_EDITOR(24, 24),
     ;
 
     /**
@@ -946,6 +967,14 @@ public  final class AndroidStudioEvent extends
      * </pre>
      */
     public static final int STUDIO_UI_VALUE = 23;
+    /**
+     * <code>LAYOUT_EDITOR = 24;</code>
+     *
+     * <pre>
+     * the event is related to the layout editor
+     * </pre>
+     */
+    public static final int LAYOUT_EDITOR_VALUE = 24;
 
 
     public final int getNumber() { return value; }
@@ -976,6 +1005,7 @@ public  final class AndroidStudioEvent extends
         case 21: return GPU_PROFILER;
         case 22: return TEST_RECORDER;
         case 23: return STUDIO_UI;
+        case 24: return LAYOUT_EDITOR;
         default: return null;
       }
     }
@@ -1862,6 +1892,14 @@ public  final class AndroidStudioEvent extends
      * </pre>
      */
     FIREBASE_ASSISTANT_DEPENDENCY_ADDED(105, 108),
+    /**
+     * <code>LAYOUT_EDITOR_EVENT = 109;</code>
+     *
+     * <pre>
+     * Layout editor event
+     * </pre>
+     */
+    LAYOUT_EDITOR_EVENT(106, 109),
     ;
 
     /**
@@ -2689,6 +2727,14 @@ public  final class AndroidStudioEvent extends
      * </pre>
      */
     public static final int FIREBASE_ASSISTANT_DEPENDENCY_ADDED_VALUE = 108;
+    /**
+     * <code>LAYOUT_EDITOR_EVENT = 109;</code>
+     *
+     * <pre>
+     * Layout editor event
+     * </pre>
+     */
+    public static final int LAYOUT_EDITOR_EVENT_VALUE = 109;
 
 
     public final int getNumber() { return value; }
@@ -2801,6 +2847,7 @@ public  final class AndroidStudioEvent extends
         case 106: return FIREBASE_ASSISTANT_PROJECT_UPDATE_DENIED;
         case 107: return FIREBASE_ASSISTANT_TOS_ACCEPTED;
         case 108: return FIREBASE_ASSISTANT_DEPENDENCY_ADDED;
+        case 109: return LAYOUT_EDITOR_EVENT;
         default: return null;
       }
     }
@@ -5576,6 +5623,40 @@ public  final class AndroidStudioEvent extends
     return firebaseContextDetails_;
   }
 
+  // optional .android_studio.LayoutEditorEvent layout_editor_event = 42;
+  public static final int LAYOUT_EDITOR_EVENT_FIELD_NUMBER = 42;
+  private com.google.wireless.android.sdk.stats.LayoutEditorEvent layoutEditorEvent_;
+  /**
+   * <code>optional .android_studio.LayoutEditorEvent layout_editor_event = 42;</code>
+   *
+   * <pre>
+   * set when kind = LAYOUT_EDITOR_EVENT
+   * </pre>
+   */
+  public boolean hasLayoutEditorEvent() {
+    return ((bitField1_ & 0x00000200) == 0x00000200);
+  }
+  /**
+   * <code>optional .android_studio.LayoutEditorEvent layout_editor_event = 42;</code>
+   *
+   * <pre>
+   * set when kind = LAYOUT_EDITOR_EVENT
+   * </pre>
+   */
+  public com.google.wireless.android.sdk.stats.LayoutEditorEvent getLayoutEditorEvent() {
+    return layoutEditorEvent_;
+  }
+  /**
+   * <code>optional .android_studio.LayoutEditorEvent layout_editor_event = 42;</code>
+   *
+   * <pre>
+   * set when kind = LAYOUT_EDITOR_EVENT
+   * </pre>
+   */
+  public com.google.wireless.android.sdk.stats.LayoutEditorEventOrBuilder getLayoutEditorEventOrBuilder() {
+    return layoutEditorEvent_;
+  }
+
   private void initFields() {
     category_ = com.google.wireless.android.sdk.stats.AndroidStudioEvent.EventCategory.NO_EVENT_CATEGORY;
     kind_ = com.google.wireless.android.sdk.stats.AndroidStudioEvent.EventKind.UNKNOWN_EVENT_KIND;
@@ -5618,6 +5699,7 @@ public  final class AndroidStudioEvent extends
     lldbPerformanceStats_ = com.google.wireless.android.sdk.stats.LldbPerformanceStats.getDefaultInstance();
     studioProjectChange_ = com.google.wireless.android.sdk.stats.StudioProjectChange.getDefaultInstance();
     firebaseContextDetails_ = com.google.wireless.android.sdk.stats.FirebaseContextDetails.getDefaultInstance();
+    layoutEditorEvent_ = com.google.wireless.android.sdk.stats.LayoutEditorEvent.getDefaultInstance();
   }
   private byte memoizedIsInitialized = -1;
   public final boolean isInitialized() {
@@ -5753,6 +5835,9 @@ public  final class AndroidStudioEvent extends
     }
     if (((bitField1_ & 0x00000100) == 0x00000100)) {
       output.writeMessage(41, firebaseContextDetails_);
+    }
+    if (((bitField1_ & 0x00000200) == 0x00000200)) {
+      output.writeMessage(42, layoutEditorEvent_);
     }
     getUnknownFields().writeTo(output);
   }
@@ -5927,6 +6012,10 @@ public  final class AndroidStudioEvent extends
       size += com.google.protobuf.CodedOutputStream
         .computeMessageSize(41, firebaseContextDetails_);
     }
+    if (((bitField1_ & 0x00000200) == 0x00000200)) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeMessageSize(42, layoutEditorEvent_);
+    }
     size += getUnknownFields().getSerializedSize();
     memoizedSerializedSize = size;
     return size;
@@ -6059,6 +6148,7 @@ public  final class AndroidStudioEvent extends
         getLldbPerformanceStatsFieldBuilder();
         getStudioProjectChangeFieldBuilder();
         getFirebaseContextDetailsFieldBuilder();
+        getLayoutEditorEventFieldBuilder();
       }
     }
     private static Builder create() {
@@ -6245,6 +6335,12 @@ public  final class AndroidStudioEvent extends
         firebaseContextDetailsBuilder_.clear();
       }
       bitField1_ = (bitField1_ & ~0x00000100);
+      if (layoutEditorEventBuilder_ == null) {
+        layoutEditorEvent_ = com.google.wireless.android.sdk.stats.LayoutEditorEvent.getDefaultInstance();
+      } else {
+        layoutEditorEventBuilder_.clear();
+      }
+      bitField1_ = (bitField1_ & ~0x00000200);
       return this;
     }
 
@@ -6535,6 +6631,14 @@ public  final class AndroidStudioEvent extends
       } else {
         result.firebaseContextDetails_ = firebaseContextDetailsBuilder_.build();
       }
+      if (((from_bitField1_ & 0x00000200) == 0x00000200)) {
+        to_bitField1_ |= 0x00000200;
+      }
+      if (layoutEditorEventBuilder_ == null) {
+        result.layoutEditorEvent_ = layoutEditorEvent_;
+      } else {
+        result.layoutEditorEvent_ = layoutEditorEventBuilder_.build();
+      }
       result.bitField0_ = to_bitField0_;
       result.bitField1_ = to_bitField1_;
       onBuilt();
@@ -6686,6 +6790,9 @@ public  final class AndroidStudioEvent extends
       }
       if (other.hasFirebaseContextDetails()) {
         mergeFirebaseContextDetails(other.getFirebaseContextDetails());
+      }
+      if (other.hasLayoutEditorEvent()) {
+        mergeLayoutEditorEvent(other.getLayoutEditorEvent());
       }
       this.mergeUnknownFields(other.getUnknownFields());
       return this;
@@ -11673,6 +11780,159 @@ public  final class AndroidStudioEvent extends
         firebaseContextDetails_ = null;
       }
       return firebaseContextDetailsBuilder_;
+    }
+
+    // optional .android_studio.LayoutEditorEvent layout_editor_event = 42;
+    private com.google.wireless.android.sdk.stats.LayoutEditorEvent layoutEditorEvent_ = com.google.wireless.android.sdk.stats.LayoutEditorEvent.getDefaultInstance();
+    private com.google.protobuf.SingleFieldBuilder<
+        com.google.wireless.android.sdk.stats.LayoutEditorEvent, com.google.wireless.android.sdk.stats.LayoutEditorEvent.Builder, com.google.wireless.android.sdk.stats.LayoutEditorEventOrBuilder> layoutEditorEventBuilder_;
+    /**
+     * <code>optional .android_studio.LayoutEditorEvent layout_editor_event = 42;</code>
+     *
+     * <pre>
+     * set when kind = LAYOUT_EDITOR_EVENT
+     * </pre>
+     */
+    public boolean hasLayoutEditorEvent() {
+      return ((bitField1_ & 0x00000200) == 0x00000200);
+    }
+    /**
+     * <code>optional .android_studio.LayoutEditorEvent layout_editor_event = 42;</code>
+     *
+     * <pre>
+     * set when kind = LAYOUT_EDITOR_EVENT
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.LayoutEditorEvent getLayoutEditorEvent() {
+      if (layoutEditorEventBuilder_ == null) {
+        return layoutEditorEvent_;
+      } else {
+        return layoutEditorEventBuilder_.getMessage();
+      }
+    }
+    /**
+     * <code>optional .android_studio.LayoutEditorEvent layout_editor_event = 42;</code>
+     *
+     * <pre>
+     * set when kind = LAYOUT_EDITOR_EVENT
+     * </pre>
+     */
+    public Builder setLayoutEditorEvent(com.google.wireless.android.sdk.stats.LayoutEditorEvent value) {
+      if (layoutEditorEventBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        layoutEditorEvent_ = value;
+        onChanged();
+      } else {
+        layoutEditorEventBuilder_.setMessage(value);
+      }
+      bitField1_ |= 0x00000200;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.LayoutEditorEvent layout_editor_event = 42;</code>
+     *
+     * <pre>
+     * set when kind = LAYOUT_EDITOR_EVENT
+     * </pre>
+     */
+    public Builder setLayoutEditorEvent(
+        com.google.wireless.android.sdk.stats.LayoutEditorEvent.Builder builderForValue) {
+      if (layoutEditorEventBuilder_ == null) {
+        layoutEditorEvent_ = builderForValue.build();
+        onChanged();
+      } else {
+        layoutEditorEventBuilder_.setMessage(builderForValue.build());
+      }
+      bitField1_ |= 0x00000200;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.LayoutEditorEvent layout_editor_event = 42;</code>
+     *
+     * <pre>
+     * set when kind = LAYOUT_EDITOR_EVENT
+     * </pre>
+     */
+    public Builder mergeLayoutEditorEvent(com.google.wireless.android.sdk.stats.LayoutEditorEvent value) {
+      if (layoutEditorEventBuilder_ == null) {
+        if (((bitField1_ & 0x00000200) == 0x00000200) &&
+            layoutEditorEvent_ != com.google.wireless.android.sdk.stats.LayoutEditorEvent.getDefaultInstance()) {
+          layoutEditorEvent_ =
+            com.google.wireless.android.sdk.stats.LayoutEditorEvent.newBuilder(layoutEditorEvent_).mergeFrom(value).buildPartial();
+        } else {
+          layoutEditorEvent_ = value;
+        }
+        onChanged();
+      } else {
+        layoutEditorEventBuilder_.mergeFrom(value);
+      }
+      bitField1_ |= 0x00000200;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.LayoutEditorEvent layout_editor_event = 42;</code>
+     *
+     * <pre>
+     * set when kind = LAYOUT_EDITOR_EVENT
+     * </pre>
+     */
+    public Builder clearLayoutEditorEvent() {
+      if (layoutEditorEventBuilder_ == null) {
+        layoutEditorEvent_ = com.google.wireless.android.sdk.stats.LayoutEditorEvent.getDefaultInstance();
+        onChanged();
+      } else {
+        layoutEditorEventBuilder_.clear();
+      }
+      bitField1_ = (bitField1_ & ~0x00000200);
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.LayoutEditorEvent layout_editor_event = 42;</code>
+     *
+     * <pre>
+     * set when kind = LAYOUT_EDITOR_EVENT
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.LayoutEditorEvent.Builder getLayoutEditorEventBuilder() {
+      bitField1_ |= 0x00000200;
+      onChanged();
+      return getLayoutEditorEventFieldBuilder().getBuilder();
+    }
+    /**
+     * <code>optional .android_studio.LayoutEditorEvent layout_editor_event = 42;</code>
+     *
+     * <pre>
+     * set when kind = LAYOUT_EDITOR_EVENT
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.LayoutEditorEventOrBuilder getLayoutEditorEventOrBuilder() {
+      if (layoutEditorEventBuilder_ != null) {
+        return layoutEditorEventBuilder_.getMessageOrBuilder();
+      } else {
+        return layoutEditorEvent_;
+      }
+    }
+    /**
+     * <code>optional .android_studio.LayoutEditorEvent layout_editor_event = 42;</code>
+     *
+     * <pre>
+     * set when kind = LAYOUT_EDITOR_EVENT
+     * </pre>
+     */
+    private com.google.protobuf.SingleFieldBuilder<
+        com.google.wireless.android.sdk.stats.LayoutEditorEvent, com.google.wireless.android.sdk.stats.LayoutEditorEvent.Builder, com.google.wireless.android.sdk.stats.LayoutEditorEventOrBuilder> 
+        getLayoutEditorEventFieldBuilder() {
+      if (layoutEditorEventBuilder_ == null) {
+        layoutEditorEventBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+            com.google.wireless.android.sdk.stats.LayoutEditorEvent, com.google.wireless.android.sdk.stats.LayoutEditorEvent.Builder, com.google.wireless.android.sdk.stats.LayoutEditorEventOrBuilder>(
+                layoutEditorEvent_,
+                getParentForChildren(),
+                isClean());
+        layoutEditorEvent_ = null;
+      }
+      return layoutEditorEventBuilder_;
     }
 
     // @@protoc_insertion_point(builder_scope:android_studio.AndroidStudioEvent)
