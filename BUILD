@@ -99,10 +99,11 @@ iml_module(
         "//tools/idea/.idea/libraries:JUnit4[test]",
         "//tools/base/annotations:studio.android-annotations[module]",
         "//tools/idea/.idea/libraries:truth[test]",
+        "//tools/idea/.idea/libraries:gson",
         "//tools/analytics-library:analytics-protos[module]",
-        "//tools/analytics-library:analytics-shared[module]",
         "//tools/base/testutils:studio.testutils[module]",
         "//tools/base/common:studio.common[module]",
+        "//tools/analytics-library:analytics-shared[module]",
         "//tools/analytics-library:analytics-tracker[module]",
     ],
 )
