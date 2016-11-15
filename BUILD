@@ -116,26 +116,26 @@ load("//tools/base/bazel:maven.bzl", "maven_java_library", "maven_pom")
 
 java_proto_library(
     name = "tools.analytics-protos",
-    pom = ":analytics-protos.pom",
     srcs = glob(["protos/src/main/proto/*.proto"]),
+    pom = ":analytics-protos.pom",
     visibility = ["//visibility:public"],
 )
 
 maven_pom(
-  name = "analytics-protos.pom",
-  artifact = "protos",
-  group = "com.android.tools.analytics-library",
-  source = "//tools/buildSrc/base:base_version",
+    name = "analytics-protos.pom",
+    artifact = "protos",
+    group = "com.android.tools.analytics-library",
+    source = "//tools/buildSrc/base:base_version",
 )
 
 maven_java_library(
     name = "tools.analytics-shared",
-    pom = ":analytics-shared.pom",
     srcs = glob(["shared/src/main/java/**"]),
+    pom = ":analytics-shared.pom",
     visibility = ["//visibility:public"],
     deps = [
         ":tools.analytics-protos",
-        "//tools/base/annotations:annotations",
+        "//tools/base/annotations",
         "//tools/base/common:tools.common",
         "//tools/base/third_party:com.google.code.gson_gson",
         "//tools/base/third_party:com.google.guava_guava",
@@ -168,13 +168,13 @@ java_test(
 
 maven_java_library(
     name = "tools.analytics-tracker",
-    pom = "analytics-tracker.pom",
     srcs = glob(["tracker/src/main/java/**"]),
+    pom = "analytics-tracker.pom",
     visibility = ["//visibility:public"],
     deps = [
         ":tools.analytics-protos",
         ":tools.analytics-shared",
-        "//tools/base/annotations:annotations",
+        "//tools/base/annotations",
         "//tools/base/common:tools.common",
         "//tools/base/third_party:com.google.guava_guava",
     ],
@@ -205,7 +205,6 @@ java_test(
     ],
 )
 
-
 java_library(
     name = "tools.analytics-testing",
     srcs = glob(["testing/src/main/java/**"]),
@@ -230,8 +229,8 @@ java_test(
     deps = [
         ":tools.analytics-protos",
         ":tools.analytics-shared",
-        ":tools.analytics-tracker",
         ":tools.analytics-testing",
+        ":tools.analytics-tracker",
         "//tools/base/annotations",
         "//tools/base/common:tools.common",
         "//tools/base/testutils:tools.testutils",
