@@ -111,24 +111,41 @@ iml_module(
 # TODO: Split this BUILD file into separate BUILD files in subdirectories.
 
 load("//tools/base/bazel:proto.bzl", "java_proto_library")
+load("//tools/base/bazel:maven.bzl", "maven_java_library", "maven_pom")
 
 java_proto_library(
     name = "tools.analytics-protos",
+    pom = ":analytics-protos.pom",
     srcs = glob(["protos/src/main/proto/*.proto"]),
     visibility = ["//visibility:public"],
 )
 
-java_library(
+maven_pom(
+  name = "analytics-protos.pom",
+  artifact = "protos",
+  group = "com.android.tools.analytics-library",
+  source = "//tools/buildSrc/base:base_version",
+)
+
+maven_java_library(
     name = "tools.analytics-shared",
+    pom = ":analytics-shared.pom",
     srcs = glob(["shared/src/main/java/**"]),
     visibility = ["//visibility:public"],
     deps = [
         ":tools.analytics-protos",
-        "//tools/base/annotations",
+        "//tools/base/annotations:annotations",
         "//tools/base/common:tools.common",
         "//tools/base/third_party:com.google.code.gson_gson",
         "//tools/base/third_party:com.google.guava_guava",
     ],
+)
+
+maven_pom(
+    name = "analytics-shared.pom",
+    artifact = "shared",
+    group = "com.android.tools.analytics-library",
+    source = "//tools/buildSrc/base:base_version",
 )
 
 java_test(
@@ -148,17 +165,25 @@ java_test(
     ],
 )
 
-java_library(
+maven_java_library(
     name = "tools.analytics-tracker",
+    pom = "analytics-tracker.pom",
     srcs = glob(["tracker/src/main/java/**"]),
     visibility = ["//visibility:public"],
     deps = [
         ":tools.analytics-protos",
         ":tools.analytics-shared",
-        "//tools/base/annotations",
+        "//tools/base/annotations:annotations",
         "//tools/base/common:tools.common",
         "//tools/base/third_party:com.google.guava_guava",
     ],
+)
+
+maven_pom(
+    name = "analytics-tracker.pom",
+    artifact = "tracker",
+    group = "com.android.tools.analytics-library",
+    source = "//tools/buildSrc/base:base_version",
 )
 
 java_test(
