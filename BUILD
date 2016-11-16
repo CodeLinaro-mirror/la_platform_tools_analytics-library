@@ -114,27 +114,13 @@ iml_module(
 load("//tools/base/bazel:proto.bzl", "java_proto_library")
 load("//tools/base/bazel:maven.bzl", "maven_java_library", "maven_pom")
 
-java_proto_library(
-    name = "tools.analytics-protos",
-    srcs = glob(["protos/src/main/proto/*.proto"]),
-    pom = ":analytics-protos.pom",
-    visibility = ["//visibility:public"],
-)
-
-maven_pom(
-    name = "analytics-protos.pom",
-    artifact = "protos",
-    group = "com.android.tools.analytics-library",
-    source = "//tools/buildSrc/base:base_version",
-)
-
 maven_java_library(
     name = "tools.analytics-shared",
     srcs = glob(["shared/src/main/java/**"]),
     pom = ":analytics-shared.pom",
     visibility = ["//visibility:public"],
     deps = [
-        ":tools.analytics-protos",
+        "//tools/analytics-library/protos/src/main/proto",
         "//tools/base/annotations",
         "//tools/base/common:tools.common",
         "//tools/base/third_party:com.google.code.gson_gson",
@@ -155,8 +141,8 @@ java_test(
     jvm_flags = ["-Dtest.suite.jar=tools.analytics-shared_tests.jar"],
     test_class = "com.android.testutils.JarTestSuite",
     deps = [
-        ":tools.analytics-protos",
         ":tools.analytics-shared",
+        "//tools/analytics-library/protos/src/main/proto",
         "//tools/base/annotations",
         "//tools/base/common:tools.common",
         "//tools/base/testutils:tools.testutils",
@@ -172,8 +158,8 @@ maven_java_library(
     pom = "analytics-tracker.pom",
     visibility = ["//visibility:public"],
     deps = [
-        ":tools.analytics-protos",
         ":tools.analytics-shared",
+        "//tools/analytics-library/protos/src/main/proto",
         "//tools/base/annotations",
         "//tools/base/common:tools.common",
         "//tools/base/third_party:com.google.guava_guava",
@@ -193,9 +179,9 @@ java_test(
     jvm_flags = ["-Dtest.suite.jar=tools.analytics-tracker_tests.jar"],
     test_class = "com.android.testutils.JarTestSuite",
     deps = [
-        ":tools.analytics-protos",
         ":tools.analytics-shared",
         ":tools.analytics-tracker",
+        "//tools/analytics-library/protos/src/main/proto",
         "//tools/base/annotations",
         "//tools/base/common:tools.common",
         "//tools/base/testutils:tools.testutils",
@@ -210,9 +196,9 @@ java_library(
     srcs = glob(["testing/src/main/java/**"]),
     visibility = ["//visibility:public"],
     deps = [
-        ":tools.analytics-protos",
         ":tools.analytics-shared",
         ":tools.analytics-tracker",
+        "//tools/analytics-library/protos/src/main/proto",
         "//tools/base/annotations",
         "//tools/base/common:tools.common",
         "//tools/base/testutils:tools.testutils",
@@ -227,10 +213,10 @@ java_test(
     jvm_flags = ["-Dtest.suite.jar=tools.analytics-testing_tests.jar"],
     test_class = "com.android.testutils.JarTestSuite",
     deps = [
-        ":tools.analytics-protos",
         ":tools.analytics-shared",
         ":tools.analytics-testing",
         ":tools.analytics-tracker",
+        "//tools/analytics-library/protos/src/main/proto",
         "//tools/base/annotations",
         "//tools/base/common:tools.common",
         "//tools/base/testutils:tools.testutils",
@@ -246,8 +232,8 @@ java_binary(
     main_class = "com.android.tools.analytics.AnalyticsInspector",
     visibility = ["//visibility:public"],
     deps = [
-        ":tools.analytics-protos",
         ":tools.analytics-shared",
+        "//tools/analytics-library/protos/src/main/proto",
         "//tools/base/annotations",
         "//tools/base/common:tools.common",
         "//tools/base/third_party:com.google.code.gson_gson",
