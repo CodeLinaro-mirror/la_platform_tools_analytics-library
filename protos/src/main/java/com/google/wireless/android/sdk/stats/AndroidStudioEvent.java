@@ -1900,6 +1900,14 @@ public  final class AndroidStudioEvent extends
      * </pre>
      */
     LAYOUT_EDITOR_EVENT(106, 109),
+    /**
+     * <code>GRADLE_SYNC_SETUP_STARTED = 110;</code>
+     *
+     * <pre>
+     * Receive sync response and start to setup project in IDE.
+     * </pre>
+     */
+    GRADLE_SYNC_SETUP_STARTED(107, 110),
     ;
 
     /**
@@ -2735,6 +2743,14 @@ public  final class AndroidStudioEvent extends
      * </pre>
      */
     public static final int LAYOUT_EDITOR_EVENT_VALUE = 109;
+    /**
+     * <code>GRADLE_SYNC_SETUP_STARTED = 110;</code>
+     *
+     * <pre>
+     * Receive sync response and start to setup project in IDE.
+     * </pre>
+     */
+    public static final int GRADLE_SYNC_SETUP_STARTED_VALUE = 110;
 
 
     public final int getNumber() { return value; }
@@ -2848,6 +2864,7 @@ public  final class AndroidStudioEvent extends
         case 107: return FIREBASE_ASSISTANT_TOS_ACCEPTED;
         case 108: return FIREBASE_ASSISTANT_DEPENDENCY_ADDED;
         case 109: return LAYOUT_EDITOR_EVENT;
+        case 110: return GRADLE_SYNC_SETUP_STARTED;
         default: return null;
       }
     }
