@@ -287,6 +287,8 @@ message AndroidStudioEvent {
     LAYOUT_EDITOR_EVENT = 109;
     // Receive sync response and start to setup project in IDE.
     GRADLE_SYNC_SETUP_STARTED = 110;
+    // For event from App Links Assistant.
+    APP_LINKS_ASSISTANT_STATS = 111;
   }
   // Represents different Performance Monitoring types.
   enum MonitorType {
@@ -500,6 +502,8 @@ message AndroidStudioEvent {
   optional .android_studio.FirebaseContextDetails firebase_context_details = 41;
   // set when kind = LAYOUT_EDITOR_EVENT
   optional .android_studio.LayoutEditorEvent layout_editor_event = 42;
+  // set when kind = APP_LINKS_ASSISTANT_STATS
+  optional .android_studio.AppLinksAssistantEvent app_links_assistant_event = 43;
 }
 
 // Describes a product, e.g. Android Studio or Emulator.
@@ -1922,6 +1926,86 @@ message LayoutEditorEvent {
   optional .android_studio.LayoutEditorState state = 2;
   // Result of the render when (type = RENDER)
   optional .android_studio.LayoutEditorRenderResult render_result = 3;
+}
+
+// App links assistant user event detail.
+message AppLinksAssistantEvent {
+  // UI event source.
+  enum EventSource {
+    ASSISTANT_SIDE_PANEL = 1;
+    // UI elements of URL mapping panel.
+    URL_MAPPING_PANEL = 2;
+    URL_MAPPING_APP_LINK_ADD_DIALOG = 3;
+    URL_MAPPING_APP_LINK_ADD_ADVANCED_DIALOG = 4;
+    URL_MAPPING_APP_LINK_EDIT_DIALOG = 5;
+    URL_MAPPING_APP_LINK_DELETE_BUTTON = 6;
+    URL_MAPPING_CHECK_MAPPING_BUTTON = 7;
+    URL_MAPPING_OPEN_ANDROID_MANIFEST_BUTTON = 8;
+    // UI elements of code insert dialog.
+    CODE_INSERT_DIALOG = 9;
+    CODE_INSERT_DIALOG_INSERT_BUTTON = 10;
+    CODE_INSERT_DIALOG_LIST_SELECTION = 11;
+    // UI elements of DAL generation panel.
+    DAL_PANEL = 12;
+    DAL_PANEL_BROWSE_KEYSTORE_BUTTON = 13;
+    DAL_PANEL_GENERATE_BUTTON = 14;
+    DAL_PANEL_SAVE_BUTTON = 15;
+    DAL_PANEL_VERIFY_BUTTON = 16;
+    // UI elements of app links test panel.
+    APP_LINKS_TEST_PANEL = 17;
+    APP_LINKS_TEST_PANEL_MODULE_SELECTION = 18;
+    APP_LINKS_TEST_PANEL_RUN_TEST_BUTTON = 19;
+  }
+  // The state list of UI event source.
+  enum EventState {
+    // Generic state for panel opened, button clicked or list selection.
+    OPENED = 1;
+    // Generic state for button action completed.
+    COMPLETED = 2;
+    // Generic state for button action failed.
+    FAILED = 3;
+    // State to label user exiting from the panel or dialog by clicking the
+    // system close button, hide button or cancel button.
+    EXIT = 4;
+  }
+  // Url path type of a new added app link.
+  enum PathType {
+    // Corresponds to attribute android:path of <data> tag in Android Manifest
+    // File.
+    PATH = 1;
+    // Corresponds to attribute android:pathPrefix of <data> tag in
+    // Android Manifest File
+    PATH_PREFIX = 2;
+    // Corresponds to attribute android:pathPattern of <data> tag in
+    // Android Manifest File
+    PATH_PATTERN = 3;
+  }
+  // Client-side salted (rotating every 28 days), sha256 of the project id for
+  // counting projects using the assistant.
+  optional string project_id = 1;
+  // The app_id is the id for the user's android app
+  // which's salted on client-side (rotating every 28 days) then sha256
+  // so it is anonymized and is unique per user, but has a 1-N relation.
+  // It's for counting apps using the assistant.
+  optional string app_id = 2;
+  // The UI element source of event.
+  optional .android_studio.AppLinksAssistantEvent.EventSource event_source = 3;
+  // The state of the event.
+  optional .android_studio.AppLinksAssistantEvent.EventState event_state = 4;
+  // To check if there exists app links in the project
+  // before using app links assistant.
+  optional bool existing_app_links = 5;
+  // Duration time that app links assistant panel opens. Unit is nanoseconds.
+  optional int64 assistant_panel_open_duration = 6;
+  // Following three fields is for the new added app link.
+  // Set when event_source = URL_MAPPING_APP_LINK_ADD_DIALOG
+  // && event_state = COMPLETED
+  // Path type of new app link.
+  optional .android_studio.AppLinksAssistantEvent.PathType app_link_path_type = 7;
+  // Whether a new activity is linked by app link.
+  optional bool new_activity_linked = 8;
+  // Whether a new host is linked by app link.
+  optional bool new_host_linked = 9;
 }
 
 

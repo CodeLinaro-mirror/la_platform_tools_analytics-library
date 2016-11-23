@@ -519,6 +519,19 @@ public  final class AndroidStudioEvent extends
             bitField1_ |= 0x00000200;
             break;
           }
+          case 346: {
+            com.google.wireless.android.sdk.stats.AppLinksAssistantEvent.Builder subBuilder = null;
+            if (((bitField1_ & 0x00000400) == 0x00000400)) {
+              subBuilder = appLinksAssistantEvent_.toBuilder();
+            }
+            appLinksAssistantEvent_ = input.readMessage(com.google.wireless.android.sdk.stats.AppLinksAssistantEvent.PARSER, extensionRegistry);
+            if (subBuilder != null) {
+              subBuilder.mergeFrom(appLinksAssistantEvent_);
+              appLinksAssistantEvent_ = subBuilder.buildPartial();
+            }
+            bitField1_ |= 0x00000400;
+            break;
+          }
         }
       }
     } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -1908,6 +1921,14 @@ public  final class AndroidStudioEvent extends
      * </pre>
      */
     GRADLE_SYNC_SETUP_STARTED(107, 110),
+    /**
+     * <code>APP_LINKS_ASSISTANT_STATS = 111;</code>
+     *
+     * <pre>
+     * For event from App Links Assistant.
+     * </pre>
+     */
+    APP_LINKS_ASSISTANT_STATS(108, 111),
     ;
 
     /**
@@ -2751,6 +2772,14 @@ public  final class AndroidStudioEvent extends
      * </pre>
      */
     public static final int GRADLE_SYNC_SETUP_STARTED_VALUE = 110;
+    /**
+     * <code>APP_LINKS_ASSISTANT_STATS = 111;</code>
+     *
+     * <pre>
+     * For event from App Links Assistant.
+     * </pre>
+     */
+    public static final int APP_LINKS_ASSISTANT_STATS_VALUE = 111;
 
 
     public final int getNumber() { return value; }
@@ -2865,6 +2894,7 @@ public  final class AndroidStudioEvent extends
         case 108: return FIREBASE_ASSISTANT_DEPENDENCY_ADDED;
         case 109: return LAYOUT_EDITOR_EVENT;
         case 110: return GRADLE_SYNC_SETUP_STARTED;
+        case 111: return APP_LINKS_ASSISTANT_STATS;
         default: return null;
       }
     }
@@ -5674,6 +5704,40 @@ public  final class AndroidStudioEvent extends
     return layoutEditorEvent_;
   }
 
+  // optional .android_studio.AppLinksAssistantEvent app_links_assistant_event = 43;
+  public static final int APP_LINKS_ASSISTANT_EVENT_FIELD_NUMBER = 43;
+  private com.google.wireless.android.sdk.stats.AppLinksAssistantEvent appLinksAssistantEvent_;
+  /**
+   * <code>optional .android_studio.AppLinksAssistantEvent app_links_assistant_event = 43;</code>
+   *
+   * <pre>
+   * set when kind = APP_LINKS_ASSISTANT_STATS
+   * </pre>
+   */
+  public boolean hasAppLinksAssistantEvent() {
+    return ((bitField1_ & 0x00000400) == 0x00000400);
+  }
+  /**
+   * <code>optional .android_studio.AppLinksAssistantEvent app_links_assistant_event = 43;</code>
+   *
+   * <pre>
+   * set when kind = APP_LINKS_ASSISTANT_STATS
+   * </pre>
+   */
+  public com.google.wireless.android.sdk.stats.AppLinksAssistantEvent getAppLinksAssistantEvent() {
+    return appLinksAssistantEvent_;
+  }
+  /**
+   * <code>optional .android_studio.AppLinksAssistantEvent app_links_assistant_event = 43;</code>
+   *
+   * <pre>
+   * set when kind = APP_LINKS_ASSISTANT_STATS
+   * </pre>
+   */
+  public com.google.wireless.android.sdk.stats.AppLinksAssistantEventOrBuilder getAppLinksAssistantEventOrBuilder() {
+    return appLinksAssistantEvent_;
+  }
+
   private void initFields() {
     category_ = com.google.wireless.android.sdk.stats.AndroidStudioEvent.EventCategory.NO_EVENT_CATEGORY;
     kind_ = com.google.wireless.android.sdk.stats.AndroidStudioEvent.EventKind.UNKNOWN_EVENT_KIND;
@@ -5717,6 +5781,7 @@ public  final class AndroidStudioEvent extends
     studioProjectChange_ = com.google.wireless.android.sdk.stats.StudioProjectChange.getDefaultInstance();
     firebaseContextDetails_ = com.google.wireless.android.sdk.stats.FirebaseContextDetails.getDefaultInstance();
     layoutEditorEvent_ = com.google.wireless.android.sdk.stats.LayoutEditorEvent.getDefaultInstance();
+    appLinksAssistantEvent_ = com.google.wireless.android.sdk.stats.AppLinksAssistantEvent.getDefaultInstance();
   }
   private byte memoizedIsInitialized = -1;
   public final boolean isInitialized() {
@@ -5855,6 +5920,9 @@ public  final class AndroidStudioEvent extends
     }
     if (((bitField1_ & 0x00000200) == 0x00000200)) {
       output.writeMessage(42, layoutEditorEvent_);
+    }
+    if (((bitField1_ & 0x00000400) == 0x00000400)) {
+      output.writeMessage(43, appLinksAssistantEvent_);
     }
     getUnknownFields().writeTo(output);
   }
@@ -6033,6 +6101,10 @@ public  final class AndroidStudioEvent extends
       size += com.google.protobuf.CodedOutputStream
         .computeMessageSize(42, layoutEditorEvent_);
     }
+    if (((bitField1_ & 0x00000400) == 0x00000400)) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeMessageSize(43, appLinksAssistantEvent_);
+    }
     size += getUnknownFields().getSerializedSize();
     memoizedSerializedSize = size;
     return size;
@@ -6166,6 +6238,7 @@ public  final class AndroidStudioEvent extends
         getStudioProjectChangeFieldBuilder();
         getFirebaseContextDetailsFieldBuilder();
         getLayoutEditorEventFieldBuilder();
+        getAppLinksAssistantEventFieldBuilder();
       }
     }
     private static Builder create() {
@@ -6358,6 +6431,12 @@ public  final class AndroidStudioEvent extends
         layoutEditorEventBuilder_.clear();
       }
       bitField1_ = (bitField1_ & ~0x00000200);
+      if (appLinksAssistantEventBuilder_ == null) {
+        appLinksAssistantEvent_ = com.google.wireless.android.sdk.stats.AppLinksAssistantEvent.getDefaultInstance();
+      } else {
+        appLinksAssistantEventBuilder_.clear();
+      }
+      bitField1_ = (bitField1_ & ~0x00000400);
       return this;
     }
 
@@ -6656,6 +6735,14 @@ public  final class AndroidStudioEvent extends
       } else {
         result.layoutEditorEvent_ = layoutEditorEventBuilder_.build();
       }
+      if (((from_bitField1_ & 0x00000400) == 0x00000400)) {
+        to_bitField1_ |= 0x00000400;
+      }
+      if (appLinksAssistantEventBuilder_ == null) {
+        result.appLinksAssistantEvent_ = appLinksAssistantEvent_;
+      } else {
+        result.appLinksAssistantEvent_ = appLinksAssistantEventBuilder_.build();
+      }
       result.bitField0_ = to_bitField0_;
       result.bitField1_ = to_bitField1_;
       onBuilt();
@@ -6810,6 +6897,9 @@ public  final class AndroidStudioEvent extends
       }
       if (other.hasLayoutEditorEvent()) {
         mergeLayoutEditorEvent(other.getLayoutEditorEvent());
+      }
+      if (other.hasAppLinksAssistantEvent()) {
+        mergeAppLinksAssistantEvent(other.getAppLinksAssistantEvent());
       }
       this.mergeUnknownFields(other.getUnknownFields());
       return this;
@@ -11950,6 +12040,159 @@ public  final class AndroidStudioEvent extends
         layoutEditorEvent_ = null;
       }
       return layoutEditorEventBuilder_;
+    }
+
+    // optional .android_studio.AppLinksAssistantEvent app_links_assistant_event = 43;
+    private com.google.wireless.android.sdk.stats.AppLinksAssistantEvent appLinksAssistantEvent_ = com.google.wireless.android.sdk.stats.AppLinksAssistantEvent.getDefaultInstance();
+    private com.google.protobuf.SingleFieldBuilder<
+        com.google.wireless.android.sdk.stats.AppLinksAssistantEvent, com.google.wireless.android.sdk.stats.AppLinksAssistantEvent.Builder, com.google.wireless.android.sdk.stats.AppLinksAssistantEventOrBuilder> appLinksAssistantEventBuilder_;
+    /**
+     * <code>optional .android_studio.AppLinksAssistantEvent app_links_assistant_event = 43;</code>
+     *
+     * <pre>
+     * set when kind = APP_LINKS_ASSISTANT_STATS
+     * </pre>
+     */
+    public boolean hasAppLinksAssistantEvent() {
+      return ((bitField1_ & 0x00000400) == 0x00000400);
+    }
+    /**
+     * <code>optional .android_studio.AppLinksAssistantEvent app_links_assistant_event = 43;</code>
+     *
+     * <pre>
+     * set when kind = APP_LINKS_ASSISTANT_STATS
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.AppLinksAssistantEvent getAppLinksAssistantEvent() {
+      if (appLinksAssistantEventBuilder_ == null) {
+        return appLinksAssistantEvent_;
+      } else {
+        return appLinksAssistantEventBuilder_.getMessage();
+      }
+    }
+    /**
+     * <code>optional .android_studio.AppLinksAssistantEvent app_links_assistant_event = 43;</code>
+     *
+     * <pre>
+     * set when kind = APP_LINKS_ASSISTANT_STATS
+     * </pre>
+     */
+    public Builder setAppLinksAssistantEvent(com.google.wireless.android.sdk.stats.AppLinksAssistantEvent value) {
+      if (appLinksAssistantEventBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        appLinksAssistantEvent_ = value;
+        onChanged();
+      } else {
+        appLinksAssistantEventBuilder_.setMessage(value);
+      }
+      bitField1_ |= 0x00000400;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.AppLinksAssistantEvent app_links_assistant_event = 43;</code>
+     *
+     * <pre>
+     * set when kind = APP_LINKS_ASSISTANT_STATS
+     * </pre>
+     */
+    public Builder setAppLinksAssistantEvent(
+        com.google.wireless.android.sdk.stats.AppLinksAssistantEvent.Builder builderForValue) {
+      if (appLinksAssistantEventBuilder_ == null) {
+        appLinksAssistantEvent_ = builderForValue.build();
+        onChanged();
+      } else {
+        appLinksAssistantEventBuilder_.setMessage(builderForValue.build());
+      }
+      bitField1_ |= 0x00000400;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.AppLinksAssistantEvent app_links_assistant_event = 43;</code>
+     *
+     * <pre>
+     * set when kind = APP_LINKS_ASSISTANT_STATS
+     * </pre>
+     */
+    public Builder mergeAppLinksAssistantEvent(com.google.wireless.android.sdk.stats.AppLinksAssistantEvent value) {
+      if (appLinksAssistantEventBuilder_ == null) {
+        if (((bitField1_ & 0x00000400) == 0x00000400) &&
+            appLinksAssistantEvent_ != com.google.wireless.android.sdk.stats.AppLinksAssistantEvent.getDefaultInstance()) {
+          appLinksAssistantEvent_ =
+            com.google.wireless.android.sdk.stats.AppLinksAssistantEvent.newBuilder(appLinksAssistantEvent_).mergeFrom(value).buildPartial();
+        } else {
+          appLinksAssistantEvent_ = value;
+        }
+        onChanged();
+      } else {
+        appLinksAssistantEventBuilder_.mergeFrom(value);
+      }
+      bitField1_ |= 0x00000400;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.AppLinksAssistantEvent app_links_assistant_event = 43;</code>
+     *
+     * <pre>
+     * set when kind = APP_LINKS_ASSISTANT_STATS
+     * </pre>
+     */
+    public Builder clearAppLinksAssistantEvent() {
+      if (appLinksAssistantEventBuilder_ == null) {
+        appLinksAssistantEvent_ = com.google.wireless.android.sdk.stats.AppLinksAssistantEvent.getDefaultInstance();
+        onChanged();
+      } else {
+        appLinksAssistantEventBuilder_.clear();
+      }
+      bitField1_ = (bitField1_ & ~0x00000400);
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.AppLinksAssistantEvent app_links_assistant_event = 43;</code>
+     *
+     * <pre>
+     * set when kind = APP_LINKS_ASSISTANT_STATS
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.AppLinksAssistantEvent.Builder getAppLinksAssistantEventBuilder() {
+      bitField1_ |= 0x00000400;
+      onChanged();
+      return getAppLinksAssistantEventFieldBuilder().getBuilder();
+    }
+    /**
+     * <code>optional .android_studio.AppLinksAssistantEvent app_links_assistant_event = 43;</code>
+     *
+     * <pre>
+     * set when kind = APP_LINKS_ASSISTANT_STATS
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.AppLinksAssistantEventOrBuilder getAppLinksAssistantEventOrBuilder() {
+      if (appLinksAssistantEventBuilder_ != null) {
+        return appLinksAssistantEventBuilder_.getMessageOrBuilder();
+      } else {
+        return appLinksAssistantEvent_;
+      }
+    }
+    /**
+     * <code>optional .android_studio.AppLinksAssistantEvent app_links_assistant_event = 43;</code>
+     *
+     * <pre>
+     * set when kind = APP_LINKS_ASSISTANT_STATS
+     * </pre>
+     */
+    private com.google.protobuf.SingleFieldBuilder<
+        com.google.wireless.android.sdk.stats.AppLinksAssistantEvent, com.google.wireless.android.sdk.stats.AppLinksAssistantEvent.Builder, com.google.wireless.android.sdk.stats.AppLinksAssistantEventOrBuilder> 
+        getAppLinksAssistantEventFieldBuilder() {
+      if (appLinksAssistantEventBuilder_ == null) {
+        appLinksAssistantEventBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+            com.google.wireless.android.sdk.stats.AppLinksAssistantEvent, com.google.wireless.android.sdk.stats.AppLinksAssistantEvent.Builder, com.google.wireless.android.sdk.stats.AppLinksAssistantEventOrBuilder>(
+                appLinksAssistantEvent_,
+                getParentForChildren(),
+                isClean());
+        appLinksAssistantEvent_ = null;
+      }
+      return appLinksAssistantEventBuilder_;
     }
 
     // @@protoc_insertion_point(builder_scope:android_studio.AndroidStudioEvent)
