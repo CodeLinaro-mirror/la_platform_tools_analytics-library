@@ -1067,4 +1067,30 @@ public interface AndroidStudioEventOrBuilder
    * </pre>
    */
   com.google.wireless.android.sdk.stats.LayoutEditorEventOrBuilder getLayoutEditorEventOrBuilder();
+
+  // optional .android_studio.AppLinksAssistantEvent app_links_assistant_event = 43;
+  /**
+   * <code>optional .android_studio.AppLinksAssistantEvent app_links_assistant_event = 43;</code>
+   *
+   * <pre>
+   * set when kind = APP_LINKS_ASSISTANT_STATS
+   * </pre>
+   */
+  boolean hasAppLinksAssistantEvent();
+  /**
+   * <code>optional .android_studio.AppLinksAssistantEvent app_links_assistant_event = 43;</code>
+   *
+   * <pre>
+   * set when kind = APP_LINKS_ASSISTANT_STATS
+   * </pre>
+   */
+  com.google.wireless.android.sdk.stats.AppLinksAssistantEvent getAppLinksAssistantEvent();
+  /**
+   * <code>optional .android_studio.AppLinksAssistantEvent app_links_assistant_event = 43;</code>
+   *
+   * <pre>
+   * set when kind = APP_LINKS_ASSISTANT_STATS
+   * </pre>
+   */
+  com.google.wireless.android.sdk.stats.AppLinksAssistantEventOrBuilder getAppLinksAssistantEventOrBuilder();
 }
