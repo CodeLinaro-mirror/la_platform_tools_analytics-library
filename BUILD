@@ -228,16 +228,6 @@ java_test(
 
 java_binary(
     name = "tools.analytics-inspector",
-    srcs = glob(["inspector/src/main/java/**"]),
     main_class = "com.android.tools.analytics.AnalyticsInspector",
-    visibility = ["//visibility:public"],
-    deps = [
-        ":tools.analytics-shared",
-        "//tools/analytics-library/protos/src/main/proto",
-        "//tools/base/annotations",
-        "//tools/base/common:tools.common",
-        "//tools/base/third_party:com.google.code.gson_gson",
-        "//tools/base/third_party:com.google.guava_guava",
-        "//tools/base/third_party:com.google.protobuf_protobuf-java",
-    ],
+    runtime_deps = ["//tools/analytics-library/inspector:analytics-inspector"],
 )
