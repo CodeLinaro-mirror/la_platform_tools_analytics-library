@@ -300,22 +300,22 @@ public class AnalyticsPublisherTest {
             // hardcode session id to ensure stable compression sizes.
             UsageTracker.sSessionId = "2a2a42e3-80b4-418f-8e19-21af36146a58";
 
-            JournalingUsageTracker journalingUsageTracker =
-                    new JournalingUsageTracker(
-                            new AnalyticsSettings(), vs, testSpoolDir.getRoot().toPath());
-
-            journalingUsageTracker.log(logged);
-            vs.advanceBy(0);
-            journalingUsageTracker.close();
-
-            // Create helpers used to instantiate the publisher.
-            AnalyticsSettings analyticsSettings = getTestAnalyticsSettings();
-
             // As we're checking upload byte sizes and the size varies by the value for
             // time, we need to fix the time in this test.
             VirtualTimeDateProvider dateProvider = new VirtualTimeDateProvider(vs);
             GoogleAnalyticsPublisher.sDateProvider = dateProvider;
             UsageTracker.sDateProvider = dateProvider;
+
+            // Create helpers used to instantiate the publisher.
+            AnalyticsSettings analyticsSettings = getTestAnalyticsSettings();
+
+            JournalingUsageTracker journalingUsageTracker =
+                    new JournalingUsageTracker(
+                            analyticsSettings, vs, testSpoolDir.getRoot().toPath());
+
+            journalingUsageTracker.log(logged);
+            vs.advanceBy(0);
+            journalingUsageTracker.close();
 
             // override the os.* system properties so the test runs reliably no matter which
             // it is run on.
@@ -365,7 +365,7 @@ public class AnalyticsPublisherTest {
                                             // ensure that the previous failure is reported in the
                                             // meta metrics.
                                             .setFailedServerReplies(1)
-                                            .setBytesSentInLastUpload(194)
+                                            .setBytesSentInLastUpload(185)
                                             .build())
                             .build(),
                     metaStudioEvent);
@@ -400,7 +400,7 @@ public class AnalyticsPublisherTest {
                                     MetaMetrics.newBuilder()
                                             .setFailedConnections(0)
                                             .setFailedServerReplies(0)
-                                            .setBytesSentInLastUpload(195)
+                                            .setBytesSentInLastUpload(185)
                                             .build())
                             .build(),
                     metaStudioEvent);
