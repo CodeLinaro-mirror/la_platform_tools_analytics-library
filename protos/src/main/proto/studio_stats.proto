@@ -1472,6 +1472,8 @@ message GradleTransformExecution {
     INSTANT_RUN_VERIFIER = 20;
     STRIP_DEBUG_SYMBOL = 21;
     LIBRARY_API = 22;
+    INSTANT_RUN_DEPENDENCIES_APK_BUILDER = 23;
+    INSTANT_RUN_SLICE_SPLIT_APK_BUILDER = 24;
   }
   // The transform implementing class.
   // Custom transforms are recorded as UNKNOWN_TRANSFORM_TYPE.
