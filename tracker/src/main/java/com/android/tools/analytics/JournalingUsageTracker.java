@@ -44,6 +44,9 @@ import java.util.concurrent.TimeUnit;
  * <p>
  * Spool files are binary files protobuf using delimited streams
  * https://developers.google.com/protocol-buffers/docs/techniques#streaming
+ * <p>
+ * For unittests please use TestUsageTracker.
+ * Only for integration tests that need .trk files to be generated, use the JournalingUsageTracker.
  */
 public class JournalingUsageTracker extends UsageTracker {
 
@@ -65,7 +68,7 @@ public class JournalingUsageTracker extends UsageTracker {
      * @param scheduler used for scheduling writing logs and closing & starting new files on
      *     timeout/size limits.
      */
-    JournalingUsageTracker(
+    public JournalingUsageTracker(
             AnalyticsSettings analyticsSettings,
             ScheduledExecutorService scheduler,
             Path spoolLocation) {
