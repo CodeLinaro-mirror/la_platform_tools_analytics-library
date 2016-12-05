@@ -1430,6 +1430,8 @@ message GradleTaskExecution {
     PROCESS_INSTANT_APP_RESOURCES = 81;
     CLEAN_BUILD_CACHE = 82;
     RESOLVE_DEPENDENCIES = 83;
+    JAVA_COMPILE_ATOM_RES_CLASS = 84;
+    PROCESS_ATOMS_RESOURCES = 85;
   }
   // The task implementing class.
   // Custom tasks are recorded as UNKNOWN_TASK_TYPE.
