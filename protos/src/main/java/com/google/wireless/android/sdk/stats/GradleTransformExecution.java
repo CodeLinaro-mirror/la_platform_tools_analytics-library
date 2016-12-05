@@ -210,6 +210,14 @@ public  final class GradleTransformExecution extends
      * <code>LIBRARY_API = 22;</code>
      */
     LIBRARY_API(22, 22),
+    /**
+     * <code>INSTANT_RUN_DEPENDENCIES_APK_BUILDER = 23;</code>
+     */
+    INSTANT_RUN_DEPENDENCIES_APK_BUILDER(23, 23),
+    /**
+     * <code>INSTANT_RUN_SLICE_SPLIT_APK_BUILDER = 24;</code>
+     */
+    INSTANT_RUN_SLICE_SPLIT_APK_BUILDER(24, 24),
     ;
 
     /**
@@ -304,6 +312,14 @@ public  final class GradleTransformExecution extends
      * <code>LIBRARY_API = 22;</code>
      */
     public static final int LIBRARY_API_VALUE = 22;
+    /**
+     * <code>INSTANT_RUN_DEPENDENCIES_APK_BUILDER = 23;</code>
+     */
+    public static final int INSTANT_RUN_DEPENDENCIES_APK_BUILDER_VALUE = 23;
+    /**
+     * <code>INSTANT_RUN_SLICE_SPLIT_APK_BUILDER = 24;</code>
+     */
+    public static final int INSTANT_RUN_SLICE_SPLIT_APK_BUILDER_VALUE = 24;
 
 
     public final int getNumber() { return value; }
@@ -333,6 +349,8 @@ public  final class GradleTransformExecution extends
         case 20: return INSTANT_RUN_VERIFIER;
         case 21: return STRIP_DEBUG_SYMBOL;
         case 22: return LIBRARY_API;
+        case 23: return INSTANT_RUN_DEPENDENCIES_APK_BUILDER;
+        case 24: return INSTANT_RUN_SLICE_SPLIT_APK_BUILDER;
         default: return null;
       }
     }
