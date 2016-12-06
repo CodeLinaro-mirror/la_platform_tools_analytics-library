@@ -21,6 +21,7 @@ import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableMap;
 import com.google.gson.stream.JsonWriter;
 import com.google.protobuf.InvalidProtocolBufferException;
+import com.google.wireless.android.sdk.stats.GradleBuildMemorySample;
 import com.google.wireless.android.sdk.stats.GradleBuildProfile;
 import com.google.wireless.android.sdk.stats.GradleBuildProfileSpan;
 import com.google.wireless.android.sdk.stats.GradleBuildProject;
@@ -131,11 +132,31 @@ public class ChromeTracingProfileConverter {
 
         try (JsonWriter writer = new JsonWriter(Files.newBufferedWriter(out))) {
             writer.beginArray();
+            long previousTime = 0;
+            for (GradleBuildMemorySample memorySample : profile.getMemorySampleList()) {
+                long timestamp = memorySample.getTimestamp() * 1000;
+                if (timestamp == previousTime) {
+                    timestamp += 1;
+                }
+                previousTime = timestamp;
+                writer.beginObject()
+                        .name("pid").value(0)
+                        .name("ph").value("i")
+                        .name("name").value("Memory sample")
+                        .name("ts").value(timestamp)
+                        .name("args");
+                {
+                    writer.beginObject();
+                    writer.name("JVM stats").value(memorySample.getJavaProcessStats().toString());
+                    writer.endObject();
+                }
+                writer.endObject();
+            }
             for (GradleBuildProfileSpan span : profile.getSpanList()) {
                 writer
                         .beginObject()
-                        .name("pid").value(span.getProject())
-                        //.name("tid").value(span.getVariant())
+                        .name("pid").value(1)
+                        .name("tid").value(span.getThreadId())
                         .name("id").value(span.getId());
                 ImmutableMap.Builder<String, Object> args = ImmutableMap.builder();
 
