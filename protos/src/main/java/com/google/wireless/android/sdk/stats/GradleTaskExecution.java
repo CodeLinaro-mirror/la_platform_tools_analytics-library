@@ -465,6 +465,14 @@ public  final class GradleTaskExecution extends
      * <code>RESOLVE_DEPENDENCIES = 83;</code>
      */
     RESOLVE_DEPENDENCIES(83, 83),
+    /**
+     * <code>JAVA_COMPILE_ATOM_RES_CLASS = 84;</code>
+     */
+    JAVA_COMPILE_ATOM_RES_CLASS(84, 84),
+    /**
+     * <code>PROCESS_ATOMS_RESOURCES = 85;</code>
+     */
+    PROCESS_ATOMS_RESOURCES(85, 85),
     ;
 
     /**
@@ -803,6 +811,14 @@ public  final class GradleTaskExecution extends
      * <code>RESOLVE_DEPENDENCIES = 83;</code>
      */
     public static final int RESOLVE_DEPENDENCIES_VALUE = 83;
+    /**
+     * <code>JAVA_COMPILE_ATOM_RES_CLASS = 84;</code>
+     */
+    public static final int JAVA_COMPILE_ATOM_RES_CLASS_VALUE = 84;
+    /**
+     * <code>PROCESS_ATOMS_RESOURCES = 85;</code>
+     */
+    public static final int PROCESS_ATOMS_RESOURCES_VALUE = 85;
 
 
     public final int getNumber() { return value; }
@@ -893,6 +909,8 @@ public  final class GradleTaskExecution extends
         case 81: return PROCESS_INSTANT_APP_RESOURCES;
         case 82: return CLEAN_BUILD_CACHE;
         case 83: return RESOLVE_DEPENDENCIES;
+        case 84: return JAVA_COMPILE_ATOM_RES_CLASS;
+        case 85: return PROCESS_ATOMS_RESOURCES;
         default: return null;
       }
     }
