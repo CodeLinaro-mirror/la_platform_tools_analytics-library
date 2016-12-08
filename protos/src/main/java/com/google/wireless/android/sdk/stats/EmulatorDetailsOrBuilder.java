@@ -345,4 +345,30 @@ public interface EmulatorDetailsOrBuilder
    * </pre>
    */
   com.google.wireless.android.sdk.stats.EmulatorFeaturesOrBuilder getUsedFeaturesOrBuilder();
+
+  // optional .android_studio.EmulatorAvdInfo avd_info = 18;
+  /**
+   * <code>optional .android_studio.EmulatorAvdInfo avd_info = 18;</code>
+   *
+   * <pre>
+   * Information about the currently loaded AVD.
+   * </pre>
+   */
+  boolean hasAvdInfo();
+  /**
+   * <code>optional .android_studio.EmulatorAvdInfo avd_info = 18;</code>
+   *
+   * <pre>
+   * Information about the currently loaded AVD.
+   * </pre>
+   */
+  com.google.wireless.android.sdk.stats.EmulatorAvdInfo getAvdInfo();
+  /**
+   * <code>optional .android_studio.EmulatorAvdInfo avd_info = 18;</code>
+   *
+   * <pre>
+   * Information about the currently loaded AVD.
+   * </pre>
+   */
+  com.google.wireless.android.sdk.stats.EmulatorAvdInfoOrBuilder getAvdInfoOrBuilder();
 }

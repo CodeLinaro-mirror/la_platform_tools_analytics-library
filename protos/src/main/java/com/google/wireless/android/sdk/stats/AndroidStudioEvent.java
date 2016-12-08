@@ -532,6 +532,19 @@ public  final class AndroidStudioEvent extends
             bitField1_ |= 0x00000400;
             break;
           }
+          case 354: {
+            com.google.wireless.android.sdk.stats.EmulatorPerformanceStats.Builder subBuilder = null;
+            if (((bitField1_ & 0x00000800) == 0x00000800)) {
+              subBuilder = emulatorPerformanceStats_.toBuilder();
+            }
+            emulatorPerformanceStats_ = input.readMessage(com.google.wireless.android.sdk.stats.EmulatorPerformanceStats.PARSER, extensionRegistry);
+            if (subBuilder != null) {
+              subBuilder.mergeFrom(emulatorPerformanceStats_);
+              emulatorPerformanceStats_ = subBuilder.buildPartial();
+            }
+            bitField1_ |= 0x00000800;
+            break;
+          }
         }
       }
     } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -1929,6 +1942,14 @@ public  final class AndroidStudioEvent extends
      * </pre>
      */
     APP_LINKS_ASSISTANT_STATS(108, 111),
+    /**
+     * <code>EMULATOR_PERFORMANCE_STATS = 112;</code>
+     *
+     * <pre>
+     * Emulator performance tracking.
+     * </pre>
+     */
+    EMULATOR_PERFORMANCE_STATS(109, 112),
     ;
 
     /**
@@ -2780,6 +2801,14 @@ public  final class AndroidStudioEvent extends
      * </pre>
      */
     public static final int APP_LINKS_ASSISTANT_STATS_VALUE = 111;
+    /**
+     * <code>EMULATOR_PERFORMANCE_STATS = 112;</code>
+     *
+     * <pre>
+     * Emulator performance tracking.
+     * </pre>
+     */
+    public static final int EMULATOR_PERFORMANCE_STATS_VALUE = 112;
 
 
     public final int getNumber() { return value; }
@@ -2895,6 +2924,7 @@ public  final class AndroidStudioEvent extends
         case 109: return LAYOUT_EDITOR_EVENT;
         case 110: return GRADLE_SYNC_SETUP_STARTED;
         case 111: return APP_LINKS_ASSISTANT_STATS;
+        case 112: return EMULATOR_PERFORMANCE_STATS;
         default: return null;
       }
     }
@@ -5738,6 +5768,40 @@ public  final class AndroidStudioEvent extends
     return appLinksAssistantEvent_;
   }
 
+  // optional .android_studio.EmulatorPerformanceStats emulator_performance_stats = 44;
+  public static final int EMULATOR_PERFORMANCE_STATS_FIELD_NUMBER = 44;
+  private com.google.wireless.android.sdk.stats.EmulatorPerformanceStats emulatorPerformanceStats_;
+  /**
+   * <code>optional .android_studio.EmulatorPerformanceStats emulator_performance_stats = 44;</code>
+   *
+   * <pre>
+   * set when kind = EMULATOR_PERFORMANCE_STATS
+   * </pre>
+   */
+  public boolean hasEmulatorPerformanceStats() {
+    return ((bitField1_ & 0x00000800) == 0x00000800);
+  }
+  /**
+   * <code>optional .android_studio.EmulatorPerformanceStats emulator_performance_stats = 44;</code>
+   *
+   * <pre>
+   * set when kind = EMULATOR_PERFORMANCE_STATS
+   * </pre>
+   */
+  public com.google.wireless.android.sdk.stats.EmulatorPerformanceStats getEmulatorPerformanceStats() {
+    return emulatorPerformanceStats_;
+  }
+  /**
+   * <code>optional .android_studio.EmulatorPerformanceStats emulator_performance_stats = 44;</code>
+   *
+   * <pre>
+   * set when kind = EMULATOR_PERFORMANCE_STATS
+   * </pre>
+   */
+  public com.google.wireless.android.sdk.stats.EmulatorPerformanceStatsOrBuilder getEmulatorPerformanceStatsOrBuilder() {
+    return emulatorPerformanceStats_;
+  }
+
   private void initFields() {
     category_ = com.google.wireless.android.sdk.stats.AndroidStudioEvent.EventCategory.NO_EVENT_CATEGORY;
     kind_ = com.google.wireless.android.sdk.stats.AndroidStudioEvent.EventKind.UNKNOWN_EVENT_KIND;
@@ -5782,6 +5846,7 @@ public  final class AndroidStudioEvent extends
     firebaseContextDetails_ = com.google.wireless.android.sdk.stats.FirebaseContextDetails.getDefaultInstance();
     layoutEditorEvent_ = com.google.wireless.android.sdk.stats.LayoutEditorEvent.getDefaultInstance();
     appLinksAssistantEvent_ = com.google.wireless.android.sdk.stats.AppLinksAssistantEvent.getDefaultInstance();
+    emulatorPerformanceStats_ = com.google.wireless.android.sdk.stats.EmulatorPerformanceStats.getDefaultInstance();
   }
   private byte memoizedIsInitialized = -1;
   public final boolean isInitialized() {
@@ -5923,6 +5988,9 @@ public  final class AndroidStudioEvent extends
     }
     if (((bitField1_ & 0x00000400) == 0x00000400)) {
       output.writeMessage(43, appLinksAssistantEvent_);
+    }
+    if (((bitField1_ & 0x00000800) == 0x00000800)) {
+      output.writeMessage(44, emulatorPerformanceStats_);
     }
     getUnknownFields().writeTo(output);
   }
@@ -6105,6 +6173,10 @@ public  final class AndroidStudioEvent extends
       size += com.google.protobuf.CodedOutputStream
         .computeMessageSize(43, appLinksAssistantEvent_);
     }
+    if (((bitField1_ & 0x00000800) == 0x00000800)) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeMessageSize(44, emulatorPerformanceStats_);
+    }
     size += getUnknownFields().getSerializedSize();
     memoizedSerializedSize = size;
     return size;
@@ -6239,6 +6311,7 @@ public  final class AndroidStudioEvent extends
         getFirebaseContextDetailsFieldBuilder();
         getLayoutEditorEventFieldBuilder();
         getAppLinksAssistantEventFieldBuilder();
+        getEmulatorPerformanceStatsFieldBuilder();
       }
     }
     private static Builder create() {
@@ -6437,6 +6510,12 @@ public  final class AndroidStudioEvent extends
         appLinksAssistantEventBuilder_.clear();
       }
       bitField1_ = (bitField1_ & ~0x00000400);
+      if (emulatorPerformanceStatsBuilder_ == null) {
+        emulatorPerformanceStats_ = com.google.wireless.android.sdk.stats.EmulatorPerformanceStats.getDefaultInstance();
+      } else {
+        emulatorPerformanceStatsBuilder_.clear();
+      }
+      bitField1_ = (bitField1_ & ~0x00000800);
       return this;
     }
 
@@ -6743,6 +6822,14 @@ public  final class AndroidStudioEvent extends
       } else {
         result.appLinksAssistantEvent_ = appLinksAssistantEventBuilder_.build();
       }
+      if (((from_bitField1_ & 0x00000800) == 0x00000800)) {
+        to_bitField1_ |= 0x00000800;
+      }
+      if (emulatorPerformanceStatsBuilder_ == null) {
+        result.emulatorPerformanceStats_ = emulatorPerformanceStats_;
+      } else {
+        result.emulatorPerformanceStats_ = emulatorPerformanceStatsBuilder_.build();
+      }
       result.bitField0_ = to_bitField0_;
       result.bitField1_ = to_bitField1_;
       onBuilt();
@@ -6900,6 +6987,9 @@ public  final class AndroidStudioEvent extends
       }
       if (other.hasAppLinksAssistantEvent()) {
         mergeAppLinksAssistantEvent(other.getAppLinksAssistantEvent());
+      }
+      if (other.hasEmulatorPerformanceStats()) {
+        mergeEmulatorPerformanceStats(other.getEmulatorPerformanceStats());
       }
       this.mergeUnknownFields(other.getUnknownFields());
       return this;
@@ -12193,6 +12283,159 @@ public  final class AndroidStudioEvent extends
         appLinksAssistantEvent_ = null;
       }
       return appLinksAssistantEventBuilder_;
+    }
+
+    // optional .android_studio.EmulatorPerformanceStats emulator_performance_stats = 44;
+    private com.google.wireless.android.sdk.stats.EmulatorPerformanceStats emulatorPerformanceStats_ = com.google.wireless.android.sdk.stats.EmulatorPerformanceStats.getDefaultInstance();
+    private com.google.protobuf.SingleFieldBuilder<
+        com.google.wireless.android.sdk.stats.EmulatorPerformanceStats, com.google.wireless.android.sdk.stats.EmulatorPerformanceStats.Builder, com.google.wireless.android.sdk.stats.EmulatorPerformanceStatsOrBuilder> emulatorPerformanceStatsBuilder_;
+    /**
+     * <code>optional .android_studio.EmulatorPerformanceStats emulator_performance_stats = 44;</code>
+     *
+     * <pre>
+     * set when kind = EMULATOR_PERFORMANCE_STATS
+     * </pre>
+     */
+    public boolean hasEmulatorPerformanceStats() {
+      return ((bitField1_ & 0x00000800) == 0x00000800);
+    }
+    /**
+     * <code>optional .android_studio.EmulatorPerformanceStats emulator_performance_stats = 44;</code>
+     *
+     * <pre>
+     * set when kind = EMULATOR_PERFORMANCE_STATS
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.EmulatorPerformanceStats getEmulatorPerformanceStats() {
+      if (emulatorPerformanceStatsBuilder_ == null) {
+        return emulatorPerformanceStats_;
+      } else {
+        return emulatorPerformanceStatsBuilder_.getMessage();
+      }
+    }
+    /**
+     * <code>optional .android_studio.EmulatorPerformanceStats emulator_performance_stats = 44;</code>
+     *
+     * <pre>
+     * set when kind = EMULATOR_PERFORMANCE_STATS
+     * </pre>
+     */
+    public Builder setEmulatorPerformanceStats(com.google.wireless.android.sdk.stats.EmulatorPerformanceStats value) {
+      if (emulatorPerformanceStatsBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        emulatorPerformanceStats_ = value;
+        onChanged();
+      } else {
+        emulatorPerformanceStatsBuilder_.setMessage(value);
+      }
+      bitField1_ |= 0x00000800;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.EmulatorPerformanceStats emulator_performance_stats = 44;</code>
+     *
+     * <pre>
+     * set when kind = EMULATOR_PERFORMANCE_STATS
+     * </pre>
+     */
+    public Builder setEmulatorPerformanceStats(
+        com.google.wireless.android.sdk.stats.EmulatorPerformanceStats.Builder builderForValue) {
+      if (emulatorPerformanceStatsBuilder_ == null) {
+        emulatorPerformanceStats_ = builderForValue.build();
+        onChanged();
+      } else {
+        emulatorPerformanceStatsBuilder_.setMessage(builderForValue.build());
+      }
+      bitField1_ |= 0x00000800;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.EmulatorPerformanceStats emulator_performance_stats = 44;</code>
+     *
+     * <pre>
+     * set when kind = EMULATOR_PERFORMANCE_STATS
+     * </pre>
+     */
+    public Builder mergeEmulatorPerformanceStats(com.google.wireless.android.sdk.stats.EmulatorPerformanceStats value) {
+      if (emulatorPerformanceStatsBuilder_ == null) {
+        if (((bitField1_ & 0x00000800) == 0x00000800) &&
+            emulatorPerformanceStats_ != com.google.wireless.android.sdk.stats.EmulatorPerformanceStats.getDefaultInstance()) {
+          emulatorPerformanceStats_ =
+            com.google.wireless.android.sdk.stats.EmulatorPerformanceStats.newBuilder(emulatorPerformanceStats_).mergeFrom(value).buildPartial();
+        } else {
+          emulatorPerformanceStats_ = value;
+        }
+        onChanged();
+      } else {
+        emulatorPerformanceStatsBuilder_.mergeFrom(value);
+      }
+      bitField1_ |= 0x00000800;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.EmulatorPerformanceStats emulator_performance_stats = 44;</code>
+     *
+     * <pre>
+     * set when kind = EMULATOR_PERFORMANCE_STATS
+     * </pre>
+     */
+    public Builder clearEmulatorPerformanceStats() {
+      if (emulatorPerformanceStatsBuilder_ == null) {
+        emulatorPerformanceStats_ = com.google.wireless.android.sdk.stats.EmulatorPerformanceStats.getDefaultInstance();
+        onChanged();
+      } else {
+        emulatorPerformanceStatsBuilder_.clear();
+      }
+      bitField1_ = (bitField1_ & ~0x00000800);
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.EmulatorPerformanceStats emulator_performance_stats = 44;</code>
+     *
+     * <pre>
+     * set when kind = EMULATOR_PERFORMANCE_STATS
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.EmulatorPerformanceStats.Builder getEmulatorPerformanceStatsBuilder() {
+      bitField1_ |= 0x00000800;
+      onChanged();
+      return getEmulatorPerformanceStatsFieldBuilder().getBuilder();
+    }
+    /**
+     * <code>optional .android_studio.EmulatorPerformanceStats emulator_performance_stats = 44;</code>
+     *
+     * <pre>
+     * set when kind = EMULATOR_PERFORMANCE_STATS
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.EmulatorPerformanceStatsOrBuilder getEmulatorPerformanceStatsOrBuilder() {
+      if (emulatorPerformanceStatsBuilder_ != null) {
+        return emulatorPerformanceStatsBuilder_.getMessageOrBuilder();
+      } else {
+        return emulatorPerformanceStats_;
+      }
+    }
+    /**
+     * <code>optional .android_studio.EmulatorPerformanceStats emulator_performance_stats = 44;</code>
+     *
+     * <pre>
+     * set when kind = EMULATOR_PERFORMANCE_STATS
+     * </pre>
+     */
+    private com.google.protobuf.SingleFieldBuilder<
+        com.google.wireless.android.sdk.stats.EmulatorPerformanceStats, com.google.wireless.android.sdk.stats.EmulatorPerformanceStats.Builder, com.google.wireless.android.sdk.stats.EmulatorPerformanceStatsOrBuilder> 
+        getEmulatorPerformanceStatsFieldBuilder() {
+      if (emulatorPerformanceStatsBuilder_ == null) {
+        emulatorPerformanceStatsBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+            com.google.wireless.android.sdk.stats.EmulatorPerformanceStats, com.google.wireless.android.sdk.stats.EmulatorPerformanceStats.Builder, com.google.wireless.android.sdk.stats.EmulatorPerformanceStatsOrBuilder>(
+                emulatorPerformanceStats_,
+                getParentForChildren(),
+                isClean());
+        emulatorPerformanceStats_ = null;
+      }
+      return emulatorPerformanceStatsBuilder_;
     }
 
     // @@protoc_insertion_point(builder_scope:android_studio.AndroidStudioEvent)
