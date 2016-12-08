@@ -1093,4 +1093,30 @@ public interface AndroidStudioEventOrBuilder
    * </pre>
    */
   com.google.wireless.android.sdk.stats.AppLinksAssistantEventOrBuilder getAppLinksAssistantEventOrBuilder();
+
+  // optional .android_studio.EmulatorPerformanceStats emulator_performance_stats = 44;
+  /**
+   * <code>optional .android_studio.EmulatorPerformanceStats emulator_performance_stats = 44;</code>
+   *
+   * <pre>
+   * set when kind = EMULATOR_PERFORMANCE_STATS
+   * </pre>
+   */
+  boolean hasEmulatorPerformanceStats();
+  /**
+   * <code>optional .android_studio.EmulatorPerformanceStats emulator_performance_stats = 44;</code>
+   *
+   * <pre>
+   * set when kind = EMULATOR_PERFORMANCE_STATS
+   * </pre>
+   */
+  com.google.wireless.android.sdk.stats.EmulatorPerformanceStats getEmulatorPerformanceStats();
+  /**
+   * <code>optional .android_studio.EmulatorPerformanceStats emulator_performance_stats = 44;</code>
+   *
+   * <pre>
+   * set when kind = EMULATOR_PERFORMANCE_STATS
+   * </pre>
+   */
+  com.google.wireless.android.sdk.stats.EmulatorPerformanceStatsOrBuilder getEmulatorPerformanceStatsOrBuilder();
 }

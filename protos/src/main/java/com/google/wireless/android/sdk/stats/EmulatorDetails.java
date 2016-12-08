@@ -181,6 +181,19 @@ public  final class EmulatorDetails extends
             bitField0_ |= 0x00004000;
             break;
           }
+          case 146: {
+            com.google.wireless.android.sdk.stats.EmulatorAvdInfo.Builder subBuilder = null;
+            if (((bitField0_ & 0x00008000) == 0x00008000)) {
+              subBuilder = avdInfo_.toBuilder();
+            }
+            avdInfo_ = input.readMessage(com.google.wireless.android.sdk.stats.EmulatorAvdInfo.PARSER, extensionRegistry);
+            if (subBuilder != null) {
+              subBuilder.mergeFrom(avdInfo_);
+              avdInfo_ = subBuilder.buildPartial();
+            }
+            bitField0_ |= 0x00008000;
+            break;
+          }
         }
       }
     } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -1271,6 +1284,40 @@ public  final class EmulatorDetails extends
     return usedFeatures_;
   }
 
+  // optional .android_studio.EmulatorAvdInfo avd_info = 18;
+  public static final int AVD_INFO_FIELD_NUMBER = 18;
+  private com.google.wireless.android.sdk.stats.EmulatorAvdInfo avdInfo_;
+  /**
+   * <code>optional .android_studio.EmulatorAvdInfo avd_info = 18;</code>
+   *
+   * <pre>
+   * Information about the currently loaded AVD.
+   * </pre>
+   */
+  public boolean hasAvdInfo() {
+    return ((bitField0_ & 0x00008000) == 0x00008000);
+  }
+  /**
+   * <code>optional .android_studio.EmulatorAvdInfo avd_info = 18;</code>
+   *
+   * <pre>
+   * Information about the currently loaded AVD.
+   * </pre>
+   */
+  public com.google.wireless.android.sdk.stats.EmulatorAvdInfo getAvdInfo() {
+    return avdInfo_;
+  }
+  /**
+   * <code>optional .android_studio.EmulatorAvdInfo avd_info = 18;</code>
+   *
+   * <pre>
+   * Information about the currently loaded AVD.
+   * </pre>
+   */
+  public com.google.wireless.android.sdk.stats.EmulatorAvdInfoOrBuilder getAvdInfoOrBuilder() {
+    return avdInfo_;
+  }
+
   private void initFields() {
     guestArch_ = com.google.wireless.android.sdk.stats.EmulatorDetails.GuestCpuArchitecture.UNKNOWN_GUEST_CPU_ARCHITECTURE;
     systemTime_ = 0L;
@@ -1288,6 +1335,7 @@ public  final class EmulatorDetails extends
     coreVersion_ = "";
     renderer_ = com.google.wireless.android.sdk.stats.EmulatorDetails.EmulatorRenderer.UNKNOWN_EMULATOR_RENDERER;
     usedFeatures_ = com.google.wireless.android.sdk.stats.EmulatorFeatures.getDefaultInstance();
+    avdInfo_ = com.google.wireless.android.sdk.stats.EmulatorAvdInfo.getDefaultInstance();
   }
   private byte memoizedIsInitialized = -1;
   public final boolean isInitialized() {
@@ -1348,6 +1396,9 @@ public  final class EmulatorDetails extends
     }
     if (((bitField0_ & 0x00004000) == 0x00004000)) {
       output.writeMessage(17, usedFeatures_);
+    }
+    if (((bitField0_ & 0x00008000) == 0x00008000)) {
+      output.writeMessage(18, avdInfo_);
     }
     getUnknownFields().writeTo(output);
   }
@@ -1421,6 +1472,10 @@ public  final class EmulatorDetails extends
     if (((bitField0_ & 0x00004000) == 0x00004000)) {
       size += com.google.protobuf.CodedOutputStream
         .computeMessageSize(17, usedFeatures_);
+    }
+    if (((bitField0_ & 0x00008000) == 0x00008000)) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeMessageSize(18, avdInfo_);
     }
     size += getUnknownFields().getSerializedSize();
     memoizedSerializedSize = size;
@@ -1537,6 +1592,7 @@ public  final class EmulatorDetails extends
         getGuestGlFieldBuilder();
         getHostGpuFieldBuilder();
         getUsedFeaturesFieldBuilder();
+        getAvdInfoFieldBuilder();
       }
     }
     private static Builder create() {
@@ -1589,6 +1645,12 @@ public  final class EmulatorDetails extends
         usedFeaturesBuilder_.clear();
       }
       bitField0_ = (bitField0_ & ~0x00008000);
+      if (avdInfoBuilder_ == null) {
+        avdInfo_ = com.google.wireless.android.sdk.stats.EmulatorAvdInfo.getDefaultInstance();
+      } else {
+        avdInfoBuilder_.clear();
+      }
+      bitField0_ = (bitField0_ & ~0x00010000);
       return this;
     }
 
@@ -1694,6 +1756,14 @@ public  final class EmulatorDetails extends
       } else {
         result.usedFeatures_ = usedFeaturesBuilder_.build();
       }
+      if (((from_bitField0_ & 0x00010000) == 0x00010000)) {
+        to_bitField0_ |= 0x00008000;
+      }
+      if (avdInfoBuilder_ == null) {
+        result.avdInfo_ = avdInfo_;
+      } else {
+        result.avdInfo_ = avdInfoBuilder_.build();
+      }
       result.bitField0_ = to_bitField0_;
       onBuilt();
       return result;
@@ -1782,6 +1852,9 @@ public  final class EmulatorDetails extends
       }
       if (other.hasUsedFeatures()) {
         mergeUsedFeatures(other.getUsedFeatures());
+      }
+      if (other.hasAvdInfo()) {
+        mergeAvdInfo(other.getAvdInfo());
       }
       this.mergeUnknownFields(other.getUnknownFields());
       return this;
@@ -3124,6 +3197,159 @@ public  final class EmulatorDetails extends
         usedFeatures_ = null;
       }
       return usedFeaturesBuilder_;
+    }
+
+    // optional .android_studio.EmulatorAvdInfo avd_info = 18;
+    private com.google.wireless.android.sdk.stats.EmulatorAvdInfo avdInfo_ = com.google.wireless.android.sdk.stats.EmulatorAvdInfo.getDefaultInstance();
+    private com.google.protobuf.SingleFieldBuilder<
+        com.google.wireless.android.sdk.stats.EmulatorAvdInfo, com.google.wireless.android.sdk.stats.EmulatorAvdInfo.Builder, com.google.wireless.android.sdk.stats.EmulatorAvdInfoOrBuilder> avdInfoBuilder_;
+    /**
+     * <code>optional .android_studio.EmulatorAvdInfo avd_info = 18;</code>
+     *
+     * <pre>
+     * Information about the currently loaded AVD.
+     * </pre>
+     */
+    public boolean hasAvdInfo() {
+      return ((bitField0_ & 0x00010000) == 0x00010000);
+    }
+    /**
+     * <code>optional .android_studio.EmulatorAvdInfo avd_info = 18;</code>
+     *
+     * <pre>
+     * Information about the currently loaded AVD.
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.EmulatorAvdInfo getAvdInfo() {
+      if (avdInfoBuilder_ == null) {
+        return avdInfo_;
+      } else {
+        return avdInfoBuilder_.getMessage();
+      }
+    }
+    /**
+     * <code>optional .android_studio.EmulatorAvdInfo avd_info = 18;</code>
+     *
+     * <pre>
+     * Information about the currently loaded AVD.
+     * </pre>
+     */
+    public Builder setAvdInfo(com.google.wireless.android.sdk.stats.EmulatorAvdInfo value) {
+      if (avdInfoBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        avdInfo_ = value;
+        onChanged();
+      } else {
+        avdInfoBuilder_.setMessage(value);
+      }
+      bitField0_ |= 0x00010000;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.EmulatorAvdInfo avd_info = 18;</code>
+     *
+     * <pre>
+     * Information about the currently loaded AVD.
+     * </pre>
+     */
+    public Builder setAvdInfo(
+        com.google.wireless.android.sdk.stats.EmulatorAvdInfo.Builder builderForValue) {
+      if (avdInfoBuilder_ == null) {
+        avdInfo_ = builderForValue.build();
+        onChanged();
+      } else {
+        avdInfoBuilder_.setMessage(builderForValue.build());
+      }
+      bitField0_ |= 0x00010000;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.EmulatorAvdInfo avd_info = 18;</code>
+     *
+     * <pre>
+     * Information about the currently loaded AVD.
+     * </pre>
+     */
+    public Builder mergeAvdInfo(com.google.wireless.android.sdk.stats.EmulatorAvdInfo value) {
+      if (avdInfoBuilder_ == null) {
+        if (((bitField0_ & 0x00010000) == 0x00010000) &&
+            avdInfo_ != com.google.wireless.android.sdk.stats.EmulatorAvdInfo.getDefaultInstance()) {
+          avdInfo_ =
+            com.google.wireless.android.sdk.stats.EmulatorAvdInfo.newBuilder(avdInfo_).mergeFrom(value).buildPartial();
+        } else {
+          avdInfo_ = value;
+        }
+        onChanged();
+      } else {
+        avdInfoBuilder_.mergeFrom(value);
+      }
+      bitField0_ |= 0x00010000;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.EmulatorAvdInfo avd_info = 18;</code>
+     *
+     * <pre>
+     * Information about the currently loaded AVD.
+     * </pre>
+     */
+    public Builder clearAvdInfo() {
+      if (avdInfoBuilder_ == null) {
+        avdInfo_ = com.google.wireless.android.sdk.stats.EmulatorAvdInfo.getDefaultInstance();
+        onChanged();
+      } else {
+        avdInfoBuilder_.clear();
+      }
+      bitField0_ = (bitField0_ & ~0x00010000);
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.EmulatorAvdInfo avd_info = 18;</code>
+     *
+     * <pre>
+     * Information about the currently loaded AVD.
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.EmulatorAvdInfo.Builder getAvdInfoBuilder() {
+      bitField0_ |= 0x00010000;
+      onChanged();
+      return getAvdInfoFieldBuilder().getBuilder();
+    }
+    /**
+     * <code>optional .android_studio.EmulatorAvdInfo avd_info = 18;</code>
+     *
+     * <pre>
+     * Information about the currently loaded AVD.
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.EmulatorAvdInfoOrBuilder getAvdInfoOrBuilder() {
+      if (avdInfoBuilder_ != null) {
+        return avdInfoBuilder_.getMessageOrBuilder();
+      } else {
+        return avdInfo_;
+      }
+    }
+    /**
+     * <code>optional .android_studio.EmulatorAvdInfo avd_info = 18;</code>
+     *
+     * <pre>
+     * Information about the currently loaded AVD.
+     * </pre>
+     */
+    private com.google.protobuf.SingleFieldBuilder<
+        com.google.wireless.android.sdk.stats.EmulatorAvdInfo, com.google.wireless.android.sdk.stats.EmulatorAvdInfo.Builder, com.google.wireless.android.sdk.stats.EmulatorAvdInfoOrBuilder> 
+        getAvdInfoFieldBuilder() {
+      if (avdInfoBuilder_ == null) {
+        avdInfoBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+            com.google.wireless.android.sdk.stats.EmulatorAvdInfo, com.google.wireless.android.sdk.stats.EmulatorAvdInfo.Builder, com.google.wireless.android.sdk.stats.EmulatorAvdInfoOrBuilder>(
+                avdInfo_,
+                getParentForChildren(),
+                isClean());
+        avdInfo_ = null;
+      }
+      return avdInfoBuilder_;
     }
 
     // @@protoc_insertion_point(builder_scope:android_studio.EmulatorDetails)
