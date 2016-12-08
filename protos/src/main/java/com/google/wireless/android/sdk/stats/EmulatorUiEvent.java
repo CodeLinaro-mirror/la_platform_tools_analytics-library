@@ -164,6 +164,16 @@ public  final class EmulatorUiEvent extends
      * </pre>
      */
     OPTION_SELECTED(3, 3),
+    /**
+     * <code>LONG_PROCESSING_TIME_US = 4;</code>
+     *
+     * <pre>
+     * Generated on event processing end, |value| is time in microseconds.
+     * Is only sent if the processing time is considered 'long' in the emulator,
+     * which is determined in the emulator code itself.
+     * </pre>
+     */
+    LONG_PROCESSING_TIME_US(4, 4),
     ;
 
     /**
@@ -192,6 +202,16 @@ public  final class EmulatorUiEvent extends
      * </pre>
      */
     public static final int OPTION_SELECTED_VALUE = 3;
+    /**
+     * <code>LONG_PROCESSING_TIME_US = 4;</code>
+     *
+     * <pre>
+     * Generated on event processing end, |value| is time in microseconds.
+     * Is only sent if the processing time is considered 'long' in the emulator,
+     * which is determined in the emulator code itself.
+     * </pre>
+     */
+    public static final int LONG_PROCESSING_TIME_US_VALUE = 4;
 
 
     public final int getNumber() { return value; }
@@ -202,6 +222,7 @@ public  final class EmulatorUiEvent extends
         case 1: return BUTTON_PRESS;
         case 2: return OPTION_SET_TO_NON_DEFAULT;
         case 3: return OPTION_SELECTED;
+        case 4: return LONG_PROCESSING_TIME_US;
         default: return null;
       }
     }

@@ -608,6 +608,10 @@ public  final class InstantRun extends
      * <code>ANDROID_TV_UNSUPPORTED = 14;</code>
      */
     ANDROID_TV_UNSUPPORTED(14, 14),
+    /**
+     * <code>USER_REQUESTED_COLDSWAP = 15;</code>
+     */
+    USER_REQUESTED_COLDSWAP(15, 15),
     ;
 
     /**
@@ -686,6 +690,10 @@ public  final class InstantRun extends
      * <code>ANDROID_TV_UNSUPPORTED = 14;</code>
      */
     public static final int ANDROID_TV_UNSUPPORTED_VALUE = 14;
+    /**
+     * <code>USER_REQUESTED_COLDSWAP = 15;</code>
+     */
+    public static final int USER_REQUESTED_COLDSWAP_VALUE = 15;
 
 
     public final int getNumber() { return value; }
@@ -707,6 +715,7 @@ public  final class InstantRun extends
         case 12: return INCREMENTAL_BUILD;
         case 13: return NO_INSTANT_RUN;
         case 14: return ANDROID_TV_UNSUPPORTED;
+        case 15: return USER_REQUESTED_COLDSWAP;
         default: return null;
       }
     }

@@ -289,6 +289,8 @@ message AndroidStudioEvent {
     GRADLE_SYNC_SETUP_STARTED = 110;
     // For event from App Links Assistant.
     APP_LINKS_ASSISTANT_STATS = 111;
+    // Emulator performance tracking.
+    EMULATOR_PERFORMANCE_STATS = 112;
   }
   // Represents different Performance Monitoring types.
   enum MonitorType {
@@ -504,6 +506,8 @@ message AndroidStudioEvent {
   optional .android_studio.LayoutEditorEvent layout_editor_event = 42;
   // set when kind = APP_LINKS_ASSISTANT_STATS
   optional .android_studio.AppLinksAssistantEvent app_links_assistant_event = 43;
+  // set when kind = EMULATOR_PERFORMANCE_STATS
+  optional .android_studio.EmulatorPerformanceStats emulator_performance_stats = 44;
 }
 
 // Describes a product, e.g. Android Studio or Emulator.
@@ -650,6 +654,56 @@ message EmulatorFeatures {
   optional bool sensors = 2;
 }
 
+// A description of a single file from an AVD.
+message EmulatorAvdFile {
+  enum EmulatorAvdFileLocation {
+    UNKNOWN_EMULATOR_AVD_FILE_LOCATION = 0;
+    STANDARD = 1;
+    CUSTOM = 2;
+  }
+  enum EmulatorAvdFileKind {
+    UNKNOWN_EMULATOR_AVD_FILE_KIND = 0;
+    KERNEL = 1;
+    SYSTEM = 2;
+    RAMDISK = 3;
+  }
+  // Kind of the file this report is about.
+  optional .android_studio.EmulatorAvdFile.EmulatorAvdFileKind kind = 1;
+  // Location of the file
+  optional .android_studio.EmulatorAvdFile.EmulatorAvdFileLocation location = 2;
+  // Size
+  optional int64 size = 3;
+  // Creation datetime, as a UTC unix timestamp
+  optional int64 creation_timestamp = 4;
+}
+
+// A description of an AVD Emulator has loaded.
+message EmulatorAvdInfo {
+  enum EmulatorAvdImageKind {
+    UNKNOWN_EMULATOR_AVD_IMAGE_KIND = 0;
+    AOSP = 1;
+    GOOGLE = 2;
+  }
+  // Name of the AVD.
+  optional string name = 1;
+  // Api level (23 = M, 24 = N, ...)
+  optional int64 api_level = 2;
+  // CPU architecture.
+  optional .android_studio.EmulatorDetails.GuestCpuArchitecture arch = 3;
+  // When was this AVD created, UTC Unix timespamp.
+  optional int64 creation_timestamp = 4;
+  // A build-id string from build.prop, something like 'sdk_google_phone 1231231
+  // 10-11-2012'.
+  optional string build_id = 5;
+  // Unix build UTC timestamp.
+  optional int64 build_timestamp = 6;
+  // Kind of the image (e.g. pure AOSP, with Google APIs, etc.).
+  optional .android_studio.EmulatorAvdInfo.EmulatorAvdImageKind image_kind = 7;
+  // A collection of files in the AVD
+  // (usually 3 entries: kernel, system & ramdisk).
+  repeated .android_studio.EmulatorAvdFile files = 8;
+}
+
 // Metrics related to the Emulator.
 message EmulatorDetails {
   // Emulator instance liveness as determined via adb connectivity.
@@ -731,6 +785,8 @@ message EmulatorDetails {
   optional .android_studio.EmulatorDetails.EmulatorRenderer renderer = 16;
   // Flags for the used featurs.
   optional .android_studio.EmulatorFeatures used_features = 17;
+  // Information about the currently loaded AVD.
+  optional .android_studio.EmulatorAvdInfo avd_info = 18;
 }
 
 // Describes a user clicking on some part of the Emulator UI.
@@ -745,6 +801,10 @@ message EmulatorUiEvent {
     // Generated to report the index of an option selected by the user in a
     // drop-down menu / radio button etc.
     OPTION_SELECTED = 3;
+    // Generated on event processing end, |value| is time in microseconds.
+    // Is only sent if the processing time is considered 'long' in the emulator,
+    // which is determined in the emulator code itself.
+    LONG_PROCESSING_TIME_US = 4;
   }
   // Tracks the context of the Emulator UI.
   enum EmulatorUiEventContext {
@@ -761,6 +821,26 @@ message EmulatorUiEvent {
   // is not specific here. e.g., |value| may represent a boolean, a "count", or
   // an index into the list of items in a drop down menu.
   optional int64 value = 4;
+}
+
+message EmulatorPercentileEstimator {
+  // Metric types that can be monitored.
+  enum EmulatorPerformanceMetric {
+    UI_EVENT_HANDLING_TIME_US = 0;
+  }
+  // Type of the performance metric.
+  optional .android_studio.EmulatorPercentileEstimator.EmulatorPerformanceMetric metric = 1;
+  // Per-metric type context, e.g. UI element name if this is an event handling
+  // time. Not set if there's no context for the specific metric type.
+  optional string context = 2;
+  // Estimator for metric.
+  optional .android_studio.PercentileEstimator estimator = 3;
+}
+
+// Estimations of percentiles of time spent on Emulator operations.
+message EmulatorPerformanceStats {
+  // Collection of estimations of performance metrics.
+  repeated .android_studio.EmulatorPercentileEstimator estimator = 1;
 }
 
 // Details about a single Gradle run.
@@ -911,6 +991,7 @@ message InstantRun {
     INCREMENTAL_BUILD = 12;
     NO_INSTANT_RUN = 13;
     ANDROID_TV_UNSUPPORTED = 14;
+    USER_REQUESTED_COLDSWAP = 15;
   }
   // What kind of Instant Run deployment was chosen.
   optional .android_studio.InstantRun.InstantRunDeploymentKind deployment_kind = 1;
