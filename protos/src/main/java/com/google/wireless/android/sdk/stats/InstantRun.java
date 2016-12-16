@@ -610,8 +610,20 @@ public  final class InstantRun extends
     ANDROID_TV_UNSUPPORTED(14, 14),
     /**
      * <code>USER_REQUESTED_COLDSWAP = 15;</code>
+     *
+     * <pre>
+     * user pressed Run, only Run was enabled
+     * </pre>
      */
     USER_REQUESTED_COLDSWAP(15, 15),
+    /**
+     * <code>USER_CHOSE_TO_COLDSWAP = 16;</code>
+     *
+     * <pre>
+     * both Run and Hotswap were enabled, user chose Run
+     * </pre>
+     */
+    USER_CHOSE_TO_COLDSWAP(16, 16),
     ;
 
     /**
@@ -692,8 +704,20 @@ public  final class InstantRun extends
     public static final int ANDROID_TV_UNSUPPORTED_VALUE = 14;
     /**
      * <code>USER_REQUESTED_COLDSWAP = 15;</code>
+     *
+     * <pre>
+     * user pressed Run, only Run was enabled
+     * </pre>
      */
     public static final int USER_REQUESTED_COLDSWAP_VALUE = 15;
+    /**
+     * <code>USER_CHOSE_TO_COLDSWAP = 16;</code>
+     *
+     * <pre>
+     * both Run and Hotswap were enabled, user chose Run
+     * </pre>
+     */
+    public static final int USER_CHOSE_TO_COLDSWAP_VALUE = 16;
 
 
     public final int getNumber() { return value; }
@@ -716,6 +740,7 @@ public  final class InstantRun extends
         case 13: return NO_INSTANT_RUN;
         case 14: return ANDROID_TV_UNSUPPORTED;
         case 15: return USER_REQUESTED_COLDSWAP;
+        case 16: return USER_CHOSE_TO_COLDSWAP;
         default: return null;
       }
     }
