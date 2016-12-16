@@ -991,7 +991,10 @@ message InstantRun {
     INCREMENTAL_BUILD = 12;
     NO_INSTANT_RUN = 13;
     ANDROID_TV_UNSUPPORTED = 14;
+    // user pressed Run, only Run was enabled
     USER_REQUESTED_COLDSWAP = 15;
+    // both Run and Hotswap were enabled, user chose Run
+    USER_CHOSE_TO_COLDSWAP = 16;
   }
   // What kind of Instant Run deployment was chosen.
   optional .android_studio.InstantRun.InstantRunDeploymentKind deployment_kind = 1;
@@ -1513,6 +1516,7 @@ message GradleTaskExecution {
     RESOLVE_DEPENDENCIES = 83;
     JAVA_COMPILE_ATOM_RES_CLASS = 84;
     PROCESS_ATOMS_RESOURCES = 85;
+    EXTERNAL_NATIVE_PREPARE = 86;
   }
   // The task implementing class.
   // Custom tasks are recorded as UNKNOWN_TASK_TYPE.
