@@ -531,6 +531,10 @@ public  final class InstantRunStatus extends
      * <code>CHANGE_IN_SERIALIZABLE_CLASS_WITHOUT_VERSION_UID = 28;</code>
      */
     CHANGE_IN_SERIALIZABLE_CLASS_WITHOUT_VERSION_UID(28, 28),
+    /**
+     * <code>BUILD_NOT_INCREMENTAL = 29;</code>
+     */
+    BUILD_NOT_INCREMENTAL(29, 29),
     ;
 
     /**
@@ -698,6 +702,10 @@ public  final class InstantRunStatus extends
      * <code>CHANGE_IN_SERIALIZABLE_CLASS_WITHOUT_VERSION_UID = 28;</code>
      */
     public static final int CHANGE_IN_SERIALIZABLE_CLASS_WITHOUT_VERSION_UID_VALUE = 28;
+    /**
+     * <code>BUILD_NOT_INCREMENTAL = 29;</code>
+     */
+    public static final int BUILD_NOT_INCREMENTAL_VALUE = 29;
 
 
     public final int getNumber() { return value; }
@@ -733,6 +741,7 @@ public  final class InstantRunStatus extends
         case 26: return INITIAL_BUILD;
         case 27: return NO_CHANGES;
         case 28: return CHANGE_IN_SERIALIZABLE_CLASS_WITHOUT_VERSION_UID;
+        case 29: return BUILD_NOT_INCREMENTAL;
         default: return null;
       }
     }
