@@ -1517,6 +1517,7 @@ message GradleTaskExecution {
     JAVA_COMPILE_ATOM_RES_CLASS = 84;
     PROCESS_ATOMS_RESOURCES = 85;
     EXTERNAL_NATIVE_PREPARE = 86;
+    SPLITS_DISCOVERY = 87;
   }
   // The task implementing class.
   // Custom tasks are recorded as UNKNOWN_TASK_TYPE.
