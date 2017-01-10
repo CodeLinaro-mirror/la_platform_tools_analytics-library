@@ -477,6 +477,10 @@ public  final class GradleTaskExecution extends
      * <code>EXTERNAL_NATIVE_PREPARE = 86;</code>
      */
     EXTERNAL_NATIVE_PREPARE(86, 86),
+    /**
+     * <code>SPLITS_DISCOVERY = 87;</code>
+     */
+    SPLITS_DISCOVERY(87, 87),
     ;
 
     /**
@@ -827,6 +831,10 @@ public  final class GradleTaskExecution extends
      * <code>EXTERNAL_NATIVE_PREPARE = 86;</code>
      */
     public static final int EXTERNAL_NATIVE_PREPARE_VALUE = 86;
+    /**
+     * <code>SPLITS_DISCOVERY = 87;</code>
+     */
+    public static final int SPLITS_DISCOVERY_VALUE = 87;
 
 
     public final int getNumber() { return value; }
@@ -920,6 +928,7 @@ public  final class GradleTaskExecution extends
         case 84: return JAVA_COMPILE_ATOM_RES_CLASS;
         case 85: return PROCESS_ATOMS_RESOURCES;
         case 86: return EXTERNAL_NATIVE_PREPARE;
+        case 87: return SPLITS_DISCOVERY;
         default: return null;
       }
     }
