@@ -4790,7 +4790,6 @@ public  final class AndroidStudioEvent extends
    * <code>optional .android_studio.AndroidStudioEvent.GradleSyncFailure gradle_sync_failure = 16;</code>
    *
    * <pre>
-   * e.g. '2.10'
    * set when kind = GRADLE_SYNC_FAILURE
    * </pre>
    */
@@ -4801,7 +4800,6 @@ public  final class AndroidStudioEvent extends
    * <code>optional .android_studio.AndroidStudioEvent.GradleSyncFailure gradle_sync_failure = 16;</code>
    *
    * <pre>
-   * e.g. '2.10'
    * set when kind = GRADLE_SYNC_FAILURE
    * </pre>
    */
@@ -8294,7 +8292,6 @@ public  final class AndroidStudioEvent extends
      * <code>optional .android_studio.AndroidStudioEvent.GradleSyncFailure gradle_sync_failure = 16;</code>
      *
      * <pre>
-     * e.g. '2.10'
      * set when kind = GRADLE_SYNC_FAILURE
      * </pre>
      */
@@ -8305,7 +8302,6 @@ public  final class AndroidStudioEvent extends
      * <code>optional .android_studio.AndroidStudioEvent.GradleSyncFailure gradle_sync_failure = 16;</code>
      *
      * <pre>
-     * e.g. '2.10'
      * set when kind = GRADLE_SYNC_FAILURE
      * </pre>
      */
@@ -8316,7 +8312,6 @@ public  final class AndroidStudioEvent extends
      * <code>optional .android_studio.AndroidStudioEvent.GradleSyncFailure gradle_sync_failure = 16;</code>
      *
      * <pre>
-     * e.g. '2.10'
      * set when kind = GRADLE_SYNC_FAILURE
      * </pre>
      */
@@ -8333,7 +8328,6 @@ public  final class AndroidStudioEvent extends
      * <code>optional .android_studio.AndroidStudioEvent.GradleSyncFailure gradle_sync_failure = 16;</code>
      *
      * <pre>
-     * e.g. '2.10'
      * set when kind = GRADLE_SYNC_FAILURE
      * </pre>
      */

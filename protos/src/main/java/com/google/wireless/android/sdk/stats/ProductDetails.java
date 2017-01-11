@@ -386,14 +386,14 @@ public  final class ProductDetails extends
     UNKNOWN_OS_KIND(0, 0),
     /**
      * <code>OTHER_OS = 1;</code>
-     */
-    OTHER_OS(1, 1),
-    /**
-     * <code>WINDOWS = 2;</code>
      *
      * <pre>
      * Known but not in our list.
      * </pre>
+     */
+    OTHER_OS(1, 1),
+    /**
+     * <code>WINDOWS = 2;</code>
      */
     WINDOWS(2, 2),
     /**
@@ -416,14 +416,14 @@ public  final class ProductDetails extends
     public static final int UNKNOWN_OS_KIND_VALUE = 0;
     /**
      * <code>OTHER_OS = 1;</code>
-     */
-    public static final int OTHER_OS_VALUE = 1;
-    /**
-     * <code>WINDOWS = 2;</code>
      *
      * <pre>
      * Known but not in our list.
      * </pre>
+     */
+    public static final int OTHER_OS_VALUE = 1;
+    /**
+     * <code>WINDOWS = 2;</code>
      */
     public static final int WINDOWS_VALUE = 2;
     /**
@@ -683,7 +683,6 @@ public  final class ProductDetails extends
    * <code>optional string version = 3;</code>
    *
    * <pre>
-   * e.g. AI-141.2178183
    * The version of the product.
    * </pre>
    */
@@ -694,7 +693,6 @@ public  final class ProductDetails extends
    * <code>optional string version = 3;</code>
    *
    * <pre>
-   * e.g. AI-141.2178183
    * The version of the product.
    * </pre>
    */
@@ -716,7 +714,6 @@ public  final class ProductDetails extends
    * <code>optional string version = 3;</code>
    *
    * <pre>
-   * e.g. AI-141.2178183
    * The version of the product.
    * </pre>
    */
@@ -741,7 +738,6 @@ public  final class ProductDetails extends
    * <code>optional bool preview = 4;</code>
    *
    * <pre>
-   * e.g. 2.0.0.11
    * Historical: never used as it was not providing enough info. Use channel
    * instead as it distinguishes between different kinds of preview releases.
    * </pre>
@@ -753,7 +749,6 @@ public  final class ProductDetails extends
    * <code>optional bool preview = 4;</code>
    *
    * <pre>
-   * e.g. 2.0.0.11
    * Historical: never used as it was not providing enough info. Use channel
    * instead as it distinguishes between different kinds of preview releases.
    * </pre>
@@ -1286,7 +1281,6 @@ public  final class ProductDetails extends
      * <code>optional string version = 3;</code>
      *
      * <pre>
-     * e.g. AI-141.2178183
      * The version of the product.
      * </pre>
      */
@@ -1297,7 +1291,6 @@ public  final class ProductDetails extends
      * <code>optional string version = 3;</code>
      *
      * <pre>
-     * e.g. AI-141.2178183
      * The version of the product.
      * </pre>
      */
@@ -1316,7 +1309,6 @@ public  final class ProductDetails extends
      * <code>optional string version = 3;</code>
      *
      * <pre>
-     * e.g. AI-141.2178183
      * The version of the product.
      * </pre>
      */
@@ -1337,7 +1329,6 @@ public  final class ProductDetails extends
      * <code>optional string version = 3;</code>
      *
      * <pre>
-     * e.g. AI-141.2178183
      * The version of the product.
      * </pre>
      */
@@ -1355,7 +1346,6 @@ public  final class ProductDetails extends
      * <code>optional string version = 3;</code>
      *
      * <pre>
-     * e.g. AI-141.2178183
      * The version of the product.
      * </pre>
      */
@@ -1369,7 +1359,6 @@ public  final class ProductDetails extends
      * <code>optional string version = 3;</code>
      *
      * <pre>
-     * e.g. AI-141.2178183
      * The version of the product.
      * </pre>
      */
@@ -1390,7 +1379,6 @@ public  final class ProductDetails extends
      * <code>optional bool preview = 4;</code>
      *
      * <pre>
-     * e.g. 2.0.0.11
      * Historical: never used as it was not providing enough info. Use channel
      * instead as it distinguishes between different kinds of preview releases.
      * </pre>
@@ -1402,7 +1390,6 @@ public  final class ProductDetails extends
      * <code>optional bool preview = 4;</code>
      *
      * <pre>
-     * e.g. 2.0.0.11
      * Historical: never used as it was not providing enough info. Use channel
      * instead as it distinguishes between different kinds of preview releases.
      * </pre>
@@ -1414,7 +1401,6 @@ public  final class ProductDetails extends
      * <code>optional bool preview = 4;</code>
      *
      * <pre>
-     * e.g. 2.0.0.11
      * Historical: never used as it was not providing enough info. Use channel
      * instead as it distinguishes between different kinds of preview releases.
      * </pre>
@@ -1429,7 +1415,6 @@ public  final class ProductDetails extends
      * <code>optional bool preview = 4;</code>
      *
      * <pre>
-     * e.g. 2.0.0.11
      * Historical: never used as it was not providing enough info. Use channel
      * instead as it distinguishes between different kinds of preview releases.
      * </pre>

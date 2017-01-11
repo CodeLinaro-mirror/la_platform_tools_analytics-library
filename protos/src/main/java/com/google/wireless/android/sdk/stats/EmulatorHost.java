@@ -183,7 +183,6 @@ public  final class EmulatorHost extends
    * <code>optional bool virt_support = 2;</code>
    *
    * <pre>
-   * AMD, INTEL, ...
    * Does the host support virtualization technology
    * </pre>
    */
@@ -194,7 +193,6 @@ public  final class EmulatorHost extends
    * <code>optional bool virt_support = 2;</code>
    *
    * <pre>
-   * AMD, INTEL, ...
    * Does the host support virtualization technology
    * </pre>
    */
@@ -646,7 +644,6 @@ public  final class EmulatorHost extends
      * <code>optional bool virt_support = 2;</code>
      *
      * <pre>
-     * AMD, INTEL, ...
      * Does the host support virtualization technology
      * </pre>
      */
@@ -657,7 +654,6 @@ public  final class EmulatorHost extends
      * <code>optional bool virt_support = 2;</code>
      *
      * <pre>
-     * AMD, INTEL, ...
      * Does the host support virtualization technology
      * </pre>
      */
@@ -668,7 +664,6 @@ public  final class EmulatorHost extends
      * <code>optional bool virt_support = 2;</code>
      *
      * <pre>
-     * AMD, INTEL, ...
      * Does the host support virtualization technology
      * </pre>
      */
@@ -682,7 +677,6 @@ public  final class EmulatorHost extends
      * <code>optional bool virt_support = 2;</code>
      *
      * <pre>
-     * AMD, INTEL, ...
      * Does the host support virtualization technology
      * </pre>
      */
