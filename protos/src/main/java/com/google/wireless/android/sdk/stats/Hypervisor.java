@@ -119,13 +119,17 @@ public  final class Hypervisor extends
       implements com.google.protobuf.ProtocolMessageEnum {
     /**
      * <code>UNKNOWN_HYPERV_STATE = 0;</code>
+     *
+     * <pre>
+     * Have no idea
+     * </pre>
      */
     UNKNOWN_HYPERV_STATE(0, 0),
     /**
      * <code>HYPERV_ABSENT = 1;</code>
      *
      * <pre>
-     * Have no idea
+     * No hyper-V found
      * </pre>
      */
     HYPERV_ABSENT(1, 1),
@@ -133,7 +137,7 @@ public  final class Hypervisor extends
      * <code>HYPERV_INSTALLED = 2;</code>
      *
      * <pre>
-     * No hyper-V found
+     * Hyper-V is installed but not running
      * </pre>
      */
     HYPERV_INSTALLED(2, 2),
@@ -141,7 +145,7 @@ public  final class Hypervisor extends
      * <code>HYPERV_RUNNING = 3;</code>
      *
      * <pre>
-     * Hyper-V is installed but not running
+     * Hyper-V is up and running
      * </pre>
      */
     HYPERV_RUNNING(3, 3),
@@ -149,7 +153,7 @@ public  final class Hypervisor extends
      * <code>HYPERV_CHECK_ERROR = 4;</code>
      *
      * <pre>
-     * Hyper-V is up and running
+     * Failed to detect status (emulator-check error)
      * </pre>
      */
     HYPERV_CHECK_ERROR(4, 4),
@@ -157,13 +161,17 @@ public  final class Hypervisor extends
 
     /**
      * <code>UNKNOWN_HYPERV_STATE = 0;</code>
+     *
+     * <pre>
+     * Have no idea
+     * </pre>
      */
     public static final int UNKNOWN_HYPERV_STATE_VALUE = 0;
     /**
      * <code>HYPERV_ABSENT = 1;</code>
      *
      * <pre>
-     * Have no idea
+     * No hyper-V found
      * </pre>
      */
     public static final int HYPERV_ABSENT_VALUE = 1;
@@ -171,7 +179,7 @@ public  final class Hypervisor extends
      * <code>HYPERV_INSTALLED = 2;</code>
      *
      * <pre>
-     * No hyper-V found
+     * Hyper-V is installed but not running
      * </pre>
      */
     public static final int HYPERV_INSTALLED_VALUE = 2;
@@ -179,7 +187,7 @@ public  final class Hypervisor extends
      * <code>HYPERV_RUNNING = 3;</code>
      *
      * <pre>
-     * Hyper-V is installed but not running
+     * Hyper-V is up and running
      * </pre>
      */
     public static final int HYPERV_RUNNING_VALUE = 3;
@@ -187,7 +195,7 @@ public  final class Hypervisor extends
      * <code>HYPERV_CHECK_ERROR = 4;</code>
      *
      * <pre>
-     * Hyper-V is up and running
+     * Failed to detect status (emulator-check error)
      * </pre>
      */
     public static final int HYPERV_CHECK_ERROR_VALUE = 4;

@@ -56,7 +56,6 @@ public interface ProductDetailsOrBuilder
    * <code>optional string version = 3;</code>
    *
    * <pre>
-   * e.g. AI-141.2178183
    * The version of the product.
    * </pre>
    */
@@ -65,7 +64,6 @@ public interface ProductDetailsOrBuilder
    * <code>optional string version = 3;</code>
    *
    * <pre>
-   * e.g. AI-141.2178183
    * The version of the product.
    * </pre>
    */
@@ -74,7 +72,6 @@ public interface ProductDetailsOrBuilder
    * <code>optional string version = 3;</code>
    *
    * <pre>
-   * e.g. AI-141.2178183
    * The version of the product.
    * </pre>
    */
@@ -86,7 +83,6 @@ public interface ProductDetailsOrBuilder
    * <code>optional bool preview = 4;</code>
    *
    * <pre>
-   * e.g. 2.0.0.11
    * Historical: never used as it was not providing enough info. Use channel
    * instead as it distinguishes between different kinds of preview releases.
    * </pre>
@@ -96,7 +92,6 @@ public interface ProductDetailsOrBuilder
    * <code>optional bool preview = 4;</code>
    *
    * <pre>
-   * e.g. 2.0.0.11
    * Historical: never used as it was not providing enough info. Use channel
    * instead as it distinguishes between different kinds of preview releases.
    * </pre>

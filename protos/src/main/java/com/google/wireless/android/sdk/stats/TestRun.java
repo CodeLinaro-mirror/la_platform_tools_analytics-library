@@ -536,7 +536,6 @@ public  final class TestRun extends
    * <code>optional bool code_coverage_enabled = 6;</code>
    *
    * <pre>
-   * e.g. '2.10'
    * Did the user/project enable code coverage on this test run?
    * </pre>
    */
@@ -547,7 +546,6 @@ public  final class TestRun extends
    * <code>optional bool code_coverage_enabled = 6;</code>
    *
    * <pre>
-   * e.g. '2.10'
    * Did the user/project enable code coverage on this test run?
    * </pre>
    */
@@ -1243,7 +1241,6 @@ public  final class TestRun extends
      * <code>optional bool code_coverage_enabled = 6;</code>
      *
      * <pre>
-     * e.g. '2.10'
      * Did the user/project enable code coverage on this test run?
      * </pre>
      */
@@ -1254,7 +1251,6 @@ public  final class TestRun extends
      * <code>optional bool code_coverage_enabled = 6;</code>
      *
      * <pre>
-     * e.g. '2.10'
      * Did the user/project enable code coverage on this test run?
      * </pre>
      */
@@ -1265,7 +1261,6 @@ public  final class TestRun extends
      * <code>optional bool code_coverage_enabled = 6;</code>
      *
      * <pre>
-     * e.g. '2.10'
      * Did the user/project enable code coverage on this test run?
      * </pre>
      */
@@ -1279,7 +1274,6 @@ public  final class TestRun extends
      * <code>optional bool code_coverage_enabled = 6;</code>
      *
      * <pre>
-     * e.g. '2.10'
      * Did the user/project enable code coverage on this test run?
      * </pre>
      */

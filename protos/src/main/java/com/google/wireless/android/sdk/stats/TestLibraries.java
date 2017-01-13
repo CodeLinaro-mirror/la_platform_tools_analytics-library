@@ -183,7 +183,7 @@ public  final class TestLibraries extends
    * <code>optional string espresso_version = 2;</code>
    *
    * <pre>
-   * e.g. '0.5'
+   * e.g. '2.2.2'
    * </pre>
    */
   public boolean hasEspressoVersion() {
@@ -193,7 +193,7 @@ public  final class TestLibraries extends
    * <code>optional string espresso_version = 2;</code>
    *
    * <pre>
-   * e.g. '0.5'
+   * e.g. '2.2.2'
    * </pre>
    */
   public java.lang.String getEspressoVersion() {
@@ -214,7 +214,7 @@ public  final class TestLibraries extends
    * <code>optional string espresso_version = 2;</code>
    *
    * <pre>
-   * e.g. '0.5'
+   * e.g. '2.2.2'
    * </pre>
    */
   public com.google.protobuf.ByteString
@@ -238,7 +238,7 @@ public  final class TestLibraries extends
    * <code>optional string robolectric_version = 3;</code>
    *
    * <pre>
-   * e.g. '2.2.2'
+   * e.g. '3.0'
    * </pre>
    */
   public boolean hasRobolectricVersion() {
@@ -248,7 +248,7 @@ public  final class TestLibraries extends
    * <code>optional string robolectric_version = 3;</code>
    *
    * <pre>
-   * e.g. '2.2.2'
+   * e.g. '3.0'
    * </pre>
    */
   public java.lang.String getRobolectricVersion() {
@@ -269,7 +269,7 @@ public  final class TestLibraries extends
    * <code>optional string robolectric_version = 3;</code>
    *
    * <pre>
-   * e.g. '2.2.2'
+   * e.g. '3.0'
    * </pre>
    */
   public com.google.protobuf.ByteString
@@ -293,7 +293,7 @@ public  final class TestLibraries extends
    * <code>optional string mockito_version = 4;</code>
    *
    * <pre>
-   * e.g. '3.0'
+   * e.g. '1.10.19'
    * </pre>
    */
   public boolean hasMockitoVersion() {
@@ -303,7 +303,7 @@ public  final class TestLibraries extends
    * <code>optional string mockito_version = 4;</code>
    *
    * <pre>
-   * e.g. '3.0'
+   * e.g. '1.10.19'
    * </pre>
    */
   public java.lang.String getMockitoVersion() {
@@ -324,7 +324,7 @@ public  final class TestLibraries extends
    * <code>optional string mockito_version = 4;</code>
    *
    * <pre>
-   * e.g. '3.0'
+   * e.g. '1.10.19'
    * </pre>
    */
   public com.google.protobuf.ByteString
@@ -741,7 +741,7 @@ public  final class TestLibraries extends
      * <code>optional string espresso_version = 2;</code>
      *
      * <pre>
-     * e.g. '0.5'
+     * e.g. '2.2.2'
      * </pre>
      */
     public boolean hasEspressoVersion() {
@@ -751,7 +751,7 @@ public  final class TestLibraries extends
      * <code>optional string espresso_version = 2;</code>
      *
      * <pre>
-     * e.g. '0.5'
+     * e.g. '2.2.2'
      * </pre>
      */
     public java.lang.String getEspressoVersion() {
@@ -769,7 +769,7 @@ public  final class TestLibraries extends
      * <code>optional string espresso_version = 2;</code>
      *
      * <pre>
-     * e.g. '0.5'
+     * e.g. '2.2.2'
      * </pre>
      */
     public com.google.protobuf.ByteString
@@ -789,7 +789,7 @@ public  final class TestLibraries extends
      * <code>optional string espresso_version = 2;</code>
      *
      * <pre>
-     * e.g. '0.5'
+     * e.g. '2.2.2'
      * </pre>
      */
     public Builder setEspressoVersion(
@@ -806,7 +806,7 @@ public  final class TestLibraries extends
      * <code>optional string espresso_version = 2;</code>
      *
      * <pre>
-     * e.g. '0.5'
+     * e.g. '2.2.2'
      * </pre>
      */
     public Builder clearEspressoVersion() {
@@ -819,7 +819,7 @@ public  final class TestLibraries extends
      * <code>optional string espresso_version = 2;</code>
      *
      * <pre>
-     * e.g. '0.5'
+     * e.g. '2.2.2'
      * </pre>
      */
     public Builder setEspressoVersionBytes(
@@ -839,7 +839,7 @@ public  final class TestLibraries extends
      * <code>optional string robolectric_version = 3;</code>
      *
      * <pre>
-     * e.g. '2.2.2'
+     * e.g. '3.0'
      * </pre>
      */
     public boolean hasRobolectricVersion() {
@@ -849,7 +849,7 @@ public  final class TestLibraries extends
      * <code>optional string robolectric_version = 3;</code>
      *
      * <pre>
-     * e.g. '2.2.2'
+     * e.g. '3.0'
      * </pre>
      */
     public java.lang.String getRobolectricVersion() {
@@ -867,7 +867,7 @@ public  final class TestLibraries extends
      * <code>optional string robolectric_version = 3;</code>
      *
      * <pre>
-     * e.g. '2.2.2'
+     * e.g. '3.0'
      * </pre>
      */
     public com.google.protobuf.ByteString
@@ -887,7 +887,7 @@ public  final class TestLibraries extends
      * <code>optional string robolectric_version = 3;</code>
      *
      * <pre>
-     * e.g. '2.2.2'
+     * e.g. '3.0'
      * </pre>
      */
     public Builder setRobolectricVersion(
@@ -904,7 +904,7 @@ public  final class TestLibraries extends
      * <code>optional string robolectric_version = 3;</code>
      *
      * <pre>
-     * e.g. '2.2.2'
+     * e.g. '3.0'
      * </pre>
      */
     public Builder clearRobolectricVersion() {
@@ -917,7 +917,7 @@ public  final class TestLibraries extends
      * <code>optional string robolectric_version = 3;</code>
      *
      * <pre>
-     * e.g. '2.2.2'
+     * e.g. '3.0'
      * </pre>
      */
     public Builder setRobolectricVersionBytes(
@@ -937,7 +937,7 @@ public  final class TestLibraries extends
      * <code>optional string mockito_version = 4;</code>
      *
      * <pre>
-     * e.g. '3.0'
+     * e.g. '1.10.19'
      * </pre>
      */
     public boolean hasMockitoVersion() {
@@ -947,7 +947,7 @@ public  final class TestLibraries extends
      * <code>optional string mockito_version = 4;</code>
      *
      * <pre>
-     * e.g. '3.0'
+     * e.g. '1.10.19'
      * </pre>
      */
     public java.lang.String getMockitoVersion() {
@@ -965,7 +965,7 @@ public  final class TestLibraries extends
      * <code>optional string mockito_version = 4;</code>
      *
      * <pre>
-     * e.g. '3.0'
+     * e.g. '1.10.19'
      * </pre>
      */
     public com.google.protobuf.ByteString
@@ -985,7 +985,7 @@ public  final class TestLibraries extends
      * <code>optional string mockito_version = 4;</code>
      *
      * <pre>
-     * e.g. '3.0'
+     * e.g. '1.10.19'
      * </pre>
      */
     public Builder setMockitoVersion(
@@ -1002,7 +1002,7 @@ public  final class TestLibraries extends
      * <code>optional string mockito_version = 4;</code>
      *
      * <pre>
-     * e.g. '3.0'
+     * e.g. '1.10.19'
      * </pre>
      */
     public Builder clearMockitoVersion() {
@@ -1015,7 +1015,7 @@ public  final class TestLibraries extends
      * <code>optional string mockito_version = 4;</code>
      *
      * <pre>
-     * e.g. '3.0'
+     * e.g. '1.10.19'
      * </pre>
      */
     public Builder setMockitoVersionBytes(
