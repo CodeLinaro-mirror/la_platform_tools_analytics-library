@@ -88,7 +88,8 @@ message AndroidStudioEvent {
   // set when kind = STUDIO_CRASH
   optional StudioCrash studio_crash = 19;
 
-  // set when kind = GRADLE_BUILD_DETAILS
+  // set when kind = GRADLE_BUILD_DETAILS or INSTANT_RUN
+  // In the case of INSTANT_RUN, only the plugin version information is included
   optional GradleBuildDetails gradle_build_details = 20;
 
   // set when kind = INSTANT_RUN
@@ -1721,6 +1722,7 @@ message GradleTransformExecution {
     PRE_DEX = 25;
     JACK_COMPILE = 26;
     JACK_GENERATE_DEX = 27;
+    CUSTOM_CLASS = 28;
   }
 }
 
@@ -1832,8 +1834,6 @@ message InstantRunStatus {
   }
 }
 
-// all types of build can now register artifacts so we can find non InstantRun
-// related artifact types like full slits and aar.
 message InstantRunArtifact {
   optional Type type = 1;
 
@@ -1855,10 +1855,6 @@ message InstantRunArtifact {
     SPLIT = 6;
     // Resources: res.ap_ file
     RESOURCES = 7;
-    // Full split, main apk file with reduced set of configs
-    FULL_SPLIT = 8;
-    // AAR file.
-    AAR = 9;
   }
 }
 
