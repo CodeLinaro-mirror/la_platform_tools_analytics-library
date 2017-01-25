@@ -230,6 +230,10 @@ public  final class GradleTransformExecution extends
      * <code>JACK_GENERATE_DEX = 27;</code>
      */
     JACK_GENERATE_DEX(27, 27),
+    /**
+     * <code>CUSTOM_CLASS = 28;</code>
+     */
+    CUSTOM_CLASS(28, 28),
     ;
 
     /**
@@ -344,6 +348,10 @@ public  final class GradleTransformExecution extends
      * <code>JACK_GENERATE_DEX = 27;</code>
      */
     public static final int JACK_GENERATE_DEX_VALUE = 27;
+    /**
+     * <code>CUSTOM_CLASS = 28;</code>
+     */
+    public static final int CUSTOM_CLASS_VALUE = 28;
 
 
     public final int getNumber() { return value; }
@@ -378,6 +386,7 @@ public  final class GradleTransformExecution extends
         case 25: return PRE_DEX;
         case 26: return JACK_COMPILE;
         case 27: return JACK_GENERATE_DEX;
+        case 28: return CUSTOM_CLASS;
         default: return null;
       }
     }

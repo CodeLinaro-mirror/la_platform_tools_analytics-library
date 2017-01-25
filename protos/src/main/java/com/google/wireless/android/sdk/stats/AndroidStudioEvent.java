@@ -4930,7 +4930,8 @@ public  final class AndroidStudioEvent extends
    * <code>optional .android_studio.GradleBuildDetails gradle_build_details = 20;</code>
    *
    * <pre>
-   * set when kind = GRADLE_BUILD_DETAILS
+   * set when kind = GRADLE_BUILD_DETAILS or INSTANT_RUN
+   * In the case of INSTANT_RUN, only the plugin version information is included
    * </pre>
    */
   public boolean hasGradleBuildDetails() {
@@ -4940,7 +4941,8 @@ public  final class AndroidStudioEvent extends
    * <code>optional .android_studio.GradleBuildDetails gradle_build_details = 20;</code>
    *
    * <pre>
-   * set when kind = GRADLE_BUILD_DETAILS
+   * set when kind = GRADLE_BUILD_DETAILS or INSTANT_RUN
+   * In the case of INSTANT_RUN, only the plugin version information is included
    * </pre>
    */
   public com.google.wireless.android.sdk.stats.GradleBuildDetails getGradleBuildDetails() {
@@ -4950,7 +4952,8 @@ public  final class AndroidStudioEvent extends
    * <code>optional .android_studio.GradleBuildDetails gradle_build_details = 20;</code>
    *
    * <pre>
-   * set when kind = GRADLE_BUILD_DETAILS
+   * set when kind = GRADLE_BUILD_DETAILS or INSTANT_RUN
+   * In the case of INSTANT_RUN, only the plugin version information is included
    * </pre>
    */
   public com.google.wireless.android.sdk.stats.GradleBuildDetailsOrBuilder getGradleBuildDetailsOrBuilder() {
@@ -8655,7 +8658,8 @@ public  final class AndroidStudioEvent extends
      * <code>optional .android_studio.GradleBuildDetails gradle_build_details = 20;</code>
      *
      * <pre>
-     * set when kind = GRADLE_BUILD_DETAILS
+     * set when kind = GRADLE_BUILD_DETAILS or INSTANT_RUN
+     * In the case of INSTANT_RUN, only the plugin version information is included
      * </pre>
      */
     public boolean hasGradleBuildDetails() {
@@ -8665,7 +8669,8 @@ public  final class AndroidStudioEvent extends
      * <code>optional .android_studio.GradleBuildDetails gradle_build_details = 20;</code>
      *
      * <pre>
-     * set when kind = GRADLE_BUILD_DETAILS
+     * set when kind = GRADLE_BUILD_DETAILS or INSTANT_RUN
+     * In the case of INSTANT_RUN, only the plugin version information is included
      * </pre>
      */
     public com.google.wireless.android.sdk.stats.GradleBuildDetails getGradleBuildDetails() {
@@ -8679,7 +8684,8 @@ public  final class AndroidStudioEvent extends
      * <code>optional .android_studio.GradleBuildDetails gradle_build_details = 20;</code>
      *
      * <pre>
-     * set when kind = GRADLE_BUILD_DETAILS
+     * set when kind = GRADLE_BUILD_DETAILS or INSTANT_RUN
+     * In the case of INSTANT_RUN, only the plugin version information is included
      * </pre>
      */
     public Builder setGradleBuildDetails(com.google.wireless.android.sdk.stats.GradleBuildDetails value) {
@@ -8699,7 +8705,8 @@ public  final class AndroidStudioEvent extends
      * <code>optional .android_studio.GradleBuildDetails gradle_build_details = 20;</code>
      *
      * <pre>
-     * set when kind = GRADLE_BUILD_DETAILS
+     * set when kind = GRADLE_BUILD_DETAILS or INSTANT_RUN
+     * In the case of INSTANT_RUN, only the plugin version information is included
      * </pre>
      */
     public Builder setGradleBuildDetails(
@@ -8717,7 +8724,8 @@ public  final class AndroidStudioEvent extends
      * <code>optional .android_studio.GradleBuildDetails gradle_build_details = 20;</code>
      *
      * <pre>
-     * set when kind = GRADLE_BUILD_DETAILS
+     * set when kind = GRADLE_BUILD_DETAILS or INSTANT_RUN
+     * In the case of INSTANT_RUN, only the plugin version information is included
      * </pre>
      */
     public Builder mergeGradleBuildDetails(com.google.wireless.android.sdk.stats.GradleBuildDetails value) {
@@ -8740,7 +8748,8 @@ public  final class AndroidStudioEvent extends
      * <code>optional .android_studio.GradleBuildDetails gradle_build_details = 20;</code>
      *
      * <pre>
-     * set when kind = GRADLE_BUILD_DETAILS
+     * set when kind = GRADLE_BUILD_DETAILS or INSTANT_RUN
+     * In the case of INSTANT_RUN, only the plugin version information is included
      * </pre>
      */
     public Builder clearGradleBuildDetails() {
@@ -8757,7 +8766,8 @@ public  final class AndroidStudioEvent extends
      * <code>optional .android_studio.GradleBuildDetails gradle_build_details = 20;</code>
      *
      * <pre>
-     * set when kind = GRADLE_BUILD_DETAILS
+     * set when kind = GRADLE_BUILD_DETAILS or INSTANT_RUN
+     * In the case of INSTANT_RUN, only the plugin version information is included
      * </pre>
      */
     public com.google.wireless.android.sdk.stats.GradleBuildDetails.Builder getGradleBuildDetailsBuilder() {
@@ -8769,7 +8779,8 @@ public  final class AndroidStudioEvent extends
      * <code>optional .android_studio.GradleBuildDetails gradle_build_details = 20;</code>
      *
      * <pre>
-     * set when kind = GRADLE_BUILD_DETAILS
+     * set when kind = GRADLE_BUILD_DETAILS or INSTANT_RUN
+     * In the case of INSTANT_RUN, only the plugin version information is included
      * </pre>
      */
     public com.google.wireless.android.sdk.stats.GradleBuildDetailsOrBuilder getGradleBuildDetailsOrBuilder() {
@@ -8783,7 +8794,8 @@ public  final class AndroidStudioEvent extends
      * <code>optional .android_studio.GradleBuildDetails gradle_build_details = 20;</code>
      *
      * <pre>
-     * set when kind = GRADLE_BUILD_DETAILS
+     * set when kind = GRADLE_BUILD_DETAILS or INSTANT_RUN
+     * In the case of INSTANT_RUN, only the plugin version information is included
      * </pre>
      */
     private com.google.protobuf.SingleFieldBuilder<
