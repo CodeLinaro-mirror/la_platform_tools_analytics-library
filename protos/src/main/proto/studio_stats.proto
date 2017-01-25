@@ -407,9 +407,9 @@ message AndroidStudioEvent {
 
     // The user requested the test recorder to generate a test class.
     TEST_RECORDER_GENERATE_TEST_CLASS = 92;
-    // The test recorder failed as the project is missing espresso dependencies.
+    // The test recorder detected missing espresso dependencies.
     TEST_RECORDER_MISSING_ESPRESSO_DEPENDENCIES = 93;
-    // The test recorder failed as the instrumentation test folder is missing.
+    // The test recorder detected missing instrumentation test folder.
     TEST_RECORDER_MISSING_INSTRUMENTATION_TEST_FOLDER = 94;
     // The test recorder was launched.
     TEST_RECORDER_LAUNCH = 95;
@@ -459,6 +459,9 @@ message AndroidStudioEvent {
 
     // Emulator performance tracking.
     EMULATOR_PERFORMANCE_STATS = 112;
+
+    // The user requested the test recorder to save a Robo bootstrap script.
+    TEST_RECORDER_SAVE_ROBO_SCRIPT = 113;
   }
 
   // Represents different Performance Monitoring types.

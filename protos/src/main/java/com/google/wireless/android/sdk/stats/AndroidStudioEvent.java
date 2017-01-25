@@ -1794,7 +1794,7 @@ public  final class AndroidStudioEvent extends
      * <code>TEST_RECORDER_MISSING_ESPRESSO_DEPENDENCIES = 93;</code>
      *
      * <pre>
-     * The test recorder failed as the project is missing espresso dependencies.
+     * The test recorder detected missing espresso dependencies.
      * </pre>
      */
     TEST_RECORDER_MISSING_ESPRESSO_DEPENDENCIES(90, 93),
@@ -1802,7 +1802,7 @@ public  final class AndroidStudioEvent extends
      * <code>TEST_RECORDER_MISSING_INSTRUMENTATION_TEST_FOLDER = 94;</code>
      *
      * <pre>
-     * The test recorder failed as the instrumentation test folder is missing.
+     * The test recorder detected missing instrumentation test folder.
      * </pre>
      */
     TEST_RECORDER_MISSING_INSTRUMENTATION_TEST_FOLDER(91, 94),
@@ -1950,6 +1950,14 @@ public  final class AndroidStudioEvent extends
      * </pre>
      */
     EMULATOR_PERFORMANCE_STATS(109, 112),
+    /**
+     * <code>TEST_RECORDER_SAVE_ROBO_SCRIPT = 113;</code>
+     *
+     * <pre>
+     * The user requested the test recorder to save a Robo bootstrap script.
+     * </pre>
+     */
+    TEST_RECORDER_SAVE_ROBO_SCRIPT(110, 113),
     ;
 
     /**
@@ -2653,7 +2661,7 @@ public  final class AndroidStudioEvent extends
      * <code>TEST_RECORDER_MISSING_ESPRESSO_DEPENDENCIES = 93;</code>
      *
      * <pre>
-     * The test recorder failed as the project is missing espresso dependencies.
+     * The test recorder detected missing espresso dependencies.
      * </pre>
      */
     public static final int TEST_RECORDER_MISSING_ESPRESSO_DEPENDENCIES_VALUE = 93;
@@ -2661,7 +2669,7 @@ public  final class AndroidStudioEvent extends
      * <code>TEST_RECORDER_MISSING_INSTRUMENTATION_TEST_FOLDER = 94;</code>
      *
      * <pre>
-     * The test recorder failed as the instrumentation test folder is missing.
+     * The test recorder detected missing instrumentation test folder.
      * </pre>
      */
     public static final int TEST_RECORDER_MISSING_INSTRUMENTATION_TEST_FOLDER_VALUE = 94;
@@ -2809,6 +2817,14 @@ public  final class AndroidStudioEvent extends
      * </pre>
      */
     public static final int EMULATOR_PERFORMANCE_STATS_VALUE = 112;
+    /**
+     * <code>TEST_RECORDER_SAVE_ROBO_SCRIPT = 113;</code>
+     *
+     * <pre>
+     * The user requested the test recorder to save a Robo bootstrap script.
+     * </pre>
+     */
+    public static final int TEST_RECORDER_SAVE_ROBO_SCRIPT_VALUE = 113;
 
 
     public final int getNumber() { return value; }
@@ -2925,6 +2941,7 @@ public  final class AndroidStudioEvent extends
         case 110: return GRADLE_SYNC_SETUP_STARTED;
         case 111: return APP_LINKS_ASSISTANT_STATS;
         case 112: return EMULATOR_PERFORMANCE_STATS;
+        case 113: return TEST_RECORDER_SAVE_ROBO_SCRIPT;
         default: return null;
       }
     }
