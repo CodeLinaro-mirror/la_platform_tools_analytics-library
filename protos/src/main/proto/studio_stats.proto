@@ -1834,6 +1834,8 @@ message InstantRunStatus {
   }
 }
 
+// all types of build can now register artifacts so we can find non InstantRun
+// related artifact types like full slits and aar.
 message InstantRunArtifact {
   optional Type type = 1;
 
@@ -1855,6 +1857,10 @@ message InstantRunArtifact {
     SPLIT = 6;
     // Resources: res.ap_ file
     RESOURCES = 7;
+    // Full split, main apk file with reduced set of configs
+    FULL_SPLIT = 8;
+    // AAR file.
+    AAR = 9;
   }
 }
 
