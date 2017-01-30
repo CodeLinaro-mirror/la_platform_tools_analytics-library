@@ -22,6 +22,7 @@ import com.android.utils.DateProvider;
 import com.android.utils.ILogger;
 import com.google.wireless.android.play.playlog.proto.ClientAnalytics;
 import com.google.wireless.android.sdk.stats.AndroidStudioEvent;
+import com.google.wireless.android.sdk.stats.ProductDetails;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.UUID;
@@ -48,6 +49,7 @@ public abstract class UsageTracker implements AutoCloseable {
 
     private int mMaxJournalSize;
     private long mMaxJournalTime;
+    private String mVersion;
 
     @VisibleForTesting protected long mStartTimeMs = sDateProvider.now().getTime();
 
@@ -90,6 +92,26 @@ public abstract class UsageTracker implements AutoCloseable {
         this.mMaxJournalTime = unit.toNanos(duration);
     }
 
+    /**
+     * Gets the version specified for this UsageTracker. This version when specified is used
+     * to populate the product_details.version field of AndroidStudioEvent at time of logging
+     * As the version of the product generating the event can be different of the version uploading
+     * the event.
+     */
+    @NonNull public String getVersion() {
+        return mVersion;
+    }
+
+    /**
+     * Set the version specified for this UsageTracker. This version when specified is used
+     * to populate the product_details.version field of AndroidStudioEvent at time of logging
+     * As the version of the product generating the event can be different of the version uploading
+     * the event.
+     */
+    public void setVersion(@NonNull String version) {
+        mVersion = version;
+    }
+
     /** Gets the analytics settings used by this tracker. */
     public AnalyticsSettings getAnalyticsSettings() {
         return mAnalyticsSettings;
@@ -103,6 +125,11 @@ public abstract class UsageTracker implements AutoCloseable {
     /** Logs usage data provided in the @{link AndroidStudioEvent}. */
     public void log(@NonNull AndroidStudioEvent.Builder studioEvent) {
         studioEvent.setStudioSessionId(sSessionId);
+
+        if (mVersion != null && !studioEvent.hasProductDetails()) {
+            studioEvent.setProductDetails(ProductDetails.newBuilder().setVersion(mVersion));
+        }
+
         long now = sDateProvider.now().getTime();
         try {
             logDetails(
