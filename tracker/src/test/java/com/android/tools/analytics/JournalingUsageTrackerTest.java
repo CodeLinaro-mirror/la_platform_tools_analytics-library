@@ -108,6 +108,63 @@ public class JournalingUsageTrackerTest {
         }
     }
 
+
+    @Test
+    public void trackerVersionTest() throws Exception {
+        // Configure the paths to use a temp directory for reading from and writing to.
+        EnvironmentFakes.setCustomAndroidSdkHomeEnvironment(
+                testConfigDir.getRoot().toPath().toString());
+
+        try {
+            // Setup up an instance of the JournalingUsageTracker using a temp spool directory and
+            //  virtual time scheduler.
+            VirtualTimeScheduler virtualTimeScheduler = new VirtualTimeScheduler();
+            JournalingUsageTracker journalingUsageTracker =
+                    new JournalingUsageTracker(
+                            new AnalyticsSettings(),
+                            virtualTimeScheduler,
+                            testSpoolDir.getRoot().toPath());
+
+            // Set version on the usage tracker.
+            journalingUsageTracker.setVersion("1.2.3.4");
+
+            // Create a log entry and log it.
+            AndroidStudioEvent.Builder logEntry = createAndroidStudioEvent(42);
+            journalingUsageTracker.log(logEntry);
+            // Ensure this triggers an action on the scheduler and run the action
+            assertEquals(1, virtualTimeScheduler.getActionsQueued());
+            virtualTimeScheduler.advanceBy(0);
+            assertEquals(0, virtualTimeScheduler.getActionsQueued());
+
+            // The action should have written to the still locked spool file.
+            SpoolDetails beforeClose = getSpoolDetails(testSpoolDir.getRoot().toPath());
+            assertEquals(1, beforeClose.getLockedFiles().size());
+            assertEquals(0, beforeClose.getCompletedLogs().size());
+
+            // Close the usage tracker
+            journalingUsageTracker.close();
+
+            // Ensure that closing the usage tracker released the spool file, and doesn't open a new
+            // one.
+            SpoolDetails afterClose = getSpoolDetails(testSpoolDir.getRoot().toPath());
+            assertEquals(0, afterClose.getLockedFiles().size());
+            assertEquals(1, afterClose.getCompletedLogs().size());
+
+            // Check that there is exactly one spool file with one event logged and that that
+            // event has the version specified on the usage tracker set .
+            for (Map.Entry<Path, List<ClientAnalytics.LogEvent>> entry :
+                    afterClose.getCompletedLogs().entrySet()) {
+                assertEquals(1, entry.getValue().size());
+                ClientAnalytics.LogEvent logEvent = entry.getValue().get(0);
+                AndroidStudioEvent actualEvent = studioEventFromLogEvent(logEvent);
+                assertTrue(actualEvent.hasProductDetails());
+                assertEquals("1.2.3.4", actualEvent.getProductDetails().getVersion());
+            }
+        } finally {
+            EnvironmentFakes.setSystemEnvironment();
+        }
+    }
+
     @Test
     public void trackerTimeoutTest() throws Exception {
         // Configure the paths to use a temp directory for reading from and writing to.
