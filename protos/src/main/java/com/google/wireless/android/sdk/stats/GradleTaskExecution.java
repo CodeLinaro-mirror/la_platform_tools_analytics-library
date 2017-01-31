@@ -481,6 +481,14 @@ public  final class GradleTaskExecution extends
      * <code>SPLITS_DISCOVERY = 87;</code>
      */
     SPLITS_DISCOVERY(87, 87),
+    /**
+     * <code>ATOM_CONFIG = 88;</code>
+     */
+    ATOM_CONFIG(88, 88),
+    /**
+     * <code>BUNDLE_INSTANT_APP = 89;</code>
+     */
+    BUNDLE_INSTANT_APP(89, 89),
     ;
 
     /**
@@ -835,6 +843,14 @@ public  final class GradleTaskExecution extends
      * <code>SPLITS_DISCOVERY = 87;</code>
      */
     public static final int SPLITS_DISCOVERY_VALUE = 87;
+    /**
+     * <code>ATOM_CONFIG = 88;</code>
+     */
+    public static final int ATOM_CONFIG_VALUE = 88;
+    /**
+     * <code>BUNDLE_INSTANT_APP = 89;</code>
+     */
+    public static final int BUNDLE_INSTANT_APP_VALUE = 89;
 
 
     public final int getNumber() { return value; }
@@ -929,6 +945,8 @@ public  final class GradleTaskExecution extends
         case 85: return PROCESS_ATOMS_RESOURCES;
         case 86: return EXTERNAL_NATIVE_PREPARE;
         case 87: return SPLITS_DISCOVERY;
+        case 88: return ATOM_CONFIG;
+        case 89: return BUNDLE_INSTANT_APP;
         default: return null;
       }
     }
