@@ -545,6 +545,19 @@ public  final class AndroidStudioEvent extends
             bitField1_ |= 0x00000800;
             break;
           }
+          case 362: {
+            com.google.wireless.android.sdk.stats.AdbAssistantStats.Builder subBuilder = null;
+            if (((bitField1_ & 0x00001000) == 0x00001000)) {
+              subBuilder = adbAssistantStats_.toBuilder();
+            }
+            adbAssistantStats_ = input.readMessage(com.google.wireless.android.sdk.stats.AdbAssistantStats.PARSER, extensionRegistry);
+            if (subBuilder != null) {
+              subBuilder.mergeFrom(adbAssistantStats_);
+              adbAssistantStats_ = subBuilder.buildPartial();
+            }
+            bitField1_ |= 0x00001000;
+            break;
+          }
         }
       }
     } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -1958,6 +1971,14 @@ public  final class AndroidStudioEvent extends
      * </pre>
      */
     TEST_RECORDER_SAVE_ROBO_SCRIPT(110, 113),
+    /**
+     * <code>ADB_ASSISTANT_STATS = 114;</code>
+     *
+     * <pre>
+     * Opened ADB Connection Help Link
+     * </pre>
+     */
+    ADB_ASSISTANT_STATS(111, 114),
     ;
 
     /**
@@ -2825,6 +2846,14 @@ public  final class AndroidStudioEvent extends
      * </pre>
      */
     public static final int TEST_RECORDER_SAVE_ROBO_SCRIPT_VALUE = 113;
+    /**
+     * <code>ADB_ASSISTANT_STATS = 114;</code>
+     *
+     * <pre>
+     * Opened ADB Connection Help Link
+     * </pre>
+     */
+    public static final int ADB_ASSISTANT_STATS_VALUE = 114;
 
 
     public final int getNumber() { return value; }
@@ -2942,6 +2971,7 @@ public  final class AndroidStudioEvent extends
         case 111: return APP_LINKS_ASSISTANT_STATS;
         case 112: return EMULATOR_PERFORMANCE_STATS;
         case 113: return TEST_RECORDER_SAVE_ROBO_SCRIPT;
+        case 114: return ADB_ASSISTANT_STATS;
         default: return null;
       }
     }
@@ -5820,6 +5850,40 @@ public  final class AndroidStudioEvent extends
     return emulatorPerformanceStats_;
   }
 
+  // optional .android_studio.AdbAssistantStats adb_assistant_stats = 45;
+  public static final int ADB_ASSISTANT_STATS_FIELD_NUMBER = 45;
+  private com.google.wireless.android.sdk.stats.AdbAssistantStats adbAssistantStats_;
+  /**
+   * <code>optional .android_studio.AdbAssistantStats adb_assistant_stats = 45;</code>
+   *
+   * <pre>
+   * set when kind = ADB_ASSISTANT_STATS
+   * </pre>
+   */
+  public boolean hasAdbAssistantStats() {
+    return ((bitField1_ & 0x00001000) == 0x00001000);
+  }
+  /**
+   * <code>optional .android_studio.AdbAssistantStats adb_assistant_stats = 45;</code>
+   *
+   * <pre>
+   * set when kind = ADB_ASSISTANT_STATS
+   * </pre>
+   */
+  public com.google.wireless.android.sdk.stats.AdbAssistantStats getAdbAssistantStats() {
+    return adbAssistantStats_;
+  }
+  /**
+   * <code>optional .android_studio.AdbAssistantStats adb_assistant_stats = 45;</code>
+   *
+   * <pre>
+   * set when kind = ADB_ASSISTANT_STATS
+   * </pre>
+   */
+  public com.google.wireless.android.sdk.stats.AdbAssistantStatsOrBuilder getAdbAssistantStatsOrBuilder() {
+    return adbAssistantStats_;
+  }
+
   private void initFields() {
     category_ = com.google.wireless.android.sdk.stats.AndroidStudioEvent.EventCategory.NO_EVENT_CATEGORY;
     kind_ = com.google.wireless.android.sdk.stats.AndroidStudioEvent.EventKind.UNKNOWN_EVENT_KIND;
@@ -5865,6 +5929,7 @@ public  final class AndroidStudioEvent extends
     layoutEditorEvent_ = com.google.wireless.android.sdk.stats.LayoutEditorEvent.getDefaultInstance();
     appLinksAssistantEvent_ = com.google.wireless.android.sdk.stats.AppLinksAssistantEvent.getDefaultInstance();
     emulatorPerformanceStats_ = com.google.wireless.android.sdk.stats.EmulatorPerformanceStats.getDefaultInstance();
+    adbAssistantStats_ = com.google.wireless.android.sdk.stats.AdbAssistantStats.getDefaultInstance();
   }
   private byte memoizedIsInitialized = -1;
   public final boolean isInitialized() {
@@ -6009,6 +6074,9 @@ public  final class AndroidStudioEvent extends
     }
     if (((bitField1_ & 0x00000800) == 0x00000800)) {
       output.writeMessage(44, emulatorPerformanceStats_);
+    }
+    if (((bitField1_ & 0x00001000) == 0x00001000)) {
+      output.writeMessage(45, adbAssistantStats_);
     }
     getUnknownFields().writeTo(output);
   }
@@ -6195,6 +6263,10 @@ public  final class AndroidStudioEvent extends
       size += com.google.protobuf.CodedOutputStream
         .computeMessageSize(44, emulatorPerformanceStats_);
     }
+    if (((bitField1_ & 0x00001000) == 0x00001000)) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeMessageSize(45, adbAssistantStats_);
+    }
     size += getUnknownFields().getSerializedSize();
     memoizedSerializedSize = size;
     return size;
@@ -6330,6 +6402,7 @@ public  final class AndroidStudioEvent extends
         getLayoutEditorEventFieldBuilder();
         getAppLinksAssistantEventFieldBuilder();
         getEmulatorPerformanceStatsFieldBuilder();
+        getAdbAssistantStatsFieldBuilder();
       }
     }
     private static Builder create() {
@@ -6534,6 +6607,12 @@ public  final class AndroidStudioEvent extends
         emulatorPerformanceStatsBuilder_.clear();
       }
       bitField1_ = (bitField1_ & ~0x00000800);
+      if (adbAssistantStatsBuilder_ == null) {
+        adbAssistantStats_ = com.google.wireless.android.sdk.stats.AdbAssistantStats.getDefaultInstance();
+      } else {
+        adbAssistantStatsBuilder_.clear();
+      }
+      bitField1_ = (bitField1_ & ~0x00001000);
       return this;
     }
 
@@ -6848,6 +6927,14 @@ public  final class AndroidStudioEvent extends
       } else {
         result.emulatorPerformanceStats_ = emulatorPerformanceStatsBuilder_.build();
       }
+      if (((from_bitField1_ & 0x00001000) == 0x00001000)) {
+        to_bitField1_ |= 0x00001000;
+      }
+      if (adbAssistantStatsBuilder_ == null) {
+        result.adbAssistantStats_ = adbAssistantStats_;
+      } else {
+        result.adbAssistantStats_ = adbAssistantStatsBuilder_.build();
+      }
       result.bitField0_ = to_bitField0_;
       result.bitField1_ = to_bitField1_;
       onBuilt();
@@ -7008,6 +7095,9 @@ public  final class AndroidStudioEvent extends
       }
       if (other.hasEmulatorPerformanceStats()) {
         mergeEmulatorPerformanceStats(other.getEmulatorPerformanceStats());
+      }
+      if (other.hasAdbAssistantStats()) {
+        mergeAdbAssistantStats(other.getAdbAssistantStats());
       }
       this.mergeUnknownFields(other.getUnknownFields());
       return this;
@@ -12459,6 +12549,159 @@ public  final class AndroidStudioEvent extends
         emulatorPerformanceStats_ = null;
       }
       return emulatorPerformanceStatsBuilder_;
+    }
+
+    // optional .android_studio.AdbAssistantStats adb_assistant_stats = 45;
+    private com.google.wireless.android.sdk.stats.AdbAssistantStats adbAssistantStats_ = com.google.wireless.android.sdk.stats.AdbAssistantStats.getDefaultInstance();
+    private com.google.protobuf.SingleFieldBuilder<
+        com.google.wireless.android.sdk.stats.AdbAssistantStats, com.google.wireless.android.sdk.stats.AdbAssistantStats.Builder, com.google.wireless.android.sdk.stats.AdbAssistantStatsOrBuilder> adbAssistantStatsBuilder_;
+    /**
+     * <code>optional .android_studio.AdbAssistantStats adb_assistant_stats = 45;</code>
+     *
+     * <pre>
+     * set when kind = ADB_ASSISTANT_STATS
+     * </pre>
+     */
+    public boolean hasAdbAssistantStats() {
+      return ((bitField1_ & 0x00001000) == 0x00001000);
+    }
+    /**
+     * <code>optional .android_studio.AdbAssistantStats adb_assistant_stats = 45;</code>
+     *
+     * <pre>
+     * set when kind = ADB_ASSISTANT_STATS
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.AdbAssistantStats getAdbAssistantStats() {
+      if (adbAssistantStatsBuilder_ == null) {
+        return adbAssistantStats_;
+      } else {
+        return adbAssistantStatsBuilder_.getMessage();
+      }
+    }
+    /**
+     * <code>optional .android_studio.AdbAssistantStats adb_assistant_stats = 45;</code>
+     *
+     * <pre>
+     * set when kind = ADB_ASSISTANT_STATS
+     * </pre>
+     */
+    public Builder setAdbAssistantStats(com.google.wireless.android.sdk.stats.AdbAssistantStats value) {
+      if (adbAssistantStatsBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        adbAssistantStats_ = value;
+        onChanged();
+      } else {
+        adbAssistantStatsBuilder_.setMessage(value);
+      }
+      bitField1_ |= 0x00001000;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.AdbAssistantStats adb_assistant_stats = 45;</code>
+     *
+     * <pre>
+     * set when kind = ADB_ASSISTANT_STATS
+     * </pre>
+     */
+    public Builder setAdbAssistantStats(
+        com.google.wireless.android.sdk.stats.AdbAssistantStats.Builder builderForValue) {
+      if (adbAssistantStatsBuilder_ == null) {
+        adbAssistantStats_ = builderForValue.build();
+        onChanged();
+      } else {
+        adbAssistantStatsBuilder_.setMessage(builderForValue.build());
+      }
+      bitField1_ |= 0x00001000;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.AdbAssistantStats adb_assistant_stats = 45;</code>
+     *
+     * <pre>
+     * set when kind = ADB_ASSISTANT_STATS
+     * </pre>
+     */
+    public Builder mergeAdbAssistantStats(com.google.wireless.android.sdk.stats.AdbAssistantStats value) {
+      if (adbAssistantStatsBuilder_ == null) {
+        if (((bitField1_ & 0x00001000) == 0x00001000) &&
+            adbAssistantStats_ != com.google.wireless.android.sdk.stats.AdbAssistantStats.getDefaultInstance()) {
+          adbAssistantStats_ =
+            com.google.wireless.android.sdk.stats.AdbAssistantStats.newBuilder(adbAssistantStats_).mergeFrom(value).buildPartial();
+        } else {
+          adbAssistantStats_ = value;
+        }
+        onChanged();
+      } else {
+        adbAssistantStatsBuilder_.mergeFrom(value);
+      }
+      bitField1_ |= 0x00001000;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.AdbAssistantStats adb_assistant_stats = 45;</code>
+     *
+     * <pre>
+     * set when kind = ADB_ASSISTANT_STATS
+     * </pre>
+     */
+    public Builder clearAdbAssistantStats() {
+      if (adbAssistantStatsBuilder_ == null) {
+        adbAssistantStats_ = com.google.wireless.android.sdk.stats.AdbAssistantStats.getDefaultInstance();
+        onChanged();
+      } else {
+        adbAssistantStatsBuilder_.clear();
+      }
+      bitField1_ = (bitField1_ & ~0x00001000);
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.AdbAssistantStats adb_assistant_stats = 45;</code>
+     *
+     * <pre>
+     * set when kind = ADB_ASSISTANT_STATS
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.AdbAssistantStats.Builder getAdbAssistantStatsBuilder() {
+      bitField1_ |= 0x00001000;
+      onChanged();
+      return getAdbAssistantStatsFieldBuilder().getBuilder();
+    }
+    /**
+     * <code>optional .android_studio.AdbAssistantStats adb_assistant_stats = 45;</code>
+     *
+     * <pre>
+     * set when kind = ADB_ASSISTANT_STATS
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.AdbAssistantStatsOrBuilder getAdbAssistantStatsOrBuilder() {
+      if (adbAssistantStatsBuilder_ != null) {
+        return adbAssistantStatsBuilder_.getMessageOrBuilder();
+      } else {
+        return adbAssistantStats_;
+      }
+    }
+    /**
+     * <code>optional .android_studio.AdbAssistantStats adb_assistant_stats = 45;</code>
+     *
+     * <pre>
+     * set when kind = ADB_ASSISTANT_STATS
+     * </pre>
+     */
+    private com.google.protobuf.SingleFieldBuilder<
+        com.google.wireless.android.sdk.stats.AdbAssistantStats, com.google.wireless.android.sdk.stats.AdbAssistantStats.Builder, com.google.wireless.android.sdk.stats.AdbAssistantStatsOrBuilder> 
+        getAdbAssistantStatsFieldBuilder() {
+      if (adbAssistantStatsBuilder_ == null) {
+        adbAssistantStatsBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+            com.google.wireless.android.sdk.stats.AdbAssistantStats, com.google.wireless.android.sdk.stats.AdbAssistantStats.Builder, com.google.wireless.android.sdk.stats.AdbAssistantStatsOrBuilder>(
+                adbAssistantStats_,
+                getParentForChildren(),
+                isClean());
+        adbAssistantStats_ = null;
+      }
+      return adbAssistantStatsBuilder_;
     }
 
     // @@protoc_insertion_point(builder_scope:android_studio.AndroidStudioEvent)
