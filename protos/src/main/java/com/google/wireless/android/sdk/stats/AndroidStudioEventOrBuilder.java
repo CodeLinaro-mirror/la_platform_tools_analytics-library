@@ -1120,4 +1120,30 @@ public interface AndroidStudioEventOrBuilder
    * </pre>
    */
   com.google.wireless.android.sdk.stats.EmulatorPerformanceStatsOrBuilder getEmulatorPerformanceStatsOrBuilder();
+
+  // optional .android_studio.AdbAssistantStats adb_assistant_stats = 45;
+  /**
+   * <code>optional .android_studio.AdbAssistantStats adb_assistant_stats = 45;</code>
+   *
+   * <pre>
+   * set when kind = ADB_ASSISTANT_STATS
+   * </pre>
+   */
+  boolean hasAdbAssistantStats();
+  /**
+   * <code>optional .android_studio.AdbAssistantStats adb_assistant_stats = 45;</code>
+   *
+   * <pre>
+   * set when kind = ADB_ASSISTANT_STATS
+   * </pre>
+   */
+  com.google.wireless.android.sdk.stats.AdbAssistantStats getAdbAssistantStats();
+  /**
+   * <code>optional .android_studio.AdbAssistantStats adb_assistant_stats = 45;</code>
+   *
+   * <pre>
+   * set when kind = ADB_ASSISTANT_STATS
+   * </pre>
+   */
+  com.google.wireless.android.sdk.stats.AdbAssistantStatsOrBuilder getAdbAssistantStatsOrBuilder();
 }

@@ -166,6 +166,9 @@ message AndroidStudioEvent {
   // set when kind = EMULATOR_PERFORMANCE_STATS
   optional EmulatorPerformanceStats emulator_performance_stats = 44;
 
+  // set when kind = ADB_ASSISTANT_STATS
+  optional AdbAssistantStats adb_assistant_stats = 45;
+
   // Describes a group of event kinds related to each other.
   // This is redundant in the presence of EventKind + event specific message,
   // and is only necessary for events originally sent to GA.
@@ -462,6 +465,9 @@ message AndroidStudioEvent {
 
     // The user requested the test recorder to save a Robo bootstrap script.
     TEST_RECORDER_SAVE_ROBO_SCRIPT = 113;
+
+    // Opened ADB Connection Help Link
+    ADB_ASSISTANT_STATS = 114;
   }
 
   // Represents different Performance Monitoring types.
@@ -2337,5 +2343,19 @@ message AppLinksAssistantEvent {
     // Corresponds to attribute android:pathPattern of <data> tag in
     // Android Manifest File
     PATH_PATTERN = 3;
+  }
+}
+
+// ADB Assistant event details
+message AdbAssistantStats {
+   // Why the assistant was started
+  optional Trigger trigger = 1;
+
+  // State list of trigger
+  enum Trigger {
+    // No running devices as target
+    NO_RUNNING_DEVICE = 1;
+    // Don't see your device link on the bottom right of dialog
+    DONT_SEE_DEVICE = 2;
   }
 }
