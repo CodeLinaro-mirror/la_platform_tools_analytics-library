@@ -41,7 +41,7 @@ public interface TestLibrariesOrBuilder
    * <code>optional string espresso_version = 2;</code>
    *
    * <pre>
-   * e.g. '0.5'
+   * e.g. '2.2.2'
    * </pre>
    */
   boolean hasEspressoVersion();
@@ -49,7 +49,7 @@ public interface TestLibrariesOrBuilder
    * <code>optional string espresso_version = 2;</code>
    *
    * <pre>
-   * e.g. '0.5'
+   * e.g. '2.2.2'
    * </pre>
    */
   java.lang.String getEspressoVersion();
@@ -57,7 +57,7 @@ public interface TestLibrariesOrBuilder
    * <code>optional string espresso_version = 2;</code>
    *
    * <pre>
-   * e.g. '0.5'
+   * e.g. '2.2.2'
    * </pre>
    */
   com.google.protobuf.ByteString
@@ -68,7 +68,7 @@ public interface TestLibrariesOrBuilder
    * <code>optional string robolectric_version = 3;</code>
    *
    * <pre>
-   * e.g. '2.2.2'
+   * e.g. '3.0'
    * </pre>
    */
   boolean hasRobolectricVersion();
@@ -76,7 +76,7 @@ public interface TestLibrariesOrBuilder
    * <code>optional string robolectric_version = 3;</code>
    *
    * <pre>
-   * e.g. '2.2.2'
+   * e.g. '3.0'
    * </pre>
    */
   java.lang.String getRobolectricVersion();
@@ -84,7 +84,7 @@ public interface TestLibrariesOrBuilder
    * <code>optional string robolectric_version = 3;</code>
    *
    * <pre>
-   * e.g. '2.2.2'
+   * e.g. '3.0'
    * </pre>
    */
   com.google.protobuf.ByteString
@@ -95,7 +95,7 @@ public interface TestLibrariesOrBuilder
    * <code>optional string mockito_version = 4;</code>
    *
    * <pre>
-   * e.g. '3.0'
+   * e.g. '1.10.19'
    * </pre>
    */
   boolean hasMockitoVersion();
@@ -103,7 +103,7 @@ public interface TestLibrariesOrBuilder
    * <code>optional string mockito_version = 4;</code>
    *
    * <pre>
-   * e.g. '3.0'
+   * e.g. '1.10.19'
    * </pre>
    */
   java.lang.String getMockitoVersion();
@@ -111,7 +111,7 @@ public interface TestLibrariesOrBuilder
    * <code>optional string mockito_version = 4;</code>
    *
    * <pre>
-   * e.g. '3.0'
+   * e.g. '1.10.19'
    * </pre>
    */
   com.google.protobuf.ByteString

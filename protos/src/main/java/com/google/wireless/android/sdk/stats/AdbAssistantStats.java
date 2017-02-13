@@ -4,28 +4,28 @@
 package com.google.wireless.android.sdk.stats;
 
 /**
- * Protobuf type {@code android_studio.Hypervisor}
+ * Protobuf type {@code android_studio.AdbAssistantStats}
  *
  * <pre>
- * Describes the status of various Hypervisors
+ * ADB Assistant event details
  * </pre>
  */
-public  final class Hypervisor extends
+public  final class AdbAssistantStats extends
     com.google.protobuf.GeneratedMessage
-    implements HypervisorOrBuilder {
-  // Use Hypervisor.newBuilder() to construct.
-  private Hypervisor(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+    implements AdbAssistantStatsOrBuilder {
+  // Use AdbAssistantStats.newBuilder() to construct.
+  private AdbAssistantStats(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
     super(builder);
     this.unknownFields = builder.getUnknownFields();
   }
-  private Hypervisor(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+  private AdbAssistantStats(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
 
-  private static final Hypervisor defaultInstance;
-  public static Hypervisor getDefaultInstance() {
+  private static final AdbAssistantStats defaultInstance;
+  public static AdbAssistantStats getDefaultInstance() {
     return defaultInstance;
   }
 
-  public Hypervisor getDefaultInstanceForType() {
+  public AdbAssistantStats getDefaultInstanceForType() {
     return defaultInstance;
   }
 
@@ -35,7 +35,7 @@ public  final class Hypervisor extends
       getUnknownFields() {
     return this.unknownFields;
   }
-  private Hypervisor(
+  private AdbAssistantStats(
       com.google.protobuf.CodedInputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
@@ -60,12 +60,12 @@ public  final class Hypervisor extends
           }
           case 8: {
             int rawValue = input.readEnum();
-            com.google.wireless.android.sdk.stats.Hypervisor.HyperVState value = com.google.wireless.android.sdk.stats.Hypervisor.HyperVState.valueOf(rawValue);
+            com.google.wireless.android.sdk.stats.AdbAssistantStats.Trigger value = com.google.wireless.android.sdk.stats.AdbAssistantStats.Trigger.valueOf(rawValue);
             if (value == null) {
               unknownFields.mergeVarintField(1, rawValue);
             } else {
               bitField0_ |= 0x00000001;
-              hyperVState_ = value;
+              trigger_ = value;
             }
             break;
           }
@@ -83,146 +83,95 @@ public  final class Hypervisor extends
   }
   public static final com.google.protobuf.Descriptors.Descriptor
       getDescriptor() {
-    return com.google.wireless.android.sdk.stats.AndroidStudioStats.internal_static_android_studio_Hypervisor_descriptor;
+    return com.google.wireless.android.sdk.stats.AndroidStudioStats.internal_static_android_studio_AdbAssistantStats_descriptor;
   }
 
   protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internalGetFieldAccessorTable() {
-    return com.google.wireless.android.sdk.stats.AndroidStudioStats.internal_static_android_studio_Hypervisor_fieldAccessorTable
+    return com.google.wireless.android.sdk.stats.AndroidStudioStats.internal_static_android_studio_AdbAssistantStats_fieldAccessorTable
         .ensureFieldAccessorsInitialized(
-            com.google.wireless.android.sdk.stats.Hypervisor.class, com.google.wireless.android.sdk.stats.Hypervisor.Builder.class);
+            com.google.wireless.android.sdk.stats.AdbAssistantStats.class, com.google.wireless.android.sdk.stats.AdbAssistantStats.Builder.class);
   }
 
-  public static com.google.protobuf.Parser<Hypervisor> PARSER =
-      new com.google.protobuf.AbstractParser<Hypervisor>() {
-    public Hypervisor parsePartialFrom(
+  public static com.google.protobuf.Parser<AdbAssistantStats> PARSER =
+      new com.google.protobuf.AbstractParser<AdbAssistantStats>() {
+    public AdbAssistantStats parsePartialFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
-      return new Hypervisor(input, extensionRegistry);
+      return new AdbAssistantStats(input, extensionRegistry);
     }
   };
 
   @java.lang.Override
-  public com.google.protobuf.Parser<Hypervisor> getParserForType() {
+  public com.google.protobuf.Parser<AdbAssistantStats> getParserForType() {
     return PARSER;
   }
 
   /**
-   * Protobuf enum {@code android_studio.Hypervisor.HyperVState}
+   * Protobuf enum {@code android_studio.AdbAssistantStats.Trigger}
    *
    * <pre>
-   * Status of the Hyper-V hypervisor.
+   * State list of trigger
    * </pre>
    */
-  public enum HyperVState
+  public enum Trigger
       implements com.google.protobuf.ProtocolMessageEnum {
     /**
-     * <code>UNKNOWN_HYPERV_STATE = 0;</code>
+     * <code>NO_RUNNING_DEVICE = 1;</code>
      *
      * <pre>
-     * Have no idea
+     * No running devices as target
      * </pre>
      */
-    UNKNOWN_HYPERV_STATE(0, 0),
+    NO_RUNNING_DEVICE(0, 1),
     /**
-     * <code>HYPERV_ABSENT = 1;</code>
+     * <code>DONT_SEE_DEVICE = 2;</code>
      *
      * <pre>
-     * No hyper-V found
+     * Don't see your device link on the bottom right of dialog
      * </pre>
      */
-    HYPERV_ABSENT(1, 1),
-    /**
-     * <code>HYPERV_INSTALLED = 2;</code>
-     *
-     * <pre>
-     * Hyper-V is installed but not running
-     * </pre>
-     */
-    HYPERV_INSTALLED(2, 2),
-    /**
-     * <code>HYPERV_RUNNING = 3;</code>
-     *
-     * <pre>
-     * Hyper-V is up and running
-     * </pre>
-     */
-    HYPERV_RUNNING(3, 3),
-    /**
-     * <code>HYPERV_CHECK_ERROR = 4;</code>
-     *
-     * <pre>
-     * Failed to detect status (emulator-check error)
-     * </pre>
-     */
-    HYPERV_CHECK_ERROR(4, 4),
+    DONT_SEE_DEVICE(1, 2),
     ;
 
     /**
-     * <code>UNKNOWN_HYPERV_STATE = 0;</code>
+     * <code>NO_RUNNING_DEVICE = 1;</code>
      *
      * <pre>
-     * Have no idea
+     * No running devices as target
      * </pre>
      */
-    public static final int UNKNOWN_HYPERV_STATE_VALUE = 0;
+    public static final int NO_RUNNING_DEVICE_VALUE = 1;
     /**
-     * <code>HYPERV_ABSENT = 1;</code>
+     * <code>DONT_SEE_DEVICE = 2;</code>
      *
      * <pre>
-     * No hyper-V found
+     * Don't see your device link on the bottom right of dialog
      * </pre>
      */
-    public static final int HYPERV_ABSENT_VALUE = 1;
-    /**
-     * <code>HYPERV_INSTALLED = 2;</code>
-     *
-     * <pre>
-     * Hyper-V is installed but not running
-     * </pre>
-     */
-    public static final int HYPERV_INSTALLED_VALUE = 2;
-    /**
-     * <code>HYPERV_RUNNING = 3;</code>
-     *
-     * <pre>
-     * Hyper-V is up and running
-     * </pre>
-     */
-    public static final int HYPERV_RUNNING_VALUE = 3;
-    /**
-     * <code>HYPERV_CHECK_ERROR = 4;</code>
-     *
-     * <pre>
-     * Failed to detect status (emulator-check error)
-     * </pre>
-     */
-    public static final int HYPERV_CHECK_ERROR_VALUE = 4;
+    public static final int DONT_SEE_DEVICE_VALUE = 2;
 
 
     public final int getNumber() { return value; }
 
-    public static HyperVState valueOf(int value) {
+    public static Trigger valueOf(int value) {
       switch (value) {
-        case 0: return UNKNOWN_HYPERV_STATE;
-        case 1: return HYPERV_ABSENT;
-        case 2: return HYPERV_INSTALLED;
-        case 3: return HYPERV_RUNNING;
-        case 4: return HYPERV_CHECK_ERROR;
+        case 1: return NO_RUNNING_DEVICE;
+        case 2: return DONT_SEE_DEVICE;
         default: return null;
       }
     }
 
-    public static com.google.protobuf.Internal.EnumLiteMap<HyperVState>
+    public static com.google.protobuf.Internal.EnumLiteMap<Trigger>
         internalGetValueMap() {
       return internalValueMap;
     }
-    private static com.google.protobuf.Internal.EnumLiteMap<HyperVState>
+    private static com.google.protobuf.Internal.EnumLiteMap<Trigger>
         internalValueMap =
-          new com.google.protobuf.Internal.EnumLiteMap<HyperVState>() {
-            public HyperVState findValueByNumber(int number) {
-              return HyperVState.valueOf(number);
+          new com.google.protobuf.Internal.EnumLiteMap<Trigger>() {
+            public Trigger findValueByNumber(int number) {
+              return Trigger.valueOf(number);
             }
           };
 
@@ -236,12 +185,12 @@ public  final class Hypervisor extends
     }
     public static final com.google.protobuf.Descriptors.EnumDescriptor
         getDescriptor() {
-      return com.google.wireless.android.sdk.stats.Hypervisor.getDescriptor().getEnumTypes().get(0);
+      return com.google.wireless.android.sdk.stats.AdbAssistantStats.getDescriptor().getEnumTypes().get(0);
     }
 
-    private static final HyperVState[] VALUES = values();
+    private static final Trigger[] VALUES = values();
 
-    public static HyperVState valueOf(
+    public static Trigger valueOf(
         com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
       if (desc.getType() != getDescriptor()) {
         throw new java.lang.IllegalArgumentException(
@@ -253,33 +202,41 @@ public  final class Hypervisor extends
     private final int index;
     private final int value;
 
-    private HyperVState(int index, int value) {
+    private Trigger(int index, int value) {
       this.index = index;
       this.value = value;
     }
 
-    // @@protoc_insertion_point(enum_scope:android_studio.Hypervisor.HyperVState)
+    // @@protoc_insertion_point(enum_scope:android_studio.AdbAssistantStats.Trigger)
   }
 
   private int bitField0_;
-  // optional .android_studio.Hypervisor.HyperVState hyper_v_state = 1;
-  public static final int HYPER_V_STATE_FIELD_NUMBER = 1;
-  private com.google.wireless.android.sdk.stats.Hypervisor.HyperVState hyperVState_;
+  // optional .android_studio.AdbAssistantStats.Trigger trigger = 1;
+  public static final int TRIGGER_FIELD_NUMBER = 1;
+  private com.google.wireless.android.sdk.stats.AdbAssistantStats.Trigger trigger_;
   /**
-   * <code>optional .android_studio.Hypervisor.HyperVState hyper_v_state = 1;</code>
+   * <code>optional .android_studio.AdbAssistantStats.Trigger trigger = 1;</code>
+   *
+   * <pre>
+   * Why the assistant was started
+   * </pre>
    */
-  public boolean hasHyperVState() {
+  public boolean hasTrigger() {
     return ((bitField0_ & 0x00000001) == 0x00000001);
   }
   /**
-   * <code>optional .android_studio.Hypervisor.HyperVState hyper_v_state = 1;</code>
+   * <code>optional .android_studio.AdbAssistantStats.Trigger trigger = 1;</code>
+   *
+   * <pre>
+   * Why the assistant was started
+   * </pre>
    */
-  public com.google.wireless.android.sdk.stats.Hypervisor.HyperVState getHyperVState() {
-    return hyperVState_;
+  public com.google.wireless.android.sdk.stats.AdbAssistantStats.Trigger getTrigger() {
+    return trigger_;
   }
 
   private void initFields() {
-    hyperVState_ = com.google.wireless.android.sdk.stats.Hypervisor.HyperVState.UNKNOWN_HYPERV_STATE;
+    trigger_ = com.google.wireless.android.sdk.stats.AdbAssistantStats.Trigger.NO_RUNNING_DEVICE;
   }
   private byte memoizedIsInitialized = -1;
   public final boolean isInitialized() {
@@ -294,7 +251,7 @@ public  final class Hypervisor extends
                       throws java.io.IOException {
     getSerializedSize();
     if (((bitField0_ & 0x00000001) == 0x00000001)) {
-      output.writeEnum(1, hyperVState_.getNumber());
+      output.writeEnum(1, trigger_.getNumber());
     }
     getUnknownFields().writeTo(output);
   }
@@ -307,7 +264,7 @@ public  final class Hypervisor extends
     size = 0;
     if (((bitField0_ & 0x00000001) == 0x00000001)) {
       size += com.google.protobuf.CodedOutputStream
-        .computeEnumSize(1, hyperVState_.getNumber());
+        .computeEnumSize(1, trigger_.getNumber());
     }
     size += getUnknownFields().getSerializedSize();
     memoizedSerializedSize = size;
@@ -321,53 +278,53 @@ public  final class Hypervisor extends
     return super.writeReplace();
   }
 
-  public static com.google.wireless.android.sdk.stats.Hypervisor parseFrom(
+  public static com.google.wireless.android.sdk.stats.AdbAssistantStats parseFrom(
       com.google.protobuf.ByteString data)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data);
   }
-  public static com.google.wireless.android.sdk.stats.Hypervisor parseFrom(
+  public static com.google.wireless.android.sdk.stats.AdbAssistantStats parseFrom(
       com.google.protobuf.ByteString data,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data, extensionRegistry);
   }
-  public static com.google.wireless.android.sdk.stats.Hypervisor parseFrom(byte[] data)
+  public static com.google.wireless.android.sdk.stats.AdbAssistantStats parseFrom(byte[] data)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data);
   }
-  public static com.google.wireless.android.sdk.stats.Hypervisor parseFrom(
+  public static com.google.wireless.android.sdk.stats.AdbAssistantStats parseFrom(
       byte[] data,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data, extensionRegistry);
   }
-  public static com.google.wireless.android.sdk.stats.Hypervisor parseFrom(java.io.InputStream input)
+  public static com.google.wireless.android.sdk.stats.AdbAssistantStats parseFrom(java.io.InputStream input)
       throws java.io.IOException {
     return PARSER.parseFrom(input);
   }
-  public static com.google.wireless.android.sdk.stats.Hypervisor parseFrom(
+  public static com.google.wireless.android.sdk.stats.AdbAssistantStats parseFrom(
       java.io.InputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
     return PARSER.parseFrom(input, extensionRegistry);
   }
-  public static com.google.wireless.android.sdk.stats.Hypervisor parseDelimitedFrom(java.io.InputStream input)
+  public static com.google.wireless.android.sdk.stats.AdbAssistantStats parseDelimitedFrom(java.io.InputStream input)
       throws java.io.IOException {
     return PARSER.parseDelimitedFrom(input);
   }
-  public static com.google.wireless.android.sdk.stats.Hypervisor parseDelimitedFrom(
+  public static com.google.wireless.android.sdk.stats.AdbAssistantStats parseDelimitedFrom(
       java.io.InputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
     return PARSER.parseDelimitedFrom(input, extensionRegistry);
   }
-  public static com.google.wireless.android.sdk.stats.Hypervisor parseFrom(
+  public static com.google.wireless.android.sdk.stats.AdbAssistantStats parseFrom(
       com.google.protobuf.CodedInputStream input)
       throws java.io.IOException {
     return PARSER.parseFrom(input);
   }
-  public static com.google.wireless.android.sdk.stats.Hypervisor parseFrom(
+  public static com.google.wireless.android.sdk.stats.AdbAssistantStats parseFrom(
       com.google.protobuf.CodedInputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
@@ -376,7 +333,7 @@ public  final class Hypervisor extends
 
   public static Builder newBuilder() { return Builder.create(); }
   public Builder newBuilderForType() { return newBuilder(); }
-  public static Builder newBuilder(com.google.wireless.android.sdk.stats.Hypervisor prototype) {
+  public static Builder newBuilder(com.google.wireless.android.sdk.stats.AdbAssistantStats prototype) {
     return newBuilder().mergeFrom(prototype);
   }
   public Builder toBuilder() { return newBuilder(this); }
@@ -388,28 +345,28 @@ public  final class Hypervisor extends
     return builder;
   }
   /**
-   * Protobuf type {@code android_studio.Hypervisor}
+   * Protobuf type {@code android_studio.AdbAssistantStats}
    *
    * <pre>
-   * Describes the status of various Hypervisors
+   * ADB Assistant event details
    * </pre>
    */
   public static final class Builder extends
       com.google.protobuf.GeneratedMessage.Builder<Builder>
-     implements com.google.wireless.android.sdk.stats.HypervisorOrBuilder {
+     implements com.google.wireless.android.sdk.stats.AdbAssistantStatsOrBuilder {
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return com.google.wireless.android.sdk.stats.AndroidStudioStats.internal_static_android_studio_Hypervisor_descriptor;
+      return com.google.wireless.android.sdk.stats.AndroidStudioStats.internal_static_android_studio_AdbAssistantStats_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return com.google.wireless.android.sdk.stats.AndroidStudioStats.internal_static_android_studio_Hypervisor_fieldAccessorTable
+      return com.google.wireless.android.sdk.stats.AndroidStudioStats.internal_static_android_studio_AdbAssistantStats_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              com.google.wireless.android.sdk.stats.Hypervisor.class, com.google.wireless.android.sdk.stats.Hypervisor.Builder.class);
+              com.google.wireless.android.sdk.stats.AdbAssistantStats.class, com.google.wireless.android.sdk.stats.AdbAssistantStats.Builder.class);
     }
 
-    // Construct using com.google.wireless.android.sdk.stats.Hypervisor.newBuilder()
+    // Construct using com.google.wireless.android.sdk.stats.AdbAssistantStats.newBuilder()
     private Builder() {
       maybeForceBuilderInitialization();
     }
@@ -429,7 +386,7 @@ public  final class Hypervisor extends
 
     public Builder clear() {
       super.clear();
-      hyperVState_ = com.google.wireless.android.sdk.stats.Hypervisor.HyperVState.UNKNOWN_HYPERV_STATE;
+      trigger_ = com.google.wireless.android.sdk.stats.AdbAssistantStats.Trigger.NO_RUNNING_DEVICE;
       bitField0_ = (bitField0_ & ~0x00000001);
       return this;
     }
@@ -440,47 +397,47 @@ public  final class Hypervisor extends
 
     public com.google.protobuf.Descriptors.Descriptor
         getDescriptorForType() {
-      return com.google.wireless.android.sdk.stats.AndroidStudioStats.internal_static_android_studio_Hypervisor_descriptor;
+      return com.google.wireless.android.sdk.stats.AndroidStudioStats.internal_static_android_studio_AdbAssistantStats_descriptor;
     }
 
-    public com.google.wireless.android.sdk.stats.Hypervisor getDefaultInstanceForType() {
-      return com.google.wireless.android.sdk.stats.Hypervisor.getDefaultInstance();
+    public com.google.wireless.android.sdk.stats.AdbAssistantStats getDefaultInstanceForType() {
+      return com.google.wireless.android.sdk.stats.AdbAssistantStats.getDefaultInstance();
     }
 
-    public com.google.wireless.android.sdk.stats.Hypervisor build() {
-      com.google.wireless.android.sdk.stats.Hypervisor result = buildPartial();
+    public com.google.wireless.android.sdk.stats.AdbAssistantStats build() {
+      com.google.wireless.android.sdk.stats.AdbAssistantStats result = buildPartial();
       if (!result.isInitialized()) {
         throw newUninitializedMessageException(result);
       }
       return result;
     }
 
-    public com.google.wireless.android.sdk.stats.Hypervisor buildPartial() {
-      com.google.wireless.android.sdk.stats.Hypervisor result = new com.google.wireless.android.sdk.stats.Hypervisor(this);
+    public com.google.wireless.android.sdk.stats.AdbAssistantStats buildPartial() {
+      com.google.wireless.android.sdk.stats.AdbAssistantStats result = new com.google.wireless.android.sdk.stats.AdbAssistantStats(this);
       int from_bitField0_ = bitField0_;
       int to_bitField0_ = 0;
       if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
         to_bitField0_ |= 0x00000001;
       }
-      result.hyperVState_ = hyperVState_;
+      result.trigger_ = trigger_;
       result.bitField0_ = to_bitField0_;
       onBuilt();
       return result;
     }
 
     public Builder mergeFrom(com.google.protobuf.Message other) {
-      if (other instanceof com.google.wireless.android.sdk.stats.Hypervisor) {
-        return mergeFrom((com.google.wireless.android.sdk.stats.Hypervisor)other);
+      if (other instanceof com.google.wireless.android.sdk.stats.AdbAssistantStats) {
+        return mergeFrom((com.google.wireless.android.sdk.stats.AdbAssistantStats)other);
       } else {
         super.mergeFrom(other);
         return this;
       }
     }
 
-    public Builder mergeFrom(com.google.wireless.android.sdk.stats.Hypervisor other) {
-      if (other == com.google.wireless.android.sdk.stats.Hypervisor.getDefaultInstance()) return this;
-      if (other.hasHyperVState()) {
-        setHyperVState(other.getHyperVState());
+    public Builder mergeFrom(com.google.wireless.android.sdk.stats.AdbAssistantStats other) {
+      if (other == com.google.wireless.android.sdk.stats.AdbAssistantStats.getDefaultInstance()) return this;
+      if (other.hasTrigger()) {
+        setTrigger(other.getTrigger());
       }
       this.mergeUnknownFields(other.getUnknownFields());
       return this;
@@ -494,11 +451,11 @@ public  final class Hypervisor extends
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      com.google.wireless.android.sdk.stats.Hypervisor parsedMessage = null;
+      com.google.wireless.android.sdk.stats.AdbAssistantStats parsedMessage = null;
       try {
         parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        parsedMessage = (com.google.wireless.android.sdk.stats.Hypervisor) e.getUnfinishedMessage();
+        parsedMessage = (com.google.wireless.android.sdk.stats.AdbAssistantStats) e.getUnfinishedMessage();
         throw e;
       } finally {
         if (parsedMessage != null) {
@@ -509,50 +466,66 @@ public  final class Hypervisor extends
     }
     private int bitField0_;
 
-    // optional .android_studio.Hypervisor.HyperVState hyper_v_state = 1;
-    private com.google.wireless.android.sdk.stats.Hypervisor.HyperVState hyperVState_ = com.google.wireless.android.sdk.stats.Hypervisor.HyperVState.UNKNOWN_HYPERV_STATE;
+    // optional .android_studio.AdbAssistantStats.Trigger trigger = 1;
+    private com.google.wireless.android.sdk.stats.AdbAssistantStats.Trigger trigger_ = com.google.wireless.android.sdk.stats.AdbAssistantStats.Trigger.NO_RUNNING_DEVICE;
     /**
-     * <code>optional .android_studio.Hypervisor.HyperVState hyper_v_state = 1;</code>
+     * <code>optional .android_studio.AdbAssistantStats.Trigger trigger = 1;</code>
+     *
+     * <pre>
+     * Why the assistant was started
+     * </pre>
      */
-    public boolean hasHyperVState() {
+    public boolean hasTrigger() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
-     * <code>optional .android_studio.Hypervisor.HyperVState hyper_v_state = 1;</code>
+     * <code>optional .android_studio.AdbAssistantStats.Trigger trigger = 1;</code>
+     *
+     * <pre>
+     * Why the assistant was started
+     * </pre>
      */
-    public com.google.wireless.android.sdk.stats.Hypervisor.HyperVState getHyperVState() {
-      return hyperVState_;
+    public com.google.wireless.android.sdk.stats.AdbAssistantStats.Trigger getTrigger() {
+      return trigger_;
     }
     /**
-     * <code>optional .android_studio.Hypervisor.HyperVState hyper_v_state = 1;</code>
+     * <code>optional .android_studio.AdbAssistantStats.Trigger trigger = 1;</code>
+     *
+     * <pre>
+     * Why the assistant was started
+     * </pre>
      */
-    public Builder setHyperVState(com.google.wireless.android.sdk.stats.Hypervisor.HyperVState value) {
+    public Builder setTrigger(com.google.wireless.android.sdk.stats.AdbAssistantStats.Trigger value) {
       if (value == null) {
         throw new NullPointerException();
       }
       bitField0_ |= 0x00000001;
-      hyperVState_ = value;
+      trigger_ = value;
       onChanged();
       return this;
     }
     /**
-     * <code>optional .android_studio.Hypervisor.HyperVState hyper_v_state = 1;</code>
+     * <code>optional .android_studio.AdbAssistantStats.Trigger trigger = 1;</code>
+     *
+     * <pre>
+     * Why the assistant was started
+     * </pre>
      */
-    public Builder clearHyperVState() {
+    public Builder clearTrigger() {
       bitField0_ = (bitField0_ & ~0x00000001);
-      hyperVState_ = com.google.wireless.android.sdk.stats.Hypervisor.HyperVState.UNKNOWN_HYPERV_STATE;
+      trigger_ = com.google.wireless.android.sdk.stats.AdbAssistantStats.Trigger.NO_RUNNING_DEVICE;
       onChanged();
       return this;
     }
 
-    // @@protoc_insertion_point(builder_scope:android_studio.Hypervisor)
+    // @@protoc_insertion_point(builder_scope:android_studio.AdbAssistantStats)
   }
 
   static {
-    defaultInstance = new Hypervisor(true);
+    defaultInstance = new AdbAssistantStats(true);
     defaultInstance.initFields();
   }
 
-  // @@protoc_insertion_point(class_scope:android_studio.Hypervisor)
+  // @@protoc_insertion_point(class_scope:android_studio.AdbAssistantStats)
 }
 

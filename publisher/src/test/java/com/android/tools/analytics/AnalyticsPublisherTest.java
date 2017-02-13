@@ -41,6 +41,7 @@ import java.util.concurrent.TimeUnit;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
+import org.junit.rules.Timeout;
 
 
 /**
@@ -49,6 +50,9 @@ import org.junit.rules.TemporaryFolder;
 public class AnalyticsPublisherTest {
     @Rule public final TemporaryFolder testSpoolDir = new TemporaryFolder();
     @Rule public final TemporaryFolder testConfigDir = new TemporaryFolder();
+
+    // Make sure the connection to bad server doesn't hang infinitely.
+    @Rule public final Timeout timeout = Timeout.seconds(10);
 
     @Test
     public void testInitialValues() throws Exception {
@@ -235,7 +239,7 @@ public class AnalyticsPublisherTest {
 
             // set the url to publish to to a reserved port which we know the server cannot connect to.
             // https://www.iana.org/assignments/service-names-port-numbers/service-names-port-numbers.txt
-            googleAnalyticsPublisher.setServerUrl(new URL("http://localhost:1023/"));
+            googleAnalyticsPublisher.setServerUrl(new URL("http://localhost:270/"));
 
             // Execute the first publish job.
             vs.advanceBy(10, TimeUnit.MINUTES);

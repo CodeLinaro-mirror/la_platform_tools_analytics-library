@@ -5,6 +5,11 @@ package com.google.wireless.android.sdk.stats;
 
 /**
  * Protobuf type {@code android_studio.InstantRunArtifact}
+ *
+ * <pre>
+ * all types of build can now register artifacts so we can find non InstantRun
+ * related artifact types like full slits and aar.
+ * </pre>
  */
 public  final class InstantRunArtifact extends
     com.google.protobuf.GeneratedMessage
@@ -168,6 +173,22 @@ public  final class InstantRunArtifact extends
      * </pre>
      */
     RESOURCES(6, 7),
+    /**
+     * <code>FULL_SPLIT = 8;</code>
+     *
+     * <pre>
+     * Full split, main apk file with reduced set of configs
+     * </pre>
+     */
+    FULL_SPLIT(7, 8),
+    /**
+     * <code>AAR = 9;</code>
+     *
+     * <pre>
+     * AAR file.
+     * </pre>
+     */
+    AAR(8, 9),
     ;
 
     /**
@@ -229,6 +250,22 @@ public  final class InstantRunArtifact extends
      * </pre>
      */
     public static final int RESOURCES_VALUE = 7;
+    /**
+     * <code>FULL_SPLIT = 8;</code>
+     *
+     * <pre>
+     * Full split, main apk file with reduced set of configs
+     * </pre>
+     */
+    public static final int FULL_SPLIT_VALUE = 8;
+    /**
+     * <code>AAR = 9;</code>
+     *
+     * <pre>
+     * AAR file.
+     * </pre>
+     */
+    public static final int AAR_VALUE = 9;
 
 
     public final int getNumber() { return value; }
@@ -242,6 +279,8 @@ public  final class InstantRunArtifact extends
         case 5: return DEX;
         case 6: return SPLIT;
         case 7: return RESOURCES;
+        case 8: return FULL_SPLIT;
+        case 9: return AAR;
         default: return null;
       }
     }
@@ -421,6 +460,11 @@ public  final class InstantRunArtifact extends
   }
   /**
    * Protobuf type {@code android_studio.InstantRunArtifact}
+   *
+   * <pre>
+   * all types of build can now register artifacts so we can find non InstantRun
+   * related artifact types like full slits and aar.
+   * </pre>
    */
   public static final class Builder extends
       com.google.protobuf.GeneratedMessage.Builder<Builder>

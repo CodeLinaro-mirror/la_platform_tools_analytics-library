@@ -218,6 +218,22 @@ public  final class GradleTransformExecution extends
      * <code>INSTANT_RUN_SLICE_SPLIT_APK_BUILDER = 24;</code>
      */
     INSTANT_RUN_SLICE_SPLIT_APK_BUILDER(24, 24),
+    /**
+     * <code>PRE_DEX = 25;</code>
+     */
+    PRE_DEX(25, 25),
+    /**
+     * <code>JACK_COMPILE = 26;</code>
+     */
+    JACK_COMPILE(26, 26),
+    /**
+     * <code>JACK_GENERATE_DEX = 27;</code>
+     */
+    JACK_GENERATE_DEX(27, 27),
+    /**
+     * <code>CUSTOM_CLASS = 28;</code>
+     */
+    CUSTOM_CLASS(28, 28),
     ;
 
     /**
@@ -320,6 +336,22 @@ public  final class GradleTransformExecution extends
      * <code>INSTANT_RUN_SLICE_SPLIT_APK_BUILDER = 24;</code>
      */
     public static final int INSTANT_RUN_SLICE_SPLIT_APK_BUILDER_VALUE = 24;
+    /**
+     * <code>PRE_DEX = 25;</code>
+     */
+    public static final int PRE_DEX_VALUE = 25;
+    /**
+     * <code>JACK_COMPILE = 26;</code>
+     */
+    public static final int JACK_COMPILE_VALUE = 26;
+    /**
+     * <code>JACK_GENERATE_DEX = 27;</code>
+     */
+    public static final int JACK_GENERATE_DEX_VALUE = 27;
+    /**
+     * <code>CUSTOM_CLASS = 28;</code>
+     */
+    public static final int CUSTOM_CLASS_VALUE = 28;
 
 
     public final int getNumber() { return value; }
@@ -351,6 +383,10 @@ public  final class GradleTransformExecution extends
         case 22: return LIBRARY_API;
         case 23: return INSTANT_RUN_DEPENDENCIES_APK_BUILDER;
         case 24: return INSTANT_RUN_SLICE_SPLIT_APK_BUILDER;
+        case 25: return PRE_DEX;
+        case 26: return JACK_COMPILE;
+        case 27: return JACK_GENERATE_DEX;
+        case 28: return CUSTOM_CLASS;
         default: return null;
       }
     }

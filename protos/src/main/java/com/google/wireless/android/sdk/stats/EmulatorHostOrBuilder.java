@@ -41,7 +41,6 @@ public interface EmulatorHostOrBuilder
    * <code>optional bool virt_support = 2;</code>
    *
    * <pre>
-   * AMD, INTEL, ...
    * Does the host support virtualization technology
    * </pre>
    */
@@ -50,7 +49,6 @@ public interface EmulatorHostOrBuilder
    * <code>optional bool virt_support = 2;</code>
    *
    * <pre>
-   * AMD, INTEL, ...
    * Does the host support virtualization technology
    * </pre>
    */

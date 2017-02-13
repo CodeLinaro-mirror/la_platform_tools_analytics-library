@@ -374,7 +374,6 @@ public interface AndroidStudioEventOrBuilder
    * <code>optional .android_studio.AndroidStudioEvent.GradleSyncFailure gradle_sync_failure = 16;</code>
    *
    * <pre>
-   * e.g. '2.10'
    * set when kind = GRADLE_SYNC_FAILURE
    * </pre>
    */
@@ -383,7 +382,6 @@ public interface AndroidStudioEventOrBuilder
    * <code>optional .android_studio.AndroidStudioEvent.GradleSyncFailure gradle_sync_failure = 16;</code>
    *
    * <pre>
-   * e.g. '2.10'
    * set when kind = GRADLE_SYNC_FAILURE
    * </pre>
    */
@@ -468,7 +466,8 @@ public interface AndroidStudioEventOrBuilder
    * <code>optional .android_studio.GradleBuildDetails gradle_build_details = 20;</code>
    *
    * <pre>
-   * set when kind = GRADLE_BUILD_DETAILS
+   * set when kind = GRADLE_BUILD_DETAILS or INSTANT_RUN
+   * In the case of INSTANT_RUN, only the plugin version information is included
    * </pre>
    */
   boolean hasGradleBuildDetails();
@@ -476,7 +475,8 @@ public interface AndroidStudioEventOrBuilder
    * <code>optional .android_studio.GradleBuildDetails gradle_build_details = 20;</code>
    *
    * <pre>
-   * set when kind = GRADLE_BUILD_DETAILS
+   * set when kind = GRADLE_BUILD_DETAILS or INSTANT_RUN
+   * In the case of INSTANT_RUN, only the plugin version information is included
    * </pre>
    */
   com.google.wireless.android.sdk.stats.GradleBuildDetails getGradleBuildDetails();
@@ -484,7 +484,8 @@ public interface AndroidStudioEventOrBuilder
    * <code>optional .android_studio.GradleBuildDetails gradle_build_details = 20;</code>
    *
    * <pre>
-   * set when kind = GRADLE_BUILD_DETAILS
+   * set when kind = GRADLE_BUILD_DETAILS or INSTANT_RUN
+   * In the case of INSTANT_RUN, only the plugin version information is included
    * </pre>
    */
   com.google.wireless.android.sdk.stats.GradleBuildDetailsOrBuilder getGradleBuildDetailsOrBuilder();
@@ -1119,4 +1120,30 @@ public interface AndroidStudioEventOrBuilder
    * </pre>
    */
   com.google.wireless.android.sdk.stats.EmulatorPerformanceStatsOrBuilder getEmulatorPerformanceStatsOrBuilder();
+
+  // optional .android_studio.AdbAssistantStats adb_assistant_stats = 45;
+  /**
+   * <code>optional .android_studio.AdbAssistantStats adb_assistant_stats = 45;</code>
+   *
+   * <pre>
+   * set when kind = ADB_ASSISTANT_STATS
+   * </pre>
+   */
+  boolean hasAdbAssistantStats();
+  /**
+   * <code>optional .android_studio.AdbAssistantStats adb_assistant_stats = 45;</code>
+   *
+   * <pre>
+   * set when kind = ADB_ASSISTANT_STATS
+   * </pre>
+   */
+  com.google.wireless.android.sdk.stats.AdbAssistantStats getAdbAssistantStats();
+  /**
+   * <code>optional .android_studio.AdbAssistantStats adb_assistant_stats = 45;</code>
+   *
+   * <pre>
+   * set when kind = ADB_ASSISTANT_STATS
+   * </pre>
+   */
+  com.google.wireless.android.sdk.stats.AdbAssistantStatsOrBuilder getAdbAssistantStatsOrBuilder();
 }

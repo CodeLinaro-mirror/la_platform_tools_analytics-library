@@ -545,6 +545,19 @@ public  final class AndroidStudioEvent extends
             bitField1_ |= 0x00000800;
             break;
           }
+          case 362: {
+            com.google.wireless.android.sdk.stats.AdbAssistantStats.Builder subBuilder = null;
+            if (((bitField1_ & 0x00001000) == 0x00001000)) {
+              subBuilder = adbAssistantStats_.toBuilder();
+            }
+            adbAssistantStats_ = input.readMessage(com.google.wireless.android.sdk.stats.AdbAssistantStats.PARSER, extensionRegistry);
+            if (subBuilder != null) {
+              subBuilder.mergeFrom(adbAssistantStats_);
+              adbAssistantStats_ = subBuilder.buildPartial();
+            }
+            bitField1_ |= 0x00001000;
+            break;
+          }
         }
       }
     } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -1794,7 +1807,7 @@ public  final class AndroidStudioEvent extends
      * <code>TEST_RECORDER_MISSING_ESPRESSO_DEPENDENCIES = 93;</code>
      *
      * <pre>
-     * The test recorder failed as the project is missing espresso dependencies.
+     * The test recorder detected missing espresso dependencies.
      * </pre>
      */
     TEST_RECORDER_MISSING_ESPRESSO_DEPENDENCIES(90, 93),
@@ -1802,7 +1815,7 @@ public  final class AndroidStudioEvent extends
      * <code>TEST_RECORDER_MISSING_INSTRUMENTATION_TEST_FOLDER = 94;</code>
      *
      * <pre>
-     * The test recorder failed as the instrumentation test folder is missing.
+     * The test recorder detected missing instrumentation test folder.
      * </pre>
      */
     TEST_RECORDER_MISSING_INSTRUMENTATION_TEST_FOLDER(91, 94),
@@ -1950,6 +1963,22 @@ public  final class AndroidStudioEvent extends
      * </pre>
      */
     EMULATOR_PERFORMANCE_STATS(109, 112),
+    /**
+     * <code>TEST_RECORDER_SAVE_ROBO_SCRIPT = 113;</code>
+     *
+     * <pre>
+     * The user requested the test recorder to save a Robo bootstrap script.
+     * </pre>
+     */
+    TEST_RECORDER_SAVE_ROBO_SCRIPT(110, 113),
+    /**
+     * <code>ADB_ASSISTANT_STATS = 114;</code>
+     *
+     * <pre>
+     * Opened ADB Connection Help Link
+     * </pre>
+     */
+    ADB_ASSISTANT_STATS(111, 114),
     ;
 
     /**
@@ -2653,7 +2682,7 @@ public  final class AndroidStudioEvent extends
      * <code>TEST_RECORDER_MISSING_ESPRESSO_DEPENDENCIES = 93;</code>
      *
      * <pre>
-     * The test recorder failed as the project is missing espresso dependencies.
+     * The test recorder detected missing espresso dependencies.
      * </pre>
      */
     public static final int TEST_RECORDER_MISSING_ESPRESSO_DEPENDENCIES_VALUE = 93;
@@ -2661,7 +2690,7 @@ public  final class AndroidStudioEvent extends
      * <code>TEST_RECORDER_MISSING_INSTRUMENTATION_TEST_FOLDER = 94;</code>
      *
      * <pre>
-     * The test recorder failed as the instrumentation test folder is missing.
+     * The test recorder detected missing instrumentation test folder.
      * </pre>
      */
     public static final int TEST_RECORDER_MISSING_INSTRUMENTATION_TEST_FOLDER_VALUE = 94;
@@ -2809,6 +2838,22 @@ public  final class AndroidStudioEvent extends
      * </pre>
      */
     public static final int EMULATOR_PERFORMANCE_STATS_VALUE = 112;
+    /**
+     * <code>TEST_RECORDER_SAVE_ROBO_SCRIPT = 113;</code>
+     *
+     * <pre>
+     * The user requested the test recorder to save a Robo bootstrap script.
+     * </pre>
+     */
+    public static final int TEST_RECORDER_SAVE_ROBO_SCRIPT_VALUE = 113;
+    /**
+     * <code>ADB_ASSISTANT_STATS = 114;</code>
+     *
+     * <pre>
+     * Opened ADB Connection Help Link
+     * </pre>
+     */
+    public static final int ADB_ASSISTANT_STATS_VALUE = 114;
 
 
     public final int getNumber() { return value; }
@@ -2925,6 +2970,8 @@ public  final class AndroidStudioEvent extends
         case 110: return GRADLE_SYNC_SETUP_STARTED;
         case 111: return APP_LINKS_ASSISTANT_STATS;
         case 112: return EMULATOR_PERFORMANCE_STATS;
+        case 113: return TEST_RECORDER_SAVE_ROBO_SCRIPT;
+        case 114: return ADB_ASSISTANT_STATS;
         default: return null;
       }
     }
@@ -4790,7 +4837,6 @@ public  final class AndroidStudioEvent extends
    * <code>optional .android_studio.AndroidStudioEvent.GradleSyncFailure gradle_sync_failure = 16;</code>
    *
    * <pre>
-   * e.g. '2.10'
    * set when kind = GRADLE_SYNC_FAILURE
    * </pre>
    */
@@ -4801,7 +4847,6 @@ public  final class AndroidStudioEvent extends
    * <code>optional .android_studio.AndroidStudioEvent.GradleSyncFailure gradle_sync_failure = 16;</code>
    *
    * <pre>
-   * e.g. '2.10'
    * set when kind = GRADLE_SYNC_FAILURE
    * </pre>
    */
@@ -4932,7 +4977,8 @@ public  final class AndroidStudioEvent extends
    * <code>optional .android_studio.GradleBuildDetails gradle_build_details = 20;</code>
    *
    * <pre>
-   * set when kind = GRADLE_BUILD_DETAILS
+   * set when kind = GRADLE_BUILD_DETAILS or INSTANT_RUN
+   * In the case of INSTANT_RUN, only the plugin version information is included
    * </pre>
    */
   public boolean hasGradleBuildDetails() {
@@ -4942,7 +4988,8 @@ public  final class AndroidStudioEvent extends
    * <code>optional .android_studio.GradleBuildDetails gradle_build_details = 20;</code>
    *
    * <pre>
-   * set when kind = GRADLE_BUILD_DETAILS
+   * set when kind = GRADLE_BUILD_DETAILS or INSTANT_RUN
+   * In the case of INSTANT_RUN, only the plugin version information is included
    * </pre>
    */
   public com.google.wireless.android.sdk.stats.GradleBuildDetails getGradleBuildDetails() {
@@ -4952,7 +4999,8 @@ public  final class AndroidStudioEvent extends
    * <code>optional .android_studio.GradleBuildDetails gradle_build_details = 20;</code>
    *
    * <pre>
-   * set when kind = GRADLE_BUILD_DETAILS
+   * set when kind = GRADLE_BUILD_DETAILS or INSTANT_RUN
+   * In the case of INSTANT_RUN, only the plugin version information is included
    * </pre>
    */
   public com.google.wireless.android.sdk.stats.GradleBuildDetailsOrBuilder getGradleBuildDetailsOrBuilder() {
@@ -5802,6 +5850,40 @@ public  final class AndroidStudioEvent extends
     return emulatorPerformanceStats_;
   }
 
+  // optional .android_studio.AdbAssistantStats adb_assistant_stats = 45;
+  public static final int ADB_ASSISTANT_STATS_FIELD_NUMBER = 45;
+  private com.google.wireless.android.sdk.stats.AdbAssistantStats adbAssistantStats_;
+  /**
+   * <code>optional .android_studio.AdbAssistantStats adb_assistant_stats = 45;</code>
+   *
+   * <pre>
+   * set when kind = ADB_ASSISTANT_STATS
+   * </pre>
+   */
+  public boolean hasAdbAssistantStats() {
+    return ((bitField1_ & 0x00001000) == 0x00001000);
+  }
+  /**
+   * <code>optional .android_studio.AdbAssistantStats adb_assistant_stats = 45;</code>
+   *
+   * <pre>
+   * set when kind = ADB_ASSISTANT_STATS
+   * </pre>
+   */
+  public com.google.wireless.android.sdk.stats.AdbAssistantStats getAdbAssistantStats() {
+    return adbAssistantStats_;
+  }
+  /**
+   * <code>optional .android_studio.AdbAssistantStats adb_assistant_stats = 45;</code>
+   *
+   * <pre>
+   * set when kind = ADB_ASSISTANT_STATS
+   * </pre>
+   */
+  public com.google.wireless.android.sdk.stats.AdbAssistantStatsOrBuilder getAdbAssistantStatsOrBuilder() {
+    return adbAssistantStats_;
+  }
+
   private void initFields() {
     category_ = com.google.wireless.android.sdk.stats.AndroidStudioEvent.EventCategory.NO_EVENT_CATEGORY;
     kind_ = com.google.wireless.android.sdk.stats.AndroidStudioEvent.EventKind.UNKNOWN_EVENT_KIND;
@@ -5847,6 +5929,7 @@ public  final class AndroidStudioEvent extends
     layoutEditorEvent_ = com.google.wireless.android.sdk.stats.LayoutEditorEvent.getDefaultInstance();
     appLinksAssistantEvent_ = com.google.wireless.android.sdk.stats.AppLinksAssistantEvent.getDefaultInstance();
     emulatorPerformanceStats_ = com.google.wireless.android.sdk.stats.EmulatorPerformanceStats.getDefaultInstance();
+    adbAssistantStats_ = com.google.wireless.android.sdk.stats.AdbAssistantStats.getDefaultInstance();
   }
   private byte memoizedIsInitialized = -1;
   public final boolean isInitialized() {
@@ -5991,6 +6074,9 @@ public  final class AndroidStudioEvent extends
     }
     if (((bitField1_ & 0x00000800) == 0x00000800)) {
       output.writeMessage(44, emulatorPerformanceStats_);
+    }
+    if (((bitField1_ & 0x00001000) == 0x00001000)) {
+      output.writeMessage(45, adbAssistantStats_);
     }
     getUnknownFields().writeTo(output);
   }
@@ -6177,6 +6263,10 @@ public  final class AndroidStudioEvent extends
       size += com.google.protobuf.CodedOutputStream
         .computeMessageSize(44, emulatorPerformanceStats_);
     }
+    if (((bitField1_ & 0x00001000) == 0x00001000)) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeMessageSize(45, adbAssistantStats_);
+    }
     size += getUnknownFields().getSerializedSize();
     memoizedSerializedSize = size;
     return size;
@@ -6312,6 +6402,7 @@ public  final class AndroidStudioEvent extends
         getLayoutEditorEventFieldBuilder();
         getAppLinksAssistantEventFieldBuilder();
         getEmulatorPerformanceStatsFieldBuilder();
+        getAdbAssistantStatsFieldBuilder();
       }
     }
     private static Builder create() {
@@ -6516,6 +6607,12 @@ public  final class AndroidStudioEvent extends
         emulatorPerformanceStatsBuilder_.clear();
       }
       bitField1_ = (bitField1_ & ~0x00000800);
+      if (adbAssistantStatsBuilder_ == null) {
+        adbAssistantStats_ = com.google.wireless.android.sdk.stats.AdbAssistantStats.getDefaultInstance();
+      } else {
+        adbAssistantStatsBuilder_.clear();
+      }
+      bitField1_ = (bitField1_ & ~0x00001000);
       return this;
     }
 
@@ -6830,6 +6927,14 @@ public  final class AndroidStudioEvent extends
       } else {
         result.emulatorPerformanceStats_ = emulatorPerformanceStatsBuilder_.build();
       }
+      if (((from_bitField1_ & 0x00001000) == 0x00001000)) {
+        to_bitField1_ |= 0x00001000;
+      }
+      if (adbAssistantStatsBuilder_ == null) {
+        result.adbAssistantStats_ = adbAssistantStats_;
+      } else {
+        result.adbAssistantStats_ = adbAssistantStatsBuilder_.build();
+      }
       result.bitField0_ = to_bitField0_;
       result.bitField1_ = to_bitField1_;
       onBuilt();
@@ -6990,6 +7095,9 @@ public  final class AndroidStudioEvent extends
       }
       if (other.hasEmulatorPerformanceStats()) {
         mergeEmulatorPerformanceStats(other.getEmulatorPerformanceStats());
+      }
+      if (other.hasAdbAssistantStats()) {
+        mergeAdbAssistantStats(other.getAdbAssistantStats());
       }
       this.mergeUnknownFields(other.getUnknownFields());
       return this;
@@ -8294,7 +8402,6 @@ public  final class AndroidStudioEvent extends
      * <code>optional .android_studio.AndroidStudioEvent.GradleSyncFailure gradle_sync_failure = 16;</code>
      *
      * <pre>
-     * e.g. '2.10'
      * set when kind = GRADLE_SYNC_FAILURE
      * </pre>
      */
@@ -8305,7 +8412,6 @@ public  final class AndroidStudioEvent extends
      * <code>optional .android_studio.AndroidStudioEvent.GradleSyncFailure gradle_sync_failure = 16;</code>
      *
      * <pre>
-     * e.g. '2.10'
      * set when kind = GRADLE_SYNC_FAILURE
      * </pre>
      */
@@ -8316,7 +8422,6 @@ public  final class AndroidStudioEvent extends
      * <code>optional .android_studio.AndroidStudioEvent.GradleSyncFailure gradle_sync_failure = 16;</code>
      *
      * <pre>
-     * e.g. '2.10'
      * set when kind = GRADLE_SYNC_FAILURE
      * </pre>
      */
@@ -8333,7 +8438,6 @@ public  final class AndroidStudioEvent extends
      * <code>optional .android_studio.AndroidStudioEvent.GradleSyncFailure gradle_sync_failure = 16;</code>
      *
      * <pre>
-     * e.g. '2.10'
      * set when kind = GRADLE_SYNC_FAILURE
      * </pre>
      */
@@ -8661,7 +8765,8 @@ public  final class AndroidStudioEvent extends
      * <code>optional .android_studio.GradleBuildDetails gradle_build_details = 20;</code>
      *
      * <pre>
-     * set when kind = GRADLE_BUILD_DETAILS
+     * set when kind = GRADLE_BUILD_DETAILS or INSTANT_RUN
+     * In the case of INSTANT_RUN, only the plugin version information is included
      * </pre>
      */
     public boolean hasGradleBuildDetails() {
@@ -8671,7 +8776,8 @@ public  final class AndroidStudioEvent extends
      * <code>optional .android_studio.GradleBuildDetails gradle_build_details = 20;</code>
      *
      * <pre>
-     * set when kind = GRADLE_BUILD_DETAILS
+     * set when kind = GRADLE_BUILD_DETAILS or INSTANT_RUN
+     * In the case of INSTANT_RUN, only the plugin version information is included
      * </pre>
      */
     public com.google.wireless.android.sdk.stats.GradleBuildDetails getGradleBuildDetails() {
@@ -8685,7 +8791,8 @@ public  final class AndroidStudioEvent extends
      * <code>optional .android_studio.GradleBuildDetails gradle_build_details = 20;</code>
      *
      * <pre>
-     * set when kind = GRADLE_BUILD_DETAILS
+     * set when kind = GRADLE_BUILD_DETAILS or INSTANT_RUN
+     * In the case of INSTANT_RUN, only the plugin version information is included
      * </pre>
      */
     public Builder setGradleBuildDetails(com.google.wireless.android.sdk.stats.GradleBuildDetails value) {
@@ -8705,7 +8812,8 @@ public  final class AndroidStudioEvent extends
      * <code>optional .android_studio.GradleBuildDetails gradle_build_details = 20;</code>
      *
      * <pre>
-     * set when kind = GRADLE_BUILD_DETAILS
+     * set when kind = GRADLE_BUILD_DETAILS or INSTANT_RUN
+     * In the case of INSTANT_RUN, only the plugin version information is included
      * </pre>
      */
     public Builder setGradleBuildDetails(
@@ -8723,7 +8831,8 @@ public  final class AndroidStudioEvent extends
      * <code>optional .android_studio.GradleBuildDetails gradle_build_details = 20;</code>
      *
      * <pre>
-     * set when kind = GRADLE_BUILD_DETAILS
+     * set when kind = GRADLE_BUILD_DETAILS or INSTANT_RUN
+     * In the case of INSTANT_RUN, only the plugin version information is included
      * </pre>
      */
     public Builder mergeGradleBuildDetails(com.google.wireless.android.sdk.stats.GradleBuildDetails value) {
@@ -8746,7 +8855,8 @@ public  final class AndroidStudioEvent extends
      * <code>optional .android_studio.GradleBuildDetails gradle_build_details = 20;</code>
      *
      * <pre>
-     * set when kind = GRADLE_BUILD_DETAILS
+     * set when kind = GRADLE_BUILD_DETAILS or INSTANT_RUN
+     * In the case of INSTANT_RUN, only the plugin version information is included
      * </pre>
      */
     public Builder clearGradleBuildDetails() {
@@ -8763,7 +8873,8 @@ public  final class AndroidStudioEvent extends
      * <code>optional .android_studio.GradleBuildDetails gradle_build_details = 20;</code>
      *
      * <pre>
-     * set when kind = GRADLE_BUILD_DETAILS
+     * set when kind = GRADLE_BUILD_DETAILS or INSTANT_RUN
+     * In the case of INSTANT_RUN, only the plugin version information is included
      * </pre>
      */
     public com.google.wireless.android.sdk.stats.GradleBuildDetails.Builder getGradleBuildDetailsBuilder() {
@@ -8775,7 +8886,8 @@ public  final class AndroidStudioEvent extends
      * <code>optional .android_studio.GradleBuildDetails gradle_build_details = 20;</code>
      *
      * <pre>
-     * set when kind = GRADLE_BUILD_DETAILS
+     * set when kind = GRADLE_BUILD_DETAILS or INSTANT_RUN
+     * In the case of INSTANT_RUN, only the plugin version information is included
      * </pre>
      */
     public com.google.wireless.android.sdk.stats.GradleBuildDetailsOrBuilder getGradleBuildDetailsOrBuilder() {
@@ -8789,7 +8901,8 @@ public  final class AndroidStudioEvent extends
      * <code>optional .android_studio.GradleBuildDetails gradle_build_details = 20;</code>
      *
      * <pre>
-     * set when kind = GRADLE_BUILD_DETAILS
+     * set when kind = GRADLE_BUILD_DETAILS or INSTANT_RUN
+     * In the case of INSTANT_RUN, only the plugin version information is included
      * </pre>
      */
     private com.google.protobuf.SingleFieldBuilder<
@@ -12436,6 +12549,159 @@ public  final class AndroidStudioEvent extends
         emulatorPerformanceStats_ = null;
       }
       return emulatorPerformanceStatsBuilder_;
+    }
+
+    // optional .android_studio.AdbAssistantStats adb_assistant_stats = 45;
+    private com.google.wireless.android.sdk.stats.AdbAssistantStats adbAssistantStats_ = com.google.wireless.android.sdk.stats.AdbAssistantStats.getDefaultInstance();
+    private com.google.protobuf.SingleFieldBuilder<
+        com.google.wireless.android.sdk.stats.AdbAssistantStats, com.google.wireless.android.sdk.stats.AdbAssistantStats.Builder, com.google.wireless.android.sdk.stats.AdbAssistantStatsOrBuilder> adbAssistantStatsBuilder_;
+    /**
+     * <code>optional .android_studio.AdbAssistantStats adb_assistant_stats = 45;</code>
+     *
+     * <pre>
+     * set when kind = ADB_ASSISTANT_STATS
+     * </pre>
+     */
+    public boolean hasAdbAssistantStats() {
+      return ((bitField1_ & 0x00001000) == 0x00001000);
+    }
+    /**
+     * <code>optional .android_studio.AdbAssistantStats adb_assistant_stats = 45;</code>
+     *
+     * <pre>
+     * set when kind = ADB_ASSISTANT_STATS
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.AdbAssistantStats getAdbAssistantStats() {
+      if (adbAssistantStatsBuilder_ == null) {
+        return adbAssistantStats_;
+      } else {
+        return adbAssistantStatsBuilder_.getMessage();
+      }
+    }
+    /**
+     * <code>optional .android_studio.AdbAssistantStats adb_assistant_stats = 45;</code>
+     *
+     * <pre>
+     * set when kind = ADB_ASSISTANT_STATS
+     * </pre>
+     */
+    public Builder setAdbAssistantStats(com.google.wireless.android.sdk.stats.AdbAssistantStats value) {
+      if (adbAssistantStatsBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        adbAssistantStats_ = value;
+        onChanged();
+      } else {
+        adbAssistantStatsBuilder_.setMessage(value);
+      }
+      bitField1_ |= 0x00001000;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.AdbAssistantStats adb_assistant_stats = 45;</code>
+     *
+     * <pre>
+     * set when kind = ADB_ASSISTANT_STATS
+     * </pre>
+     */
+    public Builder setAdbAssistantStats(
+        com.google.wireless.android.sdk.stats.AdbAssistantStats.Builder builderForValue) {
+      if (adbAssistantStatsBuilder_ == null) {
+        adbAssistantStats_ = builderForValue.build();
+        onChanged();
+      } else {
+        adbAssistantStatsBuilder_.setMessage(builderForValue.build());
+      }
+      bitField1_ |= 0x00001000;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.AdbAssistantStats adb_assistant_stats = 45;</code>
+     *
+     * <pre>
+     * set when kind = ADB_ASSISTANT_STATS
+     * </pre>
+     */
+    public Builder mergeAdbAssistantStats(com.google.wireless.android.sdk.stats.AdbAssistantStats value) {
+      if (adbAssistantStatsBuilder_ == null) {
+        if (((bitField1_ & 0x00001000) == 0x00001000) &&
+            adbAssistantStats_ != com.google.wireless.android.sdk.stats.AdbAssistantStats.getDefaultInstance()) {
+          adbAssistantStats_ =
+            com.google.wireless.android.sdk.stats.AdbAssistantStats.newBuilder(adbAssistantStats_).mergeFrom(value).buildPartial();
+        } else {
+          adbAssistantStats_ = value;
+        }
+        onChanged();
+      } else {
+        adbAssistantStatsBuilder_.mergeFrom(value);
+      }
+      bitField1_ |= 0x00001000;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.AdbAssistantStats adb_assistant_stats = 45;</code>
+     *
+     * <pre>
+     * set when kind = ADB_ASSISTANT_STATS
+     * </pre>
+     */
+    public Builder clearAdbAssistantStats() {
+      if (adbAssistantStatsBuilder_ == null) {
+        adbAssistantStats_ = com.google.wireless.android.sdk.stats.AdbAssistantStats.getDefaultInstance();
+        onChanged();
+      } else {
+        adbAssistantStatsBuilder_.clear();
+      }
+      bitField1_ = (bitField1_ & ~0x00001000);
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.AdbAssistantStats adb_assistant_stats = 45;</code>
+     *
+     * <pre>
+     * set when kind = ADB_ASSISTANT_STATS
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.AdbAssistantStats.Builder getAdbAssistantStatsBuilder() {
+      bitField1_ |= 0x00001000;
+      onChanged();
+      return getAdbAssistantStatsFieldBuilder().getBuilder();
+    }
+    /**
+     * <code>optional .android_studio.AdbAssistantStats adb_assistant_stats = 45;</code>
+     *
+     * <pre>
+     * set when kind = ADB_ASSISTANT_STATS
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.AdbAssistantStatsOrBuilder getAdbAssistantStatsOrBuilder() {
+      if (adbAssistantStatsBuilder_ != null) {
+        return adbAssistantStatsBuilder_.getMessageOrBuilder();
+      } else {
+        return adbAssistantStats_;
+      }
+    }
+    /**
+     * <code>optional .android_studio.AdbAssistantStats adb_assistant_stats = 45;</code>
+     *
+     * <pre>
+     * set when kind = ADB_ASSISTANT_STATS
+     * </pre>
+     */
+    private com.google.protobuf.SingleFieldBuilder<
+        com.google.wireless.android.sdk.stats.AdbAssistantStats, com.google.wireless.android.sdk.stats.AdbAssistantStats.Builder, com.google.wireless.android.sdk.stats.AdbAssistantStatsOrBuilder> 
+        getAdbAssistantStatsFieldBuilder() {
+      if (adbAssistantStatsBuilder_ == null) {
+        adbAssistantStatsBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+            com.google.wireless.android.sdk.stats.AdbAssistantStats, com.google.wireless.android.sdk.stats.AdbAssistantStats.Builder, com.google.wireless.android.sdk.stats.AdbAssistantStatsOrBuilder>(
+                adbAssistantStats_,
+                getParentForChildren(),
+                isClean());
+        adbAssistantStats_ = null;
+      }
+      return adbAssistantStatsBuilder_;
     }
 
     // @@protoc_insertion_point(builder_scope:android_studio.AndroidStudioEvent)
