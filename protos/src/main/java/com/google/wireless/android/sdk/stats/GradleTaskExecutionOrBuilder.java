@@ -6,25 +6,29 @@ package com.google.wireless.android.sdk.stats;
 public interface GradleTaskExecutionOrBuilder
     extends com.google.protobuf.MessageOrBuilder {
 
-  // optional .android_studio.GradleTaskExecution.Type type = 1;
+  // optional int32 type = 1;
   /**
-   * <code>optional .android_studio.GradleTaskExecution.Type type = 1;</code>
+   * <code>optional int32 type = 1;</code>
    *
    * <pre>
    * The task implementing class.
    * Custom tasks are recorded as UNKNOWN_TASK_TYPE.
+   * This is an enum in android git:
+   * tools/base/build-system/gradle-core/src/main/proto/analytics_enums.proto
    * </pre>
    */
   boolean hasType();
   /**
-   * <code>optional .android_studio.GradleTaskExecution.Type type = 1;</code>
+   * <code>optional int32 type = 1;</code>
    *
    * <pre>
    * The task implementing class.
    * Custom tasks are recorded as UNKNOWN_TASK_TYPE.
+   * This is an enum in android git:
+   * tools/base/build-system/gradle-core/src/main/proto/analytics_enums.proto
    * </pre>
    */
-  com.google.wireless.android.sdk.stats.GradleTaskExecution.Type getType();
+  int getType();
 
   // optional bool did_work = 2;
   /**
