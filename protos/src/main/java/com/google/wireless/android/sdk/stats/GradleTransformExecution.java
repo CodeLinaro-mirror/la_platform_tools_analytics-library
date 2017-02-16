@@ -55,14 +55,8 @@ public  final class GradleTransformExecution extends
             break;
           }
           case 8: {
-            int rawValue = input.readEnum();
-            com.google.wireless.android.sdk.stats.GradleTransformExecution.Type value = com.google.wireless.android.sdk.stats.GradleTransformExecution.Type.valueOf(rawValue);
-            if (value == null) {
-              unknownFields.mergeVarintField(1, rawValue);
-            } else {
-              bitField0_ |= 0x00000001;
-              type_ = value;
-            }
+            bitField0_ |= 0x00000001;
+            type_ = input.readInt32();
             break;
           }
           case 16: {
@@ -109,359 +103,34 @@ public  final class GradleTransformExecution extends
     return PARSER;
   }
 
-  /**
-   * Protobuf enum {@code android_studio.GradleTransformExecution.Type}
-   *
-   * <pre>
-   * The transform class.
-   * </pre>
-   */
-  public enum Type
-      implements com.google.protobuf.ProtocolMessageEnum {
-    /**
-     * <code>UNKNOWN_TRANSFORM_TYPE = 0;</code>
-     */
-    UNKNOWN_TRANSFORM_TYPE(0, 0),
-    /**
-     * <code>DEX = 1;</code>
-     */
-    DEX(1, 1),
-    /**
-     * <code>EXTRACT_JARS = 2;</code>
-     */
-    EXTRACT_JARS(2, 2),
-    /**
-     * <code>INSTANT_RUN_DEX = 3;</code>
-     */
-    INSTANT_RUN_DEX(3, 3),
-    /**
-     * <code>INSTANT_RUN_SLICER = 4;</code>
-     */
-    INSTANT_RUN_SLICER(4, 4),
-    /**
-     * <code>INSTANT_RUN = 5;</code>
-     */
-    INSTANT_RUN(5, 5),
-    /**
-     * <code>INSTANT_RUN_VERIFER = 6;</code>
-     */
-    INSTANT_RUN_VERIFER(6, 6),
-    /**
-     * <code>JACK_PRE_DEX = 7;</code>
-     */
-    JACK_PRE_DEX(7, 7),
-    /**
-     * <code>JACK = 8;</code>
-     */
-    JACK(8, 8),
-    /**
-     * <code>JACOCO = 9;</code>
-     */
-    JACOCO(9, 9),
-    /**
-     * <code>JAR_MERGING = 10;</code>
-     */
-    JAR_MERGING(10, 10),
-    /**
-     * <code>LIBRARY_JAR = 11;</code>
-     */
-    LIBRARY_JAR(11, 11),
-    /**
-     * <code>LIBRARY_JNI_LIBS = 12;</code>
-     */
-    LIBRARY_JNI_LIBS(12, 12),
-    /**
-     * <code>MERGE_JAVA_RESOURCES = 13;</code>
-     */
-    MERGE_JAVA_RESOURCES(13, 13),
-    /**
-     * <code>MULTI_DEX = 14;</code>
-     */
-    MULTI_DEX(14, 14),
-    /**
-     * <code>NEW_SHRINKER = 15;</code>
-     */
-    NEW_SHRINKER(15, 15),
-    /**
-     * <code>NO_CHANGES_VERIFIER = 16;</code>
-     */
-    NO_CHANGES_VERIFIER(16, 16),
-    /**
-     * <code>PRO_GUARD = 17;</code>
-     */
-    PRO_GUARD(17, 17),
-    /**
-     * <code>SHRINK_RESOURCES = 18;</code>
-     */
-    SHRINK_RESOURCES(18, 18),
-    /**
-     * <code>DATA_BINDING_MERGE_ARTIFACTS = 19;</code>
-     */
-    DATA_BINDING_MERGE_ARTIFACTS(19, 19),
-    /**
-     * <code>INSTANT_RUN_VERIFIER = 20;</code>
-     */
-    INSTANT_RUN_VERIFIER(20, 20),
-    /**
-     * <code>STRIP_DEBUG_SYMBOL = 21;</code>
-     */
-    STRIP_DEBUG_SYMBOL(21, 21),
-    /**
-     * <code>LIBRARY_API = 22;</code>
-     */
-    LIBRARY_API(22, 22),
-    /**
-     * <code>INSTANT_RUN_DEPENDENCIES_APK_BUILDER = 23;</code>
-     */
-    INSTANT_RUN_DEPENDENCIES_APK_BUILDER(23, 23),
-    /**
-     * <code>INSTANT_RUN_SLICE_SPLIT_APK_BUILDER = 24;</code>
-     */
-    INSTANT_RUN_SLICE_SPLIT_APK_BUILDER(24, 24),
-    /**
-     * <code>PRE_DEX = 25;</code>
-     */
-    PRE_DEX(25, 25),
-    /**
-     * <code>JACK_COMPILE = 26;</code>
-     */
-    JACK_COMPILE(26, 26),
-    /**
-     * <code>JACK_GENERATE_DEX = 27;</code>
-     */
-    JACK_GENERATE_DEX(27, 27),
-    /**
-     * <code>CUSTOM_CLASS = 28;</code>
-     */
-    CUSTOM_CLASS(28, 28),
-    ;
-
-    /**
-     * <code>UNKNOWN_TRANSFORM_TYPE = 0;</code>
-     */
-    public static final int UNKNOWN_TRANSFORM_TYPE_VALUE = 0;
-    /**
-     * <code>DEX = 1;</code>
-     */
-    public static final int DEX_VALUE = 1;
-    /**
-     * <code>EXTRACT_JARS = 2;</code>
-     */
-    public static final int EXTRACT_JARS_VALUE = 2;
-    /**
-     * <code>INSTANT_RUN_DEX = 3;</code>
-     */
-    public static final int INSTANT_RUN_DEX_VALUE = 3;
-    /**
-     * <code>INSTANT_RUN_SLICER = 4;</code>
-     */
-    public static final int INSTANT_RUN_SLICER_VALUE = 4;
-    /**
-     * <code>INSTANT_RUN = 5;</code>
-     */
-    public static final int INSTANT_RUN_VALUE = 5;
-    /**
-     * <code>INSTANT_RUN_VERIFER = 6;</code>
-     */
-    public static final int INSTANT_RUN_VERIFER_VALUE = 6;
-    /**
-     * <code>JACK_PRE_DEX = 7;</code>
-     */
-    public static final int JACK_PRE_DEX_VALUE = 7;
-    /**
-     * <code>JACK = 8;</code>
-     */
-    public static final int JACK_VALUE = 8;
-    /**
-     * <code>JACOCO = 9;</code>
-     */
-    public static final int JACOCO_VALUE = 9;
-    /**
-     * <code>JAR_MERGING = 10;</code>
-     */
-    public static final int JAR_MERGING_VALUE = 10;
-    /**
-     * <code>LIBRARY_JAR = 11;</code>
-     */
-    public static final int LIBRARY_JAR_VALUE = 11;
-    /**
-     * <code>LIBRARY_JNI_LIBS = 12;</code>
-     */
-    public static final int LIBRARY_JNI_LIBS_VALUE = 12;
-    /**
-     * <code>MERGE_JAVA_RESOURCES = 13;</code>
-     */
-    public static final int MERGE_JAVA_RESOURCES_VALUE = 13;
-    /**
-     * <code>MULTI_DEX = 14;</code>
-     */
-    public static final int MULTI_DEX_VALUE = 14;
-    /**
-     * <code>NEW_SHRINKER = 15;</code>
-     */
-    public static final int NEW_SHRINKER_VALUE = 15;
-    /**
-     * <code>NO_CHANGES_VERIFIER = 16;</code>
-     */
-    public static final int NO_CHANGES_VERIFIER_VALUE = 16;
-    /**
-     * <code>PRO_GUARD = 17;</code>
-     */
-    public static final int PRO_GUARD_VALUE = 17;
-    /**
-     * <code>SHRINK_RESOURCES = 18;</code>
-     */
-    public static final int SHRINK_RESOURCES_VALUE = 18;
-    /**
-     * <code>DATA_BINDING_MERGE_ARTIFACTS = 19;</code>
-     */
-    public static final int DATA_BINDING_MERGE_ARTIFACTS_VALUE = 19;
-    /**
-     * <code>INSTANT_RUN_VERIFIER = 20;</code>
-     */
-    public static final int INSTANT_RUN_VERIFIER_VALUE = 20;
-    /**
-     * <code>STRIP_DEBUG_SYMBOL = 21;</code>
-     */
-    public static final int STRIP_DEBUG_SYMBOL_VALUE = 21;
-    /**
-     * <code>LIBRARY_API = 22;</code>
-     */
-    public static final int LIBRARY_API_VALUE = 22;
-    /**
-     * <code>INSTANT_RUN_DEPENDENCIES_APK_BUILDER = 23;</code>
-     */
-    public static final int INSTANT_RUN_DEPENDENCIES_APK_BUILDER_VALUE = 23;
-    /**
-     * <code>INSTANT_RUN_SLICE_SPLIT_APK_BUILDER = 24;</code>
-     */
-    public static final int INSTANT_RUN_SLICE_SPLIT_APK_BUILDER_VALUE = 24;
-    /**
-     * <code>PRE_DEX = 25;</code>
-     */
-    public static final int PRE_DEX_VALUE = 25;
-    /**
-     * <code>JACK_COMPILE = 26;</code>
-     */
-    public static final int JACK_COMPILE_VALUE = 26;
-    /**
-     * <code>JACK_GENERATE_DEX = 27;</code>
-     */
-    public static final int JACK_GENERATE_DEX_VALUE = 27;
-    /**
-     * <code>CUSTOM_CLASS = 28;</code>
-     */
-    public static final int CUSTOM_CLASS_VALUE = 28;
-
-
-    public final int getNumber() { return value; }
-
-    public static Type valueOf(int value) {
-      switch (value) {
-        case 0: return UNKNOWN_TRANSFORM_TYPE;
-        case 1: return DEX;
-        case 2: return EXTRACT_JARS;
-        case 3: return INSTANT_RUN_DEX;
-        case 4: return INSTANT_RUN_SLICER;
-        case 5: return INSTANT_RUN;
-        case 6: return INSTANT_RUN_VERIFER;
-        case 7: return JACK_PRE_DEX;
-        case 8: return JACK;
-        case 9: return JACOCO;
-        case 10: return JAR_MERGING;
-        case 11: return LIBRARY_JAR;
-        case 12: return LIBRARY_JNI_LIBS;
-        case 13: return MERGE_JAVA_RESOURCES;
-        case 14: return MULTI_DEX;
-        case 15: return NEW_SHRINKER;
-        case 16: return NO_CHANGES_VERIFIER;
-        case 17: return PRO_GUARD;
-        case 18: return SHRINK_RESOURCES;
-        case 19: return DATA_BINDING_MERGE_ARTIFACTS;
-        case 20: return INSTANT_RUN_VERIFIER;
-        case 21: return STRIP_DEBUG_SYMBOL;
-        case 22: return LIBRARY_API;
-        case 23: return INSTANT_RUN_DEPENDENCIES_APK_BUILDER;
-        case 24: return INSTANT_RUN_SLICE_SPLIT_APK_BUILDER;
-        case 25: return PRE_DEX;
-        case 26: return JACK_COMPILE;
-        case 27: return JACK_GENERATE_DEX;
-        case 28: return CUSTOM_CLASS;
-        default: return null;
-      }
-    }
-
-    public static com.google.protobuf.Internal.EnumLiteMap<Type>
-        internalGetValueMap() {
-      return internalValueMap;
-    }
-    private static com.google.protobuf.Internal.EnumLiteMap<Type>
-        internalValueMap =
-          new com.google.protobuf.Internal.EnumLiteMap<Type>() {
-            public Type findValueByNumber(int number) {
-              return Type.valueOf(number);
-            }
-          };
-
-    public final com.google.protobuf.Descriptors.EnumValueDescriptor
-        getValueDescriptor() {
-      return getDescriptor().getValues().get(index);
-    }
-    public final com.google.protobuf.Descriptors.EnumDescriptor
-        getDescriptorForType() {
-      return getDescriptor();
-    }
-    public static final com.google.protobuf.Descriptors.EnumDescriptor
-        getDescriptor() {
-      return com.google.wireless.android.sdk.stats.GradleTransformExecution.getDescriptor().getEnumTypes().get(0);
-    }
-
-    private static final Type[] VALUES = values();
-
-    public static Type valueOf(
-        com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
-      if (desc.getType() != getDescriptor()) {
-        throw new java.lang.IllegalArgumentException(
-          "EnumValueDescriptor is not for this type.");
-      }
-      return VALUES[desc.getIndex()];
-    }
-
-    private final int index;
-    private final int value;
-
-    private Type(int index, int value) {
-      this.index = index;
-      this.value = value;
-    }
-
-    // @@protoc_insertion_point(enum_scope:android_studio.GradleTransformExecution.Type)
-  }
-
   private int bitField0_;
-  // optional .android_studio.GradleTransformExecution.Type type = 1;
+  // optional int32 type = 1;
   public static final int TYPE_FIELD_NUMBER = 1;
-  private com.google.wireless.android.sdk.stats.GradleTransformExecution.Type type_;
+  private int type_;
   /**
-   * <code>optional .android_studio.GradleTransformExecution.Type type = 1;</code>
+   * <code>optional int32 type = 1;</code>
    *
    * <pre>
    * The transform implementing class.
    * Custom transforms are recorded as UNKNOWN_TRANSFORM_TYPE.
+   * This is an enum in android git:
+   * tools/base/build-system/gradle-core/src/main/proto/analytics_enums.proto
    * </pre>
    */
   public boolean hasType() {
     return ((bitField0_ & 0x00000001) == 0x00000001);
   }
   /**
-   * <code>optional .android_studio.GradleTransformExecution.Type type = 1;</code>
+   * <code>optional int32 type = 1;</code>
    *
    * <pre>
    * The transform implementing class.
    * Custom transforms are recorded as UNKNOWN_TRANSFORM_TYPE.
+   * This is an enum in android git:
+   * tools/base/build-system/gradle-core/src/main/proto/analytics_enums.proto
    * </pre>
    */
-  public com.google.wireless.android.sdk.stats.GradleTransformExecution.Type getType() {
+  public int getType() {
     return type_;
   }
 
@@ -492,7 +161,7 @@ public  final class GradleTransformExecution extends
   }
 
   private void initFields() {
-    type_ = com.google.wireless.android.sdk.stats.GradleTransformExecution.Type.UNKNOWN_TRANSFORM_TYPE;
+    type_ = 0;
     isIncremental_ = false;
   }
   private byte memoizedIsInitialized = -1;
@@ -508,7 +177,7 @@ public  final class GradleTransformExecution extends
                       throws java.io.IOException {
     getSerializedSize();
     if (((bitField0_ & 0x00000001) == 0x00000001)) {
-      output.writeEnum(1, type_.getNumber());
+      output.writeInt32(1, type_);
     }
     if (((bitField0_ & 0x00000002) == 0x00000002)) {
       output.writeBool(2, isIncremental_);
@@ -524,7 +193,7 @@ public  final class GradleTransformExecution extends
     size = 0;
     if (((bitField0_ & 0x00000001) == 0x00000001)) {
       size += com.google.protobuf.CodedOutputStream
-        .computeEnumSize(1, type_.getNumber());
+        .computeInt32Size(1, type_);
     }
     if (((bitField0_ & 0x00000002) == 0x00000002)) {
       size += com.google.protobuf.CodedOutputStream
@@ -646,7 +315,7 @@ public  final class GradleTransformExecution extends
 
     public Builder clear() {
       super.clear();
-      type_ = com.google.wireless.android.sdk.stats.GradleTransformExecution.Type.UNKNOWN_TRANSFORM_TYPE;
+      type_ = 0;
       bitField0_ = (bitField0_ & ~0x00000001);
       isIncremental_ = false;
       bitField0_ = (bitField0_ & ~0x00000002);
@@ -735,58 +404,63 @@ public  final class GradleTransformExecution extends
     }
     private int bitField0_;
 
-    // optional .android_studio.GradleTransformExecution.Type type = 1;
-    private com.google.wireless.android.sdk.stats.GradleTransformExecution.Type type_ = com.google.wireless.android.sdk.stats.GradleTransformExecution.Type.UNKNOWN_TRANSFORM_TYPE;
+    // optional int32 type = 1;
+    private int type_ ;
     /**
-     * <code>optional .android_studio.GradleTransformExecution.Type type = 1;</code>
+     * <code>optional int32 type = 1;</code>
      *
      * <pre>
      * The transform implementing class.
      * Custom transforms are recorded as UNKNOWN_TRANSFORM_TYPE.
+     * This is an enum in android git:
+     * tools/base/build-system/gradle-core/src/main/proto/analytics_enums.proto
      * </pre>
      */
     public boolean hasType() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
-     * <code>optional .android_studio.GradleTransformExecution.Type type = 1;</code>
+     * <code>optional int32 type = 1;</code>
      *
      * <pre>
      * The transform implementing class.
      * Custom transforms are recorded as UNKNOWN_TRANSFORM_TYPE.
+     * This is an enum in android git:
+     * tools/base/build-system/gradle-core/src/main/proto/analytics_enums.proto
      * </pre>
      */
-    public com.google.wireless.android.sdk.stats.GradleTransformExecution.Type getType() {
+    public int getType() {
       return type_;
     }
     /**
-     * <code>optional .android_studio.GradleTransformExecution.Type type = 1;</code>
+     * <code>optional int32 type = 1;</code>
      *
      * <pre>
      * The transform implementing class.
      * Custom transforms are recorded as UNKNOWN_TRANSFORM_TYPE.
+     * This is an enum in android git:
+     * tools/base/build-system/gradle-core/src/main/proto/analytics_enums.proto
      * </pre>
      */
-    public Builder setType(com.google.wireless.android.sdk.stats.GradleTransformExecution.Type value) {
-      if (value == null) {
-        throw new NullPointerException();
-      }
+    public Builder setType(int value) {
       bitField0_ |= 0x00000001;
       type_ = value;
       onChanged();
       return this;
     }
     /**
-     * <code>optional .android_studio.GradleTransformExecution.Type type = 1;</code>
+     * <code>optional int32 type = 1;</code>
      *
      * <pre>
      * The transform implementing class.
      * Custom transforms are recorded as UNKNOWN_TRANSFORM_TYPE.
+     * This is an enum in android git:
+     * tools/base/build-system/gradle-core/src/main/proto/analytics_enums.proto
      * </pre>
      */
     public Builder clearType() {
       bitField0_ = (bitField0_ & ~0x00000001);
-      type_ = com.google.wireless.android.sdk.stats.GradleTransformExecution.Type.UNKNOWN_TRANSFORM_TYPE;
+      type_ = 0;
       onChanged();
       return this;
     }
