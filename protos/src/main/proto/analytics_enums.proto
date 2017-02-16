@@ -32,6 +32,9 @@ enum GradleTransformExecutionType {
     JACK_COMPILE = 26;
     JACK_GENERATE_DEX = 27;
     CUSTOM_CLASS = 28;
+    DEX_ARCHIVE_BUILDER = 29;
+    DEX_MERGER = 30;
+    MAIN_DEX_LIST = 31;
 }
 
 enum GradleTaskExecutionType {
