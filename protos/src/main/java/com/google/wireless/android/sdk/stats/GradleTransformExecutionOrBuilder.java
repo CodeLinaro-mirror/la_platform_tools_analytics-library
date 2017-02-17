@@ -6,25 +6,29 @@ package com.google.wireless.android.sdk.stats;
 public interface GradleTransformExecutionOrBuilder
     extends com.google.protobuf.MessageOrBuilder {
 
-  // optional .android_studio.GradleTransformExecution.Type type = 1;
+  // optional int32 type = 1;
   /**
-   * <code>optional .android_studio.GradleTransformExecution.Type type = 1;</code>
+   * <code>optional int32 type = 1;</code>
    *
    * <pre>
    * The transform implementing class.
    * Custom transforms are recorded as UNKNOWN_TRANSFORM_TYPE.
+   * This is an enum in android git:
+   * tools/base/build-system/gradle-core/src/main/proto/analytics_enums.proto
    * </pre>
    */
   boolean hasType();
   /**
-   * <code>optional .android_studio.GradleTransformExecution.Type type = 1;</code>
+   * <code>optional int32 type = 1;</code>
    *
    * <pre>
    * The transform implementing class.
    * Custom transforms are recorded as UNKNOWN_TRANSFORM_TYPE.
+   * This is an enum in android git:
+   * tools/base/build-system/gradle-core/src/main/proto/analytics_enums.proto
    * </pre>
    */
-  com.google.wireless.android.sdk.stats.GradleTransformExecution.Type getType();
+  int getType();
 
   // optional bool is_incremental = 2;
   /**

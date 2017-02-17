@@ -55,14 +55,8 @@ public  final class GradleTaskExecution extends
             break;
           }
           case 8: {
-            int rawValue = input.readEnum();
-            com.google.wireless.android.sdk.stats.GradleTaskExecution.Type value = com.google.wireless.android.sdk.stats.GradleTaskExecution.Type.valueOf(rawValue);
-            if (value == null) {
-              unknownFields.mergeVarintField(1, rawValue);
-            } else {
-              bitField0_ |= 0x00000001;
-              type_ = value;
-            }
+            bitField0_ |= 0x00000001;
+            type_ = input.readInt32();
             break;
           }
           case 16: {
@@ -124,904 +118,34 @@ public  final class GradleTaskExecution extends
     return PARSER;
   }
 
-  /**
-   * Protobuf enum {@code android_studio.GradleTaskExecution.Type}
-   */
-  public enum Type
-      implements com.google.protobuf.ProtocolMessageEnum {
-    /**
-     * <code>UNKNOWN_TASK_TYPE = 0;</code>
-     */
-    UNKNOWN_TASK_TYPE(0, 0),
-    /**
-     * <code>AIDL_COMPILE = 1;</code>
-     */
-    AIDL_COMPILE(1, 1),
-    /**
-     * <code>ANDROID_JAR = 2;</code>
-     */
-    ANDROID_JAR(2, 2),
-    /**
-     * <code>ANDROID_JAVA_COMPILE = 3;</code>
-     */
-    ANDROID_JAVA_COMPILE(3, 3),
-    /**
-     * <code>ANDROID_REPORT = 4;</code>
-     */
-    ANDROID_REPORT(4, 4),
-    /**
-     * <code>ANDROID_UNIT_TEST = 5;</code>
-     */
-    ANDROID_UNIT_TEST(5, 5),
-    /**
-     * <code>BUILD_EMULATOR = 6;</code>
-     */
-    BUILD_EMULATOR(6, 6),
-    /**
-     * <code>BUILD_INFO_LOADER = 7;</code>
-     */
-    BUILD_INFO_LOADER(7, 7),
-    /**
-     * <code>CHECK_MANIFEST = 8;</code>
-     */
-    CHECK_MANIFEST(8, 8),
-    /**
-     * <code>COMPATIBLE_SCREENS_MANIFEST = 9;</code>
-     */
-    COMPATIBLE_SCREENS_MANIFEST(9, 9),
-    /**
-     * <code>CREATE_MANIFEST_KEEP_LIST = 10;</code>
-     */
-    CREATE_MANIFEST_KEEP_LIST(10, 10),
-    /**
-     * <code>DATA_BINDING_EXPORT_BUILD_INFO = 11;</code>
-     */
-    DATA_BINDING_EXPORT_BUILD_INFO(11, 11),
-    /**
-     * <code>DATA_BINDING_PROCESS_LAYOUTS = 12;</code>
-     */
-    DATA_BINDING_PROCESS_LAYOUTS(12, 12),
-    /**
-     * <code>DEPENDENCY_REPORT = 13;</code>
-     */
-    DEPENDENCY_REPORT(13, 13),
-    /**
-     * <code>DEVICE_PROVIDER_INSTRUMENT_TEST = 14;</code>
-     */
-    DEVICE_PROVIDER_INSTRUMENT_TEST(14, 14),
-    /**
-     * <code>EXTERNAL_BUILD_ANCHOR = 15;</code>
-     */
-    EXTERNAL_BUILD_ANCHOR(15, 15),
-    /**
-     * <code>EXTERNAL_NATIVE_BUILD_JSON = 16;</code>
-     */
-    EXTERNAL_NATIVE_BUILD_JSON(16, 16),
-    /**
-     * <code>EXTERNAL_NATIVE_BUILD = 17;</code>
-     */
-    EXTERNAL_NATIVE_BUILD(17, 17),
-    /**
-     * <code>EXTRACT_ANNOTATIONS = 18;</code>
-     */
-    EXTRACT_ANNOTATIONS(18, 18),
-    /**
-     * <code>EXTRACT_JAVA_RESOURCES = 19;</code>
-     */
-    EXTRACT_JAVA_RESOURCES(19, 19),
-    /**
-     * <code>EXTRACT_PROGUARD_FILES = 20;</code>
-     */
-    EXTRACT_PROGUARD_FILES(20, 20),
-    /**
-     * <code>FAST_DEPLOY_RUNTIME_EXTRACTOR = 21;</code>
-     */
-    FAST_DEPLOY_RUNTIME_EXTRACTOR(21, 21),
-    /**
-     * <code>FILTERED_JAR_COPY = 22;</code>
-     */
-    FILTERED_JAR_COPY(22, 22),
-    /**
-     * <code>GENERATE_APK_DATA = 23;</code>
-     */
-    GENERATE_APK_DATA(23, 23),
-    /**
-     * <code>GENERATE_BUILD_CONFIG = 24;</code>
-     */
-    GENERATE_BUILD_CONFIG(24, 24),
-    /**
-     * <code>GENERATE_INSTANT_RUN_APP_INFO = 25;</code>
-     */
-    GENERATE_INSTANT_RUN_APP_INFO(25, 25),
-    /**
-     * <code>GENERATE_RES_VALUES = 26;</code>
-     */
-    GENERATE_RES_VALUES(26, 26),
-    /**
-     * <code>GENERATE_SPLIT_ABI_RES = 27;</code>
-     */
-    GENERATE_SPLIT_ABI_RES(27, 27),
-    /**
-     * <code>GOOGLE_SERVICES = 28;</code>
-     */
-    GOOGLE_SERVICES(28, 28),
-    /**
-     * <code>INCREMENTAL_SAFEGUARD = 29;</code>
-     */
-    INCREMENTAL_SAFEGUARD(29, 29),
-    /**
-     * <code>INSTALL_VARIANT = 30;</code>
-     */
-    INSTALL_VARIANT(30, 30),
-    /**
-     * <code>INSTANT_RUN_SPLIT_APK_BUILDER = 31;</code>
-     */
-    INSTANT_RUN_SPLIT_APK_BUILDER(31, 31),
-    /**
-     * <code>INSTANT_RUN_WRAPPER = 32;</code>
-     */
-    INSTANT_RUN_WRAPPER(32, 32),
-    /**
-     * <code>INVOKE_MANIFEST_MERGER = 33;</code>
-     */
-    INVOKE_MANIFEST_MERGER(33, 33),
-    /**
-     * <code>JACK_JACOCO_REPORT = 34;</code>
-     */
-    JACK_JACOCO_REPORT(34, 34),
-    /**
-     * <code>JACOCO_REPORT = 35;</code>
-     */
-    JACOCO_REPORT(35, 35),
-    /**
-     * <code>LINT = 36;</code>
-     */
-    LINT(36, 36),
-    /**
-     * <code>LINT_COMPILE = 37;</code>
-     */
-    LINT_COMPILE(37, 37),
-    /**
-     * <code>MERGE_FILE = 38;</code>
-     */
-    MERGE_FILE(38, 38),
-    /**
-     * <code>MERGE_MANIFESTS = 39;</code>
-     */
-    MERGE_MANIFESTS(39, 39),
-    /**
-     * <code>MERGE_RESOURCES = 40;</code>
-     */
-    MERGE_RESOURCES(40, 40),
-    /**
-     * <code>MERGE_SOURCE_SET_FOLDERS = 41;</code>
-     */
-    MERGE_SOURCE_SET_FOLDERS(41, 41),
-    /**
-     * <code>MOCKABLE_ANDROID_JAR = 42;</code>
-     */
-    MOCKABLE_ANDROID_JAR(42, 42),
-    /**
-     * <code>NDK_COMPILE = 43;</code>
-     */
-    NDK_COMPILE(43, 43),
-    /**
-     * <code>NDK = 44;</code>
-     */
-    NDK(44, 44),
-    /**
-     * <code>PACKAGE_APPLICATION = 45;</code>
-     */
-    PACKAGE_APPLICATION(45, 45),
-    /**
-     * <code>PACKAGE_SPLIT_ABI = 46;</code>
-     */
-    PACKAGE_SPLIT_ABI(46, 46),
-    /**
-     * <code>PACKAGE_SPLIT_RES = 47;</code>
-     */
-    PACKAGE_SPLIT_RES(47, 47),
-    /**
-     * <code>PRE_COLD_SWAP = 48;</code>
-     */
-    PRE_COLD_SWAP(48, 48),
-    /**
-     * <code>PREPARE_DEPENDENCIES = 49;</code>
-     */
-    PREPARE_DEPENDENCIES(49, 49),
-    /**
-     * <code>PREPARE_LIBRARY = 50;</code>
-     */
-    PREPARE_LIBRARY(50, 50),
-    /**
-     * <code>PROCESS_ANDROID_RESOURCES = 51;</code>
-     */
-    PROCESS_ANDROID_RESOURCES(51, 51),
-    /**
-     * <code>PROCESS_MANIFEST = 52;</code>
-     */
-    PROCESS_MANIFEST(52, 52),
-    /**
-     * <code>PROCESS_TEST_MANIFEST = 53;</code>
-     */
-    PROCESS_TEST_MANIFEST(53, 53),
-    /**
-     * <code>RENDERSCRIPT_COMPILE = 54;</code>
-     */
-    RENDERSCRIPT_COMPILE(54, 54),
-    /**
-     * <code>SHADER_COMPILE = 55;</code>
-     */
-    SHADER_COMPILE(55, 55),
-    /**
-     * <code>SIGNING_REPORT = 56;</code>
-     */
-    SIGNING_REPORT(56, 56),
-    /**
-     * <code>SINGLE_FILE_COPY = 57;</code>
-     */
-    SINGLE_FILE_COPY(57, 57),
-    /**
-     * <code>SOURCE_SETS = 58;</code>
-     */
-    SOURCE_SETS(58, 58),
-    /**
-     * <code>SPLIT_ZIP_ALIGN = 59;</code>
-     */
-    SPLIT_ZIP_ALIGN(59, 59),
-    /**
-     * <code>STREAM_BASED = 60;</code>
-     */
-    STREAM_BASED(60, 60),
-    /**
-     * <code>STRIP_DEBUG_SYMBOL = 61;</code>
-     */
-    STRIP_DEBUG_SYMBOL(61, 61),
-    /**
-     * <code>STRIP_DEPENDENCIES = 62;</code>
-     */
-    STRIP_DEPENDENCIES(62, 62),
-    /**
-     * <code>TEST_MODULE_PRO_GUARD = 63;</code>
-     */
-    TEST_MODULE_PRO_GUARD(63, 63),
-    /**
-     * <code>TEST_SERVER = 64;</code>
-     */
-    TEST_SERVER(64, 64),
-    /**
-     * <code>TRANSFORM = 65;</code>
-     */
-    TRANSFORM(65, 65),
-    /**
-     * <code>UNINSTALL = 66;</code>
-     */
-    UNINSTALL(66, 66),
-    /**
-     * <code>VALIDATE_SIGNING = 67;</code>
-     */
-    VALIDATE_SIGNING(67, 67),
-    /**
-     * <code>ZIP_ALIGN = 68;</code>
-     */
-    ZIP_ALIGN(68, 68),
-    /**
-     * <code>JAVA_COMPILE = 69;</code>
-     */
-    JAVA_COMPILE(69, 69),
-    /**
-     * <code>BUILD_INFO_WRITER = 70;</code>
-     */
-    BUILD_INFO_WRITER(70, 70),
-    /**
-     * <code>BUNDLE_ATOM = 71;</code>
-     */
-    BUNDLE_ATOM(71, 71),
-    /**
-     * <code>CHECK_MANIFEST_IN_INSTANT_RUN_MODE = 72;</code>
-     */
-    CHECK_MANIFEST_IN_INSTANT_RUN_MODE(72, 72),
-    /**
-     * <code>EXTERNAL_NATIVE_CLEAN = 73;</code>
-     */
-    EXTERNAL_NATIVE_CLEAN(73, 73),
-    /**
-     * <code>GENERATE_ATOM_METADATA = 74;</code>
-     */
-    GENERATE_ATOM_METADATA(74, 74),
-    /**
-     * <code>GENERATE_INSTANT_APP_METADATA = 75;</code>
-     */
-    GENERATE_INSTANT_APP_METADATA(75, 75),
-    /**
-     * <code>JAVA_PRE_COMPILE = 76;</code>
-     */
-    JAVA_PRE_COMPILE(76, 76),
-    /**
-     * <code>MERGE_DEX_ATOM_RES_CLASS = 77;</code>
-     */
-    MERGE_DEX_ATOM_RES_CLASS(77, 77),
-    /**
-     * <code>PACKAGE_ATOM = 78;</code>
-     */
-    PACKAGE_ATOM(78, 78),
-    /**
-     * <code>PACKAGE_INSTANT_APP = 79;</code>
-     */
-    PACKAGE_INSTANT_APP(79, 79),
-    /**
-     * <code>PREPARE_ATOM = 80;</code>
-     */
-    PREPARE_ATOM(80, 80),
-    /**
-     * <code>PROCESS_INSTANT_APP_RESOURCES = 81;</code>
-     */
-    PROCESS_INSTANT_APP_RESOURCES(81, 81),
-    /**
-     * <code>CLEAN_BUILD_CACHE = 82;</code>
-     */
-    CLEAN_BUILD_CACHE(82, 82),
-    /**
-     * <code>RESOLVE_DEPENDENCIES = 83;</code>
-     */
-    RESOLVE_DEPENDENCIES(83, 83),
-    /**
-     * <code>JAVA_COMPILE_ATOM_RES_CLASS = 84;</code>
-     */
-    JAVA_COMPILE_ATOM_RES_CLASS(84, 84),
-    /**
-     * <code>PROCESS_ATOMS_RESOURCES = 85;</code>
-     */
-    PROCESS_ATOMS_RESOURCES(85, 85),
-    /**
-     * <code>EXTERNAL_NATIVE_PREPARE = 86;</code>
-     */
-    EXTERNAL_NATIVE_PREPARE(86, 86),
-    /**
-     * <code>SPLITS_DISCOVERY = 87;</code>
-     */
-    SPLITS_DISCOVERY(87, 87),
-    /**
-     * <code>ATOM_CONFIG = 88;</code>
-     */
-    ATOM_CONFIG(88, 88),
-    /**
-     * <code>BUNDLE_INSTANT_APP = 89;</code>
-     */
-    BUNDLE_INSTANT_APP(89, 89),
-    ;
-
-    /**
-     * <code>UNKNOWN_TASK_TYPE = 0;</code>
-     */
-    public static final int UNKNOWN_TASK_TYPE_VALUE = 0;
-    /**
-     * <code>AIDL_COMPILE = 1;</code>
-     */
-    public static final int AIDL_COMPILE_VALUE = 1;
-    /**
-     * <code>ANDROID_JAR = 2;</code>
-     */
-    public static final int ANDROID_JAR_VALUE = 2;
-    /**
-     * <code>ANDROID_JAVA_COMPILE = 3;</code>
-     */
-    public static final int ANDROID_JAVA_COMPILE_VALUE = 3;
-    /**
-     * <code>ANDROID_REPORT = 4;</code>
-     */
-    public static final int ANDROID_REPORT_VALUE = 4;
-    /**
-     * <code>ANDROID_UNIT_TEST = 5;</code>
-     */
-    public static final int ANDROID_UNIT_TEST_VALUE = 5;
-    /**
-     * <code>BUILD_EMULATOR = 6;</code>
-     */
-    public static final int BUILD_EMULATOR_VALUE = 6;
-    /**
-     * <code>BUILD_INFO_LOADER = 7;</code>
-     */
-    public static final int BUILD_INFO_LOADER_VALUE = 7;
-    /**
-     * <code>CHECK_MANIFEST = 8;</code>
-     */
-    public static final int CHECK_MANIFEST_VALUE = 8;
-    /**
-     * <code>COMPATIBLE_SCREENS_MANIFEST = 9;</code>
-     */
-    public static final int COMPATIBLE_SCREENS_MANIFEST_VALUE = 9;
-    /**
-     * <code>CREATE_MANIFEST_KEEP_LIST = 10;</code>
-     */
-    public static final int CREATE_MANIFEST_KEEP_LIST_VALUE = 10;
-    /**
-     * <code>DATA_BINDING_EXPORT_BUILD_INFO = 11;</code>
-     */
-    public static final int DATA_BINDING_EXPORT_BUILD_INFO_VALUE = 11;
-    /**
-     * <code>DATA_BINDING_PROCESS_LAYOUTS = 12;</code>
-     */
-    public static final int DATA_BINDING_PROCESS_LAYOUTS_VALUE = 12;
-    /**
-     * <code>DEPENDENCY_REPORT = 13;</code>
-     */
-    public static final int DEPENDENCY_REPORT_VALUE = 13;
-    /**
-     * <code>DEVICE_PROVIDER_INSTRUMENT_TEST = 14;</code>
-     */
-    public static final int DEVICE_PROVIDER_INSTRUMENT_TEST_VALUE = 14;
-    /**
-     * <code>EXTERNAL_BUILD_ANCHOR = 15;</code>
-     */
-    public static final int EXTERNAL_BUILD_ANCHOR_VALUE = 15;
-    /**
-     * <code>EXTERNAL_NATIVE_BUILD_JSON = 16;</code>
-     */
-    public static final int EXTERNAL_NATIVE_BUILD_JSON_VALUE = 16;
-    /**
-     * <code>EXTERNAL_NATIVE_BUILD = 17;</code>
-     */
-    public static final int EXTERNAL_NATIVE_BUILD_VALUE = 17;
-    /**
-     * <code>EXTRACT_ANNOTATIONS = 18;</code>
-     */
-    public static final int EXTRACT_ANNOTATIONS_VALUE = 18;
-    /**
-     * <code>EXTRACT_JAVA_RESOURCES = 19;</code>
-     */
-    public static final int EXTRACT_JAVA_RESOURCES_VALUE = 19;
-    /**
-     * <code>EXTRACT_PROGUARD_FILES = 20;</code>
-     */
-    public static final int EXTRACT_PROGUARD_FILES_VALUE = 20;
-    /**
-     * <code>FAST_DEPLOY_RUNTIME_EXTRACTOR = 21;</code>
-     */
-    public static final int FAST_DEPLOY_RUNTIME_EXTRACTOR_VALUE = 21;
-    /**
-     * <code>FILTERED_JAR_COPY = 22;</code>
-     */
-    public static final int FILTERED_JAR_COPY_VALUE = 22;
-    /**
-     * <code>GENERATE_APK_DATA = 23;</code>
-     */
-    public static final int GENERATE_APK_DATA_VALUE = 23;
-    /**
-     * <code>GENERATE_BUILD_CONFIG = 24;</code>
-     */
-    public static final int GENERATE_BUILD_CONFIG_VALUE = 24;
-    /**
-     * <code>GENERATE_INSTANT_RUN_APP_INFO = 25;</code>
-     */
-    public static final int GENERATE_INSTANT_RUN_APP_INFO_VALUE = 25;
-    /**
-     * <code>GENERATE_RES_VALUES = 26;</code>
-     */
-    public static final int GENERATE_RES_VALUES_VALUE = 26;
-    /**
-     * <code>GENERATE_SPLIT_ABI_RES = 27;</code>
-     */
-    public static final int GENERATE_SPLIT_ABI_RES_VALUE = 27;
-    /**
-     * <code>GOOGLE_SERVICES = 28;</code>
-     */
-    public static final int GOOGLE_SERVICES_VALUE = 28;
-    /**
-     * <code>INCREMENTAL_SAFEGUARD = 29;</code>
-     */
-    public static final int INCREMENTAL_SAFEGUARD_VALUE = 29;
-    /**
-     * <code>INSTALL_VARIANT = 30;</code>
-     */
-    public static final int INSTALL_VARIANT_VALUE = 30;
-    /**
-     * <code>INSTANT_RUN_SPLIT_APK_BUILDER = 31;</code>
-     */
-    public static final int INSTANT_RUN_SPLIT_APK_BUILDER_VALUE = 31;
-    /**
-     * <code>INSTANT_RUN_WRAPPER = 32;</code>
-     */
-    public static final int INSTANT_RUN_WRAPPER_VALUE = 32;
-    /**
-     * <code>INVOKE_MANIFEST_MERGER = 33;</code>
-     */
-    public static final int INVOKE_MANIFEST_MERGER_VALUE = 33;
-    /**
-     * <code>JACK_JACOCO_REPORT = 34;</code>
-     */
-    public static final int JACK_JACOCO_REPORT_VALUE = 34;
-    /**
-     * <code>JACOCO_REPORT = 35;</code>
-     */
-    public static final int JACOCO_REPORT_VALUE = 35;
-    /**
-     * <code>LINT = 36;</code>
-     */
-    public static final int LINT_VALUE = 36;
-    /**
-     * <code>LINT_COMPILE = 37;</code>
-     */
-    public static final int LINT_COMPILE_VALUE = 37;
-    /**
-     * <code>MERGE_FILE = 38;</code>
-     */
-    public static final int MERGE_FILE_VALUE = 38;
-    /**
-     * <code>MERGE_MANIFESTS = 39;</code>
-     */
-    public static final int MERGE_MANIFESTS_VALUE = 39;
-    /**
-     * <code>MERGE_RESOURCES = 40;</code>
-     */
-    public static final int MERGE_RESOURCES_VALUE = 40;
-    /**
-     * <code>MERGE_SOURCE_SET_FOLDERS = 41;</code>
-     */
-    public static final int MERGE_SOURCE_SET_FOLDERS_VALUE = 41;
-    /**
-     * <code>MOCKABLE_ANDROID_JAR = 42;</code>
-     */
-    public static final int MOCKABLE_ANDROID_JAR_VALUE = 42;
-    /**
-     * <code>NDK_COMPILE = 43;</code>
-     */
-    public static final int NDK_COMPILE_VALUE = 43;
-    /**
-     * <code>NDK = 44;</code>
-     */
-    public static final int NDK_VALUE = 44;
-    /**
-     * <code>PACKAGE_APPLICATION = 45;</code>
-     */
-    public static final int PACKAGE_APPLICATION_VALUE = 45;
-    /**
-     * <code>PACKAGE_SPLIT_ABI = 46;</code>
-     */
-    public static final int PACKAGE_SPLIT_ABI_VALUE = 46;
-    /**
-     * <code>PACKAGE_SPLIT_RES = 47;</code>
-     */
-    public static final int PACKAGE_SPLIT_RES_VALUE = 47;
-    /**
-     * <code>PRE_COLD_SWAP = 48;</code>
-     */
-    public static final int PRE_COLD_SWAP_VALUE = 48;
-    /**
-     * <code>PREPARE_DEPENDENCIES = 49;</code>
-     */
-    public static final int PREPARE_DEPENDENCIES_VALUE = 49;
-    /**
-     * <code>PREPARE_LIBRARY = 50;</code>
-     */
-    public static final int PREPARE_LIBRARY_VALUE = 50;
-    /**
-     * <code>PROCESS_ANDROID_RESOURCES = 51;</code>
-     */
-    public static final int PROCESS_ANDROID_RESOURCES_VALUE = 51;
-    /**
-     * <code>PROCESS_MANIFEST = 52;</code>
-     */
-    public static final int PROCESS_MANIFEST_VALUE = 52;
-    /**
-     * <code>PROCESS_TEST_MANIFEST = 53;</code>
-     */
-    public static final int PROCESS_TEST_MANIFEST_VALUE = 53;
-    /**
-     * <code>RENDERSCRIPT_COMPILE = 54;</code>
-     */
-    public static final int RENDERSCRIPT_COMPILE_VALUE = 54;
-    /**
-     * <code>SHADER_COMPILE = 55;</code>
-     */
-    public static final int SHADER_COMPILE_VALUE = 55;
-    /**
-     * <code>SIGNING_REPORT = 56;</code>
-     */
-    public static final int SIGNING_REPORT_VALUE = 56;
-    /**
-     * <code>SINGLE_FILE_COPY = 57;</code>
-     */
-    public static final int SINGLE_FILE_COPY_VALUE = 57;
-    /**
-     * <code>SOURCE_SETS = 58;</code>
-     */
-    public static final int SOURCE_SETS_VALUE = 58;
-    /**
-     * <code>SPLIT_ZIP_ALIGN = 59;</code>
-     */
-    public static final int SPLIT_ZIP_ALIGN_VALUE = 59;
-    /**
-     * <code>STREAM_BASED = 60;</code>
-     */
-    public static final int STREAM_BASED_VALUE = 60;
-    /**
-     * <code>STRIP_DEBUG_SYMBOL = 61;</code>
-     */
-    public static final int STRIP_DEBUG_SYMBOL_VALUE = 61;
-    /**
-     * <code>STRIP_DEPENDENCIES = 62;</code>
-     */
-    public static final int STRIP_DEPENDENCIES_VALUE = 62;
-    /**
-     * <code>TEST_MODULE_PRO_GUARD = 63;</code>
-     */
-    public static final int TEST_MODULE_PRO_GUARD_VALUE = 63;
-    /**
-     * <code>TEST_SERVER = 64;</code>
-     */
-    public static final int TEST_SERVER_VALUE = 64;
-    /**
-     * <code>TRANSFORM = 65;</code>
-     */
-    public static final int TRANSFORM_VALUE = 65;
-    /**
-     * <code>UNINSTALL = 66;</code>
-     */
-    public static final int UNINSTALL_VALUE = 66;
-    /**
-     * <code>VALIDATE_SIGNING = 67;</code>
-     */
-    public static final int VALIDATE_SIGNING_VALUE = 67;
-    /**
-     * <code>ZIP_ALIGN = 68;</code>
-     */
-    public static final int ZIP_ALIGN_VALUE = 68;
-    /**
-     * <code>JAVA_COMPILE = 69;</code>
-     */
-    public static final int JAVA_COMPILE_VALUE = 69;
-    /**
-     * <code>BUILD_INFO_WRITER = 70;</code>
-     */
-    public static final int BUILD_INFO_WRITER_VALUE = 70;
-    /**
-     * <code>BUNDLE_ATOM = 71;</code>
-     */
-    public static final int BUNDLE_ATOM_VALUE = 71;
-    /**
-     * <code>CHECK_MANIFEST_IN_INSTANT_RUN_MODE = 72;</code>
-     */
-    public static final int CHECK_MANIFEST_IN_INSTANT_RUN_MODE_VALUE = 72;
-    /**
-     * <code>EXTERNAL_NATIVE_CLEAN = 73;</code>
-     */
-    public static final int EXTERNAL_NATIVE_CLEAN_VALUE = 73;
-    /**
-     * <code>GENERATE_ATOM_METADATA = 74;</code>
-     */
-    public static final int GENERATE_ATOM_METADATA_VALUE = 74;
-    /**
-     * <code>GENERATE_INSTANT_APP_METADATA = 75;</code>
-     */
-    public static final int GENERATE_INSTANT_APP_METADATA_VALUE = 75;
-    /**
-     * <code>JAVA_PRE_COMPILE = 76;</code>
-     */
-    public static final int JAVA_PRE_COMPILE_VALUE = 76;
-    /**
-     * <code>MERGE_DEX_ATOM_RES_CLASS = 77;</code>
-     */
-    public static final int MERGE_DEX_ATOM_RES_CLASS_VALUE = 77;
-    /**
-     * <code>PACKAGE_ATOM = 78;</code>
-     */
-    public static final int PACKAGE_ATOM_VALUE = 78;
-    /**
-     * <code>PACKAGE_INSTANT_APP = 79;</code>
-     */
-    public static final int PACKAGE_INSTANT_APP_VALUE = 79;
-    /**
-     * <code>PREPARE_ATOM = 80;</code>
-     */
-    public static final int PREPARE_ATOM_VALUE = 80;
-    /**
-     * <code>PROCESS_INSTANT_APP_RESOURCES = 81;</code>
-     */
-    public static final int PROCESS_INSTANT_APP_RESOURCES_VALUE = 81;
-    /**
-     * <code>CLEAN_BUILD_CACHE = 82;</code>
-     */
-    public static final int CLEAN_BUILD_CACHE_VALUE = 82;
-    /**
-     * <code>RESOLVE_DEPENDENCIES = 83;</code>
-     */
-    public static final int RESOLVE_DEPENDENCIES_VALUE = 83;
-    /**
-     * <code>JAVA_COMPILE_ATOM_RES_CLASS = 84;</code>
-     */
-    public static final int JAVA_COMPILE_ATOM_RES_CLASS_VALUE = 84;
-    /**
-     * <code>PROCESS_ATOMS_RESOURCES = 85;</code>
-     */
-    public static final int PROCESS_ATOMS_RESOURCES_VALUE = 85;
-    /**
-     * <code>EXTERNAL_NATIVE_PREPARE = 86;</code>
-     */
-    public static final int EXTERNAL_NATIVE_PREPARE_VALUE = 86;
-    /**
-     * <code>SPLITS_DISCOVERY = 87;</code>
-     */
-    public static final int SPLITS_DISCOVERY_VALUE = 87;
-    /**
-     * <code>ATOM_CONFIG = 88;</code>
-     */
-    public static final int ATOM_CONFIG_VALUE = 88;
-    /**
-     * <code>BUNDLE_INSTANT_APP = 89;</code>
-     */
-    public static final int BUNDLE_INSTANT_APP_VALUE = 89;
-
-
-    public final int getNumber() { return value; }
-
-    public static Type valueOf(int value) {
-      switch (value) {
-        case 0: return UNKNOWN_TASK_TYPE;
-        case 1: return AIDL_COMPILE;
-        case 2: return ANDROID_JAR;
-        case 3: return ANDROID_JAVA_COMPILE;
-        case 4: return ANDROID_REPORT;
-        case 5: return ANDROID_UNIT_TEST;
-        case 6: return BUILD_EMULATOR;
-        case 7: return BUILD_INFO_LOADER;
-        case 8: return CHECK_MANIFEST;
-        case 9: return COMPATIBLE_SCREENS_MANIFEST;
-        case 10: return CREATE_MANIFEST_KEEP_LIST;
-        case 11: return DATA_BINDING_EXPORT_BUILD_INFO;
-        case 12: return DATA_BINDING_PROCESS_LAYOUTS;
-        case 13: return DEPENDENCY_REPORT;
-        case 14: return DEVICE_PROVIDER_INSTRUMENT_TEST;
-        case 15: return EXTERNAL_BUILD_ANCHOR;
-        case 16: return EXTERNAL_NATIVE_BUILD_JSON;
-        case 17: return EXTERNAL_NATIVE_BUILD;
-        case 18: return EXTRACT_ANNOTATIONS;
-        case 19: return EXTRACT_JAVA_RESOURCES;
-        case 20: return EXTRACT_PROGUARD_FILES;
-        case 21: return FAST_DEPLOY_RUNTIME_EXTRACTOR;
-        case 22: return FILTERED_JAR_COPY;
-        case 23: return GENERATE_APK_DATA;
-        case 24: return GENERATE_BUILD_CONFIG;
-        case 25: return GENERATE_INSTANT_RUN_APP_INFO;
-        case 26: return GENERATE_RES_VALUES;
-        case 27: return GENERATE_SPLIT_ABI_RES;
-        case 28: return GOOGLE_SERVICES;
-        case 29: return INCREMENTAL_SAFEGUARD;
-        case 30: return INSTALL_VARIANT;
-        case 31: return INSTANT_RUN_SPLIT_APK_BUILDER;
-        case 32: return INSTANT_RUN_WRAPPER;
-        case 33: return INVOKE_MANIFEST_MERGER;
-        case 34: return JACK_JACOCO_REPORT;
-        case 35: return JACOCO_REPORT;
-        case 36: return LINT;
-        case 37: return LINT_COMPILE;
-        case 38: return MERGE_FILE;
-        case 39: return MERGE_MANIFESTS;
-        case 40: return MERGE_RESOURCES;
-        case 41: return MERGE_SOURCE_SET_FOLDERS;
-        case 42: return MOCKABLE_ANDROID_JAR;
-        case 43: return NDK_COMPILE;
-        case 44: return NDK;
-        case 45: return PACKAGE_APPLICATION;
-        case 46: return PACKAGE_SPLIT_ABI;
-        case 47: return PACKAGE_SPLIT_RES;
-        case 48: return PRE_COLD_SWAP;
-        case 49: return PREPARE_DEPENDENCIES;
-        case 50: return PREPARE_LIBRARY;
-        case 51: return PROCESS_ANDROID_RESOURCES;
-        case 52: return PROCESS_MANIFEST;
-        case 53: return PROCESS_TEST_MANIFEST;
-        case 54: return RENDERSCRIPT_COMPILE;
-        case 55: return SHADER_COMPILE;
-        case 56: return SIGNING_REPORT;
-        case 57: return SINGLE_FILE_COPY;
-        case 58: return SOURCE_SETS;
-        case 59: return SPLIT_ZIP_ALIGN;
-        case 60: return STREAM_BASED;
-        case 61: return STRIP_DEBUG_SYMBOL;
-        case 62: return STRIP_DEPENDENCIES;
-        case 63: return TEST_MODULE_PRO_GUARD;
-        case 64: return TEST_SERVER;
-        case 65: return TRANSFORM;
-        case 66: return UNINSTALL;
-        case 67: return VALIDATE_SIGNING;
-        case 68: return ZIP_ALIGN;
-        case 69: return JAVA_COMPILE;
-        case 70: return BUILD_INFO_WRITER;
-        case 71: return BUNDLE_ATOM;
-        case 72: return CHECK_MANIFEST_IN_INSTANT_RUN_MODE;
-        case 73: return EXTERNAL_NATIVE_CLEAN;
-        case 74: return GENERATE_ATOM_METADATA;
-        case 75: return GENERATE_INSTANT_APP_METADATA;
-        case 76: return JAVA_PRE_COMPILE;
-        case 77: return MERGE_DEX_ATOM_RES_CLASS;
-        case 78: return PACKAGE_ATOM;
-        case 79: return PACKAGE_INSTANT_APP;
-        case 80: return PREPARE_ATOM;
-        case 81: return PROCESS_INSTANT_APP_RESOURCES;
-        case 82: return CLEAN_BUILD_CACHE;
-        case 83: return RESOLVE_DEPENDENCIES;
-        case 84: return JAVA_COMPILE_ATOM_RES_CLASS;
-        case 85: return PROCESS_ATOMS_RESOURCES;
-        case 86: return EXTERNAL_NATIVE_PREPARE;
-        case 87: return SPLITS_DISCOVERY;
-        case 88: return ATOM_CONFIG;
-        case 89: return BUNDLE_INSTANT_APP;
-        default: return null;
-      }
-    }
-
-    public static com.google.protobuf.Internal.EnumLiteMap<Type>
-        internalGetValueMap() {
-      return internalValueMap;
-    }
-    private static com.google.protobuf.Internal.EnumLiteMap<Type>
-        internalValueMap =
-          new com.google.protobuf.Internal.EnumLiteMap<Type>() {
-            public Type findValueByNumber(int number) {
-              return Type.valueOf(number);
-            }
-          };
-
-    public final com.google.protobuf.Descriptors.EnumValueDescriptor
-        getValueDescriptor() {
-      return getDescriptor().getValues().get(index);
-    }
-    public final com.google.protobuf.Descriptors.EnumDescriptor
-        getDescriptorForType() {
-      return getDescriptor();
-    }
-    public static final com.google.protobuf.Descriptors.EnumDescriptor
-        getDescriptor() {
-      return com.google.wireless.android.sdk.stats.GradleTaskExecution.getDescriptor().getEnumTypes().get(0);
-    }
-
-    private static final Type[] VALUES = values();
-
-    public static Type valueOf(
-        com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
-      if (desc.getType() != getDescriptor()) {
-        throw new java.lang.IllegalArgumentException(
-          "EnumValueDescriptor is not for this type.");
-      }
-      return VALUES[desc.getIndex()];
-    }
-
-    private final int index;
-    private final int value;
-
-    private Type(int index, int value) {
-      this.index = index;
-      this.value = value;
-    }
-
-    // @@protoc_insertion_point(enum_scope:android_studio.GradleTaskExecution.Type)
-  }
-
   private int bitField0_;
-  // optional .android_studio.GradleTaskExecution.Type type = 1;
+  // optional int32 type = 1;
   public static final int TYPE_FIELD_NUMBER = 1;
-  private com.google.wireless.android.sdk.stats.GradleTaskExecution.Type type_;
+  private int type_;
   /**
-   * <code>optional .android_studio.GradleTaskExecution.Type type = 1;</code>
+   * <code>optional int32 type = 1;</code>
    *
    * <pre>
    * The task implementing class.
    * Custom tasks are recorded as UNKNOWN_TASK_TYPE.
+   * This is an enum in android git:
+   * tools/base/build-system/gradle-core/src/main/proto/analytics_enums.proto
    * </pre>
    */
   public boolean hasType() {
     return ((bitField0_ & 0x00000001) == 0x00000001);
   }
   /**
-   * <code>optional .android_studio.GradleTaskExecution.Type type = 1;</code>
+   * <code>optional int32 type = 1;</code>
    *
    * <pre>
    * The task implementing class.
    * Custom tasks are recorded as UNKNOWN_TASK_TYPE.
+   * This is an enum in android git:
+   * tools/base/build-system/gradle-core/src/main/proto/analytics_enums.proto
    * </pre>
    */
-  public com.google.wireless.android.sdk.stats.GradleTaskExecution.Type getType() {
+  public int getType() {
     return type_;
   }
 
@@ -1126,7 +250,7 @@ public  final class GradleTaskExecution extends
   }
 
   private void initFields() {
-    type_ = com.google.wireless.android.sdk.stats.GradleTaskExecution.Type.UNKNOWN_TASK_TYPE;
+    type_ = 0;
     didWork_ = false;
     skipped_ = false;
     upToDate_ = false;
@@ -1145,7 +269,7 @@ public  final class GradleTaskExecution extends
                       throws java.io.IOException {
     getSerializedSize();
     if (((bitField0_ & 0x00000001) == 0x00000001)) {
-      output.writeEnum(1, type_.getNumber());
+      output.writeInt32(1, type_);
     }
     if (((bitField0_ & 0x00000002) == 0x00000002)) {
       output.writeBool(2, didWork_);
@@ -1170,7 +294,7 @@ public  final class GradleTaskExecution extends
     size = 0;
     if (((bitField0_ & 0x00000001) == 0x00000001)) {
       size += com.google.protobuf.CodedOutputStream
-        .computeEnumSize(1, type_.getNumber());
+        .computeInt32Size(1, type_);
     }
     if (((bitField0_ & 0x00000002) == 0x00000002)) {
       size += com.google.protobuf.CodedOutputStream
@@ -1304,7 +428,7 @@ public  final class GradleTaskExecution extends
 
     public Builder clear() {
       super.clear();
-      type_ = com.google.wireless.android.sdk.stats.GradleTaskExecution.Type.UNKNOWN_TASK_TYPE;
+      type_ = 0;
       bitField0_ = (bitField0_ & ~0x00000001);
       didWork_ = false;
       bitField0_ = (bitField0_ & ~0x00000002);
@@ -1420,58 +544,63 @@ public  final class GradleTaskExecution extends
     }
     private int bitField0_;
 
-    // optional .android_studio.GradleTaskExecution.Type type = 1;
-    private com.google.wireless.android.sdk.stats.GradleTaskExecution.Type type_ = com.google.wireless.android.sdk.stats.GradleTaskExecution.Type.UNKNOWN_TASK_TYPE;
+    // optional int32 type = 1;
+    private int type_ ;
     /**
-     * <code>optional .android_studio.GradleTaskExecution.Type type = 1;</code>
+     * <code>optional int32 type = 1;</code>
      *
      * <pre>
      * The task implementing class.
      * Custom tasks are recorded as UNKNOWN_TASK_TYPE.
+     * This is an enum in android git:
+     * tools/base/build-system/gradle-core/src/main/proto/analytics_enums.proto
      * </pre>
      */
     public boolean hasType() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
-     * <code>optional .android_studio.GradleTaskExecution.Type type = 1;</code>
+     * <code>optional int32 type = 1;</code>
      *
      * <pre>
      * The task implementing class.
      * Custom tasks are recorded as UNKNOWN_TASK_TYPE.
+     * This is an enum in android git:
+     * tools/base/build-system/gradle-core/src/main/proto/analytics_enums.proto
      * </pre>
      */
-    public com.google.wireless.android.sdk.stats.GradleTaskExecution.Type getType() {
+    public int getType() {
       return type_;
     }
     /**
-     * <code>optional .android_studio.GradleTaskExecution.Type type = 1;</code>
+     * <code>optional int32 type = 1;</code>
      *
      * <pre>
      * The task implementing class.
      * Custom tasks are recorded as UNKNOWN_TASK_TYPE.
+     * This is an enum in android git:
+     * tools/base/build-system/gradle-core/src/main/proto/analytics_enums.proto
      * </pre>
      */
-    public Builder setType(com.google.wireless.android.sdk.stats.GradleTaskExecution.Type value) {
-      if (value == null) {
-        throw new NullPointerException();
-      }
+    public Builder setType(int value) {
       bitField0_ |= 0x00000001;
       type_ = value;
       onChanged();
       return this;
     }
     /**
-     * <code>optional .android_studio.GradleTaskExecution.Type type = 1;</code>
+     * <code>optional int32 type = 1;</code>
      *
      * <pre>
      * The task implementing class.
      * Custom tasks are recorded as UNKNOWN_TASK_TYPE.
+     * This is an enum in android git:
+     * tools/base/build-system/gradle-core/src/main/proto/analytics_enums.proto
      * </pre>
      */
     public Builder clearType() {
       bitField0_ = (bitField0_ & ~0x00000001);
-      type_ = com.google.wireless.android.sdk.stats.GradleTaskExecution.Type.UNKNOWN_TASK_TYPE;
+      type_ = 0;
       onChanged();
       return this;
     }
