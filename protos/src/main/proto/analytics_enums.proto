@@ -129,4 +129,7 @@ enum GradleTaskExecutionType {
     ATOM_CONFIG = 88;
     BUNDLE_INSTANT_APP = 89;
     GENERATE_TEST_CONFIG = 90;
+    COPY_OUTPUTS = 91;
+    APP_PRE_BUILD = 92;
+    TEST_PRE_BUILD = 93;
 }
