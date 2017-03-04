@@ -119,6 +119,7 @@ public interface AndroidStudioEventOrBuilder
    *
    * <pre>
    * set when kind = MONITOR_ACTIVATED or kind = MONITOR_RUNNING
+   * Deprecated by AndroidProfilerEvent
    * </pre>
    */
   boolean hasMonitorType();
@@ -127,6 +128,7 @@ public interface AndroidStudioEventOrBuilder
    *
    * <pre>
    * set when kind = MONITOR_ACTIVATED or kind = MONITOR_RUNNING
+   * Deprecated by AndroidProfilerEvent
    * </pre>
    */
   com.google.wireless.android.sdk.stats.AndroidStudioEvent.MonitorType getMonitorType();
@@ -137,6 +139,7 @@ public interface AndroidStudioEventOrBuilder
    *
    * <pre>
    * set when kind = MONITOR_RUNNING
+   * Deprecated by AndroidProfilerEvent
    * </pre>
    */
   boolean hasMonitorPaused();
@@ -145,6 +148,7 @@ public interface AndroidStudioEventOrBuilder
    *
    * <pre>
    * set when kind = MONITOR_RUNNING
+   * Deprecated by AndroidProfilerEvent
    * </pre>
    */
   boolean getMonitorPaused();
@@ -155,6 +159,7 @@ public interface AndroidStudioEventOrBuilder
    *
    * <pre>
    * set when kind = PROFILING_OPEN or PROFILING_CAPTURE
+   * Deprecated by AndroidProfilerEvent
    * </pre>
    */
   boolean hasProfilerCaptureType();
@@ -163,6 +168,7 @@ public interface AndroidStudioEventOrBuilder
    *
    * <pre>
    * set when kind = PROFILING_OPEN or PROFILING_CAPTURE
+   * Deprecated by AndroidProfilerEvent
    * </pre>
    */
   com.google.wireless.android.sdk.stats.AndroidStudioEvent.ProfilerCaptureType getProfilerCaptureType();
@@ -217,6 +223,7 @@ public interface AndroidStudioEventOrBuilder
    * <code>optional .android_studio.AndroidStudioEvent.RunConfigurationType run_configuration_type = 10;</code>
    *
    * <pre>
+   * Deprecated, use debug_session_start_details instead.
    * set when kind = LLDB_SESSION_STARTED
    * </pre>
    */
@@ -225,6 +232,7 @@ public interface AndroidStudioEventOrBuilder
    * <code>optional .android_studio.AndroidStudioEvent.RunConfigurationType run_configuration_type = 10;</code>
    *
    * <pre>
+   * Deprecated, use debug_session_start_details instead.
    * set when kind = LLDB_SESSION_STARTED
    * </pre>
    */
@@ -235,6 +243,7 @@ public interface AndroidStudioEventOrBuilder
    * <code>optional .android_studio.AndroidStudioEvent.DebuggerType debugger_type = 11;</code>
    *
    * <pre>
+   * Deprecated, use debug_session_start_details instead.
    * set when kind = LLDB_SESSION_STARTED
    * </pre>
    */
@@ -243,6 +252,7 @@ public interface AndroidStudioEventOrBuilder
    * <code>optional .android_studio.AndroidStudioEvent.DebuggerType debugger_type = 11;</code>
    *
    * <pre>
+   * Deprecated, use debug_session_start_details instead.
    * set when kind = LLDB_SESSION_STARTED
    * </pre>
    */
@@ -297,7 +307,7 @@ public interface AndroidStudioEventOrBuilder
    * <code>optional string lldb_session_failure_message = 13;</code>
    *
    * <pre>
-   * set when kind = LLDB_SESSION_FAILED or kind = LLDB_INSTALL_FAILED
+   * set when kind = LLDB_INSTALL_FAILED
    * e.g. 'failed to get reply to handshake packet'
    * </pre>
    */
@@ -306,7 +316,7 @@ public interface AndroidStudioEventOrBuilder
    * <code>optional string lldb_session_failure_message = 13;</code>
    *
    * <pre>
-   * set when kind = LLDB_SESSION_FAILED or kind = LLDB_INSTALL_FAILED
+   * set when kind = LLDB_INSTALL_FAILED
    * e.g. 'failed to get reply to handshake packet'
    * </pre>
    */
@@ -315,7 +325,7 @@ public interface AndroidStudioEventOrBuilder
    * <code>optional string lldb_session_failure_message = 13;</code>
    *
    * <pre>
-   * set when kind = LLDB_SESSION_FAILED or kind = LLDB_INSTALL_FAILED
+   * set when kind = LLDB_INSTALL_FAILED
    * e.g. 'failed to get reply to handshake packet'
    * </pre>
    */
@@ -1146,4 +1156,82 @@ public interface AndroidStudioEventOrBuilder
    * </pre>
    */
   com.google.wireless.android.sdk.stats.AdbAssistantStatsOrBuilder getAdbAssistantStatsOrBuilder();
+
+  // optional .android_studio.LldbSessionStartDetails lldb_session_start_details = 46;
+  /**
+   * <code>optional .android_studio.LldbSessionStartDetails lldb_session_start_details = 46;</code>
+   *
+   * <pre>
+   * set when kind = LLDB_SESSION_STARTED
+   * </pre>
+   */
+  boolean hasLldbSessionStartDetails();
+  /**
+   * <code>optional .android_studio.LldbSessionStartDetails lldb_session_start_details = 46;</code>
+   *
+   * <pre>
+   * set when kind = LLDB_SESSION_STARTED
+   * </pre>
+   */
+  com.google.wireless.android.sdk.stats.LldbSessionStartDetails getLldbSessionStartDetails();
+  /**
+   * <code>optional .android_studio.LldbSessionStartDetails lldb_session_start_details = 46;</code>
+   *
+   * <pre>
+   * set when kind = LLDB_SESSION_STARTED
+   * </pre>
+   */
+  com.google.wireless.android.sdk.stats.LldbSessionStartDetailsOrBuilder getLldbSessionStartDetailsOrBuilder();
+
+  // optional .android_studio.LldbSessionEndDetails lldb_session_end_details = 47;
+  /**
+   * <code>optional .android_studio.LldbSessionEndDetails lldb_session_end_details = 47;</code>
+   *
+   * <pre>
+   * set when kind = LLDB_SESSION_ENDED
+   * </pre>
+   */
+  boolean hasLldbSessionEndDetails();
+  /**
+   * <code>optional .android_studio.LldbSessionEndDetails lldb_session_end_details = 47;</code>
+   *
+   * <pre>
+   * set when kind = LLDB_SESSION_ENDED
+   * </pre>
+   */
+  com.google.wireless.android.sdk.stats.LldbSessionEndDetails getLldbSessionEndDetails();
+  /**
+   * <code>optional .android_studio.LldbSessionEndDetails lldb_session_end_details = 47;</code>
+   *
+   * <pre>
+   * set when kind = LLDB_SESSION_ENDED
+   * </pre>
+   */
+  com.google.wireless.android.sdk.stats.LldbSessionEndDetailsOrBuilder getLldbSessionEndDetailsOrBuilder();
+
+  // optional .android_studio.AndroidProfilerEvent android_profiler_event = 48;
+  /**
+   * <code>optional .android_studio.AndroidProfilerEvent android_profiler_event = 48;</code>
+   *
+   * <pre>
+   * set when kind = ANDROID_PROFILER
+   * </pre>
+   */
+  boolean hasAndroidProfilerEvent();
+  /**
+   * <code>optional .android_studio.AndroidProfilerEvent android_profiler_event = 48;</code>
+   *
+   * <pre>
+   * set when kind = ANDROID_PROFILER
+   * </pre>
+   */
+  com.google.wireless.android.sdk.stats.AndroidProfilerEvent getAndroidProfilerEvent();
+  /**
+   * <code>optional .android_studio.AndroidProfilerEvent android_profiler_event = 48;</code>
+   *
+   * <pre>
+   * set when kind = ANDROID_PROFILER
+   * </pre>
+   */
+  com.google.wireless.android.sdk.stats.AndroidProfilerEventOrBuilder getAndroidProfilerEventOrBuilder();
 }

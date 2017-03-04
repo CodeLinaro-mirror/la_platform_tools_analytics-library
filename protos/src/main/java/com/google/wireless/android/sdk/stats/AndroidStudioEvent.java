@@ -558,6 +558,45 @@ public  final class AndroidStudioEvent extends
             bitField1_ |= 0x00001000;
             break;
           }
+          case 370: {
+            com.google.wireless.android.sdk.stats.LldbSessionStartDetails.Builder subBuilder = null;
+            if (((bitField1_ & 0x00002000) == 0x00002000)) {
+              subBuilder = lldbSessionStartDetails_.toBuilder();
+            }
+            lldbSessionStartDetails_ = input.readMessage(com.google.wireless.android.sdk.stats.LldbSessionStartDetails.PARSER, extensionRegistry);
+            if (subBuilder != null) {
+              subBuilder.mergeFrom(lldbSessionStartDetails_);
+              lldbSessionStartDetails_ = subBuilder.buildPartial();
+            }
+            bitField1_ |= 0x00002000;
+            break;
+          }
+          case 378: {
+            com.google.wireless.android.sdk.stats.LldbSessionEndDetails.Builder subBuilder = null;
+            if (((bitField1_ & 0x00004000) == 0x00004000)) {
+              subBuilder = lldbSessionEndDetails_.toBuilder();
+            }
+            lldbSessionEndDetails_ = input.readMessage(com.google.wireless.android.sdk.stats.LldbSessionEndDetails.PARSER, extensionRegistry);
+            if (subBuilder != null) {
+              subBuilder.mergeFrom(lldbSessionEndDetails_);
+              lldbSessionEndDetails_ = subBuilder.buildPartial();
+            }
+            bitField1_ |= 0x00004000;
+            break;
+          }
+          case 386: {
+            com.google.wireless.android.sdk.stats.AndroidProfilerEvent.Builder subBuilder = null;
+            if (((bitField1_ & 0x00008000) == 0x00008000)) {
+              subBuilder = androidProfilerEvent_.toBuilder();
+            }
+            androidProfilerEvent_ = input.readMessage(com.google.wireless.android.sdk.stats.AndroidProfilerEvent.PARSER, extensionRegistry);
+            if (subBuilder != null) {
+              subBuilder.mergeFrom(androidProfilerEvent_);
+              androidProfilerEvent_ = subBuilder.buildPartial();
+            }
+            bitField1_ |= 0x00008000;
+            break;
+          }
         }
       }
     } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -654,6 +693,7 @@ public  final class AndroidStudioEvent extends
      *
      * <pre>
      * The event is related to Performance Profiling.
+     * Deprecated by AndroidProfilerEvent
      * </pre>
      */
     PROFILING(5, 5),
@@ -662,6 +702,7 @@ public  final class AndroidStudioEvent extends
      *
      * <pre>
      * The event is related to Performance Monitoring.
+     * Deprecated by AndroidProfilerEvent
      * </pre>
      */
     MONITOR(6, 6),
@@ -783,6 +824,7 @@ public  final class AndroidStudioEvent extends
      *
      * <pre>
      * The event is related to the GPU Profiler.
+     * Deprecated by AndroidProfilerEvent
      * </pre>
      */
     GPU_PROFILER(21, 21),
@@ -858,6 +900,7 @@ public  final class AndroidStudioEvent extends
      *
      * <pre>
      * The event is related to Performance Profiling.
+     * Deprecated by AndroidProfilerEvent
      * </pre>
      */
     public static final int PROFILING_VALUE = 5;
@@ -866,6 +909,7 @@ public  final class AndroidStudioEvent extends
      *
      * <pre>
      * The event is related to Performance Monitoring.
+     * Deprecated by AndroidProfilerEvent
      * </pre>
      */
     public static final int MONITOR_VALUE = 6;
@@ -987,6 +1031,7 @@ public  final class AndroidStudioEvent extends
      *
      * <pre>
      * The event is related to the GPU Profiler.
+     * Deprecated by AndroidProfilerEvent
      * </pre>
      */
     public static final int GPU_PROFILER_VALUE = 21;
@@ -1219,6 +1264,7 @@ public  final class AndroidStudioEvent extends
      *
      * <pre>
      * Performance monitoring has been activated.
+     * Deprecated by AndroidProfilerEvent
      * </pre>
      */
     MONITOR_ACTIVATED(14, 14),
@@ -1227,6 +1273,7 @@ public  final class AndroidStudioEvent extends
      *
      * <pre>
      * Performance monitoring is running.
+     * Deprecated by AndroidProfilerEvent
      * </pre>
      */
     MONITOR_RUNNING(15, 15),
@@ -1338,6 +1385,7 @@ public  final class AndroidStudioEvent extends
      * <code>LLDB_SESSION_FAILED = 29;</code>
      *
      * <pre>
+     * Deprecated, use LLDB_SESSION_ENDED instead.
      * Native debugger session has failed.
      * </pre>
      */
@@ -1346,6 +1394,7 @@ public  final class AndroidStudioEvent extends
      * <code>LLDB_SESSION_COMPLETED = 30;</code>
      *
      * <pre>
+     * Deprecated, use DEBUG_SESSION_ENDED instead.
      * Native debugger session has completed successfully.
      * </pre>
      */
@@ -1979,6 +2028,22 @@ public  final class AndroidStudioEvent extends
      * </pre>
      */
     ADB_ASSISTANT_STATS(111, 114),
+    /**
+     * <code>LLDB_SESSION_ENDED = 115;</code>
+     *
+     * <pre>
+     * A native debug session ended.
+     * </pre>
+     */
+    LLDB_SESSION_ENDED(112, 115),
+    /**
+     * <code>ANDROID_PROFILER = 116;</code>
+     *
+     * <pre>
+     * Android Profiler event
+     * </pre>
+     */
+    ANDROID_PROFILER(113, 116),
     ;
 
     /**
@@ -2094,6 +2159,7 @@ public  final class AndroidStudioEvent extends
      *
      * <pre>
      * Performance monitoring has been activated.
+     * Deprecated by AndroidProfilerEvent
      * </pre>
      */
     public static final int MONITOR_ACTIVATED_VALUE = 14;
@@ -2102,6 +2168,7 @@ public  final class AndroidStudioEvent extends
      *
      * <pre>
      * Performance monitoring is running.
+     * Deprecated by AndroidProfilerEvent
      * </pre>
      */
     public static final int MONITOR_RUNNING_VALUE = 15;
@@ -2213,6 +2280,7 @@ public  final class AndroidStudioEvent extends
      * <code>LLDB_SESSION_FAILED = 29;</code>
      *
      * <pre>
+     * Deprecated, use LLDB_SESSION_ENDED instead.
      * Native debugger session has failed.
      * </pre>
      */
@@ -2221,6 +2289,7 @@ public  final class AndroidStudioEvent extends
      * <code>LLDB_SESSION_COMPLETED = 30;</code>
      *
      * <pre>
+     * Deprecated, use DEBUG_SESSION_ENDED instead.
      * Native debugger session has completed successfully.
      * </pre>
      */
@@ -2854,6 +2923,22 @@ public  final class AndroidStudioEvent extends
      * </pre>
      */
     public static final int ADB_ASSISTANT_STATS_VALUE = 114;
+    /**
+     * <code>LLDB_SESSION_ENDED = 115;</code>
+     *
+     * <pre>
+     * A native debug session ended.
+     * </pre>
+     */
+    public static final int LLDB_SESSION_ENDED_VALUE = 115;
+    /**
+     * <code>ANDROID_PROFILER = 116;</code>
+     *
+     * <pre>
+     * Android Profiler event
+     * </pre>
+     */
+    public static final int ANDROID_PROFILER_VALUE = 116;
 
 
     public final int getNumber() { return value; }
@@ -2972,6 +3057,8 @@ public  final class AndroidStudioEvent extends
         case 112: return EMULATOR_PERFORMANCE_STATS;
         case 113: return TEST_RECORDER_SAVE_ROBO_SCRIPT;
         case 114: return ADB_ASSISTANT_STATS;
+        case 115: return LLDB_SESSION_ENDED;
+        case 116: return ANDROID_PROFILER;
         default: return null;
       }
     }
@@ -4448,6 +4535,7 @@ public  final class AndroidStudioEvent extends
    *
    * <pre>
    * set when kind = MONITOR_ACTIVATED or kind = MONITOR_RUNNING
+   * Deprecated by AndroidProfilerEvent
    * </pre>
    */
   public boolean hasMonitorType() {
@@ -4458,6 +4546,7 @@ public  final class AndroidStudioEvent extends
    *
    * <pre>
    * set when kind = MONITOR_ACTIVATED or kind = MONITOR_RUNNING
+   * Deprecated by AndroidProfilerEvent
    * </pre>
    */
   public com.google.wireless.android.sdk.stats.AndroidStudioEvent.MonitorType getMonitorType() {
@@ -4472,6 +4561,7 @@ public  final class AndroidStudioEvent extends
    *
    * <pre>
    * set when kind = MONITOR_RUNNING
+   * Deprecated by AndroidProfilerEvent
    * </pre>
    */
   public boolean hasMonitorPaused() {
@@ -4482,6 +4572,7 @@ public  final class AndroidStudioEvent extends
    *
    * <pre>
    * set when kind = MONITOR_RUNNING
+   * Deprecated by AndroidProfilerEvent
    * </pre>
    */
   public boolean getMonitorPaused() {
@@ -4496,6 +4587,7 @@ public  final class AndroidStudioEvent extends
    *
    * <pre>
    * set when kind = PROFILING_OPEN or PROFILING_CAPTURE
+   * Deprecated by AndroidProfilerEvent
    * </pre>
    */
   public boolean hasProfilerCaptureType() {
@@ -4506,6 +4598,7 @@ public  final class AndroidStudioEvent extends
    *
    * <pre>
    * set when kind = PROFILING_OPEN or PROFILING_CAPTURE
+   * Deprecated by AndroidProfilerEvent
    * </pre>
    */
   public com.google.wireless.android.sdk.stats.AndroidStudioEvent.ProfilerCaptureType getProfilerCaptureType() {
@@ -4598,6 +4691,7 @@ public  final class AndroidStudioEvent extends
    * <code>optional .android_studio.AndroidStudioEvent.RunConfigurationType run_configuration_type = 10;</code>
    *
    * <pre>
+   * Deprecated, use debug_session_start_details instead.
    * set when kind = LLDB_SESSION_STARTED
    * </pre>
    */
@@ -4608,6 +4702,7 @@ public  final class AndroidStudioEvent extends
    * <code>optional .android_studio.AndroidStudioEvent.RunConfigurationType run_configuration_type = 10;</code>
    *
    * <pre>
+   * Deprecated, use debug_session_start_details instead.
    * set when kind = LLDB_SESSION_STARTED
    * </pre>
    */
@@ -4622,6 +4717,7 @@ public  final class AndroidStudioEvent extends
    * <code>optional .android_studio.AndroidStudioEvent.DebuggerType debugger_type = 11;</code>
    *
    * <pre>
+   * Deprecated, use debug_session_start_details instead.
    * set when kind = LLDB_SESSION_STARTED
    * </pre>
    */
@@ -4632,6 +4728,7 @@ public  final class AndroidStudioEvent extends
    * <code>optional .android_studio.AndroidStudioEvent.DebuggerType debugger_type = 11;</code>
    *
    * <pre>
+   * Deprecated, use debug_session_start_details instead.
    * set when kind = LLDB_SESSION_STARTED
    * </pre>
    */
@@ -4698,7 +4795,7 @@ public  final class AndroidStudioEvent extends
    * <code>optional string lldb_session_failure_message = 13;</code>
    *
    * <pre>
-   * set when kind = LLDB_SESSION_FAILED or kind = LLDB_INSTALL_FAILED
+   * set when kind = LLDB_INSTALL_FAILED
    * e.g. 'failed to get reply to handshake packet'
    * </pre>
    */
@@ -4709,7 +4806,7 @@ public  final class AndroidStudioEvent extends
    * <code>optional string lldb_session_failure_message = 13;</code>
    *
    * <pre>
-   * set when kind = LLDB_SESSION_FAILED or kind = LLDB_INSTALL_FAILED
+   * set when kind = LLDB_INSTALL_FAILED
    * e.g. 'failed to get reply to handshake packet'
    * </pre>
    */
@@ -4731,7 +4828,7 @@ public  final class AndroidStudioEvent extends
    * <code>optional string lldb_session_failure_message = 13;</code>
    *
    * <pre>
-   * set when kind = LLDB_SESSION_FAILED or kind = LLDB_INSTALL_FAILED
+   * set when kind = LLDB_INSTALL_FAILED
    * e.g. 'failed to get reply to handshake packet'
    * </pre>
    */
@@ -5884,6 +5981,108 @@ public  final class AndroidStudioEvent extends
     return adbAssistantStats_;
   }
 
+  // optional .android_studio.LldbSessionStartDetails lldb_session_start_details = 46;
+  public static final int LLDB_SESSION_START_DETAILS_FIELD_NUMBER = 46;
+  private com.google.wireless.android.sdk.stats.LldbSessionStartDetails lldbSessionStartDetails_;
+  /**
+   * <code>optional .android_studio.LldbSessionStartDetails lldb_session_start_details = 46;</code>
+   *
+   * <pre>
+   * set when kind = LLDB_SESSION_STARTED
+   * </pre>
+   */
+  public boolean hasLldbSessionStartDetails() {
+    return ((bitField1_ & 0x00002000) == 0x00002000);
+  }
+  /**
+   * <code>optional .android_studio.LldbSessionStartDetails lldb_session_start_details = 46;</code>
+   *
+   * <pre>
+   * set when kind = LLDB_SESSION_STARTED
+   * </pre>
+   */
+  public com.google.wireless.android.sdk.stats.LldbSessionStartDetails getLldbSessionStartDetails() {
+    return lldbSessionStartDetails_;
+  }
+  /**
+   * <code>optional .android_studio.LldbSessionStartDetails lldb_session_start_details = 46;</code>
+   *
+   * <pre>
+   * set when kind = LLDB_SESSION_STARTED
+   * </pre>
+   */
+  public com.google.wireless.android.sdk.stats.LldbSessionStartDetailsOrBuilder getLldbSessionStartDetailsOrBuilder() {
+    return lldbSessionStartDetails_;
+  }
+
+  // optional .android_studio.LldbSessionEndDetails lldb_session_end_details = 47;
+  public static final int LLDB_SESSION_END_DETAILS_FIELD_NUMBER = 47;
+  private com.google.wireless.android.sdk.stats.LldbSessionEndDetails lldbSessionEndDetails_;
+  /**
+   * <code>optional .android_studio.LldbSessionEndDetails lldb_session_end_details = 47;</code>
+   *
+   * <pre>
+   * set when kind = LLDB_SESSION_ENDED
+   * </pre>
+   */
+  public boolean hasLldbSessionEndDetails() {
+    return ((bitField1_ & 0x00004000) == 0x00004000);
+  }
+  /**
+   * <code>optional .android_studio.LldbSessionEndDetails lldb_session_end_details = 47;</code>
+   *
+   * <pre>
+   * set when kind = LLDB_SESSION_ENDED
+   * </pre>
+   */
+  public com.google.wireless.android.sdk.stats.LldbSessionEndDetails getLldbSessionEndDetails() {
+    return lldbSessionEndDetails_;
+  }
+  /**
+   * <code>optional .android_studio.LldbSessionEndDetails lldb_session_end_details = 47;</code>
+   *
+   * <pre>
+   * set when kind = LLDB_SESSION_ENDED
+   * </pre>
+   */
+  public com.google.wireless.android.sdk.stats.LldbSessionEndDetailsOrBuilder getLldbSessionEndDetailsOrBuilder() {
+    return lldbSessionEndDetails_;
+  }
+
+  // optional .android_studio.AndroidProfilerEvent android_profiler_event = 48;
+  public static final int ANDROID_PROFILER_EVENT_FIELD_NUMBER = 48;
+  private com.google.wireless.android.sdk.stats.AndroidProfilerEvent androidProfilerEvent_;
+  /**
+   * <code>optional .android_studio.AndroidProfilerEvent android_profiler_event = 48;</code>
+   *
+   * <pre>
+   * set when kind = ANDROID_PROFILER
+   * </pre>
+   */
+  public boolean hasAndroidProfilerEvent() {
+    return ((bitField1_ & 0x00008000) == 0x00008000);
+  }
+  /**
+   * <code>optional .android_studio.AndroidProfilerEvent android_profiler_event = 48;</code>
+   *
+   * <pre>
+   * set when kind = ANDROID_PROFILER
+   * </pre>
+   */
+  public com.google.wireless.android.sdk.stats.AndroidProfilerEvent getAndroidProfilerEvent() {
+    return androidProfilerEvent_;
+  }
+  /**
+   * <code>optional .android_studio.AndroidProfilerEvent android_profiler_event = 48;</code>
+   *
+   * <pre>
+   * set when kind = ANDROID_PROFILER
+   * </pre>
+   */
+  public com.google.wireless.android.sdk.stats.AndroidProfilerEventOrBuilder getAndroidProfilerEventOrBuilder() {
+    return androidProfilerEvent_;
+  }
+
   private void initFields() {
     category_ = com.google.wireless.android.sdk.stats.AndroidStudioEvent.EventCategory.NO_EVENT_CATEGORY;
     kind_ = com.google.wireless.android.sdk.stats.AndroidStudioEvent.EventKind.UNKNOWN_EVENT_KIND;
@@ -5930,6 +6129,9 @@ public  final class AndroidStudioEvent extends
     appLinksAssistantEvent_ = com.google.wireless.android.sdk.stats.AppLinksAssistantEvent.getDefaultInstance();
     emulatorPerformanceStats_ = com.google.wireless.android.sdk.stats.EmulatorPerformanceStats.getDefaultInstance();
     adbAssistantStats_ = com.google.wireless.android.sdk.stats.AdbAssistantStats.getDefaultInstance();
+    lldbSessionStartDetails_ = com.google.wireless.android.sdk.stats.LldbSessionStartDetails.getDefaultInstance();
+    lldbSessionEndDetails_ = com.google.wireless.android.sdk.stats.LldbSessionEndDetails.getDefaultInstance();
+    androidProfilerEvent_ = com.google.wireless.android.sdk.stats.AndroidProfilerEvent.getDefaultInstance();
   }
   private byte memoizedIsInitialized = -1;
   public final boolean isInitialized() {
@@ -6077,6 +6279,15 @@ public  final class AndroidStudioEvent extends
     }
     if (((bitField1_ & 0x00001000) == 0x00001000)) {
       output.writeMessage(45, adbAssistantStats_);
+    }
+    if (((bitField1_ & 0x00002000) == 0x00002000)) {
+      output.writeMessage(46, lldbSessionStartDetails_);
+    }
+    if (((bitField1_ & 0x00004000) == 0x00004000)) {
+      output.writeMessage(47, lldbSessionEndDetails_);
+    }
+    if (((bitField1_ & 0x00008000) == 0x00008000)) {
+      output.writeMessage(48, androidProfilerEvent_);
     }
     getUnknownFields().writeTo(output);
   }
@@ -6267,6 +6478,18 @@ public  final class AndroidStudioEvent extends
       size += com.google.protobuf.CodedOutputStream
         .computeMessageSize(45, adbAssistantStats_);
     }
+    if (((bitField1_ & 0x00002000) == 0x00002000)) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeMessageSize(46, lldbSessionStartDetails_);
+    }
+    if (((bitField1_ & 0x00004000) == 0x00004000)) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeMessageSize(47, lldbSessionEndDetails_);
+    }
+    if (((bitField1_ & 0x00008000) == 0x00008000)) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeMessageSize(48, androidProfilerEvent_);
+    }
     size += getUnknownFields().getSerializedSize();
     memoizedSerializedSize = size;
     return size;
@@ -6403,6 +6626,9 @@ public  final class AndroidStudioEvent extends
         getAppLinksAssistantEventFieldBuilder();
         getEmulatorPerformanceStatsFieldBuilder();
         getAdbAssistantStatsFieldBuilder();
+        getLldbSessionStartDetailsFieldBuilder();
+        getLldbSessionEndDetailsFieldBuilder();
+        getAndroidProfilerEventFieldBuilder();
       }
     }
     private static Builder create() {
@@ -6613,6 +6839,24 @@ public  final class AndroidStudioEvent extends
         adbAssistantStatsBuilder_.clear();
       }
       bitField1_ = (bitField1_ & ~0x00001000);
+      if (lldbSessionStartDetailsBuilder_ == null) {
+        lldbSessionStartDetails_ = com.google.wireless.android.sdk.stats.LldbSessionStartDetails.getDefaultInstance();
+      } else {
+        lldbSessionStartDetailsBuilder_.clear();
+      }
+      bitField1_ = (bitField1_ & ~0x00002000);
+      if (lldbSessionEndDetailsBuilder_ == null) {
+        lldbSessionEndDetails_ = com.google.wireless.android.sdk.stats.LldbSessionEndDetails.getDefaultInstance();
+      } else {
+        lldbSessionEndDetailsBuilder_.clear();
+      }
+      bitField1_ = (bitField1_ & ~0x00004000);
+      if (androidProfilerEventBuilder_ == null) {
+        androidProfilerEvent_ = com.google.wireless.android.sdk.stats.AndroidProfilerEvent.getDefaultInstance();
+      } else {
+        androidProfilerEventBuilder_.clear();
+      }
+      bitField1_ = (bitField1_ & ~0x00008000);
       return this;
     }
 
@@ -6935,6 +7179,30 @@ public  final class AndroidStudioEvent extends
       } else {
         result.adbAssistantStats_ = adbAssistantStatsBuilder_.build();
       }
+      if (((from_bitField1_ & 0x00002000) == 0x00002000)) {
+        to_bitField1_ |= 0x00002000;
+      }
+      if (lldbSessionStartDetailsBuilder_ == null) {
+        result.lldbSessionStartDetails_ = lldbSessionStartDetails_;
+      } else {
+        result.lldbSessionStartDetails_ = lldbSessionStartDetailsBuilder_.build();
+      }
+      if (((from_bitField1_ & 0x00004000) == 0x00004000)) {
+        to_bitField1_ |= 0x00004000;
+      }
+      if (lldbSessionEndDetailsBuilder_ == null) {
+        result.lldbSessionEndDetails_ = lldbSessionEndDetails_;
+      } else {
+        result.lldbSessionEndDetails_ = lldbSessionEndDetailsBuilder_.build();
+      }
+      if (((from_bitField1_ & 0x00008000) == 0x00008000)) {
+        to_bitField1_ |= 0x00008000;
+      }
+      if (androidProfilerEventBuilder_ == null) {
+        result.androidProfilerEvent_ = androidProfilerEvent_;
+      } else {
+        result.androidProfilerEvent_ = androidProfilerEventBuilder_.build();
+      }
       result.bitField0_ = to_bitField0_;
       result.bitField1_ = to_bitField1_;
       onBuilt();
@@ -7098,6 +7366,15 @@ public  final class AndroidStudioEvent extends
       }
       if (other.hasAdbAssistantStats()) {
         mergeAdbAssistantStats(other.getAdbAssistantStats());
+      }
+      if (other.hasLldbSessionStartDetails()) {
+        mergeLldbSessionStartDetails(other.getLldbSessionStartDetails());
+      }
+      if (other.hasLldbSessionEndDetails()) {
+        mergeLldbSessionEndDetails(other.getLldbSessionEndDetails());
+      }
+      if (other.hasAndroidProfilerEvent()) {
+        mergeAndroidProfilerEvent(other.getAndroidProfilerEvent());
       }
       this.mergeUnknownFields(other.getUnknownFields());
       return this;
@@ -7534,6 +7811,7 @@ public  final class AndroidStudioEvent extends
      *
      * <pre>
      * set when kind = MONITOR_ACTIVATED or kind = MONITOR_RUNNING
+     * Deprecated by AndroidProfilerEvent
      * </pre>
      */
     public boolean hasMonitorType() {
@@ -7544,6 +7822,7 @@ public  final class AndroidStudioEvent extends
      *
      * <pre>
      * set when kind = MONITOR_ACTIVATED or kind = MONITOR_RUNNING
+     * Deprecated by AndroidProfilerEvent
      * </pre>
      */
     public com.google.wireless.android.sdk.stats.AndroidStudioEvent.MonitorType getMonitorType() {
@@ -7554,6 +7833,7 @@ public  final class AndroidStudioEvent extends
      *
      * <pre>
      * set when kind = MONITOR_ACTIVATED or kind = MONITOR_RUNNING
+     * Deprecated by AndroidProfilerEvent
      * </pre>
      */
     public Builder setMonitorType(com.google.wireless.android.sdk.stats.AndroidStudioEvent.MonitorType value) {
@@ -7570,6 +7850,7 @@ public  final class AndroidStudioEvent extends
      *
      * <pre>
      * set when kind = MONITOR_ACTIVATED or kind = MONITOR_RUNNING
+     * Deprecated by AndroidProfilerEvent
      * </pre>
      */
     public Builder clearMonitorType() {
@@ -7586,6 +7867,7 @@ public  final class AndroidStudioEvent extends
      *
      * <pre>
      * set when kind = MONITOR_RUNNING
+     * Deprecated by AndroidProfilerEvent
      * </pre>
      */
     public boolean hasMonitorPaused() {
@@ -7596,6 +7878,7 @@ public  final class AndroidStudioEvent extends
      *
      * <pre>
      * set when kind = MONITOR_RUNNING
+     * Deprecated by AndroidProfilerEvent
      * </pre>
      */
     public boolean getMonitorPaused() {
@@ -7606,6 +7889,7 @@ public  final class AndroidStudioEvent extends
      *
      * <pre>
      * set when kind = MONITOR_RUNNING
+     * Deprecated by AndroidProfilerEvent
      * </pre>
      */
     public Builder setMonitorPaused(boolean value) {
@@ -7619,6 +7903,7 @@ public  final class AndroidStudioEvent extends
      *
      * <pre>
      * set when kind = MONITOR_RUNNING
+     * Deprecated by AndroidProfilerEvent
      * </pre>
      */
     public Builder clearMonitorPaused() {
@@ -7635,6 +7920,7 @@ public  final class AndroidStudioEvent extends
      *
      * <pre>
      * set when kind = PROFILING_OPEN or PROFILING_CAPTURE
+     * Deprecated by AndroidProfilerEvent
      * </pre>
      */
     public boolean hasProfilerCaptureType() {
@@ -7645,6 +7931,7 @@ public  final class AndroidStudioEvent extends
      *
      * <pre>
      * set when kind = PROFILING_OPEN or PROFILING_CAPTURE
+     * Deprecated by AndroidProfilerEvent
      * </pre>
      */
     public com.google.wireless.android.sdk.stats.AndroidStudioEvent.ProfilerCaptureType getProfilerCaptureType() {
@@ -7655,6 +7942,7 @@ public  final class AndroidStudioEvent extends
      *
      * <pre>
      * set when kind = PROFILING_OPEN or PROFILING_CAPTURE
+     * Deprecated by AndroidProfilerEvent
      * </pre>
      */
     public Builder setProfilerCaptureType(com.google.wireless.android.sdk.stats.AndroidStudioEvent.ProfilerCaptureType value) {
@@ -7671,6 +7959,7 @@ public  final class AndroidStudioEvent extends
      *
      * <pre>
      * set when kind = PROFILING_OPEN or PROFILING_CAPTURE
+     * Deprecated by AndroidProfilerEvent
      * </pre>
      */
     public Builder clearProfilerCaptureType() {
@@ -7833,6 +8122,7 @@ public  final class AndroidStudioEvent extends
      * <code>optional .android_studio.AndroidStudioEvent.RunConfigurationType run_configuration_type = 10;</code>
      *
      * <pre>
+     * Deprecated, use debug_session_start_details instead.
      * set when kind = LLDB_SESSION_STARTED
      * </pre>
      */
@@ -7843,6 +8133,7 @@ public  final class AndroidStudioEvent extends
      * <code>optional .android_studio.AndroidStudioEvent.RunConfigurationType run_configuration_type = 10;</code>
      *
      * <pre>
+     * Deprecated, use debug_session_start_details instead.
      * set when kind = LLDB_SESSION_STARTED
      * </pre>
      */
@@ -7853,6 +8144,7 @@ public  final class AndroidStudioEvent extends
      * <code>optional .android_studio.AndroidStudioEvent.RunConfigurationType run_configuration_type = 10;</code>
      *
      * <pre>
+     * Deprecated, use debug_session_start_details instead.
      * set when kind = LLDB_SESSION_STARTED
      * </pre>
      */
@@ -7869,6 +8161,7 @@ public  final class AndroidStudioEvent extends
      * <code>optional .android_studio.AndroidStudioEvent.RunConfigurationType run_configuration_type = 10;</code>
      *
      * <pre>
+     * Deprecated, use debug_session_start_details instead.
      * set when kind = LLDB_SESSION_STARTED
      * </pre>
      */
@@ -7885,6 +8178,7 @@ public  final class AndroidStudioEvent extends
      * <code>optional .android_studio.AndroidStudioEvent.DebuggerType debugger_type = 11;</code>
      *
      * <pre>
+     * Deprecated, use debug_session_start_details instead.
      * set when kind = LLDB_SESSION_STARTED
      * </pre>
      */
@@ -7895,6 +8189,7 @@ public  final class AndroidStudioEvent extends
      * <code>optional .android_studio.AndroidStudioEvent.DebuggerType debugger_type = 11;</code>
      *
      * <pre>
+     * Deprecated, use debug_session_start_details instead.
      * set when kind = LLDB_SESSION_STARTED
      * </pre>
      */
@@ -7905,6 +8200,7 @@ public  final class AndroidStudioEvent extends
      * <code>optional .android_studio.AndroidStudioEvent.DebuggerType debugger_type = 11;</code>
      *
      * <pre>
+     * Deprecated, use debug_session_start_details instead.
      * set when kind = LLDB_SESSION_STARTED
      * </pre>
      */
@@ -7921,6 +8217,7 @@ public  final class AndroidStudioEvent extends
      * <code>optional .android_studio.AndroidStudioEvent.DebuggerType debugger_type = 11;</code>
      *
      * <pre>
+     * Deprecated, use debug_session_start_details instead.
      * set when kind = LLDB_SESSION_STARTED
      * </pre>
      */
@@ -8144,7 +8441,7 @@ public  final class AndroidStudioEvent extends
      * <code>optional string lldb_session_failure_message = 13;</code>
      *
      * <pre>
-     * set when kind = LLDB_SESSION_FAILED or kind = LLDB_INSTALL_FAILED
+     * set when kind = LLDB_INSTALL_FAILED
      * e.g. 'failed to get reply to handshake packet'
      * </pre>
      */
@@ -8155,7 +8452,7 @@ public  final class AndroidStudioEvent extends
      * <code>optional string lldb_session_failure_message = 13;</code>
      *
      * <pre>
-     * set when kind = LLDB_SESSION_FAILED or kind = LLDB_INSTALL_FAILED
+     * set when kind = LLDB_INSTALL_FAILED
      * e.g. 'failed to get reply to handshake packet'
      * </pre>
      */
@@ -8174,7 +8471,7 @@ public  final class AndroidStudioEvent extends
      * <code>optional string lldb_session_failure_message = 13;</code>
      *
      * <pre>
-     * set when kind = LLDB_SESSION_FAILED or kind = LLDB_INSTALL_FAILED
+     * set when kind = LLDB_INSTALL_FAILED
      * e.g. 'failed to get reply to handshake packet'
      * </pre>
      */
@@ -8195,7 +8492,7 @@ public  final class AndroidStudioEvent extends
      * <code>optional string lldb_session_failure_message = 13;</code>
      *
      * <pre>
-     * set when kind = LLDB_SESSION_FAILED or kind = LLDB_INSTALL_FAILED
+     * set when kind = LLDB_INSTALL_FAILED
      * e.g. 'failed to get reply to handshake packet'
      * </pre>
      */
@@ -8213,7 +8510,7 @@ public  final class AndroidStudioEvent extends
      * <code>optional string lldb_session_failure_message = 13;</code>
      *
      * <pre>
-     * set when kind = LLDB_SESSION_FAILED or kind = LLDB_INSTALL_FAILED
+     * set when kind = LLDB_INSTALL_FAILED
      * e.g. 'failed to get reply to handshake packet'
      * </pre>
      */
@@ -8227,7 +8524,7 @@ public  final class AndroidStudioEvent extends
      * <code>optional string lldb_session_failure_message = 13;</code>
      *
      * <pre>
-     * set when kind = LLDB_SESSION_FAILED or kind = LLDB_INSTALL_FAILED
+     * set when kind = LLDB_INSTALL_FAILED
      * e.g. 'failed to get reply to handshake packet'
      * </pre>
      */
@@ -12702,6 +12999,465 @@ public  final class AndroidStudioEvent extends
         adbAssistantStats_ = null;
       }
       return adbAssistantStatsBuilder_;
+    }
+
+    // optional .android_studio.LldbSessionStartDetails lldb_session_start_details = 46;
+    private com.google.wireless.android.sdk.stats.LldbSessionStartDetails lldbSessionStartDetails_ = com.google.wireless.android.sdk.stats.LldbSessionStartDetails.getDefaultInstance();
+    private com.google.protobuf.SingleFieldBuilder<
+        com.google.wireless.android.sdk.stats.LldbSessionStartDetails, com.google.wireless.android.sdk.stats.LldbSessionStartDetails.Builder, com.google.wireless.android.sdk.stats.LldbSessionStartDetailsOrBuilder> lldbSessionStartDetailsBuilder_;
+    /**
+     * <code>optional .android_studio.LldbSessionStartDetails lldb_session_start_details = 46;</code>
+     *
+     * <pre>
+     * set when kind = LLDB_SESSION_STARTED
+     * </pre>
+     */
+    public boolean hasLldbSessionStartDetails() {
+      return ((bitField1_ & 0x00002000) == 0x00002000);
+    }
+    /**
+     * <code>optional .android_studio.LldbSessionStartDetails lldb_session_start_details = 46;</code>
+     *
+     * <pre>
+     * set when kind = LLDB_SESSION_STARTED
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.LldbSessionStartDetails getLldbSessionStartDetails() {
+      if (lldbSessionStartDetailsBuilder_ == null) {
+        return lldbSessionStartDetails_;
+      } else {
+        return lldbSessionStartDetailsBuilder_.getMessage();
+      }
+    }
+    /**
+     * <code>optional .android_studio.LldbSessionStartDetails lldb_session_start_details = 46;</code>
+     *
+     * <pre>
+     * set when kind = LLDB_SESSION_STARTED
+     * </pre>
+     */
+    public Builder setLldbSessionStartDetails(com.google.wireless.android.sdk.stats.LldbSessionStartDetails value) {
+      if (lldbSessionStartDetailsBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        lldbSessionStartDetails_ = value;
+        onChanged();
+      } else {
+        lldbSessionStartDetailsBuilder_.setMessage(value);
+      }
+      bitField1_ |= 0x00002000;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.LldbSessionStartDetails lldb_session_start_details = 46;</code>
+     *
+     * <pre>
+     * set when kind = LLDB_SESSION_STARTED
+     * </pre>
+     */
+    public Builder setLldbSessionStartDetails(
+        com.google.wireless.android.sdk.stats.LldbSessionStartDetails.Builder builderForValue) {
+      if (lldbSessionStartDetailsBuilder_ == null) {
+        lldbSessionStartDetails_ = builderForValue.build();
+        onChanged();
+      } else {
+        lldbSessionStartDetailsBuilder_.setMessage(builderForValue.build());
+      }
+      bitField1_ |= 0x00002000;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.LldbSessionStartDetails lldb_session_start_details = 46;</code>
+     *
+     * <pre>
+     * set when kind = LLDB_SESSION_STARTED
+     * </pre>
+     */
+    public Builder mergeLldbSessionStartDetails(com.google.wireless.android.sdk.stats.LldbSessionStartDetails value) {
+      if (lldbSessionStartDetailsBuilder_ == null) {
+        if (((bitField1_ & 0x00002000) == 0x00002000) &&
+            lldbSessionStartDetails_ != com.google.wireless.android.sdk.stats.LldbSessionStartDetails.getDefaultInstance()) {
+          lldbSessionStartDetails_ =
+            com.google.wireless.android.sdk.stats.LldbSessionStartDetails.newBuilder(lldbSessionStartDetails_).mergeFrom(value).buildPartial();
+        } else {
+          lldbSessionStartDetails_ = value;
+        }
+        onChanged();
+      } else {
+        lldbSessionStartDetailsBuilder_.mergeFrom(value);
+      }
+      bitField1_ |= 0x00002000;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.LldbSessionStartDetails lldb_session_start_details = 46;</code>
+     *
+     * <pre>
+     * set when kind = LLDB_SESSION_STARTED
+     * </pre>
+     */
+    public Builder clearLldbSessionStartDetails() {
+      if (lldbSessionStartDetailsBuilder_ == null) {
+        lldbSessionStartDetails_ = com.google.wireless.android.sdk.stats.LldbSessionStartDetails.getDefaultInstance();
+        onChanged();
+      } else {
+        lldbSessionStartDetailsBuilder_.clear();
+      }
+      bitField1_ = (bitField1_ & ~0x00002000);
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.LldbSessionStartDetails lldb_session_start_details = 46;</code>
+     *
+     * <pre>
+     * set when kind = LLDB_SESSION_STARTED
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.LldbSessionStartDetails.Builder getLldbSessionStartDetailsBuilder() {
+      bitField1_ |= 0x00002000;
+      onChanged();
+      return getLldbSessionStartDetailsFieldBuilder().getBuilder();
+    }
+    /**
+     * <code>optional .android_studio.LldbSessionStartDetails lldb_session_start_details = 46;</code>
+     *
+     * <pre>
+     * set when kind = LLDB_SESSION_STARTED
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.LldbSessionStartDetailsOrBuilder getLldbSessionStartDetailsOrBuilder() {
+      if (lldbSessionStartDetailsBuilder_ != null) {
+        return lldbSessionStartDetailsBuilder_.getMessageOrBuilder();
+      } else {
+        return lldbSessionStartDetails_;
+      }
+    }
+    /**
+     * <code>optional .android_studio.LldbSessionStartDetails lldb_session_start_details = 46;</code>
+     *
+     * <pre>
+     * set when kind = LLDB_SESSION_STARTED
+     * </pre>
+     */
+    private com.google.protobuf.SingleFieldBuilder<
+        com.google.wireless.android.sdk.stats.LldbSessionStartDetails, com.google.wireless.android.sdk.stats.LldbSessionStartDetails.Builder, com.google.wireless.android.sdk.stats.LldbSessionStartDetailsOrBuilder> 
+        getLldbSessionStartDetailsFieldBuilder() {
+      if (lldbSessionStartDetailsBuilder_ == null) {
+        lldbSessionStartDetailsBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+            com.google.wireless.android.sdk.stats.LldbSessionStartDetails, com.google.wireless.android.sdk.stats.LldbSessionStartDetails.Builder, com.google.wireless.android.sdk.stats.LldbSessionStartDetailsOrBuilder>(
+                lldbSessionStartDetails_,
+                getParentForChildren(),
+                isClean());
+        lldbSessionStartDetails_ = null;
+      }
+      return lldbSessionStartDetailsBuilder_;
+    }
+
+    // optional .android_studio.LldbSessionEndDetails lldb_session_end_details = 47;
+    private com.google.wireless.android.sdk.stats.LldbSessionEndDetails lldbSessionEndDetails_ = com.google.wireless.android.sdk.stats.LldbSessionEndDetails.getDefaultInstance();
+    private com.google.protobuf.SingleFieldBuilder<
+        com.google.wireless.android.sdk.stats.LldbSessionEndDetails, com.google.wireless.android.sdk.stats.LldbSessionEndDetails.Builder, com.google.wireless.android.sdk.stats.LldbSessionEndDetailsOrBuilder> lldbSessionEndDetailsBuilder_;
+    /**
+     * <code>optional .android_studio.LldbSessionEndDetails lldb_session_end_details = 47;</code>
+     *
+     * <pre>
+     * set when kind = LLDB_SESSION_ENDED
+     * </pre>
+     */
+    public boolean hasLldbSessionEndDetails() {
+      return ((bitField1_ & 0x00004000) == 0x00004000);
+    }
+    /**
+     * <code>optional .android_studio.LldbSessionEndDetails lldb_session_end_details = 47;</code>
+     *
+     * <pre>
+     * set when kind = LLDB_SESSION_ENDED
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.LldbSessionEndDetails getLldbSessionEndDetails() {
+      if (lldbSessionEndDetailsBuilder_ == null) {
+        return lldbSessionEndDetails_;
+      } else {
+        return lldbSessionEndDetailsBuilder_.getMessage();
+      }
+    }
+    /**
+     * <code>optional .android_studio.LldbSessionEndDetails lldb_session_end_details = 47;</code>
+     *
+     * <pre>
+     * set when kind = LLDB_SESSION_ENDED
+     * </pre>
+     */
+    public Builder setLldbSessionEndDetails(com.google.wireless.android.sdk.stats.LldbSessionEndDetails value) {
+      if (lldbSessionEndDetailsBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        lldbSessionEndDetails_ = value;
+        onChanged();
+      } else {
+        lldbSessionEndDetailsBuilder_.setMessage(value);
+      }
+      bitField1_ |= 0x00004000;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.LldbSessionEndDetails lldb_session_end_details = 47;</code>
+     *
+     * <pre>
+     * set when kind = LLDB_SESSION_ENDED
+     * </pre>
+     */
+    public Builder setLldbSessionEndDetails(
+        com.google.wireless.android.sdk.stats.LldbSessionEndDetails.Builder builderForValue) {
+      if (lldbSessionEndDetailsBuilder_ == null) {
+        lldbSessionEndDetails_ = builderForValue.build();
+        onChanged();
+      } else {
+        lldbSessionEndDetailsBuilder_.setMessage(builderForValue.build());
+      }
+      bitField1_ |= 0x00004000;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.LldbSessionEndDetails lldb_session_end_details = 47;</code>
+     *
+     * <pre>
+     * set when kind = LLDB_SESSION_ENDED
+     * </pre>
+     */
+    public Builder mergeLldbSessionEndDetails(com.google.wireless.android.sdk.stats.LldbSessionEndDetails value) {
+      if (lldbSessionEndDetailsBuilder_ == null) {
+        if (((bitField1_ & 0x00004000) == 0x00004000) &&
+            lldbSessionEndDetails_ != com.google.wireless.android.sdk.stats.LldbSessionEndDetails.getDefaultInstance()) {
+          lldbSessionEndDetails_ =
+            com.google.wireless.android.sdk.stats.LldbSessionEndDetails.newBuilder(lldbSessionEndDetails_).mergeFrom(value).buildPartial();
+        } else {
+          lldbSessionEndDetails_ = value;
+        }
+        onChanged();
+      } else {
+        lldbSessionEndDetailsBuilder_.mergeFrom(value);
+      }
+      bitField1_ |= 0x00004000;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.LldbSessionEndDetails lldb_session_end_details = 47;</code>
+     *
+     * <pre>
+     * set when kind = LLDB_SESSION_ENDED
+     * </pre>
+     */
+    public Builder clearLldbSessionEndDetails() {
+      if (lldbSessionEndDetailsBuilder_ == null) {
+        lldbSessionEndDetails_ = com.google.wireless.android.sdk.stats.LldbSessionEndDetails.getDefaultInstance();
+        onChanged();
+      } else {
+        lldbSessionEndDetailsBuilder_.clear();
+      }
+      bitField1_ = (bitField1_ & ~0x00004000);
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.LldbSessionEndDetails lldb_session_end_details = 47;</code>
+     *
+     * <pre>
+     * set when kind = LLDB_SESSION_ENDED
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.LldbSessionEndDetails.Builder getLldbSessionEndDetailsBuilder() {
+      bitField1_ |= 0x00004000;
+      onChanged();
+      return getLldbSessionEndDetailsFieldBuilder().getBuilder();
+    }
+    /**
+     * <code>optional .android_studio.LldbSessionEndDetails lldb_session_end_details = 47;</code>
+     *
+     * <pre>
+     * set when kind = LLDB_SESSION_ENDED
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.LldbSessionEndDetailsOrBuilder getLldbSessionEndDetailsOrBuilder() {
+      if (lldbSessionEndDetailsBuilder_ != null) {
+        return lldbSessionEndDetailsBuilder_.getMessageOrBuilder();
+      } else {
+        return lldbSessionEndDetails_;
+      }
+    }
+    /**
+     * <code>optional .android_studio.LldbSessionEndDetails lldb_session_end_details = 47;</code>
+     *
+     * <pre>
+     * set when kind = LLDB_SESSION_ENDED
+     * </pre>
+     */
+    private com.google.protobuf.SingleFieldBuilder<
+        com.google.wireless.android.sdk.stats.LldbSessionEndDetails, com.google.wireless.android.sdk.stats.LldbSessionEndDetails.Builder, com.google.wireless.android.sdk.stats.LldbSessionEndDetailsOrBuilder> 
+        getLldbSessionEndDetailsFieldBuilder() {
+      if (lldbSessionEndDetailsBuilder_ == null) {
+        lldbSessionEndDetailsBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+            com.google.wireless.android.sdk.stats.LldbSessionEndDetails, com.google.wireless.android.sdk.stats.LldbSessionEndDetails.Builder, com.google.wireless.android.sdk.stats.LldbSessionEndDetailsOrBuilder>(
+                lldbSessionEndDetails_,
+                getParentForChildren(),
+                isClean());
+        lldbSessionEndDetails_ = null;
+      }
+      return lldbSessionEndDetailsBuilder_;
+    }
+
+    // optional .android_studio.AndroidProfilerEvent android_profiler_event = 48;
+    private com.google.wireless.android.sdk.stats.AndroidProfilerEvent androidProfilerEvent_ = com.google.wireless.android.sdk.stats.AndroidProfilerEvent.getDefaultInstance();
+    private com.google.protobuf.SingleFieldBuilder<
+        com.google.wireless.android.sdk.stats.AndroidProfilerEvent, com.google.wireless.android.sdk.stats.AndroidProfilerEvent.Builder, com.google.wireless.android.sdk.stats.AndroidProfilerEventOrBuilder> androidProfilerEventBuilder_;
+    /**
+     * <code>optional .android_studio.AndroidProfilerEvent android_profiler_event = 48;</code>
+     *
+     * <pre>
+     * set when kind = ANDROID_PROFILER
+     * </pre>
+     */
+    public boolean hasAndroidProfilerEvent() {
+      return ((bitField1_ & 0x00008000) == 0x00008000);
+    }
+    /**
+     * <code>optional .android_studio.AndroidProfilerEvent android_profiler_event = 48;</code>
+     *
+     * <pre>
+     * set when kind = ANDROID_PROFILER
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.AndroidProfilerEvent getAndroidProfilerEvent() {
+      if (androidProfilerEventBuilder_ == null) {
+        return androidProfilerEvent_;
+      } else {
+        return androidProfilerEventBuilder_.getMessage();
+      }
+    }
+    /**
+     * <code>optional .android_studio.AndroidProfilerEvent android_profiler_event = 48;</code>
+     *
+     * <pre>
+     * set when kind = ANDROID_PROFILER
+     * </pre>
+     */
+    public Builder setAndroidProfilerEvent(com.google.wireless.android.sdk.stats.AndroidProfilerEvent value) {
+      if (androidProfilerEventBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        androidProfilerEvent_ = value;
+        onChanged();
+      } else {
+        androidProfilerEventBuilder_.setMessage(value);
+      }
+      bitField1_ |= 0x00008000;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.AndroidProfilerEvent android_profiler_event = 48;</code>
+     *
+     * <pre>
+     * set when kind = ANDROID_PROFILER
+     * </pre>
+     */
+    public Builder setAndroidProfilerEvent(
+        com.google.wireless.android.sdk.stats.AndroidProfilerEvent.Builder builderForValue) {
+      if (androidProfilerEventBuilder_ == null) {
+        androidProfilerEvent_ = builderForValue.build();
+        onChanged();
+      } else {
+        androidProfilerEventBuilder_.setMessage(builderForValue.build());
+      }
+      bitField1_ |= 0x00008000;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.AndroidProfilerEvent android_profiler_event = 48;</code>
+     *
+     * <pre>
+     * set when kind = ANDROID_PROFILER
+     * </pre>
+     */
+    public Builder mergeAndroidProfilerEvent(com.google.wireless.android.sdk.stats.AndroidProfilerEvent value) {
+      if (androidProfilerEventBuilder_ == null) {
+        if (((bitField1_ & 0x00008000) == 0x00008000) &&
+            androidProfilerEvent_ != com.google.wireless.android.sdk.stats.AndroidProfilerEvent.getDefaultInstance()) {
+          androidProfilerEvent_ =
+            com.google.wireless.android.sdk.stats.AndroidProfilerEvent.newBuilder(androidProfilerEvent_).mergeFrom(value).buildPartial();
+        } else {
+          androidProfilerEvent_ = value;
+        }
+        onChanged();
+      } else {
+        androidProfilerEventBuilder_.mergeFrom(value);
+      }
+      bitField1_ |= 0x00008000;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.AndroidProfilerEvent android_profiler_event = 48;</code>
+     *
+     * <pre>
+     * set when kind = ANDROID_PROFILER
+     * </pre>
+     */
+    public Builder clearAndroidProfilerEvent() {
+      if (androidProfilerEventBuilder_ == null) {
+        androidProfilerEvent_ = com.google.wireless.android.sdk.stats.AndroidProfilerEvent.getDefaultInstance();
+        onChanged();
+      } else {
+        androidProfilerEventBuilder_.clear();
+      }
+      bitField1_ = (bitField1_ & ~0x00008000);
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.AndroidProfilerEvent android_profiler_event = 48;</code>
+     *
+     * <pre>
+     * set when kind = ANDROID_PROFILER
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.AndroidProfilerEvent.Builder getAndroidProfilerEventBuilder() {
+      bitField1_ |= 0x00008000;
+      onChanged();
+      return getAndroidProfilerEventFieldBuilder().getBuilder();
+    }
+    /**
+     * <code>optional .android_studio.AndroidProfilerEvent android_profiler_event = 48;</code>
+     *
+     * <pre>
+     * set when kind = ANDROID_PROFILER
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.AndroidProfilerEventOrBuilder getAndroidProfilerEventOrBuilder() {
+      if (androidProfilerEventBuilder_ != null) {
+        return androidProfilerEventBuilder_.getMessageOrBuilder();
+      } else {
+        return androidProfilerEvent_;
+      }
+    }
+    /**
+     * <code>optional .android_studio.AndroidProfilerEvent android_profiler_event = 48;</code>
+     *
+     * <pre>
+     * set when kind = ANDROID_PROFILER
+     * </pre>
+     */
+    private com.google.protobuf.SingleFieldBuilder<
+        com.google.wireless.android.sdk.stats.AndroidProfilerEvent, com.google.wireless.android.sdk.stats.AndroidProfilerEvent.Builder, com.google.wireless.android.sdk.stats.AndroidProfilerEventOrBuilder> 
+        getAndroidProfilerEventFieldBuilder() {
+      if (androidProfilerEventBuilder_ == null) {
+        androidProfilerEventBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+            com.google.wireless.android.sdk.stats.AndroidProfilerEvent, com.google.wireless.android.sdk.stats.AndroidProfilerEvent.Builder, com.google.wireless.android.sdk.stats.AndroidProfilerEventOrBuilder>(
+                androidProfilerEvent_,
+                getParentForChildren(),
+                isClean());
+        androidProfilerEvent_ = null;
+      }
+      return androidProfilerEventBuilder_;
     }
 
     // @@protoc_insertion_point(builder_scope:android_studio.AndroidStudioEvent)

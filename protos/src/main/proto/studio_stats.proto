@@ -35,12 +35,15 @@ message AndroidStudioEvent {
   optional ProductDetails product_details = 4;
 
   // set when kind = MONITOR_ACTIVATED or kind = MONITOR_RUNNING
+  // Deprecated by AndroidProfilerEvent
   optional MonitorType monitor_type = 5;
 
   // set when kind = MONITOR_RUNNING
+  // Deprecated by AndroidProfilerEvent
   optional bool monitor_paused = 6;
 
   // set when kind = PROFILING_OPEN or PROFILING_CAPTURE
+  // Deprecated by AndroidProfilerEvent
   optional ProfilerCaptureType profiler_capture_type = 7;
 
   // set when kind = CLOUD_TESTING_BACKEND_ERROR
@@ -49,9 +52,11 @@ message AndroidStudioEvent {
   // set when kind = CLOUD_TESTING_COMPARE_SCREENSHOTS_OPENED
   optional int32 cloud_testing_loaded_screenshots_count = 9;
 
+  // Deprecated, use debug_session_start_details instead.
   // set when kind = LLDB_SESSION_STARTED
   optional RunConfigurationType run_configuration_type = 10;
 
+  // Deprecated, use debug_session_start_details instead.
   // set when kind = LLDB_SESSION_STARTED
   optional DebuggerType debugger_type = 11;
 
@@ -64,7 +69,7 @@ message AndroidStudioEvent {
   // or kind = TEST_RUN
   optional DeviceInfo device_info = 12;
 
-  // set when kind = LLDB_SESSION_FAILED or kind = LLDB_INSTALL_FAILED
+  // set when kind = LLDB_INSTALL_FAILED
   // e.g. 'failed to get reply to handshake packet'
   optional string lldb_session_failure_message = 13;
 
@@ -169,6 +174,15 @@ message AndroidStudioEvent {
   // set when kind = ADB_ASSISTANT_STATS
   optional AdbAssistantStats adb_assistant_stats = 45;
 
+  // set when kind = LLDB_SESSION_STARTED
+  optional LldbSessionStartDetails lldb_session_start_details = 46;
+
+  // set when kind = LLDB_SESSION_ENDED
+  optional LldbSessionEndDetails lldb_session_end_details = 47;
+
+  // set when kind = ANDROID_PROFILER
+  optional AndroidProfilerEvent android_profiler_event = 48;
+
   // Describes a group of event kinds related to each other.
   // This is redundant in the presence of EventKind + event specific message,
   // and is only necessary for events originally sent to GA.
@@ -185,8 +199,10 @@ message AndroidStudioEvent {
     // The event is related to interaction between Android Studio and Gradle.
     GRADLE_SYNC = 4;
     // The event is related to Performance Profiling.
+    // Deprecated by AndroidProfilerEvent
     PROFILING = 5;
     // The event is related to Performance Monitoring.
+    // Deprecated by AndroidProfilerEvent
     MONITOR = 6;
     // The event is related to the SDK Manager.
     SDK_MANAGER = 7;
@@ -218,6 +234,7 @@ message AndroidStudioEvent {
     // The event is related to the Firebase assistant.
     FIREBASE_ASSISTANT = 20;
     // The event is related to the GPU Profiler.
+    // Deprecated by AndroidProfilerEvent
     GPU_PROFILER = 21;
     // the event is related to the test recorder (Cassette)
     TEST_RECORDER = 22;
@@ -258,8 +275,10 @@ message AndroidStudioEvent {
     // Analysis of the profiling data in progress.
     PROFILING_ANALYSIS_RUN = 13;
     // Performance monitoring has been activated.
+    // Deprecated by AndroidProfilerEvent
     MONITOR_ACTIVATED = 14;
     // Performance monitoring is running.
+    // Deprecated by AndroidProfilerEvent
     MONITOR_RUNNING = 15;
     // The user selected an action from the SDK Manager Toolbar.
     SDK_MANAGER_TOOLBAR_CLICKED = 16;
@@ -287,8 +306,10 @@ message AndroidStudioEvent {
     LLDB_LAUNCHED = 27;
     // Native debugger session has started.
     LLDB_SESSION_STARTED = 28;
+    // Deprecated, use LLDB_SESSION_ENDED instead.
     // Native debugger session has failed.
     LLDB_SESSION_FAILED = 29;
+    // Deprecated, use DEBUG_SESSION_ENDED instead.
     // Native debugger session has completed successfully.
     LLDB_SESSION_COMPLETED = 30;
     // SDK Manager QuickFix Wizard is invoked to install LLDB package.
@@ -468,6 +489,12 @@ message AndroidStudioEvent {
 
     // Opened ADB Connection Help Link
     ADB_ASSISTANT_STATS = 114;
+
+    // A native debug session ended.
+    LLDB_SESSION_ENDED = 115;
+
+    // Android Profiler event
+    ANDROID_PROFILER = 116;
   }
 
   // Represents different Performance Monitoring types.
@@ -693,6 +720,32 @@ message DeviceInfo {
     CLOUD_EMULATOR = 3;
     CLOUD_PHYSICAL = 4;
   }
+}
+
+message LldbSessionStartDetails {
+  // A UUID used to relate start and end of a native debug session.
+  optional string debug_session_id = 1;
+  // Debugger type for this session
+  optional AndroidStudioEvent.DebuggerType debugger_type = 2;
+  // Run configuration that was used to start this sesssion.
+  optional AndroidStudioEvent.RunConfigurationType run_configuration_type = 3;
+  // True if debugger_type was chosen via the Auto debugger type.
+  optional bool auto_debugger = 4;
+  // Device on which the debuggable app is running.
+  optional DeviceInfo device_info = 5;
+  // Version of the native debugger.
+  optional string lldb_version = 6;
+}
+
+message LldbSessionEndDetails {
+  // A UUID used to relate start and end of a native debug session.
+  optional string debug_session_id = 1;
+  // If the session ended with a failure, the related message.
+  // e.g. 'failed to get reply to handshake packet'
+  optional string failure_message = 2;
+  // Number of times the program was stopped by the debugger.
+  // Proxy for use of the session to compute error rates.
+  optional uint64 stops = 3;
 }
 
 // Metrics on crashes in Android Studio.
@@ -2234,5 +2287,82 @@ message AdbAssistantStats {
     NO_RUNNING_DEVICE = 1;
     // Don't see your device link on the bottom right of dialog
     DONT_SEE_DEVICE = 2;
+  }
+}
+
+// Android Profiler metrics
+message AndroidProfilerEvent {
+  // The current stage we're on when this event was generated
+  optional Stage stage = 1;
+
+  // The detailed type of this event.
+  optional Type type = 2;
+
+  enum Stage {
+    UNKNOWN_STAGE = 0;
+
+    // The special stage shown to users when no device or process is available
+    NULL_STAGE = 1;
+    // The top-level view that shows all monitors at the same time
+    OVERVIEW_STAGE = 2;
+    CPU_STAGE = 3;
+    MEMORY_STAGE = 4;
+    NETWORK_STAGE = 5;
+  }
+
+  enum Type {
+    UNKNOWN_TYPE = 0;
+
+    /// System
+
+    // Fired when user starts profiling any app
+    PROFILING_STARTED = 1;
+    // Fired when user's profiling session attaches to an instrumented app
+    ADVANCED_PROFILING_STARTED = 2;
+    // This event should be correlated with |stage|
+    STAGE_ENTERED = 3;
+
+    /// General
+
+    CHANGE_DEVICE = 101;
+    CHANGE_PROCESS = 102;
+    GO_BACK = 103;
+    SELECT_MONITOR = 104;
+    ZOOM_IN = 105;
+    ZOOM_OUT = 106;
+    ZOOM_RESET = 107;
+    GO_LIVE = 108;
+    NAVIGATE_TO_CODE = 109;
+    // Create a selection on the current monitor's main chart. This event should
+    // be correlated with |stage|.
+    SELECT_RANGE = 110;
+
+    /// CPU
+
+    TRACE_SAMPLED = 201;
+    TRACE_INSTRUMENTED = 202;
+    SELECT_THREAD = 204;
+    SELECT_TOP_DOWN = 205;
+    SELECT_BOTTOM_UP = 206;
+    SELECT_FLAME_CHART = 207;
+
+    /// Memory
+
+    FORCE_GC = 301;
+    SNAPSHOT_HPROF = 302;
+    CAPTURE_ALLOCATIONS = 303;
+    SELECT_MEMORY_CHART = 304;
+    EXPORT_HPROF = 305;
+    EXPORT_ALLOCATION = 306;
+    ARRANGE_CLASSES = 307;
+    SELECT_MEMORY_STACK = 308;
+    SELECT_MEMORY_REFERENCES = 309;
+
+    /// Network
+
+    SELECT_CONNECTION = 402;
+    SELECT_DETAILS_RESPONSE = 403;
+    SELECT_DETAILS_HEADERS = 404;
+    SELECT_DETAILS_STACK = 405;
   }
 }
