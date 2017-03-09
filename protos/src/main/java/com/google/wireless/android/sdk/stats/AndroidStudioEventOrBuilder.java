@@ -769,7 +769,7 @@ public interface AndroidStudioEventOrBuilder
    *
    * <pre>
    * Client-side salted (rotating every 28 days), sha256 of the project id.
-   * set when kind = PROJECT_STRUCTURE_*.
+   * set when kind = PROJECT_STRUCTURE_* or kind = APK_ANALYZER_STATS
    * </pre>
    */
   boolean hasProjectId();
@@ -778,7 +778,7 @@ public interface AndroidStudioEventOrBuilder
    *
    * <pre>
    * Client-side salted (rotating every 28 days), sha256 of the project id.
-   * set when kind = PROJECT_STRUCTURE_*.
+   * set when kind = PROJECT_STRUCTURE_* or kind = APK_ANALYZER_STATS
    * </pre>
    */
   java.lang.String getProjectId();
@@ -787,7 +787,7 @@ public interface AndroidStudioEventOrBuilder
    *
    * <pre>
    * Client-side salted (rotating every 28 days), sha256 of the project id.
-   * set when kind = PROJECT_STRUCTURE_*.
+   * set when kind = PROJECT_STRUCTURE_* or kind = APK_ANALYZER_STATS
    * </pre>
    */
   com.google.protobuf.ByteString
@@ -1234,4 +1234,30 @@ public interface AndroidStudioEventOrBuilder
    * </pre>
    */
   com.google.wireless.android.sdk.stats.AndroidProfilerEventOrBuilder getAndroidProfilerEventOrBuilder();
+
+  // optional .android_studio.ApkAnalyzerStats apk_analyzer_stats = 49;
+  /**
+   * <code>optional .android_studio.ApkAnalyzerStats apk_analyzer_stats = 49;</code>
+   *
+   * <pre>
+   * set when kind = APK_ANALYZER_STATS
+   * </pre>
+   */
+  boolean hasApkAnalyzerStats();
+  /**
+   * <code>optional .android_studio.ApkAnalyzerStats apk_analyzer_stats = 49;</code>
+   *
+   * <pre>
+   * set when kind = APK_ANALYZER_STATS
+   * </pre>
+   */
+  com.google.wireless.android.sdk.stats.ApkAnalyzerStats getApkAnalyzerStats();
+  /**
+   * <code>optional .android_studio.ApkAnalyzerStats apk_analyzer_stats = 49;</code>
+   *
+   * <pre>
+   * set when kind = APK_ANALYZER_STATS
+   * </pre>
+   */
+  com.google.wireless.android.sdk.stats.ApkAnalyzerStatsOrBuilder getApkAnalyzerStatsOrBuilder();
 }
