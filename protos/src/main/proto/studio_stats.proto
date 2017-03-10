@@ -129,7 +129,7 @@ message AndroidStudioEvent {
   optional FirebaseErrorDetails firebase_error_details = 30;
 
   // Client-side salted (rotating every 28 days), sha256 of the project id.
-  // set when kind = PROJECT_STRUCTURE_*.
+  // set when kind = PROJECT_STRUCTURE_* or kind = APK_ANALYZER_STATS
   optional string project_id = 31;
 
   // set when kind = GFX_TRACE_*
@@ -182,6 +182,9 @@ message AndroidStudioEvent {
 
   // set when kind = ANDROID_PROFILER
   optional AndroidProfilerEvent android_profiler_event = 48;
+
+  // set when kind = APK_ANALYZER_STATS
+  optional ApkAnalyzerStats apk_analyzer_stats = 49;
 
   // Describes a group of event kinds related to each other.
   // This is redundant in the presence of EventKind + event specific message,
@@ -495,6 +498,9 @@ message AndroidStudioEvent {
 
     // Android Profiler event
     ANDROID_PROFILER = 116;
+
+    // APK Analyzer Statistics
+    APK_ANALYZER_STATS = 117;
   }
 
   // Represents different Performance Monitoring types.
@@ -2365,4 +2371,13 @@ message AndroidProfilerEvent {
     SELECT_DETAILS_HEADERS = 404;
     SELECT_DETAILS_STACK = 405;
   }
+}
+
+  // APK Analyzer stats
+message ApkAnalyzerStats {
+  // size of the APK
+  optional uint64 uncompressed_size = 1;
+
+  // size of the APK after compression
+  optional uint64 compressed_size = 2;
 }

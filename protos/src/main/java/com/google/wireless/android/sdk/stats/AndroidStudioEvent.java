@@ -597,6 +597,19 @@ public  final class AndroidStudioEvent extends
             bitField1_ |= 0x00008000;
             break;
           }
+          case 394: {
+            com.google.wireless.android.sdk.stats.ApkAnalyzerStats.Builder subBuilder = null;
+            if (((bitField1_ & 0x00010000) == 0x00010000)) {
+              subBuilder = apkAnalyzerStats_.toBuilder();
+            }
+            apkAnalyzerStats_ = input.readMessage(com.google.wireless.android.sdk.stats.ApkAnalyzerStats.PARSER, extensionRegistry);
+            if (subBuilder != null) {
+              subBuilder.mergeFrom(apkAnalyzerStats_);
+              apkAnalyzerStats_ = subBuilder.buildPartial();
+            }
+            bitField1_ |= 0x00010000;
+            break;
+          }
         }
       }
     } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -2044,6 +2057,14 @@ public  final class AndroidStudioEvent extends
      * </pre>
      */
     ANDROID_PROFILER(113, 116),
+    /**
+     * <code>APK_ANALYZER_STATS = 117;</code>
+     *
+     * <pre>
+     * APK Analyzer Statistics
+     * </pre>
+     */
+    APK_ANALYZER_STATS(114, 117),
     ;
 
     /**
@@ -2939,6 +2960,14 @@ public  final class AndroidStudioEvent extends
      * </pre>
      */
     public static final int ANDROID_PROFILER_VALUE = 116;
+    /**
+     * <code>APK_ANALYZER_STATS = 117;</code>
+     *
+     * <pre>
+     * APK Analyzer Statistics
+     * </pre>
+     */
+    public static final int APK_ANALYZER_STATS_VALUE = 117;
 
 
     public final int getNumber() { return value; }
@@ -3059,6 +3088,7 @@ public  final class AndroidStudioEvent extends
         case 114: return ADB_ASSISTANT_STATS;
         case 115: return LLDB_SESSION_ENDED;
         case 116: return ANDROID_PROFILER;
+        case 117: return APK_ANALYZER_STATS;
         default: return null;
       }
     }
@@ -5455,7 +5485,7 @@ public  final class AndroidStudioEvent extends
    *
    * <pre>
    * Client-side salted (rotating every 28 days), sha256 of the project id.
-   * set when kind = PROJECT_STRUCTURE_*.
+   * set when kind = PROJECT_STRUCTURE_* or kind = APK_ANALYZER_STATS
    * </pre>
    */
   public boolean hasProjectId() {
@@ -5466,7 +5496,7 @@ public  final class AndroidStudioEvent extends
    *
    * <pre>
    * Client-side salted (rotating every 28 days), sha256 of the project id.
-   * set when kind = PROJECT_STRUCTURE_*.
+   * set when kind = PROJECT_STRUCTURE_* or kind = APK_ANALYZER_STATS
    * </pre>
    */
   public java.lang.String getProjectId() {
@@ -5488,7 +5518,7 @@ public  final class AndroidStudioEvent extends
    *
    * <pre>
    * Client-side salted (rotating every 28 days), sha256 of the project id.
-   * set when kind = PROJECT_STRUCTURE_*.
+   * set when kind = PROJECT_STRUCTURE_* or kind = APK_ANALYZER_STATS
    * </pre>
    */
   public com.google.protobuf.ByteString
@@ -6083,6 +6113,40 @@ public  final class AndroidStudioEvent extends
     return androidProfilerEvent_;
   }
 
+  // optional .android_studio.ApkAnalyzerStats apk_analyzer_stats = 49;
+  public static final int APK_ANALYZER_STATS_FIELD_NUMBER = 49;
+  private com.google.wireless.android.sdk.stats.ApkAnalyzerStats apkAnalyzerStats_;
+  /**
+   * <code>optional .android_studio.ApkAnalyzerStats apk_analyzer_stats = 49;</code>
+   *
+   * <pre>
+   * set when kind = APK_ANALYZER_STATS
+   * </pre>
+   */
+  public boolean hasApkAnalyzerStats() {
+    return ((bitField1_ & 0x00010000) == 0x00010000);
+  }
+  /**
+   * <code>optional .android_studio.ApkAnalyzerStats apk_analyzer_stats = 49;</code>
+   *
+   * <pre>
+   * set when kind = APK_ANALYZER_STATS
+   * </pre>
+   */
+  public com.google.wireless.android.sdk.stats.ApkAnalyzerStats getApkAnalyzerStats() {
+    return apkAnalyzerStats_;
+  }
+  /**
+   * <code>optional .android_studio.ApkAnalyzerStats apk_analyzer_stats = 49;</code>
+   *
+   * <pre>
+   * set when kind = APK_ANALYZER_STATS
+   * </pre>
+   */
+  public com.google.wireless.android.sdk.stats.ApkAnalyzerStatsOrBuilder getApkAnalyzerStatsOrBuilder() {
+    return apkAnalyzerStats_;
+  }
+
   private void initFields() {
     category_ = com.google.wireless.android.sdk.stats.AndroidStudioEvent.EventCategory.NO_EVENT_CATEGORY;
     kind_ = com.google.wireless.android.sdk.stats.AndroidStudioEvent.EventKind.UNKNOWN_EVENT_KIND;
@@ -6132,6 +6196,7 @@ public  final class AndroidStudioEvent extends
     lldbSessionStartDetails_ = com.google.wireless.android.sdk.stats.LldbSessionStartDetails.getDefaultInstance();
     lldbSessionEndDetails_ = com.google.wireless.android.sdk.stats.LldbSessionEndDetails.getDefaultInstance();
     androidProfilerEvent_ = com.google.wireless.android.sdk.stats.AndroidProfilerEvent.getDefaultInstance();
+    apkAnalyzerStats_ = com.google.wireless.android.sdk.stats.ApkAnalyzerStats.getDefaultInstance();
   }
   private byte memoizedIsInitialized = -1;
   public final boolean isInitialized() {
@@ -6288,6 +6353,9 @@ public  final class AndroidStudioEvent extends
     }
     if (((bitField1_ & 0x00008000) == 0x00008000)) {
       output.writeMessage(48, androidProfilerEvent_);
+    }
+    if (((bitField1_ & 0x00010000) == 0x00010000)) {
+      output.writeMessage(49, apkAnalyzerStats_);
     }
     getUnknownFields().writeTo(output);
   }
@@ -6490,6 +6558,10 @@ public  final class AndroidStudioEvent extends
       size += com.google.protobuf.CodedOutputStream
         .computeMessageSize(48, androidProfilerEvent_);
     }
+    if (((bitField1_ & 0x00010000) == 0x00010000)) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeMessageSize(49, apkAnalyzerStats_);
+    }
     size += getUnknownFields().getSerializedSize();
     memoizedSerializedSize = size;
     return size;
@@ -6629,6 +6701,7 @@ public  final class AndroidStudioEvent extends
         getLldbSessionStartDetailsFieldBuilder();
         getLldbSessionEndDetailsFieldBuilder();
         getAndroidProfilerEventFieldBuilder();
+        getApkAnalyzerStatsFieldBuilder();
       }
     }
     private static Builder create() {
@@ -6857,6 +6930,12 @@ public  final class AndroidStudioEvent extends
         androidProfilerEventBuilder_.clear();
       }
       bitField1_ = (bitField1_ & ~0x00008000);
+      if (apkAnalyzerStatsBuilder_ == null) {
+        apkAnalyzerStats_ = com.google.wireless.android.sdk.stats.ApkAnalyzerStats.getDefaultInstance();
+      } else {
+        apkAnalyzerStatsBuilder_.clear();
+      }
+      bitField1_ = (bitField1_ & ~0x00010000);
       return this;
     }
 
@@ -7203,6 +7282,14 @@ public  final class AndroidStudioEvent extends
       } else {
         result.androidProfilerEvent_ = androidProfilerEventBuilder_.build();
       }
+      if (((from_bitField1_ & 0x00010000) == 0x00010000)) {
+        to_bitField1_ |= 0x00010000;
+      }
+      if (apkAnalyzerStatsBuilder_ == null) {
+        result.apkAnalyzerStats_ = apkAnalyzerStats_;
+      } else {
+        result.apkAnalyzerStats_ = apkAnalyzerStatsBuilder_.build();
+      }
       result.bitField0_ = to_bitField0_;
       result.bitField1_ = to_bitField1_;
       onBuilt();
@@ -7375,6 +7462,9 @@ public  final class AndroidStudioEvent extends
       }
       if (other.hasAndroidProfilerEvent()) {
         mergeAndroidProfilerEvent(other.getAndroidProfilerEvent());
+      }
+      if (other.hasApkAnalyzerStats()) {
+        mergeApkAnalyzerStats(other.getApkAnalyzerStats());
       }
       this.mergeUnknownFields(other.getUnknownFields());
       return this;
@@ -10762,7 +10852,7 @@ public  final class AndroidStudioEvent extends
      *
      * <pre>
      * Client-side salted (rotating every 28 days), sha256 of the project id.
-     * set when kind = PROJECT_STRUCTURE_*.
+     * set when kind = PROJECT_STRUCTURE_* or kind = APK_ANALYZER_STATS
      * </pre>
      */
     public boolean hasProjectId() {
@@ -10773,7 +10863,7 @@ public  final class AndroidStudioEvent extends
      *
      * <pre>
      * Client-side salted (rotating every 28 days), sha256 of the project id.
-     * set when kind = PROJECT_STRUCTURE_*.
+     * set when kind = PROJECT_STRUCTURE_* or kind = APK_ANALYZER_STATS
      * </pre>
      */
     public java.lang.String getProjectId() {
@@ -10792,7 +10882,7 @@ public  final class AndroidStudioEvent extends
      *
      * <pre>
      * Client-side salted (rotating every 28 days), sha256 of the project id.
-     * set when kind = PROJECT_STRUCTURE_*.
+     * set when kind = PROJECT_STRUCTURE_* or kind = APK_ANALYZER_STATS
      * </pre>
      */
     public com.google.protobuf.ByteString
@@ -10813,7 +10903,7 @@ public  final class AndroidStudioEvent extends
      *
      * <pre>
      * Client-side salted (rotating every 28 days), sha256 of the project id.
-     * set when kind = PROJECT_STRUCTURE_*.
+     * set when kind = PROJECT_STRUCTURE_* or kind = APK_ANALYZER_STATS
      * </pre>
      */
     public Builder setProjectId(
@@ -10831,7 +10921,7 @@ public  final class AndroidStudioEvent extends
      *
      * <pre>
      * Client-side salted (rotating every 28 days), sha256 of the project id.
-     * set when kind = PROJECT_STRUCTURE_*.
+     * set when kind = PROJECT_STRUCTURE_* or kind = APK_ANALYZER_STATS
      * </pre>
      */
     public Builder clearProjectId() {
@@ -10845,7 +10935,7 @@ public  final class AndroidStudioEvent extends
      *
      * <pre>
      * Client-side salted (rotating every 28 days), sha256 of the project id.
-     * set when kind = PROJECT_STRUCTURE_*.
+     * set when kind = PROJECT_STRUCTURE_* or kind = APK_ANALYZER_STATS
      * </pre>
      */
     public Builder setProjectIdBytes(
@@ -13458,6 +13548,159 @@ public  final class AndroidStudioEvent extends
         androidProfilerEvent_ = null;
       }
       return androidProfilerEventBuilder_;
+    }
+
+    // optional .android_studio.ApkAnalyzerStats apk_analyzer_stats = 49;
+    private com.google.wireless.android.sdk.stats.ApkAnalyzerStats apkAnalyzerStats_ = com.google.wireless.android.sdk.stats.ApkAnalyzerStats.getDefaultInstance();
+    private com.google.protobuf.SingleFieldBuilder<
+        com.google.wireless.android.sdk.stats.ApkAnalyzerStats, com.google.wireless.android.sdk.stats.ApkAnalyzerStats.Builder, com.google.wireless.android.sdk.stats.ApkAnalyzerStatsOrBuilder> apkAnalyzerStatsBuilder_;
+    /**
+     * <code>optional .android_studio.ApkAnalyzerStats apk_analyzer_stats = 49;</code>
+     *
+     * <pre>
+     * set when kind = APK_ANALYZER_STATS
+     * </pre>
+     */
+    public boolean hasApkAnalyzerStats() {
+      return ((bitField1_ & 0x00010000) == 0x00010000);
+    }
+    /**
+     * <code>optional .android_studio.ApkAnalyzerStats apk_analyzer_stats = 49;</code>
+     *
+     * <pre>
+     * set when kind = APK_ANALYZER_STATS
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.ApkAnalyzerStats getApkAnalyzerStats() {
+      if (apkAnalyzerStatsBuilder_ == null) {
+        return apkAnalyzerStats_;
+      } else {
+        return apkAnalyzerStatsBuilder_.getMessage();
+      }
+    }
+    /**
+     * <code>optional .android_studio.ApkAnalyzerStats apk_analyzer_stats = 49;</code>
+     *
+     * <pre>
+     * set when kind = APK_ANALYZER_STATS
+     * </pre>
+     */
+    public Builder setApkAnalyzerStats(com.google.wireless.android.sdk.stats.ApkAnalyzerStats value) {
+      if (apkAnalyzerStatsBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        apkAnalyzerStats_ = value;
+        onChanged();
+      } else {
+        apkAnalyzerStatsBuilder_.setMessage(value);
+      }
+      bitField1_ |= 0x00010000;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.ApkAnalyzerStats apk_analyzer_stats = 49;</code>
+     *
+     * <pre>
+     * set when kind = APK_ANALYZER_STATS
+     * </pre>
+     */
+    public Builder setApkAnalyzerStats(
+        com.google.wireless.android.sdk.stats.ApkAnalyzerStats.Builder builderForValue) {
+      if (apkAnalyzerStatsBuilder_ == null) {
+        apkAnalyzerStats_ = builderForValue.build();
+        onChanged();
+      } else {
+        apkAnalyzerStatsBuilder_.setMessage(builderForValue.build());
+      }
+      bitField1_ |= 0x00010000;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.ApkAnalyzerStats apk_analyzer_stats = 49;</code>
+     *
+     * <pre>
+     * set when kind = APK_ANALYZER_STATS
+     * </pre>
+     */
+    public Builder mergeApkAnalyzerStats(com.google.wireless.android.sdk.stats.ApkAnalyzerStats value) {
+      if (apkAnalyzerStatsBuilder_ == null) {
+        if (((bitField1_ & 0x00010000) == 0x00010000) &&
+            apkAnalyzerStats_ != com.google.wireless.android.sdk.stats.ApkAnalyzerStats.getDefaultInstance()) {
+          apkAnalyzerStats_ =
+            com.google.wireless.android.sdk.stats.ApkAnalyzerStats.newBuilder(apkAnalyzerStats_).mergeFrom(value).buildPartial();
+        } else {
+          apkAnalyzerStats_ = value;
+        }
+        onChanged();
+      } else {
+        apkAnalyzerStatsBuilder_.mergeFrom(value);
+      }
+      bitField1_ |= 0x00010000;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.ApkAnalyzerStats apk_analyzer_stats = 49;</code>
+     *
+     * <pre>
+     * set when kind = APK_ANALYZER_STATS
+     * </pre>
+     */
+    public Builder clearApkAnalyzerStats() {
+      if (apkAnalyzerStatsBuilder_ == null) {
+        apkAnalyzerStats_ = com.google.wireless.android.sdk.stats.ApkAnalyzerStats.getDefaultInstance();
+        onChanged();
+      } else {
+        apkAnalyzerStatsBuilder_.clear();
+      }
+      bitField1_ = (bitField1_ & ~0x00010000);
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.ApkAnalyzerStats apk_analyzer_stats = 49;</code>
+     *
+     * <pre>
+     * set when kind = APK_ANALYZER_STATS
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.ApkAnalyzerStats.Builder getApkAnalyzerStatsBuilder() {
+      bitField1_ |= 0x00010000;
+      onChanged();
+      return getApkAnalyzerStatsFieldBuilder().getBuilder();
+    }
+    /**
+     * <code>optional .android_studio.ApkAnalyzerStats apk_analyzer_stats = 49;</code>
+     *
+     * <pre>
+     * set when kind = APK_ANALYZER_STATS
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.ApkAnalyzerStatsOrBuilder getApkAnalyzerStatsOrBuilder() {
+      if (apkAnalyzerStatsBuilder_ != null) {
+        return apkAnalyzerStatsBuilder_.getMessageOrBuilder();
+      } else {
+        return apkAnalyzerStats_;
+      }
+    }
+    /**
+     * <code>optional .android_studio.ApkAnalyzerStats apk_analyzer_stats = 49;</code>
+     *
+     * <pre>
+     * set when kind = APK_ANALYZER_STATS
+     * </pre>
+     */
+    private com.google.protobuf.SingleFieldBuilder<
+        com.google.wireless.android.sdk.stats.ApkAnalyzerStats, com.google.wireless.android.sdk.stats.ApkAnalyzerStats.Builder, com.google.wireless.android.sdk.stats.ApkAnalyzerStatsOrBuilder> 
+        getApkAnalyzerStatsFieldBuilder() {
+      if (apkAnalyzerStatsBuilder_ == null) {
+        apkAnalyzerStatsBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+            com.google.wireless.android.sdk.stats.ApkAnalyzerStats, com.google.wireless.android.sdk.stats.ApkAnalyzerStats.Builder, com.google.wireless.android.sdk.stats.ApkAnalyzerStatsOrBuilder>(
+                apkAnalyzerStats_,
+                getParentForChildren(),
+                isClean());
+        apkAnalyzerStats_ = null;
+      }
+      return apkAnalyzerStatsBuilder_;
     }
 
     // @@protoc_insertion_point(builder_scope:android_studio.AndroidStudioEvent)
