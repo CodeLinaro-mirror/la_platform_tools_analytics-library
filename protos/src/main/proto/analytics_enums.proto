@@ -35,6 +35,7 @@ enum GradleTransformExecutionType {
     DEX_ARCHIVE_BUILDER = 29;
     DEX_MERGER = 30;
     MAIN_DEX_LIST = 31;
+    DESUGAR = 32;
 }
 
 enum GradleTaskExecutionType {
