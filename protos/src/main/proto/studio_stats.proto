@@ -653,15 +653,6 @@ message ProductDetails {
     DDMS = 4;
   }
 
-  // Describes the various OS platforms our products run on.
-  enum OSKind {
-    UNKNOWN_OS_KIND = 0;
-    OTHER_OS = 1;  // Known but not in our list.
-    WINDOWS = 2;
-    MAC_OSX = 3;
-    LINUX = 4;
-    FREE_BSD = 5;
-  }
   // Chip the software is running on.
   enum CpuArchitecture {
     UNKNOWN_CPU_ARCHITECTURE = 0;
@@ -1373,6 +1364,8 @@ message GradleBuildProject {
     ATOM = 4;
     // The 'com.android.instantapp' plugin.
     INSTANTAPP = 5;
+    // The 'com.android.feature' plugin.
+    FEATURE = 6;
   }
 
   enum PluginGeneration {
@@ -1450,6 +1443,8 @@ message GradleBuildVariant {
     ATOM = 4;
     // For building an IAPK.
     INSTANTAPP = 5;
+    // For building a split APK.
+    FEATURE = 6;
   }
 }
 
