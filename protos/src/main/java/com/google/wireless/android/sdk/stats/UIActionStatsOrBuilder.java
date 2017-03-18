@@ -71,4 +71,24 @@ public interface UIActionStatsOrBuilder
    * </pre>
    */
   com.google.wireless.android.sdk.stats.UIActionStats.InvocationKind getInvocationKind();
+
+  // optional bool direct = 4;
+  /**
+   * <code>optional bool direct = 4;</code>
+   *
+   * <pre>
+   * true if this message is sent directly, false if sent
+   * with aggregated data over time.
+   * </pre>
+   */
+  boolean hasDirect();
+  /**
+   * <code>optional bool direct = 4;</code>
+   *
+   * <pre>
+   * true if this message is sent directly, false if sent
+   * with aggregated data over time.
+   * </pre>
+   */
+  boolean getDirect();
 }

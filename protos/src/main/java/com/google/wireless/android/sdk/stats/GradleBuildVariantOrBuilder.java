@@ -215,4 +215,72 @@ public interface GradleBuildVariantOrBuilder
    */
   com.google.protobuf.ByteString
       getProguardFlagsBytes(int index);
+
+  // repeated .android_studio.AnnotationProcessorInfo annotation_processors = 10;
+  /**
+   * <code>repeated .android_studio.AnnotationProcessorInfo annotation_processors = 10;</code>
+   *
+   * <pre>
+   * Java annotation processors used in this build variant.
+   * Uses the Gradle compact format:  package:module:version
+   * </pre>
+   */
+  java.util.List<com.google.wireless.android.sdk.stats.AnnotationProcessorInfo> 
+      getAnnotationProcessorsList();
+  /**
+   * <code>repeated .android_studio.AnnotationProcessorInfo annotation_processors = 10;</code>
+   *
+   * <pre>
+   * Java annotation processors used in this build variant.
+   * Uses the Gradle compact format:  package:module:version
+   * </pre>
+   */
+  com.google.wireless.android.sdk.stats.AnnotationProcessorInfo getAnnotationProcessors(int index);
+  /**
+   * <code>repeated .android_studio.AnnotationProcessorInfo annotation_processors = 10;</code>
+   *
+   * <pre>
+   * Java annotation processors used in this build variant.
+   * Uses the Gradle compact format:  package:module:version
+   * </pre>
+   */
+  int getAnnotationProcessorsCount();
+  /**
+   * <code>repeated .android_studio.AnnotationProcessorInfo annotation_processors = 10;</code>
+   *
+   * <pre>
+   * Java annotation processors used in this build variant.
+   * Uses the Gradle compact format:  package:module:version
+   * </pre>
+   */
+  java.util.List<? extends com.google.wireless.android.sdk.stats.AnnotationProcessorInfoOrBuilder> 
+      getAnnotationProcessorsOrBuilderList();
+  /**
+   * <code>repeated .android_studio.AnnotationProcessorInfo annotation_processors = 10;</code>
+   *
+   * <pre>
+   * Java annotation processors used in this build variant.
+   * Uses the Gradle compact format:  package:module:version
+   * </pre>
+   */
+  com.google.wireless.android.sdk.stats.AnnotationProcessorInfoOrBuilder getAnnotationProcessorsOrBuilder(
+      int index);
+
+  // optional .android_studio.GradleBuildVariant.Java8LangSupport java8_lang_support = 11;
+  /**
+   * <code>optional .android_studio.GradleBuildVariant.Java8LangSupport java8_lang_support = 11;</code>
+   *
+   * <pre>
+   * If Java 8 language support is enabled, which tools provides it.
+   * </pre>
+   */
+  boolean hasJava8LangSupport();
+  /**
+   * <code>optional .android_studio.GradleBuildVariant.Java8LangSupport java8_lang_support = 11;</code>
+   *
+   * <pre>
+   * If Java 8 language support is enabled, which tools provides it.
+   * </pre>
+   */
+  com.google.wireless.android.sdk.stats.GradleBuildVariant.Java8LangSupport getJava8LangSupport();
 }

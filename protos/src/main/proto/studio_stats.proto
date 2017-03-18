@@ -840,7 +840,7 @@ message EmulatorAvdInfo {
     AOSP = 1;
     GOOGLE = 2;
   }
-  // Name of the AVD.
+  // Name of the AVD. Deprecated as it could potentially contain PII.
   optional string name = 1;
   // Api level (23 = M, 24 = N, ...)
   optional int64 api_level = 2;
@@ -1444,6 +1444,13 @@ message GradleBuildVariant {
   // the arguments passed to that flag.
   repeated string proguard_flags = 9;
 
+  // Java annotation processors used in this build variant.
+  // Uses the Gradle compact format:  package:module:version
+  repeated AnnotationProcessorInfo annotation_processors = 10;
+
+  // If Java 8 language support is enabled, which tools provides it.
+  optional Java8LangSupport java8_lang_support = 11;
+
   // The nature of this variant.
   // The test variants have an associated tested variant.
   // See com.android.builder.core.VariantType
@@ -1462,6 +1469,36 @@ message GradleBuildVariant {
     INSTANTAPP = 5;
     // For building a split APK.
     FEATURE = 6;
+  }
+
+  // Different tools that provide Java 8 language usage.
+  enum Java8LangSupport {
+    // the built-in support in the plugin
+    INTERNAL = 0;
+    // Retrolambda plugin
+    RETROLAMBDA = 1;
+    // Dexguard plugin
+    DEXGUARD = 2;
+    // Jack compiler
+    JACK = 3;
+  }
+}
+
+message AnnotationProcessorInfo {
+  // The user's original spec, e.g. 'org.immutables:value:2.4.4'
+  // Often, though not always, in the form 'package:name:version'.
+  optional string spec = 1;
+
+  // How the processor was included in the build file.
+  optional InclusionType inclusion_type = 2;
+
+  enum InclusionType {
+    // The old apt way of including them.
+    APT = 0;
+    // Implicit on the compile classpath.
+    COMPILE_CLASSPATH = 1;
+    // The new annotationProcessor way to include them.
+    ANNOTATION_PROCESSOR = 2;
   }
 }
 
@@ -1922,6 +1959,9 @@ message UIActionStats {
   optional int64 invocations = 2;
   // The way this action was invocated by the user.
   optional InvocationKind invocation_kind = 3;
+  // true if this message is sent directly, false if sent
+  // with aggregated data over time.
+  optional bool direct = 4;
 
   // The way an UI action was invocated by the user.
   enum InvocationKind {

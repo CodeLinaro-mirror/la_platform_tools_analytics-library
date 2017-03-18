@@ -108,6 +108,25 @@ public  final class GradleBuildVariant extends
             proguardFlags_.add(input.readBytes());
             break;
           }
+          case 82: {
+            if (!((mutable_bitField0_ & 0x00000200) == 0x00000200)) {
+              annotationProcessors_ = new java.util.ArrayList<com.google.wireless.android.sdk.stats.AnnotationProcessorInfo>();
+              mutable_bitField0_ |= 0x00000200;
+            }
+            annotationProcessors_.add(input.readMessage(com.google.wireless.android.sdk.stats.AnnotationProcessorInfo.PARSER, extensionRegistry));
+            break;
+          }
+          case 88: {
+            int rawValue = input.readEnum();
+            com.google.wireless.android.sdk.stats.GradleBuildVariant.Java8LangSupport value = com.google.wireless.android.sdk.stats.GradleBuildVariant.Java8LangSupport.valueOf(rawValue);
+            if (value == null) {
+              unknownFields.mergeVarintField(11, rawValue);
+            } else {
+              bitField0_ |= 0x00000100;
+              java8LangSupport_ = value;
+            }
+            break;
+          }
         }
       }
     } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -118,6 +137,9 @@ public  final class GradleBuildVariant extends
     } finally {
       if (((mutable_bitField0_ & 0x00000100) == 0x00000100)) {
         proguardFlags_ = new com.google.protobuf.UnmodifiableLazyStringList(proguardFlags_);
+      }
+      if (((mutable_bitField0_ & 0x00000200) == 0x00000200)) {
+        annotationProcessors_ = java.util.Collections.unmodifiableList(annotationProcessors_);
       }
       this.unknownFields = unknownFields.build();
       makeExtensionsImmutable();
@@ -337,6 +359,142 @@ public  final class GradleBuildVariant extends
     }
 
     // @@protoc_insertion_point(enum_scope:android_studio.GradleBuildVariant.VariantType)
+  }
+
+  /**
+   * Protobuf enum {@code android_studio.GradleBuildVariant.Java8LangSupport}
+   *
+   * <pre>
+   * Different tools that provide Java 8 language usage.
+   * </pre>
+   */
+  public enum Java8LangSupport
+      implements com.google.protobuf.ProtocolMessageEnum {
+    /**
+     * <code>INTERNAL = 0;</code>
+     *
+     * <pre>
+     * the built-in support in the plugin
+     * </pre>
+     */
+    INTERNAL(0, 0),
+    /**
+     * <code>RETROLAMBDA = 1;</code>
+     *
+     * <pre>
+     * Retrolambda plugin
+     * </pre>
+     */
+    RETROLAMBDA(1, 1),
+    /**
+     * <code>DEXGUARD = 2;</code>
+     *
+     * <pre>
+     * Dexguard plugin
+     * </pre>
+     */
+    DEXGUARD(2, 2),
+    /**
+     * <code>JACK = 3;</code>
+     *
+     * <pre>
+     * Jack compiler
+     * </pre>
+     */
+    JACK(3, 3),
+    ;
+
+    /**
+     * <code>INTERNAL = 0;</code>
+     *
+     * <pre>
+     * the built-in support in the plugin
+     * </pre>
+     */
+    public static final int INTERNAL_VALUE = 0;
+    /**
+     * <code>RETROLAMBDA = 1;</code>
+     *
+     * <pre>
+     * Retrolambda plugin
+     * </pre>
+     */
+    public static final int RETROLAMBDA_VALUE = 1;
+    /**
+     * <code>DEXGUARD = 2;</code>
+     *
+     * <pre>
+     * Dexguard plugin
+     * </pre>
+     */
+    public static final int DEXGUARD_VALUE = 2;
+    /**
+     * <code>JACK = 3;</code>
+     *
+     * <pre>
+     * Jack compiler
+     * </pre>
+     */
+    public static final int JACK_VALUE = 3;
+
+
+    public final int getNumber() { return value; }
+
+    public static Java8LangSupport valueOf(int value) {
+      switch (value) {
+        case 0: return INTERNAL;
+        case 1: return RETROLAMBDA;
+        case 2: return DEXGUARD;
+        case 3: return JACK;
+        default: return null;
+      }
+    }
+
+    public static com.google.protobuf.Internal.EnumLiteMap<Java8LangSupport>
+        internalGetValueMap() {
+      return internalValueMap;
+    }
+    private static com.google.protobuf.Internal.EnumLiteMap<Java8LangSupport>
+        internalValueMap =
+          new com.google.protobuf.Internal.EnumLiteMap<Java8LangSupport>() {
+            public Java8LangSupport findValueByNumber(int number) {
+              return Java8LangSupport.valueOf(number);
+            }
+          };
+
+    public final com.google.protobuf.Descriptors.EnumValueDescriptor
+        getValueDescriptor() {
+      return getDescriptor().getValues().get(index);
+    }
+    public final com.google.protobuf.Descriptors.EnumDescriptor
+        getDescriptorForType() {
+      return getDescriptor();
+    }
+    public static final com.google.protobuf.Descriptors.EnumDescriptor
+        getDescriptor() {
+      return com.google.wireless.android.sdk.stats.GradleBuildVariant.getDescriptor().getEnumTypes().get(1);
+    }
+
+    private static final Java8LangSupport[] VALUES = values();
+
+    public static Java8LangSupport valueOf(
+        com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
+      if (desc.getType() != getDescriptor()) {
+        throw new java.lang.IllegalArgumentException(
+          "EnumValueDescriptor is not for this type.");
+      }
+      return VALUES[desc.getIndex()];
+    }
+
+    private final int index;
+    private final int value;
+
+    private Java8LangSupport(int index, int value) {
+      this.index = index;
+      this.value = value;
+    }
+
+    // @@protoc_insertion_point(enum_scope:android_studio.GradleBuildVariant.Java8LangSupport)
   }
 
   private int bitField0_;
@@ -608,6 +766,91 @@ public  final class GradleBuildVariant extends
     return proguardFlags_.getByteString(index);
   }
 
+  // repeated .android_studio.AnnotationProcessorInfo annotation_processors = 10;
+  public static final int ANNOTATION_PROCESSORS_FIELD_NUMBER = 10;
+  private java.util.List<com.google.wireless.android.sdk.stats.AnnotationProcessorInfo> annotationProcessors_;
+  /**
+   * <code>repeated .android_studio.AnnotationProcessorInfo annotation_processors = 10;</code>
+   *
+   * <pre>
+   * Java annotation processors used in this build variant.
+   * Uses the Gradle compact format:  package:module:version
+   * </pre>
+   */
+  public java.util.List<com.google.wireless.android.sdk.stats.AnnotationProcessorInfo> getAnnotationProcessorsList() {
+    return annotationProcessors_;
+  }
+  /**
+   * <code>repeated .android_studio.AnnotationProcessorInfo annotation_processors = 10;</code>
+   *
+   * <pre>
+   * Java annotation processors used in this build variant.
+   * Uses the Gradle compact format:  package:module:version
+   * </pre>
+   */
+  public java.util.List<? extends com.google.wireless.android.sdk.stats.AnnotationProcessorInfoOrBuilder> 
+      getAnnotationProcessorsOrBuilderList() {
+    return annotationProcessors_;
+  }
+  /**
+   * <code>repeated .android_studio.AnnotationProcessorInfo annotation_processors = 10;</code>
+   *
+   * <pre>
+   * Java annotation processors used in this build variant.
+   * Uses the Gradle compact format:  package:module:version
+   * </pre>
+   */
+  public int getAnnotationProcessorsCount() {
+    return annotationProcessors_.size();
+  }
+  /**
+   * <code>repeated .android_studio.AnnotationProcessorInfo annotation_processors = 10;</code>
+   *
+   * <pre>
+   * Java annotation processors used in this build variant.
+   * Uses the Gradle compact format:  package:module:version
+   * </pre>
+   */
+  public com.google.wireless.android.sdk.stats.AnnotationProcessorInfo getAnnotationProcessors(int index) {
+    return annotationProcessors_.get(index);
+  }
+  /**
+   * <code>repeated .android_studio.AnnotationProcessorInfo annotation_processors = 10;</code>
+   *
+   * <pre>
+   * Java annotation processors used in this build variant.
+   * Uses the Gradle compact format:  package:module:version
+   * </pre>
+   */
+  public com.google.wireless.android.sdk.stats.AnnotationProcessorInfoOrBuilder getAnnotationProcessorsOrBuilder(
+      int index) {
+    return annotationProcessors_.get(index);
+  }
+
+  // optional .android_studio.GradleBuildVariant.Java8LangSupport java8_lang_support = 11;
+  public static final int JAVA8_LANG_SUPPORT_FIELD_NUMBER = 11;
+  private com.google.wireless.android.sdk.stats.GradleBuildVariant.Java8LangSupport java8LangSupport_;
+  /**
+   * <code>optional .android_studio.GradleBuildVariant.Java8LangSupport java8_lang_support = 11;</code>
+   *
+   * <pre>
+   * If Java 8 language support is enabled, which tools provides it.
+   * </pre>
+   */
+  public boolean hasJava8LangSupport() {
+    return ((bitField0_ & 0x00000100) == 0x00000100);
+  }
+  /**
+   * <code>optional .android_studio.GradleBuildVariant.Java8LangSupport java8_lang_support = 11;</code>
+   *
+   * <pre>
+   * If Java 8 language support is enabled, which tools provides it.
+   * </pre>
+   */
+  public com.google.wireless.android.sdk.stats.GradleBuildVariant.Java8LangSupport getJava8LangSupport() {
+    return java8LangSupport_;
+  }
+
   private void initFields() {
     id_ = 0L;
     isDebug_ = false;
@@ -618,6 +861,8 @@ public  final class GradleBuildVariant extends
     variantType_ = com.google.wireless.android.sdk.stats.GradleBuildVariant.VariantType.APPLICATION;
     testedId_ = 0L;
     proguardFlags_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+    annotationProcessors_ = java.util.Collections.emptyList();
+    java8LangSupport_ = com.google.wireless.android.sdk.stats.GradleBuildVariant.Java8LangSupport.INTERNAL;
   }
   private byte memoizedIsInitialized = -1;
   public final boolean isInitialized() {
@@ -657,6 +902,12 @@ public  final class GradleBuildVariant extends
     }
     for (int i = 0; i < proguardFlags_.size(); i++) {
       output.writeBytes(9, proguardFlags_.getByteString(i));
+    }
+    for (int i = 0; i < annotationProcessors_.size(); i++) {
+      output.writeMessage(10, annotationProcessors_.get(i));
+    }
+    if (((bitField0_ & 0x00000100) == 0x00000100)) {
+      output.writeEnum(11, java8LangSupport_.getNumber());
     }
     getUnknownFields().writeTo(output);
   }
@@ -707,6 +958,14 @@ public  final class GradleBuildVariant extends
       }
       size += dataSize;
       size += 1 * getProguardFlagsList().size();
+    }
+    for (int i = 0; i < annotationProcessors_.size(); i++) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeMessageSize(10, annotationProcessors_.get(i));
+    }
+    if (((bitField0_ & 0x00000100) == 0x00000100)) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeEnumSize(11, java8LangSupport_.getNumber());
     }
     size += getUnknownFields().getSerializedSize();
     memoizedSerializedSize = size;
@@ -816,6 +1075,7 @@ public  final class GradleBuildVariant extends
     }
     private void maybeForceBuilderInitialization() {
       if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        getAnnotationProcessorsFieldBuilder();
       }
     }
     private static Builder create() {
@@ -842,6 +1102,14 @@ public  final class GradleBuildVariant extends
       bitField0_ = (bitField0_ & ~0x00000080);
       proguardFlags_ = com.google.protobuf.LazyStringArrayList.EMPTY;
       bitField0_ = (bitField0_ & ~0x00000100);
+      if (annotationProcessorsBuilder_ == null) {
+        annotationProcessors_ = java.util.Collections.emptyList();
+        bitField0_ = (bitField0_ & ~0x00000200);
+      } else {
+        annotationProcessorsBuilder_.clear();
+      }
+      java8LangSupport_ = com.google.wireless.android.sdk.stats.GradleBuildVariant.Java8LangSupport.INTERNAL;
+      bitField0_ = (bitField0_ & ~0x00000400);
       return this;
     }
 
@@ -908,6 +1176,19 @@ public  final class GradleBuildVariant extends
         bitField0_ = (bitField0_ & ~0x00000100);
       }
       result.proguardFlags_ = proguardFlags_;
+      if (annotationProcessorsBuilder_ == null) {
+        if (((bitField0_ & 0x00000200) == 0x00000200)) {
+          annotationProcessors_ = java.util.Collections.unmodifiableList(annotationProcessors_);
+          bitField0_ = (bitField0_ & ~0x00000200);
+        }
+        result.annotationProcessors_ = annotationProcessors_;
+      } else {
+        result.annotationProcessors_ = annotationProcessorsBuilder_.build();
+      }
+      if (((from_bitField0_ & 0x00000400) == 0x00000400)) {
+        to_bitField0_ |= 0x00000100;
+      }
+      result.java8LangSupport_ = java8LangSupport_;
       result.bitField0_ = to_bitField0_;
       onBuilt();
       return result;
@@ -957,6 +1238,35 @@ public  final class GradleBuildVariant extends
           proguardFlags_.addAll(other.proguardFlags_);
         }
         onChanged();
+      }
+      if (annotationProcessorsBuilder_ == null) {
+        if (!other.annotationProcessors_.isEmpty()) {
+          if (annotationProcessors_.isEmpty()) {
+            annotationProcessors_ = other.annotationProcessors_;
+            bitField0_ = (bitField0_ & ~0x00000200);
+          } else {
+            ensureAnnotationProcessorsIsMutable();
+            annotationProcessors_.addAll(other.annotationProcessors_);
+          }
+          onChanged();
+        }
+      } else {
+        if (!other.annotationProcessors_.isEmpty()) {
+          if (annotationProcessorsBuilder_.isEmpty()) {
+            annotationProcessorsBuilder_.dispose();
+            annotationProcessorsBuilder_ = null;
+            annotationProcessors_ = other.annotationProcessors_;
+            bitField0_ = (bitField0_ & ~0x00000200);
+            annotationProcessorsBuilder_ = 
+              com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                 getAnnotationProcessorsFieldBuilder() : null;
+          } else {
+            annotationProcessorsBuilder_.addAllMessages(other.annotationProcessors_);
+          }
+        }
+      }
+      if (other.hasJava8LangSupport()) {
+        setJava8LangSupport(other.getJava8LangSupport());
       }
       this.mergeUnknownFields(other.getUnknownFields());
       return this;
@@ -1570,6 +1880,388 @@ public  final class GradleBuildVariant extends
   }
   ensureProguardFlagsIsMutable();
       proguardFlags_.add(value);
+      onChanged();
+      return this;
+    }
+
+    // repeated .android_studio.AnnotationProcessorInfo annotation_processors = 10;
+    private java.util.List<com.google.wireless.android.sdk.stats.AnnotationProcessorInfo> annotationProcessors_ =
+      java.util.Collections.emptyList();
+    private void ensureAnnotationProcessorsIsMutable() {
+      if (!((bitField0_ & 0x00000200) == 0x00000200)) {
+        annotationProcessors_ = new java.util.ArrayList<com.google.wireless.android.sdk.stats.AnnotationProcessorInfo>(annotationProcessors_);
+        bitField0_ |= 0x00000200;
+       }
+    }
+
+    private com.google.protobuf.RepeatedFieldBuilder<
+        com.google.wireless.android.sdk.stats.AnnotationProcessorInfo, com.google.wireless.android.sdk.stats.AnnotationProcessorInfo.Builder, com.google.wireless.android.sdk.stats.AnnotationProcessorInfoOrBuilder> annotationProcessorsBuilder_;
+
+    /**
+     * <code>repeated .android_studio.AnnotationProcessorInfo annotation_processors = 10;</code>
+     *
+     * <pre>
+     * Java annotation processors used in this build variant.
+     * Uses the Gradle compact format:  package:module:version
+     * </pre>
+     */
+    public java.util.List<com.google.wireless.android.sdk.stats.AnnotationProcessorInfo> getAnnotationProcessorsList() {
+      if (annotationProcessorsBuilder_ == null) {
+        return java.util.Collections.unmodifiableList(annotationProcessors_);
+      } else {
+        return annotationProcessorsBuilder_.getMessageList();
+      }
+    }
+    /**
+     * <code>repeated .android_studio.AnnotationProcessorInfo annotation_processors = 10;</code>
+     *
+     * <pre>
+     * Java annotation processors used in this build variant.
+     * Uses the Gradle compact format:  package:module:version
+     * </pre>
+     */
+    public int getAnnotationProcessorsCount() {
+      if (annotationProcessorsBuilder_ == null) {
+        return annotationProcessors_.size();
+      } else {
+        return annotationProcessorsBuilder_.getCount();
+      }
+    }
+    /**
+     * <code>repeated .android_studio.AnnotationProcessorInfo annotation_processors = 10;</code>
+     *
+     * <pre>
+     * Java annotation processors used in this build variant.
+     * Uses the Gradle compact format:  package:module:version
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.AnnotationProcessorInfo getAnnotationProcessors(int index) {
+      if (annotationProcessorsBuilder_ == null) {
+        return annotationProcessors_.get(index);
+      } else {
+        return annotationProcessorsBuilder_.getMessage(index);
+      }
+    }
+    /**
+     * <code>repeated .android_studio.AnnotationProcessorInfo annotation_processors = 10;</code>
+     *
+     * <pre>
+     * Java annotation processors used in this build variant.
+     * Uses the Gradle compact format:  package:module:version
+     * </pre>
+     */
+    public Builder setAnnotationProcessors(
+        int index, com.google.wireless.android.sdk.stats.AnnotationProcessorInfo value) {
+      if (annotationProcessorsBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        ensureAnnotationProcessorsIsMutable();
+        annotationProcessors_.set(index, value);
+        onChanged();
+      } else {
+        annotationProcessorsBuilder_.setMessage(index, value);
+      }
+      return this;
+    }
+    /**
+     * <code>repeated .android_studio.AnnotationProcessorInfo annotation_processors = 10;</code>
+     *
+     * <pre>
+     * Java annotation processors used in this build variant.
+     * Uses the Gradle compact format:  package:module:version
+     * </pre>
+     */
+    public Builder setAnnotationProcessors(
+        int index, com.google.wireless.android.sdk.stats.AnnotationProcessorInfo.Builder builderForValue) {
+      if (annotationProcessorsBuilder_ == null) {
+        ensureAnnotationProcessorsIsMutable();
+        annotationProcessors_.set(index, builderForValue.build());
+        onChanged();
+      } else {
+        annotationProcessorsBuilder_.setMessage(index, builderForValue.build());
+      }
+      return this;
+    }
+    /**
+     * <code>repeated .android_studio.AnnotationProcessorInfo annotation_processors = 10;</code>
+     *
+     * <pre>
+     * Java annotation processors used in this build variant.
+     * Uses the Gradle compact format:  package:module:version
+     * </pre>
+     */
+    public Builder addAnnotationProcessors(com.google.wireless.android.sdk.stats.AnnotationProcessorInfo value) {
+      if (annotationProcessorsBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        ensureAnnotationProcessorsIsMutable();
+        annotationProcessors_.add(value);
+        onChanged();
+      } else {
+        annotationProcessorsBuilder_.addMessage(value);
+      }
+      return this;
+    }
+    /**
+     * <code>repeated .android_studio.AnnotationProcessorInfo annotation_processors = 10;</code>
+     *
+     * <pre>
+     * Java annotation processors used in this build variant.
+     * Uses the Gradle compact format:  package:module:version
+     * </pre>
+     */
+    public Builder addAnnotationProcessors(
+        int index, com.google.wireless.android.sdk.stats.AnnotationProcessorInfo value) {
+      if (annotationProcessorsBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        ensureAnnotationProcessorsIsMutable();
+        annotationProcessors_.add(index, value);
+        onChanged();
+      } else {
+        annotationProcessorsBuilder_.addMessage(index, value);
+      }
+      return this;
+    }
+    /**
+     * <code>repeated .android_studio.AnnotationProcessorInfo annotation_processors = 10;</code>
+     *
+     * <pre>
+     * Java annotation processors used in this build variant.
+     * Uses the Gradle compact format:  package:module:version
+     * </pre>
+     */
+    public Builder addAnnotationProcessors(
+        com.google.wireless.android.sdk.stats.AnnotationProcessorInfo.Builder builderForValue) {
+      if (annotationProcessorsBuilder_ == null) {
+        ensureAnnotationProcessorsIsMutable();
+        annotationProcessors_.add(builderForValue.build());
+        onChanged();
+      } else {
+        annotationProcessorsBuilder_.addMessage(builderForValue.build());
+      }
+      return this;
+    }
+    /**
+     * <code>repeated .android_studio.AnnotationProcessorInfo annotation_processors = 10;</code>
+     *
+     * <pre>
+     * Java annotation processors used in this build variant.
+     * Uses the Gradle compact format:  package:module:version
+     * </pre>
+     */
+    public Builder addAnnotationProcessors(
+        int index, com.google.wireless.android.sdk.stats.AnnotationProcessorInfo.Builder builderForValue) {
+      if (annotationProcessorsBuilder_ == null) {
+        ensureAnnotationProcessorsIsMutable();
+        annotationProcessors_.add(index, builderForValue.build());
+        onChanged();
+      } else {
+        annotationProcessorsBuilder_.addMessage(index, builderForValue.build());
+      }
+      return this;
+    }
+    /**
+     * <code>repeated .android_studio.AnnotationProcessorInfo annotation_processors = 10;</code>
+     *
+     * <pre>
+     * Java annotation processors used in this build variant.
+     * Uses the Gradle compact format:  package:module:version
+     * </pre>
+     */
+    public Builder addAllAnnotationProcessors(
+        java.lang.Iterable<? extends com.google.wireless.android.sdk.stats.AnnotationProcessorInfo> values) {
+      if (annotationProcessorsBuilder_ == null) {
+        ensureAnnotationProcessorsIsMutable();
+        super.addAll(values, annotationProcessors_);
+        onChanged();
+      } else {
+        annotationProcessorsBuilder_.addAllMessages(values);
+      }
+      return this;
+    }
+    /**
+     * <code>repeated .android_studio.AnnotationProcessorInfo annotation_processors = 10;</code>
+     *
+     * <pre>
+     * Java annotation processors used in this build variant.
+     * Uses the Gradle compact format:  package:module:version
+     * </pre>
+     */
+    public Builder clearAnnotationProcessors() {
+      if (annotationProcessorsBuilder_ == null) {
+        annotationProcessors_ = java.util.Collections.emptyList();
+        bitField0_ = (bitField0_ & ~0x00000200);
+        onChanged();
+      } else {
+        annotationProcessorsBuilder_.clear();
+      }
+      return this;
+    }
+    /**
+     * <code>repeated .android_studio.AnnotationProcessorInfo annotation_processors = 10;</code>
+     *
+     * <pre>
+     * Java annotation processors used in this build variant.
+     * Uses the Gradle compact format:  package:module:version
+     * </pre>
+     */
+    public Builder removeAnnotationProcessors(int index) {
+      if (annotationProcessorsBuilder_ == null) {
+        ensureAnnotationProcessorsIsMutable();
+        annotationProcessors_.remove(index);
+        onChanged();
+      } else {
+        annotationProcessorsBuilder_.remove(index);
+      }
+      return this;
+    }
+    /**
+     * <code>repeated .android_studio.AnnotationProcessorInfo annotation_processors = 10;</code>
+     *
+     * <pre>
+     * Java annotation processors used in this build variant.
+     * Uses the Gradle compact format:  package:module:version
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.AnnotationProcessorInfo.Builder getAnnotationProcessorsBuilder(
+        int index) {
+      return getAnnotationProcessorsFieldBuilder().getBuilder(index);
+    }
+    /**
+     * <code>repeated .android_studio.AnnotationProcessorInfo annotation_processors = 10;</code>
+     *
+     * <pre>
+     * Java annotation processors used in this build variant.
+     * Uses the Gradle compact format:  package:module:version
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.AnnotationProcessorInfoOrBuilder getAnnotationProcessorsOrBuilder(
+        int index) {
+      if (annotationProcessorsBuilder_ == null) {
+        return annotationProcessors_.get(index);  } else {
+        return annotationProcessorsBuilder_.getMessageOrBuilder(index);
+      }
+    }
+    /**
+     * <code>repeated .android_studio.AnnotationProcessorInfo annotation_processors = 10;</code>
+     *
+     * <pre>
+     * Java annotation processors used in this build variant.
+     * Uses the Gradle compact format:  package:module:version
+     * </pre>
+     */
+    public java.util.List<? extends com.google.wireless.android.sdk.stats.AnnotationProcessorInfoOrBuilder> 
+         getAnnotationProcessorsOrBuilderList() {
+      if (annotationProcessorsBuilder_ != null) {
+        return annotationProcessorsBuilder_.getMessageOrBuilderList();
+      } else {
+        return java.util.Collections.unmodifiableList(annotationProcessors_);
+      }
+    }
+    /**
+     * <code>repeated .android_studio.AnnotationProcessorInfo annotation_processors = 10;</code>
+     *
+     * <pre>
+     * Java annotation processors used in this build variant.
+     * Uses the Gradle compact format:  package:module:version
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.AnnotationProcessorInfo.Builder addAnnotationProcessorsBuilder() {
+      return getAnnotationProcessorsFieldBuilder().addBuilder(
+          com.google.wireless.android.sdk.stats.AnnotationProcessorInfo.getDefaultInstance());
+    }
+    /**
+     * <code>repeated .android_studio.AnnotationProcessorInfo annotation_processors = 10;</code>
+     *
+     * <pre>
+     * Java annotation processors used in this build variant.
+     * Uses the Gradle compact format:  package:module:version
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.AnnotationProcessorInfo.Builder addAnnotationProcessorsBuilder(
+        int index) {
+      return getAnnotationProcessorsFieldBuilder().addBuilder(
+          index, com.google.wireless.android.sdk.stats.AnnotationProcessorInfo.getDefaultInstance());
+    }
+    /**
+     * <code>repeated .android_studio.AnnotationProcessorInfo annotation_processors = 10;</code>
+     *
+     * <pre>
+     * Java annotation processors used in this build variant.
+     * Uses the Gradle compact format:  package:module:version
+     * </pre>
+     */
+    public java.util.List<com.google.wireless.android.sdk.stats.AnnotationProcessorInfo.Builder> 
+         getAnnotationProcessorsBuilderList() {
+      return getAnnotationProcessorsFieldBuilder().getBuilderList();
+    }
+    private com.google.protobuf.RepeatedFieldBuilder<
+        com.google.wireless.android.sdk.stats.AnnotationProcessorInfo, com.google.wireless.android.sdk.stats.AnnotationProcessorInfo.Builder, com.google.wireless.android.sdk.stats.AnnotationProcessorInfoOrBuilder> 
+        getAnnotationProcessorsFieldBuilder() {
+      if (annotationProcessorsBuilder_ == null) {
+        annotationProcessorsBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+            com.google.wireless.android.sdk.stats.AnnotationProcessorInfo, com.google.wireless.android.sdk.stats.AnnotationProcessorInfo.Builder, com.google.wireless.android.sdk.stats.AnnotationProcessorInfoOrBuilder>(
+                annotationProcessors_,
+                ((bitField0_ & 0x00000200) == 0x00000200),
+                getParentForChildren(),
+                isClean());
+        annotationProcessors_ = null;
+      }
+      return annotationProcessorsBuilder_;
+    }
+
+    // optional .android_studio.GradleBuildVariant.Java8LangSupport java8_lang_support = 11;
+    private com.google.wireless.android.sdk.stats.GradleBuildVariant.Java8LangSupport java8LangSupport_ = com.google.wireless.android.sdk.stats.GradleBuildVariant.Java8LangSupport.INTERNAL;
+    /**
+     * <code>optional .android_studio.GradleBuildVariant.Java8LangSupport java8_lang_support = 11;</code>
+     *
+     * <pre>
+     * If Java 8 language support is enabled, which tools provides it.
+     * </pre>
+     */
+    public boolean hasJava8LangSupport() {
+      return ((bitField0_ & 0x00000400) == 0x00000400);
+    }
+    /**
+     * <code>optional .android_studio.GradleBuildVariant.Java8LangSupport java8_lang_support = 11;</code>
+     *
+     * <pre>
+     * If Java 8 language support is enabled, which tools provides it.
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.GradleBuildVariant.Java8LangSupport getJava8LangSupport() {
+      return java8LangSupport_;
+    }
+    /**
+     * <code>optional .android_studio.GradleBuildVariant.Java8LangSupport java8_lang_support = 11;</code>
+     *
+     * <pre>
+     * If Java 8 language support is enabled, which tools provides it.
+     * </pre>
+     */
+    public Builder setJava8LangSupport(com.google.wireless.android.sdk.stats.GradleBuildVariant.Java8LangSupport value) {
+      if (value == null) {
+        throw new NullPointerException();
+      }
+      bitField0_ |= 0x00000400;
+      java8LangSupport_ = value;
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.GradleBuildVariant.Java8LangSupport java8_lang_support = 11;</code>
+     *
+     * <pre>
+     * If Java 8 language support is enabled, which tools provides it.
+     * </pre>
+     */
+    public Builder clearJava8LangSupport() {
+      bitField0_ = (bitField0_ & ~0x00000400);
+      java8LangSupport_ = com.google.wireless.android.sdk.stats.GradleBuildVariant.Java8LangSupport.INTERNAL;
       onChanged();
       return this;
     }

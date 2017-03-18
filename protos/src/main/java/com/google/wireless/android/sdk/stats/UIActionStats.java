@@ -79,6 +79,11 @@ public  final class UIActionStats extends
             }
             break;
           }
+          case 32: {
+            bitField0_ |= 0x00000008;
+            direct_ = input.readBool();
+            break;
+          }
         }
       }
     } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -347,10 +352,37 @@ public  final class UIActionStats extends
     return invocationKind_;
   }
 
+  // optional bool direct = 4;
+  public static final int DIRECT_FIELD_NUMBER = 4;
+  private boolean direct_;
+  /**
+   * <code>optional bool direct = 4;</code>
+   *
+   * <pre>
+   * true if this message is sent directly, false if sent
+   * with aggregated data over time.
+   * </pre>
+   */
+  public boolean hasDirect() {
+    return ((bitField0_ & 0x00000008) == 0x00000008);
+  }
+  /**
+   * <code>optional bool direct = 4;</code>
+   *
+   * <pre>
+   * true if this message is sent directly, false if sent
+   * with aggregated data over time.
+   * </pre>
+   */
+  public boolean getDirect() {
+    return direct_;
+  }
+
   private void initFields() {
     actionClassName_ = "";
     invocations_ = 0L;
     invocationKind_ = com.google.wireless.android.sdk.stats.UIActionStats.InvocationKind.UNKNOWN_INVOCATION_KIND;
+    direct_ = false;
   }
   private byte memoizedIsInitialized = -1;
   public final boolean isInitialized() {
@@ -373,6 +405,9 @@ public  final class UIActionStats extends
     if (((bitField0_ & 0x00000004) == 0x00000004)) {
       output.writeEnum(3, invocationKind_.getNumber());
     }
+    if (((bitField0_ & 0x00000008) == 0x00000008)) {
+      output.writeBool(4, direct_);
+    }
     getUnknownFields().writeTo(output);
   }
 
@@ -393,6 +428,10 @@ public  final class UIActionStats extends
     if (((bitField0_ & 0x00000004) == 0x00000004)) {
       size += com.google.protobuf.CodedOutputStream
         .computeEnumSize(3, invocationKind_.getNumber());
+    }
+    if (((bitField0_ & 0x00000008) == 0x00000008)) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeBoolSize(4, direct_);
     }
     size += getUnknownFields().getSerializedSize();
     memoizedSerializedSize = size;
@@ -520,6 +559,8 @@ public  final class UIActionStats extends
       bitField0_ = (bitField0_ & ~0x00000002);
       invocationKind_ = com.google.wireless.android.sdk.stats.UIActionStats.InvocationKind.UNKNOWN_INVOCATION_KIND;
       bitField0_ = (bitField0_ & ~0x00000004);
+      direct_ = false;
+      bitField0_ = (bitField0_ & ~0x00000008);
       return this;
     }
 
@@ -560,6 +601,10 @@ public  final class UIActionStats extends
         to_bitField0_ |= 0x00000004;
       }
       result.invocationKind_ = invocationKind_;
+      if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+        to_bitField0_ |= 0x00000008;
+      }
+      result.direct_ = direct_;
       result.bitField0_ = to_bitField0_;
       onBuilt();
       return result;
@@ -586,6 +631,9 @@ public  final class UIActionStats extends
       }
       if (other.hasInvocationKind()) {
         setInvocationKind(other.getInvocationKind());
+      }
+      if (other.hasDirect()) {
+        setDirect(other.getDirect());
       }
       this.mergeUnknownFields(other.getUnknownFields());
       return this;
@@ -815,6 +863,59 @@ public  final class UIActionStats extends
     public Builder clearInvocationKind() {
       bitField0_ = (bitField0_ & ~0x00000004);
       invocationKind_ = com.google.wireless.android.sdk.stats.UIActionStats.InvocationKind.UNKNOWN_INVOCATION_KIND;
+      onChanged();
+      return this;
+    }
+
+    // optional bool direct = 4;
+    private boolean direct_ ;
+    /**
+     * <code>optional bool direct = 4;</code>
+     *
+     * <pre>
+     * true if this message is sent directly, false if sent
+     * with aggregated data over time.
+     * </pre>
+     */
+    public boolean hasDirect() {
+      return ((bitField0_ & 0x00000008) == 0x00000008);
+    }
+    /**
+     * <code>optional bool direct = 4;</code>
+     *
+     * <pre>
+     * true if this message is sent directly, false if sent
+     * with aggregated data over time.
+     * </pre>
+     */
+    public boolean getDirect() {
+      return direct_;
+    }
+    /**
+     * <code>optional bool direct = 4;</code>
+     *
+     * <pre>
+     * true if this message is sent directly, false if sent
+     * with aggregated data over time.
+     * </pre>
+     */
+    public Builder setDirect(boolean value) {
+      bitField0_ |= 0x00000008;
+      direct_ = value;
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>optional bool direct = 4;</code>
+     *
+     * <pre>
+     * true if this message is sent directly, false if sent
+     * with aggregated data over time.
+     * </pre>
+     */
+    public Builder clearDirect() {
+      bitField0_ = (bitField0_ & ~0x00000008);
+      direct_ = false;
       onChanged();
       return this;
     }

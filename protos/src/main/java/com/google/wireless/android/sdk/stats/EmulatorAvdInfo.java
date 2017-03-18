@@ -254,7 +254,7 @@ public  final class EmulatorAvdInfo extends
    * <code>optional string name = 1;</code>
    *
    * <pre>
-   * Name of the AVD.
+   * Name of the AVD. Deprecated as it could potentially contain PII.
    * </pre>
    */
   public boolean hasName() {
@@ -264,7 +264,7 @@ public  final class EmulatorAvdInfo extends
    * <code>optional string name = 1;</code>
    *
    * <pre>
-   * Name of the AVD.
+   * Name of the AVD. Deprecated as it could potentially contain PII.
    * </pre>
    */
   public java.lang.String getName() {
@@ -285,7 +285,7 @@ public  final class EmulatorAvdInfo extends
    * <code>optional string name = 1;</code>
    *
    * <pre>
-   * Name of the AVD.
+   * Name of the AVD. Deprecated as it could potentially contain PII.
    * </pre>
    */
   public com.google.protobuf.ByteString
@@ -934,7 +934,7 @@ public  final class EmulatorAvdInfo extends
      * <code>optional string name = 1;</code>
      *
      * <pre>
-     * Name of the AVD.
+     * Name of the AVD. Deprecated as it could potentially contain PII.
      * </pre>
      */
     public boolean hasName() {
@@ -944,7 +944,7 @@ public  final class EmulatorAvdInfo extends
      * <code>optional string name = 1;</code>
      *
      * <pre>
-     * Name of the AVD.
+     * Name of the AVD. Deprecated as it could potentially contain PII.
      * </pre>
      */
     public java.lang.String getName() {
@@ -962,7 +962,7 @@ public  final class EmulatorAvdInfo extends
      * <code>optional string name = 1;</code>
      *
      * <pre>
-     * Name of the AVD.
+     * Name of the AVD. Deprecated as it could potentially contain PII.
      * </pre>
      */
     public com.google.protobuf.ByteString
@@ -982,7 +982,7 @@ public  final class EmulatorAvdInfo extends
      * <code>optional string name = 1;</code>
      *
      * <pre>
-     * Name of the AVD.
+     * Name of the AVD. Deprecated as it could potentially contain PII.
      * </pre>
      */
     public Builder setName(
@@ -999,7 +999,7 @@ public  final class EmulatorAvdInfo extends
      * <code>optional string name = 1;</code>
      *
      * <pre>
-     * Name of the AVD.
+     * Name of the AVD. Deprecated as it could potentially contain PII.
      * </pre>
      */
     public Builder clearName() {
@@ -1012,7 +1012,7 @@ public  final class EmulatorAvdInfo extends
      * <code>optional string name = 1;</code>
      *
      * <pre>
-     * Name of the AVD.
+     * Name of the AVD. Deprecated as it could potentially contain PII.
      * </pre>
      */
     public Builder setNameBytes(

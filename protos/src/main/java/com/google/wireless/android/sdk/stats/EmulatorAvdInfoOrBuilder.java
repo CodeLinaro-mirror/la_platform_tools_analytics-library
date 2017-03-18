@@ -11,7 +11,7 @@ public interface EmulatorAvdInfoOrBuilder
    * <code>optional string name = 1;</code>
    *
    * <pre>
-   * Name of the AVD.
+   * Name of the AVD. Deprecated as it could potentially contain PII.
    * </pre>
    */
   boolean hasName();
@@ -19,7 +19,7 @@ public interface EmulatorAvdInfoOrBuilder
    * <code>optional string name = 1;</code>
    *
    * <pre>
-   * Name of the AVD.
+   * Name of the AVD. Deprecated as it could potentially contain PII.
    * </pre>
    */
   java.lang.String getName();
@@ -27,7 +27,7 @@ public interface EmulatorAvdInfoOrBuilder
    * <code>optional string name = 1;</code>
    *
    * <pre>
-   * Name of the AVD.
+   * Name of the AVD. Deprecated as it could potentially contain PII.
    * </pre>
    */
   com.google.protobuf.ByteString
