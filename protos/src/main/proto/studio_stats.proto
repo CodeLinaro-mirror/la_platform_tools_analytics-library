@@ -1426,6 +1426,14 @@ message GradleBuildVariant {
   // For test variants, the tested variant id. (See GradleBuildVariant.id)
   optional int64 tested_id = 8;
 
+  // List of proguard flags used in this build variant.
+  // NOTE this is a string as the proguard flags can be changed
+  // based on which release of proguard is being used and is outside of our
+  // control. See https://www.guardsquare.com/en/proguard/manual/usage
+  // for current list. This property only will contain the "-<flag>" without
+  // the arguments passed to that flag.
+  repeated string proguard_flags = 9;
+
   // The nature of this variant.
   // The test variants have an associated tested variant.
   // See com.android.builder.core.VariantType
@@ -2134,6 +2142,147 @@ message LayoutEditorRenderResult {
   optional int32 fidelity_warning_count = 8;
 }
 
+// Reference to a View used in an Android application.
+// Although this proto contains just a single field, we may decide
+// to represent a view with an enum in the future.
+message AndroidView {
+  // Specifies the tag name used in XML for a given Android View class.
+  // This will typically be a fully qualified class name or an unqualified
+  // Android framework class name.
+  // Only Google view tags will be specified by name. The name of custom view
+  // tags will be left unspecified.
+  // Examples:
+  //   "ToggleButton"
+  //   "android.support.design.widget.CoordinatorLayout"
+  optional string tag_name = 1;
+}
+
+// Reference to an attribute of an Android view.
+message AndroidAttribute {
+  // Namespace of the attribute changed
+  enum AttributeNamespace {
+    UNKNOWN_NAMESPACE = 0;
+    // This attribute is defined in the Google framework.
+    ANDROID = 1;
+    // This attribute is defined in the application.
+    // The attribute is either a custom attribute or an attribute on a View from
+    // a Google library.
+    APPLICATION = 2;
+    // This attribute is used in the design preview only. It does not affect
+    // the the Android application at runtime.
+    TOOLS = 3;
+  }
+
+  // Specifies an attribute name of an Android View class.
+  // Only properties defined on Google View classes will be specified by name.
+  // Properties defined on custom views will be left unspecified.
+  optional string attribute_name = 1;
+  // The namespace of this attribute
+  optional AttributeNamespace attribute_namespace = 2;
+}
+
+// Identifies the effect the search field had on the possible choices presented
+// to the user.
+enum SearchOption {
+  UNKNOWN_SEARCH_OPTION = 0;
+  // The search field was empty
+  NONE = 1;
+  // The search field was not empty and it does not specify a unique match
+  MULTIPLE_MATCHES = 2;
+  // The search field identified a unique match
+  SINGLE_MATCH = 3;
+}
+
+// Details for the event of dropping a View from Palette:
+message LayoutPaletteEvent {
+  // Display option when using the palette
+  enum ViewType {
+    UNKNOWN_VIEW_TYPE = 0;
+    ICON_AND_NAME = 1;
+    LARGE_IONS = 2;
+    SMALL_ICONS = 3;
+  }
+
+  // The active view group when using the palette
+  enum ViewGroup {
+    UNKNOWN_GROUP = 0;
+    CUSTOM = 1;
+    ALL_GROUPS = 2;
+    WIDGETS = 3;
+    TEXT = 4;
+    LAYOUTS = 5;
+    CONTAINERS = 6;
+    IMAGES = 7;
+    DATES = 8;
+    TRANSITIONS = 9;
+    ADVANCED = 10;
+    GOOGLE = 11;
+    DESIGN = 12;
+    APP_COMPAT = 13;
+  }
+
+  // The view parameter options used for the dropped component
+  enum ViewOption {
+    NORMAL = 0;
+    CUSTOM_OPTION = 1;
+    HORIZONTAL_PROGRESS_BAR = 2;
+    DISCRETE_SEEK_BAR = 3;
+    PLAIN_EDIT_TEXT = 4;
+    PASSWORD = 5;
+    PASSWORD_NUMERIC = 6;
+    EMAIL = 7;
+    PHONE = 8;
+    POSTAL_ADDRESS = 9;
+    MULTILINE_TEXT = 10;
+    TIME_EDITOR = 11;
+    DATE_EDITOR = 12;
+    NUMBER = 13;
+    SIGNED_NUMBER = 14;
+    DECIMAL_NUMBER = 15;
+    HORIZONTAL_LINEAR_LAYOUT = 16;
+    VERTICAL_LINEAR_LAYOUT = 17;
+  }
+
+  // The View that was dropped onto the design surface from the palette.
+  optional AndroidView view = 1;
+  // The view option used.
+  optional ViewOption view_option = 2;
+  // The group selected to find the view
+  optional ViewGroup selected_group = 3;
+  // The result of the usage of the search field
+  optional SearchOption search_option = 4;
+  // The display option used when this view was dropped from the palette
+  optional ViewType view_type = 5;
+}
+
+// Details for an attribute change event
+message LayoutAttributeChangeEvent {
+  // Display option used in property panel
+  enum ViewType {
+    UNKNOWN_VIEW_TYPE = 0;
+    INSPECTOR = 1;
+    PROPERTY_TABLE = 2;
+  }
+
+  // The attribute changed by this event
+  optional AndroidAttribute attribute = 1;
+  // The search option used when the attribute was changed
+  optional SearchOption search_option = 2;
+  // The display option used when the attribute was changed
+  optional ViewType view_type = 3;
+  // The views where this attribute was changed for.
+  repeated AndroidView view = 4;
+}
+
+message LayoutFavoriteAttributeChangeEvent {
+  // This attribute was added as a favorite attribute
+  optional AndroidAttribute added = 1;
+  // This attribute was removed as a favorite attribute
+  optional AndroidAttribute removed = 2;
+  // These are the resulting active favorite attibutes
+  repeated AndroidAttribute active = 3;
+}
+
 // Details for layout editor events
 message LayoutEditorEvent {
   enum LayoutEditorEventType {
@@ -2179,6 +2328,10 @@ message LayoutEditorEvent {
 
     SHOW_PALETTE = 30;
     HIDE_PALETTE = 31;
+
+    DROP_VIEW_FROM_PALETTE = 32;
+    ATTRIBUTE_CHANGE = 33;
+    FAVORITE_CHANGE = 34;
   }
 
   // Type of event
@@ -2187,6 +2340,12 @@ message LayoutEditorEvent {
   optional LayoutEditorState state = 2;
   // Result of the render when (type = RENDER)
   optional LayoutEditorRenderResult render_result = 3;
+  // Details related to using the palette (type = DROP_VIEW_FROM_PALETTE)
+  optional LayoutPaletteEvent palette_event = 4;
+  // Details related to changing an attribute (type = ATTRIBUTE_CHANGE)
+  optional LayoutAttributeChangeEvent attribute_change_event = 5;
+  // Details related to favorite attribute changes (type = FAVORITE_CHANGE)
+  optional LayoutFavoriteAttributeChangeEvent favorite_change_event = 6;
 }
 
 // App links assistant user event detail.

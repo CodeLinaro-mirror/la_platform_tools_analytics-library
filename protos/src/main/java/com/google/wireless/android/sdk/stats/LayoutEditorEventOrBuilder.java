@@ -75,4 +75,82 @@ public interface LayoutEditorEventOrBuilder
    * </pre>
    */
   com.google.wireless.android.sdk.stats.LayoutEditorRenderResultOrBuilder getRenderResultOrBuilder();
+
+  // optional .android_studio.LayoutPaletteEvent palette_event = 4;
+  /**
+   * <code>optional .android_studio.LayoutPaletteEvent palette_event = 4;</code>
+   *
+   * <pre>
+   * Details related to using the palette (type = DROP_VIEW_FROM_PALETTE)
+   * </pre>
+   */
+  boolean hasPaletteEvent();
+  /**
+   * <code>optional .android_studio.LayoutPaletteEvent palette_event = 4;</code>
+   *
+   * <pre>
+   * Details related to using the palette (type = DROP_VIEW_FROM_PALETTE)
+   * </pre>
+   */
+  com.google.wireless.android.sdk.stats.LayoutPaletteEvent getPaletteEvent();
+  /**
+   * <code>optional .android_studio.LayoutPaletteEvent palette_event = 4;</code>
+   *
+   * <pre>
+   * Details related to using the palette (type = DROP_VIEW_FROM_PALETTE)
+   * </pre>
+   */
+  com.google.wireless.android.sdk.stats.LayoutPaletteEventOrBuilder getPaletteEventOrBuilder();
+
+  // optional .android_studio.LayoutAttributeChangeEvent attribute_change_event = 5;
+  /**
+   * <code>optional .android_studio.LayoutAttributeChangeEvent attribute_change_event = 5;</code>
+   *
+   * <pre>
+   * Details related to changing an attribute (type = ATTRIBUTE_CHANGE)
+   * </pre>
+   */
+  boolean hasAttributeChangeEvent();
+  /**
+   * <code>optional .android_studio.LayoutAttributeChangeEvent attribute_change_event = 5;</code>
+   *
+   * <pre>
+   * Details related to changing an attribute (type = ATTRIBUTE_CHANGE)
+   * </pre>
+   */
+  com.google.wireless.android.sdk.stats.LayoutAttributeChangeEvent getAttributeChangeEvent();
+  /**
+   * <code>optional .android_studio.LayoutAttributeChangeEvent attribute_change_event = 5;</code>
+   *
+   * <pre>
+   * Details related to changing an attribute (type = ATTRIBUTE_CHANGE)
+   * </pre>
+   */
+  com.google.wireless.android.sdk.stats.LayoutAttributeChangeEventOrBuilder getAttributeChangeEventOrBuilder();
+
+  // optional .android_studio.LayoutFavoriteAttributeChangeEvent favorite_change_event = 6;
+  /**
+   * <code>optional .android_studio.LayoutFavoriteAttributeChangeEvent favorite_change_event = 6;</code>
+   *
+   * <pre>
+   * Details related to favorite attribute changes (type = FAVORITE_CHANGE)
+   * </pre>
+   */
+  boolean hasFavoriteChangeEvent();
+  /**
+   * <code>optional .android_studio.LayoutFavoriteAttributeChangeEvent favorite_change_event = 6;</code>
+   *
+   * <pre>
+   * Details related to favorite attribute changes (type = FAVORITE_CHANGE)
+   * </pre>
+   */
+  com.google.wireless.android.sdk.stats.LayoutFavoriteAttributeChangeEvent getFavoriteChangeEvent();
+  /**
+   * <code>optional .android_studio.LayoutFavoriteAttributeChangeEvent favorite_change_event = 6;</code>
+   *
+   * <pre>
+   * Details related to favorite attribute changes (type = FAVORITE_CHANGE)
+   * </pre>
+   */
+  com.google.wireless.android.sdk.stats.LayoutFavoriteAttributeChangeEventOrBuilder getFavoriteChangeEventOrBuilder();
 }
