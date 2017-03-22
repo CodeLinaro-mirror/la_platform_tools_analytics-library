@@ -372,136 +372,6 @@ public  final class ProductDetails extends
   }
 
   /**
-   * Protobuf enum {@code android_studio.ProductDetails.OSKind}
-   *
-   * <pre>
-   * Describes the various OS platforms our products run on.
-   * </pre>
-   */
-  public enum OSKind
-      implements com.google.protobuf.ProtocolMessageEnum {
-    /**
-     * <code>UNKNOWN_OS_KIND = 0;</code>
-     */
-    UNKNOWN_OS_KIND(0, 0),
-    /**
-     * <code>OTHER_OS = 1;</code>
-     *
-     * <pre>
-     * Known but not in our list.
-     * </pre>
-     */
-    OTHER_OS(1, 1),
-    /**
-     * <code>WINDOWS = 2;</code>
-     */
-    WINDOWS(2, 2),
-    /**
-     * <code>MAC_OSX = 3;</code>
-     */
-    MAC_OSX(3, 3),
-    /**
-     * <code>LINUX = 4;</code>
-     */
-    LINUX(4, 4),
-    /**
-     * <code>FREE_BSD = 5;</code>
-     */
-    FREE_BSD(5, 5),
-    ;
-
-    /**
-     * <code>UNKNOWN_OS_KIND = 0;</code>
-     */
-    public static final int UNKNOWN_OS_KIND_VALUE = 0;
-    /**
-     * <code>OTHER_OS = 1;</code>
-     *
-     * <pre>
-     * Known but not in our list.
-     * </pre>
-     */
-    public static final int OTHER_OS_VALUE = 1;
-    /**
-     * <code>WINDOWS = 2;</code>
-     */
-    public static final int WINDOWS_VALUE = 2;
-    /**
-     * <code>MAC_OSX = 3;</code>
-     */
-    public static final int MAC_OSX_VALUE = 3;
-    /**
-     * <code>LINUX = 4;</code>
-     */
-    public static final int LINUX_VALUE = 4;
-    /**
-     * <code>FREE_BSD = 5;</code>
-     */
-    public static final int FREE_BSD_VALUE = 5;
-
-
-    public final int getNumber() { return value; }
-
-    public static OSKind valueOf(int value) {
-      switch (value) {
-        case 0: return UNKNOWN_OS_KIND;
-        case 1: return OTHER_OS;
-        case 2: return WINDOWS;
-        case 3: return MAC_OSX;
-        case 4: return LINUX;
-        case 5: return FREE_BSD;
-        default: return null;
-      }
-    }
-
-    public static com.google.protobuf.Internal.EnumLiteMap<OSKind>
-        internalGetValueMap() {
-      return internalValueMap;
-    }
-    private static com.google.protobuf.Internal.EnumLiteMap<OSKind>
-        internalValueMap =
-          new com.google.protobuf.Internal.EnumLiteMap<OSKind>() {
-            public OSKind findValueByNumber(int number) {
-              return OSKind.valueOf(number);
-            }
-          };
-
-    public final com.google.protobuf.Descriptors.EnumValueDescriptor
-        getValueDescriptor() {
-      return getDescriptor().getValues().get(index);
-    }
-    public final com.google.protobuf.Descriptors.EnumDescriptor
-        getDescriptorForType() {
-      return getDescriptor();
-    }
-    public static final com.google.protobuf.Descriptors.EnumDescriptor
-        getDescriptor() {
-      return com.google.wireless.android.sdk.stats.ProductDetails.getDescriptor().getEnumTypes().get(2);
-    }
-
-    private static final OSKind[] VALUES = values();
-
-    public static OSKind valueOf(
-        com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
-      if (desc.getType() != getDescriptor()) {
-        throw new java.lang.IllegalArgumentException(
-          "EnumValueDescriptor is not for this type.");
-      }
-      return VALUES[desc.getIndex()];
-    }
-
-    private final int index;
-    private final int value;
-
-    private OSKind(int index, int value) {
-      this.index = index;
-      this.value = value;
-    }
-
-    // @@protoc_insertion_point(enum_scope:android_studio.ProductDetails.OSKind)
-  }
-
-  /**
    * Protobuf enum {@code android_studio.ProductDetails.CpuArchitecture}
    *
    * <pre>
@@ -571,7 +441,7 @@ public  final class ProductDetails extends
     }
     public static final com.google.protobuf.Descriptors.EnumDescriptor
         getDescriptor() {
-      return com.google.wireless.android.sdk.stats.ProductDetails.getDescriptor().getEnumTypes().get(3);
+      return com.google.wireless.android.sdk.stats.ProductDetails.getDescriptor().getEnumTypes().get(2);
     }
 
     private static final CpuArchitecture[] VALUES = values();

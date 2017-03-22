@@ -209,6 +209,14 @@ public  final class GradleBuildVariant extends
      * </pre>
      */
     INSTANTAPP(5, 5),
+    /**
+     * <code>FEATURE = 6;</code>
+     *
+     * <pre>
+     * For building a split APK.
+     * </pre>
+     */
+    FEATURE(6, 6),
     ;
 
     /**
@@ -259,6 +267,14 @@ public  final class GradleBuildVariant extends
      * </pre>
      */
     public static final int INSTANTAPP_VALUE = 5;
+    /**
+     * <code>FEATURE = 6;</code>
+     *
+     * <pre>
+     * For building a split APK.
+     * </pre>
+     */
+    public static final int FEATURE_VALUE = 6;
 
 
     public final int getNumber() { return value; }
@@ -271,6 +287,7 @@ public  final class GradleBuildVariant extends
         case 3: return UNIT_TEST;
         case 4: return ATOM;
         case 5: return INSTANTAPP;
+        case 6: return FEATURE;
         default: return null;
       }
     }
