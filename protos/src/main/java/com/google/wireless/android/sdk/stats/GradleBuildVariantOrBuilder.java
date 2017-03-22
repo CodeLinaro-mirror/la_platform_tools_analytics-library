@@ -159,4 +159,60 @@ public interface GradleBuildVariantOrBuilder
    * </pre>
    */
   long getTestedId();
+
+  // repeated string proguard_flags = 9;
+  /**
+   * <code>repeated string proguard_flags = 9;</code>
+   *
+   * <pre>
+   * List of proguard flags used in this build variant.
+   * NOTE this is a string as the proguard flags can be changed
+   * based on which release of proguard is being used and is outside of our
+   * control. See https://www.guardsquare.com/en/proguard/manual/usage
+   * for current list. This property only will contain the "-&lt;flag&gt;" without
+   * the arguments passed to that flag.
+   * </pre>
+   */
+  java.util.List<java.lang.String>
+  getProguardFlagsList();
+  /**
+   * <code>repeated string proguard_flags = 9;</code>
+   *
+   * <pre>
+   * List of proguard flags used in this build variant.
+   * NOTE this is a string as the proguard flags can be changed
+   * based on which release of proguard is being used and is outside of our
+   * control. See https://www.guardsquare.com/en/proguard/manual/usage
+   * for current list. This property only will contain the "-&lt;flag&gt;" without
+   * the arguments passed to that flag.
+   * </pre>
+   */
+  int getProguardFlagsCount();
+  /**
+   * <code>repeated string proguard_flags = 9;</code>
+   *
+   * <pre>
+   * List of proguard flags used in this build variant.
+   * NOTE this is a string as the proguard flags can be changed
+   * based on which release of proguard is being used and is outside of our
+   * control. See https://www.guardsquare.com/en/proguard/manual/usage
+   * for current list. This property only will contain the "-&lt;flag&gt;" without
+   * the arguments passed to that flag.
+   * </pre>
+   */
+  java.lang.String getProguardFlags(int index);
+  /**
+   * <code>repeated string proguard_flags = 9;</code>
+   *
+   * <pre>
+   * List of proguard flags used in this build variant.
+   * NOTE this is a string as the proguard flags can be changed
+   * based on which release of proguard is being used and is outside of our
+   * control. See https://www.guardsquare.com/en/proguard/manual/usage
+   * for current list. This property only will contain the "-&lt;flag&gt;" without
+   * the arguments passed to that flag.
+   * </pre>
+   */
+  com.google.protobuf.ByteString
+      getProguardFlagsBytes(int index);
 }

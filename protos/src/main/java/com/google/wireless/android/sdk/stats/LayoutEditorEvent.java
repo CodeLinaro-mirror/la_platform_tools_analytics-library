@@ -95,6 +95,45 @@ public  final class LayoutEditorEvent extends
             bitField0_ |= 0x00000004;
             break;
           }
+          case 34: {
+            com.google.wireless.android.sdk.stats.LayoutPaletteEvent.Builder subBuilder = null;
+            if (((bitField0_ & 0x00000008) == 0x00000008)) {
+              subBuilder = paletteEvent_.toBuilder();
+            }
+            paletteEvent_ = input.readMessage(com.google.wireless.android.sdk.stats.LayoutPaletteEvent.PARSER, extensionRegistry);
+            if (subBuilder != null) {
+              subBuilder.mergeFrom(paletteEvent_);
+              paletteEvent_ = subBuilder.buildPartial();
+            }
+            bitField0_ |= 0x00000008;
+            break;
+          }
+          case 42: {
+            com.google.wireless.android.sdk.stats.LayoutAttributeChangeEvent.Builder subBuilder = null;
+            if (((bitField0_ & 0x00000010) == 0x00000010)) {
+              subBuilder = attributeChangeEvent_.toBuilder();
+            }
+            attributeChangeEvent_ = input.readMessage(com.google.wireless.android.sdk.stats.LayoutAttributeChangeEvent.PARSER, extensionRegistry);
+            if (subBuilder != null) {
+              subBuilder.mergeFrom(attributeChangeEvent_);
+              attributeChangeEvent_ = subBuilder.buildPartial();
+            }
+            bitField0_ |= 0x00000010;
+            break;
+          }
+          case 50: {
+            com.google.wireless.android.sdk.stats.LayoutFavoriteAttributeChangeEvent.Builder subBuilder = null;
+            if (((bitField0_ & 0x00000020) == 0x00000020)) {
+              subBuilder = favoriteChangeEvent_.toBuilder();
+            }
+            favoriteChangeEvent_ = input.readMessage(com.google.wireless.android.sdk.stats.LayoutFavoriteAttributeChangeEvent.PARSER, extensionRegistry);
+            if (subBuilder != null) {
+              subBuilder.mergeFrom(favoriteChangeEvent_);
+              favoriteChangeEvent_ = subBuilder.buildPartial();
+            }
+            bitField0_ |= 0x00000020;
+            break;
+          }
         }
       }
     } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -267,6 +306,18 @@ public  final class LayoutEditorEvent extends
      * <code>HIDE_PALETTE = 31;</code>
      */
     HIDE_PALETTE(31, 31),
+    /**
+     * <code>DROP_VIEW_FROM_PALETTE = 32;</code>
+     */
+    DROP_VIEW_FROM_PALETTE(32, 32),
+    /**
+     * <code>ATTRIBUTE_CHANGE = 33;</code>
+     */
+    ATTRIBUTE_CHANGE(33, 33),
+    /**
+     * <code>FAVORITE_CHANGE = 34;</code>
+     */
+    FAVORITE_CHANGE(34, 34),
     ;
 
     /**
@@ -397,6 +448,18 @@ public  final class LayoutEditorEvent extends
      * <code>HIDE_PALETTE = 31;</code>
      */
     public static final int HIDE_PALETTE_VALUE = 31;
+    /**
+     * <code>DROP_VIEW_FROM_PALETTE = 32;</code>
+     */
+    public static final int DROP_VIEW_FROM_PALETTE_VALUE = 32;
+    /**
+     * <code>ATTRIBUTE_CHANGE = 33;</code>
+     */
+    public static final int ATTRIBUTE_CHANGE_VALUE = 33;
+    /**
+     * <code>FAVORITE_CHANGE = 34;</code>
+     */
+    public static final int FAVORITE_CHANGE_VALUE = 34;
 
 
     public final int getNumber() { return value; }
@@ -435,6 +498,9 @@ public  final class LayoutEditorEvent extends
         case 29: return ADD_HORIZONTAL_GUIDELINE;
         case 30: return SHOW_PALETTE;
         case 31: return HIDE_PALETTE;
+        case 32: return DROP_VIEW_FROM_PALETTE;
+        case 33: return ATTRIBUTE_CHANGE;
+        case 34: return FAVORITE_CHANGE;
         default: return null;
       }
     }
@@ -579,10 +645,115 @@ public  final class LayoutEditorEvent extends
     return renderResult_;
   }
 
+  // optional .android_studio.LayoutPaletteEvent palette_event = 4;
+  public static final int PALETTE_EVENT_FIELD_NUMBER = 4;
+  private com.google.wireless.android.sdk.stats.LayoutPaletteEvent paletteEvent_;
+  /**
+   * <code>optional .android_studio.LayoutPaletteEvent palette_event = 4;</code>
+   *
+   * <pre>
+   * Details related to using the palette (type = DROP_VIEW_FROM_PALETTE)
+   * </pre>
+   */
+  public boolean hasPaletteEvent() {
+    return ((bitField0_ & 0x00000008) == 0x00000008);
+  }
+  /**
+   * <code>optional .android_studio.LayoutPaletteEvent palette_event = 4;</code>
+   *
+   * <pre>
+   * Details related to using the palette (type = DROP_VIEW_FROM_PALETTE)
+   * </pre>
+   */
+  public com.google.wireless.android.sdk.stats.LayoutPaletteEvent getPaletteEvent() {
+    return paletteEvent_;
+  }
+  /**
+   * <code>optional .android_studio.LayoutPaletteEvent palette_event = 4;</code>
+   *
+   * <pre>
+   * Details related to using the palette (type = DROP_VIEW_FROM_PALETTE)
+   * </pre>
+   */
+  public com.google.wireless.android.sdk.stats.LayoutPaletteEventOrBuilder getPaletteEventOrBuilder() {
+    return paletteEvent_;
+  }
+
+  // optional .android_studio.LayoutAttributeChangeEvent attribute_change_event = 5;
+  public static final int ATTRIBUTE_CHANGE_EVENT_FIELD_NUMBER = 5;
+  private com.google.wireless.android.sdk.stats.LayoutAttributeChangeEvent attributeChangeEvent_;
+  /**
+   * <code>optional .android_studio.LayoutAttributeChangeEvent attribute_change_event = 5;</code>
+   *
+   * <pre>
+   * Details related to changing an attribute (type = ATTRIBUTE_CHANGE)
+   * </pre>
+   */
+  public boolean hasAttributeChangeEvent() {
+    return ((bitField0_ & 0x00000010) == 0x00000010);
+  }
+  /**
+   * <code>optional .android_studio.LayoutAttributeChangeEvent attribute_change_event = 5;</code>
+   *
+   * <pre>
+   * Details related to changing an attribute (type = ATTRIBUTE_CHANGE)
+   * </pre>
+   */
+  public com.google.wireless.android.sdk.stats.LayoutAttributeChangeEvent getAttributeChangeEvent() {
+    return attributeChangeEvent_;
+  }
+  /**
+   * <code>optional .android_studio.LayoutAttributeChangeEvent attribute_change_event = 5;</code>
+   *
+   * <pre>
+   * Details related to changing an attribute (type = ATTRIBUTE_CHANGE)
+   * </pre>
+   */
+  public com.google.wireless.android.sdk.stats.LayoutAttributeChangeEventOrBuilder getAttributeChangeEventOrBuilder() {
+    return attributeChangeEvent_;
+  }
+
+  // optional .android_studio.LayoutFavoriteAttributeChangeEvent favorite_change_event = 6;
+  public static final int FAVORITE_CHANGE_EVENT_FIELD_NUMBER = 6;
+  private com.google.wireless.android.sdk.stats.LayoutFavoriteAttributeChangeEvent favoriteChangeEvent_;
+  /**
+   * <code>optional .android_studio.LayoutFavoriteAttributeChangeEvent favorite_change_event = 6;</code>
+   *
+   * <pre>
+   * Details related to favorite attribute changes (type = FAVORITE_CHANGE)
+   * </pre>
+   */
+  public boolean hasFavoriteChangeEvent() {
+    return ((bitField0_ & 0x00000020) == 0x00000020);
+  }
+  /**
+   * <code>optional .android_studio.LayoutFavoriteAttributeChangeEvent favorite_change_event = 6;</code>
+   *
+   * <pre>
+   * Details related to favorite attribute changes (type = FAVORITE_CHANGE)
+   * </pre>
+   */
+  public com.google.wireless.android.sdk.stats.LayoutFavoriteAttributeChangeEvent getFavoriteChangeEvent() {
+    return favoriteChangeEvent_;
+  }
+  /**
+   * <code>optional .android_studio.LayoutFavoriteAttributeChangeEvent favorite_change_event = 6;</code>
+   *
+   * <pre>
+   * Details related to favorite attribute changes (type = FAVORITE_CHANGE)
+   * </pre>
+   */
+  public com.google.wireless.android.sdk.stats.LayoutFavoriteAttributeChangeEventOrBuilder getFavoriteChangeEventOrBuilder() {
+    return favoriteChangeEvent_;
+  }
+
   private void initFields() {
     type_ = com.google.wireless.android.sdk.stats.LayoutEditorEvent.LayoutEditorEventType.UNKNOWN_EVENT_TYPE;
     state_ = com.google.wireless.android.sdk.stats.LayoutEditorState.getDefaultInstance();
     renderResult_ = com.google.wireless.android.sdk.stats.LayoutEditorRenderResult.getDefaultInstance();
+    paletteEvent_ = com.google.wireless.android.sdk.stats.LayoutPaletteEvent.getDefaultInstance();
+    attributeChangeEvent_ = com.google.wireless.android.sdk.stats.LayoutAttributeChangeEvent.getDefaultInstance();
+    favoriteChangeEvent_ = com.google.wireless.android.sdk.stats.LayoutFavoriteAttributeChangeEvent.getDefaultInstance();
   }
   private byte memoizedIsInitialized = -1;
   public final boolean isInitialized() {
@@ -605,6 +776,15 @@ public  final class LayoutEditorEvent extends
     if (((bitField0_ & 0x00000004) == 0x00000004)) {
       output.writeMessage(3, renderResult_);
     }
+    if (((bitField0_ & 0x00000008) == 0x00000008)) {
+      output.writeMessage(4, paletteEvent_);
+    }
+    if (((bitField0_ & 0x00000010) == 0x00000010)) {
+      output.writeMessage(5, attributeChangeEvent_);
+    }
+    if (((bitField0_ & 0x00000020) == 0x00000020)) {
+      output.writeMessage(6, favoriteChangeEvent_);
+    }
     getUnknownFields().writeTo(output);
   }
 
@@ -625,6 +805,18 @@ public  final class LayoutEditorEvent extends
     if (((bitField0_ & 0x00000004) == 0x00000004)) {
       size += com.google.protobuf.CodedOutputStream
         .computeMessageSize(3, renderResult_);
+    }
+    if (((bitField0_ & 0x00000008) == 0x00000008)) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeMessageSize(4, paletteEvent_);
+    }
+    if (((bitField0_ & 0x00000010) == 0x00000010)) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeMessageSize(5, attributeChangeEvent_);
+    }
+    if (((bitField0_ & 0x00000020) == 0x00000020)) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeMessageSize(6, favoriteChangeEvent_);
     }
     size += getUnknownFields().getSerializedSize();
     memoizedSerializedSize = size;
@@ -740,6 +932,9 @@ public  final class LayoutEditorEvent extends
       if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
         getStateFieldBuilder();
         getRenderResultFieldBuilder();
+        getPaletteEventFieldBuilder();
+        getAttributeChangeEventFieldBuilder();
+        getFavoriteChangeEventFieldBuilder();
       }
     }
     private static Builder create() {
@@ -762,6 +957,24 @@ public  final class LayoutEditorEvent extends
         renderResultBuilder_.clear();
       }
       bitField0_ = (bitField0_ & ~0x00000004);
+      if (paletteEventBuilder_ == null) {
+        paletteEvent_ = com.google.wireless.android.sdk.stats.LayoutPaletteEvent.getDefaultInstance();
+      } else {
+        paletteEventBuilder_.clear();
+      }
+      bitField0_ = (bitField0_ & ~0x00000008);
+      if (attributeChangeEventBuilder_ == null) {
+        attributeChangeEvent_ = com.google.wireless.android.sdk.stats.LayoutAttributeChangeEvent.getDefaultInstance();
+      } else {
+        attributeChangeEventBuilder_.clear();
+      }
+      bitField0_ = (bitField0_ & ~0x00000010);
+      if (favoriteChangeEventBuilder_ == null) {
+        favoriteChangeEvent_ = com.google.wireless.android.sdk.stats.LayoutFavoriteAttributeChangeEvent.getDefaultInstance();
+      } else {
+        favoriteChangeEventBuilder_.clear();
+      }
+      bitField0_ = (bitField0_ & ~0x00000020);
       return this;
     }
 
@@ -810,6 +1023,30 @@ public  final class LayoutEditorEvent extends
       } else {
         result.renderResult_ = renderResultBuilder_.build();
       }
+      if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+        to_bitField0_ |= 0x00000008;
+      }
+      if (paletteEventBuilder_ == null) {
+        result.paletteEvent_ = paletteEvent_;
+      } else {
+        result.paletteEvent_ = paletteEventBuilder_.build();
+      }
+      if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
+        to_bitField0_ |= 0x00000010;
+      }
+      if (attributeChangeEventBuilder_ == null) {
+        result.attributeChangeEvent_ = attributeChangeEvent_;
+      } else {
+        result.attributeChangeEvent_ = attributeChangeEventBuilder_.build();
+      }
+      if (((from_bitField0_ & 0x00000020) == 0x00000020)) {
+        to_bitField0_ |= 0x00000020;
+      }
+      if (favoriteChangeEventBuilder_ == null) {
+        result.favoriteChangeEvent_ = favoriteChangeEvent_;
+      } else {
+        result.favoriteChangeEvent_ = favoriteChangeEventBuilder_.build();
+      }
       result.bitField0_ = to_bitField0_;
       onBuilt();
       return result;
@@ -834,6 +1071,15 @@ public  final class LayoutEditorEvent extends
       }
       if (other.hasRenderResult()) {
         mergeRenderResult(other.getRenderResult());
+      }
+      if (other.hasPaletteEvent()) {
+        mergePaletteEvent(other.getPaletteEvent());
+      }
+      if (other.hasAttributeChangeEvent()) {
+        mergeAttributeChangeEvent(other.getAttributeChangeEvent());
+      }
+      if (other.hasFavoriteChangeEvent()) {
+        mergeFavoriteChangeEvent(other.getFavoriteChangeEvent());
       }
       this.mergeUnknownFields(other.getUnknownFields());
       return this;
@@ -1218,6 +1464,465 @@ public  final class LayoutEditorEvent extends
         renderResult_ = null;
       }
       return renderResultBuilder_;
+    }
+
+    // optional .android_studio.LayoutPaletteEvent palette_event = 4;
+    private com.google.wireless.android.sdk.stats.LayoutPaletteEvent paletteEvent_ = com.google.wireless.android.sdk.stats.LayoutPaletteEvent.getDefaultInstance();
+    private com.google.protobuf.SingleFieldBuilder<
+        com.google.wireless.android.sdk.stats.LayoutPaletteEvent, com.google.wireless.android.sdk.stats.LayoutPaletteEvent.Builder, com.google.wireless.android.sdk.stats.LayoutPaletteEventOrBuilder> paletteEventBuilder_;
+    /**
+     * <code>optional .android_studio.LayoutPaletteEvent palette_event = 4;</code>
+     *
+     * <pre>
+     * Details related to using the palette (type = DROP_VIEW_FROM_PALETTE)
+     * </pre>
+     */
+    public boolean hasPaletteEvent() {
+      return ((bitField0_ & 0x00000008) == 0x00000008);
+    }
+    /**
+     * <code>optional .android_studio.LayoutPaletteEvent palette_event = 4;</code>
+     *
+     * <pre>
+     * Details related to using the palette (type = DROP_VIEW_FROM_PALETTE)
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.LayoutPaletteEvent getPaletteEvent() {
+      if (paletteEventBuilder_ == null) {
+        return paletteEvent_;
+      } else {
+        return paletteEventBuilder_.getMessage();
+      }
+    }
+    /**
+     * <code>optional .android_studio.LayoutPaletteEvent palette_event = 4;</code>
+     *
+     * <pre>
+     * Details related to using the palette (type = DROP_VIEW_FROM_PALETTE)
+     * </pre>
+     */
+    public Builder setPaletteEvent(com.google.wireless.android.sdk.stats.LayoutPaletteEvent value) {
+      if (paletteEventBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        paletteEvent_ = value;
+        onChanged();
+      } else {
+        paletteEventBuilder_.setMessage(value);
+      }
+      bitField0_ |= 0x00000008;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.LayoutPaletteEvent palette_event = 4;</code>
+     *
+     * <pre>
+     * Details related to using the palette (type = DROP_VIEW_FROM_PALETTE)
+     * </pre>
+     */
+    public Builder setPaletteEvent(
+        com.google.wireless.android.sdk.stats.LayoutPaletteEvent.Builder builderForValue) {
+      if (paletteEventBuilder_ == null) {
+        paletteEvent_ = builderForValue.build();
+        onChanged();
+      } else {
+        paletteEventBuilder_.setMessage(builderForValue.build());
+      }
+      bitField0_ |= 0x00000008;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.LayoutPaletteEvent palette_event = 4;</code>
+     *
+     * <pre>
+     * Details related to using the palette (type = DROP_VIEW_FROM_PALETTE)
+     * </pre>
+     */
+    public Builder mergePaletteEvent(com.google.wireless.android.sdk.stats.LayoutPaletteEvent value) {
+      if (paletteEventBuilder_ == null) {
+        if (((bitField0_ & 0x00000008) == 0x00000008) &&
+            paletteEvent_ != com.google.wireless.android.sdk.stats.LayoutPaletteEvent.getDefaultInstance()) {
+          paletteEvent_ =
+            com.google.wireless.android.sdk.stats.LayoutPaletteEvent.newBuilder(paletteEvent_).mergeFrom(value).buildPartial();
+        } else {
+          paletteEvent_ = value;
+        }
+        onChanged();
+      } else {
+        paletteEventBuilder_.mergeFrom(value);
+      }
+      bitField0_ |= 0x00000008;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.LayoutPaletteEvent palette_event = 4;</code>
+     *
+     * <pre>
+     * Details related to using the palette (type = DROP_VIEW_FROM_PALETTE)
+     * </pre>
+     */
+    public Builder clearPaletteEvent() {
+      if (paletteEventBuilder_ == null) {
+        paletteEvent_ = com.google.wireless.android.sdk.stats.LayoutPaletteEvent.getDefaultInstance();
+        onChanged();
+      } else {
+        paletteEventBuilder_.clear();
+      }
+      bitField0_ = (bitField0_ & ~0x00000008);
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.LayoutPaletteEvent palette_event = 4;</code>
+     *
+     * <pre>
+     * Details related to using the palette (type = DROP_VIEW_FROM_PALETTE)
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.LayoutPaletteEvent.Builder getPaletteEventBuilder() {
+      bitField0_ |= 0x00000008;
+      onChanged();
+      return getPaletteEventFieldBuilder().getBuilder();
+    }
+    /**
+     * <code>optional .android_studio.LayoutPaletteEvent palette_event = 4;</code>
+     *
+     * <pre>
+     * Details related to using the palette (type = DROP_VIEW_FROM_PALETTE)
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.LayoutPaletteEventOrBuilder getPaletteEventOrBuilder() {
+      if (paletteEventBuilder_ != null) {
+        return paletteEventBuilder_.getMessageOrBuilder();
+      } else {
+        return paletteEvent_;
+      }
+    }
+    /**
+     * <code>optional .android_studio.LayoutPaletteEvent palette_event = 4;</code>
+     *
+     * <pre>
+     * Details related to using the palette (type = DROP_VIEW_FROM_PALETTE)
+     * </pre>
+     */
+    private com.google.protobuf.SingleFieldBuilder<
+        com.google.wireless.android.sdk.stats.LayoutPaletteEvent, com.google.wireless.android.sdk.stats.LayoutPaletteEvent.Builder, com.google.wireless.android.sdk.stats.LayoutPaletteEventOrBuilder> 
+        getPaletteEventFieldBuilder() {
+      if (paletteEventBuilder_ == null) {
+        paletteEventBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+            com.google.wireless.android.sdk.stats.LayoutPaletteEvent, com.google.wireless.android.sdk.stats.LayoutPaletteEvent.Builder, com.google.wireless.android.sdk.stats.LayoutPaletteEventOrBuilder>(
+                paletteEvent_,
+                getParentForChildren(),
+                isClean());
+        paletteEvent_ = null;
+      }
+      return paletteEventBuilder_;
+    }
+
+    // optional .android_studio.LayoutAttributeChangeEvent attribute_change_event = 5;
+    private com.google.wireless.android.sdk.stats.LayoutAttributeChangeEvent attributeChangeEvent_ = com.google.wireless.android.sdk.stats.LayoutAttributeChangeEvent.getDefaultInstance();
+    private com.google.protobuf.SingleFieldBuilder<
+        com.google.wireless.android.sdk.stats.LayoutAttributeChangeEvent, com.google.wireless.android.sdk.stats.LayoutAttributeChangeEvent.Builder, com.google.wireless.android.sdk.stats.LayoutAttributeChangeEventOrBuilder> attributeChangeEventBuilder_;
+    /**
+     * <code>optional .android_studio.LayoutAttributeChangeEvent attribute_change_event = 5;</code>
+     *
+     * <pre>
+     * Details related to changing an attribute (type = ATTRIBUTE_CHANGE)
+     * </pre>
+     */
+    public boolean hasAttributeChangeEvent() {
+      return ((bitField0_ & 0x00000010) == 0x00000010);
+    }
+    /**
+     * <code>optional .android_studio.LayoutAttributeChangeEvent attribute_change_event = 5;</code>
+     *
+     * <pre>
+     * Details related to changing an attribute (type = ATTRIBUTE_CHANGE)
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.LayoutAttributeChangeEvent getAttributeChangeEvent() {
+      if (attributeChangeEventBuilder_ == null) {
+        return attributeChangeEvent_;
+      } else {
+        return attributeChangeEventBuilder_.getMessage();
+      }
+    }
+    /**
+     * <code>optional .android_studio.LayoutAttributeChangeEvent attribute_change_event = 5;</code>
+     *
+     * <pre>
+     * Details related to changing an attribute (type = ATTRIBUTE_CHANGE)
+     * </pre>
+     */
+    public Builder setAttributeChangeEvent(com.google.wireless.android.sdk.stats.LayoutAttributeChangeEvent value) {
+      if (attributeChangeEventBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        attributeChangeEvent_ = value;
+        onChanged();
+      } else {
+        attributeChangeEventBuilder_.setMessage(value);
+      }
+      bitField0_ |= 0x00000010;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.LayoutAttributeChangeEvent attribute_change_event = 5;</code>
+     *
+     * <pre>
+     * Details related to changing an attribute (type = ATTRIBUTE_CHANGE)
+     * </pre>
+     */
+    public Builder setAttributeChangeEvent(
+        com.google.wireless.android.sdk.stats.LayoutAttributeChangeEvent.Builder builderForValue) {
+      if (attributeChangeEventBuilder_ == null) {
+        attributeChangeEvent_ = builderForValue.build();
+        onChanged();
+      } else {
+        attributeChangeEventBuilder_.setMessage(builderForValue.build());
+      }
+      bitField0_ |= 0x00000010;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.LayoutAttributeChangeEvent attribute_change_event = 5;</code>
+     *
+     * <pre>
+     * Details related to changing an attribute (type = ATTRIBUTE_CHANGE)
+     * </pre>
+     */
+    public Builder mergeAttributeChangeEvent(com.google.wireless.android.sdk.stats.LayoutAttributeChangeEvent value) {
+      if (attributeChangeEventBuilder_ == null) {
+        if (((bitField0_ & 0x00000010) == 0x00000010) &&
+            attributeChangeEvent_ != com.google.wireless.android.sdk.stats.LayoutAttributeChangeEvent.getDefaultInstance()) {
+          attributeChangeEvent_ =
+            com.google.wireless.android.sdk.stats.LayoutAttributeChangeEvent.newBuilder(attributeChangeEvent_).mergeFrom(value).buildPartial();
+        } else {
+          attributeChangeEvent_ = value;
+        }
+        onChanged();
+      } else {
+        attributeChangeEventBuilder_.mergeFrom(value);
+      }
+      bitField0_ |= 0x00000010;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.LayoutAttributeChangeEvent attribute_change_event = 5;</code>
+     *
+     * <pre>
+     * Details related to changing an attribute (type = ATTRIBUTE_CHANGE)
+     * </pre>
+     */
+    public Builder clearAttributeChangeEvent() {
+      if (attributeChangeEventBuilder_ == null) {
+        attributeChangeEvent_ = com.google.wireless.android.sdk.stats.LayoutAttributeChangeEvent.getDefaultInstance();
+        onChanged();
+      } else {
+        attributeChangeEventBuilder_.clear();
+      }
+      bitField0_ = (bitField0_ & ~0x00000010);
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.LayoutAttributeChangeEvent attribute_change_event = 5;</code>
+     *
+     * <pre>
+     * Details related to changing an attribute (type = ATTRIBUTE_CHANGE)
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.LayoutAttributeChangeEvent.Builder getAttributeChangeEventBuilder() {
+      bitField0_ |= 0x00000010;
+      onChanged();
+      return getAttributeChangeEventFieldBuilder().getBuilder();
+    }
+    /**
+     * <code>optional .android_studio.LayoutAttributeChangeEvent attribute_change_event = 5;</code>
+     *
+     * <pre>
+     * Details related to changing an attribute (type = ATTRIBUTE_CHANGE)
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.LayoutAttributeChangeEventOrBuilder getAttributeChangeEventOrBuilder() {
+      if (attributeChangeEventBuilder_ != null) {
+        return attributeChangeEventBuilder_.getMessageOrBuilder();
+      } else {
+        return attributeChangeEvent_;
+      }
+    }
+    /**
+     * <code>optional .android_studio.LayoutAttributeChangeEvent attribute_change_event = 5;</code>
+     *
+     * <pre>
+     * Details related to changing an attribute (type = ATTRIBUTE_CHANGE)
+     * </pre>
+     */
+    private com.google.protobuf.SingleFieldBuilder<
+        com.google.wireless.android.sdk.stats.LayoutAttributeChangeEvent, com.google.wireless.android.sdk.stats.LayoutAttributeChangeEvent.Builder, com.google.wireless.android.sdk.stats.LayoutAttributeChangeEventOrBuilder> 
+        getAttributeChangeEventFieldBuilder() {
+      if (attributeChangeEventBuilder_ == null) {
+        attributeChangeEventBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+            com.google.wireless.android.sdk.stats.LayoutAttributeChangeEvent, com.google.wireless.android.sdk.stats.LayoutAttributeChangeEvent.Builder, com.google.wireless.android.sdk.stats.LayoutAttributeChangeEventOrBuilder>(
+                attributeChangeEvent_,
+                getParentForChildren(),
+                isClean());
+        attributeChangeEvent_ = null;
+      }
+      return attributeChangeEventBuilder_;
+    }
+
+    // optional .android_studio.LayoutFavoriteAttributeChangeEvent favorite_change_event = 6;
+    private com.google.wireless.android.sdk.stats.LayoutFavoriteAttributeChangeEvent favoriteChangeEvent_ = com.google.wireless.android.sdk.stats.LayoutFavoriteAttributeChangeEvent.getDefaultInstance();
+    private com.google.protobuf.SingleFieldBuilder<
+        com.google.wireless.android.sdk.stats.LayoutFavoriteAttributeChangeEvent, com.google.wireless.android.sdk.stats.LayoutFavoriteAttributeChangeEvent.Builder, com.google.wireless.android.sdk.stats.LayoutFavoriteAttributeChangeEventOrBuilder> favoriteChangeEventBuilder_;
+    /**
+     * <code>optional .android_studio.LayoutFavoriteAttributeChangeEvent favorite_change_event = 6;</code>
+     *
+     * <pre>
+     * Details related to favorite attribute changes (type = FAVORITE_CHANGE)
+     * </pre>
+     */
+    public boolean hasFavoriteChangeEvent() {
+      return ((bitField0_ & 0x00000020) == 0x00000020);
+    }
+    /**
+     * <code>optional .android_studio.LayoutFavoriteAttributeChangeEvent favorite_change_event = 6;</code>
+     *
+     * <pre>
+     * Details related to favorite attribute changes (type = FAVORITE_CHANGE)
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.LayoutFavoriteAttributeChangeEvent getFavoriteChangeEvent() {
+      if (favoriteChangeEventBuilder_ == null) {
+        return favoriteChangeEvent_;
+      } else {
+        return favoriteChangeEventBuilder_.getMessage();
+      }
+    }
+    /**
+     * <code>optional .android_studio.LayoutFavoriteAttributeChangeEvent favorite_change_event = 6;</code>
+     *
+     * <pre>
+     * Details related to favorite attribute changes (type = FAVORITE_CHANGE)
+     * </pre>
+     */
+    public Builder setFavoriteChangeEvent(com.google.wireless.android.sdk.stats.LayoutFavoriteAttributeChangeEvent value) {
+      if (favoriteChangeEventBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        favoriteChangeEvent_ = value;
+        onChanged();
+      } else {
+        favoriteChangeEventBuilder_.setMessage(value);
+      }
+      bitField0_ |= 0x00000020;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.LayoutFavoriteAttributeChangeEvent favorite_change_event = 6;</code>
+     *
+     * <pre>
+     * Details related to favorite attribute changes (type = FAVORITE_CHANGE)
+     * </pre>
+     */
+    public Builder setFavoriteChangeEvent(
+        com.google.wireless.android.sdk.stats.LayoutFavoriteAttributeChangeEvent.Builder builderForValue) {
+      if (favoriteChangeEventBuilder_ == null) {
+        favoriteChangeEvent_ = builderForValue.build();
+        onChanged();
+      } else {
+        favoriteChangeEventBuilder_.setMessage(builderForValue.build());
+      }
+      bitField0_ |= 0x00000020;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.LayoutFavoriteAttributeChangeEvent favorite_change_event = 6;</code>
+     *
+     * <pre>
+     * Details related to favorite attribute changes (type = FAVORITE_CHANGE)
+     * </pre>
+     */
+    public Builder mergeFavoriteChangeEvent(com.google.wireless.android.sdk.stats.LayoutFavoriteAttributeChangeEvent value) {
+      if (favoriteChangeEventBuilder_ == null) {
+        if (((bitField0_ & 0x00000020) == 0x00000020) &&
+            favoriteChangeEvent_ != com.google.wireless.android.sdk.stats.LayoutFavoriteAttributeChangeEvent.getDefaultInstance()) {
+          favoriteChangeEvent_ =
+            com.google.wireless.android.sdk.stats.LayoutFavoriteAttributeChangeEvent.newBuilder(favoriteChangeEvent_).mergeFrom(value).buildPartial();
+        } else {
+          favoriteChangeEvent_ = value;
+        }
+        onChanged();
+      } else {
+        favoriteChangeEventBuilder_.mergeFrom(value);
+      }
+      bitField0_ |= 0x00000020;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.LayoutFavoriteAttributeChangeEvent favorite_change_event = 6;</code>
+     *
+     * <pre>
+     * Details related to favorite attribute changes (type = FAVORITE_CHANGE)
+     * </pre>
+     */
+    public Builder clearFavoriteChangeEvent() {
+      if (favoriteChangeEventBuilder_ == null) {
+        favoriteChangeEvent_ = com.google.wireless.android.sdk.stats.LayoutFavoriteAttributeChangeEvent.getDefaultInstance();
+        onChanged();
+      } else {
+        favoriteChangeEventBuilder_.clear();
+      }
+      bitField0_ = (bitField0_ & ~0x00000020);
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.LayoutFavoriteAttributeChangeEvent favorite_change_event = 6;</code>
+     *
+     * <pre>
+     * Details related to favorite attribute changes (type = FAVORITE_CHANGE)
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.LayoutFavoriteAttributeChangeEvent.Builder getFavoriteChangeEventBuilder() {
+      bitField0_ |= 0x00000020;
+      onChanged();
+      return getFavoriteChangeEventFieldBuilder().getBuilder();
+    }
+    /**
+     * <code>optional .android_studio.LayoutFavoriteAttributeChangeEvent favorite_change_event = 6;</code>
+     *
+     * <pre>
+     * Details related to favorite attribute changes (type = FAVORITE_CHANGE)
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.LayoutFavoriteAttributeChangeEventOrBuilder getFavoriteChangeEventOrBuilder() {
+      if (favoriteChangeEventBuilder_ != null) {
+        return favoriteChangeEventBuilder_.getMessageOrBuilder();
+      } else {
+        return favoriteChangeEvent_;
+      }
+    }
+    /**
+     * <code>optional .android_studio.LayoutFavoriteAttributeChangeEvent favorite_change_event = 6;</code>
+     *
+     * <pre>
+     * Details related to favorite attribute changes (type = FAVORITE_CHANGE)
+     * </pre>
+     */
+    private com.google.protobuf.SingleFieldBuilder<
+        com.google.wireless.android.sdk.stats.LayoutFavoriteAttributeChangeEvent, com.google.wireless.android.sdk.stats.LayoutFavoriteAttributeChangeEvent.Builder, com.google.wireless.android.sdk.stats.LayoutFavoriteAttributeChangeEventOrBuilder> 
+        getFavoriteChangeEventFieldBuilder() {
+      if (favoriteChangeEventBuilder_ == null) {
+        favoriteChangeEventBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+            com.google.wireless.android.sdk.stats.LayoutFavoriteAttributeChangeEvent, com.google.wireless.android.sdk.stats.LayoutFavoriteAttributeChangeEvent.Builder, com.google.wireless.android.sdk.stats.LayoutFavoriteAttributeChangeEventOrBuilder>(
+                favoriteChangeEvent_,
+                getParentForChildren(),
+                isClean());
+        favoriteChangeEvent_ = null;
+      }
+      return favoriteChangeEventBuilder_;
     }
 
     // @@protoc_insertion_point(builder_scope:android_studio.LayoutEditorEvent)

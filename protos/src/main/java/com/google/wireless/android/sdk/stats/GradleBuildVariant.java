@@ -100,6 +100,14 @@ public  final class GradleBuildVariant extends
             testedId_ = input.readInt64();
             break;
           }
+          case 74: {
+            if (!((mutable_bitField0_ & 0x00000100) == 0x00000100)) {
+              proguardFlags_ = new com.google.protobuf.LazyStringArrayList();
+              mutable_bitField0_ |= 0x00000100;
+            }
+            proguardFlags_.add(input.readBytes());
+            break;
+          }
         }
       }
     } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -108,6 +116,9 @@ public  final class GradleBuildVariant extends
       throw new com.google.protobuf.InvalidProtocolBufferException(
           e.getMessage()).setUnfinishedMessage(this);
     } finally {
+      if (((mutable_bitField0_ & 0x00000100) == 0x00000100)) {
+        proguardFlags_ = new com.google.protobuf.UnmodifiableLazyStringList(proguardFlags_);
+      }
       this.unknownFields = unknownFields.build();
       makeExtensionsImmutable();
     }
@@ -514,6 +525,72 @@ public  final class GradleBuildVariant extends
     return testedId_;
   }
 
+  // repeated string proguard_flags = 9;
+  public static final int PROGUARD_FLAGS_FIELD_NUMBER = 9;
+  private com.google.protobuf.LazyStringList proguardFlags_;
+  /**
+   * <code>repeated string proguard_flags = 9;</code>
+   *
+   * <pre>
+   * List of proguard flags used in this build variant.
+   * NOTE this is a string as the proguard flags can be changed
+   * based on which release of proguard is being used and is outside of our
+   * control. See https://www.guardsquare.com/en/proguard/manual/usage
+   * for current list. This property only will contain the "-&lt;flag&gt;" without
+   * the arguments passed to that flag.
+   * </pre>
+   */
+  public java.util.List<java.lang.String>
+      getProguardFlagsList() {
+    return proguardFlags_;
+  }
+  /**
+   * <code>repeated string proguard_flags = 9;</code>
+   *
+   * <pre>
+   * List of proguard flags used in this build variant.
+   * NOTE this is a string as the proguard flags can be changed
+   * based on which release of proguard is being used and is outside of our
+   * control. See https://www.guardsquare.com/en/proguard/manual/usage
+   * for current list. This property only will contain the "-&lt;flag&gt;" without
+   * the arguments passed to that flag.
+   * </pre>
+   */
+  public int getProguardFlagsCount() {
+    return proguardFlags_.size();
+  }
+  /**
+   * <code>repeated string proguard_flags = 9;</code>
+   *
+   * <pre>
+   * List of proguard flags used in this build variant.
+   * NOTE this is a string as the proguard flags can be changed
+   * based on which release of proguard is being used and is outside of our
+   * control. See https://www.guardsquare.com/en/proguard/manual/usage
+   * for current list. This property only will contain the "-&lt;flag&gt;" without
+   * the arguments passed to that flag.
+   * </pre>
+   */
+  public java.lang.String getProguardFlags(int index) {
+    return proguardFlags_.get(index);
+  }
+  /**
+   * <code>repeated string proguard_flags = 9;</code>
+   *
+   * <pre>
+   * List of proguard flags used in this build variant.
+   * NOTE this is a string as the proguard flags can be changed
+   * based on which release of proguard is being used and is outside of our
+   * control. See https://www.guardsquare.com/en/proguard/manual/usage
+   * for current list. This property only will contain the "-&lt;flag&gt;" without
+   * the arguments passed to that flag.
+   * </pre>
+   */
+  public com.google.protobuf.ByteString
+      getProguardFlagsBytes(int index) {
+    return proguardFlags_.getByteString(index);
+  }
+
   private void initFields() {
     id_ = 0L;
     isDebug_ = false;
@@ -523,6 +600,7 @@ public  final class GradleBuildVariant extends
     useLegacyMultidex_ = false;
     variantType_ = com.google.wireless.android.sdk.stats.GradleBuildVariant.VariantType.APPLICATION;
     testedId_ = 0L;
+    proguardFlags_ = com.google.protobuf.LazyStringArrayList.EMPTY;
   }
   private byte memoizedIsInitialized = -1;
   public final boolean isInitialized() {
@@ -559,6 +637,9 @@ public  final class GradleBuildVariant extends
     }
     if (((bitField0_ & 0x00000080) == 0x00000080)) {
       output.writeInt64(8, testedId_);
+    }
+    for (int i = 0; i < proguardFlags_.size(); i++) {
+      output.writeBytes(9, proguardFlags_.getByteString(i));
     }
     getUnknownFields().writeTo(output);
   }
@@ -600,6 +681,15 @@ public  final class GradleBuildVariant extends
     if (((bitField0_ & 0x00000080) == 0x00000080)) {
       size += com.google.protobuf.CodedOutputStream
         .computeInt64Size(8, testedId_);
+    }
+    {
+      int dataSize = 0;
+      for (int i = 0; i < proguardFlags_.size(); i++) {
+        dataSize += com.google.protobuf.CodedOutputStream
+          .computeBytesSizeNoTag(proguardFlags_.getByteString(i));
+      }
+      size += dataSize;
+      size += 1 * getProguardFlagsList().size();
     }
     size += getUnknownFields().getSerializedSize();
     memoizedSerializedSize = size;
@@ -733,6 +823,8 @@ public  final class GradleBuildVariant extends
       bitField0_ = (bitField0_ & ~0x00000040);
       testedId_ = 0L;
       bitField0_ = (bitField0_ & ~0x00000080);
+      proguardFlags_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      bitField0_ = (bitField0_ & ~0x00000100);
       return this;
     }
 
@@ -793,6 +885,12 @@ public  final class GradleBuildVariant extends
         to_bitField0_ |= 0x00000080;
       }
       result.testedId_ = testedId_;
+      if (((bitField0_ & 0x00000100) == 0x00000100)) {
+        proguardFlags_ = new com.google.protobuf.UnmodifiableLazyStringList(
+            proguardFlags_);
+        bitField0_ = (bitField0_ & ~0x00000100);
+      }
+      result.proguardFlags_ = proguardFlags_;
       result.bitField0_ = to_bitField0_;
       onBuilt();
       return result;
@@ -832,6 +930,16 @@ public  final class GradleBuildVariant extends
       }
       if (other.hasTestedId()) {
         setTestedId(other.getTestedId());
+      }
+      if (!other.proguardFlags_.isEmpty()) {
+        if (proguardFlags_.isEmpty()) {
+          proguardFlags_ = other.proguardFlags_;
+          bitField0_ = (bitField0_ & ~0x00000100);
+        } else {
+          ensureProguardFlagsIsMutable();
+          proguardFlags_.addAll(other.proguardFlags_);
+        }
+        onChanged();
       }
       this.mergeUnknownFields(other.getUnknownFields());
       return this;
@@ -1271,6 +1379,180 @@ public  final class GradleBuildVariant extends
     public Builder clearTestedId() {
       bitField0_ = (bitField0_ & ~0x00000080);
       testedId_ = 0L;
+      onChanged();
+      return this;
+    }
+
+    // repeated string proguard_flags = 9;
+    private com.google.protobuf.LazyStringList proguardFlags_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+    private void ensureProguardFlagsIsMutable() {
+      if (!((bitField0_ & 0x00000100) == 0x00000100)) {
+        proguardFlags_ = new com.google.protobuf.LazyStringArrayList(proguardFlags_);
+        bitField0_ |= 0x00000100;
+       }
+    }
+    /**
+     * <code>repeated string proguard_flags = 9;</code>
+     *
+     * <pre>
+     * List of proguard flags used in this build variant.
+     * NOTE this is a string as the proguard flags can be changed
+     * based on which release of proguard is being used and is outside of our
+     * control. See https://www.guardsquare.com/en/proguard/manual/usage
+     * for current list. This property only will contain the "-&lt;flag&gt;" without
+     * the arguments passed to that flag.
+     * </pre>
+     */
+    public java.util.List<java.lang.String>
+        getProguardFlagsList() {
+      return java.util.Collections.unmodifiableList(proguardFlags_);
+    }
+    /**
+     * <code>repeated string proguard_flags = 9;</code>
+     *
+     * <pre>
+     * List of proguard flags used in this build variant.
+     * NOTE this is a string as the proguard flags can be changed
+     * based on which release of proguard is being used and is outside of our
+     * control. See https://www.guardsquare.com/en/proguard/manual/usage
+     * for current list. This property only will contain the "-&lt;flag&gt;" without
+     * the arguments passed to that flag.
+     * </pre>
+     */
+    public int getProguardFlagsCount() {
+      return proguardFlags_.size();
+    }
+    /**
+     * <code>repeated string proguard_flags = 9;</code>
+     *
+     * <pre>
+     * List of proguard flags used in this build variant.
+     * NOTE this is a string as the proguard flags can be changed
+     * based on which release of proguard is being used and is outside of our
+     * control. See https://www.guardsquare.com/en/proguard/manual/usage
+     * for current list. This property only will contain the "-&lt;flag&gt;" without
+     * the arguments passed to that flag.
+     * </pre>
+     */
+    public java.lang.String getProguardFlags(int index) {
+      return proguardFlags_.get(index);
+    }
+    /**
+     * <code>repeated string proguard_flags = 9;</code>
+     *
+     * <pre>
+     * List of proguard flags used in this build variant.
+     * NOTE this is a string as the proguard flags can be changed
+     * based on which release of proguard is being used and is outside of our
+     * control. See https://www.guardsquare.com/en/proguard/manual/usage
+     * for current list. This property only will contain the "-&lt;flag&gt;" without
+     * the arguments passed to that flag.
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getProguardFlagsBytes(int index) {
+      return proguardFlags_.getByteString(index);
+    }
+    /**
+     * <code>repeated string proguard_flags = 9;</code>
+     *
+     * <pre>
+     * List of proguard flags used in this build variant.
+     * NOTE this is a string as the proguard flags can be changed
+     * based on which release of proguard is being used and is outside of our
+     * control. See https://www.guardsquare.com/en/proguard/manual/usage
+     * for current list. This property only will contain the "-&lt;flag&gt;" without
+     * the arguments passed to that flag.
+     * </pre>
+     */
+    public Builder setProguardFlags(
+        int index, java.lang.String value) {
+      if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureProguardFlagsIsMutable();
+      proguardFlags_.set(index, value);
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>repeated string proguard_flags = 9;</code>
+     *
+     * <pre>
+     * List of proguard flags used in this build variant.
+     * NOTE this is a string as the proguard flags can be changed
+     * based on which release of proguard is being used and is outside of our
+     * control. See https://www.guardsquare.com/en/proguard/manual/usage
+     * for current list. This property only will contain the "-&lt;flag&gt;" without
+     * the arguments passed to that flag.
+     * </pre>
+     */
+    public Builder addProguardFlags(
+        java.lang.String value) {
+      if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureProguardFlagsIsMutable();
+      proguardFlags_.add(value);
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>repeated string proguard_flags = 9;</code>
+     *
+     * <pre>
+     * List of proguard flags used in this build variant.
+     * NOTE this is a string as the proguard flags can be changed
+     * based on which release of proguard is being used and is outside of our
+     * control. See https://www.guardsquare.com/en/proguard/manual/usage
+     * for current list. This property only will contain the "-&lt;flag&gt;" without
+     * the arguments passed to that flag.
+     * </pre>
+     */
+    public Builder addAllProguardFlags(
+        java.lang.Iterable<java.lang.String> values) {
+      ensureProguardFlagsIsMutable();
+      super.addAll(values, proguardFlags_);
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>repeated string proguard_flags = 9;</code>
+     *
+     * <pre>
+     * List of proguard flags used in this build variant.
+     * NOTE this is a string as the proguard flags can be changed
+     * based on which release of proguard is being used and is outside of our
+     * control. See https://www.guardsquare.com/en/proguard/manual/usage
+     * for current list. This property only will contain the "-&lt;flag&gt;" without
+     * the arguments passed to that flag.
+     * </pre>
+     */
+    public Builder clearProguardFlags() {
+      proguardFlags_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      bitField0_ = (bitField0_ & ~0x00000100);
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>repeated string proguard_flags = 9;</code>
+     *
+     * <pre>
+     * List of proguard flags used in this build variant.
+     * NOTE this is a string as the proguard flags can be changed
+     * based on which release of proguard is being used and is outside of our
+     * control. See https://www.guardsquare.com/en/proguard/manual/usage
+     * for current list. This property only will contain the "-&lt;flag&gt;" without
+     * the arguments passed to that flag.
+     * </pre>
+     */
+    public Builder addProguardFlagsBytes(
+        com.google.protobuf.ByteString value) {
+      if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureProguardFlagsIsMutable();
+      proguardFlags_.add(value);
       onChanged();
       return this;
     }
