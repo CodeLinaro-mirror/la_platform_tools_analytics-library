@@ -83,6 +83,14 @@ public  final class StudioCrash extends
             nonBundledPluginExceptions_ = input.readInt64();
             break;
           }
+          case 50: {
+            if (!((mutable_bitField0_ & 0x00000020) == 0x00000020)) {
+              details_ = new java.util.ArrayList<com.google.wireless.android.sdk.stats.StudioExceptionDetails>();
+              mutable_bitField0_ |= 0x00000020;
+            }
+            details_.add(input.readMessage(com.google.wireless.android.sdk.stats.StudioExceptionDetails.PARSER, extensionRegistry));
+            break;
+          }
         }
       }
     } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -91,6 +99,9 @@ public  final class StudioCrash extends
       throw new com.google.protobuf.InvalidProtocolBufferException(
           e.getMessage()).setUnfinishedMessage(this);
     } finally {
+      if (((mutable_bitField0_ & 0x00000020) == 0x00000020)) {
+        details_ = java.util.Collections.unmodifiableList(details_);
+      }
       this.unknownFields = unknownFields.build();
       makeExtensionsImmutable();
     }
@@ -243,12 +254,69 @@ public  final class StudioCrash extends
     return nonBundledPluginExceptions_;
   }
 
+  // repeated .android_studio.StudioExceptionDetails details = 6;
+  public static final int DETAILS_FIELD_NUMBER = 6;
+  private java.util.List<com.google.wireless.android.sdk.stats.StudioExceptionDetails> details_;
+  /**
+   * <code>repeated .android_studio.StudioExceptionDetails details = 6;</code>
+   *
+   * <pre>
+   * details on each exception
+   * </pre>
+   */
+  public java.util.List<com.google.wireless.android.sdk.stats.StudioExceptionDetails> getDetailsList() {
+    return details_;
+  }
+  /**
+   * <code>repeated .android_studio.StudioExceptionDetails details = 6;</code>
+   *
+   * <pre>
+   * details on each exception
+   * </pre>
+   */
+  public java.util.List<? extends com.google.wireless.android.sdk.stats.StudioExceptionDetailsOrBuilder> 
+      getDetailsOrBuilderList() {
+    return details_;
+  }
+  /**
+   * <code>repeated .android_studio.StudioExceptionDetails details = 6;</code>
+   *
+   * <pre>
+   * details on each exception
+   * </pre>
+   */
+  public int getDetailsCount() {
+    return details_.size();
+  }
+  /**
+   * <code>repeated .android_studio.StudioExceptionDetails details = 6;</code>
+   *
+   * <pre>
+   * details on each exception
+   * </pre>
+   */
+  public com.google.wireless.android.sdk.stats.StudioExceptionDetails getDetails(int index) {
+    return details_.get(index);
+  }
+  /**
+   * <code>repeated .android_studio.StudioExceptionDetails details = 6;</code>
+   *
+   * <pre>
+   * details on each exception
+   * </pre>
+   */
+  public com.google.wireless.android.sdk.stats.StudioExceptionDetailsOrBuilder getDetailsOrBuilder(
+      int index) {
+    return details_.get(index);
+  }
+
   private void initFields() {
     actions_ = 0L;
     exceptions_ = 0L;
     crashes_ = 0L;
     bundledPluginExceptions_ = 0L;
     nonBundledPluginExceptions_ = 0L;
+    details_ = java.util.Collections.emptyList();
   }
   private byte memoizedIsInitialized = -1;
   public final boolean isInitialized() {
@@ -276,6 +344,9 @@ public  final class StudioCrash extends
     }
     if (((bitField0_ & 0x00000010) == 0x00000010)) {
       output.writeInt64(5, nonBundledPluginExceptions_);
+    }
+    for (int i = 0; i < details_.size(); i++) {
+      output.writeMessage(6, details_.get(i));
     }
     getUnknownFields().writeTo(output);
   }
@@ -305,6 +376,10 @@ public  final class StudioCrash extends
     if (((bitField0_ & 0x00000010) == 0x00000010)) {
       size += com.google.protobuf.CodedOutputStream
         .computeInt64Size(5, nonBundledPluginExceptions_);
+    }
+    for (int i = 0; i < details_.size(); i++) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeMessageSize(6, details_.get(i));
     }
     size += getUnknownFields().getSerializedSize();
     memoizedSerializedSize = size;
@@ -418,6 +493,7 @@ public  final class StudioCrash extends
     }
     private void maybeForceBuilderInitialization() {
       if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        getDetailsFieldBuilder();
       }
     }
     private static Builder create() {
@@ -436,6 +512,12 @@ public  final class StudioCrash extends
       bitField0_ = (bitField0_ & ~0x00000008);
       nonBundledPluginExceptions_ = 0L;
       bitField0_ = (bitField0_ & ~0x00000010);
+      if (detailsBuilder_ == null) {
+        details_ = java.util.Collections.emptyList();
+        bitField0_ = (bitField0_ & ~0x00000020);
+      } else {
+        detailsBuilder_.clear();
+      }
       return this;
     }
 
@@ -484,6 +566,15 @@ public  final class StudioCrash extends
         to_bitField0_ |= 0x00000010;
       }
       result.nonBundledPluginExceptions_ = nonBundledPluginExceptions_;
+      if (detailsBuilder_ == null) {
+        if (((bitField0_ & 0x00000020) == 0x00000020)) {
+          details_ = java.util.Collections.unmodifiableList(details_);
+          bitField0_ = (bitField0_ & ~0x00000020);
+        }
+        result.details_ = details_;
+      } else {
+        result.details_ = detailsBuilder_.build();
+      }
       result.bitField0_ = to_bitField0_;
       onBuilt();
       return result;
@@ -514,6 +605,32 @@ public  final class StudioCrash extends
       }
       if (other.hasNonBundledPluginExceptions()) {
         setNonBundledPluginExceptions(other.getNonBundledPluginExceptions());
+      }
+      if (detailsBuilder_ == null) {
+        if (!other.details_.isEmpty()) {
+          if (details_.isEmpty()) {
+            details_ = other.details_;
+            bitField0_ = (bitField0_ & ~0x00000020);
+          } else {
+            ensureDetailsIsMutable();
+            details_.addAll(other.details_);
+          }
+          onChanged();
+        }
+      } else {
+        if (!other.details_.isEmpty()) {
+          if (detailsBuilder_.isEmpty()) {
+            detailsBuilder_.dispose();
+            detailsBuilder_ = null;
+            details_ = other.details_;
+            bitField0_ = (bitField0_ & ~0x00000020);
+            detailsBuilder_ = 
+              com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                 getDetailsFieldBuilder() : null;
+          } else {
+            detailsBuilder_.addAllMessages(other.details_);
+          }
+        }
       }
       this.mergeUnknownFields(other.getUnknownFields());
       return this;
@@ -785,6 +902,318 @@ public  final class StudioCrash extends
       nonBundledPluginExceptions_ = 0L;
       onChanged();
       return this;
+    }
+
+    // repeated .android_studio.StudioExceptionDetails details = 6;
+    private java.util.List<com.google.wireless.android.sdk.stats.StudioExceptionDetails> details_ =
+      java.util.Collections.emptyList();
+    private void ensureDetailsIsMutable() {
+      if (!((bitField0_ & 0x00000020) == 0x00000020)) {
+        details_ = new java.util.ArrayList<com.google.wireless.android.sdk.stats.StudioExceptionDetails>(details_);
+        bitField0_ |= 0x00000020;
+       }
+    }
+
+    private com.google.protobuf.RepeatedFieldBuilder<
+        com.google.wireless.android.sdk.stats.StudioExceptionDetails, com.google.wireless.android.sdk.stats.StudioExceptionDetails.Builder, com.google.wireless.android.sdk.stats.StudioExceptionDetailsOrBuilder> detailsBuilder_;
+
+    /**
+     * <code>repeated .android_studio.StudioExceptionDetails details = 6;</code>
+     *
+     * <pre>
+     * details on each exception
+     * </pre>
+     */
+    public java.util.List<com.google.wireless.android.sdk.stats.StudioExceptionDetails> getDetailsList() {
+      if (detailsBuilder_ == null) {
+        return java.util.Collections.unmodifiableList(details_);
+      } else {
+        return detailsBuilder_.getMessageList();
+      }
+    }
+    /**
+     * <code>repeated .android_studio.StudioExceptionDetails details = 6;</code>
+     *
+     * <pre>
+     * details on each exception
+     * </pre>
+     */
+    public int getDetailsCount() {
+      if (detailsBuilder_ == null) {
+        return details_.size();
+      } else {
+        return detailsBuilder_.getCount();
+      }
+    }
+    /**
+     * <code>repeated .android_studio.StudioExceptionDetails details = 6;</code>
+     *
+     * <pre>
+     * details on each exception
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.StudioExceptionDetails getDetails(int index) {
+      if (detailsBuilder_ == null) {
+        return details_.get(index);
+      } else {
+        return detailsBuilder_.getMessage(index);
+      }
+    }
+    /**
+     * <code>repeated .android_studio.StudioExceptionDetails details = 6;</code>
+     *
+     * <pre>
+     * details on each exception
+     * </pre>
+     */
+    public Builder setDetails(
+        int index, com.google.wireless.android.sdk.stats.StudioExceptionDetails value) {
+      if (detailsBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        ensureDetailsIsMutable();
+        details_.set(index, value);
+        onChanged();
+      } else {
+        detailsBuilder_.setMessage(index, value);
+      }
+      return this;
+    }
+    /**
+     * <code>repeated .android_studio.StudioExceptionDetails details = 6;</code>
+     *
+     * <pre>
+     * details on each exception
+     * </pre>
+     */
+    public Builder setDetails(
+        int index, com.google.wireless.android.sdk.stats.StudioExceptionDetails.Builder builderForValue) {
+      if (detailsBuilder_ == null) {
+        ensureDetailsIsMutable();
+        details_.set(index, builderForValue.build());
+        onChanged();
+      } else {
+        detailsBuilder_.setMessage(index, builderForValue.build());
+      }
+      return this;
+    }
+    /**
+     * <code>repeated .android_studio.StudioExceptionDetails details = 6;</code>
+     *
+     * <pre>
+     * details on each exception
+     * </pre>
+     */
+    public Builder addDetails(com.google.wireless.android.sdk.stats.StudioExceptionDetails value) {
+      if (detailsBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        ensureDetailsIsMutable();
+        details_.add(value);
+        onChanged();
+      } else {
+        detailsBuilder_.addMessage(value);
+      }
+      return this;
+    }
+    /**
+     * <code>repeated .android_studio.StudioExceptionDetails details = 6;</code>
+     *
+     * <pre>
+     * details on each exception
+     * </pre>
+     */
+    public Builder addDetails(
+        int index, com.google.wireless.android.sdk.stats.StudioExceptionDetails value) {
+      if (detailsBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        ensureDetailsIsMutable();
+        details_.add(index, value);
+        onChanged();
+      } else {
+        detailsBuilder_.addMessage(index, value);
+      }
+      return this;
+    }
+    /**
+     * <code>repeated .android_studio.StudioExceptionDetails details = 6;</code>
+     *
+     * <pre>
+     * details on each exception
+     * </pre>
+     */
+    public Builder addDetails(
+        com.google.wireless.android.sdk.stats.StudioExceptionDetails.Builder builderForValue) {
+      if (detailsBuilder_ == null) {
+        ensureDetailsIsMutable();
+        details_.add(builderForValue.build());
+        onChanged();
+      } else {
+        detailsBuilder_.addMessage(builderForValue.build());
+      }
+      return this;
+    }
+    /**
+     * <code>repeated .android_studio.StudioExceptionDetails details = 6;</code>
+     *
+     * <pre>
+     * details on each exception
+     * </pre>
+     */
+    public Builder addDetails(
+        int index, com.google.wireless.android.sdk.stats.StudioExceptionDetails.Builder builderForValue) {
+      if (detailsBuilder_ == null) {
+        ensureDetailsIsMutable();
+        details_.add(index, builderForValue.build());
+        onChanged();
+      } else {
+        detailsBuilder_.addMessage(index, builderForValue.build());
+      }
+      return this;
+    }
+    /**
+     * <code>repeated .android_studio.StudioExceptionDetails details = 6;</code>
+     *
+     * <pre>
+     * details on each exception
+     * </pre>
+     */
+    public Builder addAllDetails(
+        java.lang.Iterable<? extends com.google.wireless.android.sdk.stats.StudioExceptionDetails> values) {
+      if (detailsBuilder_ == null) {
+        ensureDetailsIsMutable();
+        super.addAll(values, details_);
+        onChanged();
+      } else {
+        detailsBuilder_.addAllMessages(values);
+      }
+      return this;
+    }
+    /**
+     * <code>repeated .android_studio.StudioExceptionDetails details = 6;</code>
+     *
+     * <pre>
+     * details on each exception
+     * </pre>
+     */
+    public Builder clearDetails() {
+      if (detailsBuilder_ == null) {
+        details_ = java.util.Collections.emptyList();
+        bitField0_ = (bitField0_ & ~0x00000020);
+        onChanged();
+      } else {
+        detailsBuilder_.clear();
+      }
+      return this;
+    }
+    /**
+     * <code>repeated .android_studio.StudioExceptionDetails details = 6;</code>
+     *
+     * <pre>
+     * details on each exception
+     * </pre>
+     */
+    public Builder removeDetails(int index) {
+      if (detailsBuilder_ == null) {
+        ensureDetailsIsMutable();
+        details_.remove(index);
+        onChanged();
+      } else {
+        detailsBuilder_.remove(index);
+      }
+      return this;
+    }
+    /**
+     * <code>repeated .android_studio.StudioExceptionDetails details = 6;</code>
+     *
+     * <pre>
+     * details on each exception
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.StudioExceptionDetails.Builder getDetailsBuilder(
+        int index) {
+      return getDetailsFieldBuilder().getBuilder(index);
+    }
+    /**
+     * <code>repeated .android_studio.StudioExceptionDetails details = 6;</code>
+     *
+     * <pre>
+     * details on each exception
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.StudioExceptionDetailsOrBuilder getDetailsOrBuilder(
+        int index) {
+      if (detailsBuilder_ == null) {
+        return details_.get(index);  } else {
+        return detailsBuilder_.getMessageOrBuilder(index);
+      }
+    }
+    /**
+     * <code>repeated .android_studio.StudioExceptionDetails details = 6;</code>
+     *
+     * <pre>
+     * details on each exception
+     * </pre>
+     */
+    public java.util.List<? extends com.google.wireless.android.sdk.stats.StudioExceptionDetailsOrBuilder> 
+         getDetailsOrBuilderList() {
+      if (detailsBuilder_ != null) {
+        return detailsBuilder_.getMessageOrBuilderList();
+      } else {
+        return java.util.Collections.unmodifiableList(details_);
+      }
+    }
+    /**
+     * <code>repeated .android_studio.StudioExceptionDetails details = 6;</code>
+     *
+     * <pre>
+     * details on each exception
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.StudioExceptionDetails.Builder addDetailsBuilder() {
+      return getDetailsFieldBuilder().addBuilder(
+          com.google.wireless.android.sdk.stats.StudioExceptionDetails.getDefaultInstance());
+    }
+    /**
+     * <code>repeated .android_studio.StudioExceptionDetails details = 6;</code>
+     *
+     * <pre>
+     * details on each exception
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.StudioExceptionDetails.Builder addDetailsBuilder(
+        int index) {
+      return getDetailsFieldBuilder().addBuilder(
+          index, com.google.wireless.android.sdk.stats.StudioExceptionDetails.getDefaultInstance());
+    }
+    /**
+     * <code>repeated .android_studio.StudioExceptionDetails details = 6;</code>
+     *
+     * <pre>
+     * details on each exception
+     * </pre>
+     */
+    public java.util.List<com.google.wireless.android.sdk.stats.StudioExceptionDetails.Builder> 
+         getDetailsBuilderList() {
+      return getDetailsFieldBuilder().getBuilderList();
+    }
+    private com.google.protobuf.RepeatedFieldBuilder<
+        com.google.wireless.android.sdk.stats.StudioExceptionDetails, com.google.wireless.android.sdk.stats.StudioExceptionDetails.Builder, com.google.wireless.android.sdk.stats.StudioExceptionDetailsOrBuilder> 
+        getDetailsFieldBuilder() {
+      if (detailsBuilder_ == null) {
+        detailsBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+            com.google.wireless.android.sdk.stats.StudioExceptionDetails, com.google.wireless.android.sdk.stats.StudioExceptionDetails.Builder, com.google.wireless.android.sdk.stats.StudioExceptionDetailsOrBuilder>(
+                details_,
+                ((bitField0_ & 0x00000020) == 0x00000020),
+                getParentForChildren(),
+                isClean());
+        details_ = null;
+      }
+      return detailsBuilder_;
     }
 
     // @@protoc_insertion_point(builder_scope:android_studio.StudioCrash)

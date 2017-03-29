@@ -95,4 +95,49 @@ public interface StudioCrashOrBuilder
    * </pre>
    */
   long getNonBundledPluginExceptions();
+
+  // repeated .android_studio.StudioExceptionDetails details = 6;
+  /**
+   * <code>repeated .android_studio.StudioExceptionDetails details = 6;</code>
+   *
+   * <pre>
+   * details on each exception
+   * </pre>
+   */
+  java.util.List<com.google.wireless.android.sdk.stats.StudioExceptionDetails> 
+      getDetailsList();
+  /**
+   * <code>repeated .android_studio.StudioExceptionDetails details = 6;</code>
+   *
+   * <pre>
+   * details on each exception
+   * </pre>
+   */
+  com.google.wireless.android.sdk.stats.StudioExceptionDetails getDetails(int index);
+  /**
+   * <code>repeated .android_studio.StudioExceptionDetails details = 6;</code>
+   *
+   * <pre>
+   * details on each exception
+   * </pre>
+   */
+  int getDetailsCount();
+  /**
+   * <code>repeated .android_studio.StudioExceptionDetails details = 6;</code>
+   *
+   * <pre>
+   * details on each exception
+   * </pre>
+   */
+  java.util.List<? extends com.google.wireless.android.sdk.stats.StudioExceptionDetailsOrBuilder> 
+      getDetailsOrBuilderList();
+  /**
+   * <code>repeated .android_studio.StudioExceptionDetails details = 6;</code>
+   *
+   * <pre>
+   * details on each exception
+   * </pre>
+   */
+  com.google.wireless.android.sdk.stats.StudioExceptionDetailsOrBuilder getDetailsOrBuilder(
+      int index);
 }

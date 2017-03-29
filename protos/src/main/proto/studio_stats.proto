@@ -745,6 +745,15 @@ message LldbSessionEndDetails {
   optional uint64 stops = 3;
 }
 
+message StudioExceptionDetails {
+  // hash of the exception stack trace
+  optional string hash = 1;
+  // summary of the exception stack trace
+  optional string summary = 2;
+  // number of crashes seen with this stack trace
+  optional uint32 count = 3;
+}
+
 // Metrics on crashes in Android Studio.
 message StudioCrash {
   // number of actions since last crash report.
@@ -757,6 +766,8 @@ message StudioCrash {
   optional int64 bundled_plugin_exceptions = 4;
   // number of exceptions from plugins not bundled with Android Studio.
   optional int64 non_bundled_plugin_exceptions = 5;
+  // details on each exception
+  repeated StudioExceptionDetails details = 6;
 }
 
 // Emulator guest image's GL info.
