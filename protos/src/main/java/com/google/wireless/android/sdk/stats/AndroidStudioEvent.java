@@ -2029,7 +2029,7 @@ public  final class AndroidStudioEvent extends
      * <code>TEST_RECORDER_SAVE_ROBO_SCRIPT = 113;</code>
      *
      * <pre>
-     * The user requested the test recorder to save a Robo bootstrap script.
+     * The user saved a recorded Robo bootstrap script.
      * </pre>
      */
     TEST_RECORDER_SAVE_ROBO_SCRIPT(110, 113),
@@ -2065,6 +2065,22 @@ public  final class AndroidStudioEvent extends
      * </pre>
      */
     APK_ANALYZER_STATS(114, 117),
+    /**
+     * <code>TEST_RECORDER_RECORD_ROBO_SCRIPT = 118;</code>
+     *
+     * <pre>
+     * The user launched the test recorder to record a Robo bootstrap script.
+     * </pre>
+     */
+    TEST_RECORDER_RECORD_ROBO_SCRIPT(115, 118),
+    /**
+     * <code>INSTANT_RUN_PROMPT_FOR_APPLY_CHANGES_SHOWN = 119;</code>
+     *
+     * <pre>
+     * Instant Run Notification Tracking
+     * </pre>
+     */
+    INSTANT_RUN_PROMPT_FOR_APPLY_CHANGES_SHOWN(116, 119),
     ;
 
     /**
@@ -2932,7 +2948,7 @@ public  final class AndroidStudioEvent extends
      * <code>TEST_RECORDER_SAVE_ROBO_SCRIPT = 113;</code>
      *
      * <pre>
-     * The user requested the test recorder to save a Robo bootstrap script.
+     * The user saved a recorded Robo bootstrap script.
      * </pre>
      */
     public static final int TEST_RECORDER_SAVE_ROBO_SCRIPT_VALUE = 113;
@@ -2968,6 +2984,22 @@ public  final class AndroidStudioEvent extends
      * </pre>
      */
     public static final int APK_ANALYZER_STATS_VALUE = 117;
+    /**
+     * <code>TEST_RECORDER_RECORD_ROBO_SCRIPT = 118;</code>
+     *
+     * <pre>
+     * The user launched the test recorder to record a Robo bootstrap script.
+     * </pre>
+     */
+    public static final int TEST_RECORDER_RECORD_ROBO_SCRIPT_VALUE = 118;
+    /**
+     * <code>INSTANT_RUN_PROMPT_FOR_APPLY_CHANGES_SHOWN = 119;</code>
+     *
+     * <pre>
+     * Instant Run Notification Tracking
+     * </pre>
+     */
+    public static final int INSTANT_RUN_PROMPT_FOR_APPLY_CHANGES_SHOWN_VALUE = 119;
 
 
     public final int getNumber() { return value; }
@@ -3089,6 +3121,8 @@ public  final class AndroidStudioEvent extends
         case 115: return LLDB_SESSION_ENDED;
         case 116: return ANDROID_PROFILER;
         case 117: return APK_ANALYZER_STATS;
+        case 118: return TEST_RECORDER_RECORD_ROBO_SCRIPT;
+        case 119: return INSTANT_RUN_PROMPT_FOR_APPLY_CHANGES_SHOWN;
         default: return null;
       }
     }
