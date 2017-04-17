@@ -18,7 +18,7 @@ enum GradleTransformExecutionType {
     LIBRARY_JNI_LIBS = 12;
     MERGE_JAVA_RESOURCES = 13;
     MULTI_DEX = 14;
-    NEW_SHRINKER = 15;
+    BUILT_IN_SHRINKER = 15;
     NO_CHANGES_VERIFIER = 16;
     PRO_GUARD = 17;
     SHRINK_RESOURCES = 18;
