@@ -610,6 +610,19 @@ public  final class AndroidStudioEvent extends
             bitField1_ |= 0x00010000;
             break;
           }
+          case 402: {
+            com.google.wireless.android.sdk.stats.GradleSyncStats.Builder subBuilder = null;
+            if (((bitField1_ & 0x00020000) == 0x00020000)) {
+              subBuilder = gradleSyncStats_.toBuilder();
+            }
+            gradleSyncStats_ = input.readMessage(com.google.wireless.android.sdk.stats.GradleSyncStats.PARSER, extensionRegistry);
+            if (subBuilder != null) {
+              subBuilder.mergeFrom(gradleSyncStats_);
+              gradleSyncStats_ = subBuilder.buildPartial();
+            }
+            bitField1_ |= 0x00020000;
+            break;
+          }
         }
       }
     } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -6181,6 +6194,43 @@ public  final class AndroidStudioEvent extends
     return apkAnalyzerStats_;
   }
 
+  // optional .android_studio.GradleSyncStats gradle_sync_stats = 50;
+  public static final int GRADLE_SYNC_STATS_FIELD_NUMBER = 50;
+  private com.google.wireless.android.sdk.stats.GradleSyncStats gradleSyncStats_;
+  /**
+   * <code>optional .android_studio.GradleSyncStats gradle_sync_stats = 50;</code>
+   *
+   * <pre>
+   * set when kind = GRADLE_SYNC_ENDED, GRADLE_SYNC_FAILURE or
+   * GRADLE_SYNC_SETUP_STARTED
+   * </pre>
+   */
+  public boolean hasGradleSyncStats() {
+    return ((bitField1_ & 0x00020000) == 0x00020000);
+  }
+  /**
+   * <code>optional .android_studio.GradleSyncStats gradle_sync_stats = 50;</code>
+   *
+   * <pre>
+   * set when kind = GRADLE_SYNC_ENDED, GRADLE_SYNC_FAILURE or
+   * GRADLE_SYNC_SETUP_STARTED
+   * </pre>
+   */
+  public com.google.wireless.android.sdk.stats.GradleSyncStats getGradleSyncStats() {
+    return gradleSyncStats_;
+  }
+  /**
+   * <code>optional .android_studio.GradleSyncStats gradle_sync_stats = 50;</code>
+   *
+   * <pre>
+   * set when kind = GRADLE_SYNC_ENDED, GRADLE_SYNC_FAILURE or
+   * GRADLE_SYNC_SETUP_STARTED
+   * </pre>
+   */
+  public com.google.wireless.android.sdk.stats.GradleSyncStatsOrBuilder getGradleSyncStatsOrBuilder() {
+    return gradleSyncStats_;
+  }
+
   private void initFields() {
     category_ = com.google.wireless.android.sdk.stats.AndroidStudioEvent.EventCategory.NO_EVENT_CATEGORY;
     kind_ = com.google.wireless.android.sdk.stats.AndroidStudioEvent.EventKind.UNKNOWN_EVENT_KIND;
@@ -6231,6 +6281,7 @@ public  final class AndroidStudioEvent extends
     lldbSessionEndDetails_ = com.google.wireless.android.sdk.stats.LldbSessionEndDetails.getDefaultInstance();
     androidProfilerEvent_ = com.google.wireless.android.sdk.stats.AndroidProfilerEvent.getDefaultInstance();
     apkAnalyzerStats_ = com.google.wireless.android.sdk.stats.ApkAnalyzerStats.getDefaultInstance();
+    gradleSyncStats_ = com.google.wireless.android.sdk.stats.GradleSyncStats.getDefaultInstance();
   }
   private byte memoizedIsInitialized = -1;
   public final boolean isInitialized() {
@@ -6390,6 +6441,9 @@ public  final class AndroidStudioEvent extends
     }
     if (((bitField1_ & 0x00010000) == 0x00010000)) {
       output.writeMessage(49, apkAnalyzerStats_);
+    }
+    if (((bitField1_ & 0x00020000) == 0x00020000)) {
+      output.writeMessage(50, gradleSyncStats_);
     }
     getUnknownFields().writeTo(output);
   }
@@ -6596,6 +6650,10 @@ public  final class AndroidStudioEvent extends
       size += com.google.protobuf.CodedOutputStream
         .computeMessageSize(49, apkAnalyzerStats_);
     }
+    if (((bitField1_ & 0x00020000) == 0x00020000)) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeMessageSize(50, gradleSyncStats_);
+    }
     size += getUnknownFields().getSerializedSize();
     memoizedSerializedSize = size;
     return size;
@@ -6736,6 +6794,7 @@ public  final class AndroidStudioEvent extends
         getLldbSessionEndDetailsFieldBuilder();
         getAndroidProfilerEventFieldBuilder();
         getApkAnalyzerStatsFieldBuilder();
+        getGradleSyncStatsFieldBuilder();
       }
     }
     private static Builder create() {
@@ -6970,6 +7029,12 @@ public  final class AndroidStudioEvent extends
         apkAnalyzerStatsBuilder_.clear();
       }
       bitField1_ = (bitField1_ & ~0x00010000);
+      if (gradleSyncStatsBuilder_ == null) {
+        gradleSyncStats_ = com.google.wireless.android.sdk.stats.GradleSyncStats.getDefaultInstance();
+      } else {
+        gradleSyncStatsBuilder_.clear();
+      }
+      bitField1_ = (bitField1_ & ~0x00020000);
       return this;
     }
 
@@ -7324,6 +7389,14 @@ public  final class AndroidStudioEvent extends
       } else {
         result.apkAnalyzerStats_ = apkAnalyzerStatsBuilder_.build();
       }
+      if (((from_bitField1_ & 0x00020000) == 0x00020000)) {
+        to_bitField1_ |= 0x00020000;
+      }
+      if (gradleSyncStatsBuilder_ == null) {
+        result.gradleSyncStats_ = gradleSyncStats_;
+      } else {
+        result.gradleSyncStats_ = gradleSyncStatsBuilder_.build();
+      }
       result.bitField0_ = to_bitField0_;
       result.bitField1_ = to_bitField1_;
       onBuilt();
@@ -7499,6 +7572,9 @@ public  final class AndroidStudioEvent extends
       }
       if (other.hasApkAnalyzerStats()) {
         mergeApkAnalyzerStats(other.getApkAnalyzerStats());
+      }
+      if (other.hasGradleSyncStats()) {
+        mergeGradleSyncStats(other.getGradleSyncStats());
       }
       this.mergeUnknownFields(other.getUnknownFields());
       return this;
@@ -13735,6 +13811,168 @@ public  final class AndroidStudioEvent extends
         apkAnalyzerStats_ = null;
       }
       return apkAnalyzerStatsBuilder_;
+    }
+
+    // optional .android_studio.GradleSyncStats gradle_sync_stats = 50;
+    private com.google.wireless.android.sdk.stats.GradleSyncStats gradleSyncStats_ = com.google.wireless.android.sdk.stats.GradleSyncStats.getDefaultInstance();
+    private com.google.protobuf.SingleFieldBuilder<
+        com.google.wireless.android.sdk.stats.GradleSyncStats, com.google.wireless.android.sdk.stats.GradleSyncStats.Builder, com.google.wireless.android.sdk.stats.GradleSyncStatsOrBuilder> gradleSyncStatsBuilder_;
+    /**
+     * <code>optional .android_studio.GradleSyncStats gradle_sync_stats = 50;</code>
+     *
+     * <pre>
+     * set when kind = GRADLE_SYNC_ENDED, GRADLE_SYNC_FAILURE or
+     * GRADLE_SYNC_SETUP_STARTED
+     * </pre>
+     */
+    public boolean hasGradleSyncStats() {
+      return ((bitField1_ & 0x00020000) == 0x00020000);
+    }
+    /**
+     * <code>optional .android_studio.GradleSyncStats gradle_sync_stats = 50;</code>
+     *
+     * <pre>
+     * set when kind = GRADLE_SYNC_ENDED, GRADLE_SYNC_FAILURE or
+     * GRADLE_SYNC_SETUP_STARTED
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.GradleSyncStats getGradleSyncStats() {
+      if (gradleSyncStatsBuilder_ == null) {
+        return gradleSyncStats_;
+      } else {
+        return gradleSyncStatsBuilder_.getMessage();
+      }
+    }
+    /**
+     * <code>optional .android_studio.GradleSyncStats gradle_sync_stats = 50;</code>
+     *
+     * <pre>
+     * set when kind = GRADLE_SYNC_ENDED, GRADLE_SYNC_FAILURE or
+     * GRADLE_SYNC_SETUP_STARTED
+     * </pre>
+     */
+    public Builder setGradleSyncStats(com.google.wireless.android.sdk.stats.GradleSyncStats value) {
+      if (gradleSyncStatsBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        gradleSyncStats_ = value;
+        onChanged();
+      } else {
+        gradleSyncStatsBuilder_.setMessage(value);
+      }
+      bitField1_ |= 0x00020000;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.GradleSyncStats gradle_sync_stats = 50;</code>
+     *
+     * <pre>
+     * set when kind = GRADLE_SYNC_ENDED, GRADLE_SYNC_FAILURE or
+     * GRADLE_SYNC_SETUP_STARTED
+     * </pre>
+     */
+    public Builder setGradleSyncStats(
+        com.google.wireless.android.sdk.stats.GradleSyncStats.Builder builderForValue) {
+      if (gradleSyncStatsBuilder_ == null) {
+        gradleSyncStats_ = builderForValue.build();
+        onChanged();
+      } else {
+        gradleSyncStatsBuilder_.setMessage(builderForValue.build());
+      }
+      bitField1_ |= 0x00020000;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.GradleSyncStats gradle_sync_stats = 50;</code>
+     *
+     * <pre>
+     * set when kind = GRADLE_SYNC_ENDED, GRADLE_SYNC_FAILURE or
+     * GRADLE_SYNC_SETUP_STARTED
+     * </pre>
+     */
+    public Builder mergeGradleSyncStats(com.google.wireless.android.sdk.stats.GradleSyncStats value) {
+      if (gradleSyncStatsBuilder_ == null) {
+        if (((bitField1_ & 0x00020000) == 0x00020000) &&
+            gradleSyncStats_ != com.google.wireless.android.sdk.stats.GradleSyncStats.getDefaultInstance()) {
+          gradleSyncStats_ =
+            com.google.wireless.android.sdk.stats.GradleSyncStats.newBuilder(gradleSyncStats_).mergeFrom(value).buildPartial();
+        } else {
+          gradleSyncStats_ = value;
+        }
+        onChanged();
+      } else {
+        gradleSyncStatsBuilder_.mergeFrom(value);
+      }
+      bitField1_ |= 0x00020000;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.GradleSyncStats gradle_sync_stats = 50;</code>
+     *
+     * <pre>
+     * set when kind = GRADLE_SYNC_ENDED, GRADLE_SYNC_FAILURE or
+     * GRADLE_SYNC_SETUP_STARTED
+     * </pre>
+     */
+    public Builder clearGradleSyncStats() {
+      if (gradleSyncStatsBuilder_ == null) {
+        gradleSyncStats_ = com.google.wireless.android.sdk.stats.GradleSyncStats.getDefaultInstance();
+        onChanged();
+      } else {
+        gradleSyncStatsBuilder_.clear();
+      }
+      bitField1_ = (bitField1_ & ~0x00020000);
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.GradleSyncStats gradle_sync_stats = 50;</code>
+     *
+     * <pre>
+     * set when kind = GRADLE_SYNC_ENDED, GRADLE_SYNC_FAILURE or
+     * GRADLE_SYNC_SETUP_STARTED
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.GradleSyncStats.Builder getGradleSyncStatsBuilder() {
+      bitField1_ |= 0x00020000;
+      onChanged();
+      return getGradleSyncStatsFieldBuilder().getBuilder();
+    }
+    /**
+     * <code>optional .android_studio.GradleSyncStats gradle_sync_stats = 50;</code>
+     *
+     * <pre>
+     * set when kind = GRADLE_SYNC_ENDED, GRADLE_SYNC_FAILURE or
+     * GRADLE_SYNC_SETUP_STARTED
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.GradleSyncStatsOrBuilder getGradleSyncStatsOrBuilder() {
+      if (gradleSyncStatsBuilder_ != null) {
+        return gradleSyncStatsBuilder_.getMessageOrBuilder();
+      } else {
+        return gradleSyncStats_;
+      }
+    }
+    /**
+     * <code>optional .android_studio.GradleSyncStats gradle_sync_stats = 50;</code>
+     *
+     * <pre>
+     * set when kind = GRADLE_SYNC_ENDED, GRADLE_SYNC_FAILURE or
+     * GRADLE_SYNC_SETUP_STARTED
+     * </pre>
+     */
+    private com.google.protobuf.SingleFieldBuilder<
+        com.google.wireless.android.sdk.stats.GradleSyncStats, com.google.wireless.android.sdk.stats.GradleSyncStats.Builder, com.google.wireless.android.sdk.stats.GradleSyncStatsOrBuilder> 
+        getGradleSyncStatsFieldBuilder() {
+      if (gradleSyncStatsBuilder_ == null) {
+        gradleSyncStatsBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+            com.google.wireless.android.sdk.stats.GradleSyncStats, com.google.wireless.android.sdk.stats.GradleSyncStats.Builder, com.google.wireless.android.sdk.stats.GradleSyncStatsOrBuilder>(
+                gradleSyncStats_,
+                getParentForChildren(),
+                isClean());
+        gradleSyncStats_ = null;
+      }
+      return gradleSyncStatsBuilder_;
     }
 
     // @@protoc_insertion_point(builder_scope:android_studio.AndroidStudioEvent)

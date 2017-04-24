@@ -78,6 +78,36 @@ public  final class EmulatorHost extends
             osBitCount_ = input.readInt64();
             break;
           }
+          case 40: {
+            bitField0_ |= 0x00000010;
+            cpuidStepping_ = input.readUInt32();
+            break;
+          }
+          case 48: {
+            bitField0_ |= 0x00000020;
+            cpuidModel_ = input.readUInt32();
+            break;
+          }
+          case 56: {
+            bitField0_ |= 0x00000040;
+            cpuidFamily_ = input.readUInt32();
+            break;
+          }
+          case 64: {
+            bitField0_ |= 0x00000080;
+            cpuidType_ = input.readUInt32();
+            break;
+          }
+          case 72: {
+            bitField0_ |= 0x00000100;
+            cpuidExtmodel_ = input.readUInt32();
+            break;
+          }
+          case 80: {
+            bitField0_ |= 0x00000200;
+            cpuidExtfamily_ = input.readUInt32();
+            break;
+          }
         }
       }
     } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -250,11 +280,167 @@ public  final class EmulatorHost extends
     return osBitCount_;
   }
 
+  // optional uint32 cpuid_stepping = 5;
+  public static final int CPUID_STEPPING_FIELD_NUMBER = 5;
+  private int cpuidStepping_;
+  /**
+   * <code>optional uint32 cpuid_stepping = 5;</code>
+   *
+   * <pre>
+   * CPU model, family, stepping, as stored in the EAX register
+   * after issuing CPUID instruction with EAX=1:
+   * 31   27   23   19   15   11   7    3  0
+   * 0000 yyyy yyyy xxxx 00tt ffff mmmm ssss
+   * </pre>
+   */
+  public boolean hasCpuidStepping() {
+    return ((bitField0_ & 0x00000010) == 0x00000010);
+  }
+  /**
+   * <code>optional uint32 cpuid_stepping = 5;</code>
+   *
+   * <pre>
+   * CPU model, family, stepping, as stored in the EAX register
+   * after issuing CPUID instruction with EAX=1:
+   * 31   27   23   19   15   11   7    3  0
+   * 0000 yyyy yyyy xxxx 00tt ffff mmmm ssss
+   * </pre>
+   */
+  public int getCpuidStepping() {
+    return cpuidStepping_;
+  }
+
+  // optional uint32 cpuid_model = 6;
+  public static final int CPUID_MODEL_FIELD_NUMBER = 6;
+  private int cpuidModel_;
+  /**
+   * <code>optional uint32 cpuid_model = 6;</code>
+   *
+   * <pre>
+   * m: model (CPU model)
+   * </pre>
+   */
+  public boolean hasCpuidModel() {
+    return ((bitField0_ & 0x00000020) == 0x00000020);
+  }
+  /**
+   * <code>optional uint32 cpuid_model = 6;</code>
+   *
+   * <pre>
+   * m: model (CPU model)
+   * </pre>
+   */
+  public int getCpuidModel() {
+    return cpuidModel_;
+  }
+
+  // optional uint32 cpuid_family = 7;
+  public static final int CPUID_FAMILY_FIELD_NUMBER = 7;
+  private int cpuidFamily_;
+  /**
+   * <code>optional uint32 cpuid_family = 7;</code>
+   *
+   * <pre>
+   * f: family (CPU make)
+   * </pre>
+   */
+  public boolean hasCpuidFamily() {
+    return ((bitField0_ & 0x00000040) == 0x00000040);
+  }
+  /**
+   * <code>optional uint32 cpuid_family = 7;</code>
+   *
+   * <pre>
+   * f: family (CPU make)
+   * </pre>
+   */
+  public int getCpuidFamily() {
+    return cpuidFamily_;
+  }
+
+  // optional uint32 cpuid_type = 8;
+  public static final int CPUID_TYPE_FIELD_NUMBER = 8;
+  private int cpuidType_;
+  /**
+   * <code>optional uint32 cpuid_type = 8;</code>
+   *
+   * <pre>
+   * t: CPU type
+   * </pre>
+   */
+  public boolean hasCpuidType() {
+    return ((bitField0_ & 0x00000080) == 0x00000080);
+  }
+  /**
+   * <code>optional uint32 cpuid_type = 8;</code>
+   *
+   * <pre>
+   * t: CPU type
+   * </pre>
+   */
+  public int getCpuidType() {
+    return cpuidType_;
+  }
+
+  // optional uint32 cpuid_extmodel = 9;
+  public static final int CPUID_EXTMODEL_FIELD_NUMBER = 9;
+  private int cpuidExtmodel_;
+  /**
+   * <code>optional uint32 cpuid_extmodel = 9;</code>
+   *
+   * <pre>
+   * x: extended model
+   * </pre>
+   */
+  public boolean hasCpuidExtmodel() {
+    return ((bitField0_ & 0x00000100) == 0x00000100);
+  }
+  /**
+   * <code>optional uint32 cpuid_extmodel = 9;</code>
+   *
+   * <pre>
+   * x: extended model
+   * </pre>
+   */
+  public int getCpuidExtmodel() {
+    return cpuidExtmodel_;
+  }
+
+  // optional uint32 cpuid_extfamily = 10;
+  public static final int CPUID_EXTFAMILY_FIELD_NUMBER = 10;
+  private int cpuidExtfamily_;
+  /**
+   * <code>optional uint32 cpuid_extfamily = 10;</code>
+   *
+   * <pre>
+   * y: extended family
+   * </pre>
+   */
+  public boolean hasCpuidExtfamily() {
+    return ((bitField0_ & 0x00000200) == 0x00000200);
+  }
+  /**
+   * <code>optional uint32 cpuid_extfamily = 10;</code>
+   *
+   * <pre>
+   * y: extended family
+   * </pre>
+   */
+  public int getCpuidExtfamily() {
+    return cpuidExtfamily_;
+  }
+
   private void initFields() {
     cpuManufacturer_ = "";
     virtSupport_ = false;
     runningInVm_ = false;
     osBitCount_ = 0L;
+    cpuidStepping_ = 0;
+    cpuidModel_ = 0;
+    cpuidFamily_ = 0;
+    cpuidType_ = 0;
+    cpuidExtmodel_ = 0;
+    cpuidExtfamily_ = 0;
   }
   private byte memoizedIsInitialized = -1;
   public final boolean isInitialized() {
@@ -280,6 +466,24 @@ public  final class EmulatorHost extends
     if (((bitField0_ & 0x00000008) == 0x00000008)) {
       output.writeInt64(4, osBitCount_);
     }
+    if (((bitField0_ & 0x00000010) == 0x00000010)) {
+      output.writeUInt32(5, cpuidStepping_);
+    }
+    if (((bitField0_ & 0x00000020) == 0x00000020)) {
+      output.writeUInt32(6, cpuidModel_);
+    }
+    if (((bitField0_ & 0x00000040) == 0x00000040)) {
+      output.writeUInt32(7, cpuidFamily_);
+    }
+    if (((bitField0_ & 0x00000080) == 0x00000080)) {
+      output.writeUInt32(8, cpuidType_);
+    }
+    if (((bitField0_ & 0x00000100) == 0x00000100)) {
+      output.writeUInt32(9, cpuidExtmodel_);
+    }
+    if (((bitField0_ & 0x00000200) == 0x00000200)) {
+      output.writeUInt32(10, cpuidExtfamily_);
+    }
     getUnknownFields().writeTo(output);
   }
 
@@ -304,6 +508,30 @@ public  final class EmulatorHost extends
     if (((bitField0_ & 0x00000008) == 0x00000008)) {
       size += com.google.protobuf.CodedOutputStream
         .computeInt64Size(4, osBitCount_);
+    }
+    if (((bitField0_ & 0x00000010) == 0x00000010)) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeUInt32Size(5, cpuidStepping_);
+    }
+    if (((bitField0_ & 0x00000020) == 0x00000020)) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeUInt32Size(6, cpuidModel_);
+    }
+    if (((bitField0_ & 0x00000040) == 0x00000040)) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeUInt32Size(7, cpuidFamily_);
+    }
+    if (((bitField0_ & 0x00000080) == 0x00000080)) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeUInt32Size(8, cpuidType_);
+    }
+    if (((bitField0_ & 0x00000100) == 0x00000100)) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeUInt32Size(9, cpuidExtmodel_);
+    }
+    if (((bitField0_ & 0x00000200) == 0x00000200)) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeUInt32Size(10, cpuidExtfamily_);
     }
     size += getUnknownFields().getSerializedSize();
     memoizedSerializedSize = size;
@@ -433,6 +661,18 @@ public  final class EmulatorHost extends
       bitField0_ = (bitField0_ & ~0x00000004);
       osBitCount_ = 0L;
       bitField0_ = (bitField0_ & ~0x00000008);
+      cpuidStepping_ = 0;
+      bitField0_ = (bitField0_ & ~0x00000010);
+      cpuidModel_ = 0;
+      bitField0_ = (bitField0_ & ~0x00000020);
+      cpuidFamily_ = 0;
+      bitField0_ = (bitField0_ & ~0x00000040);
+      cpuidType_ = 0;
+      bitField0_ = (bitField0_ & ~0x00000080);
+      cpuidExtmodel_ = 0;
+      bitField0_ = (bitField0_ & ~0x00000100);
+      cpuidExtfamily_ = 0;
+      bitField0_ = (bitField0_ & ~0x00000200);
       return this;
     }
 
@@ -477,6 +717,30 @@ public  final class EmulatorHost extends
         to_bitField0_ |= 0x00000008;
       }
       result.osBitCount_ = osBitCount_;
+      if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
+        to_bitField0_ |= 0x00000010;
+      }
+      result.cpuidStepping_ = cpuidStepping_;
+      if (((from_bitField0_ & 0x00000020) == 0x00000020)) {
+        to_bitField0_ |= 0x00000020;
+      }
+      result.cpuidModel_ = cpuidModel_;
+      if (((from_bitField0_ & 0x00000040) == 0x00000040)) {
+        to_bitField0_ |= 0x00000040;
+      }
+      result.cpuidFamily_ = cpuidFamily_;
+      if (((from_bitField0_ & 0x00000080) == 0x00000080)) {
+        to_bitField0_ |= 0x00000080;
+      }
+      result.cpuidType_ = cpuidType_;
+      if (((from_bitField0_ & 0x00000100) == 0x00000100)) {
+        to_bitField0_ |= 0x00000100;
+      }
+      result.cpuidExtmodel_ = cpuidExtmodel_;
+      if (((from_bitField0_ & 0x00000200) == 0x00000200)) {
+        to_bitField0_ |= 0x00000200;
+      }
+      result.cpuidExtfamily_ = cpuidExtfamily_;
       result.bitField0_ = to_bitField0_;
       onBuilt();
       return result;
@@ -506,6 +770,24 @@ public  final class EmulatorHost extends
       }
       if (other.hasOsBitCount()) {
         setOsBitCount(other.getOsBitCount());
+      }
+      if (other.hasCpuidStepping()) {
+        setCpuidStepping(other.getCpuidStepping());
+      }
+      if (other.hasCpuidModel()) {
+        setCpuidModel(other.getCpuidModel());
+      }
+      if (other.hasCpuidFamily()) {
+        setCpuidFamily(other.getCpuidFamily());
+      }
+      if (other.hasCpuidType()) {
+        setCpuidType(other.getCpuidType());
+      }
+      if (other.hasCpuidExtmodel()) {
+        setCpuidExtmodel(other.getCpuidExtmodel());
+      }
+      if (other.hasCpuidExtfamily()) {
+        setCpuidExtfamily(other.getCpuidExtfamily());
       }
       this.mergeUnknownFields(other.getUnknownFields());
       return this;
@@ -785,6 +1067,312 @@ public  final class EmulatorHost extends
     public Builder clearOsBitCount() {
       bitField0_ = (bitField0_ & ~0x00000008);
       osBitCount_ = 0L;
+      onChanged();
+      return this;
+    }
+
+    // optional uint32 cpuid_stepping = 5;
+    private int cpuidStepping_ ;
+    /**
+     * <code>optional uint32 cpuid_stepping = 5;</code>
+     *
+     * <pre>
+     * CPU model, family, stepping, as stored in the EAX register
+     * after issuing CPUID instruction with EAX=1:
+     * 31   27   23   19   15   11   7    3  0
+     * 0000 yyyy yyyy xxxx 00tt ffff mmmm ssss
+     * </pre>
+     */
+    public boolean hasCpuidStepping() {
+      return ((bitField0_ & 0x00000010) == 0x00000010);
+    }
+    /**
+     * <code>optional uint32 cpuid_stepping = 5;</code>
+     *
+     * <pre>
+     * CPU model, family, stepping, as stored in the EAX register
+     * after issuing CPUID instruction with EAX=1:
+     * 31   27   23   19   15   11   7    3  0
+     * 0000 yyyy yyyy xxxx 00tt ffff mmmm ssss
+     * </pre>
+     */
+    public int getCpuidStepping() {
+      return cpuidStepping_;
+    }
+    /**
+     * <code>optional uint32 cpuid_stepping = 5;</code>
+     *
+     * <pre>
+     * CPU model, family, stepping, as stored in the EAX register
+     * after issuing CPUID instruction with EAX=1:
+     * 31   27   23   19   15   11   7    3  0
+     * 0000 yyyy yyyy xxxx 00tt ffff mmmm ssss
+     * </pre>
+     */
+    public Builder setCpuidStepping(int value) {
+      bitField0_ |= 0x00000010;
+      cpuidStepping_ = value;
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>optional uint32 cpuid_stepping = 5;</code>
+     *
+     * <pre>
+     * CPU model, family, stepping, as stored in the EAX register
+     * after issuing CPUID instruction with EAX=1:
+     * 31   27   23   19   15   11   7    3  0
+     * 0000 yyyy yyyy xxxx 00tt ffff mmmm ssss
+     * </pre>
+     */
+    public Builder clearCpuidStepping() {
+      bitField0_ = (bitField0_ & ~0x00000010);
+      cpuidStepping_ = 0;
+      onChanged();
+      return this;
+    }
+
+    // optional uint32 cpuid_model = 6;
+    private int cpuidModel_ ;
+    /**
+     * <code>optional uint32 cpuid_model = 6;</code>
+     *
+     * <pre>
+     * m: model (CPU model)
+     * </pre>
+     */
+    public boolean hasCpuidModel() {
+      return ((bitField0_ & 0x00000020) == 0x00000020);
+    }
+    /**
+     * <code>optional uint32 cpuid_model = 6;</code>
+     *
+     * <pre>
+     * m: model (CPU model)
+     * </pre>
+     */
+    public int getCpuidModel() {
+      return cpuidModel_;
+    }
+    /**
+     * <code>optional uint32 cpuid_model = 6;</code>
+     *
+     * <pre>
+     * m: model (CPU model)
+     * </pre>
+     */
+    public Builder setCpuidModel(int value) {
+      bitField0_ |= 0x00000020;
+      cpuidModel_ = value;
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>optional uint32 cpuid_model = 6;</code>
+     *
+     * <pre>
+     * m: model (CPU model)
+     * </pre>
+     */
+    public Builder clearCpuidModel() {
+      bitField0_ = (bitField0_ & ~0x00000020);
+      cpuidModel_ = 0;
+      onChanged();
+      return this;
+    }
+
+    // optional uint32 cpuid_family = 7;
+    private int cpuidFamily_ ;
+    /**
+     * <code>optional uint32 cpuid_family = 7;</code>
+     *
+     * <pre>
+     * f: family (CPU make)
+     * </pre>
+     */
+    public boolean hasCpuidFamily() {
+      return ((bitField0_ & 0x00000040) == 0x00000040);
+    }
+    /**
+     * <code>optional uint32 cpuid_family = 7;</code>
+     *
+     * <pre>
+     * f: family (CPU make)
+     * </pre>
+     */
+    public int getCpuidFamily() {
+      return cpuidFamily_;
+    }
+    /**
+     * <code>optional uint32 cpuid_family = 7;</code>
+     *
+     * <pre>
+     * f: family (CPU make)
+     * </pre>
+     */
+    public Builder setCpuidFamily(int value) {
+      bitField0_ |= 0x00000040;
+      cpuidFamily_ = value;
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>optional uint32 cpuid_family = 7;</code>
+     *
+     * <pre>
+     * f: family (CPU make)
+     * </pre>
+     */
+    public Builder clearCpuidFamily() {
+      bitField0_ = (bitField0_ & ~0x00000040);
+      cpuidFamily_ = 0;
+      onChanged();
+      return this;
+    }
+
+    // optional uint32 cpuid_type = 8;
+    private int cpuidType_ ;
+    /**
+     * <code>optional uint32 cpuid_type = 8;</code>
+     *
+     * <pre>
+     * t: CPU type
+     * </pre>
+     */
+    public boolean hasCpuidType() {
+      return ((bitField0_ & 0x00000080) == 0x00000080);
+    }
+    /**
+     * <code>optional uint32 cpuid_type = 8;</code>
+     *
+     * <pre>
+     * t: CPU type
+     * </pre>
+     */
+    public int getCpuidType() {
+      return cpuidType_;
+    }
+    /**
+     * <code>optional uint32 cpuid_type = 8;</code>
+     *
+     * <pre>
+     * t: CPU type
+     * </pre>
+     */
+    public Builder setCpuidType(int value) {
+      bitField0_ |= 0x00000080;
+      cpuidType_ = value;
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>optional uint32 cpuid_type = 8;</code>
+     *
+     * <pre>
+     * t: CPU type
+     * </pre>
+     */
+    public Builder clearCpuidType() {
+      bitField0_ = (bitField0_ & ~0x00000080);
+      cpuidType_ = 0;
+      onChanged();
+      return this;
+    }
+
+    // optional uint32 cpuid_extmodel = 9;
+    private int cpuidExtmodel_ ;
+    /**
+     * <code>optional uint32 cpuid_extmodel = 9;</code>
+     *
+     * <pre>
+     * x: extended model
+     * </pre>
+     */
+    public boolean hasCpuidExtmodel() {
+      return ((bitField0_ & 0x00000100) == 0x00000100);
+    }
+    /**
+     * <code>optional uint32 cpuid_extmodel = 9;</code>
+     *
+     * <pre>
+     * x: extended model
+     * </pre>
+     */
+    public int getCpuidExtmodel() {
+      return cpuidExtmodel_;
+    }
+    /**
+     * <code>optional uint32 cpuid_extmodel = 9;</code>
+     *
+     * <pre>
+     * x: extended model
+     * </pre>
+     */
+    public Builder setCpuidExtmodel(int value) {
+      bitField0_ |= 0x00000100;
+      cpuidExtmodel_ = value;
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>optional uint32 cpuid_extmodel = 9;</code>
+     *
+     * <pre>
+     * x: extended model
+     * </pre>
+     */
+    public Builder clearCpuidExtmodel() {
+      bitField0_ = (bitField0_ & ~0x00000100);
+      cpuidExtmodel_ = 0;
+      onChanged();
+      return this;
+    }
+
+    // optional uint32 cpuid_extfamily = 10;
+    private int cpuidExtfamily_ ;
+    /**
+     * <code>optional uint32 cpuid_extfamily = 10;</code>
+     *
+     * <pre>
+     * y: extended family
+     * </pre>
+     */
+    public boolean hasCpuidExtfamily() {
+      return ((bitField0_ & 0x00000200) == 0x00000200);
+    }
+    /**
+     * <code>optional uint32 cpuid_extfamily = 10;</code>
+     *
+     * <pre>
+     * y: extended family
+     * </pre>
+     */
+    public int getCpuidExtfamily() {
+      return cpuidExtfamily_;
+    }
+    /**
+     * <code>optional uint32 cpuid_extfamily = 10;</code>
+     *
+     * <pre>
+     * y: extended family
+     * </pre>
+     */
+    public Builder setCpuidExtfamily(int value) {
+      bitField0_ |= 0x00000200;
+      cpuidExtfamily_ = value;
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>optional uint32 cpuid_extfamily = 10;</code>
+     *
+     * <pre>
+     * y: extended family
+     * </pre>
+     */
+    public Builder clearCpuidExtfamily() {
+      bitField0_ = (bitField0_ & ~0x00000200);
+      cpuidExtfamily_ = 0;
       onChanged();
       return this;
     }

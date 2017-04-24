@@ -91,4 +91,118 @@ public interface EmulatorHostOrBuilder
    * </pre>
    */
   long getOsBitCount();
+
+  // optional uint32 cpuid_stepping = 5;
+  /**
+   * <code>optional uint32 cpuid_stepping = 5;</code>
+   *
+   * <pre>
+   * CPU model, family, stepping, as stored in the EAX register
+   * after issuing CPUID instruction with EAX=1:
+   * 31   27   23   19   15   11   7    3  0
+   * 0000 yyyy yyyy xxxx 00tt ffff mmmm ssss
+   * </pre>
+   */
+  boolean hasCpuidStepping();
+  /**
+   * <code>optional uint32 cpuid_stepping = 5;</code>
+   *
+   * <pre>
+   * CPU model, family, stepping, as stored in the EAX register
+   * after issuing CPUID instruction with EAX=1:
+   * 31   27   23   19   15   11   7    3  0
+   * 0000 yyyy yyyy xxxx 00tt ffff mmmm ssss
+   * </pre>
+   */
+  int getCpuidStepping();
+
+  // optional uint32 cpuid_model = 6;
+  /**
+   * <code>optional uint32 cpuid_model = 6;</code>
+   *
+   * <pre>
+   * m: model (CPU model)
+   * </pre>
+   */
+  boolean hasCpuidModel();
+  /**
+   * <code>optional uint32 cpuid_model = 6;</code>
+   *
+   * <pre>
+   * m: model (CPU model)
+   * </pre>
+   */
+  int getCpuidModel();
+
+  // optional uint32 cpuid_family = 7;
+  /**
+   * <code>optional uint32 cpuid_family = 7;</code>
+   *
+   * <pre>
+   * f: family (CPU make)
+   * </pre>
+   */
+  boolean hasCpuidFamily();
+  /**
+   * <code>optional uint32 cpuid_family = 7;</code>
+   *
+   * <pre>
+   * f: family (CPU make)
+   * </pre>
+   */
+  int getCpuidFamily();
+
+  // optional uint32 cpuid_type = 8;
+  /**
+   * <code>optional uint32 cpuid_type = 8;</code>
+   *
+   * <pre>
+   * t: CPU type
+   * </pre>
+   */
+  boolean hasCpuidType();
+  /**
+   * <code>optional uint32 cpuid_type = 8;</code>
+   *
+   * <pre>
+   * t: CPU type
+   * </pre>
+   */
+  int getCpuidType();
+
+  // optional uint32 cpuid_extmodel = 9;
+  /**
+   * <code>optional uint32 cpuid_extmodel = 9;</code>
+   *
+   * <pre>
+   * x: extended model
+   * </pre>
+   */
+  boolean hasCpuidExtmodel();
+  /**
+   * <code>optional uint32 cpuid_extmodel = 9;</code>
+   *
+   * <pre>
+   * x: extended model
+   * </pre>
+   */
+  int getCpuidExtmodel();
+
+  // optional uint32 cpuid_extfamily = 10;
+  /**
+   * <code>optional uint32 cpuid_extfamily = 10;</code>
+   *
+   * <pre>
+   * y: extended family
+   * </pre>
+   */
+  boolean hasCpuidExtfamily();
+  /**
+   * <code>optional uint32 cpuid_extfamily = 10;</code>
+   *
+   * <pre>
+   * y: extended family
+   * </pre>
+   */
+  int getCpuidExtfamily();
 }

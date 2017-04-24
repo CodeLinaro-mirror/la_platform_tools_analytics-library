@@ -186,6 +186,10 @@ message AndroidStudioEvent {
   // set when kind = APK_ANALYZER_STATS
   optional ApkAnalyzerStats apk_analyzer_stats = 49;
 
+  // set when kind = GRADLE_SYNC_ENDED, GRADLE_SYNC_FAILURE or
+  // GRADLE_SYNC_SETUP_STARTED
+  optional GradleSyncStats gradle_sync_stats = 50;
+
   // Describes a group of event kinds related to each other.
   // This is redundant in the presence of EventKind + event specific message,
   // and is only necessary for events originally sent to GA.
@@ -1277,6 +1281,16 @@ message EmulatorHost {
   // May differ from os_architecture field as it is calculated differently,
   // trying to compensate the JVM bittness.
   optional int64 os_bit_count = 4;
+  // CPU model, family, stepping, as stored in the EAX register
+  // after issuing CPUID instruction with EAX=1:
+  // 31   27   23   19   15   11   7    3  0
+  // 0000 yyyy yyyy xxxx 00tt ffff mmmm ssss
+  optional uint32 cpuid_stepping = 5; // s: stepping (CPU version)
+  optional uint32 cpuid_model = 6; // m: model (CPU model)
+  optional uint32 cpuid_family = 7; // f: family (CPU make)
+  optional uint32 cpuid_type = 8; // t: CPU type
+  optional uint32 cpuid_extmodel = 9; // x: extended model
+  optional uint32 cpuid_extfamily = 10; // y: extended family
 }
 
 // Detailed profiling information for the gradle build.
@@ -2591,4 +2605,28 @@ message ApkAnalyzerStats {
 
   // size of the APK after compression
   optional uint64 compressed_size = 2;
+}
+
+// Gradle Sync details
+message GradleSyncStats {
+  // Cause of sync
+  optional Trigger trigger = 1;
+  // Total time, the rest of the non negative times should add to this value
+  optional int64 total_time_ms = 2;
+  // Time in ms spent on gradle (can be negative in case of failure)
+  optional int64 gradle_time_ms = 3;
+  // Time in ms spent on IDE (can be negative in case of failure)
+  optional int64 ide_time_ms = 4;
+
+  // List of triggers for gradle Sync
+  enum Trigger {
+    // Unknown (this is the default, but should not be used)
+    TRIGGER_UNKNOWN = 0;
+    // Project being loaded caused the sync
+    TRIGGER_PROJECT_LOADED = 1;
+    // Project modifications caused the sync
+    TRIGGER_PROJECT_MODIFIED = 2;
+    // User requests the sync directly (by pressing sync button)
+    TRIGGER_USER_REQUEST = 3;
+  }
 }

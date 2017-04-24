@@ -1260,4 +1260,33 @@ public interface AndroidStudioEventOrBuilder
    * </pre>
    */
   com.google.wireless.android.sdk.stats.ApkAnalyzerStatsOrBuilder getApkAnalyzerStatsOrBuilder();
+
+  // optional .android_studio.GradleSyncStats gradle_sync_stats = 50;
+  /**
+   * <code>optional .android_studio.GradleSyncStats gradle_sync_stats = 50;</code>
+   *
+   * <pre>
+   * set when kind = GRADLE_SYNC_ENDED, GRADLE_SYNC_FAILURE or
+   * GRADLE_SYNC_SETUP_STARTED
+   * </pre>
+   */
+  boolean hasGradleSyncStats();
+  /**
+   * <code>optional .android_studio.GradleSyncStats gradle_sync_stats = 50;</code>
+   *
+   * <pre>
+   * set when kind = GRADLE_SYNC_ENDED, GRADLE_SYNC_FAILURE or
+   * GRADLE_SYNC_SETUP_STARTED
+   * </pre>
+   */
+  com.google.wireless.android.sdk.stats.GradleSyncStats getGradleSyncStats();
+  /**
+   * <code>optional .android_studio.GradleSyncStats gradle_sync_stats = 50;</code>
+   *
+   * <pre>
+   * set when kind = GRADLE_SYNC_ENDED, GRADLE_SYNC_FAILURE or
+   * GRADLE_SYNC_SETUP_STARTED
+   * </pre>
+   */
+  com.google.wireless.android.sdk.stats.GradleSyncStatsOrBuilder getGradleSyncStatsOrBuilder();
 }
