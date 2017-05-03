@@ -202,4 +202,33 @@ public interface EmulatorAvdInfoOrBuilder
    */
   com.google.wireless.android.sdk.stats.EmulatorAvdFileOrBuilder getFilesOrBuilder(
       int index);
+
+  // repeated .android_studio.EmulatorAvdInfo.EmulatorAvdProperty properties = 9;
+  /**
+   * <code>repeated .android_studio.EmulatorAvdInfo.EmulatorAvdProperty properties = 9;</code>
+   *
+   * <pre>
+   * Collection of other AVD properties, mostly relating to flavor
+   * (TV vs phone vs Auto, etc)
+   * </pre>
+   */
+  java.util.List<com.google.wireless.android.sdk.stats.EmulatorAvdInfo.EmulatorAvdProperty> getPropertiesList();
+  /**
+   * <code>repeated .android_studio.EmulatorAvdInfo.EmulatorAvdProperty properties = 9;</code>
+   *
+   * <pre>
+   * Collection of other AVD properties, mostly relating to flavor
+   * (TV vs phone vs Auto, etc)
+   * </pre>
+   */
+  int getPropertiesCount();
+  /**
+   * <code>repeated .android_studio.EmulatorAvdInfo.EmulatorAvdProperty properties = 9;</code>
+   *
+   * <pre>
+   * Collection of other AVD properties, mostly relating to flavor
+   * (TV vs phone vs Auto, etc)
+   * </pre>
+   */
+  com.google.wireless.android.sdk.stats.EmulatorAvdInfo.EmulatorAvdProperty getProperties(int index);
 }

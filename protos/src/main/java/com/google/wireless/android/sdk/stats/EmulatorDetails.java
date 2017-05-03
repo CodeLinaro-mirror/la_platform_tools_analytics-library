@@ -194,6 +194,30 @@ public  final class EmulatorDetails extends
             bitField0_ |= 0x00008000;
             break;
           }
+          case 154: {
+            com.google.wireless.android.sdk.stats.EmulatorFeatureFlagState.Builder subBuilder = null;
+            if (((bitField0_ & 0x00010000) == 0x00010000)) {
+              subBuilder = featureFlagState_.toBuilder();
+            }
+            featureFlagState_ = input.readMessage(com.google.wireless.android.sdk.stats.EmulatorFeatureFlagState.PARSER, extensionRegistry);
+            if (subBuilder != null) {
+              subBuilder.mergeFrom(featureFlagState_);
+              featureFlagState_ = subBuilder.buildPartial();
+            }
+            bitField0_ |= 0x00010000;
+            break;
+          }
+          case 160: {
+            int rawValue = input.readEnum();
+            com.google.wireless.android.sdk.stats.EmulatorDetails.EmulatorHypervisor value = com.google.wireless.android.sdk.stats.EmulatorDetails.EmulatorHypervisor.valueOf(rawValue);
+            if (value == null) {
+              unknownFields.mergeVarintField(20, rawValue);
+            } else {
+              bitField0_ |= 0x00020000;
+              hypervisor_ = value;
+            }
+            break;
+          }
         }
       }
     } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -816,6 +840,160 @@ public  final class EmulatorDetails extends
     // @@protoc_insertion_point(enum_scope:android_studio.EmulatorDetails.EmulatorRenderer)
   }
 
+  /**
+   * Protobuf enum {@code android_studio.EmulatorDetails.EmulatorHypervisor}
+   *
+   * <pre>
+   * Hypervisor in use for the session.
+   * </pre>
+   */
+  public enum EmulatorHypervisor
+      implements com.google.protobuf.ProtocolMessageEnum {
+    /**
+     * <code>UNKNOWN_HYPERVISOR = 0;</code>
+     */
+    UNKNOWN_HYPERVISOR(0, 0),
+    /**
+     * <code>NO_HYPERVISOR = 1;</code>
+     */
+    NO_HYPERVISOR(1, 1),
+    /**
+     * <code>KVM = 2;</code>
+     *
+     * <pre>
+     * KVM
+     * </pre>
+     */
+    KVM(2, 2),
+    /**
+     * <code>HAXM = 3;</code>
+     *
+     * <pre>
+     * Intel HAXM
+     * </pre>
+     */
+    HAXM(3, 3),
+    /**
+     * <code>HVF = 4;</code>
+     *
+     * <pre>
+     * Apple Hypervisor.Framework
+     * </pre>
+     */
+    HVF(4, 4),
+    /**
+     * <code>HYPERV = 5;</code>
+     *
+     * <pre>
+     * Microsoft Hyper-V
+     * </pre>
+     */
+    HYPERV(5, 5),
+    ;
+
+    /**
+     * <code>UNKNOWN_HYPERVISOR = 0;</code>
+     */
+    public static final int UNKNOWN_HYPERVISOR_VALUE = 0;
+    /**
+     * <code>NO_HYPERVISOR = 1;</code>
+     */
+    public static final int NO_HYPERVISOR_VALUE = 1;
+    /**
+     * <code>KVM = 2;</code>
+     *
+     * <pre>
+     * KVM
+     * </pre>
+     */
+    public static final int KVM_VALUE = 2;
+    /**
+     * <code>HAXM = 3;</code>
+     *
+     * <pre>
+     * Intel HAXM
+     * </pre>
+     */
+    public static final int HAXM_VALUE = 3;
+    /**
+     * <code>HVF = 4;</code>
+     *
+     * <pre>
+     * Apple Hypervisor.Framework
+     * </pre>
+     */
+    public static final int HVF_VALUE = 4;
+    /**
+     * <code>HYPERV = 5;</code>
+     *
+     * <pre>
+     * Microsoft Hyper-V
+     * </pre>
+     */
+    public static final int HYPERV_VALUE = 5;
+
+
+    public final int getNumber() { return value; }
+
+    public static EmulatorHypervisor valueOf(int value) {
+      switch (value) {
+        case 0: return UNKNOWN_HYPERVISOR;
+        case 1: return NO_HYPERVISOR;
+        case 2: return KVM;
+        case 3: return HAXM;
+        case 4: return HVF;
+        case 5: return HYPERV;
+        default: return null;
+      }
+    }
+
+    public static com.google.protobuf.Internal.EnumLiteMap<EmulatorHypervisor>
+        internalGetValueMap() {
+      return internalValueMap;
+    }
+    private static com.google.protobuf.Internal.EnumLiteMap<EmulatorHypervisor>
+        internalValueMap =
+          new com.google.protobuf.Internal.EnumLiteMap<EmulatorHypervisor>() {
+            public EmulatorHypervisor findValueByNumber(int number) {
+              return EmulatorHypervisor.valueOf(number);
+            }
+          };
+
+    public final com.google.protobuf.Descriptors.EnumValueDescriptor
+        getValueDescriptor() {
+      return getDescriptor().getValues().get(index);
+    }
+    public final com.google.protobuf.Descriptors.EnumDescriptor
+        getDescriptorForType() {
+      return getDescriptor();
+    }
+    public static final com.google.protobuf.Descriptors.EnumDescriptor
+        getDescriptor() {
+      return com.google.wireless.android.sdk.stats.EmulatorDetails.getDescriptor().getEnumTypes().get(4);
+    }
+
+    private static final EmulatorHypervisor[] VALUES = values();
+
+    public static EmulatorHypervisor valueOf(
+        com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
+      if (desc.getType() != getDescriptor()) {
+        throw new java.lang.IllegalArgumentException(
+          "EnumValueDescriptor is not for this type.");
+      }
+      return VALUES[desc.getIndex()];
+    }
+
+    private final int index;
+    private final int value;
+
+    private EmulatorHypervisor(int index, int value) {
+      this.index = index;
+      this.value = value;
+    }
+
+    // @@protoc_insertion_point(enum_scope:android_studio.EmulatorDetails.EmulatorHypervisor)
+  }
+
   private int bitField0_;
   // optional .android_studio.EmulatorDetails.GuestCpuArchitecture guest_arch = 1;
   public static final int GUEST_ARCH_FIELD_NUMBER = 1;
@@ -1257,7 +1435,7 @@ public  final class EmulatorDetails extends
    * <code>optional .android_studio.EmulatorFeatures used_features = 17;</code>
    *
    * <pre>
-   * Flags for the used featurs.
+   * Flags for the used UI featurs.
    * </pre>
    */
   public boolean hasUsedFeatures() {
@@ -1267,7 +1445,7 @@ public  final class EmulatorDetails extends
    * <code>optional .android_studio.EmulatorFeatures used_features = 17;</code>
    *
    * <pre>
-   * Flags for the used featurs.
+   * Flags for the used UI featurs.
    * </pre>
    */
   public com.google.wireless.android.sdk.stats.EmulatorFeatures getUsedFeatures() {
@@ -1277,7 +1455,7 @@ public  final class EmulatorDetails extends
    * <code>optional .android_studio.EmulatorFeatures used_features = 17;</code>
    *
    * <pre>
-   * Flags for the used featurs.
+   * Flags for the used UI featurs.
    * </pre>
    */
   public com.google.wireless.android.sdk.stats.EmulatorFeaturesOrBuilder getUsedFeaturesOrBuilder() {
@@ -1318,6 +1496,64 @@ public  final class EmulatorDetails extends
     return avdInfo_;
   }
 
+  // optional .android_studio.EmulatorFeatureFlagState feature_flag_state = 19;
+  public static final int FEATURE_FLAG_STATE_FIELD_NUMBER = 19;
+  private com.google.wireless.android.sdk.stats.EmulatorFeatureFlagState featureFlagState_;
+  /**
+   * <code>optional .android_studio.EmulatorFeatureFlagState feature_flag_state = 19;</code>
+   *
+   * <pre>
+   * State tracking emulator feature flag enable/disable.
+   * </pre>
+   */
+  public boolean hasFeatureFlagState() {
+    return ((bitField0_ & 0x00010000) == 0x00010000);
+  }
+  /**
+   * <code>optional .android_studio.EmulatorFeatureFlagState feature_flag_state = 19;</code>
+   *
+   * <pre>
+   * State tracking emulator feature flag enable/disable.
+   * </pre>
+   */
+  public com.google.wireless.android.sdk.stats.EmulatorFeatureFlagState getFeatureFlagState() {
+    return featureFlagState_;
+  }
+  /**
+   * <code>optional .android_studio.EmulatorFeatureFlagState feature_flag_state = 19;</code>
+   *
+   * <pre>
+   * State tracking emulator feature flag enable/disable.
+   * </pre>
+   */
+  public com.google.wireless.android.sdk.stats.EmulatorFeatureFlagStateOrBuilder getFeatureFlagStateOrBuilder() {
+    return featureFlagState_;
+  }
+
+  // optional .android_studio.EmulatorDetails.EmulatorHypervisor hypervisor = 20;
+  public static final int HYPERVISOR_FIELD_NUMBER = 20;
+  private com.google.wireless.android.sdk.stats.EmulatorDetails.EmulatorHypervisor hypervisor_;
+  /**
+   * <code>optional .android_studio.EmulatorDetails.EmulatorHypervisor hypervisor = 20;</code>
+   *
+   * <pre>
+   * Hypervisor used in current session.
+   * </pre>
+   */
+  public boolean hasHypervisor() {
+    return ((bitField0_ & 0x00020000) == 0x00020000);
+  }
+  /**
+   * <code>optional .android_studio.EmulatorDetails.EmulatorHypervisor hypervisor = 20;</code>
+   *
+   * <pre>
+   * Hypervisor used in current session.
+   * </pre>
+   */
+  public com.google.wireless.android.sdk.stats.EmulatorDetails.EmulatorHypervisor getHypervisor() {
+    return hypervisor_;
+  }
+
   private void initFields() {
     guestArch_ = com.google.wireless.android.sdk.stats.EmulatorDetails.GuestCpuArchitecture.UNKNOWN_GUEST_CPU_ARCHITECTURE;
     systemTime_ = 0L;
@@ -1336,6 +1572,8 @@ public  final class EmulatorDetails extends
     renderer_ = com.google.wireless.android.sdk.stats.EmulatorDetails.EmulatorRenderer.UNKNOWN_EMULATOR_RENDERER;
     usedFeatures_ = com.google.wireless.android.sdk.stats.EmulatorFeatures.getDefaultInstance();
     avdInfo_ = com.google.wireless.android.sdk.stats.EmulatorAvdInfo.getDefaultInstance();
+    featureFlagState_ = com.google.wireless.android.sdk.stats.EmulatorFeatureFlagState.getDefaultInstance();
+    hypervisor_ = com.google.wireless.android.sdk.stats.EmulatorDetails.EmulatorHypervisor.UNKNOWN_HYPERVISOR;
   }
   private byte memoizedIsInitialized = -1;
   public final boolean isInitialized() {
@@ -1399,6 +1637,12 @@ public  final class EmulatorDetails extends
     }
     if (((bitField0_ & 0x00008000) == 0x00008000)) {
       output.writeMessage(18, avdInfo_);
+    }
+    if (((bitField0_ & 0x00010000) == 0x00010000)) {
+      output.writeMessage(19, featureFlagState_);
+    }
+    if (((bitField0_ & 0x00020000) == 0x00020000)) {
+      output.writeEnum(20, hypervisor_.getNumber());
     }
     getUnknownFields().writeTo(output);
   }
@@ -1476,6 +1720,14 @@ public  final class EmulatorDetails extends
     if (((bitField0_ & 0x00008000) == 0x00008000)) {
       size += com.google.protobuf.CodedOutputStream
         .computeMessageSize(18, avdInfo_);
+    }
+    if (((bitField0_ & 0x00010000) == 0x00010000)) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeMessageSize(19, featureFlagState_);
+    }
+    if (((bitField0_ & 0x00020000) == 0x00020000)) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeEnumSize(20, hypervisor_.getNumber());
     }
     size += getUnknownFields().getSerializedSize();
     memoizedSerializedSize = size;
@@ -1593,6 +1845,7 @@ public  final class EmulatorDetails extends
         getHostGpuFieldBuilder();
         getUsedFeaturesFieldBuilder();
         getAvdInfoFieldBuilder();
+        getFeatureFlagStateFieldBuilder();
       }
     }
     private static Builder create() {
@@ -1651,6 +1904,14 @@ public  final class EmulatorDetails extends
         avdInfoBuilder_.clear();
       }
       bitField0_ = (bitField0_ & ~0x00010000);
+      if (featureFlagStateBuilder_ == null) {
+        featureFlagState_ = com.google.wireless.android.sdk.stats.EmulatorFeatureFlagState.getDefaultInstance();
+      } else {
+        featureFlagStateBuilder_.clear();
+      }
+      bitField0_ = (bitField0_ & ~0x00020000);
+      hypervisor_ = com.google.wireless.android.sdk.stats.EmulatorDetails.EmulatorHypervisor.UNKNOWN_HYPERVISOR;
+      bitField0_ = (bitField0_ & ~0x00040000);
       return this;
     }
 
@@ -1764,6 +2025,18 @@ public  final class EmulatorDetails extends
       } else {
         result.avdInfo_ = avdInfoBuilder_.build();
       }
+      if (((from_bitField0_ & 0x00020000) == 0x00020000)) {
+        to_bitField0_ |= 0x00010000;
+      }
+      if (featureFlagStateBuilder_ == null) {
+        result.featureFlagState_ = featureFlagState_;
+      } else {
+        result.featureFlagState_ = featureFlagStateBuilder_.build();
+      }
+      if (((from_bitField0_ & 0x00040000) == 0x00040000)) {
+        to_bitField0_ |= 0x00020000;
+      }
+      result.hypervisor_ = hypervisor_;
       result.bitField0_ = to_bitField0_;
       onBuilt();
       return result;
@@ -1855,6 +2128,12 @@ public  final class EmulatorDetails extends
       }
       if (other.hasAvdInfo()) {
         mergeAvdInfo(other.getAvdInfo());
+      }
+      if (other.hasFeatureFlagState()) {
+        mergeFeatureFlagState(other.getFeatureFlagState());
+      }
+      if (other.hasHypervisor()) {
+        setHypervisor(other.getHypervisor());
       }
       this.mergeUnknownFields(other.getUnknownFields());
       return this;
@@ -3054,7 +3333,7 @@ public  final class EmulatorDetails extends
      * <code>optional .android_studio.EmulatorFeatures used_features = 17;</code>
      *
      * <pre>
-     * Flags for the used featurs.
+     * Flags for the used UI featurs.
      * </pre>
      */
     public boolean hasUsedFeatures() {
@@ -3064,7 +3343,7 @@ public  final class EmulatorDetails extends
      * <code>optional .android_studio.EmulatorFeatures used_features = 17;</code>
      *
      * <pre>
-     * Flags for the used featurs.
+     * Flags for the used UI featurs.
      * </pre>
      */
     public com.google.wireless.android.sdk.stats.EmulatorFeatures getUsedFeatures() {
@@ -3078,7 +3357,7 @@ public  final class EmulatorDetails extends
      * <code>optional .android_studio.EmulatorFeatures used_features = 17;</code>
      *
      * <pre>
-     * Flags for the used featurs.
+     * Flags for the used UI featurs.
      * </pre>
      */
     public Builder setUsedFeatures(com.google.wireless.android.sdk.stats.EmulatorFeatures value) {
@@ -3098,7 +3377,7 @@ public  final class EmulatorDetails extends
      * <code>optional .android_studio.EmulatorFeatures used_features = 17;</code>
      *
      * <pre>
-     * Flags for the used featurs.
+     * Flags for the used UI featurs.
      * </pre>
      */
     public Builder setUsedFeatures(
@@ -3116,7 +3395,7 @@ public  final class EmulatorDetails extends
      * <code>optional .android_studio.EmulatorFeatures used_features = 17;</code>
      *
      * <pre>
-     * Flags for the used featurs.
+     * Flags for the used UI featurs.
      * </pre>
      */
     public Builder mergeUsedFeatures(com.google.wireless.android.sdk.stats.EmulatorFeatures value) {
@@ -3139,7 +3418,7 @@ public  final class EmulatorDetails extends
      * <code>optional .android_studio.EmulatorFeatures used_features = 17;</code>
      *
      * <pre>
-     * Flags for the used featurs.
+     * Flags for the used UI featurs.
      * </pre>
      */
     public Builder clearUsedFeatures() {
@@ -3156,7 +3435,7 @@ public  final class EmulatorDetails extends
      * <code>optional .android_studio.EmulatorFeatures used_features = 17;</code>
      *
      * <pre>
-     * Flags for the used featurs.
+     * Flags for the used UI featurs.
      * </pre>
      */
     public com.google.wireless.android.sdk.stats.EmulatorFeatures.Builder getUsedFeaturesBuilder() {
@@ -3168,7 +3447,7 @@ public  final class EmulatorDetails extends
      * <code>optional .android_studio.EmulatorFeatures used_features = 17;</code>
      *
      * <pre>
-     * Flags for the used featurs.
+     * Flags for the used UI featurs.
      * </pre>
      */
     public com.google.wireless.android.sdk.stats.EmulatorFeaturesOrBuilder getUsedFeaturesOrBuilder() {
@@ -3182,7 +3461,7 @@ public  final class EmulatorDetails extends
      * <code>optional .android_studio.EmulatorFeatures used_features = 17;</code>
      *
      * <pre>
-     * Flags for the used featurs.
+     * Flags for the used UI featurs.
      * </pre>
      */
     private com.google.protobuf.SingleFieldBuilder<
@@ -3350,6 +3629,211 @@ public  final class EmulatorDetails extends
         avdInfo_ = null;
       }
       return avdInfoBuilder_;
+    }
+
+    // optional .android_studio.EmulatorFeatureFlagState feature_flag_state = 19;
+    private com.google.wireless.android.sdk.stats.EmulatorFeatureFlagState featureFlagState_ = com.google.wireless.android.sdk.stats.EmulatorFeatureFlagState.getDefaultInstance();
+    private com.google.protobuf.SingleFieldBuilder<
+        com.google.wireless.android.sdk.stats.EmulatorFeatureFlagState, com.google.wireless.android.sdk.stats.EmulatorFeatureFlagState.Builder, com.google.wireless.android.sdk.stats.EmulatorFeatureFlagStateOrBuilder> featureFlagStateBuilder_;
+    /**
+     * <code>optional .android_studio.EmulatorFeatureFlagState feature_flag_state = 19;</code>
+     *
+     * <pre>
+     * State tracking emulator feature flag enable/disable.
+     * </pre>
+     */
+    public boolean hasFeatureFlagState() {
+      return ((bitField0_ & 0x00020000) == 0x00020000);
+    }
+    /**
+     * <code>optional .android_studio.EmulatorFeatureFlagState feature_flag_state = 19;</code>
+     *
+     * <pre>
+     * State tracking emulator feature flag enable/disable.
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.EmulatorFeatureFlagState getFeatureFlagState() {
+      if (featureFlagStateBuilder_ == null) {
+        return featureFlagState_;
+      } else {
+        return featureFlagStateBuilder_.getMessage();
+      }
+    }
+    /**
+     * <code>optional .android_studio.EmulatorFeatureFlagState feature_flag_state = 19;</code>
+     *
+     * <pre>
+     * State tracking emulator feature flag enable/disable.
+     * </pre>
+     */
+    public Builder setFeatureFlagState(com.google.wireless.android.sdk.stats.EmulatorFeatureFlagState value) {
+      if (featureFlagStateBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        featureFlagState_ = value;
+        onChanged();
+      } else {
+        featureFlagStateBuilder_.setMessage(value);
+      }
+      bitField0_ |= 0x00020000;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.EmulatorFeatureFlagState feature_flag_state = 19;</code>
+     *
+     * <pre>
+     * State tracking emulator feature flag enable/disable.
+     * </pre>
+     */
+    public Builder setFeatureFlagState(
+        com.google.wireless.android.sdk.stats.EmulatorFeatureFlagState.Builder builderForValue) {
+      if (featureFlagStateBuilder_ == null) {
+        featureFlagState_ = builderForValue.build();
+        onChanged();
+      } else {
+        featureFlagStateBuilder_.setMessage(builderForValue.build());
+      }
+      bitField0_ |= 0x00020000;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.EmulatorFeatureFlagState feature_flag_state = 19;</code>
+     *
+     * <pre>
+     * State tracking emulator feature flag enable/disable.
+     * </pre>
+     */
+    public Builder mergeFeatureFlagState(com.google.wireless.android.sdk.stats.EmulatorFeatureFlagState value) {
+      if (featureFlagStateBuilder_ == null) {
+        if (((bitField0_ & 0x00020000) == 0x00020000) &&
+            featureFlagState_ != com.google.wireless.android.sdk.stats.EmulatorFeatureFlagState.getDefaultInstance()) {
+          featureFlagState_ =
+            com.google.wireless.android.sdk.stats.EmulatorFeatureFlagState.newBuilder(featureFlagState_).mergeFrom(value).buildPartial();
+        } else {
+          featureFlagState_ = value;
+        }
+        onChanged();
+      } else {
+        featureFlagStateBuilder_.mergeFrom(value);
+      }
+      bitField0_ |= 0x00020000;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.EmulatorFeatureFlagState feature_flag_state = 19;</code>
+     *
+     * <pre>
+     * State tracking emulator feature flag enable/disable.
+     * </pre>
+     */
+    public Builder clearFeatureFlagState() {
+      if (featureFlagStateBuilder_ == null) {
+        featureFlagState_ = com.google.wireless.android.sdk.stats.EmulatorFeatureFlagState.getDefaultInstance();
+        onChanged();
+      } else {
+        featureFlagStateBuilder_.clear();
+      }
+      bitField0_ = (bitField0_ & ~0x00020000);
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.EmulatorFeatureFlagState feature_flag_state = 19;</code>
+     *
+     * <pre>
+     * State tracking emulator feature flag enable/disable.
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.EmulatorFeatureFlagState.Builder getFeatureFlagStateBuilder() {
+      bitField0_ |= 0x00020000;
+      onChanged();
+      return getFeatureFlagStateFieldBuilder().getBuilder();
+    }
+    /**
+     * <code>optional .android_studio.EmulatorFeatureFlagState feature_flag_state = 19;</code>
+     *
+     * <pre>
+     * State tracking emulator feature flag enable/disable.
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.EmulatorFeatureFlagStateOrBuilder getFeatureFlagStateOrBuilder() {
+      if (featureFlagStateBuilder_ != null) {
+        return featureFlagStateBuilder_.getMessageOrBuilder();
+      } else {
+        return featureFlagState_;
+      }
+    }
+    /**
+     * <code>optional .android_studio.EmulatorFeatureFlagState feature_flag_state = 19;</code>
+     *
+     * <pre>
+     * State tracking emulator feature flag enable/disable.
+     * </pre>
+     */
+    private com.google.protobuf.SingleFieldBuilder<
+        com.google.wireless.android.sdk.stats.EmulatorFeatureFlagState, com.google.wireless.android.sdk.stats.EmulatorFeatureFlagState.Builder, com.google.wireless.android.sdk.stats.EmulatorFeatureFlagStateOrBuilder> 
+        getFeatureFlagStateFieldBuilder() {
+      if (featureFlagStateBuilder_ == null) {
+        featureFlagStateBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+            com.google.wireless.android.sdk.stats.EmulatorFeatureFlagState, com.google.wireless.android.sdk.stats.EmulatorFeatureFlagState.Builder, com.google.wireless.android.sdk.stats.EmulatorFeatureFlagStateOrBuilder>(
+                featureFlagState_,
+                getParentForChildren(),
+                isClean());
+        featureFlagState_ = null;
+      }
+      return featureFlagStateBuilder_;
+    }
+
+    // optional .android_studio.EmulatorDetails.EmulatorHypervisor hypervisor = 20;
+    private com.google.wireless.android.sdk.stats.EmulatorDetails.EmulatorHypervisor hypervisor_ = com.google.wireless.android.sdk.stats.EmulatorDetails.EmulatorHypervisor.UNKNOWN_HYPERVISOR;
+    /**
+     * <code>optional .android_studio.EmulatorDetails.EmulatorHypervisor hypervisor = 20;</code>
+     *
+     * <pre>
+     * Hypervisor used in current session.
+     * </pre>
+     */
+    public boolean hasHypervisor() {
+      return ((bitField0_ & 0x00040000) == 0x00040000);
+    }
+    /**
+     * <code>optional .android_studio.EmulatorDetails.EmulatorHypervisor hypervisor = 20;</code>
+     *
+     * <pre>
+     * Hypervisor used in current session.
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.EmulatorDetails.EmulatorHypervisor getHypervisor() {
+      return hypervisor_;
+    }
+    /**
+     * <code>optional .android_studio.EmulatorDetails.EmulatorHypervisor hypervisor = 20;</code>
+     *
+     * <pre>
+     * Hypervisor used in current session.
+     * </pre>
+     */
+    public Builder setHypervisor(com.google.wireless.android.sdk.stats.EmulatorDetails.EmulatorHypervisor value) {
+      if (value == null) {
+        throw new NullPointerException();
+      }
+      bitField0_ |= 0x00040000;
+      hypervisor_ = value;
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.EmulatorDetails.EmulatorHypervisor hypervisor = 20;</code>
+     *
+     * <pre>
+     * Hypervisor used in current session.
+     * </pre>
+     */
+    public Builder clearHypervisor() {
+      bitField0_ = (bitField0_ & ~0x00040000);
+      hypervisor_ = com.google.wireless.android.sdk.stats.EmulatorDetails.EmulatorHypervisor.UNKNOWN_HYPERVISOR;
+      onChanged();
+      return this;
     }
 
     // @@protoc_insertion_point(builder_scope:android_studio.EmulatorDetails)

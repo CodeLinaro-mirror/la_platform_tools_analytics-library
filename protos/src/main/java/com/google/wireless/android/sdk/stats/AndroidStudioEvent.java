@@ -623,6 +623,19 @@ public  final class AndroidStudioEvent extends
             bitField1_ |= 0x00020000;
             break;
           }
+          case 410: {
+            com.google.wireless.android.sdk.stats.ApkDebugProject.Builder subBuilder = null;
+            if (((bitField1_ & 0x00040000) == 0x00040000)) {
+              subBuilder = apkDebugProject_.toBuilder();
+            }
+            apkDebugProject_ = input.readMessage(com.google.wireless.android.sdk.stats.ApkDebugProject.PARSER, extensionRegistry);
+            if (subBuilder != null) {
+              subBuilder.mergeFrom(apkDebugProject_);
+              apkDebugProject_ = subBuilder.buildPartial();
+            }
+            bitField1_ |= 0x00040000;
+            break;
+          }
         }
       }
     } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -878,6 +891,14 @@ public  final class AndroidStudioEvent extends
      * </pre>
      */
     LAYOUT_EDITOR(24, 24),
+    /**
+     * <code>APK_DEBUG = 25;</code>
+     *
+     * <pre>
+     * The event is related to APK_DEBUGGING actions initiated by the user.
+     * </pre>
+     */
+    APK_DEBUG(25, 25),
     ;
 
     /**
@@ -1085,6 +1106,14 @@ public  final class AndroidStudioEvent extends
      * </pre>
      */
     public static final int LAYOUT_EDITOR_VALUE = 24;
+    /**
+     * <code>APK_DEBUG = 25;</code>
+     *
+     * <pre>
+     * The event is related to APK_DEBUGGING actions initiated by the user.
+     * </pre>
+     */
+    public static final int APK_DEBUG_VALUE = 25;
 
 
     public final int getNumber() { return value; }
@@ -1116,6 +1145,7 @@ public  final class AndroidStudioEvent extends
         case 22: return TEST_RECORDER;
         case 23: return STUDIO_UI;
         case 24: return LAYOUT_EDITOR;
+        case 25: return APK_DEBUG;
         default: return null;
       }
     }
@@ -2094,6 +2124,38 @@ public  final class AndroidStudioEvent extends
      * </pre>
      */
     INSTANT_RUN_PROMPT_FOR_APPLY_CHANGES_SHOWN(116, 119),
+    /**
+     * <code>APK_DEBUG_IMPORT = 120;</code>
+     *
+     * <pre>
+     * APK Main module imported for debugging
+     * </pre>
+     */
+    APK_DEBUG_IMPORT(117, 120),
+    /**
+     * <code>APK_DEBUG_ATTACH_JAVA_SOURCES = 121;</code>
+     *
+     * <pre>
+     * Attach java sources for apk debuggging
+     * </pre>
+     */
+    APK_DEBUG_ATTACH_JAVA_SOURCES(118, 121),
+    /**
+     * <code>APK_DEBUG_ADD_SYMBOLS = 122;</code>
+     *
+     * <pre>
+     * Add debug symbols for apk debugging
+     * </pre>
+     */
+    APK_DEBUG_ADD_SYMBOLS(119, 122),
+    /**
+     * <code>APK_DEBUG_SELECT_PATH_MAPPINGS = 123;</code>
+     *
+     * <pre>
+     * Select Path mappings for apk debugging
+     * </pre>
+     */
+    APK_DEBUG_SELECT_PATH_MAPPINGS(120, 123),
     ;
 
     /**
@@ -3013,6 +3075,38 @@ public  final class AndroidStudioEvent extends
      * </pre>
      */
     public static final int INSTANT_RUN_PROMPT_FOR_APPLY_CHANGES_SHOWN_VALUE = 119;
+    /**
+     * <code>APK_DEBUG_IMPORT = 120;</code>
+     *
+     * <pre>
+     * APK Main module imported for debugging
+     * </pre>
+     */
+    public static final int APK_DEBUG_IMPORT_VALUE = 120;
+    /**
+     * <code>APK_DEBUG_ATTACH_JAVA_SOURCES = 121;</code>
+     *
+     * <pre>
+     * Attach java sources for apk debuggging
+     * </pre>
+     */
+    public static final int APK_DEBUG_ATTACH_JAVA_SOURCES_VALUE = 121;
+    /**
+     * <code>APK_DEBUG_ADD_SYMBOLS = 122;</code>
+     *
+     * <pre>
+     * Add debug symbols for apk debugging
+     * </pre>
+     */
+    public static final int APK_DEBUG_ADD_SYMBOLS_VALUE = 122;
+    /**
+     * <code>APK_DEBUG_SELECT_PATH_MAPPINGS = 123;</code>
+     *
+     * <pre>
+     * Select Path mappings for apk debugging
+     * </pre>
+     */
+    public static final int APK_DEBUG_SELECT_PATH_MAPPINGS_VALUE = 123;
 
 
     public final int getNumber() { return value; }
@@ -3136,6 +3230,10 @@ public  final class AndroidStudioEvent extends
         case 117: return APK_ANALYZER_STATS;
         case 118: return TEST_RECORDER_RECORD_ROBO_SCRIPT;
         case 119: return INSTANT_RUN_PROMPT_FOR_APPLY_CHANGES_SHOWN;
+        case 120: return APK_DEBUG_IMPORT;
+        case 121: return APK_DEBUG_ATTACH_JAVA_SOURCES;
+        case 122: return APK_DEBUG_ADD_SYMBOLS;
+        case 123: return APK_DEBUG_SELECT_PATH_MAPPINGS;
         default: return null;
       }
     }
@@ -6231,6 +6329,40 @@ public  final class AndroidStudioEvent extends
     return gradleSyncStats_;
   }
 
+  // optional .android_studio.ApkDebugProject apk_debug_project = 51;
+  public static final int APK_DEBUG_PROJECT_FIELD_NUMBER = 51;
+  private com.google.wireless.android.sdk.stats.ApkDebugProject apkDebugProject_;
+  /**
+   * <code>optional .android_studio.ApkDebugProject apk_debug_project = 51;</code>
+   *
+   * <pre>
+   * set when category = APK_DEBUG
+   * </pre>
+   */
+  public boolean hasApkDebugProject() {
+    return ((bitField1_ & 0x00040000) == 0x00040000);
+  }
+  /**
+   * <code>optional .android_studio.ApkDebugProject apk_debug_project = 51;</code>
+   *
+   * <pre>
+   * set when category = APK_DEBUG
+   * </pre>
+   */
+  public com.google.wireless.android.sdk.stats.ApkDebugProject getApkDebugProject() {
+    return apkDebugProject_;
+  }
+  /**
+   * <code>optional .android_studio.ApkDebugProject apk_debug_project = 51;</code>
+   *
+   * <pre>
+   * set when category = APK_DEBUG
+   * </pre>
+   */
+  public com.google.wireless.android.sdk.stats.ApkDebugProjectOrBuilder getApkDebugProjectOrBuilder() {
+    return apkDebugProject_;
+  }
+
   private void initFields() {
     category_ = com.google.wireless.android.sdk.stats.AndroidStudioEvent.EventCategory.NO_EVENT_CATEGORY;
     kind_ = com.google.wireless.android.sdk.stats.AndroidStudioEvent.EventKind.UNKNOWN_EVENT_KIND;
@@ -6282,6 +6414,7 @@ public  final class AndroidStudioEvent extends
     androidProfilerEvent_ = com.google.wireless.android.sdk.stats.AndroidProfilerEvent.getDefaultInstance();
     apkAnalyzerStats_ = com.google.wireless.android.sdk.stats.ApkAnalyzerStats.getDefaultInstance();
     gradleSyncStats_ = com.google.wireless.android.sdk.stats.GradleSyncStats.getDefaultInstance();
+    apkDebugProject_ = com.google.wireless.android.sdk.stats.ApkDebugProject.getDefaultInstance();
   }
   private byte memoizedIsInitialized = -1;
   public final boolean isInitialized() {
@@ -6444,6 +6577,9 @@ public  final class AndroidStudioEvent extends
     }
     if (((bitField1_ & 0x00020000) == 0x00020000)) {
       output.writeMessage(50, gradleSyncStats_);
+    }
+    if (((bitField1_ & 0x00040000) == 0x00040000)) {
+      output.writeMessage(51, apkDebugProject_);
     }
     getUnknownFields().writeTo(output);
   }
@@ -6654,6 +6790,10 @@ public  final class AndroidStudioEvent extends
       size += com.google.protobuf.CodedOutputStream
         .computeMessageSize(50, gradleSyncStats_);
     }
+    if (((bitField1_ & 0x00040000) == 0x00040000)) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeMessageSize(51, apkDebugProject_);
+    }
     size += getUnknownFields().getSerializedSize();
     memoizedSerializedSize = size;
     return size;
@@ -6795,6 +6935,7 @@ public  final class AndroidStudioEvent extends
         getAndroidProfilerEventFieldBuilder();
         getApkAnalyzerStatsFieldBuilder();
         getGradleSyncStatsFieldBuilder();
+        getApkDebugProjectFieldBuilder();
       }
     }
     private static Builder create() {
@@ -7035,6 +7176,12 @@ public  final class AndroidStudioEvent extends
         gradleSyncStatsBuilder_.clear();
       }
       bitField1_ = (bitField1_ & ~0x00020000);
+      if (apkDebugProjectBuilder_ == null) {
+        apkDebugProject_ = com.google.wireless.android.sdk.stats.ApkDebugProject.getDefaultInstance();
+      } else {
+        apkDebugProjectBuilder_.clear();
+      }
+      bitField1_ = (bitField1_ & ~0x00040000);
       return this;
     }
 
@@ -7397,6 +7544,14 @@ public  final class AndroidStudioEvent extends
       } else {
         result.gradleSyncStats_ = gradleSyncStatsBuilder_.build();
       }
+      if (((from_bitField1_ & 0x00040000) == 0x00040000)) {
+        to_bitField1_ |= 0x00040000;
+      }
+      if (apkDebugProjectBuilder_ == null) {
+        result.apkDebugProject_ = apkDebugProject_;
+      } else {
+        result.apkDebugProject_ = apkDebugProjectBuilder_.build();
+      }
       result.bitField0_ = to_bitField0_;
       result.bitField1_ = to_bitField1_;
       onBuilt();
@@ -7575,6 +7730,9 @@ public  final class AndroidStudioEvent extends
       }
       if (other.hasGradleSyncStats()) {
         mergeGradleSyncStats(other.getGradleSyncStats());
+      }
+      if (other.hasApkDebugProject()) {
+        mergeApkDebugProject(other.getApkDebugProject());
       }
       this.mergeUnknownFields(other.getUnknownFields());
       return this;
@@ -13973,6 +14131,159 @@ public  final class AndroidStudioEvent extends
         gradleSyncStats_ = null;
       }
       return gradleSyncStatsBuilder_;
+    }
+
+    // optional .android_studio.ApkDebugProject apk_debug_project = 51;
+    private com.google.wireless.android.sdk.stats.ApkDebugProject apkDebugProject_ = com.google.wireless.android.sdk.stats.ApkDebugProject.getDefaultInstance();
+    private com.google.protobuf.SingleFieldBuilder<
+        com.google.wireless.android.sdk.stats.ApkDebugProject, com.google.wireless.android.sdk.stats.ApkDebugProject.Builder, com.google.wireless.android.sdk.stats.ApkDebugProjectOrBuilder> apkDebugProjectBuilder_;
+    /**
+     * <code>optional .android_studio.ApkDebugProject apk_debug_project = 51;</code>
+     *
+     * <pre>
+     * set when category = APK_DEBUG
+     * </pre>
+     */
+    public boolean hasApkDebugProject() {
+      return ((bitField1_ & 0x00040000) == 0x00040000);
+    }
+    /**
+     * <code>optional .android_studio.ApkDebugProject apk_debug_project = 51;</code>
+     *
+     * <pre>
+     * set when category = APK_DEBUG
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.ApkDebugProject getApkDebugProject() {
+      if (apkDebugProjectBuilder_ == null) {
+        return apkDebugProject_;
+      } else {
+        return apkDebugProjectBuilder_.getMessage();
+      }
+    }
+    /**
+     * <code>optional .android_studio.ApkDebugProject apk_debug_project = 51;</code>
+     *
+     * <pre>
+     * set when category = APK_DEBUG
+     * </pre>
+     */
+    public Builder setApkDebugProject(com.google.wireless.android.sdk.stats.ApkDebugProject value) {
+      if (apkDebugProjectBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        apkDebugProject_ = value;
+        onChanged();
+      } else {
+        apkDebugProjectBuilder_.setMessage(value);
+      }
+      bitField1_ |= 0x00040000;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.ApkDebugProject apk_debug_project = 51;</code>
+     *
+     * <pre>
+     * set when category = APK_DEBUG
+     * </pre>
+     */
+    public Builder setApkDebugProject(
+        com.google.wireless.android.sdk.stats.ApkDebugProject.Builder builderForValue) {
+      if (apkDebugProjectBuilder_ == null) {
+        apkDebugProject_ = builderForValue.build();
+        onChanged();
+      } else {
+        apkDebugProjectBuilder_.setMessage(builderForValue.build());
+      }
+      bitField1_ |= 0x00040000;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.ApkDebugProject apk_debug_project = 51;</code>
+     *
+     * <pre>
+     * set when category = APK_DEBUG
+     * </pre>
+     */
+    public Builder mergeApkDebugProject(com.google.wireless.android.sdk.stats.ApkDebugProject value) {
+      if (apkDebugProjectBuilder_ == null) {
+        if (((bitField1_ & 0x00040000) == 0x00040000) &&
+            apkDebugProject_ != com.google.wireless.android.sdk.stats.ApkDebugProject.getDefaultInstance()) {
+          apkDebugProject_ =
+            com.google.wireless.android.sdk.stats.ApkDebugProject.newBuilder(apkDebugProject_).mergeFrom(value).buildPartial();
+        } else {
+          apkDebugProject_ = value;
+        }
+        onChanged();
+      } else {
+        apkDebugProjectBuilder_.mergeFrom(value);
+      }
+      bitField1_ |= 0x00040000;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.ApkDebugProject apk_debug_project = 51;</code>
+     *
+     * <pre>
+     * set when category = APK_DEBUG
+     * </pre>
+     */
+    public Builder clearApkDebugProject() {
+      if (apkDebugProjectBuilder_ == null) {
+        apkDebugProject_ = com.google.wireless.android.sdk.stats.ApkDebugProject.getDefaultInstance();
+        onChanged();
+      } else {
+        apkDebugProjectBuilder_.clear();
+      }
+      bitField1_ = (bitField1_ & ~0x00040000);
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.ApkDebugProject apk_debug_project = 51;</code>
+     *
+     * <pre>
+     * set when category = APK_DEBUG
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.ApkDebugProject.Builder getApkDebugProjectBuilder() {
+      bitField1_ |= 0x00040000;
+      onChanged();
+      return getApkDebugProjectFieldBuilder().getBuilder();
+    }
+    /**
+     * <code>optional .android_studio.ApkDebugProject apk_debug_project = 51;</code>
+     *
+     * <pre>
+     * set when category = APK_DEBUG
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.ApkDebugProjectOrBuilder getApkDebugProjectOrBuilder() {
+      if (apkDebugProjectBuilder_ != null) {
+        return apkDebugProjectBuilder_.getMessageOrBuilder();
+      } else {
+        return apkDebugProject_;
+      }
+    }
+    /**
+     * <code>optional .android_studio.ApkDebugProject apk_debug_project = 51;</code>
+     *
+     * <pre>
+     * set when category = APK_DEBUG
+     * </pre>
+     */
+    private com.google.protobuf.SingleFieldBuilder<
+        com.google.wireless.android.sdk.stats.ApkDebugProject, com.google.wireless.android.sdk.stats.ApkDebugProject.Builder, com.google.wireless.android.sdk.stats.ApkDebugProjectOrBuilder> 
+        getApkDebugProjectFieldBuilder() {
+      if (apkDebugProjectBuilder_ == null) {
+        apkDebugProjectBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+            com.google.wireless.android.sdk.stats.ApkDebugProject, com.google.wireless.android.sdk.stats.ApkDebugProject.Builder, com.google.wireless.android.sdk.stats.ApkDebugProjectOrBuilder>(
+                apkDebugProject_,
+                getParentForChildren(),
+                isClean());
+        apkDebugProject_ = null;
+      }
+      return apkDebugProjectBuilder_;
     }
 
     // @@protoc_insertion_point(builder_scope:android_studio.AndroidStudioEvent)

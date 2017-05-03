@@ -113,6 +113,39 @@ public  final class EmulatorAvdInfo extends
             files_.add(input.readMessage(com.google.wireless.android.sdk.stats.EmulatorAvdFile.PARSER, extensionRegistry));
             break;
           }
+          case 72: {
+            int rawValue = input.readEnum();
+            com.google.wireless.android.sdk.stats.EmulatorAvdInfo.EmulatorAvdProperty value = com.google.wireless.android.sdk.stats.EmulatorAvdInfo.EmulatorAvdProperty.valueOf(rawValue);
+            if (value == null) {
+              unknownFields.mergeVarintField(9, rawValue);
+            } else {
+              if (!((mutable_bitField0_ & 0x00000100) == 0x00000100)) {
+                properties_ = new java.util.ArrayList<com.google.wireless.android.sdk.stats.EmulatorAvdInfo.EmulatorAvdProperty>();
+                mutable_bitField0_ |= 0x00000100;
+              }
+              properties_.add(value);
+            }
+            break;
+          }
+          case 74: {
+            int length = input.readRawVarint32();
+            int oldLimit = input.pushLimit(length);
+            while(input.getBytesUntilLimit() > 0) {
+              int rawValue = input.readEnum();
+              com.google.wireless.android.sdk.stats.EmulatorAvdInfo.EmulatorAvdProperty value = com.google.wireless.android.sdk.stats.EmulatorAvdInfo.EmulatorAvdProperty.valueOf(rawValue);
+              if (value == null) {
+                unknownFields.mergeVarintField(9, rawValue);
+              } else {
+                if (!((mutable_bitField0_ & 0x00000100) == 0x00000100)) {
+                  properties_ = new java.util.ArrayList<com.google.wireless.android.sdk.stats.EmulatorAvdInfo.EmulatorAvdProperty>();
+                  mutable_bitField0_ |= 0x00000100;
+                }
+                properties_.add(value);
+              }
+            }
+            input.popLimit(oldLimit);
+            break;
+          }
         }
       }
     } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -123,6 +156,9 @@ public  final class EmulatorAvdInfo extends
     } finally {
       if (((mutable_bitField0_ & 0x00000080) == 0x00000080)) {
         files_ = java.util.Collections.unmodifiableList(files_);
+      }
+      if (((mutable_bitField0_ & 0x00000100) == 0x00000100)) {
+        properties_ = java.util.Collections.unmodifiableList(properties_);
       }
       this.unknownFields = unknownFields.build();
       makeExtensionsImmutable();
@@ -244,6 +280,181 @@ public  final class EmulatorAvdInfo extends
     }
 
     // @@protoc_insertion_point(enum_scope:android_studio.EmulatorAvdInfo.EmulatorAvdImageKind)
+  }
+
+  /**
+   * Protobuf enum {@code android_studio.EmulatorAvdInfo.EmulatorAvdProperty}
+   *
+   * <pre>
+   * Other AVD properties that can combine with EmulatorAvdImageKind.
+   * </pre>
+   */
+  public enum EmulatorAvdProperty
+      implements com.google.protobuf.ProtocolMessageEnum {
+    /**
+     * <code>UNKNOWN_EMULATOR_AVD_FLAG = 0;</code>
+     */
+    UNKNOWN_EMULATOR_AVD_FLAG(0, 0),
+    /**
+     * <code>PLAY_STORE_AVD = 1;</code>
+     */
+    PLAY_STORE_AVD(1, 1),
+    /**
+     * <code>PHONE_AVD = 2;</code>
+     */
+    PHONE_AVD(2, 2),
+    /**
+     * <code>TV_AVD = 3;</code>
+     */
+    TV_AVD(3, 3),
+    /**
+     * <code>WEAR_AVD = 4;</code>
+     */
+    WEAR_AVD(4, 4),
+    /**
+     * <code>ANDROIDAUTO_AVD = 5;</code>
+     */
+    ANDROIDAUTO_AVD(5, 5),
+    /**
+     * <code>THING_AVD = 6;</code>
+     */
+    THING_AVD(6, 6),
+    /**
+     * <code>TABLET_AVD = 7;</code>
+     */
+    TABLET_AVD(7, 7),
+    /**
+     * <code>LAPTOP_AVD = 8;</code>
+     */
+    LAPTOP_AVD(8, 8),
+    /**
+     * <code>DESKTOP_AVD = 9;</code>
+     */
+    DESKTOP_AVD(9, 9),
+    /**
+     * <code>CHROMEOS = 10;</code>
+     *
+     * <pre>
+     * Next tag: 11
+     * </pre>
+     */
+    CHROMEOS(10, 10),
+    ;
+
+    /**
+     * <code>UNKNOWN_EMULATOR_AVD_FLAG = 0;</code>
+     */
+    public static final int UNKNOWN_EMULATOR_AVD_FLAG_VALUE = 0;
+    /**
+     * <code>PLAY_STORE_AVD = 1;</code>
+     */
+    public static final int PLAY_STORE_AVD_VALUE = 1;
+    /**
+     * <code>PHONE_AVD = 2;</code>
+     */
+    public static final int PHONE_AVD_VALUE = 2;
+    /**
+     * <code>TV_AVD = 3;</code>
+     */
+    public static final int TV_AVD_VALUE = 3;
+    /**
+     * <code>WEAR_AVD = 4;</code>
+     */
+    public static final int WEAR_AVD_VALUE = 4;
+    /**
+     * <code>ANDROIDAUTO_AVD = 5;</code>
+     */
+    public static final int ANDROIDAUTO_AVD_VALUE = 5;
+    /**
+     * <code>THING_AVD = 6;</code>
+     */
+    public static final int THING_AVD_VALUE = 6;
+    /**
+     * <code>TABLET_AVD = 7;</code>
+     */
+    public static final int TABLET_AVD_VALUE = 7;
+    /**
+     * <code>LAPTOP_AVD = 8;</code>
+     */
+    public static final int LAPTOP_AVD_VALUE = 8;
+    /**
+     * <code>DESKTOP_AVD = 9;</code>
+     */
+    public static final int DESKTOP_AVD_VALUE = 9;
+    /**
+     * <code>CHROMEOS = 10;</code>
+     *
+     * <pre>
+     * Next tag: 11
+     * </pre>
+     */
+    public static final int CHROMEOS_VALUE = 10;
+
+
+    public final int getNumber() { return value; }
+
+    public static EmulatorAvdProperty valueOf(int value) {
+      switch (value) {
+        case 0: return UNKNOWN_EMULATOR_AVD_FLAG;
+        case 1: return PLAY_STORE_AVD;
+        case 2: return PHONE_AVD;
+        case 3: return TV_AVD;
+        case 4: return WEAR_AVD;
+        case 5: return ANDROIDAUTO_AVD;
+        case 6: return THING_AVD;
+        case 7: return TABLET_AVD;
+        case 8: return LAPTOP_AVD;
+        case 9: return DESKTOP_AVD;
+        case 10: return CHROMEOS;
+        default: return null;
+      }
+    }
+
+    public static com.google.protobuf.Internal.EnumLiteMap<EmulatorAvdProperty>
+        internalGetValueMap() {
+      return internalValueMap;
+    }
+    private static com.google.protobuf.Internal.EnumLiteMap<EmulatorAvdProperty>
+        internalValueMap =
+          new com.google.protobuf.Internal.EnumLiteMap<EmulatorAvdProperty>() {
+            public EmulatorAvdProperty findValueByNumber(int number) {
+              return EmulatorAvdProperty.valueOf(number);
+            }
+          };
+
+    public final com.google.protobuf.Descriptors.EnumValueDescriptor
+        getValueDescriptor() {
+      return getDescriptor().getValues().get(index);
+    }
+    public final com.google.protobuf.Descriptors.EnumDescriptor
+        getDescriptorForType() {
+      return getDescriptor();
+    }
+    public static final com.google.protobuf.Descriptors.EnumDescriptor
+        getDescriptor() {
+      return com.google.wireless.android.sdk.stats.EmulatorAvdInfo.getDescriptor().getEnumTypes().get(1);
+    }
+
+    private static final EmulatorAvdProperty[] VALUES = values();
+
+    public static EmulatorAvdProperty valueOf(
+        com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
+      if (desc.getType() != getDescriptor()) {
+        throw new java.lang.IllegalArgumentException(
+          "EnumValueDescriptor is not for this type.");
+      }
+      return VALUES[desc.getIndex()];
+    }
+
+    private final int index;
+    private final int value;
+
+    private EmulatorAvdProperty(int index, int value) {
+      this.index = index;
+      this.value = value;
+    }
+
+    // @@protoc_insertion_point(enum_scope:android_studio.EmulatorAvdInfo.EmulatorAvdProperty)
   }
 
   private int bitField0_;
@@ -541,6 +752,43 @@ public  final class EmulatorAvdInfo extends
     return files_.get(index);
   }
 
+  // repeated .android_studio.EmulatorAvdInfo.EmulatorAvdProperty properties = 9;
+  public static final int PROPERTIES_FIELD_NUMBER = 9;
+  private java.util.List<com.google.wireless.android.sdk.stats.EmulatorAvdInfo.EmulatorAvdProperty> properties_;
+  /**
+   * <code>repeated .android_studio.EmulatorAvdInfo.EmulatorAvdProperty properties = 9;</code>
+   *
+   * <pre>
+   * Collection of other AVD properties, mostly relating to flavor
+   * (TV vs phone vs Auto, etc)
+   * </pre>
+   */
+  public java.util.List<com.google.wireless.android.sdk.stats.EmulatorAvdInfo.EmulatorAvdProperty> getPropertiesList() {
+    return properties_;
+  }
+  /**
+   * <code>repeated .android_studio.EmulatorAvdInfo.EmulatorAvdProperty properties = 9;</code>
+   *
+   * <pre>
+   * Collection of other AVD properties, mostly relating to flavor
+   * (TV vs phone vs Auto, etc)
+   * </pre>
+   */
+  public int getPropertiesCount() {
+    return properties_.size();
+  }
+  /**
+   * <code>repeated .android_studio.EmulatorAvdInfo.EmulatorAvdProperty properties = 9;</code>
+   *
+   * <pre>
+   * Collection of other AVD properties, mostly relating to flavor
+   * (TV vs phone vs Auto, etc)
+   * </pre>
+   */
+  public com.google.wireless.android.sdk.stats.EmulatorAvdInfo.EmulatorAvdProperty getProperties(int index) {
+    return properties_.get(index);
+  }
+
   private void initFields() {
     name_ = "";
     apiLevel_ = 0L;
@@ -550,6 +798,7 @@ public  final class EmulatorAvdInfo extends
     buildTimestamp_ = 0L;
     imageKind_ = com.google.wireless.android.sdk.stats.EmulatorAvdInfo.EmulatorAvdImageKind.UNKNOWN_EMULATOR_AVD_IMAGE_KIND;
     files_ = java.util.Collections.emptyList();
+    properties_ = java.util.Collections.emptyList();
   }
   private byte memoizedIsInitialized = -1;
   public final boolean isInitialized() {
@@ -586,6 +835,9 @@ public  final class EmulatorAvdInfo extends
     }
     for (int i = 0; i < files_.size(); i++) {
       output.writeMessage(8, files_.get(i));
+    }
+    for (int i = 0; i < properties_.size(); i++) {
+      output.writeEnum(9, properties_.get(i).getNumber());
     }
     getUnknownFields().writeTo(output);
   }
@@ -627,6 +879,15 @@ public  final class EmulatorAvdInfo extends
     for (int i = 0; i < files_.size(); i++) {
       size += com.google.protobuf.CodedOutputStream
         .computeMessageSize(8, files_.get(i));
+    }
+    {
+      int dataSize = 0;
+      for (int i = 0; i < properties_.size(); i++) {
+        dataSize += com.google.protobuf.CodedOutputStream
+          .computeEnumSizeNoTag(properties_.get(i).getNumber());
+      }
+      size += dataSize;
+      size += 1 * properties_.size();
     }
     size += getUnknownFields().getSerializedSize();
     memoizedSerializedSize = size;
@@ -769,6 +1030,8 @@ public  final class EmulatorAvdInfo extends
       } else {
         filesBuilder_.clear();
       }
+      properties_ = java.util.Collections.emptyList();
+      bitField0_ = (bitField0_ & ~0x00000100);
       return this;
     }
 
@@ -834,6 +1097,11 @@ public  final class EmulatorAvdInfo extends
       } else {
         result.files_ = filesBuilder_.build();
       }
+      if (((bitField0_ & 0x00000100) == 0x00000100)) {
+        properties_ = java.util.Collections.unmodifiableList(properties_);
+        bitField0_ = (bitField0_ & ~0x00000100);
+      }
+      result.properties_ = properties_;
       result.bitField0_ = to_bitField0_;
       onBuilt();
       return result;
@@ -900,6 +1168,16 @@ public  final class EmulatorAvdInfo extends
             filesBuilder_.addAllMessages(other.files_);
           }
         }
+      }
+      if (!other.properties_.isEmpty()) {
+        if (properties_.isEmpty()) {
+          properties_ = other.properties_;
+          bitField0_ = (bitField0_ & ~0x00000100);
+        } else {
+          ensurePropertiesIsMutable();
+          properties_.addAll(other.properties_);
+        }
+        onChanged();
       }
       this.mergeUnknownFields(other.getUnknownFields());
       return this;
@@ -1709,6 +1987,113 @@ public  final class EmulatorAvdInfo extends
         files_ = null;
       }
       return filesBuilder_;
+    }
+
+    // repeated .android_studio.EmulatorAvdInfo.EmulatorAvdProperty properties = 9;
+    private java.util.List<com.google.wireless.android.sdk.stats.EmulatorAvdInfo.EmulatorAvdProperty> properties_ =
+      java.util.Collections.emptyList();
+    private void ensurePropertiesIsMutable() {
+      if (!((bitField0_ & 0x00000100) == 0x00000100)) {
+        properties_ = new java.util.ArrayList<com.google.wireless.android.sdk.stats.EmulatorAvdInfo.EmulatorAvdProperty>(properties_);
+        bitField0_ |= 0x00000100;
+      }
+    }
+    /**
+     * <code>repeated .android_studio.EmulatorAvdInfo.EmulatorAvdProperty properties = 9;</code>
+     *
+     * <pre>
+     * Collection of other AVD properties, mostly relating to flavor
+     * (TV vs phone vs Auto, etc)
+     * </pre>
+     */
+    public java.util.List<com.google.wireless.android.sdk.stats.EmulatorAvdInfo.EmulatorAvdProperty> getPropertiesList() {
+      return java.util.Collections.unmodifiableList(properties_);
+    }
+    /**
+     * <code>repeated .android_studio.EmulatorAvdInfo.EmulatorAvdProperty properties = 9;</code>
+     *
+     * <pre>
+     * Collection of other AVD properties, mostly relating to flavor
+     * (TV vs phone vs Auto, etc)
+     * </pre>
+     */
+    public int getPropertiesCount() {
+      return properties_.size();
+    }
+    /**
+     * <code>repeated .android_studio.EmulatorAvdInfo.EmulatorAvdProperty properties = 9;</code>
+     *
+     * <pre>
+     * Collection of other AVD properties, mostly relating to flavor
+     * (TV vs phone vs Auto, etc)
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.EmulatorAvdInfo.EmulatorAvdProperty getProperties(int index) {
+      return properties_.get(index);
+    }
+    /**
+     * <code>repeated .android_studio.EmulatorAvdInfo.EmulatorAvdProperty properties = 9;</code>
+     *
+     * <pre>
+     * Collection of other AVD properties, mostly relating to flavor
+     * (TV vs phone vs Auto, etc)
+     * </pre>
+     */
+    public Builder setProperties(
+        int index, com.google.wireless.android.sdk.stats.EmulatorAvdInfo.EmulatorAvdProperty value) {
+      if (value == null) {
+        throw new NullPointerException();
+      }
+      ensurePropertiesIsMutable();
+      properties_.set(index, value);
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>repeated .android_studio.EmulatorAvdInfo.EmulatorAvdProperty properties = 9;</code>
+     *
+     * <pre>
+     * Collection of other AVD properties, mostly relating to flavor
+     * (TV vs phone vs Auto, etc)
+     * </pre>
+     */
+    public Builder addProperties(com.google.wireless.android.sdk.stats.EmulatorAvdInfo.EmulatorAvdProperty value) {
+      if (value == null) {
+        throw new NullPointerException();
+      }
+      ensurePropertiesIsMutable();
+      properties_.add(value);
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>repeated .android_studio.EmulatorAvdInfo.EmulatorAvdProperty properties = 9;</code>
+     *
+     * <pre>
+     * Collection of other AVD properties, mostly relating to flavor
+     * (TV vs phone vs Auto, etc)
+     * </pre>
+     */
+    public Builder addAllProperties(
+        java.lang.Iterable<? extends com.google.wireless.android.sdk.stats.EmulatorAvdInfo.EmulatorAvdProperty> values) {
+      ensurePropertiesIsMutable();
+      super.addAll(values, properties_);
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>repeated .android_studio.EmulatorAvdInfo.EmulatorAvdProperty properties = 9;</code>
+     *
+     * <pre>
+     * Collection of other AVD properties, mostly relating to flavor
+     * (TV vs phone vs Auto, etc)
+     * </pre>
+     */
+    public Builder clearProperties() {
+      properties_ = java.util.Collections.emptyList();
+      bitField0_ = (bitField0_ & ~0x00000100);
+      onChanged();
+      return this;
     }
 
     // @@protoc_insertion_point(builder_scope:android_studio.EmulatorAvdInfo)

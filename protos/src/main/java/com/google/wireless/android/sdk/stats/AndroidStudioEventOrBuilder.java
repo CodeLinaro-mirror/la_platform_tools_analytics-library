@@ -1289,4 +1289,30 @@ public interface AndroidStudioEventOrBuilder
    * </pre>
    */
   com.google.wireless.android.sdk.stats.GradleSyncStatsOrBuilder getGradleSyncStatsOrBuilder();
+
+  // optional .android_studio.ApkDebugProject apk_debug_project = 51;
+  /**
+   * <code>optional .android_studio.ApkDebugProject apk_debug_project = 51;</code>
+   *
+   * <pre>
+   * set when category = APK_DEBUG
+   * </pre>
+   */
+  boolean hasApkDebugProject();
+  /**
+   * <code>optional .android_studio.ApkDebugProject apk_debug_project = 51;</code>
+   *
+   * <pre>
+   * set when category = APK_DEBUG
+   * </pre>
+   */
+  com.google.wireless.android.sdk.stats.ApkDebugProject getApkDebugProject();
+  /**
+   * <code>optional .android_studio.ApkDebugProject apk_debug_project = 51;</code>
+   *
+   * <pre>
+   * set when category = APK_DEBUG
+   * </pre>
+   */
+  com.google.wireless.android.sdk.stats.ApkDebugProjectOrBuilder getApkDebugProjectOrBuilder();
 }

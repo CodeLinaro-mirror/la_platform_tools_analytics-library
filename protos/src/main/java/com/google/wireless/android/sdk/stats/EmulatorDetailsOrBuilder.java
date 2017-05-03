@@ -325,7 +325,7 @@ public interface EmulatorDetailsOrBuilder
    * <code>optional .android_studio.EmulatorFeatures used_features = 17;</code>
    *
    * <pre>
-   * Flags for the used featurs.
+   * Flags for the used UI featurs.
    * </pre>
    */
   boolean hasUsedFeatures();
@@ -333,7 +333,7 @@ public interface EmulatorDetailsOrBuilder
    * <code>optional .android_studio.EmulatorFeatures used_features = 17;</code>
    *
    * <pre>
-   * Flags for the used featurs.
+   * Flags for the used UI featurs.
    * </pre>
    */
   com.google.wireless.android.sdk.stats.EmulatorFeatures getUsedFeatures();
@@ -341,7 +341,7 @@ public interface EmulatorDetailsOrBuilder
    * <code>optional .android_studio.EmulatorFeatures used_features = 17;</code>
    *
    * <pre>
-   * Flags for the used featurs.
+   * Flags for the used UI featurs.
    * </pre>
    */
   com.google.wireless.android.sdk.stats.EmulatorFeaturesOrBuilder getUsedFeaturesOrBuilder();
@@ -371,4 +371,48 @@ public interface EmulatorDetailsOrBuilder
    * </pre>
    */
   com.google.wireless.android.sdk.stats.EmulatorAvdInfoOrBuilder getAvdInfoOrBuilder();
+
+  // optional .android_studio.EmulatorFeatureFlagState feature_flag_state = 19;
+  /**
+   * <code>optional .android_studio.EmulatorFeatureFlagState feature_flag_state = 19;</code>
+   *
+   * <pre>
+   * State tracking emulator feature flag enable/disable.
+   * </pre>
+   */
+  boolean hasFeatureFlagState();
+  /**
+   * <code>optional .android_studio.EmulatorFeatureFlagState feature_flag_state = 19;</code>
+   *
+   * <pre>
+   * State tracking emulator feature flag enable/disable.
+   * </pre>
+   */
+  com.google.wireless.android.sdk.stats.EmulatorFeatureFlagState getFeatureFlagState();
+  /**
+   * <code>optional .android_studio.EmulatorFeatureFlagState feature_flag_state = 19;</code>
+   *
+   * <pre>
+   * State tracking emulator feature flag enable/disable.
+   * </pre>
+   */
+  com.google.wireless.android.sdk.stats.EmulatorFeatureFlagStateOrBuilder getFeatureFlagStateOrBuilder();
+
+  // optional .android_studio.EmulatorDetails.EmulatorHypervisor hypervisor = 20;
+  /**
+   * <code>optional .android_studio.EmulatorDetails.EmulatorHypervisor hypervisor = 20;</code>
+   *
+   * <pre>
+   * Hypervisor used in current session.
+   * </pre>
+   */
+  boolean hasHypervisor();
+  /**
+   * <code>optional .android_studio.EmulatorDetails.EmulatorHypervisor hypervisor = 20;</code>
+   *
+   * <pre>
+   * Hypervisor used in current session.
+   * </pre>
+   */
+  com.google.wireless.android.sdk.stats.EmulatorDetails.EmulatorHypervisor getHypervisor();
 }

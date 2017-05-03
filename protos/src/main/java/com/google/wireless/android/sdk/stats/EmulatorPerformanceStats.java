@@ -66,6 +66,14 @@ public  final class EmulatorPerformanceStats extends
             estimator_.add(input.readMessage(com.google.wireless.android.sdk.stats.EmulatorPercentileEstimator.PARSER, extensionRegistry));
             break;
           }
+          case 18: {
+            if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+              memoryUsage_ = new java.util.ArrayList<com.google.wireless.android.sdk.stats.EmulatorMemoryUsage>();
+              mutable_bitField0_ |= 0x00000002;
+            }
+            memoryUsage_.add(input.readMessage(com.google.wireless.android.sdk.stats.EmulatorMemoryUsage.PARSER, extensionRegistry));
+            break;
+          }
         }
       }
     } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -76,6 +84,9 @@ public  final class EmulatorPerformanceStats extends
     } finally {
       if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
         estimator_ = java.util.Collections.unmodifiableList(estimator_);
+      }
+      if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+        memoryUsage_ = java.util.Collections.unmodifiableList(memoryUsage_);
       }
       this.unknownFields = unknownFields.build();
       makeExtensionsImmutable();
@@ -164,8 +175,65 @@ public  final class EmulatorPerformanceStats extends
     return estimator_.get(index);
   }
 
+  // repeated .android_studio.EmulatorMemoryUsage memory_usage = 2;
+  public static final int MEMORY_USAGE_FIELD_NUMBER = 2;
+  private java.util.List<com.google.wireless.android.sdk.stats.EmulatorMemoryUsage> memoryUsage_;
+  /**
+   * <code>repeated .android_studio.EmulatorMemoryUsage memory_usage = 2;</code>
+   *
+   * <pre>
+   * Emulator memory usage over time.
+   * </pre>
+   */
+  public java.util.List<com.google.wireless.android.sdk.stats.EmulatorMemoryUsage> getMemoryUsageList() {
+    return memoryUsage_;
+  }
+  /**
+   * <code>repeated .android_studio.EmulatorMemoryUsage memory_usage = 2;</code>
+   *
+   * <pre>
+   * Emulator memory usage over time.
+   * </pre>
+   */
+  public java.util.List<? extends com.google.wireless.android.sdk.stats.EmulatorMemoryUsageOrBuilder> 
+      getMemoryUsageOrBuilderList() {
+    return memoryUsage_;
+  }
+  /**
+   * <code>repeated .android_studio.EmulatorMemoryUsage memory_usage = 2;</code>
+   *
+   * <pre>
+   * Emulator memory usage over time.
+   * </pre>
+   */
+  public int getMemoryUsageCount() {
+    return memoryUsage_.size();
+  }
+  /**
+   * <code>repeated .android_studio.EmulatorMemoryUsage memory_usage = 2;</code>
+   *
+   * <pre>
+   * Emulator memory usage over time.
+   * </pre>
+   */
+  public com.google.wireless.android.sdk.stats.EmulatorMemoryUsage getMemoryUsage(int index) {
+    return memoryUsage_.get(index);
+  }
+  /**
+   * <code>repeated .android_studio.EmulatorMemoryUsage memory_usage = 2;</code>
+   *
+   * <pre>
+   * Emulator memory usage over time.
+   * </pre>
+   */
+  public com.google.wireless.android.sdk.stats.EmulatorMemoryUsageOrBuilder getMemoryUsageOrBuilder(
+      int index) {
+    return memoryUsage_.get(index);
+  }
+
   private void initFields() {
     estimator_ = java.util.Collections.emptyList();
+    memoryUsage_ = java.util.Collections.emptyList();
   }
   private byte memoizedIsInitialized = -1;
   public final boolean isInitialized() {
@@ -182,6 +250,9 @@ public  final class EmulatorPerformanceStats extends
     for (int i = 0; i < estimator_.size(); i++) {
       output.writeMessage(1, estimator_.get(i));
     }
+    for (int i = 0; i < memoryUsage_.size(); i++) {
+      output.writeMessage(2, memoryUsage_.get(i));
+    }
     getUnknownFields().writeTo(output);
   }
 
@@ -194,6 +265,10 @@ public  final class EmulatorPerformanceStats extends
     for (int i = 0; i < estimator_.size(); i++) {
       size += com.google.protobuf.CodedOutputStream
         .computeMessageSize(1, estimator_.get(i));
+    }
+    for (int i = 0; i < memoryUsage_.size(); i++) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeMessageSize(2, memoryUsage_.get(i));
     }
     size += getUnknownFields().getSerializedSize();
     memoizedSerializedSize = size;
@@ -308,6 +383,7 @@ public  final class EmulatorPerformanceStats extends
     private void maybeForceBuilderInitialization() {
       if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
         getEstimatorFieldBuilder();
+        getMemoryUsageFieldBuilder();
       }
     }
     private static Builder create() {
@@ -321,6 +397,12 @@ public  final class EmulatorPerformanceStats extends
         bitField0_ = (bitField0_ & ~0x00000001);
       } else {
         estimatorBuilder_.clear();
+      }
+      if (memoryUsageBuilder_ == null) {
+        memoryUsage_ = java.util.Collections.emptyList();
+        bitField0_ = (bitField0_ & ~0x00000002);
+      } else {
+        memoryUsageBuilder_.clear();
       }
       return this;
     }
@@ -357,6 +439,15 @@ public  final class EmulatorPerformanceStats extends
         result.estimator_ = estimator_;
       } else {
         result.estimator_ = estimatorBuilder_.build();
+      }
+      if (memoryUsageBuilder_ == null) {
+        if (((bitField0_ & 0x00000002) == 0x00000002)) {
+          memoryUsage_ = java.util.Collections.unmodifiableList(memoryUsage_);
+          bitField0_ = (bitField0_ & ~0x00000002);
+        }
+        result.memoryUsage_ = memoryUsage_;
+      } else {
+        result.memoryUsage_ = memoryUsageBuilder_.build();
       }
       onBuilt();
       return result;
@@ -396,6 +487,32 @@ public  final class EmulatorPerformanceStats extends
                  getEstimatorFieldBuilder() : null;
           } else {
             estimatorBuilder_.addAllMessages(other.estimator_);
+          }
+        }
+      }
+      if (memoryUsageBuilder_ == null) {
+        if (!other.memoryUsage_.isEmpty()) {
+          if (memoryUsage_.isEmpty()) {
+            memoryUsage_ = other.memoryUsage_;
+            bitField0_ = (bitField0_ & ~0x00000002);
+          } else {
+            ensureMemoryUsageIsMutable();
+            memoryUsage_.addAll(other.memoryUsage_);
+          }
+          onChanged();
+        }
+      } else {
+        if (!other.memoryUsage_.isEmpty()) {
+          if (memoryUsageBuilder_.isEmpty()) {
+            memoryUsageBuilder_.dispose();
+            memoryUsageBuilder_ = null;
+            memoryUsage_ = other.memoryUsage_;
+            bitField0_ = (bitField0_ & ~0x00000002);
+            memoryUsageBuilder_ = 
+              com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                 getMemoryUsageFieldBuilder() : null;
+          } else {
+            memoryUsageBuilder_.addAllMessages(other.memoryUsage_);
           }
         }
       }
@@ -736,6 +853,318 @@ public  final class EmulatorPerformanceStats extends
         estimator_ = null;
       }
       return estimatorBuilder_;
+    }
+
+    // repeated .android_studio.EmulatorMemoryUsage memory_usage = 2;
+    private java.util.List<com.google.wireless.android.sdk.stats.EmulatorMemoryUsage> memoryUsage_ =
+      java.util.Collections.emptyList();
+    private void ensureMemoryUsageIsMutable() {
+      if (!((bitField0_ & 0x00000002) == 0x00000002)) {
+        memoryUsage_ = new java.util.ArrayList<com.google.wireless.android.sdk.stats.EmulatorMemoryUsage>(memoryUsage_);
+        bitField0_ |= 0x00000002;
+       }
+    }
+
+    private com.google.protobuf.RepeatedFieldBuilder<
+        com.google.wireless.android.sdk.stats.EmulatorMemoryUsage, com.google.wireless.android.sdk.stats.EmulatorMemoryUsage.Builder, com.google.wireless.android.sdk.stats.EmulatorMemoryUsageOrBuilder> memoryUsageBuilder_;
+
+    /**
+     * <code>repeated .android_studio.EmulatorMemoryUsage memory_usage = 2;</code>
+     *
+     * <pre>
+     * Emulator memory usage over time.
+     * </pre>
+     */
+    public java.util.List<com.google.wireless.android.sdk.stats.EmulatorMemoryUsage> getMemoryUsageList() {
+      if (memoryUsageBuilder_ == null) {
+        return java.util.Collections.unmodifiableList(memoryUsage_);
+      } else {
+        return memoryUsageBuilder_.getMessageList();
+      }
+    }
+    /**
+     * <code>repeated .android_studio.EmulatorMemoryUsage memory_usage = 2;</code>
+     *
+     * <pre>
+     * Emulator memory usage over time.
+     * </pre>
+     */
+    public int getMemoryUsageCount() {
+      if (memoryUsageBuilder_ == null) {
+        return memoryUsage_.size();
+      } else {
+        return memoryUsageBuilder_.getCount();
+      }
+    }
+    /**
+     * <code>repeated .android_studio.EmulatorMemoryUsage memory_usage = 2;</code>
+     *
+     * <pre>
+     * Emulator memory usage over time.
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.EmulatorMemoryUsage getMemoryUsage(int index) {
+      if (memoryUsageBuilder_ == null) {
+        return memoryUsage_.get(index);
+      } else {
+        return memoryUsageBuilder_.getMessage(index);
+      }
+    }
+    /**
+     * <code>repeated .android_studio.EmulatorMemoryUsage memory_usage = 2;</code>
+     *
+     * <pre>
+     * Emulator memory usage over time.
+     * </pre>
+     */
+    public Builder setMemoryUsage(
+        int index, com.google.wireless.android.sdk.stats.EmulatorMemoryUsage value) {
+      if (memoryUsageBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        ensureMemoryUsageIsMutable();
+        memoryUsage_.set(index, value);
+        onChanged();
+      } else {
+        memoryUsageBuilder_.setMessage(index, value);
+      }
+      return this;
+    }
+    /**
+     * <code>repeated .android_studio.EmulatorMemoryUsage memory_usage = 2;</code>
+     *
+     * <pre>
+     * Emulator memory usage over time.
+     * </pre>
+     */
+    public Builder setMemoryUsage(
+        int index, com.google.wireless.android.sdk.stats.EmulatorMemoryUsage.Builder builderForValue) {
+      if (memoryUsageBuilder_ == null) {
+        ensureMemoryUsageIsMutable();
+        memoryUsage_.set(index, builderForValue.build());
+        onChanged();
+      } else {
+        memoryUsageBuilder_.setMessage(index, builderForValue.build());
+      }
+      return this;
+    }
+    /**
+     * <code>repeated .android_studio.EmulatorMemoryUsage memory_usage = 2;</code>
+     *
+     * <pre>
+     * Emulator memory usage over time.
+     * </pre>
+     */
+    public Builder addMemoryUsage(com.google.wireless.android.sdk.stats.EmulatorMemoryUsage value) {
+      if (memoryUsageBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        ensureMemoryUsageIsMutable();
+        memoryUsage_.add(value);
+        onChanged();
+      } else {
+        memoryUsageBuilder_.addMessage(value);
+      }
+      return this;
+    }
+    /**
+     * <code>repeated .android_studio.EmulatorMemoryUsage memory_usage = 2;</code>
+     *
+     * <pre>
+     * Emulator memory usage over time.
+     * </pre>
+     */
+    public Builder addMemoryUsage(
+        int index, com.google.wireless.android.sdk.stats.EmulatorMemoryUsage value) {
+      if (memoryUsageBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        ensureMemoryUsageIsMutable();
+        memoryUsage_.add(index, value);
+        onChanged();
+      } else {
+        memoryUsageBuilder_.addMessage(index, value);
+      }
+      return this;
+    }
+    /**
+     * <code>repeated .android_studio.EmulatorMemoryUsage memory_usage = 2;</code>
+     *
+     * <pre>
+     * Emulator memory usage over time.
+     * </pre>
+     */
+    public Builder addMemoryUsage(
+        com.google.wireless.android.sdk.stats.EmulatorMemoryUsage.Builder builderForValue) {
+      if (memoryUsageBuilder_ == null) {
+        ensureMemoryUsageIsMutable();
+        memoryUsage_.add(builderForValue.build());
+        onChanged();
+      } else {
+        memoryUsageBuilder_.addMessage(builderForValue.build());
+      }
+      return this;
+    }
+    /**
+     * <code>repeated .android_studio.EmulatorMemoryUsage memory_usage = 2;</code>
+     *
+     * <pre>
+     * Emulator memory usage over time.
+     * </pre>
+     */
+    public Builder addMemoryUsage(
+        int index, com.google.wireless.android.sdk.stats.EmulatorMemoryUsage.Builder builderForValue) {
+      if (memoryUsageBuilder_ == null) {
+        ensureMemoryUsageIsMutable();
+        memoryUsage_.add(index, builderForValue.build());
+        onChanged();
+      } else {
+        memoryUsageBuilder_.addMessage(index, builderForValue.build());
+      }
+      return this;
+    }
+    /**
+     * <code>repeated .android_studio.EmulatorMemoryUsage memory_usage = 2;</code>
+     *
+     * <pre>
+     * Emulator memory usage over time.
+     * </pre>
+     */
+    public Builder addAllMemoryUsage(
+        java.lang.Iterable<? extends com.google.wireless.android.sdk.stats.EmulatorMemoryUsage> values) {
+      if (memoryUsageBuilder_ == null) {
+        ensureMemoryUsageIsMutable();
+        super.addAll(values, memoryUsage_);
+        onChanged();
+      } else {
+        memoryUsageBuilder_.addAllMessages(values);
+      }
+      return this;
+    }
+    /**
+     * <code>repeated .android_studio.EmulatorMemoryUsage memory_usage = 2;</code>
+     *
+     * <pre>
+     * Emulator memory usage over time.
+     * </pre>
+     */
+    public Builder clearMemoryUsage() {
+      if (memoryUsageBuilder_ == null) {
+        memoryUsage_ = java.util.Collections.emptyList();
+        bitField0_ = (bitField0_ & ~0x00000002);
+        onChanged();
+      } else {
+        memoryUsageBuilder_.clear();
+      }
+      return this;
+    }
+    /**
+     * <code>repeated .android_studio.EmulatorMemoryUsage memory_usage = 2;</code>
+     *
+     * <pre>
+     * Emulator memory usage over time.
+     * </pre>
+     */
+    public Builder removeMemoryUsage(int index) {
+      if (memoryUsageBuilder_ == null) {
+        ensureMemoryUsageIsMutable();
+        memoryUsage_.remove(index);
+        onChanged();
+      } else {
+        memoryUsageBuilder_.remove(index);
+      }
+      return this;
+    }
+    /**
+     * <code>repeated .android_studio.EmulatorMemoryUsage memory_usage = 2;</code>
+     *
+     * <pre>
+     * Emulator memory usage over time.
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.EmulatorMemoryUsage.Builder getMemoryUsageBuilder(
+        int index) {
+      return getMemoryUsageFieldBuilder().getBuilder(index);
+    }
+    /**
+     * <code>repeated .android_studio.EmulatorMemoryUsage memory_usage = 2;</code>
+     *
+     * <pre>
+     * Emulator memory usage over time.
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.EmulatorMemoryUsageOrBuilder getMemoryUsageOrBuilder(
+        int index) {
+      if (memoryUsageBuilder_ == null) {
+        return memoryUsage_.get(index);  } else {
+        return memoryUsageBuilder_.getMessageOrBuilder(index);
+      }
+    }
+    /**
+     * <code>repeated .android_studio.EmulatorMemoryUsage memory_usage = 2;</code>
+     *
+     * <pre>
+     * Emulator memory usage over time.
+     * </pre>
+     */
+    public java.util.List<? extends com.google.wireless.android.sdk.stats.EmulatorMemoryUsageOrBuilder> 
+         getMemoryUsageOrBuilderList() {
+      if (memoryUsageBuilder_ != null) {
+        return memoryUsageBuilder_.getMessageOrBuilderList();
+      } else {
+        return java.util.Collections.unmodifiableList(memoryUsage_);
+      }
+    }
+    /**
+     * <code>repeated .android_studio.EmulatorMemoryUsage memory_usage = 2;</code>
+     *
+     * <pre>
+     * Emulator memory usage over time.
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.EmulatorMemoryUsage.Builder addMemoryUsageBuilder() {
+      return getMemoryUsageFieldBuilder().addBuilder(
+          com.google.wireless.android.sdk.stats.EmulatorMemoryUsage.getDefaultInstance());
+    }
+    /**
+     * <code>repeated .android_studio.EmulatorMemoryUsage memory_usage = 2;</code>
+     *
+     * <pre>
+     * Emulator memory usage over time.
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.EmulatorMemoryUsage.Builder addMemoryUsageBuilder(
+        int index) {
+      return getMemoryUsageFieldBuilder().addBuilder(
+          index, com.google.wireless.android.sdk.stats.EmulatorMemoryUsage.getDefaultInstance());
+    }
+    /**
+     * <code>repeated .android_studio.EmulatorMemoryUsage memory_usage = 2;</code>
+     *
+     * <pre>
+     * Emulator memory usage over time.
+     * </pre>
+     */
+    public java.util.List<com.google.wireless.android.sdk.stats.EmulatorMemoryUsage.Builder> 
+         getMemoryUsageBuilderList() {
+      return getMemoryUsageFieldBuilder().getBuilderList();
+    }
+    private com.google.protobuf.RepeatedFieldBuilder<
+        com.google.wireless.android.sdk.stats.EmulatorMemoryUsage, com.google.wireless.android.sdk.stats.EmulatorMemoryUsage.Builder, com.google.wireless.android.sdk.stats.EmulatorMemoryUsageOrBuilder> 
+        getMemoryUsageFieldBuilder() {
+      if (memoryUsageBuilder_ == null) {
+        memoryUsageBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+            com.google.wireless.android.sdk.stats.EmulatorMemoryUsage, com.google.wireless.android.sdk.stats.EmulatorMemoryUsage.Builder, com.google.wireless.android.sdk.stats.EmulatorMemoryUsageOrBuilder>(
+                memoryUsage_,
+                ((bitField0_ & 0x00000002) == 0x00000002),
+                getParentForChildren(),
+                isClean());
+        memoryUsage_ = null;
+      }
+      return memoryUsageBuilder_;
     }
 
     // @@protoc_insertion_point(builder_scope:android_studio.EmulatorPerformanceStats)

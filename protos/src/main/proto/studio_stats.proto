@@ -190,6 +190,8 @@ message AndroidStudioEvent {
   // GRADLE_SYNC_SETUP_STARTED
   optional GradleSyncStats gradle_sync_stats = 50;
 
+  // set when category = APK_DEBUG
+  optional ApkDebugProject apk_debug_project = 51;
   // Describes a group of event kinds related to each other.
   // This is redundant in the presence of EventKind + event specific message,
   // and is only necessary for events originally sent to GA.
@@ -249,6 +251,8 @@ message AndroidStudioEvent {
     STUDIO_UI = 23;
     // the event is related to the layout editor
     LAYOUT_EDITOR = 24;
+    // The event is related to APK_DEBUGGING actions initiated by the user.
+    APK_DEBUG = 25;
   }
 
   // Specific kind of event, primary separation key of all Android Studio
@@ -511,6 +515,18 @@ message AndroidStudioEvent {
 
     // Instant Run Notification Tracking
     INSTANT_RUN_PROMPT_FOR_APPLY_CHANGES_SHOWN = 119;
+
+    // APK Main module imported for debugging
+    APK_DEBUG_IMPORT = 120;
+
+    // Attach java sources for apk debuggging
+    APK_DEBUG_ATTACH_JAVA_SOURCES = 121;
+
+    // Add debug symbols for apk debugging
+    APK_DEBUG_ADD_SYMBOLS = 122;
+
+    // Select Path mappings for apk debugging
+    APK_DEBUG_SELECT_PATH_MAPPINGS = 123;
   }
 
   // Represents different Performance Monitoring types.
@@ -844,6 +860,21 @@ message EmulatorAvdInfo {
     AOSP = 1;
     GOOGLE = 2;
   }
+  // Other AVD properties that can combine with EmulatorAvdImageKind.
+  enum EmulatorAvdProperty {
+    UNKNOWN_EMULATOR_AVD_FLAG = 0;
+    PLAY_STORE_AVD = 1;
+    PHONE_AVD = 2;
+    TV_AVD = 3;
+    WEAR_AVD = 4;
+    ANDROIDAUTO_AVD = 5;
+    THING_AVD = 6;
+    TABLET_AVD = 7;
+    LAPTOP_AVD = 8;
+    DESKTOP_AVD = 9;
+    CHROMEOS = 10;
+    // Next tag: 11
+  }
   // Name of the AVD. Deprecated as it could potentially contain PII.
   optional string name = 1;
   // Api level (23 = M, 24 = N, ...)
@@ -862,6 +893,55 @@ message EmulatorAvdInfo {
   // A collection of files in the AVD
   // (usually 3 entries: kernel, system & ramdisk).
   repeated EmulatorAvdFile files = 8;
+  // Collection of other AVD properties, mostly relating to flavor
+  // (TV vs phone vs Auto, etc)
+  repeated EmulatorAvdProperty properties = 9;
+}
+
+// State of emulator feature flags, including
+// which flags attempted to enable vs resulting set
+// of enabled flags.
+message EmulatorFeatureFlagState {
+  enum EmulatorFeatureFlag {
+    EMULATOR_FEATURE_FLAG_UNSPECIFIED = 0;
+    GL_PIPE_CHECKSUM = 1;
+    GRALLOC_SYNC = 2;
+    ENCRYPT_USER_DATA = 3;
+    INTEL_PERFORMANCE_MONITORING_UNIT = 4;
+    GL_ASYNC_SWAP = 5;
+    GLDMA = 6;
+    GLES_DYNAMIC_VERSION = 7;
+    FORCE_ANGLE = 8;
+    FORCE_SWIFTSHADER = 9;
+    WIFI = 10;
+    PLAY_STORE_IMAGE = 11;
+    LOGCAT_PIPE = 12;
+    // Hypervisor "allowed" flags (different from actual using)
+    HYPERV = 13;
+    HVF = 14;
+    KVM = 15;
+    HAXM = 16;
+    // Next tag: 17
+  }
+  // Which features were enabled by default or through the server-side config.
+  repeated EmulatorFeatureFlag attempted_enabled_feature_flags = 1;
+  // Which features were enabled through user override.
+  repeated EmulatorFeatureFlag user_overridden_enabled_features = 2;
+  // Which features were disabled through user override.
+  repeated EmulatorFeatureFlag user_overridden_disabled_features = 3;
+  // Which features ended up being enabled overall.
+  repeated EmulatorFeatureFlag resulting_enabled_features = 4;
+  // Next tag: 5
+}
+
+// RAM usage info for the emulator, in bytes.
+message EmulatorMemoryUsage {
+  optional uint64 resident_memory = 1;
+  optional uint64 resident_memory_max = 2;
+  optional uint64 virtual_memory = 3;
+  optional uint64 virtual_memory_max = 4;
+  optional uint64 total_phys_memory = 5;
+  optional uint64 total_page_file = 6;
 }
 
 // Metrics related to the Emulator.
@@ -896,10 +976,14 @@ message EmulatorDetails {
   optional string core_version = 15;
   // Renderer of the current emulator session.
   optional EmulatorRenderer renderer = 16;
-  // Flags for the used featurs.
+  // Flags for the used UI featurs.
   optional EmulatorFeatures used_features = 17;
   // Information about the currently loaded AVD.
   optional EmulatorAvdInfo avd_info = 18;
+  // State tracking emulator feature flag enable/disable.
+  optional EmulatorFeatureFlagState feature_flag_state = 19;
+  // Hypervisor used in current session.
+  optional EmulatorHypervisor hypervisor = 20;
 
   // Emulator instance liveness as determined via adb connectivity.
   enum EmulatorAdbLiveness {
@@ -950,6 +1034,17 @@ message EmulatorDetails {
     SWIFTSHADER = 5;
     ANGLE = 6;
     ERROR_IN_EMULATOR_RENDERER = 255;
+  }
+
+  // Hypervisor in use for the session.
+  enum EmulatorHypervisor {
+      UNKNOWN_HYPERVISOR = 0;
+      NO_HYPERVISOR = 1;
+      KVM = 2; // KVM
+      HAXM = 3; // Intel HAXM
+      HVF = 4; // Apple Hypervisor.Framework
+      HYPERV = 5; // Microsoft Hyper-V
+      // Next tag: 6
   }
 }
 
@@ -1006,6 +1101,8 @@ message EmulatorPercentileEstimator {
 message EmulatorPerformanceStats {
   // Collection of estimations of performance metrics.
   repeated EmulatorPercentileEstimator estimator = 1;
+  // Emulator memory usage over time.
+  repeated EmulatorMemoryUsage memory_usage = 2;
 }
 
 // Details about a single Gradle run.
@@ -2629,4 +2726,10 @@ message GradleSyncStats {
     // User requests the sync directly (by pressing sync button)
     TRIGGER_USER_REQUEST = 3;
   }
+}
+
+// APK Debugging project information
+message ApkDebugProject {
+  // Client-side salted hash of the package name for tracking purposes.
+  optional string package_id = 1;
 }

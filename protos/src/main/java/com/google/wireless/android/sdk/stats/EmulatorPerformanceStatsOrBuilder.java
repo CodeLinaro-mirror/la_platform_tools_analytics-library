@@ -50,4 +50,49 @@ public interface EmulatorPerformanceStatsOrBuilder
    */
   com.google.wireless.android.sdk.stats.EmulatorPercentileEstimatorOrBuilder getEstimatorOrBuilder(
       int index);
+
+  // repeated .android_studio.EmulatorMemoryUsage memory_usage = 2;
+  /**
+   * <code>repeated .android_studio.EmulatorMemoryUsage memory_usage = 2;</code>
+   *
+   * <pre>
+   * Emulator memory usage over time.
+   * </pre>
+   */
+  java.util.List<com.google.wireless.android.sdk.stats.EmulatorMemoryUsage> 
+      getMemoryUsageList();
+  /**
+   * <code>repeated .android_studio.EmulatorMemoryUsage memory_usage = 2;</code>
+   *
+   * <pre>
+   * Emulator memory usage over time.
+   * </pre>
+   */
+  com.google.wireless.android.sdk.stats.EmulatorMemoryUsage getMemoryUsage(int index);
+  /**
+   * <code>repeated .android_studio.EmulatorMemoryUsage memory_usage = 2;</code>
+   *
+   * <pre>
+   * Emulator memory usage over time.
+   * </pre>
+   */
+  int getMemoryUsageCount();
+  /**
+   * <code>repeated .android_studio.EmulatorMemoryUsage memory_usage = 2;</code>
+   *
+   * <pre>
+   * Emulator memory usage over time.
+   * </pre>
+   */
+  java.util.List<? extends com.google.wireless.android.sdk.stats.EmulatorMemoryUsageOrBuilder> 
+      getMemoryUsageOrBuilderList();
+  /**
+   * <code>repeated .android_studio.EmulatorMemoryUsage memory_usage = 2;</code>
+   *
+   * <pre>
+   * Emulator memory usage over time.
+   * </pre>
+   */
+  com.google.wireless.android.sdk.stats.EmulatorMemoryUsageOrBuilder getMemoryUsageOrBuilder(
+      int index);
 }
