@@ -725,10 +725,7 @@ public  final class EmulatorDetails extends
      * <code>GUEST = 3;</code>
      */
     GUEST(3, 3),
-    /**
-     * <code>MESA = 4;</code>
-     */
-    MESA(4, 4),
+    // MESA = 4 (deprecated)
     /**
      * <code>SWIFTSHADER = 5;</code>
      */
@@ -759,10 +756,7 @@ public  final class EmulatorDetails extends
      * <code>GUEST = 3;</code>
      */
     public static final int GUEST_VALUE = 3;
-    /**
-     * <code>MESA = 4;</code>
-     */
-    public static final int MESA_VALUE = 4;
+    // MESA_VALUE = 4 (deprecated)
     /**
      * <code>SWIFTSHADER = 5;</code>
      */
@@ -785,7 +779,6 @@ public  final class EmulatorDetails extends
         case 1: return HOST;
         case 2: return OFF;
         case 3: return GUEST;
-        case 4: return MESA;
         case 5: return SWIFTSHADER;
         case 6: return ANGLE;
         case 255: return ERROR_IN_EMULATOR_RENDERER;
