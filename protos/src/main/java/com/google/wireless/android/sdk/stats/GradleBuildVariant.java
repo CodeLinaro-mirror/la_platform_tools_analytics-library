@@ -127,6 +127,45 @@ public  final class GradleBuildVariant extends
             }
             break;
           }
+          case 98: {
+            com.google.wireless.android.sdk.stats.ApiVersion.Builder subBuilder = null;
+            if (((bitField0_ & 0x00000200) == 0x00000200)) {
+              subBuilder = minSdkVersion_.toBuilder();
+            }
+            minSdkVersion_ = input.readMessage(com.google.wireless.android.sdk.stats.ApiVersion.PARSER, extensionRegistry);
+            if (subBuilder != null) {
+              subBuilder.mergeFrom(minSdkVersion_);
+              minSdkVersion_ = subBuilder.buildPartial();
+            }
+            bitField0_ |= 0x00000200;
+            break;
+          }
+          case 106: {
+            com.google.wireless.android.sdk.stats.ApiVersion.Builder subBuilder = null;
+            if (((bitField0_ & 0x00000400) == 0x00000400)) {
+              subBuilder = targetSdkVersion_.toBuilder();
+            }
+            targetSdkVersion_ = input.readMessage(com.google.wireless.android.sdk.stats.ApiVersion.PARSER, extensionRegistry);
+            if (subBuilder != null) {
+              subBuilder.mergeFrom(targetSdkVersion_);
+              targetSdkVersion_ = subBuilder.buildPartial();
+            }
+            bitField0_ |= 0x00000400;
+            break;
+          }
+          case 114: {
+            com.google.wireless.android.sdk.stats.ApiVersion.Builder subBuilder = null;
+            if (((bitField0_ & 0x00000800) == 0x00000800)) {
+              subBuilder = maxSdkVersion_.toBuilder();
+            }
+            maxSdkVersion_ = input.readMessage(com.google.wireless.android.sdk.stats.ApiVersion.PARSER, extensionRegistry);
+            if (subBuilder != null) {
+              subBuilder.mergeFrom(maxSdkVersion_);
+              maxSdkVersion_ = subBuilder.buildPartial();
+            }
+            bitField0_ |= 0x00000800;
+            break;
+          }
         }
       }
     } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -851,6 +890,111 @@ public  final class GradleBuildVariant extends
     return java8LangSupport_;
   }
 
+  // optional .android_studio.ApiVersion min_sdk_version = 12;
+  public static final int MIN_SDK_VERSION_FIELD_NUMBER = 12;
+  private com.google.wireless.android.sdk.stats.ApiVersion minSdkVersion_;
+  /**
+   * <code>optional .android_studio.ApiVersion min_sdk_version = 12;</code>
+   *
+   * <pre>
+   * The various device api versions of this variant.
+   * Minimum supported.
+   * </pre>
+   */
+  public boolean hasMinSdkVersion() {
+    return ((bitField0_ & 0x00000200) == 0x00000200);
+  }
+  /**
+   * <code>optional .android_studio.ApiVersion min_sdk_version = 12;</code>
+   *
+   * <pre>
+   * The various device api versions of this variant.
+   * Minimum supported.
+   * </pre>
+   */
+  public com.google.wireless.android.sdk.stats.ApiVersion getMinSdkVersion() {
+    return minSdkVersion_;
+  }
+  /**
+   * <code>optional .android_studio.ApiVersion min_sdk_version = 12;</code>
+   *
+   * <pre>
+   * The various device api versions of this variant.
+   * Minimum supported.
+   * </pre>
+   */
+  public com.google.wireless.android.sdk.stats.ApiVersionOrBuilder getMinSdkVersionOrBuilder() {
+    return minSdkVersion_;
+  }
+
+  // optional .android_studio.ApiVersion target_sdk_version = 13;
+  public static final int TARGET_SDK_VERSION_FIELD_NUMBER = 13;
+  private com.google.wireless.android.sdk.stats.ApiVersion targetSdkVersion_;
+  /**
+   * <code>optional .android_studio.ApiVersion target_sdk_version = 13;</code>
+   *
+   * <pre>
+   * Target sdk version.
+   * </pre>
+   */
+  public boolean hasTargetSdkVersion() {
+    return ((bitField0_ & 0x00000400) == 0x00000400);
+  }
+  /**
+   * <code>optional .android_studio.ApiVersion target_sdk_version = 13;</code>
+   *
+   * <pre>
+   * Target sdk version.
+   * </pre>
+   */
+  public com.google.wireless.android.sdk.stats.ApiVersion getTargetSdkVersion() {
+    return targetSdkVersion_;
+  }
+  /**
+   * <code>optional .android_studio.ApiVersion target_sdk_version = 13;</code>
+   *
+   * <pre>
+   * Target sdk version.
+   * </pre>
+   */
+  public com.google.wireless.android.sdk.stats.ApiVersionOrBuilder getTargetSdkVersionOrBuilder() {
+    return targetSdkVersion_;
+  }
+
+  // optional .android_studio.ApiVersion max_sdk_version = 14;
+  public static final int MAX_SDK_VERSION_FIELD_NUMBER = 14;
+  private com.google.wireless.android.sdk.stats.ApiVersion maxSdkVersion_;
+  /**
+   * <code>optional .android_studio.ApiVersion max_sdk_version = 14;</code>
+   *
+   * <pre>
+   * The maximum sdk version
+   * </pre>
+   */
+  public boolean hasMaxSdkVersion() {
+    return ((bitField0_ & 0x00000800) == 0x00000800);
+  }
+  /**
+   * <code>optional .android_studio.ApiVersion max_sdk_version = 14;</code>
+   *
+   * <pre>
+   * The maximum sdk version
+   * </pre>
+   */
+  public com.google.wireless.android.sdk.stats.ApiVersion getMaxSdkVersion() {
+    return maxSdkVersion_;
+  }
+  /**
+   * <code>optional .android_studio.ApiVersion max_sdk_version = 14;</code>
+   *
+   * <pre>
+   * The maximum sdk version
+   * </pre>
+   */
+  public com.google.wireless.android.sdk.stats.ApiVersionOrBuilder getMaxSdkVersionOrBuilder() {
+    return maxSdkVersion_;
+  }
+
   private void initFields() {
     id_ = 0L;
     isDebug_ = false;
@@ -863,6 +1007,9 @@ public  final class GradleBuildVariant extends
     proguardFlags_ = com.google.protobuf.LazyStringArrayList.EMPTY;
     annotationProcessors_ = java.util.Collections.emptyList();
     java8LangSupport_ = com.google.wireless.android.sdk.stats.GradleBuildVariant.Java8LangSupport.INTERNAL;
+    minSdkVersion_ = com.google.wireless.android.sdk.stats.ApiVersion.getDefaultInstance();
+    targetSdkVersion_ = com.google.wireless.android.sdk.stats.ApiVersion.getDefaultInstance();
+    maxSdkVersion_ = com.google.wireless.android.sdk.stats.ApiVersion.getDefaultInstance();
   }
   private byte memoizedIsInitialized = -1;
   public final boolean isInitialized() {
@@ -908,6 +1055,15 @@ public  final class GradleBuildVariant extends
     }
     if (((bitField0_ & 0x00000100) == 0x00000100)) {
       output.writeEnum(11, java8LangSupport_.getNumber());
+    }
+    if (((bitField0_ & 0x00000200) == 0x00000200)) {
+      output.writeMessage(12, minSdkVersion_);
+    }
+    if (((bitField0_ & 0x00000400) == 0x00000400)) {
+      output.writeMessage(13, targetSdkVersion_);
+    }
+    if (((bitField0_ & 0x00000800) == 0x00000800)) {
+      output.writeMessage(14, maxSdkVersion_);
     }
     getUnknownFields().writeTo(output);
   }
@@ -966,6 +1122,18 @@ public  final class GradleBuildVariant extends
     if (((bitField0_ & 0x00000100) == 0x00000100)) {
       size += com.google.protobuf.CodedOutputStream
         .computeEnumSize(11, java8LangSupport_.getNumber());
+    }
+    if (((bitField0_ & 0x00000200) == 0x00000200)) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeMessageSize(12, minSdkVersion_);
+    }
+    if (((bitField0_ & 0x00000400) == 0x00000400)) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeMessageSize(13, targetSdkVersion_);
+    }
+    if (((bitField0_ & 0x00000800) == 0x00000800)) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeMessageSize(14, maxSdkVersion_);
     }
     size += getUnknownFields().getSerializedSize();
     memoizedSerializedSize = size;
@@ -1076,6 +1244,9 @@ public  final class GradleBuildVariant extends
     private void maybeForceBuilderInitialization() {
       if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
         getAnnotationProcessorsFieldBuilder();
+        getMinSdkVersionFieldBuilder();
+        getTargetSdkVersionFieldBuilder();
+        getMaxSdkVersionFieldBuilder();
       }
     }
     private static Builder create() {
@@ -1110,6 +1281,24 @@ public  final class GradleBuildVariant extends
       }
       java8LangSupport_ = com.google.wireless.android.sdk.stats.GradleBuildVariant.Java8LangSupport.INTERNAL;
       bitField0_ = (bitField0_ & ~0x00000400);
+      if (minSdkVersionBuilder_ == null) {
+        minSdkVersion_ = com.google.wireless.android.sdk.stats.ApiVersion.getDefaultInstance();
+      } else {
+        minSdkVersionBuilder_.clear();
+      }
+      bitField0_ = (bitField0_ & ~0x00000800);
+      if (targetSdkVersionBuilder_ == null) {
+        targetSdkVersion_ = com.google.wireless.android.sdk.stats.ApiVersion.getDefaultInstance();
+      } else {
+        targetSdkVersionBuilder_.clear();
+      }
+      bitField0_ = (bitField0_ & ~0x00001000);
+      if (maxSdkVersionBuilder_ == null) {
+        maxSdkVersion_ = com.google.wireless.android.sdk.stats.ApiVersion.getDefaultInstance();
+      } else {
+        maxSdkVersionBuilder_.clear();
+      }
+      bitField0_ = (bitField0_ & ~0x00002000);
       return this;
     }
 
@@ -1189,6 +1378,30 @@ public  final class GradleBuildVariant extends
         to_bitField0_ |= 0x00000100;
       }
       result.java8LangSupport_ = java8LangSupport_;
+      if (((from_bitField0_ & 0x00000800) == 0x00000800)) {
+        to_bitField0_ |= 0x00000200;
+      }
+      if (minSdkVersionBuilder_ == null) {
+        result.minSdkVersion_ = minSdkVersion_;
+      } else {
+        result.minSdkVersion_ = minSdkVersionBuilder_.build();
+      }
+      if (((from_bitField0_ & 0x00001000) == 0x00001000)) {
+        to_bitField0_ |= 0x00000400;
+      }
+      if (targetSdkVersionBuilder_ == null) {
+        result.targetSdkVersion_ = targetSdkVersion_;
+      } else {
+        result.targetSdkVersion_ = targetSdkVersionBuilder_.build();
+      }
+      if (((from_bitField0_ & 0x00002000) == 0x00002000)) {
+        to_bitField0_ |= 0x00000800;
+      }
+      if (maxSdkVersionBuilder_ == null) {
+        result.maxSdkVersion_ = maxSdkVersion_;
+      } else {
+        result.maxSdkVersion_ = maxSdkVersionBuilder_.build();
+      }
       result.bitField0_ = to_bitField0_;
       onBuilt();
       return result;
@@ -1267,6 +1480,15 @@ public  final class GradleBuildVariant extends
       }
       if (other.hasJava8LangSupport()) {
         setJava8LangSupport(other.getJava8LangSupport());
+      }
+      if (other.hasMinSdkVersion()) {
+        mergeMinSdkVersion(other.getMinSdkVersion());
+      }
+      if (other.hasTargetSdkVersion()) {
+        mergeTargetSdkVersion(other.getTargetSdkVersion());
+      }
+      if (other.hasMaxSdkVersion()) {
+        mergeMaxSdkVersion(other.getMaxSdkVersion());
       }
       this.mergeUnknownFields(other.getUnknownFields());
       return this;
@@ -2264,6 +2486,474 @@ public  final class GradleBuildVariant extends
       java8LangSupport_ = com.google.wireless.android.sdk.stats.GradleBuildVariant.Java8LangSupport.INTERNAL;
       onChanged();
       return this;
+    }
+
+    // optional .android_studio.ApiVersion min_sdk_version = 12;
+    private com.google.wireless.android.sdk.stats.ApiVersion minSdkVersion_ = com.google.wireless.android.sdk.stats.ApiVersion.getDefaultInstance();
+    private com.google.protobuf.SingleFieldBuilder<
+        com.google.wireless.android.sdk.stats.ApiVersion, com.google.wireless.android.sdk.stats.ApiVersion.Builder, com.google.wireless.android.sdk.stats.ApiVersionOrBuilder> minSdkVersionBuilder_;
+    /**
+     * <code>optional .android_studio.ApiVersion min_sdk_version = 12;</code>
+     *
+     * <pre>
+     * The various device api versions of this variant.
+     * Minimum supported.
+     * </pre>
+     */
+    public boolean hasMinSdkVersion() {
+      return ((bitField0_ & 0x00000800) == 0x00000800);
+    }
+    /**
+     * <code>optional .android_studio.ApiVersion min_sdk_version = 12;</code>
+     *
+     * <pre>
+     * The various device api versions of this variant.
+     * Minimum supported.
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.ApiVersion getMinSdkVersion() {
+      if (minSdkVersionBuilder_ == null) {
+        return minSdkVersion_;
+      } else {
+        return minSdkVersionBuilder_.getMessage();
+      }
+    }
+    /**
+     * <code>optional .android_studio.ApiVersion min_sdk_version = 12;</code>
+     *
+     * <pre>
+     * The various device api versions of this variant.
+     * Minimum supported.
+     * </pre>
+     */
+    public Builder setMinSdkVersion(com.google.wireless.android.sdk.stats.ApiVersion value) {
+      if (minSdkVersionBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        minSdkVersion_ = value;
+        onChanged();
+      } else {
+        minSdkVersionBuilder_.setMessage(value);
+      }
+      bitField0_ |= 0x00000800;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.ApiVersion min_sdk_version = 12;</code>
+     *
+     * <pre>
+     * The various device api versions of this variant.
+     * Minimum supported.
+     * </pre>
+     */
+    public Builder setMinSdkVersion(
+        com.google.wireless.android.sdk.stats.ApiVersion.Builder builderForValue) {
+      if (minSdkVersionBuilder_ == null) {
+        minSdkVersion_ = builderForValue.build();
+        onChanged();
+      } else {
+        minSdkVersionBuilder_.setMessage(builderForValue.build());
+      }
+      bitField0_ |= 0x00000800;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.ApiVersion min_sdk_version = 12;</code>
+     *
+     * <pre>
+     * The various device api versions of this variant.
+     * Minimum supported.
+     * </pre>
+     */
+    public Builder mergeMinSdkVersion(com.google.wireless.android.sdk.stats.ApiVersion value) {
+      if (minSdkVersionBuilder_ == null) {
+        if (((bitField0_ & 0x00000800) == 0x00000800) &&
+            minSdkVersion_ != com.google.wireless.android.sdk.stats.ApiVersion.getDefaultInstance()) {
+          minSdkVersion_ =
+            com.google.wireless.android.sdk.stats.ApiVersion.newBuilder(minSdkVersion_).mergeFrom(value).buildPartial();
+        } else {
+          minSdkVersion_ = value;
+        }
+        onChanged();
+      } else {
+        minSdkVersionBuilder_.mergeFrom(value);
+      }
+      bitField0_ |= 0x00000800;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.ApiVersion min_sdk_version = 12;</code>
+     *
+     * <pre>
+     * The various device api versions of this variant.
+     * Minimum supported.
+     * </pre>
+     */
+    public Builder clearMinSdkVersion() {
+      if (minSdkVersionBuilder_ == null) {
+        minSdkVersion_ = com.google.wireless.android.sdk.stats.ApiVersion.getDefaultInstance();
+        onChanged();
+      } else {
+        minSdkVersionBuilder_.clear();
+      }
+      bitField0_ = (bitField0_ & ~0x00000800);
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.ApiVersion min_sdk_version = 12;</code>
+     *
+     * <pre>
+     * The various device api versions of this variant.
+     * Minimum supported.
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.ApiVersion.Builder getMinSdkVersionBuilder() {
+      bitField0_ |= 0x00000800;
+      onChanged();
+      return getMinSdkVersionFieldBuilder().getBuilder();
+    }
+    /**
+     * <code>optional .android_studio.ApiVersion min_sdk_version = 12;</code>
+     *
+     * <pre>
+     * The various device api versions of this variant.
+     * Minimum supported.
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.ApiVersionOrBuilder getMinSdkVersionOrBuilder() {
+      if (minSdkVersionBuilder_ != null) {
+        return minSdkVersionBuilder_.getMessageOrBuilder();
+      } else {
+        return minSdkVersion_;
+      }
+    }
+    /**
+     * <code>optional .android_studio.ApiVersion min_sdk_version = 12;</code>
+     *
+     * <pre>
+     * The various device api versions of this variant.
+     * Minimum supported.
+     * </pre>
+     */
+    private com.google.protobuf.SingleFieldBuilder<
+        com.google.wireless.android.sdk.stats.ApiVersion, com.google.wireless.android.sdk.stats.ApiVersion.Builder, com.google.wireless.android.sdk.stats.ApiVersionOrBuilder> 
+        getMinSdkVersionFieldBuilder() {
+      if (minSdkVersionBuilder_ == null) {
+        minSdkVersionBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+            com.google.wireless.android.sdk.stats.ApiVersion, com.google.wireless.android.sdk.stats.ApiVersion.Builder, com.google.wireless.android.sdk.stats.ApiVersionOrBuilder>(
+                minSdkVersion_,
+                getParentForChildren(),
+                isClean());
+        minSdkVersion_ = null;
+      }
+      return minSdkVersionBuilder_;
+    }
+
+    // optional .android_studio.ApiVersion target_sdk_version = 13;
+    private com.google.wireless.android.sdk.stats.ApiVersion targetSdkVersion_ = com.google.wireless.android.sdk.stats.ApiVersion.getDefaultInstance();
+    private com.google.protobuf.SingleFieldBuilder<
+        com.google.wireless.android.sdk.stats.ApiVersion, com.google.wireless.android.sdk.stats.ApiVersion.Builder, com.google.wireless.android.sdk.stats.ApiVersionOrBuilder> targetSdkVersionBuilder_;
+    /**
+     * <code>optional .android_studio.ApiVersion target_sdk_version = 13;</code>
+     *
+     * <pre>
+     * Target sdk version.
+     * </pre>
+     */
+    public boolean hasTargetSdkVersion() {
+      return ((bitField0_ & 0x00001000) == 0x00001000);
+    }
+    /**
+     * <code>optional .android_studio.ApiVersion target_sdk_version = 13;</code>
+     *
+     * <pre>
+     * Target sdk version.
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.ApiVersion getTargetSdkVersion() {
+      if (targetSdkVersionBuilder_ == null) {
+        return targetSdkVersion_;
+      } else {
+        return targetSdkVersionBuilder_.getMessage();
+      }
+    }
+    /**
+     * <code>optional .android_studio.ApiVersion target_sdk_version = 13;</code>
+     *
+     * <pre>
+     * Target sdk version.
+     * </pre>
+     */
+    public Builder setTargetSdkVersion(com.google.wireless.android.sdk.stats.ApiVersion value) {
+      if (targetSdkVersionBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        targetSdkVersion_ = value;
+        onChanged();
+      } else {
+        targetSdkVersionBuilder_.setMessage(value);
+      }
+      bitField0_ |= 0x00001000;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.ApiVersion target_sdk_version = 13;</code>
+     *
+     * <pre>
+     * Target sdk version.
+     * </pre>
+     */
+    public Builder setTargetSdkVersion(
+        com.google.wireless.android.sdk.stats.ApiVersion.Builder builderForValue) {
+      if (targetSdkVersionBuilder_ == null) {
+        targetSdkVersion_ = builderForValue.build();
+        onChanged();
+      } else {
+        targetSdkVersionBuilder_.setMessage(builderForValue.build());
+      }
+      bitField0_ |= 0x00001000;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.ApiVersion target_sdk_version = 13;</code>
+     *
+     * <pre>
+     * Target sdk version.
+     * </pre>
+     */
+    public Builder mergeTargetSdkVersion(com.google.wireless.android.sdk.stats.ApiVersion value) {
+      if (targetSdkVersionBuilder_ == null) {
+        if (((bitField0_ & 0x00001000) == 0x00001000) &&
+            targetSdkVersion_ != com.google.wireless.android.sdk.stats.ApiVersion.getDefaultInstance()) {
+          targetSdkVersion_ =
+            com.google.wireless.android.sdk.stats.ApiVersion.newBuilder(targetSdkVersion_).mergeFrom(value).buildPartial();
+        } else {
+          targetSdkVersion_ = value;
+        }
+        onChanged();
+      } else {
+        targetSdkVersionBuilder_.mergeFrom(value);
+      }
+      bitField0_ |= 0x00001000;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.ApiVersion target_sdk_version = 13;</code>
+     *
+     * <pre>
+     * Target sdk version.
+     * </pre>
+     */
+    public Builder clearTargetSdkVersion() {
+      if (targetSdkVersionBuilder_ == null) {
+        targetSdkVersion_ = com.google.wireless.android.sdk.stats.ApiVersion.getDefaultInstance();
+        onChanged();
+      } else {
+        targetSdkVersionBuilder_.clear();
+      }
+      bitField0_ = (bitField0_ & ~0x00001000);
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.ApiVersion target_sdk_version = 13;</code>
+     *
+     * <pre>
+     * Target sdk version.
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.ApiVersion.Builder getTargetSdkVersionBuilder() {
+      bitField0_ |= 0x00001000;
+      onChanged();
+      return getTargetSdkVersionFieldBuilder().getBuilder();
+    }
+    /**
+     * <code>optional .android_studio.ApiVersion target_sdk_version = 13;</code>
+     *
+     * <pre>
+     * Target sdk version.
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.ApiVersionOrBuilder getTargetSdkVersionOrBuilder() {
+      if (targetSdkVersionBuilder_ != null) {
+        return targetSdkVersionBuilder_.getMessageOrBuilder();
+      } else {
+        return targetSdkVersion_;
+      }
+    }
+    /**
+     * <code>optional .android_studio.ApiVersion target_sdk_version = 13;</code>
+     *
+     * <pre>
+     * Target sdk version.
+     * </pre>
+     */
+    private com.google.protobuf.SingleFieldBuilder<
+        com.google.wireless.android.sdk.stats.ApiVersion, com.google.wireless.android.sdk.stats.ApiVersion.Builder, com.google.wireless.android.sdk.stats.ApiVersionOrBuilder> 
+        getTargetSdkVersionFieldBuilder() {
+      if (targetSdkVersionBuilder_ == null) {
+        targetSdkVersionBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+            com.google.wireless.android.sdk.stats.ApiVersion, com.google.wireless.android.sdk.stats.ApiVersion.Builder, com.google.wireless.android.sdk.stats.ApiVersionOrBuilder>(
+                targetSdkVersion_,
+                getParentForChildren(),
+                isClean());
+        targetSdkVersion_ = null;
+      }
+      return targetSdkVersionBuilder_;
+    }
+
+    // optional .android_studio.ApiVersion max_sdk_version = 14;
+    private com.google.wireless.android.sdk.stats.ApiVersion maxSdkVersion_ = com.google.wireless.android.sdk.stats.ApiVersion.getDefaultInstance();
+    private com.google.protobuf.SingleFieldBuilder<
+        com.google.wireless.android.sdk.stats.ApiVersion, com.google.wireless.android.sdk.stats.ApiVersion.Builder, com.google.wireless.android.sdk.stats.ApiVersionOrBuilder> maxSdkVersionBuilder_;
+    /**
+     * <code>optional .android_studio.ApiVersion max_sdk_version = 14;</code>
+     *
+     * <pre>
+     * The maximum sdk version
+     * </pre>
+     */
+    public boolean hasMaxSdkVersion() {
+      return ((bitField0_ & 0x00002000) == 0x00002000);
+    }
+    /**
+     * <code>optional .android_studio.ApiVersion max_sdk_version = 14;</code>
+     *
+     * <pre>
+     * The maximum sdk version
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.ApiVersion getMaxSdkVersion() {
+      if (maxSdkVersionBuilder_ == null) {
+        return maxSdkVersion_;
+      } else {
+        return maxSdkVersionBuilder_.getMessage();
+      }
+    }
+    /**
+     * <code>optional .android_studio.ApiVersion max_sdk_version = 14;</code>
+     *
+     * <pre>
+     * The maximum sdk version
+     * </pre>
+     */
+    public Builder setMaxSdkVersion(com.google.wireless.android.sdk.stats.ApiVersion value) {
+      if (maxSdkVersionBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        maxSdkVersion_ = value;
+        onChanged();
+      } else {
+        maxSdkVersionBuilder_.setMessage(value);
+      }
+      bitField0_ |= 0x00002000;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.ApiVersion max_sdk_version = 14;</code>
+     *
+     * <pre>
+     * The maximum sdk version
+     * </pre>
+     */
+    public Builder setMaxSdkVersion(
+        com.google.wireless.android.sdk.stats.ApiVersion.Builder builderForValue) {
+      if (maxSdkVersionBuilder_ == null) {
+        maxSdkVersion_ = builderForValue.build();
+        onChanged();
+      } else {
+        maxSdkVersionBuilder_.setMessage(builderForValue.build());
+      }
+      bitField0_ |= 0x00002000;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.ApiVersion max_sdk_version = 14;</code>
+     *
+     * <pre>
+     * The maximum sdk version
+     * </pre>
+     */
+    public Builder mergeMaxSdkVersion(com.google.wireless.android.sdk.stats.ApiVersion value) {
+      if (maxSdkVersionBuilder_ == null) {
+        if (((bitField0_ & 0x00002000) == 0x00002000) &&
+            maxSdkVersion_ != com.google.wireless.android.sdk.stats.ApiVersion.getDefaultInstance()) {
+          maxSdkVersion_ =
+            com.google.wireless.android.sdk.stats.ApiVersion.newBuilder(maxSdkVersion_).mergeFrom(value).buildPartial();
+        } else {
+          maxSdkVersion_ = value;
+        }
+        onChanged();
+      } else {
+        maxSdkVersionBuilder_.mergeFrom(value);
+      }
+      bitField0_ |= 0x00002000;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.ApiVersion max_sdk_version = 14;</code>
+     *
+     * <pre>
+     * The maximum sdk version
+     * </pre>
+     */
+    public Builder clearMaxSdkVersion() {
+      if (maxSdkVersionBuilder_ == null) {
+        maxSdkVersion_ = com.google.wireless.android.sdk.stats.ApiVersion.getDefaultInstance();
+        onChanged();
+      } else {
+        maxSdkVersionBuilder_.clear();
+      }
+      bitField0_ = (bitField0_ & ~0x00002000);
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.ApiVersion max_sdk_version = 14;</code>
+     *
+     * <pre>
+     * The maximum sdk version
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.ApiVersion.Builder getMaxSdkVersionBuilder() {
+      bitField0_ |= 0x00002000;
+      onChanged();
+      return getMaxSdkVersionFieldBuilder().getBuilder();
+    }
+    /**
+     * <code>optional .android_studio.ApiVersion max_sdk_version = 14;</code>
+     *
+     * <pre>
+     * The maximum sdk version
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.ApiVersionOrBuilder getMaxSdkVersionOrBuilder() {
+      if (maxSdkVersionBuilder_ != null) {
+        return maxSdkVersionBuilder_.getMessageOrBuilder();
+      } else {
+        return maxSdkVersion_;
+      }
+    }
+    /**
+     * <code>optional .android_studio.ApiVersion max_sdk_version = 14;</code>
+     *
+     * <pre>
+     * The maximum sdk version
+     * </pre>
+     */
+    private com.google.protobuf.SingleFieldBuilder<
+        com.google.wireless.android.sdk.stats.ApiVersion, com.google.wireless.android.sdk.stats.ApiVersion.Builder, com.google.wireless.android.sdk.stats.ApiVersionOrBuilder> 
+        getMaxSdkVersionFieldBuilder() {
+      if (maxSdkVersionBuilder_ == null) {
+        maxSdkVersionBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+            com.google.wireless.android.sdk.stats.ApiVersion, com.google.wireless.android.sdk.stats.ApiVersion.Builder, com.google.wireless.android.sdk.stats.ApiVersionOrBuilder>(
+                maxSdkVersion_,
+                getParentForChildren(),
+                isClean());
+        maxSdkVersion_ = null;
+      }
+      return maxSdkVersionBuilder_;
     }
 
     // @@protoc_insertion_point(builder_scope:android_studio.GradleBuildVariant)

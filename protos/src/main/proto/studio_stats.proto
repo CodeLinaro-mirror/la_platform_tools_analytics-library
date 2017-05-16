@@ -1480,6 +1480,11 @@ message GradleBuildProject {
   // For instantApps, the number of dependent atoms.
   optional int64 atoms = 8;
 
+  // The compile SDK.
+  // Stored in the form of a target hash
+  // e.g. "android-25" or "The Vendor Inc.:My Addon:10"
+  optional string compile_sdk = 9;
+
   enum PluginType {
     UNKNOWN_PLUGIN_TYPE = 0;
     // The 'com.android.application' or 'com.android.model.application' plugins.
@@ -1562,6 +1567,13 @@ message GradleBuildVariant {
   // If Java 8 language support is enabled, which tools provides it.
   optional Java8LangSupport java8_lang_support = 11;
 
+  // The various device api versions of this variant.
+  // Minimum supported.
+  optional ApiVersion min_sdk_version = 12;
+  // Target sdk version.
+  optional ApiVersion target_sdk_version = 13;
+  // The maximum sdk version
+  optional ApiVersion max_sdk_version = 14;
   // The nature of this variant.
   // The test variants have an associated tested variant.
   // See com.android.builder.core.VariantType
@@ -1611,6 +1623,14 @@ message AnnotationProcessorInfo {
     // The new annotationProcessor way to include them.
     ANNOTATION_PROCESSOR = 2;
   }
+}
+
+// An android API version, for min, compile, max and target sdk versions.
+// E.g. for Nougat 7.1 this is api_level=25, codename unset.
+// For O-preview this is api_level=25, codename="O".
+message ApiVersion {
+  optional int64 api_level = 1;
+  optional string codename = 2;
 }
 
 message GradleBuildMemorySample {

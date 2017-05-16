@@ -117,6 +117,11 @@ public  final class GradleBuildProject extends
             atoms_ = input.readInt64();
             break;
           }
+          case 74: {
+            bitField0_ |= 0x00000080;
+            compileSdk_ = input.readBytes();
+            break;
+          }
         }
       }
     } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -755,6 +760,67 @@ public  final class GradleBuildProject extends
     return atoms_;
   }
 
+  // optional string compile_sdk = 9;
+  public static final int COMPILE_SDK_FIELD_NUMBER = 9;
+  private java.lang.Object compileSdk_;
+  /**
+   * <code>optional string compile_sdk = 9;</code>
+   *
+   * <pre>
+   * The compile SDK.
+   * Stored in the form of a target hash
+   * e.g. "android-25" or "The Vendor Inc.:My Addon:10"
+   * </pre>
+   */
+  public boolean hasCompileSdk() {
+    return ((bitField0_ & 0x00000080) == 0x00000080);
+  }
+  /**
+   * <code>optional string compile_sdk = 9;</code>
+   *
+   * <pre>
+   * The compile SDK.
+   * Stored in the form of a target hash
+   * e.g. "android-25" or "The Vendor Inc.:My Addon:10"
+   * </pre>
+   */
+  public java.lang.String getCompileSdk() {
+    java.lang.Object ref = compileSdk_;
+    if (ref instanceof java.lang.String) {
+      return (java.lang.String) ref;
+    } else {
+      com.google.protobuf.ByteString bs = 
+          (com.google.protobuf.ByteString) ref;
+      java.lang.String s = bs.toStringUtf8();
+      if (bs.isValidUtf8()) {
+        compileSdk_ = s;
+      }
+      return s;
+    }
+  }
+  /**
+   * <code>optional string compile_sdk = 9;</code>
+   *
+   * <pre>
+   * The compile SDK.
+   * Stored in the form of a target hash
+   * e.g. "android-25" or "The Vendor Inc.:My Addon:10"
+   * </pre>
+   */
+  public com.google.protobuf.ByteString
+      getCompileSdkBytes() {
+    java.lang.Object ref = compileSdk_;
+    if (ref instanceof java.lang.String) {
+      com.google.protobuf.ByteString b = 
+          com.google.protobuf.ByteString.copyFromUtf8(
+              (java.lang.String) ref);
+      compileSdk_ = b;
+      return b;
+    } else {
+      return (com.google.protobuf.ByteString) ref;
+    }
+  }
+
   private void initFields() {
     id_ = 0L;
     androidPluginVersion_ = "";
@@ -764,6 +830,7 @@ public  final class GradleBuildProject extends
     metrics_ = com.google.wireless.android.sdk.stats.GradleBuildProjectMetrics.getDefaultInstance();
     variant_ = java.util.Collections.emptyList();
     atoms_ = 0L;
+    compileSdk_ = "";
   }
   private byte memoizedIsInitialized = -1;
   public final boolean isInitialized() {
@@ -800,6 +867,9 @@ public  final class GradleBuildProject extends
     }
     if (((bitField0_ & 0x00000040) == 0x00000040)) {
       output.writeInt64(8, atoms_);
+    }
+    if (((bitField0_ & 0x00000080) == 0x00000080)) {
+      output.writeBytes(9, getCompileSdkBytes());
     }
     getUnknownFields().writeTo(output);
   }
@@ -841,6 +911,10 @@ public  final class GradleBuildProject extends
     if (((bitField0_ & 0x00000040) == 0x00000040)) {
       size += com.google.protobuf.CodedOutputStream
         .computeInt64Size(8, atoms_);
+    }
+    if (((bitField0_ & 0x00000080) == 0x00000080)) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeBytesSize(9, getCompileSdkBytes());
     }
     size += getUnknownFields().getSerializedSize();
     memoizedSerializedSize = size;
@@ -984,6 +1058,8 @@ public  final class GradleBuildProject extends
       }
       atoms_ = 0L;
       bitField0_ = (bitField0_ & ~0x00000080);
+      compileSdk_ = "";
+      bitField0_ = (bitField0_ & ~0x00000100);
       return this;
     }
 
@@ -1053,6 +1129,10 @@ public  final class GradleBuildProject extends
         to_bitField0_ |= 0x00000040;
       }
       result.atoms_ = atoms_;
+      if (((from_bitField0_ & 0x00000100) == 0x00000100)) {
+        to_bitField0_ |= 0x00000080;
+      }
+      result.compileSdk_ = compileSdk_;
       result.bitField0_ = to_bitField0_;
       onBuilt();
       return result;
@@ -1119,6 +1199,11 @@ public  final class GradleBuildProject extends
       }
       if (other.hasAtoms()) {
         setAtoms(other.getAtoms());
+      }
+      if (other.hasCompileSdk()) {
+        bitField0_ |= 0x00000100;
+        compileSdk_ = other.compileSdk_;
+        onChanged();
       }
       this.mergeUnknownFields(other.getUnknownFields());
       return this;
@@ -2043,6 +2128,116 @@ public  final class GradleBuildProject extends
     public Builder clearAtoms() {
       bitField0_ = (bitField0_ & ~0x00000080);
       atoms_ = 0L;
+      onChanged();
+      return this;
+    }
+
+    // optional string compile_sdk = 9;
+    private java.lang.Object compileSdk_ = "";
+    /**
+     * <code>optional string compile_sdk = 9;</code>
+     *
+     * <pre>
+     * The compile SDK.
+     * Stored in the form of a target hash
+     * e.g. "android-25" or "The Vendor Inc.:My Addon:10"
+     * </pre>
+     */
+    public boolean hasCompileSdk() {
+      return ((bitField0_ & 0x00000100) == 0x00000100);
+    }
+    /**
+     * <code>optional string compile_sdk = 9;</code>
+     *
+     * <pre>
+     * The compile SDK.
+     * Stored in the form of a target hash
+     * e.g. "android-25" or "The Vendor Inc.:My Addon:10"
+     * </pre>
+     */
+    public java.lang.String getCompileSdk() {
+      java.lang.Object ref = compileSdk_;
+      if (!(ref instanceof java.lang.String)) {
+        java.lang.String s = ((com.google.protobuf.ByteString) ref)
+            .toStringUtf8();
+        compileSdk_ = s;
+        return s;
+      } else {
+        return (java.lang.String) ref;
+      }
+    }
+    /**
+     * <code>optional string compile_sdk = 9;</code>
+     *
+     * <pre>
+     * The compile SDK.
+     * Stored in the form of a target hash
+     * e.g. "android-25" or "The Vendor Inc.:My Addon:10"
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getCompileSdkBytes() {
+      java.lang.Object ref = compileSdk_;
+      if (ref instanceof String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        compileSdk_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+    /**
+     * <code>optional string compile_sdk = 9;</code>
+     *
+     * <pre>
+     * The compile SDK.
+     * Stored in the form of a target hash
+     * e.g. "android-25" or "The Vendor Inc.:My Addon:10"
+     * </pre>
+     */
+    public Builder setCompileSdk(
+        java.lang.String value) {
+      if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000100;
+      compileSdk_ = value;
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>optional string compile_sdk = 9;</code>
+     *
+     * <pre>
+     * The compile SDK.
+     * Stored in the form of a target hash
+     * e.g. "android-25" or "The Vendor Inc.:My Addon:10"
+     * </pre>
+     */
+    public Builder clearCompileSdk() {
+      bitField0_ = (bitField0_ & ~0x00000100);
+      compileSdk_ = getDefaultInstance().getCompileSdk();
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>optional string compile_sdk = 9;</code>
+     *
+     * <pre>
+     * The compile SDK.
+     * Stored in the form of a target hash
+     * e.g. "android-25" or "The Vendor Inc.:My Addon:10"
+     * </pre>
+     */
+    public Builder setCompileSdkBytes(
+        com.google.protobuf.ByteString value) {
+      if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000100;
+      compileSdk_ = value;
       onChanged();
       return this;
     }

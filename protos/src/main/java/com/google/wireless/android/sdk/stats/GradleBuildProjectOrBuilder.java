@@ -219,4 +219,37 @@ public interface GradleBuildProjectOrBuilder
    * </pre>
    */
   long getAtoms();
+
+  // optional string compile_sdk = 9;
+  /**
+   * <code>optional string compile_sdk = 9;</code>
+   *
+   * <pre>
+   * The compile SDK.
+   * Stored in the form of a target hash
+   * e.g. "android-25" or "The Vendor Inc.:My Addon:10"
+   * </pre>
+   */
+  boolean hasCompileSdk();
+  /**
+   * <code>optional string compile_sdk = 9;</code>
+   *
+   * <pre>
+   * The compile SDK.
+   * Stored in the form of a target hash
+   * e.g. "android-25" or "The Vendor Inc.:My Addon:10"
+   * </pre>
+   */
+  java.lang.String getCompileSdk();
+  /**
+   * <code>optional string compile_sdk = 9;</code>
+   *
+   * <pre>
+   * The compile SDK.
+   * Stored in the form of a target hash
+   * e.g. "android-25" or "The Vendor Inc.:My Addon:10"
+   * </pre>
+   */
+  com.google.protobuf.ByteString
+      getCompileSdkBytes();
 }

@@ -283,4 +283,85 @@ public interface GradleBuildVariantOrBuilder
    * </pre>
    */
   com.google.wireless.android.sdk.stats.GradleBuildVariant.Java8LangSupport getJava8LangSupport();
+
+  // optional .android_studio.ApiVersion min_sdk_version = 12;
+  /**
+   * <code>optional .android_studio.ApiVersion min_sdk_version = 12;</code>
+   *
+   * <pre>
+   * The various device api versions of this variant.
+   * Minimum supported.
+   * </pre>
+   */
+  boolean hasMinSdkVersion();
+  /**
+   * <code>optional .android_studio.ApiVersion min_sdk_version = 12;</code>
+   *
+   * <pre>
+   * The various device api versions of this variant.
+   * Minimum supported.
+   * </pre>
+   */
+  com.google.wireless.android.sdk.stats.ApiVersion getMinSdkVersion();
+  /**
+   * <code>optional .android_studio.ApiVersion min_sdk_version = 12;</code>
+   *
+   * <pre>
+   * The various device api versions of this variant.
+   * Minimum supported.
+   * </pre>
+   */
+  com.google.wireless.android.sdk.stats.ApiVersionOrBuilder getMinSdkVersionOrBuilder();
+
+  // optional .android_studio.ApiVersion target_sdk_version = 13;
+  /**
+   * <code>optional .android_studio.ApiVersion target_sdk_version = 13;</code>
+   *
+   * <pre>
+   * Target sdk version.
+   * </pre>
+   */
+  boolean hasTargetSdkVersion();
+  /**
+   * <code>optional .android_studio.ApiVersion target_sdk_version = 13;</code>
+   *
+   * <pre>
+   * Target sdk version.
+   * </pre>
+   */
+  com.google.wireless.android.sdk.stats.ApiVersion getTargetSdkVersion();
+  /**
+   * <code>optional .android_studio.ApiVersion target_sdk_version = 13;</code>
+   *
+   * <pre>
+   * Target sdk version.
+   * </pre>
+   */
+  com.google.wireless.android.sdk.stats.ApiVersionOrBuilder getTargetSdkVersionOrBuilder();
+
+  // optional .android_studio.ApiVersion max_sdk_version = 14;
+  /**
+   * <code>optional .android_studio.ApiVersion max_sdk_version = 14;</code>
+   *
+   * <pre>
+   * The maximum sdk version
+   * </pre>
+   */
+  boolean hasMaxSdkVersion();
+  /**
+   * <code>optional .android_studio.ApiVersion max_sdk_version = 14;</code>
+   *
+   * <pre>
+   * The maximum sdk version
+   * </pre>
+   */
+  com.google.wireless.android.sdk.stats.ApiVersion getMaxSdkVersion();
+  /**
+   * <code>optional .android_studio.ApiVersion max_sdk_version = 14;</code>
+   *
+   * <pre>
+   * The maximum sdk version
+   * </pre>
+   */
+  com.google.wireless.android.sdk.stats.ApiVersionOrBuilder getMaxSdkVersionOrBuilder();
 }
