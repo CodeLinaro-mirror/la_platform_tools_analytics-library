@@ -1030,7 +1030,7 @@ message EmulatorDetails {
     HOST = 1;
     OFF = 2;
     GUEST = 3;
-    MESA = 4;
+    // MESA = 4; (deprecated)
     SWIFTSHADER = 5;
     ANGLE = 6;
     ERROR_IN_EMULATOR_RENDERER = 255;
