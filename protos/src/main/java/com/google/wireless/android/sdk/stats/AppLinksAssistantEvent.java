@@ -206,21 +206,25 @@ public  final class AppLinksAssistantEvent extends
      */
     URL_MAPPING_OPEN_ANDROID_MANIFEST_BUTTON(7, 8),
     /**
+     * <code>URL_MAPPING_ADD_TEST_URL_BUTTON = 21;</code>
+     */
+    URL_MAPPING_ADD_TEST_URL_BUTTON(8, 21),
+    /**
      * <code>CODE_INSERT_DIALOG = 9;</code>
      *
      * <pre>
      * UI elements of code insert dialog.
      * </pre>
      */
-    CODE_INSERT_DIALOG(8, 9),
+    CODE_INSERT_DIALOG(9, 9),
     /**
      * <code>CODE_INSERT_DIALOG_INSERT_BUTTON = 10;</code>
      */
-    CODE_INSERT_DIALOG_INSERT_BUTTON(9, 10),
+    CODE_INSERT_DIALOG_INSERT_BUTTON(10, 10),
     /**
      * <code>CODE_INSERT_DIALOG_LIST_SELECTION = 11;</code>
      */
-    CODE_INSERT_DIALOG_LIST_SELECTION(10, 11),
+    CODE_INSERT_DIALOG_LIST_SELECTION(11, 11),
     /**
      * <code>DAL_PANEL = 12;</code>
      *
@@ -228,23 +232,31 @@ public  final class AppLinksAssistantEvent extends
      * UI elements of DAL generation panel.
      * </pre>
      */
-    DAL_PANEL(11, 12),
+    DAL_PANEL(12, 12),
     /**
      * <code>DAL_PANEL_BROWSE_KEYSTORE_BUTTON = 13;</code>
      */
-    DAL_PANEL_BROWSE_KEYSTORE_BUTTON(12, 13),
+    DAL_PANEL_BROWSE_KEYSTORE_BUTTON(13, 13),
     /**
      * <code>DAL_PANEL_GENERATE_BUTTON = 14;</code>
      */
-    DAL_PANEL_GENERATE_BUTTON(13, 14),
+    DAL_PANEL_GENERATE_BUTTON(14, 14),
     /**
      * <code>DAL_PANEL_SAVE_BUTTON = 15;</code>
      */
-    DAL_PANEL_SAVE_BUTTON(14, 15),
+    DAL_PANEL_SAVE_BUTTON(15, 15),
     /**
      * <code>DAL_PANEL_VERIFY_BUTTON = 16;</code>
      */
-    DAL_PANEL_VERIFY_BUTTON(15, 16),
+    DAL_PANEL_VERIFY_BUTTON(16, 16),
+    /**
+     * <code>DAL_PANEL_SMART_LOCK_CHECKBOX = 200;</code>
+     */
+    DAL_PANEL_SMART_LOCK_CHECKBOX(17, 200),
+    /**
+     * <code>DAL_PANEL_SIGN_IN_URL_SAME_AS_DOMAIN_CHECKBOX = 201;</code>
+     */
+    DAL_PANEL_SIGN_IN_URL_SAME_AS_DOMAIN_CHECKBOX(18, 201),
     /**
      * <code>APP_LINKS_TEST_PANEL = 17;</code>
      *
@@ -252,15 +264,15 @@ public  final class AppLinksAssistantEvent extends
      * UI elements of app links test panel.
      * </pre>
      */
-    APP_LINKS_TEST_PANEL(16, 17),
+    APP_LINKS_TEST_PANEL(19, 17),
     /**
      * <code>APP_LINKS_TEST_PANEL_MODULE_SELECTION = 18;</code>
      */
-    APP_LINKS_TEST_PANEL_MODULE_SELECTION(17, 18),
+    APP_LINKS_TEST_PANEL_MODULE_SELECTION(20, 18),
     /**
      * <code>APP_LINKS_TEST_PANEL_RUN_TEST_BUTTON = 19;</code>
      */
-    APP_LINKS_TEST_PANEL_RUN_TEST_BUTTON(18, 19),
+    APP_LINKS_TEST_PANEL_RUN_TEST_BUTTON(21, 19),
     ;
 
     /**
@@ -299,6 +311,10 @@ public  final class AppLinksAssistantEvent extends
      * <code>URL_MAPPING_OPEN_ANDROID_MANIFEST_BUTTON = 8;</code>
      */
     public static final int URL_MAPPING_OPEN_ANDROID_MANIFEST_BUTTON_VALUE = 8;
+    /**
+     * <code>URL_MAPPING_ADD_TEST_URL_BUTTON = 21;</code>
+     */
+    public static final int URL_MAPPING_ADD_TEST_URL_BUTTON_VALUE = 21;
     /**
      * <code>CODE_INSERT_DIALOG = 9;</code>
      *
@@ -340,6 +356,14 @@ public  final class AppLinksAssistantEvent extends
      */
     public static final int DAL_PANEL_VERIFY_BUTTON_VALUE = 16;
     /**
+     * <code>DAL_PANEL_SMART_LOCK_CHECKBOX = 200;</code>
+     */
+    public static final int DAL_PANEL_SMART_LOCK_CHECKBOX_VALUE = 200;
+    /**
+     * <code>DAL_PANEL_SIGN_IN_URL_SAME_AS_DOMAIN_CHECKBOX = 201;</code>
+     */
+    public static final int DAL_PANEL_SIGN_IN_URL_SAME_AS_DOMAIN_CHECKBOX_VALUE = 201;
+    /**
      * <code>APP_LINKS_TEST_PANEL = 17;</code>
      *
      * <pre>
@@ -369,6 +393,7 @@ public  final class AppLinksAssistantEvent extends
         case 6: return URL_MAPPING_APP_LINK_DELETE_BUTTON;
         case 7: return URL_MAPPING_CHECK_MAPPING_BUTTON;
         case 8: return URL_MAPPING_OPEN_ANDROID_MANIFEST_BUTTON;
+        case 21: return URL_MAPPING_ADD_TEST_URL_BUTTON;
         case 9: return CODE_INSERT_DIALOG;
         case 10: return CODE_INSERT_DIALOG_INSERT_BUTTON;
         case 11: return CODE_INSERT_DIALOG_LIST_SELECTION;
@@ -377,6 +402,8 @@ public  final class AppLinksAssistantEvent extends
         case 14: return DAL_PANEL_GENERATE_BUTTON;
         case 15: return DAL_PANEL_SAVE_BUTTON;
         case 16: return DAL_PANEL_VERIFY_BUTTON;
+        case 200: return DAL_PANEL_SMART_LOCK_CHECKBOX;
+        case 201: return DAL_PANEL_SIGN_IN_URL_SAME_AS_DOMAIN_CHECKBOX;
         case 17: return APP_LINKS_TEST_PANEL;
         case 18: return APP_LINKS_TEST_PANEL_MODULE_SELECTION;
         case 19: return APP_LINKS_TEST_PANEL_RUN_TEST_BUTTON;

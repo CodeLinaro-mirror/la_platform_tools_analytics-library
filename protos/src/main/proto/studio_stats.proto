@@ -1030,7 +1030,7 @@ message EmulatorDetails {
     HOST = 1;
     OFF = 2;
     GUEST = 3;
-    // MESA = 4; (deprecated)
+    MESA = 4;
     SWIFTSHADER = 5;
     ANGLE = 6;
     ERROR_IN_EMULATOR_RENDERER = 255;
@@ -2599,6 +2599,7 @@ message AppLinksAssistantEvent {
     URL_MAPPING_APP_LINK_DELETE_BUTTON = 6;
     URL_MAPPING_CHECK_MAPPING_BUTTON = 7;
     URL_MAPPING_OPEN_ANDROID_MANIFEST_BUTTON = 8;
+    URL_MAPPING_ADD_TEST_URL_BUTTON = 21;
 
     // UI elements of code insert dialog.
     CODE_INSERT_DIALOG = 9;
@@ -2611,6 +2612,8 @@ message AppLinksAssistantEvent {
     DAL_PANEL_GENERATE_BUTTON = 14;
     DAL_PANEL_SAVE_BUTTON = 15;
     DAL_PANEL_VERIFY_BUTTON = 16;
+    DAL_PANEL_SMART_LOCK_CHECKBOX = 200;
+    DAL_PANEL_SIGN_IN_URL_SAME_AS_DOMAIN_CHECKBOX = 201;
 
     // UI elements of app links test panel.
     APP_LINKS_TEST_PANEL = 17;
