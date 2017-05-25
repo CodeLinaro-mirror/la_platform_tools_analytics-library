@@ -1918,6 +1918,8 @@ message InstantRunStatus {
     MULTI_DEX = 2;
     // Cold swap done by reinstalling APK splits.
     MULTI_APK = 3;
+    // Cold swap done by reinstalling APK splits, resources in separate APK.
+    MULTI_APK_SEPARATE_RESOURCES = 4;
   }
 
 

@@ -270,6 +270,14 @@ public  final class InstantRunStatus extends
      * </pre>
      */
     MULTI_APK(3, 3),
+    /**
+     * <code>MULTI_APK_SEPARATE_RESOURCES = 4;</code>
+     *
+     * <pre>
+     * Cold swap done by reinstalling APK splits, resources in separate APK.
+     * </pre>
+     */
+    MULTI_APK_SEPARATE_RESOURCES(4, 4),
     ;
 
     /**
@@ -300,6 +308,14 @@ public  final class InstantRunStatus extends
      * </pre>
      */
     public static final int MULTI_APK_VALUE = 3;
+    /**
+     * <code>MULTI_APK_SEPARATE_RESOURCES = 4;</code>
+     *
+     * <pre>
+     * Cold swap done by reinstalling APK splits, resources in separate APK.
+     * </pre>
+     */
+    public static final int MULTI_APK_SEPARATE_RESOURCES_VALUE = 4;
 
 
     public final int getNumber() { return value; }
@@ -310,6 +326,7 @@ public  final class InstantRunStatus extends
         case 1: return PRE_LOLLIPOP;
         case 2: return MULTI_DEX;
         case 3: return MULTI_APK;
+        case 4: return MULTI_APK_SEPARATE_RESOURCES;
         default: return null;
       }
     }
