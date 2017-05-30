@@ -67,6 +67,7 @@ message AndroidStudioEvent {
   // or kind = CLOUD_TESTING_LAUNCH_CLOUD_DEVICE
   // or kind = CLOUD_TESTING_DEBUG_FROM_RESULTS
   // or kind = TEST_RUN
+  // or kind = LayoutInspectorEvent and LayoutInspectorEventType = CAPTURE
   optional DeviceInfo device_info = 12;
 
   // set when kind = LLDB_INSTALL_FAILED
@@ -192,6 +193,10 @@ message AndroidStudioEvent {
 
   // set when category = APK_DEBUG
   optional ApkDebugProject apk_debug_project = 51;
+
+  // set when kind = LAYOUT_INSPECTOR_EVENT
+  optional LayoutInspectorEvent layout_inspector_event = 52;
+
   // Describes a group of event kinds related to each other.
   // This is redundant in the presence of EventKind + event specific message,
   // and is only necessary for events originally sent to GA.
@@ -527,6 +532,9 @@ message AndroidStudioEvent {
 
     // Select Path mappings for apk debugging
     APK_DEBUG_SELECT_PATH_MAPPINGS = 123;
+
+    // Layout Inspector event
+    LAYOUT_INSPECTOR_EVENT = 124;
   }
 
   // Represents different Performance Monitoring types.
@@ -2778,4 +2786,25 @@ message GradleSyncStats {
 message ApkDebugProject {
   // Client-side salted hash of the package name for tracking purposes.
   optional string package_id = 1;
+}
+
+// Details for layout inspector events
+message LayoutInspectorEvent {
+  enum LayoutInspectorEventType {
+    UNKNOWN_EVENT_TYPE = 0;
+
+    CAPTURE = 1;
+
+    OPEN = 2;
+
+    DUMP_DISPLAYLIST = 3;
+
+    OVERLAY_IMAGE = 4;
+  }
+
+  // Type of event
+  optional LayoutInspectorEventType type = 1;
+
+  // defined if LayoutInspectorEventType = CAPTURE
+  optional int64 duration_in_ms = 2;
 }

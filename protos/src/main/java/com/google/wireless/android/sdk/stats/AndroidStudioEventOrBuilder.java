@@ -270,6 +270,7 @@ public interface AndroidStudioEventOrBuilder
    * or kind = CLOUD_TESTING_LAUNCH_CLOUD_DEVICE
    * or kind = CLOUD_TESTING_DEBUG_FROM_RESULTS
    * or kind = TEST_RUN
+   * or kind = LayoutInspectorEvent and LayoutInspectorEventType = CAPTURE
    * </pre>
    */
   boolean hasDeviceInfo();
@@ -284,6 +285,7 @@ public interface AndroidStudioEventOrBuilder
    * or kind = CLOUD_TESTING_LAUNCH_CLOUD_DEVICE
    * or kind = CLOUD_TESTING_DEBUG_FROM_RESULTS
    * or kind = TEST_RUN
+   * or kind = LayoutInspectorEvent and LayoutInspectorEventType = CAPTURE
    * </pre>
    */
   com.google.wireless.android.sdk.stats.DeviceInfo getDeviceInfo();
@@ -298,6 +300,7 @@ public interface AndroidStudioEventOrBuilder
    * or kind = CLOUD_TESTING_LAUNCH_CLOUD_DEVICE
    * or kind = CLOUD_TESTING_DEBUG_FROM_RESULTS
    * or kind = TEST_RUN
+   * or kind = LayoutInspectorEvent and LayoutInspectorEventType = CAPTURE
    * </pre>
    */
   com.google.wireless.android.sdk.stats.DeviceInfoOrBuilder getDeviceInfoOrBuilder();
@@ -1315,4 +1318,30 @@ public interface AndroidStudioEventOrBuilder
    * </pre>
    */
   com.google.wireless.android.sdk.stats.ApkDebugProjectOrBuilder getApkDebugProjectOrBuilder();
+
+  // optional .android_studio.LayoutInspectorEvent layout_inspector_event = 52;
+  /**
+   * <code>optional .android_studio.LayoutInspectorEvent layout_inspector_event = 52;</code>
+   *
+   * <pre>
+   * set when kind = LAYOUT_INSPECTOR_EVENT
+   * </pre>
+   */
+  boolean hasLayoutInspectorEvent();
+  /**
+   * <code>optional .android_studio.LayoutInspectorEvent layout_inspector_event = 52;</code>
+   *
+   * <pre>
+   * set when kind = LAYOUT_INSPECTOR_EVENT
+   * </pre>
+   */
+  com.google.wireless.android.sdk.stats.LayoutInspectorEvent getLayoutInspectorEvent();
+  /**
+   * <code>optional .android_studio.LayoutInspectorEvent layout_inspector_event = 52;</code>
+   *
+   * <pre>
+   * set when kind = LAYOUT_INSPECTOR_EVENT
+   * </pre>
+   */
+  com.google.wireless.android.sdk.stats.LayoutInspectorEventOrBuilder getLayoutInspectorEventOrBuilder();
 }

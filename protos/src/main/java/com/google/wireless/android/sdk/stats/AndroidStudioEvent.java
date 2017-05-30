@@ -636,6 +636,19 @@ public  final class AndroidStudioEvent extends
             bitField1_ |= 0x00040000;
             break;
           }
+          case 418: {
+            com.google.wireless.android.sdk.stats.LayoutInspectorEvent.Builder subBuilder = null;
+            if (((bitField1_ & 0x00080000) == 0x00080000)) {
+              subBuilder = layoutInspectorEvent_.toBuilder();
+            }
+            layoutInspectorEvent_ = input.readMessage(com.google.wireless.android.sdk.stats.LayoutInspectorEvent.PARSER, extensionRegistry);
+            if (subBuilder != null) {
+              subBuilder.mergeFrom(layoutInspectorEvent_);
+              layoutInspectorEvent_ = subBuilder.buildPartial();
+            }
+            bitField1_ |= 0x00080000;
+            break;
+          }
         }
       }
     } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -2156,6 +2169,14 @@ public  final class AndroidStudioEvent extends
      * </pre>
      */
     APK_DEBUG_SELECT_PATH_MAPPINGS(120, 123),
+    /**
+     * <code>LAYOUT_INSPECTOR_EVENT = 124;</code>
+     *
+     * <pre>
+     * Layout Inspector event
+     * </pre>
+     */
+    LAYOUT_INSPECTOR_EVENT(121, 124),
     ;
 
     /**
@@ -3107,6 +3128,14 @@ public  final class AndroidStudioEvent extends
      * </pre>
      */
     public static final int APK_DEBUG_SELECT_PATH_MAPPINGS_VALUE = 123;
+    /**
+     * <code>LAYOUT_INSPECTOR_EVENT = 124;</code>
+     *
+     * <pre>
+     * Layout Inspector event
+     * </pre>
+     */
+    public static final int LAYOUT_INSPECTOR_EVENT_VALUE = 124;
 
 
     public final int getNumber() { return value; }
@@ -3234,6 +3263,7 @@ public  final class AndroidStudioEvent extends
         case 121: return APK_DEBUG_ATTACH_JAVA_SOURCES;
         case 122: return APK_DEBUG_ADD_SYMBOLS;
         case 123: return APK_DEBUG_SELECT_PATH_MAPPINGS;
+        case 124: return LAYOUT_INSPECTOR_EVENT;
         default: return null;
       }
     }
@@ -4925,6 +4955,7 @@ public  final class AndroidStudioEvent extends
    * or kind = CLOUD_TESTING_LAUNCH_CLOUD_DEVICE
    * or kind = CLOUD_TESTING_DEBUG_FROM_RESULTS
    * or kind = TEST_RUN
+   * or kind = LayoutInspectorEvent and LayoutInspectorEventType = CAPTURE
    * </pre>
    */
   public boolean hasDeviceInfo() {
@@ -4941,6 +4972,7 @@ public  final class AndroidStudioEvent extends
    * or kind = CLOUD_TESTING_LAUNCH_CLOUD_DEVICE
    * or kind = CLOUD_TESTING_DEBUG_FROM_RESULTS
    * or kind = TEST_RUN
+   * or kind = LayoutInspectorEvent and LayoutInspectorEventType = CAPTURE
    * </pre>
    */
   public com.google.wireless.android.sdk.stats.DeviceInfo getDeviceInfo() {
@@ -4957,6 +4989,7 @@ public  final class AndroidStudioEvent extends
    * or kind = CLOUD_TESTING_LAUNCH_CLOUD_DEVICE
    * or kind = CLOUD_TESTING_DEBUG_FROM_RESULTS
    * or kind = TEST_RUN
+   * or kind = LayoutInspectorEvent and LayoutInspectorEventType = CAPTURE
    * </pre>
    */
   public com.google.wireless.android.sdk.stats.DeviceInfoOrBuilder getDeviceInfoOrBuilder() {
@@ -6363,6 +6396,40 @@ public  final class AndroidStudioEvent extends
     return apkDebugProject_;
   }
 
+  // optional .android_studio.LayoutInspectorEvent layout_inspector_event = 52;
+  public static final int LAYOUT_INSPECTOR_EVENT_FIELD_NUMBER = 52;
+  private com.google.wireless.android.sdk.stats.LayoutInspectorEvent layoutInspectorEvent_;
+  /**
+   * <code>optional .android_studio.LayoutInspectorEvent layout_inspector_event = 52;</code>
+   *
+   * <pre>
+   * set when kind = LAYOUT_INSPECTOR_EVENT
+   * </pre>
+   */
+  public boolean hasLayoutInspectorEvent() {
+    return ((bitField1_ & 0x00080000) == 0x00080000);
+  }
+  /**
+   * <code>optional .android_studio.LayoutInspectorEvent layout_inspector_event = 52;</code>
+   *
+   * <pre>
+   * set when kind = LAYOUT_INSPECTOR_EVENT
+   * </pre>
+   */
+  public com.google.wireless.android.sdk.stats.LayoutInspectorEvent getLayoutInspectorEvent() {
+    return layoutInspectorEvent_;
+  }
+  /**
+   * <code>optional .android_studio.LayoutInspectorEvent layout_inspector_event = 52;</code>
+   *
+   * <pre>
+   * set when kind = LAYOUT_INSPECTOR_EVENT
+   * </pre>
+   */
+  public com.google.wireless.android.sdk.stats.LayoutInspectorEventOrBuilder getLayoutInspectorEventOrBuilder() {
+    return layoutInspectorEvent_;
+  }
+
   private void initFields() {
     category_ = com.google.wireless.android.sdk.stats.AndroidStudioEvent.EventCategory.NO_EVENT_CATEGORY;
     kind_ = com.google.wireless.android.sdk.stats.AndroidStudioEvent.EventKind.UNKNOWN_EVENT_KIND;
@@ -6415,6 +6482,7 @@ public  final class AndroidStudioEvent extends
     apkAnalyzerStats_ = com.google.wireless.android.sdk.stats.ApkAnalyzerStats.getDefaultInstance();
     gradleSyncStats_ = com.google.wireless.android.sdk.stats.GradleSyncStats.getDefaultInstance();
     apkDebugProject_ = com.google.wireless.android.sdk.stats.ApkDebugProject.getDefaultInstance();
+    layoutInspectorEvent_ = com.google.wireless.android.sdk.stats.LayoutInspectorEvent.getDefaultInstance();
   }
   private byte memoizedIsInitialized = -1;
   public final boolean isInitialized() {
@@ -6580,6 +6648,9 @@ public  final class AndroidStudioEvent extends
     }
     if (((bitField1_ & 0x00040000) == 0x00040000)) {
       output.writeMessage(51, apkDebugProject_);
+    }
+    if (((bitField1_ & 0x00080000) == 0x00080000)) {
+      output.writeMessage(52, layoutInspectorEvent_);
     }
     getUnknownFields().writeTo(output);
   }
@@ -6794,6 +6865,10 @@ public  final class AndroidStudioEvent extends
       size += com.google.protobuf.CodedOutputStream
         .computeMessageSize(51, apkDebugProject_);
     }
+    if (((bitField1_ & 0x00080000) == 0x00080000)) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeMessageSize(52, layoutInspectorEvent_);
+    }
     size += getUnknownFields().getSerializedSize();
     memoizedSerializedSize = size;
     return size;
@@ -6936,6 +7011,7 @@ public  final class AndroidStudioEvent extends
         getApkAnalyzerStatsFieldBuilder();
         getGradleSyncStatsFieldBuilder();
         getApkDebugProjectFieldBuilder();
+        getLayoutInspectorEventFieldBuilder();
       }
     }
     private static Builder create() {
@@ -7182,6 +7258,12 @@ public  final class AndroidStudioEvent extends
         apkDebugProjectBuilder_.clear();
       }
       bitField1_ = (bitField1_ & ~0x00040000);
+      if (layoutInspectorEventBuilder_ == null) {
+        layoutInspectorEvent_ = com.google.wireless.android.sdk.stats.LayoutInspectorEvent.getDefaultInstance();
+      } else {
+        layoutInspectorEventBuilder_.clear();
+      }
+      bitField1_ = (bitField1_ & ~0x00080000);
       return this;
     }
 
@@ -7552,6 +7634,14 @@ public  final class AndroidStudioEvent extends
       } else {
         result.apkDebugProject_ = apkDebugProjectBuilder_.build();
       }
+      if (((from_bitField1_ & 0x00080000) == 0x00080000)) {
+        to_bitField1_ |= 0x00080000;
+      }
+      if (layoutInspectorEventBuilder_ == null) {
+        result.layoutInspectorEvent_ = layoutInspectorEvent_;
+      } else {
+        result.layoutInspectorEvent_ = layoutInspectorEventBuilder_.build();
+      }
       result.bitField0_ = to_bitField0_;
       result.bitField1_ = to_bitField1_;
       onBuilt();
@@ -7733,6 +7823,9 @@ public  final class AndroidStudioEvent extends
       }
       if (other.hasApkDebugProject()) {
         mergeApkDebugProject(other.getApkDebugProject());
+      }
+      if (other.hasLayoutInspectorEvent()) {
+        mergeLayoutInspectorEvent(other.getLayoutInspectorEvent());
       }
       this.mergeUnknownFields(other.getUnknownFields());
       return this;
@@ -8601,6 +8694,7 @@ public  final class AndroidStudioEvent extends
      * or kind = CLOUD_TESTING_LAUNCH_CLOUD_DEVICE
      * or kind = CLOUD_TESTING_DEBUG_FROM_RESULTS
      * or kind = TEST_RUN
+     * or kind = LayoutInspectorEvent and LayoutInspectorEventType = CAPTURE
      * </pre>
      */
     public boolean hasDeviceInfo() {
@@ -8617,6 +8711,7 @@ public  final class AndroidStudioEvent extends
      * or kind = CLOUD_TESTING_LAUNCH_CLOUD_DEVICE
      * or kind = CLOUD_TESTING_DEBUG_FROM_RESULTS
      * or kind = TEST_RUN
+     * or kind = LayoutInspectorEvent and LayoutInspectorEventType = CAPTURE
      * </pre>
      */
     public com.google.wireless.android.sdk.stats.DeviceInfo getDeviceInfo() {
@@ -8637,6 +8732,7 @@ public  final class AndroidStudioEvent extends
      * or kind = CLOUD_TESTING_LAUNCH_CLOUD_DEVICE
      * or kind = CLOUD_TESTING_DEBUG_FROM_RESULTS
      * or kind = TEST_RUN
+     * or kind = LayoutInspectorEvent and LayoutInspectorEventType = CAPTURE
      * </pre>
      */
     public Builder setDeviceInfo(com.google.wireless.android.sdk.stats.DeviceInfo value) {
@@ -8663,6 +8759,7 @@ public  final class AndroidStudioEvent extends
      * or kind = CLOUD_TESTING_LAUNCH_CLOUD_DEVICE
      * or kind = CLOUD_TESTING_DEBUG_FROM_RESULTS
      * or kind = TEST_RUN
+     * or kind = LayoutInspectorEvent and LayoutInspectorEventType = CAPTURE
      * </pre>
      */
     public Builder setDeviceInfo(
@@ -8687,6 +8784,7 @@ public  final class AndroidStudioEvent extends
      * or kind = CLOUD_TESTING_LAUNCH_CLOUD_DEVICE
      * or kind = CLOUD_TESTING_DEBUG_FROM_RESULTS
      * or kind = TEST_RUN
+     * or kind = LayoutInspectorEvent and LayoutInspectorEventType = CAPTURE
      * </pre>
      */
     public Builder mergeDeviceInfo(com.google.wireless.android.sdk.stats.DeviceInfo value) {
@@ -8716,6 +8814,7 @@ public  final class AndroidStudioEvent extends
      * or kind = CLOUD_TESTING_LAUNCH_CLOUD_DEVICE
      * or kind = CLOUD_TESTING_DEBUG_FROM_RESULTS
      * or kind = TEST_RUN
+     * or kind = LayoutInspectorEvent and LayoutInspectorEventType = CAPTURE
      * </pre>
      */
     public Builder clearDeviceInfo() {
@@ -8739,6 +8838,7 @@ public  final class AndroidStudioEvent extends
      * or kind = CLOUD_TESTING_LAUNCH_CLOUD_DEVICE
      * or kind = CLOUD_TESTING_DEBUG_FROM_RESULTS
      * or kind = TEST_RUN
+     * or kind = LayoutInspectorEvent and LayoutInspectorEventType = CAPTURE
      * </pre>
      */
     public com.google.wireless.android.sdk.stats.DeviceInfo.Builder getDeviceInfoBuilder() {
@@ -8757,6 +8857,7 @@ public  final class AndroidStudioEvent extends
      * or kind = CLOUD_TESTING_LAUNCH_CLOUD_DEVICE
      * or kind = CLOUD_TESTING_DEBUG_FROM_RESULTS
      * or kind = TEST_RUN
+     * or kind = LayoutInspectorEvent and LayoutInspectorEventType = CAPTURE
      * </pre>
      */
     public com.google.wireless.android.sdk.stats.DeviceInfoOrBuilder getDeviceInfoOrBuilder() {
@@ -8777,6 +8878,7 @@ public  final class AndroidStudioEvent extends
      * or kind = CLOUD_TESTING_LAUNCH_CLOUD_DEVICE
      * or kind = CLOUD_TESTING_DEBUG_FROM_RESULTS
      * or kind = TEST_RUN
+     * or kind = LayoutInspectorEvent and LayoutInspectorEventType = CAPTURE
      * </pre>
      */
     private com.google.protobuf.SingleFieldBuilder<
@@ -14284,6 +14386,159 @@ public  final class AndroidStudioEvent extends
         apkDebugProject_ = null;
       }
       return apkDebugProjectBuilder_;
+    }
+
+    // optional .android_studio.LayoutInspectorEvent layout_inspector_event = 52;
+    private com.google.wireless.android.sdk.stats.LayoutInspectorEvent layoutInspectorEvent_ = com.google.wireless.android.sdk.stats.LayoutInspectorEvent.getDefaultInstance();
+    private com.google.protobuf.SingleFieldBuilder<
+        com.google.wireless.android.sdk.stats.LayoutInspectorEvent, com.google.wireless.android.sdk.stats.LayoutInspectorEvent.Builder, com.google.wireless.android.sdk.stats.LayoutInspectorEventOrBuilder> layoutInspectorEventBuilder_;
+    /**
+     * <code>optional .android_studio.LayoutInspectorEvent layout_inspector_event = 52;</code>
+     *
+     * <pre>
+     * set when kind = LAYOUT_INSPECTOR_EVENT
+     * </pre>
+     */
+    public boolean hasLayoutInspectorEvent() {
+      return ((bitField1_ & 0x00080000) == 0x00080000);
+    }
+    /**
+     * <code>optional .android_studio.LayoutInspectorEvent layout_inspector_event = 52;</code>
+     *
+     * <pre>
+     * set when kind = LAYOUT_INSPECTOR_EVENT
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.LayoutInspectorEvent getLayoutInspectorEvent() {
+      if (layoutInspectorEventBuilder_ == null) {
+        return layoutInspectorEvent_;
+      } else {
+        return layoutInspectorEventBuilder_.getMessage();
+      }
+    }
+    /**
+     * <code>optional .android_studio.LayoutInspectorEvent layout_inspector_event = 52;</code>
+     *
+     * <pre>
+     * set when kind = LAYOUT_INSPECTOR_EVENT
+     * </pre>
+     */
+    public Builder setLayoutInspectorEvent(com.google.wireless.android.sdk.stats.LayoutInspectorEvent value) {
+      if (layoutInspectorEventBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        layoutInspectorEvent_ = value;
+        onChanged();
+      } else {
+        layoutInspectorEventBuilder_.setMessage(value);
+      }
+      bitField1_ |= 0x00080000;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.LayoutInspectorEvent layout_inspector_event = 52;</code>
+     *
+     * <pre>
+     * set when kind = LAYOUT_INSPECTOR_EVENT
+     * </pre>
+     */
+    public Builder setLayoutInspectorEvent(
+        com.google.wireless.android.sdk.stats.LayoutInspectorEvent.Builder builderForValue) {
+      if (layoutInspectorEventBuilder_ == null) {
+        layoutInspectorEvent_ = builderForValue.build();
+        onChanged();
+      } else {
+        layoutInspectorEventBuilder_.setMessage(builderForValue.build());
+      }
+      bitField1_ |= 0x00080000;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.LayoutInspectorEvent layout_inspector_event = 52;</code>
+     *
+     * <pre>
+     * set when kind = LAYOUT_INSPECTOR_EVENT
+     * </pre>
+     */
+    public Builder mergeLayoutInspectorEvent(com.google.wireless.android.sdk.stats.LayoutInspectorEvent value) {
+      if (layoutInspectorEventBuilder_ == null) {
+        if (((bitField1_ & 0x00080000) == 0x00080000) &&
+            layoutInspectorEvent_ != com.google.wireless.android.sdk.stats.LayoutInspectorEvent.getDefaultInstance()) {
+          layoutInspectorEvent_ =
+            com.google.wireless.android.sdk.stats.LayoutInspectorEvent.newBuilder(layoutInspectorEvent_).mergeFrom(value).buildPartial();
+        } else {
+          layoutInspectorEvent_ = value;
+        }
+        onChanged();
+      } else {
+        layoutInspectorEventBuilder_.mergeFrom(value);
+      }
+      bitField1_ |= 0x00080000;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.LayoutInspectorEvent layout_inspector_event = 52;</code>
+     *
+     * <pre>
+     * set when kind = LAYOUT_INSPECTOR_EVENT
+     * </pre>
+     */
+    public Builder clearLayoutInspectorEvent() {
+      if (layoutInspectorEventBuilder_ == null) {
+        layoutInspectorEvent_ = com.google.wireless.android.sdk.stats.LayoutInspectorEvent.getDefaultInstance();
+        onChanged();
+      } else {
+        layoutInspectorEventBuilder_.clear();
+      }
+      bitField1_ = (bitField1_ & ~0x00080000);
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.LayoutInspectorEvent layout_inspector_event = 52;</code>
+     *
+     * <pre>
+     * set when kind = LAYOUT_INSPECTOR_EVENT
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.LayoutInspectorEvent.Builder getLayoutInspectorEventBuilder() {
+      bitField1_ |= 0x00080000;
+      onChanged();
+      return getLayoutInspectorEventFieldBuilder().getBuilder();
+    }
+    /**
+     * <code>optional .android_studio.LayoutInspectorEvent layout_inspector_event = 52;</code>
+     *
+     * <pre>
+     * set when kind = LAYOUT_INSPECTOR_EVENT
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.LayoutInspectorEventOrBuilder getLayoutInspectorEventOrBuilder() {
+      if (layoutInspectorEventBuilder_ != null) {
+        return layoutInspectorEventBuilder_.getMessageOrBuilder();
+      } else {
+        return layoutInspectorEvent_;
+      }
+    }
+    /**
+     * <code>optional .android_studio.LayoutInspectorEvent layout_inspector_event = 52;</code>
+     *
+     * <pre>
+     * set when kind = LAYOUT_INSPECTOR_EVENT
+     * </pre>
+     */
+    private com.google.protobuf.SingleFieldBuilder<
+        com.google.wireless.android.sdk.stats.LayoutInspectorEvent, com.google.wireless.android.sdk.stats.LayoutInspectorEvent.Builder, com.google.wireless.android.sdk.stats.LayoutInspectorEventOrBuilder> 
+        getLayoutInspectorEventFieldBuilder() {
+      if (layoutInspectorEventBuilder_ == null) {
+        layoutInspectorEventBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+            com.google.wireless.android.sdk.stats.LayoutInspectorEvent, com.google.wireless.android.sdk.stats.LayoutInspectorEvent.Builder, com.google.wireless.android.sdk.stats.LayoutInspectorEventOrBuilder>(
+                layoutInspectorEvent_,
+                getParentForChildren(),
+                isClean());
+        layoutInspectorEvent_ = null;
+      }
+      return layoutInspectorEventBuilder_;
     }
 
     // @@protoc_insertion_point(builder_scope:android_studio.AndroidStudioEvent)
