@@ -356,57 +356,65 @@ public  final class AndroidProfilerEvent extends
      */
     SELECT_FLAME_CHART(19, 207),
     /**
+     * <code>OPEN_CPU_CONFIG_DIALOG = 208;</code>
+     */
+    OPEN_CPU_CONFIG_DIALOG(20, 208),
+    /**
+     * <code>CREATE_CPU_CONFIG = 209;</code>
+     */
+    CREATE_CPU_CONFIG(21, 209),
+    /**
      * <code>FORCE_GC = 301;</code>
      */
-    FORCE_GC(20, 301),
+    FORCE_GC(22, 301),
     /**
      * <code>SNAPSHOT_HPROF = 302;</code>
      */
-    SNAPSHOT_HPROF(21, 302),
+    SNAPSHOT_HPROF(23, 302),
     /**
      * <code>CAPTURE_ALLOCATIONS = 303;</code>
      */
-    CAPTURE_ALLOCATIONS(22, 303),
+    CAPTURE_ALLOCATIONS(24, 303),
     /**
      * <code>SELECT_MEMORY_CHART = 304;</code>
      */
-    SELECT_MEMORY_CHART(23, 304),
+    SELECT_MEMORY_CHART(25, 304),
     /**
      * <code>EXPORT_HPROF = 305;</code>
      */
-    EXPORT_HPROF(24, 305),
+    EXPORT_HPROF(26, 305),
     /**
      * <code>EXPORT_ALLOCATION = 306;</code>
      */
-    EXPORT_ALLOCATION(25, 306),
+    EXPORT_ALLOCATION(27, 306),
     /**
      * <code>ARRANGE_CLASSES = 307;</code>
      */
-    ARRANGE_CLASSES(26, 307),
+    ARRANGE_CLASSES(28, 307),
     /**
      * <code>SELECT_MEMORY_STACK = 308;</code>
      */
-    SELECT_MEMORY_STACK(27, 308),
+    SELECT_MEMORY_STACK(29, 308),
     /**
      * <code>SELECT_MEMORY_REFERENCES = 309;</code>
      */
-    SELECT_MEMORY_REFERENCES(28, 309),
+    SELECT_MEMORY_REFERENCES(30, 309),
     /**
      * <code>SELECT_CONNECTION = 402;</code>
      */
-    SELECT_CONNECTION(29, 402),
+    SELECT_CONNECTION(31, 402),
     /**
      * <code>SELECT_DETAILS_RESPONSE = 403;</code>
      */
-    SELECT_DETAILS_RESPONSE(30, 403),
+    SELECT_DETAILS_RESPONSE(32, 403),
     /**
      * <code>SELECT_DETAILS_HEADERS = 404;</code>
      */
-    SELECT_DETAILS_HEADERS(31, 404),
+    SELECT_DETAILS_HEADERS(33, 404),
     /**
      * <code>SELECT_DETAILS_STACK = 405;</code>
      */
-    SELECT_DETAILS_STACK(32, 405),
+    SELECT_DETAILS_STACK(34, 405),
     ;
 
     /**
@@ -507,6 +515,14 @@ public  final class AndroidProfilerEvent extends
      */
     public static final int SELECT_FLAME_CHART_VALUE = 207;
     /**
+     * <code>OPEN_CPU_CONFIG_DIALOG = 208;</code>
+     */
+    public static final int OPEN_CPU_CONFIG_DIALOG_VALUE = 208;
+    /**
+     * <code>CREATE_CPU_CONFIG = 209;</code>
+     */
+    public static final int CREATE_CPU_CONFIG_VALUE = 209;
+    /**
      * <code>FORCE_GC = 301;</code>
      */
     public static final int FORCE_GC_VALUE = 301;
@@ -584,6 +600,8 @@ public  final class AndroidProfilerEvent extends
         case 205: return SELECT_TOP_DOWN;
         case 206: return SELECT_BOTTOM_UP;
         case 207: return SELECT_FLAME_CHART;
+        case 208: return OPEN_CPU_CONFIG_DIALOG;
+        case 209: return CREATE_CPU_CONFIG;
         case 301: return FORCE_GC;
         case 302: return SNAPSHOT_HPROF;
         case 303: return CAPTURE_ALLOCATIONS;

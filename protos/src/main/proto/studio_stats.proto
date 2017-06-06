@@ -2727,6 +2727,8 @@ message AndroidProfilerEvent {
     SELECT_TOP_DOWN = 205;
     SELECT_BOTTOM_UP = 206;
     SELECT_FLAME_CHART = 207;
+    OPEN_CPU_CONFIG_DIALOG = 208;
+    CREATE_CPU_CONFIG = 209;
 
     /// Memory
 
