@@ -1,3 +1,4 @@
+// This is the golden copy (under platform/tools/analytics-library), all edits should be done here.
 syntax = "proto3";
 option java_package = "com.android.tools.build.gradle.internal.profile";
 option java_multiple_files = true;
@@ -143,4 +144,5 @@ enum GradleTaskExecutionType {
     EXTRACT_TRY_WITH_RESOURCES_SUPPORT_JAR = 101;
     APPLICATION_ID_WRITER = 102;
     INSTANT_RUN_RESOURCES_APK_BUILDER = 103;
+    DELETE = 104;
 }
