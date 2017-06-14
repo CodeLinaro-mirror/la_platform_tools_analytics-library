@@ -68,6 +68,7 @@ message AndroidStudioEvent {
   // or kind = CLOUD_TESTING_DEBUG_FROM_RESULTS
   // or kind = TEST_RUN
   // or kind = LayoutInspectorEvent and LayoutInspectorEventType = CAPTURE
+  // or kind = ANDROID_PROFILER
   optional DeviceInfo device_info = 12;
 
   // set when kind = LLDB_INSTALL_FAILED
@@ -2727,6 +2728,7 @@ message AndroidProfilerEvent {
     SELECT_TOP_DOWN = 205;
     SELECT_BOTTOM_UP = 206;
     SELECT_FLAME_CHART = 207;
+    SELECT_CALL_CHART = 210;
     OPEN_CPU_CONFIG_DIALOG = 208;
     CREATE_CPU_CONFIG = 209;
 
