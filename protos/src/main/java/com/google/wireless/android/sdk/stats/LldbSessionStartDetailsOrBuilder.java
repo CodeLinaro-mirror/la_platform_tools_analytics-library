@@ -139,4 +139,22 @@ public interface LldbSessionStartDetailsOrBuilder
    */
   com.google.protobuf.ByteString
       getLldbVersionBytes();
+
+  // optional .android_studio.LldbSessionStartDetails.StarterType starter_type = 7;
+  /**
+   * <code>optional .android_studio.LldbSessionStartDetails.StarterType starter_type = 7;</code>
+   *
+   * <pre>
+   * Type of starter used to start this session.
+   * </pre>
+   */
+  boolean hasStarterType();
+  /**
+   * <code>optional .android_studio.LldbSessionStartDetails.StarterType starter_type = 7;</code>
+   *
+   * <pre>
+   * Type of starter used to start this session.
+   * </pre>
+   */
+  com.google.wireless.android.sdk.stats.LldbSessionStartDetails.StarterType getStarterType();
 }

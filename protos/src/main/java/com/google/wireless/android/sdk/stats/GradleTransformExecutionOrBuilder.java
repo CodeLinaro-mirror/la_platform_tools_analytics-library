@@ -14,7 +14,7 @@ public interface GradleTransformExecutionOrBuilder
    * The transform implementing class.
    * Custom transforms are recorded as UNKNOWN_TRANSFORM_TYPE.
    * This is an enum in android git:
-   * tools/base/build-system/gradle-core/src/main/proto/analytics_enums.proto
+   * tools/analytics-library/protos/src/main/proto/analytics_enums.proto
    * </pre>
    */
   boolean hasType();
@@ -25,7 +25,7 @@ public interface GradleTransformExecutionOrBuilder
    * The transform implementing class.
    * Custom transforms are recorded as UNKNOWN_TRANSFORM_TYPE.
    * This is an enum in android git:
-   * tools/base/build-system/gradle-core/src/main/proto/analytics_enums.proto
+   * tools/analytics-library/protos/src/main/proto/analytics_enums.proto
    * </pre>
    */
   int getType();

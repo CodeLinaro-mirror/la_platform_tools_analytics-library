@@ -4956,7 +4956,7 @@ public  final class AndroidStudioEvent extends
    * or kind = CLOUD_TESTING_DEBUG_FROM_RESULTS
    * or kind = TEST_RUN
    * or kind = LayoutInspectorEvent and LayoutInspectorEventType = CAPTURE
-   * or kind = ANDROID_PROFILER
+   * or kind = ANDROID_PROFILER and AndroidProfilerEvent.Type = CHANGE_DEVICE
    * </pre>
    */
   public boolean hasDeviceInfo() {
@@ -4974,7 +4974,7 @@ public  final class AndroidStudioEvent extends
    * or kind = CLOUD_TESTING_DEBUG_FROM_RESULTS
    * or kind = TEST_RUN
    * or kind = LayoutInspectorEvent and LayoutInspectorEventType = CAPTURE
-   * or kind = ANDROID_PROFILER
+   * or kind = ANDROID_PROFILER and AndroidProfilerEvent.Type = CHANGE_DEVICE
    * </pre>
    */
   public com.google.wireless.android.sdk.stats.DeviceInfo getDeviceInfo() {
@@ -4992,7 +4992,7 @@ public  final class AndroidStudioEvent extends
    * or kind = CLOUD_TESTING_DEBUG_FROM_RESULTS
    * or kind = TEST_RUN
    * or kind = LayoutInspectorEvent and LayoutInspectorEventType = CAPTURE
-   * or kind = ANDROID_PROFILER
+   * or kind = ANDROID_PROFILER and AndroidProfilerEvent.Type = CHANGE_DEVICE
    * </pre>
    */
   public com.google.wireless.android.sdk.stats.DeviceInfoOrBuilder getDeviceInfoOrBuilder() {
@@ -8698,7 +8698,7 @@ public  final class AndroidStudioEvent extends
      * or kind = CLOUD_TESTING_DEBUG_FROM_RESULTS
      * or kind = TEST_RUN
      * or kind = LayoutInspectorEvent and LayoutInspectorEventType = CAPTURE
-     * or kind = ANDROID_PROFILER
+     * or kind = ANDROID_PROFILER and AndroidProfilerEvent.Type = CHANGE_DEVICE
      * </pre>
      */
     public boolean hasDeviceInfo() {
@@ -8716,7 +8716,7 @@ public  final class AndroidStudioEvent extends
      * or kind = CLOUD_TESTING_DEBUG_FROM_RESULTS
      * or kind = TEST_RUN
      * or kind = LayoutInspectorEvent and LayoutInspectorEventType = CAPTURE
-     * or kind = ANDROID_PROFILER
+     * or kind = ANDROID_PROFILER and AndroidProfilerEvent.Type = CHANGE_DEVICE
      * </pre>
      */
     public com.google.wireless.android.sdk.stats.DeviceInfo getDeviceInfo() {
@@ -8738,7 +8738,7 @@ public  final class AndroidStudioEvent extends
      * or kind = CLOUD_TESTING_DEBUG_FROM_RESULTS
      * or kind = TEST_RUN
      * or kind = LayoutInspectorEvent and LayoutInspectorEventType = CAPTURE
-     * or kind = ANDROID_PROFILER
+     * or kind = ANDROID_PROFILER and AndroidProfilerEvent.Type = CHANGE_DEVICE
      * </pre>
      */
     public Builder setDeviceInfo(com.google.wireless.android.sdk.stats.DeviceInfo value) {
@@ -8766,7 +8766,7 @@ public  final class AndroidStudioEvent extends
      * or kind = CLOUD_TESTING_DEBUG_FROM_RESULTS
      * or kind = TEST_RUN
      * or kind = LayoutInspectorEvent and LayoutInspectorEventType = CAPTURE
-     * or kind = ANDROID_PROFILER
+     * or kind = ANDROID_PROFILER and AndroidProfilerEvent.Type = CHANGE_DEVICE
      * </pre>
      */
     public Builder setDeviceInfo(
@@ -8792,7 +8792,7 @@ public  final class AndroidStudioEvent extends
      * or kind = CLOUD_TESTING_DEBUG_FROM_RESULTS
      * or kind = TEST_RUN
      * or kind = LayoutInspectorEvent and LayoutInspectorEventType = CAPTURE
-     * or kind = ANDROID_PROFILER
+     * or kind = ANDROID_PROFILER and AndroidProfilerEvent.Type = CHANGE_DEVICE
      * </pre>
      */
     public Builder mergeDeviceInfo(com.google.wireless.android.sdk.stats.DeviceInfo value) {
@@ -8823,7 +8823,7 @@ public  final class AndroidStudioEvent extends
      * or kind = CLOUD_TESTING_DEBUG_FROM_RESULTS
      * or kind = TEST_RUN
      * or kind = LayoutInspectorEvent and LayoutInspectorEventType = CAPTURE
-     * or kind = ANDROID_PROFILER
+     * or kind = ANDROID_PROFILER and AndroidProfilerEvent.Type = CHANGE_DEVICE
      * </pre>
      */
     public Builder clearDeviceInfo() {
@@ -8848,7 +8848,7 @@ public  final class AndroidStudioEvent extends
      * or kind = CLOUD_TESTING_DEBUG_FROM_RESULTS
      * or kind = TEST_RUN
      * or kind = LayoutInspectorEvent and LayoutInspectorEventType = CAPTURE
-     * or kind = ANDROID_PROFILER
+     * or kind = ANDROID_PROFILER and AndroidProfilerEvent.Type = CHANGE_DEVICE
      * </pre>
      */
     public com.google.wireless.android.sdk.stats.DeviceInfo.Builder getDeviceInfoBuilder() {
@@ -8868,7 +8868,7 @@ public  final class AndroidStudioEvent extends
      * or kind = CLOUD_TESTING_DEBUG_FROM_RESULTS
      * or kind = TEST_RUN
      * or kind = LayoutInspectorEvent and LayoutInspectorEventType = CAPTURE
-     * or kind = ANDROID_PROFILER
+     * or kind = ANDROID_PROFILER and AndroidProfilerEvent.Type = CHANGE_DEVICE
      * </pre>
      */
     public com.google.wireless.android.sdk.stats.DeviceInfoOrBuilder getDeviceInfoOrBuilder() {
@@ -8890,7 +8890,7 @@ public  final class AndroidStudioEvent extends
      * or kind = CLOUD_TESTING_DEBUG_FROM_RESULTS
      * or kind = TEST_RUN
      * or kind = LayoutInspectorEvent and LayoutInspectorEventType = CAPTURE
-     * or kind = ANDROID_PROFILER
+     * or kind = ANDROID_PROFILER and AndroidProfilerEvent.Type = CHANGE_DEVICE
      * </pre>
      */
     private com.google.protobuf.SingleFieldBuilder<

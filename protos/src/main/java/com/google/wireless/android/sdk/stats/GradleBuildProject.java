@@ -122,6 +122,19 @@ public  final class GradleBuildProject extends
             compileSdk_ = input.readBytes();
             break;
           }
+          case 82: {
+            com.google.wireless.android.sdk.stats.GradleBuildSplits.Builder subBuilder = null;
+            if (((bitField0_ & 0x00000100) == 0x00000100)) {
+              subBuilder = splits_.toBuilder();
+            }
+            splits_ = input.readMessage(com.google.wireless.android.sdk.stats.GradleBuildSplits.PARSER, extensionRegistry);
+            if (subBuilder != null) {
+              subBuilder.mergeFrom(splits_);
+              splits_ = subBuilder.buildPartial();
+            }
+            bitField0_ |= 0x00000100;
+            break;
+          }
         }
       }
     } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -821,6 +834,40 @@ public  final class GradleBuildProject extends
     }
   }
 
+  // optional .android_studio.GradleBuildSplits splits = 10;
+  public static final int SPLITS_FIELD_NUMBER = 10;
+  private com.google.wireless.android.sdk.stats.GradleBuildSplits splits_;
+  /**
+   * <code>optional .android_studio.GradleBuildSplits splits = 10;</code>
+   *
+   * <pre>
+   * The split config as defined by the user in the DSL.
+   * </pre>
+   */
+  public boolean hasSplits() {
+    return ((bitField0_ & 0x00000100) == 0x00000100);
+  }
+  /**
+   * <code>optional .android_studio.GradleBuildSplits splits = 10;</code>
+   *
+   * <pre>
+   * The split config as defined by the user in the DSL.
+   * </pre>
+   */
+  public com.google.wireless.android.sdk.stats.GradleBuildSplits getSplits() {
+    return splits_;
+  }
+  /**
+   * <code>optional .android_studio.GradleBuildSplits splits = 10;</code>
+   *
+   * <pre>
+   * The split config as defined by the user in the DSL.
+   * </pre>
+   */
+  public com.google.wireless.android.sdk.stats.GradleBuildSplitsOrBuilder getSplitsOrBuilder() {
+    return splits_;
+  }
+
   private void initFields() {
     id_ = 0L;
     androidPluginVersion_ = "";
@@ -831,6 +878,7 @@ public  final class GradleBuildProject extends
     variant_ = java.util.Collections.emptyList();
     atoms_ = 0L;
     compileSdk_ = "";
+    splits_ = com.google.wireless.android.sdk.stats.GradleBuildSplits.getDefaultInstance();
   }
   private byte memoizedIsInitialized = -1;
   public final boolean isInitialized() {
@@ -870,6 +918,9 @@ public  final class GradleBuildProject extends
     }
     if (((bitField0_ & 0x00000080) == 0x00000080)) {
       output.writeBytes(9, getCompileSdkBytes());
+    }
+    if (((bitField0_ & 0x00000100) == 0x00000100)) {
+      output.writeMessage(10, splits_);
     }
     getUnknownFields().writeTo(output);
   }
@@ -915,6 +966,10 @@ public  final class GradleBuildProject extends
     if (((bitField0_ & 0x00000080) == 0x00000080)) {
       size += com.google.protobuf.CodedOutputStream
         .computeBytesSize(9, getCompileSdkBytes());
+    }
+    if (((bitField0_ & 0x00000100) == 0x00000100)) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeMessageSize(10, splits_);
     }
     size += getUnknownFields().getSerializedSize();
     memoizedSerializedSize = size;
@@ -1026,6 +1081,7 @@ public  final class GradleBuildProject extends
       if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
         getMetricsFieldBuilder();
         getVariantFieldBuilder();
+        getSplitsFieldBuilder();
       }
     }
     private static Builder create() {
@@ -1060,6 +1116,12 @@ public  final class GradleBuildProject extends
       bitField0_ = (bitField0_ & ~0x00000080);
       compileSdk_ = "";
       bitField0_ = (bitField0_ & ~0x00000100);
+      if (splitsBuilder_ == null) {
+        splits_ = com.google.wireless.android.sdk.stats.GradleBuildSplits.getDefaultInstance();
+      } else {
+        splitsBuilder_.clear();
+      }
+      bitField0_ = (bitField0_ & ~0x00000200);
       return this;
     }
 
@@ -1133,6 +1195,14 @@ public  final class GradleBuildProject extends
         to_bitField0_ |= 0x00000080;
       }
       result.compileSdk_ = compileSdk_;
+      if (((from_bitField0_ & 0x00000200) == 0x00000200)) {
+        to_bitField0_ |= 0x00000100;
+      }
+      if (splitsBuilder_ == null) {
+        result.splits_ = splits_;
+      } else {
+        result.splits_ = splitsBuilder_.build();
+      }
       result.bitField0_ = to_bitField0_;
       onBuilt();
       return result;
@@ -1204,6 +1274,9 @@ public  final class GradleBuildProject extends
         bitField0_ |= 0x00000100;
         compileSdk_ = other.compileSdk_;
         onChanged();
+      }
+      if (other.hasSplits()) {
+        mergeSplits(other.getSplits());
       }
       this.mergeUnknownFields(other.getUnknownFields());
       return this;
@@ -2240,6 +2313,159 @@ public  final class GradleBuildProject extends
       compileSdk_ = value;
       onChanged();
       return this;
+    }
+
+    // optional .android_studio.GradleBuildSplits splits = 10;
+    private com.google.wireless.android.sdk.stats.GradleBuildSplits splits_ = com.google.wireless.android.sdk.stats.GradleBuildSplits.getDefaultInstance();
+    private com.google.protobuf.SingleFieldBuilder<
+        com.google.wireless.android.sdk.stats.GradleBuildSplits, com.google.wireless.android.sdk.stats.GradleBuildSplits.Builder, com.google.wireless.android.sdk.stats.GradleBuildSplitsOrBuilder> splitsBuilder_;
+    /**
+     * <code>optional .android_studio.GradleBuildSplits splits = 10;</code>
+     *
+     * <pre>
+     * The split config as defined by the user in the DSL.
+     * </pre>
+     */
+    public boolean hasSplits() {
+      return ((bitField0_ & 0x00000200) == 0x00000200);
+    }
+    /**
+     * <code>optional .android_studio.GradleBuildSplits splits = 10;</code>
+     *
+     * <pre>
+     * The split config as defined by the user in the DSL.
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.GradleBuildSplits getSplits() {
+      if (splitsBuilder_ == null) {
+        return splits_;
+      } else {
+        return splitsBuilder_.getMessage();
+      }
+    }
+    /**
+     * <code>optional .android_studio.GradleBuildSplits splits = 10;</code>
+     *
+     * <pre>
+     * The split config as defined by the user in the DSL.
+     * </pre>
+     */
+    public Builder setSplits(com.google.wireless.android.sdk.stats.GradleBuildSplits value) {
+      if (splitsBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        splits_ = value;
+        onChanged();
+      } else {
+        splitsBuilder_.setMessage(value);
+      }
+      bitField0_ |= 0x00000200;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.GradleBuildSplits splits = 10;</code>
+     *
+     * <pre>
+     * The split config as defined by the user in the DSL.
+     * </pre>
+     */
+    public Builder setSplits(
+        com.google.wireless.android.sdk.stats.GradleBuildSplits.Builder builderForValue) {
+      if (splitsBuilder_ == null) {
+        splits_ = builderForValue.build();
+        onChanged();
+      } else {
+        splitsBuilder_.setMessage(builderForValue.build());
+      }
+      bitField0_ |= 0x00000200;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.GradleBuildSplits splits = 10;</code>
+     *
+     * <pre>
+     * The split config as defined by the user in the DSL.
+     * </pre>
+     */
+    public Builder mergeSplits(com.google.wireless.android.sdk.stats.GradleBuildSplits value) {
+      if (splitsBuilder_ == null) {
+        if (((bitField0_ & 0x00000200) == 0x00000200) &&
+            splits_ != com.google.wireless.android.sdk.stats.GradleBuildSplits.getDefaultInstance()) {
+          splits_ =
+            com.google.wireless.android.sdk.stats.GradleBuildSplits.newBuilder(splits_).mergeFrom(value).buildPartial();
+        } else {
+          splits_ = value;
+        }
+        onChanged();
+      } else {
+        splitsBuilder_.mergeFrom(value);
+      }
+      bitField0_ |= 0x00000200;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.GradleBuildSplits splits = 10;</code>
+     *
+     * <pre>
+     * The split config as defined by the user in the DSL.
+     * </pre>
+     */
+    public Builder clearSplits() {
+      if (splitsBuilder_ == null) {
+        splits_ = com.google.wireless.android.sdk.stats.GradleBuildSplits.getDefaultInstance();
+        onChanged();
+      } else {
+        splitsBuilder_.clear();
+      }
+      bitField0_ = (bitField0_ & ~0x00000200);
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.GradleBuildSplits splits = 10;</code>
+     *
+     * <pre>
+     * The split config as defined by the user in the DSL.
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.GradleBuildSplits.Builder getSplitsBuilder() {
+      bitField0_ |= 0x00000200;
+      onChanged();
+      return getSplitsFieldBuilder().getBuilder();
+    }
+    /**
+     * <code>optional .android_studio.GradleBuildSplits splits = 10;</code>
+     *
+     * <pre>
+     * The split config as defined by the user in the DSL.
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.GradleBuildSplitsOrBuilder getSplitsOrBuilder() {
+      if (splitsBuilder_ != null) {
+        return splitsBuilder_.getMessageOrBuilder();
+      } else {
+        return splits_;
+      }
+    }
+    /**
+     * <code>optional .android_studio.GradleBuildSplits splits = 10;</code>
+     *
+     * <pre>
+     * The split config as defined by the user in the DSL.
+     * </pre>
+     */
+    private com.google.protobuf.SingleFieldBuilder<
+        com.google.wireless.android.sdk.stats.GradleBuildSplits, com.google.wireless.android.sdk.stats.GradleBuildSplits.Builder, com.google.wireless.android.sdk.stats.GradleBuildSplitsOrBuilder> 
+        getSplitsFieldBuilder() {
+      if (splitsBuilder_ == null) {
+        splitsBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+            com.google.wireless.android.sdk.stats.GradleBuildSplits, com.google.wireless.android.sdk.stats.GradleBuildSplits.Builder, com.google.wireless.android.sdk.stats.GradleBuildSplitsOrBuilder>(
+                splits_,
+                getParentForChildren(),
+                isClean());
+        splits_ = null;
+      }
+      return splitsBuilder_;
     }
 
     // @@protoc_insertion_point(builder_scope:android_studio.GradleBuildProject)

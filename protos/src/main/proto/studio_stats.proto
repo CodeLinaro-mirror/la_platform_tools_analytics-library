@@ -68,7 +68,7 @@ message AndroidStudioEvent {
   // or kind = CLOUD_TESTING_DEBUG_FROM_RESULTS
   // or kind = TEST_RUN
   // or kind = LayoutInspectorEvent and LayoutInspectorEventType = CAPTURE
-  // or kind = ANDROID_PROFILER
+  // or kind = ANDROID_PROFILER and AndroidProfilerEvent.Type = CHANGE_DEVICE
   optional DeviceInfo device_info = 12;
 
   // set when kind = LLDB_INSTALL_FAILED
@@ -767,6 +767,16 @@ message LldbSessionStartDetails {
   optional DeviceInfo device_info = 5;
   // Version of the native debugger.
   optional string lldb_version = 6;
+  // Type of starter used to start this session.
+  optional StarterType starter_type = 7;
+
+  // Describes session starter implementations.
+  enum StarterType {
+    UNKNOWN_STARTER_TYPE = 0;
+    ROOT_SHELL_STARTER_TYPE = 1;
+    RUN_AS_SHELL_STARTER_TYPE = 2;
+    INJECTOR_STARTER_TYPE = 3;
+  }
 }
 
 message LldbSessionEndDetails {
@@ -1494,6 +1504,9 @@ message GradleBuildProject {
   // e.g. "android-25" or "The Vendor Inc.:My Addon:10"
   optional string compile_sdk = 9;
 
+  // The split config as defined by the user in the DSL.
+  optional GradleBuildSplits splits = 10;
+
   enum PluginType {
     UNKNOWN_PLUGIN_TYPE = 0;
     // The 'com.android.application' or 'com.android.model.application' plugins.
@@ -1516,6 +1529,53 @@ message GradleBuildProject {
     FIRST = 1;
     // The 'com.android.model.[application,library]' plugins
     COMPONENT_MODEL = 2;
+  }
+}
+
+message GradleBuildSplits {
+  // Are density splits enabled?
+  optional bool density_enabled = 1;
+  // Is automatic discovery based on the merged resources enabled?
+  // Only set if density splits are enabled.
+  optional bool density_auto = 2;
+  // Injected compatible screens manifest values.
+  // Only populated if language splits are enabled.
+  // e.g. NORMAL, LARGE, XLARGE
+  repeated CompatibleScreenSize density_compatible_screens = 3;
+  // Densities that the application will be split on.
+  // Only populated if density splits are enabled.
+  // e.g. 480, 560, 640
+  // See
+  // https://android.googlesource.com/platform/tools/base/+/studio-master-dev/layoutlib-api/src/main/java/com/android/resources/Density.java
+  // for a comprensive list of possible values.
+  repeated int32 density_values = 4;
+
+  // Are language splits enabled?
+  optional bool language_enabled = 5;
+  // Is automatic discovery based on the merged resources enabled?
+  // Only set if language splits are enabled.
+  optional bool language_auto = 6;
+  // Language and region codes that the application will be split on.
+  // Only populated if language splits are enabled.
+  // e.g. 'fr,fr-rBE', 'fr-rCA', 'en'
+  repeated string language_includes = 7;
+
+  // Are ABI splits enabled?
+  optional bool abi_enabled = 8;
+  // Will a universal APK be generated?
+  // Only set if abi splits are enabled.
+  optional bool abi_enable_universal_apk = 9;
+  // ABIs that the application will be split on.
+  // Only populated if abi splits are enabled.
+  // e.g. 'x86', 'armeabi-v7a'
+  repeated DeviceInfo.ApplicationBinaryInterface abi_filters = 10;
+
+  enum CompatibleScreenSize {
+    UNKNOWN_SCREEN_SIZE = 0;
+    SMALL = 1;
+    NORMAL = 2;
+    LARGE = 3;
+    XLARGE = 4;
   }
 }
 
@@ -1861,7 +1921,7 @@ message GradleTaskExecution {
   // The task implementing class.
   // Custom tasks are recorded as UNKNOWN_TASK_TYPE.
   // This is an enum in android git:
-  // tools/base/build-system/gradle-core/src/main/proto/analytics_enums.proto
+  // tools/analytics-library/protos/src/main/proto/analytics_enums.proto
   optional int32 type = 1;
 
   // Whether the task did work (TaskState#getDidWork())
@@ -1883,7 +1943,7 @@ message GradleTransformExecution {
   // The transform implementing class.
   // Custom transforms are recorded as UNKNOWN_TRANSFORM_TYPE.
   // This is an enum in android git:
-  // tools/base/build-system/gradle-core/src/main/proto/analytics_enums.proto
+  // tools/analytics-library/protos/src/main/proto/analytics_enums.proto
   optional int32 type = 1;
 
   // Whether the transform could be (in the case of TASK_TRANSFORM_PREPARATION)

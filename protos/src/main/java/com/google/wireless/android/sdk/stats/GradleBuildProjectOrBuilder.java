@@ -252,4 +252,30 @@ public interface GradleBuildProjectOrBuilder
    */
   com.google.protobuf.ByteString
       getCompileSdkBytes();
+
+  // optional .android_studio.GradleBuildSplits splits = 10;
+  /**
+   * <code>optional .android_studio.GradleBuildSplits splits = 10;</code>
+   *
+   * <pre>
+   * The split config as defined by the user in the DSL.
+   * </pre>
+   */
+  boolean hasSplits();
+  /**
+   * <code>optional .android_studio.GradleBuildSplits splits = 10;</code>
+   *
+   * <pre>
+   * The split config as defined by the user in the DSL.
+   * </pre>
+   */
+  com.google.wireless.android.sdk.stats.GradleBuildSplits getSplits();
+  /**
+   * <code>optional .android_studio.GradleBuildSplits splits = 10;</code>
+   *
+   * <pre>
+   * The split config as defined by the user in the DSL.
+   * </pre>
+   */
+  com.google.wireless.android.sdk.stats.GradleBuildSplitsOrBuilder getSplitsOrBuilder();
 }

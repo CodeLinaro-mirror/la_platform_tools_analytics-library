@@ -104,6 +104,17 @@ public  final class LldbSessionStartDetails extends
             lldbVersion_ = input.readBytes();
             break;
           }
+          case 56: {
+            int rawValue = input.readEnum();
+            com.google.wireless.android.sdk.stats.LldbSessionStartDetails.StarterType value = com.google.wireless.android.sdk.stats.LldbSessionStartDetails.StarterType.valueOf(rawValue);
+            if (value == null) {
+              unknownFields.mergeVarintField(7, rawValue);
+            } else {
+              bitField0_ |= 0x00000040;
+              starterType_ = value;
+            }
+            break;
+          }
         }
       }
     } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -141,6 +152,110 @@ public  final class LldbSessionStartDetails extends
   @java.lang.Override
   public com.google.protobuf.Parser<LldbSessionStartDetails> getParserForType() {
     return PARSER;
+  }
+
+  /**
+   * Protobuf enum {@code android_studio.LldbSessionStartDetails.StarterType}
+   *
+   * <pre>
+   * Describes session starter implementations.
+   * </pre>
+   */
+  public enum StarterType
+      implements com.google.protobuf.ProtocolMessageEnum {
+    /**
+     * <code>UNKNOWN_STARTER_TYPE = 0;</code>
+     */
+    UNKNOWN_STARTER_TYPE(0, 0),
+    /**
+     * <code>ROOT_SHELL_STARTER_TYPE = 1;</code>
+     */
+    ROOT_SHELL_STARTER_TYPE(1, 1),
+    /**
+     * <code>RUN_AS_SHELL_STARTER_TYPE = 2;</code>
+     */
+    RUN_AS_SHELL_STARTER_TYPE(2, 2),
+    /**
+     * <code>INJECTOR_STARTER_TYPE = 3;</code>
+     */
+    INJECTOR_STARTER_TYPE(3, 3),
+    ;
+
+    /**
+     * <code>UNKNOWN_STARTER_TYPE = 0;</code>
+     */
+    public static final int UNKNOWN_STARTER_TYPE_VALUE = 0;
+    /**
+     * <code>ROOT_SHELL_STARTER_TYPE = 1;</code>
+     */
+    public static final int ROOT_SHELL_STARTER_TYPE_VALUE = 1;
+    /**
+     * <code>RUN_AS_SHELL_STARTER_TYPE = 2;</code>
+     */
+    public static final int RUN_AS_SHELL_STARTER_TYPE_VALUE = 2;
+    /**
+     * <code>INJECTOR_STARTER_TYPE = 3;</code>
+     */
+    public static final int INJECTOR_STARTER_TYPE_VALUE = 3;
+
+
+    public final int getNumber() { return value; }
+
+    public static StarterType valueOf(int value) {
+      switch (value) {
+        case 0: return UNKNOWN_STARTER_TYPE;
+        case 1: return ROOT_SHELL_STARTER_TYPE;
+        case 2: return RUN_AS_SHELL_STARTER_TYPE;
+        case 3: return INJECTOR_STARTER_TYPE;
+        default: return null;
+      }
+    }
+
+    public static com.google.protobuf.Internal.EnumLiteMap<StarterType>
+        internalGetValueMap() {
+      return internalValueMap;
+    }
+    private static com.google.protobuf.Internal.EnumLiteMap<StarterType>
+        internalValueMap =
+          new com.google.protobuf.Internal.EnumLiteMap<StarterType>() {
+            public StarterType findValueByNumber(int number) {
+              return StarterType.valueOf(number);
+            }
+          };
+
+    public final com.google.protobuf.Descriptors.EnumValueDescriptor
+        getValueDescriptor() {
+      return getDescriptor().getValues().get(index);
+    }
+    public final com.google.protobuf.Descriptors.EnumDescriptor
+        getDescriptorForType() {
+      return getDescriptor();
+    }
+    public static final com.google.protobuf.Descriptors.EnumDescriptor
+        getDescriptor() {
+      return com.google.wireless.android.sdk.stats.LldbSessionStartDetails.getDescriptor().getEnumTypes().get(0);
+    }
+
+    private static final StarterType[] VALUES = values();
+
+    public static StarterType valueOf(
+        com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
+      if (desc.getType() != getDescriptor()) {
+        throw new java.lang.IllegalArgumentException(
+          "EnumValueDescriptor is not for this type.");
+      }
+      return VALUES[desc.getIndex()];
+    }
+
+    private final int index;
+    private final int value;
+
+    private StarterType(int index, int value) {
+      this.index = index;
+      this.value = value;
+    }
+
+    // @@protoc_insertion_point(enum_scope:android_studio.LldbSessionStartDetails.StarterType)
   }
 
   private int bitField0_;
@@ -360,6 +475,30 @@ public  final class LldbSessionStartDetails extends
     }
   }
 
+  // optional .android_studio.LldbSessionStartDetails.StarterType starter_type = 7;
+  public static final int STARTER_TYPE_FIELD_NUMBER = 7;
+  private com.google.wireless.android.sdk.stats.LldbSessionStartDetails.StarterType starterType_;
+  /**
+   * <code>optional .android_studio.LldbSessionStartDetails.StarterType starter_type = 7;</code>
+   *
+   * <pre>
+   * Type of starter used to start this session.
+   * </pre>
+   */
+  public boolean hasStarterType() {
+    return ((bitField0_ & 0x00000040) == 0x00000040);
+  }
+  /**
+   * <code>optional .android_studio.LldbSessionStartDetails.StarterType starter_type = 7;</code>
+   *
+   * <pre>
+   * Type of starter used to start this session.
+   * </pre>
+   */
+  public com.google.wireless.android.sdk.stats.LldbSessionStartDetails.StarterType getStarterType() {
+    return starterType_;
+  }
+
   private void initFields() {
     debugSessionId_ = "";
     debuggerType_ = com.google.wireless.android.sdk.stats.AndroidStudioEvent.DebuggerType.UNKNOWN_DEBUGGER_TYPE;
@@ -367,6 +506,7 @@ public  final class LldbSessionStartDetails extends
     autoDebugger_ = false;
     deviceInfo_ = com.google.wireless.android.sdk.stats.DeviceInfo.getDefaultInstance();
     lldbVersion_ = "";
+    starterType_ = com.google.wireless.android.sdk.stats.LldbSessionStartDetails.StarterType.UNKNOWN_STARTER_TYPE;
   }
   private byte memoizedIsInitialized = -1;
   public final boolean isInitialized() {
@@ -397,6 +537,9 @@ public  final class LldbSessionStartDetails extends
     }
     if (((bitField0_ & 0x00000020) == 0x00000020)) {
       output.writeBytes(6, getLldbVersionBytes());
+    }
+    if (((bitField0_ & 0x00000040) == 0x00000040)) {
+      output.writeEnum(7, starterType_.getNumber());
     }
     getUnknownFields().writeTo(output);
   }
@@ -430,6 +573,10 @@ public  final class LldbSessionStartDetails extends
     if (((bitField0_ & 0x00000020) == 0x00000020)) {
       size += com.google.protobuf.CodedOutputStream
         .computeBytesSize(6, getLldbVersionBytes());
+    }
+    if (((bitField0_ & 0x00000040) == 0x00000040)) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeEnumSize(7, starterType_.getNumber());
     }
     size += getUnknownFields().getSerializedSize();
     memoizedSerializedSize = size;
@@ -564,6 +711,8 @@ public  final class LldbSessionStartDetails extends
       bitField0_ = (bitField0_ & ~0x00000010);
       lldbVersion_ = "";
       bitField0_ = (bitField0_ & ~0x00000020);
+      starterType_ = com.google.wireless.android.sdk.stats.LldbSessionStartDetails.StarterType.UNKNOWN_STARTER_TYPE;
+      bitField0_ = (bitField0_ & ~0x00000040);
       return this;
     }
 
@@ -620,6 +769,10 @@ public  final class LldbSessionStartDetails extends
         to_bitField0_ |= 0x00000020;
       }
       result.lldbVersion_ = lldbVersion_;
+      if (((from_bitField0_ & 0x00000040) == 0x00000040)) {
+        to_bitField0_ |= 0x00000040;
+      }
+      result.starterType_ = starterType_;
       result.bitField0_ = to_bitField0_;
       onBuilt();
       return result;
@@ -657,6 +810,9 @@ public  final class LldbSessionStartDetails extends
         bitField0_ |= 0x00000020;
         lldbVersion_ = other.lldbVersion_;
         onChanged();
+      }
+      if (other.hasStarterType()) {
+        setStarterType(other.getStarterType());
       }
       this.mergeUnknownFields(other.getUnknownFields());
       return this;
@@ -1183,6 +1339,58 @@ public  final class LldbSessionStartDetails extends
   }
   bitField0_ |= 0x00000020;
       lldbVersion_ = value;
+      onChanged();
+      return this;
+    }
+
+    // optional .android_studio.LldbSessionStartDetails.StarterType starter_type = 7;
+    private com.google.wireless.android.sdk.stats.LldbSessionStartDetails.StarterType starterType_ = com.google.wireless.android.sdk.stats.LldbSessionStartDetails.StarterType.UNKNOWN_STARTER_TYPE;
+    /**
+     * <code>optional .android_studio.LldbSessionStartDetails.StarterType starter_type = 7;</code>
+     *
+     * <pre>
+     * Type of starter used to start this session.
+     * </pre>
+     */
+    public boolean hasStarterType() {
+      return ((bitField0_ & 0x00000040) == 0x00000040);
+    }
+    /**
+     * <code>optional .android_studio.LldbSessionStartDetails.StarterType starter_type = 7;</code>
+     *
+     * <pre>
+     * Type of starter used to start this session.
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.LldbSessionStartDetails.StarterType getStarterType() {
+      return starterType_;
+    }
+    /**
+     * <code>optional .android_studio.LldbSessionStartDetails.StarterType starter_type = 7;</code>
+     *
+     * <pre>
+     * Type of starter used to start this session.
+     * </pre>
+     */
+    public Builder setStarterType(com.google.wireless.android.sdk.stats.LldbSessionStartDetails.StarterType value) {
+      if (value == null) {
+        throw new NullPointerException();
+      }
+      bitField0_ |= 0x00000040;
+      starterType_ = value;
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.LldbSessionStartDetails.StarterType starter_type = 7;</code>
+     *
+     * <pre>
+     * Type of starter used to start this session.
+     * </pre>
+     */
+    public Builder clearStarterType() {
+      bitField0_ = (bitField0_ & ~0x00000040);
+      starterType_ = com.google.wireless.android.sdk.stats.LldbSessionStartDetails.StarterType.UNKNOWN_STARTER_TYPE;
       onChanged();
       return this;
     }

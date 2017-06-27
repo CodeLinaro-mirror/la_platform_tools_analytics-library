@@ -129,7 +129,7 @@ public  final class GradleTaskExecution extends
    * The task implementing class.
    * Custom tasks are recorded as UNKNOWN_TASK_TYPE.
    * This is an enum in android git:
-   * tools/base/build-system/gradle-core/src/main/proto/analytics_enums.proto
+   * tools/analytics-library/protos/src/main/proto/analytics_enums.proto
    * </pre>
    */
   public boolean hasType() {
@@ -142,7 +142,7 @@ public  final class GradleTaskExecution extends
    * The task implementing class.
    * Custom tasks are recorded as UNKNOWN_TASK_TYPE.
    * This is an enum in android git:
-   * tools/base/build-system/gradle-core/src/main/proto/analytics_enums.proto
+   * tools/analytics-library/protos/src/main/proto/analytics_enums.proto
    * </pre>
    */
   public int getType() {
@@ -553,7 +553,7 @@ public  final class GradleTaskExecution extends
      * The task implementing class.
      * Custom tasks are recorded as UNKNOWN_TASK_TYPE.
      * This is an enum in android git:
-     * tools/base/build-system/gradle-core/src/main/proto/analytics_enums.proto
+     * tools/analytics-library/protos/src/main/proto/analytics_enums.proto
      * </pre>
      */
     public boolean hasType() {
@@ -566,7 +566,7 @@ public  final class GradleTaskExecution extends
      * The task implementing class.
      * Custom tasks are recorded as UNKNOWN_TASK_TYPE.
      * This is an enum in android git:
-     * tools/base/build-system/gradle-core/src/main/proto/analytics_enums.proto
+     * tools/analytics-library/protos/src/main/proto/analytics_enums.proto
      * </pre>
      */
     public int getType() {
@@ -579,7 +579,7 @@ public  final class GradleTaskExecution extends
      * The task implementing class.
      * Custom tasks are recorded as UNKNOWN_TASK_TYPE.
      * This is an enum in android git:
-     * tools/base/build-system/gradle-core/src/main/proto/analytics_enums.proto
+     * tools/analytics-library/protos/src/main/proto/analytics_enums.proto
      * </pre>
      */
     public Builder setType(int value) {
@@ -595,7 +595,7 @@ public  final class GradleTaskExecution extends
      * The task implementing class.
      * Custom tasks are recorded as UNKNOWN_TASK_TYPE.
      * This is an enum in android git:
-     * tools/base/build-system/gradle-core/src/main/proto/analytics_enums.proto
+     * tools/analytics-library/protos/src/main/proto/analytics_enums.proto
      * </pre>
      */
     public Builder clearType() {
