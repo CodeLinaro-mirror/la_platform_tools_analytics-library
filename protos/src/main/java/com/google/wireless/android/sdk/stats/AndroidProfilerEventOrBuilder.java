@@ -41,4 +41,30 @@ public interface AndroidProfilerEventOrBuilder
    * </pre>
    */
   com.google.wireless.android.sdk.stats.AndroidProfilerEvent.Type getType();
+
+  // optional .android_studio.CpuProfilingConfig cpu_config = 3;
+  /**
+   * <code>optional .android_studio.CpuProfilingConfig cpu_config = 3;</code>
+   *
+   * <pre>
+   * Set if |type| is |TRACE_CPU|
+   * </pre>
+   */
+  boolean hasCpuConfig();
+  /**
+   * <code>optional .android_studio.CpuProfilingConfig cpu_config = 3;</code>
+   *
+   * <pre>
+   * Set if |type| is |TRACE_CPU|
+   * </pre>
+   */
+  com.google.wireless.android.sdk.stats.CpuProfilingConfig getCpuConfig();
+  /**
+   * <code>optional .android_studio.CpuProfilingConfig cpu_config = 3;</code>
+   *
+   * <pre>
+   * Set if |type| is |TRACE_CPU|
+   * </pre>
+   */
+  com.google.wireless.android.sdk.stats.CpuProfilingConfigOrBuilder getCpuConfigOrBuilder();
 }

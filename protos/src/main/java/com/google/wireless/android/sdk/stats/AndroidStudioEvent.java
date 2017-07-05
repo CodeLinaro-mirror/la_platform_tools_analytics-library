@@ -649,6 +649,19 @@ public  final class AndroidStudioEvent extends
             bitField1_ |= 0x00080000;
             break;
           }
+          case 426: {
+            com.google.wireless.android.sdk.stats.AndroidProfilerDbStats.Builder subBuilder = null;
+            if (((bitField1_ & 0x00100000) == 0x00100000)) {
+              subBuilder = androidProfilerDbStats_.toBuilder();
+            }
+            androidProfilerDbStats_ = input.readMessage(com.google.wireless.android.sdk.stats.AndroidProfilerDbStats.PARSER, extensionRegistry);
+            if (subBuilder != null) {
+              subBuilder.mergeFrom(androidProfilerDbStats_);
+              androidProfilerDbStats_ = subBuilder.buildPartial();
+            }
+            bitField1_ |= 0x00100000;
+            break;
+          }
         }
       }
     } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -2177,6 +2190,14 @@ public  final class AndroidStudioEvent extends
      * </pre>
      */
     LAYOUT_INSPECTOR_EVENT(121, 124),
+    /**
+     * <code>ANDROID_PROFILER_DB_STATS = 125;</code>
+     *
+     * <pre>
+     * Android Profiler database statistics
+     * </pre>
+     */
+    ANDROID_PROFILER_DB_STATS(122, 125),
     ;
 
     /**
@@ -3136,6 +3157,14 @@ public  final class AndroidStudioEvent extends
      * </pre>
      */
     public static final int LAYOUT_INSPECTOR_EVENT_VALUE = 124;
+    /**
+     * <code>ANDROID_PROFILER_DB_STATS = 125;</code>
+     *
+     * <pre>
+     * Android Profiler database statistics
+     * </pre>
+     */
+    public static final int ANDROID_PROFILER_DB_STATS_VALUE = 125;
 
 
     public final int getNumber() { return value; }
@@ -3264,6 +3293,7 @@ public  final class AndroidStudioEvent extends
         case 122: return APK_DEBUG_ADD_SYMBOLS;
         case 123: return APK_DEBUG_SELECT_PATH_MAPPINGS;
         case 124: return LAYOUT_INSPECTOR_EVENT;
+        case 125: return ANDROID_PROFILER_DB_STATS;
         default: return null;
       }
     }
@@ -6433,6 +6463,40 @@ public  final class AndroidStudioEvent extends
     return layoutInspectorEvent_;
   }
 
+  // optional .android_studio.AndroidProfilerDbStats android_profiler_db_stats = 53;
+  public static final int ANDROID_PROFILER_DB_STATS_FIELD_NUMBER = 53;
+  private com.google.wireless.android.sdk.stats.AndroidProfilerDbStats androidProfilerDbStats_;
+  /**
+   * <code>optional .android_studio.AndroidProfilerDbStats android_profiler_db_stats = 53;</code>
+   *
+   * <pre>
+   * set when kind = ANDROID_PROFILER_DB_STATS
+   * </pre>
+   */
+  public boolean hasAndroidProfilerDbStats() {
+    return ((bitField1_ & 0x00100000) == 0x00100000);
+  }
+  /**
+   * <code>optional .android_studio.AndroidProfilerDbStats android_profiler_db_stats = 53;</code>
+   *
+   * <pre>
+   * set when kind = ANDROID_PROFILER_DB_STATS
+   * </pre>
+   */
+  public com.google.wireless.android.sdk.stats.AndroidProfilerDbStats getAndroidProfilerDbStats() {
+    return androidProfilerDbStats_;
+  }
+  /**
+   * <code>optional .android_studio.AndroidProfilerDbStats android_profiler_db_stats = 53;</code>
+   *
+   * <pre>
+   * set when kind = ANDROID_PROFILER_DB_STATS
+   * </pre>
+   */
+  public com.google.wireless.android.sdk.stats.AndroidProfilerDbStatsOrBuilder getAndroidProfilerDbStatsOrBuilder() {
+    return androidProfilerDbStats_;
+  }
+
   private void initFields() {
     category_ = com.google.wireless.android.sdk.stats.AndroidStudioEvent.EventCategory.NO_EVENT_CATEGORY;
     kind_ = com.google.wireless.android.sdk.stats.AndroidStudioEvent.EventKind.UNKNOWN_EVENT_KIND;
@@ -6486,6 +6550,7 @@ public  final class AndroidStudioEvent extends
     gradleSyncStats_ = com.google.wireless.android.sdk.stats.GradleSyncStats.getDefaultInstance();
     apkDebugProject_ = com.google.wireless.android.sdk.stats.ApkDebugProject.getDefaultInstance();
     layoutInspectorEvent_ = com.google.wireless.android.sdk.stats.LayoutInspectorEvent.getDefaultInstance();
+    androidProfilerDbStats_ = com.google.wireless.android.sdk.stats.AndroidProfilerDbStats.getDefaultInstance();
   }
   private byte memoizedIsInitialized = -1;
   public final boolean isInitialized() {
@@ -6654,6 +6719,9 @@ public  final class AndroidStudioEvent extends
     }
     if (((bitField1_ & 0x00080000) == 0x00080000)) {
       output.writeMessage(52, layoutInspectorEvent_);
+    }
+    if (((bitField1_ & 0x00100000) == 0x00100000)) {
+      output.writeMessage(53, androidProfilerDbStats_);
     }
     getUnknownFields().writeTo(output);
   }
@@ -6872,6 +6940,10 @@ public  final class AndroidStudioEvent extends
       size += com.google.protobuf.CodedOutputStream
         .computeMessageSize(52, layoutInspectorEvent_);
     }
+    if (((bitField1_ & 0x00100000) == 0x00100000)) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeMessageSize(53, androidProfilerDbStats_);
+    }
     size += getUnknownFields().getSerializedSize();
     memoizedSerializedSize = size;
     return size;
@@ -7015,6 +7087,7 @@ public  final class AndroidStudioEvent extends
         getGradleSyncStatsFieldBuilder();
         getApkDebugProjectFieldBuilder();
         getLayoutInspectorEventFieldBuilder();
+        getAndroidProfilerDbStatsFieldBuilder();
       }
     }
     private static Builder create() {
@@ -7267,6 +7340,12 @@ public  final class AndroidStudioEvent extends
         layoutInspectorEventBuilder_.clear();
       }
       bitField1_ = (bitField1_ & ~0x00080000);
+      if (androidProfilerDbStatsBuilder_ == null) {
+        androidProfilerDbStats_ = com.google.wireless.android.sdk.stats.AndroidProfilerDbStats.getDefaultInstance();
+      } else {
+        androidProfilerDbStatsBuilder_.clear();
+      }
+      bitField1_ = (bitField1_ & ~0x00100000);
       return this;
     }
 
@@ -7645,6 +7724,14 @@ public  final class AndroidStudioEvent extends
       } else {
         result.layoutInspectorEvent_ = layoutInspectorEventBuilder_.build();
       }
+      if (((from_bitField1_ & 0x00100000) == 0x00100000)) {
+        to_bitField1_ |= 0x00100000;
+      }
+      if (androidProfilerDbStatsBuilder_ == null) {
+        result.androidProfilerDbStats_ = androidProfilerDbStats_;
+      } else {
+        result.androidProfilerDbStats_ = androidProfilerDbStatsBuilder_.build();
+      }
       result.bitField0_ = to_bitField0_;
       result.bitField1_ = to_bitField1_;
       onBuilt();
@@ -7829,6 +7916,9 @@ public  final class AndroidStudioEvent extends
       }
       if (other.hasLayoutInspectorEvent()) {
         mergeLayoutInspectorEvent(other.getLayoutInspectorEvent());
+      }
+      if (other.hasAndroidProfilerDbStats()) {
+        mergeAndroidProfilerDbStats(other.getAndroidProfilerDbStats());
       }
       this.mergeUnknownFields(other.getUnknownFields());
       return this;
@@ -14551,6 +14641,159 @@ public  final class AndroidStudioEvent extends
         layoutInspectorEvent_ = null;
       }
       return layoutInspectorEventBuilder_;
+    }
+
+    // optional .android_studio.AndroidProfilerDbStats android_profiler_db_stats = 53;
+    private com.google.wireless.android.sdk.stats.AndroidProfilerDbStats androidProfilerDbStats_ = com.google.wireless.android.sdk.stats.AndroidProfilerDbStats.getDefaultInstance();
+    private com.google.protobuf.SingleFieldBuilder<
+        com.google.wireless.android.sdk.stats.AndroidProfilerDbStats, com.google.wireless.android.sdk.stats.AndroidProfilerDbStats.Builder, com.google.wireless.android.sdk.stats.AndroidProfilerDbStatsOrBuilder> androidProfilerDbStatsBuilder_;
+    /**
+     * <code>optional .android_studio.AndroidProfilerDbStats android_profiler_db_stats = 53;</code>
+     *
+     * <pre>
+     * set when kind = ANDROID_PROFILER_DB_STATS
+     * </pre>
+     */
+    public boolean hasAndroidProfilerDbStats() {
+      return ((bitField1_ & 0x00100000) == 0x00100000);
+    }
+    /**
+     * <code>optional .android_studio.AndroidProfilerDbStats android_profiler_db_stats = 53;</code>
+     *
+     * <pre>
+     * set when kind = ANDROID_PROFILER_DB_STATS
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.AndroidProfilerDbStats getAndroidProfilerDbStats() {
+      if (androidProfilerDbStatsBuilder_ == null) {
+        return androidProfilerDbStats_;
+      } else {
+        return androidProfilerDbStatsBuilder_.getMessage();
+      }
+    }
+    /**
+     * <code>optional .android_studio.AndroidProfilerDbStats android_profiler_db_stats = 53;</code>
+     *
+     * <pre>
+     * set when kind = ANDROID_PROFILER_DB_STATS
+     * </pre>
+     */
+    public Builder setAndroidProfilerDbStats(com.google.wireless.android.sdk.stats.AndroidProfilerDbStats value) {
+      if (androidProfilerDbStatsBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        androidProfilerDbStats_ = value;
+        onChanged();
+      } else {
+        androidProfilerDbStatsBuilder_.setMessage(value);
+      }
+      bitField1_ |= 0x00100000;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.AndroidProfilerDbStats android_profiler_db_stats = 53;</code>
+     *
+     * <pre>
+     * set when kind = ANDROID_PROFILER_DB_STATS
+     * </pre>
+     */
+    public Builder setAndroidProfilerDbStats(
+        com.google.wireless.android.sdk.stats.AndroidProfilerDbStats.Builder builderForValue) {
+      if (androidProfilerDbStatsBuilder_ == null) {
+        androidProfilerDbStats_ = builderForValue.build();
+        onChanged();
+      } else {
+        androidProfilerDbStatsBuilder_.setMessage(builderForValue.build());
+      }
+      bitField1_ |= 0x00100000;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.AndroidProfilerDbStats android_profiler_db_stats = 53;</code>
+     *
+     * <pre>
+     * set when kind = ANDROID_PROFILER_DB_STATS
+     * </pre>
+     */
+    public Builder mergeAndroidProfilerDbStats(com.google.wireless.android.sdk.stats.AndroidProfilerDbStats value) {
+      if (androidProfilerDbStatsBuilder_ == null) {
+        if (((bitField1_ & 0x00100000) == 0x00100000) &&
+            androidProfilerDbStats_ != com.google.wireless.android.sdk.stats.AndroidProfilerDbStats.getDefaultInstance()) {
+          androidProfilerDbStats_ =
+            com.google.wireless.android.sdk.stats.AndroidProfilerDbStats.newBuilder(androidProfilerDbStats_).mergeFrom(value).buildPartial();
+        } else {
+          androidProfilerDbStats_ = value;
+        }
+        onChanged();
+      } else {
+        androidProfilerDbStatsBuilder_.mergeFrom(value);
+      }
+      bitField1_ |= 0x00100000;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.AndroidProfilerDbStats android_profiler_db_stats = 53;</code>
+     *
+     * <pre>
+     * set when kind = ANDROID_PROFILER_DB_STATS
+     * </pre>
+     */
+    public Builder clearAndroidProfilerDbStats() {
+      if (androidProfilerDbStatsBuilder_ == null) {
+        androidProfilerDbStats_ = com.google.wireless.android.sdk.stats.AndroidProfilerDbStats.getDefaultInstance();
+        onChanged();
+      } else {
+        androidProfilerDbStatsBuilder_.clear();
+      }
+      bitField1_ = (bitField1_ & ~0x00100000);
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.AndroidProfilerDbStats android_profiler_db_stats = 53;</code>
+     *
+     * <pre>
+     * set when kind = ANDROID_PROFILER_DB_STATS
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.AndroidProfilerDbStats.Builder getAndroidProfilerDbStatsBuilder() {
+      bitField1_ |= 0x00100000;
+      onChanged();
+      return getAndroidProfilerDbStatsFieldBuilder().getBuilder();
+    }
+    /**
+     * <code>optional .android_studio.AndroidProfilerDbStats android_profiler_db_stats = 53;</code>
+     *
+     * <pre>
+     * set when kind = ANDROID_PROFILER_DB_STATS
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.AndroidProfilerDbStatsOrBuilder getAndroidProfilerDbStatsOrBuilder() {
+      if (androidProfilerDbStatsBuilder_ != null) {
+        return androidProfilerDbStatsBuilder_.getMessageOrBuilder();
+      } else {
+        return androidProfilerDbStats_;
+      }
+    }
+    /**
+     * <code>optional .android_studio.AndroidProfilerDbStats android_profiler_db_stats = 53;</code>
+     *
+     * <pre>
+     * set when kind = ANDROID_PROFILER_DB_STATS
+     * </pre>
+     */
+    private com.google.protobuf.SingleFieldBuilder<
+        com.google.wireless.android.sdk.stats.AndroidProfilerDbStats, com.google.wireless.android.sdk.stats.AndroidProfilerDbStats.Builder, com.google.wireless.android.sdk.stats.AndroidProfilerDbStatsOrBuilder> 
+        getAndroidProfilerDbStatsFieldBuilder() {
+      if (androidProfilerDbStatsBuilder_ == null) {
+        androidProfilerDbStatsBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+            com.google.wireless.android.sdk.stats.AndroidProfilerDbStats, com.google.wireless.android.sdk.stats.AndroidProfilerDbStats.Builder, com.google.wireless.android.sdk.stats.AndroidProfilerDbStatsOrBuilder>(
+                androidProfilerDbStats_,
+                getParentForChildren(),
+                isClean());
+        androidProfilerDbStats_ = null;
+      }
+      return androidProfilerDbStatsBuilder_;
     }
 
     // @@protoc_insertion_point(builder_scope:android_studio.AndroidStudioEvent)

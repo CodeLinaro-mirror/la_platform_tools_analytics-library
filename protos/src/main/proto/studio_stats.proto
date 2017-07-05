@@ -198,6 +198,9 @@ message AndroidStudioEvent {
   // set when kind = LAYOUT_INSPECTOR_EVENT
   optional LayoutInspectorEvent layout_inspector_event = 52;
 
+  // set when kind = ANDROID_PROFILER_DB_STATS
+  optional AndroidProfilerDbStats android_profiler_db_stats = 53;
+
   // Describes a group of event kinds related to each other.
   // This is redundant in the presence of EventKind + event specific message,
   // and is only necessary for events originally sent to GA.
@@ -536,6 +539,9 @@ message AndroidStudioEvent {
 
     // Layout Inspector event
     LAYOUT_INSPECTOR_EVENT = 124;
+
+    // Android Profiler database statistics
+    ANDROID_PROFILER_DB_STATS = 125;
   }
 
   // Represents different Performance Monitoring types.
@@ -2733,6 +2739,33 @@ message AdbAssistantStats {
   }
 }
 
+message CpuProfilingConfig {
+  // The type of the tool which provides profiling results.
+  optional Type type = 1;
+  // The profiling mode, each of which has different pros / cons.
+  optional Mode mode = 2;
+  // The maximum size of the trace recroding, in MB.
+  optional uint32 size_limit = 3;
+  // The sampling interval in μs, only used when |mode| is |SAMPLED|
+  optional uint32 sample_interval = 4;
+
+  enum Type {
+    UNKNOWN_TYPE = 0;
+    // Use general profiling features provided by the runtime
+    ART = 1;
+    // Use simpleperf for advanced Android profiling, works on Android O+
+    SIMPLE_PERF = 2;
+  }
+
+  enum Mode {
+    UNKNOWN_MODE = 0;
+    // Periodically poll CPU; less accurate but more performant
+    SAMPLED = 1;
+    // Add timing hooks; more accurate but leaf calls are more expensive
+    INSTRUMENTED = 2;
+  }
+}
+
 // Android Profiler metrics
 message AndroidProfilerEvent {
   // The current stage we're on when this event was generated
@@ -2740,6 +2773,9 @@ message AndroidProfilerEvent {
 
   // The detailed type of this event.
   optional Type type = 2;
+
+  // Set if |type| is |TRACE_CPU|
+  optional CpuProfilingConfig cpu_config = 3;
 
   enum Stage {
     UNKNOWN_STAGE = 0;
@@ -2782,8 +2818,8 @@ message AndroidProfilerEvent {
 
     /// CPU
 
-    TRACE_SAMPLED = 201;
-    TRACE_INSTRUMENTED = 202;
+    TRACE_SAMPLED = 201; // Deprecated since 3.0.0.5. Use TRACE_CPU.
+    TRACE_INSTRUMENTED = 202; // Deprecated since 3.0.0.5. Use TRACE_CPU.
     SELECT_THREAD = 204;
     SELECT_TOP_DOWN = 205;
     SELECT_BOTTOM_UP = 206;
@@ -2791,6 +2827,7 @@ message AndroidProfilerEvent {
     SELECT_CALL_CHART = 210;
     OPEN_CPU_CONFIG_DIALOG = 208;
     CREATE_CPU_CONFIG = 209;
+    TRACE_CPU = 211; // Correlate with |cpu_config|
 
     /// Memory
 
@@ -2813,7 +2850,17 @@ message AndroidProfilerEvent {
   }
 }
 
-  // APK Analyzer stats
+// Stats for the DB used by Android Profiler
+message AndroidProfilerDbStats {
+  optional uint32 num_records_cpu = 1;
+  optional uint32 num_records_event = 2;
+  optional uint32 num_records_memory = 3;
+  optional uint32 num_records_network = 4;
+  // DB cache on disk (in MB)
+  optional uint32 total_disk = 5;
+}
+
+// APK Analyzer stats
 message ApkAnalyzerStats {
   // size of the APK
   optional uint64 uncompressed_size = 1;

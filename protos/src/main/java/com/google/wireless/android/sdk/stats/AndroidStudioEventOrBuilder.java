@@ -1347,4 +1347,30 @@ public interface AndroidStudioEventOrBuilder
    * </pre>
    */
   com.google.wireless.android.sdk.stats.LayoutInspectorEventOrBuilder getLayoutInspectorEventOrBuilder();
+
+  // optional .android_studio.AndroidProfilerDbStats android_profiler_db_stats = 53;
+  /**
+   * <code>optional .android_studio.AndroidProfilerDbStats android_profiler_db_stats = 53;</code>
+   *
+   * <pre>
+   * set when kind = ANDROID_PROFILER_DB_STATS
+   * </pre>
+   */
+  boolean hasAndroidProfilerDbStats();
+  /**
+   * <code>optional .android_studio.AndroidProfilerDbStats android_profiler_db_stats = 53;</code>
+   *
+   * <pre>
+   * set when kind = ANDROID_PROFILER_DB_STATS
+   * </pre>
+   */
+  com.google.wireless.android.sdk.stats.AndroidProfilerDbStats getAndroidProfilerDbStats();
+  /**
+   * <code>optional .android_studio.AndroidProfilerDbStats android_profiler_db_stats = 53;</code>
+   *
+   * <pre>
+   * set when kind = ANDROID_PROFILER_DB_STATS
+   * </pre>
+   */
+  com.google.wireless.android.sdk.stats.AndroidProfilerDbStatsOrBuilder getAndroidProfilerDbStatsOrBuilder();
 }

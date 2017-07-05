@@ -80,6 +80,19 @@ public  final class AndroidProfilerEvent extends
             }
             break;
           }
+          case 26: {
+            com.google.wireless.android.sdk.stats.CpuProfilingConfig.Builder subBuilder = null;
+            if (((bitField0_ & 0x00000004) == 0x00000004)) {
+              subBuilder = cpuConfig_.toBuilder();
+            }
+            cpuConfig_ = input.readMessage(com.google.wireless.android.sdk.stats.CpuProfilingConfig.PARSER, extensionRegistry);
+            if (subBuilder != null) {
+              subBuilder.mergeFrom(cpuConfig_);
+              cpuConfig_ = subBuilder.buildPartial();
+            }
+            bitField0_ |= 0x00000004;
+            break;
+          }
         }
       }
     } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -333,10 +346,18 @@ public  final class AndroidProfilerEvent extends
     SELECT_RANGE(13, 110),
     /**
      * <code>TRACE_SAMPLED = 201;</code>
+     *
+     * <pre>
+     * Deprecated since 3.0.0.5. Use TRACE_CPU.
+     * </pre>
      */
     TRACE_SAMPLED(14, 201),
     /**
      * <code>TRACE_INSTRUMENTED = 202;</code>
+     *
+     * <pre>
+     * Deprecated since 3.0.0.5. Use TRACE_CPU.
+     * </pre>
      */
     TRACE_INSTRUMENTED(15, 202),
     /**
@@ -368,57 +389,65 @@ public  final class AndroidProfilerEvent extends
      */
     CREATE_CPU_CONFIG(22, 209),
     /**
+     * <code>TRACE_CPU = 211;</code>
+     *
+     * <pre>
+     * Correlate with |cpu_config|
+     * </pre>
+     */
+    TRACE_CPU(23, 211),
+    /**
      * <code>FORCE_GC = 301;</code>
      */
-    FORCE_GC(23, 301),
+    FORCE_GC(24, 301),
     /**
      * <code>SNAPSHOT_HPROF = 302;</code>
      */
-    SNAPSHOT_HPROF(24, 302),
+    SNAPSHOT_HPROF(25, 302),
     /**
      * <code>CAPTURE_ALLOCATIONS = 303;</code>
      */
-    CAPTURE_ALLOCATIONS(25, 303),
+    CAPTURE_ALLOCATIONS(26, 303),
     /**
      * <code>SELECT_MEMORY_CHART = 304;</code>
      */
-    SELECT_MEMORY_CHART(26, 304),
+    SELECT_MEMORY_CHART(27, 304),
     /**
      * <code>EXPORT_HPROF = 305;</code>
      */
-    EXPORT_HPROF(27, 305),
+    EXPORT_HPROF(28, 305),
     /**
      * <code>EXPORT_ALLOCATION = 306;</code>
      */
-    EXPORT_ALLOCATION(28, 306),
+    EXPORT_ALLOCATION(29, 306),
     /**
      * <code>ARRANGE_CLASSES = 307;</code>
      */
-    ARRANGE_CLASSES(29, 307),
+    ARRANGE_CLASSES(30, 307),
     /**
      * <code>SELECT_MEMORY_STACK = 308;</code>
      */
-    SELECT_MEMORY_STACK(30, 308),
+    SELECT_MEMORY_STACK(31, 308),
     /**
      * <code>SELECT_MEMORY_REFERENCES = 309;</code>
      */
-    SELECT_MEMORY_REFERENCES(31, 309),
+    SELECT_MEMORY_REFERENCES(32, 309),
     /**
      * <code>SELECT_CONNECTION = 402;</code>
      */
-    SELECT_CONNECTION(32, 402),
+    SELECT_CONNECTION(33, 402),
     /**
      * <code>SELECT_DETAILS_RESPONSE = 403;</code>
      */
-    SELECT_DETAILS_RESPONSE(33, 403),
+    SELECT_DETAILS_RESPONSE(34, 403),
     /**
      * <code>SELECT_DETAILS_HEADERS = 404;</code>
      */
-    SELECT_DETAILS_HEADERS(34, 404),
+    SELECT_DETAILS_HEADERS(35, 404),
     /**
      * <code>SELECT_DETAILS_STACK = 405;</code>
      */
-    SELECT_DETAILS_STACK(35, 405),
+    SELECT_DETAILS_STACK(36, 405),
     ;
 
     /**
@@ -496,10 +525,18 @@ public  final class AndroidProfilerEvent extends
     public static final int SELECT_RANGE_VALUE = 110;
     /**
      * <code>TRACE_SAMPLED = 201;</code>
+     *
+     * <pre>
+     * Deprecated since 3.0.0.5. Use TRACE_CPU.
+     * </pre>
      */
     public static final int TRACE_SAMPLED_VALUE = 201;
     /**
      * <code>TRACE_INSTRUMENTED = 202;</code>
+     *
+     * <pre>
+     * Deprecated since 3.0.0.5. Use TRACE_CPU.
+     * </pre>
      */
     public static final int TRACE_INSTRUMENTED_VALUE = 202;
     /**
@@ -530,6 +567,14 @@ public  final class AndroidProfilerEvent extends
      * <code>CREATE_CPU_CONFIG = 209;</code>
      */
     public static final int CREATE_CPU_CONFIG_VALUE = 209;
+    /**
+     * <code>TRACE_CPU = 211;</code>
+     *
+     * <pre>
+     * Correlate with |cpu_config|
+     * </pre>
+     */
+    public static final int TRACE_CPU_VALUE = 211;
     /**
      * <code>FORCE_GC = 301;</code>
      */
@@ -611,6 +656,7 @@ public  final class AndroidProfilerEvent extends
         case 210: return SELECT_CALL_CHART;
         case 208: return OPEN_CPU_CONFIG_DIALOG;
         case 209: return CREATE_CPU_CONFIG;
+        case 211: return TRACE_CPU;
         case 301: return FORCE_GC;
         case 302: return SNAPSHOT_HPROF;
         case 303: return CAPTURE_ALLOCATIONS;
@@ -724,9 +770,44 @@ public  final class AndroidProfilerEvent extends
     return type_;
   }
 
+  // optional .android_studio.CpuProfilingConfig cpu_config = 3;
+  public static final int CPU_CONFIG_FIELD_NUMBER = 3;
+  private com.google.wireless.android.sdk.stats.CpuProfilingConfig cpuConfig_;
+  /**
+   * <code>optional .android_studio.CpuProfilingConfig cpu_config = 3;</code>
+   *
+   * <pre>
+   * Set if |type| is |TRACE_CPU|
+   * </pre>
+   */
+  public boolean hasCpuConfig() {
+    return ((bitField0_ & 0x00000004) == 0x00000004);
+  }
+  /**
+   * <code>optional .android_studio.CpuProfilingConfig cpu_config = 3;</code>
+   *
+   * <pre>
+   * Set if |type| is |TRACE_CPU|
+   * </pre>
+   */
+  public com.google.wireless.android.sdk.stats.CpuProfilingConfig getCpuConfig() {
+    return cpuConfig_;
+  }
+  /**
+   * <code>optional .android_studio.CpuProfilingConfig cpu_config = 3;</code>
+   *
+   * <pre>
+   * Set if |type| is |TRACE_CPU|
+   * </pre>
+   */
+  public com.google.wireless.android.sdk.stats.CpuProfilingConfigOrBuilder getCpuConfigOrBuilder() {
+    return cpuConfig_;
+  }
+
   private void initFields() {
     stage_ = com.google.wireless.android.sdk.stats.AndroidProfilerEvent.Stage.UNKNOWN_STAGE;
     type_ = com.google.wireless.android.sdk.stats.AndroidProfilerEvent.Type.UNKNOWN_TYPE;
+    cpuConfig_ = com.google.wireless.android.sdk.stats.CpuProfilingConfig.getDefaultInstance();
   }
   private byte memoizedIsInitialized = -1;
   public final boolean isInitialized() {
@@ -746,6 +827,9 @@ public  final class AndroidProfilerEvent extends
     if (((bitField0_ & 0x00000002) == 0x00000002)) {
       output.writeEnum(2, type_.getNumber());
     }
+    if (((bitField0_ & 0x00000004) == 0x00000004)) {
+      output.writeMessage(3, cpuConfig_);
+    }
     getUnknownFields().writeTo(output);
   }
 
@@ -762,6 +846,10 @@ public  final class AndroidProfilerEvent extends
     if (((bitField0_ & 0x00000002) == 0x00000002)) {
       size += com.google.protobuf.CodedOutputStream
         .computeEnumSize(2, type_.getNumber());
+    }
+    if (((bitField0_ & 0x00000004) == 0x00000004)) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeMessageSize(3, cpuConfig_);
     }
     size += getUnknownFields().getSerializedSize();
     memoizedSerializedSize = size;
@@ -875,6 +963,7 @@ public  final class AndroidProfilerEvent extends
     }
     private void maybeForceBuilderInitialization() {
       if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        getCpuConfigFieldBuilder();
       }
     }
     private static Builder create() {
@@ -887,6 +976,12 @@ public  final class AndroidProfilerEvent extends
       bitField0_ = (bitField0_ & ~0x00000001);
       type_ = com.google.wireless.android.sdk.stats.AndroidProfilerEvent.Type.UNKNOWN_TYPE;
       bitField0_ = (bitField0_ & ~0x00000002);
+      if (cpuConfigBuilder_ == null) {
+        cpuConfig_ = com.google.wireless.android.sdk.stats.CpuProfilingConfig.getDefaultInstance();
+      } else {
+        cpuConfigBuilder_.clear();
+      }
+      bitField0_ = (bitField0_ & ~0x00000004);
       return this;
     }
 
@@ -923,6 +1018,14 @@ public  final class AndroidProfilerEvent extends
         to_bitField0_ |= 0x00000002;
       }
       result.type_ = type_;
+      if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+        to_bitField0_ |= 0x00000004;
+      }
+      if (cpuConfigBuilder_ == null) {
+        result.cpuConfig_ = cpuConfig_;
+      } else {
+        result.cpuConfig_ = cpuConfigBuilder_.build();
+      }
       result.bitField0_ = to_bitField0_;
       onBuilt();
       return result;
@@ -944,6 +1047,9 @@ public  final class AndroidProfilerEvent extends
       }
       if (other.hasType()) {
         setType(other.getType());
+      }
+      if (other.hasCpuConfig()) {
+        mergeCpuConfig(other.getCpuConfig());
       }
       this.mergeUnknownFields(other.getUnknownFields());
       return this;
@@ -1074,6 +1180,159 @@ public  final class AndroidProfilerEvent extends
       type_ = com.google.wireless.android.sdk.stats.AndroidProfilerEvent.Type.UNKNOWN_TYPE;
       onChanged();
       return this;
+    }
+
+    // optional .android_studio.CpuProfilingConfig cpu_config = 3;
+    private com.google.wireless.android.sdk.stats.CpuProfilingConfig cpuConfig_ = com.google.wireless.android.sdk.stats.CpuProfilingConfig.getDefaultInstance();
+    private com.google.protobuf.SingleFieldBuilder<
+        com.google.wireless.android.sdk.stats.CpuProfilingConfig, com.google.wireless.android.sdk.stats.CpuProfilingConfig.Builder, com.google.wireless.android.sdk.stats.CpuProfilingConfigOrBuilder> cpuConfigBuilder_;
+    /**
+     * <code>optional .android_studio.CpuProfilingConfig cpu_config = 3;</code>
+     *
+     * <pre>
+     * Set if |type| is |TRACE_CPU|
+     * </pre>
+     */
+    public boolean hasCpuConfig() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>optional .android_studio.CpuProfilingConfig cpu_config = 3;</code>
+     *
+     * <pre>
+     * Set if |type| is |TRACE_CPU|
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.CpuProfilingConfig getCpuConfig() {
+      if (cpuConfigBuilder_ == null) {
+        return cpuConfig_;
+      } else {
+        return cpuConfigBuilder_.getMessage();
+      }
+    }
+    /**
+     * <code>optional .android_studio.CpuProfilingConfig cpu_config = 3;</code>
+     *
+     * <pre>
+     * Set if |type| is |TRACE_CPU|
+     * </pre>
+     */
+    public Builder setCpuConfig(com.google.wireless.android.sdk.stats.CpuProfilingConfig value) {
+      if (cpuConfigBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        cpuConfig_ = value;
+        onChanged();
+      } else {
+        cpuConfigBuilder_.setMessage(value);
+      }
+      bitField0_ |= 0x00000004;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.CpuProfilingConfig cpu_config = 3;</code>
+     *
+     * <pre>
+     * Set if |type| is |TRACE_CPU|
+     * </pre>
+     */
+    public Builder setCpuConfig(
+        com.google.wireless.android.sdk.stats.CpuProfilingConfig.Builder builderForValue) {
+      if (cpuConfigBuilder_ == null) {
+        cpuConfig_ = builderForValue.build();
+        onChanged();
+      } else {
+        cpuConfigBuilder_.setMessage(builderForValue.build());
+      }
+      bitField0_ |= 0x00000004;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.CpuProfilingConfig cpu_config = 3;</code>
+     *
+     * <pre>
+     * Set if |type| is |TRACE_CPU|
+     * </pre>
+     */
+    public Builder mergeCpuConfig(com.google.wireless.android.sdk.stats.CpuProfilingConfig value) {
+      if (cpuConfigBuilder_ == null) {
+        if (((bitField0_ & 0x00000004) == 0x00000004) &&
+            cpuConfig_ != com.google.wireless.android.sdk.stats.CpuProfilingConfig.getDefaultInstance()) {
+          cpuConfig_ =
+            com.google.wireless.android.sdk.stats.CpuProfilingConfig.newBuilder(cpuConfig_).mergeFrom(value).buildPartial();
+        } else {
+          cpuConfig_ = value;
+        }
+        onChanged();
+      } else {
+        cpuConfigBuilder_.mergeFrom(value);
+      }
+      bitField0_ |= 0x00000004;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.CpuProfilingConfig cpu_config = 3;</code>
+     *
+     * <pre>
+     * Set if |type| is |TRACE_CPU|
+     * </pre>
+     */
+    public Builder clearCpuConfig() {
+      if (cpuConfigBuilder_ == null) {
+        cpuConfig_ = com.google.wireless.android.sdk.stats.CpuProfilingConfig.getDefaultInstance();
+        onChanged();
+      } else {
+        cpuConfigBuilder_.clear();
+      }
+      bitField0_ = (bitField0_ & ~0x00000004);
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.CpuProfilingConfig cpu_config = 3;</code>
+     *
+     * <pre>
+     * Set if |type| is |TRACE_CPU|
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.CpuProfilingConfig.Builder getCpuConfigBuilder() {
+      bitField0_ |= 0x00000004;
+      onChanged();
+      return getCpuConfigFieldBuilder().getBuilder();
+    }
+    /**
+     * <code>optional .android_studio.CpuProfilingConfig cpu_config = 3;</code>
+     *
+     * <pre>
+     * Set if |type| is |TRACE_CPU|
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.CpuProfilingConfigOrBuilder getCpuConfigOrBuilder() {
+      if (cpuConfigBuilder_ != null) {
+        return cpuConfigBuilder_.getMessageOrBuilder();
+      } else {
+        return cpuConfig_;
+      }
+    }
+    /**
+     * <code>optional .android_studio.CpuProfilingConfig cpu_config = 3;</code>
+     *
+     * <pre>
+     * Set if |type| is |TRACE_CPU|
+     * </pre>
+     */
+    private com.google.protobuf.SingleFieldBuilder<
+        com.google.wireless.android.sdk.stats.CpuProfilingConfig, com.google.wireless.android.sdk.stats.CpuProfilingConfig.Builder, com.google.wireless.android.sdk.stats.CpuProfilingConfigOrBuilder> 
+        getCpuConfigFieldBuilder() {
+      if (cpuConfigBuilder_ == null) {
+        cpuConfigBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+            com.google.wireless.android.sdk.stats.CpuProfilingConfig, com.google.wireless.android.sdk.stats.CpuProfilingConfig.Builder, com.google.wireless.android.sdk.stats.CpuProfilingConfigOrBuilder>(
+                cpuConfig_,
+                getParentForChildren(),
+                isClean());
+        cpuConfig_ = null;
+      }
+      return cpuConfigBuilder_;
     }
 
     // @@protoc_insertion_point(builder_scope:android_studio.AndroidProfilerEvent)
