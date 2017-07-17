@@ -166,6 +166,28 @@ public  final class GradleBuildVariant extends
             bitField0_ |= 0x00000800;
             break;
           }
+          case 120: {
+            int rawValue = input.readEnum();
+            com.google.wireless.android.sdk.stats.GradleBuildVariant.DexBuilderTool value = com.google.wireless.android.sdk.stats.GradleBuildVariant.DexBuilderTool.valueOf(rawValue);
+            if (value == null) {
+              unknownFields.mergeVarintField(15, rawValue);
+            } else {
+              bitField0_ |= 0x00001000;
+              dexBuilder_ = value;
+            }
+            break;
+          }
+          case 128: {
+            int rawValue = input.readEnum();
+            com.google.wireless.android.sdk.stats.GradleBuildVariant.DexMergerTool value = com.google.wireless.android.sdk.stats.GradleBuildVariant.DexMergerTool.valueOf(rawValue);
+            if (value == null) {
+              unknownFields.mergeVarintField(16, rawValue);
+            } else {
+              bitField0_ |= 0x00002000;
+              dexMerger_ = value;
+            }
+            break;
+          }
         }
       }
     } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -534,6 +556,196 @@ public  final class GradleBuildVariant extends
     }
 
     // @@protoc_insertion_point(enum_scope:android_studio.GradleBuildVariant.Java8LangSupport)
+  }
+
+  /**
+   * Protobuf enum {@code android_studio.GradleBuildVariant.DexBuilderTool}
+   *
+   * <pre>
+   * Tools that can used to build dex
+   * </pre>
+   */
+  public enum DexBuilderTool
+      implements com.google.protobuf.ProtocolMessageEnum {
+    /**
+     * <code>UNKNOWN_DEX_BUILDER_TOOL = 0;</code>
+     */
+    UNKNOWN_DEX_BUILDER_TOOL(0, 0),
+    /**
+     * <code>DX_DEXER = 1;</code>
+     */
+    DX_DEXER(1, 1),
+    /**
+     * <code>D8_DEXER = 2;</code>
+     */
+    D8_DEXER(2, 2),
+    ;
+
+    /**
+     * <code>UNKNOWN_DEX_BUILDER_TOOL = 0;</code>
+     */
+    public static final int UNKNOWN_DEX_BUILDER_TOOL_VALUE = 0;
+    /**
+     * <code>DX_DEXER = 1;</code>
+     */
+    public static final int DX_DEXER_VALUE = 1;
+    /**
+     * <code>D8_DEXER = 2;</code>
+     */
+    public static final int D8_DEXER_VALUE = 2;
+
+
+    public final int getNumber() { return value; }
+
+    public static DexBuilderTool valueOf(int value) {
+      switch (value) {
+        case 0: return UNKNOWN_DEX_BUILDER_TOOL;
+        case 1: return DX_DEXER;
+        case 2: return D8_DEXER;
+        default: return null;
+      }
+    }
+
+    public static com.google.protobuf.Internal.EnumLiteMap<DexBuilderTool>
+        internalGetValueMap() {
+      return internalValueMap;
+    }
+    private static com.google.protobuf.Internal.EnumLiteMap<DexBuilderTool>
+        internalValueMap =
+          new com.google.protobuf.Internal.EnumLiteMap<DexBuilderTool>() {
+            public DexBuilderTool findValueByNumber(int number) {
+              return DexBuilderTool.valueOf(number);
+            }
+          };
+
+    public final com.google.protobuf.Descriptors.EnumValueDescriptor
+        getValueDescriptor() {
+      return getDescriptor().getValues().get(index);
+    }
+    public final com.google.protobuf.Descriptors.EnumDescriptor
+        getDescriptorForType() {
+      return getDescriptor();
+    }
+    public static final com.google.protobuf.Descriptors.EnumDescriptor
+        getDescriptor() {
+      return com.google.wireless.android.sdk.stats.GradleBuildVariant.getDescriptor().getEnumTypes().get(2);
+    }
+
+    private static final DexBuilderTool[] VALUES = values();
+
+    public static DexBuilderTool valueOf(
+        com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
+      if (desc.getType() != getDescriptor()) {
+        throw new java.lang.IllegalArgumentException(
+          "EnumValueDescriptor is not for this type.");
+      }
+      return VALUES[desc.getIndex()];
+    }
+
+    private final int index;
+    private final int value;
+
+    private DexBuilderTool(int index, int value) {
+      this.index = index;
+      this.value = value;
+    }
+
+    // @@protoc_insertion_point(enum_scope:android_studio.GradleBuildVariant.DexBuilderTool)
+  }
+
+  /**
+   * Protobuf enum {@code android_studio.GradleBuildVariant.DexMergerTool}
+   *
+   * <pre>
+   * Tools that can be used to merge dex files
+   * </pre>
+   */
+  public enum DexMergerTool
+      implements com.google.protobuf.ProtocolMessageEnum {
+    /**
+     * <code>UNKNOWN_DEX_MERGER_TOOL = 0;</code>
+     */
+    UNKNOWN_DEX_MERGER_TOOL(0, 0),
+    /**
+     * <code>DX_MERGER = 1;</code>
+     */
+    DX_MERGER(1, 1),
+    /**
+     * <code>D8_MERGER = 2;</code>
+     */
+    D8_MERGER(2, 2),
+    ;
+
+    /**
+     * <code>UNKNOWN_DEX_MERGER_TOOL = 0;</code>
+     */
+    public static final int UNKNOWN_DEX_MERGER_TOOL_VALUE = 0;
+    /**
+     * <code>DX_MERGER = 1;</code>
+     */
+    public static final int DX_MERGER_VALUE = 1;
+    /**
+     * <code>D8_MERGER = 2;</code>
+     */
+    public static final int D8_MERGER_VALUE = 2;
+
+
+    public final int getNumber() { return value; }
+
+    public static DexMergerTool valueOf(int value) {
+      switch (value) {
+        case 0: return UNKNOWN_DEX_MERGER_TOOL;
+        case 1: return DX_MERGER;
+        case 2: return D8_MERGER;
+        default: return null;
+      }
+    }
+
+    public static com.google.protobuf.Internal.EnumLiteMap<DexMergerTool>
+        internalGetValueMap() {
+      return internalValueMap;
+    }
+    private static com.google.protobuf.Internal.EnumLiteMap<DexMergerTool>
+        internalValueMap =
+          new com.google.protobuf.Internal.EnumLiteMap<DexMergerTool>() {
+            public DexMergerTool findValueByNumber(int number) {
+              return DexMergerTool.valueOf(number);
+            }
+          };
+
+    public final com.google.protobuf.Descriptors.EnumValueDescriptor
+        getValueDescriptor() {
+      return getDescriptor().getValues().get(index);
+    }
+    public final com.google.protobuf.Descriptors.EnumDescriptor
+        getDescriptorForType() {
+      return getDescriptor();
+    }
+    public static final com.google.protobuf.Descriptors.EnumDescriptor
+        getDescriptor() {
+      return com.google.wireless.android.sdk.stats.GradleBuildVariant.getDescriptor().getEnumTypes().get(3);
+    }
+
+    private static final DexMergerTool[] VALUES = values();
+
+    public static DexMergerTool valueOf(
+        com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
+      if (desc.getType() != getDescriptor()) {
+        throw new java.lang.IllegalArgumentException(
+          "EnumValueDescriptor is not for this type.");
+      }
+      return VALUES[desc.getIndex()];
+    }
+
+    private final int index;
+    private final int value;
+
+    private DexMergerTool(int index, int value) {
+      this.index = index;
+      this.value = value;
+    }
+
+    // @@protoc_insertion_point(enum_scope:android_studio.GradleBuildVariant.DexMergerTool)
   }
 
   private int bitField0_;
@@ -995,6 +1207,38 @@ public  final class GradleBuildVariant extends
     return maxSdkVersion_;
   }
 
+  // optional .android_studio.GradleBuildVariant.DexBuilderTool dex_builder = 15;
+  public static final int DEX_BUILDER_FIELD_NUMBER = 15;
+  private com.google.wireless.android.sdk.stats.GradleBuildVariant.DexBuilderTool dexBuilder_;
+  /**
+   * <code>optional .android_studio.GradleBuildVariant.DexBuilderTool dex_builder = 15;</code>
+   */
+  public boolean hasDexBuilder() {
+    return ((bitField0_ & 0x00001000) == 0x00001000);
+  }
+  /**
+   * <code>optional .android_studio.GradleBuildVariant.DexBuilderTool dex_builder = 15;</code>
+   */
+  public com.google.wireless.android.sdk.stats.GradleBuildVariant.DexBuilderTool getDexBuilder() {
+    return dexBuilder_;
+  }
+
+  // optional .android_studio.GradleBuildVariant.DexMergerTool dex_merger = 16;
+  public static final int DEX_MERGER_FIELD_NUMBER = 16;
+  private com.google.wireless.android.sdk.stats.GradleBuildVariant.DexMergerTool dexMerger_;
+  /**
+   * <code>optional .android_studio.GradleBuildVariant.DexMergerTool dex_merger = 16;</code>
+   */
+  public boolean hasDexMerger() {
+    return ((bitField0_ & 0x00002000) == 0x00002000);
+  }
+  /**
+   * <code>optional .android_studio.GradleBuildVariant.DexMergerTool dex_merger = 16;</code>
+   */
+  public com.google.wireless.android.sdk.stats.GradleBuildVariant.DexMergerTool getDexMerger() {
+    return dexMerger_;
+  }
+
   private void initFields() {
     id_ = 0L;
     isDebug_ = false;
@@ -1010,6 +1254,8 @@ public  final class GradleBuildVariant extends
     minSdkVersion_ = com.google.wireless.android.sdk.stats.ApiVersion.getDefaultInstance();
     targetSdkVersion_ = com.google.wireless.android.sdk.stats.ApiVersion.getDefaultInstance();
     maxSdkVersion_ = com.google.wireless.android.sdk.stats.ApiVersion.getDefaultInstance();
+    dexBuilder_ = com.google.wireless.android.sdk.stats.GradleBuildVariant.DexBuilderTool.UNKNOWN_DEX_BUILDER_TOOL;
+    dexMerger_ = com.google.wireless.android.sdk.stats.GradleBuildVariant.DexMergerTool.UNKNOWN_DEX_MERGER_TOOL;
   }
   private byte memoizedIsInitialized = -1;
   public final boolean isInitialized() {
@@ -1064,6 +1310,12 @@ public  final class GradleBuildVariant extends
     }
     if (((bitField0_ & 0x00000800) == 0x00000800)) {
       output.writeMessage(14, maxSdkVersion_);
+    }
+    if (((bitField0_ & 0x00001000) == 0x00001000)) {
+      output.writeEnum(15, dexBuilder_.getNumber());
+    }
+    if (((bitField0_ & 0x00002000) == 0x00002000)) {
+      output.writeEnum(16, dexMerger_.getNumber());
     }
     getUnknownFields().writeTo(output);
   }
@@ -1134,6 +1386,14 @@ public  final class GradleBuildVariant extends
     if (((bitField0_ & 0x00000800) == 0x00000800)) {
       size += com.google.protobuf.CodedOutputStream
         .computeMessageSize(14, maxSdkVersion_);
+    }
+    if (((bitField0_ & 0x00001000) == 0x00001000)) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeEnumSize(15, dexBuilder_.getNumber());
+    }
+    if (((bitField0_ & 0x00002000) == 0x00002000)) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeEnumSize(16, dexMerger_.getNumber());
     }
     size += getUnknownFields().getSerializedSize();
     memoizedSerializedSize = size;
@@ -1299,6 +1559,10 @@ public  final class GradleBuildVariant extends
         maxSdkVersionBuilder_.clear();
       }
       bitField0_ = (bitField0_ & ~0x00002000);
+      dexBuilder_ = com.google.wireless.android.sdk.stats.GradleBuildVariant.DexBuilderTool.UNKNOWN_DEX_BUILDER_TOOL;
+      bitField0_ = (bitField0_ & ~0x00004000);
+      dexMerger_ = com.google.wireless.android.sdk.stats.GradleBuildVariant.DexMergerTool.UNKNOWN_DEX_MERGER_TOOL;
+      bitField0_ = (bitField0_ & ~0x00008000);
       return this;
     }
 
@@ -1402,6 +1666,14 @@ public  final class GradleBuildVariant extends
       } else {
         result.maxSdkVersion_ = maxSdkVersionBuilder_.build();
       }
+      if (((from_bitField0_ & 0x00004000) == 0x00004000)) {
+        to_bitField0_ |= 0x00001000;
+      }
+      result.dexBuilder_ = dexBuilder_;
+      if (((from_bitField0_ & 0x00008000) == 0x00008000)) {
+        to_bitField0_ |= 0x00002000;
+      }
+      result.dexMerger_ = dexMerger_;
       result.bitField0_ = to_bitField0_;
       onBuilt();
       return result;
@@ -1489,6 +1761,12 @@ public  final class GradleBuildVariant extends
       }
       if (other.hasMaxSdkVersion()) {
         mergeMaxSdkVersion(other.getMaxSdkVersion());
+      }
+      if (other.hasDexBuilder()) {
+        setDexBuilder(other.getDexBuilder());
+      }
+      if (other.hasDexMerger()) {
+        setDexMerger(other.getDexMerger());
       }
       this.mergeUnknownFields(other.getUnknownFields());
       return this;
@@ -2954,6 +3232,78 @@ public  final class GradleBuildVariant extends
         maxSdkVersion_ = null;
       }
       return maxSdkVersionBuilder_;
+    }
+
+    // optional .android_studio.GradleBuildVariant.DexBuilderTool dex_builder = 15;
+    private com.google.wireless.android.sdk.stats.GradleBuildVariant.DexBuilderTool dexBuilder_ = com.google.wireless.android.sdk.stats.GradleBuildVariant.DexBuilderTool.UNKNOWN_DEX_BUILDER_TOOL;
+    /**
+     * <code>optional .android_studio.GradleBuildVariant.DexBuilderTool dex_builder = 15;</code>
+     */
+    public boolean hasDexBuilder() {
+      return ((bitField0_ & 0x00004000) == 0x00004000);
+    }
+    /**
+     * <code>optional .android_studio.GradleBuildVariant.DexBuilderTool dex_builder = 15;</code>
+     */
+    public com.google.wireless.android.sdk.stats.GradleBuildVariant.DexBuilderTool getDexBuilder() {
+      return dexBuilder_;
+    }
+    /**
+     * <code>optional .android_studio.GradleBuildVariant.DexBuilderTool dex_builder = 15;</code>
+     */
+    public Builder setDexBuilder(com.google.wireless.android.sdk.stats.GradleBuildVariant.DexBuilderTool value) {
+      if (value == null) {
+        throw new NullPointerException();
+      }
+      bitField0_ |= 0x00004000;
+      dexBuilder_ = value;
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.GradleBuildVariant.DexBuilderTool dex_builder = 15;</code>
+     */
+    public Builder clearDexBuilder() {
+      bitField0_ = (bitField0_ & ~0x00004000);
+      dexBuilder_ = com.google.wireless.android.sdk.stats.GradleBuildVariant.DexBuilderTool.UNKNOWN_DEX_BUILDER_TOOL;
+      onChanged();
+      return this;
+    }
+
+    // optional .android_studio.GradleBuildVariant.DexMergerTool dex_merger = 16;
+    private com.google.wireless.android.sdk.stats.GradleBuildVariant.DexMergerTool dexMerger_ = com.google.wireless.android.sdk.stats.GradleBuildVariant.DexMergerTool.UNKNOWN_DEX_MERGER_TOOL;
+    /**
+     * <code>optional .android_studio.GradleBuildVariant.DexMergerTool dex_merger = 16;</code>
+     */
+    public boolean hasDexMerger() {
+      return ((bitField0_ & 0x00008000) == 0x00008000);
+    }
+    /**
+     * <code>optional .android_studio.GradleBuildVariant.DexMergerTool dex_merger = 16;</code>
+     */
+    public com.google.wireless.android.sdk.stats.GradleBuildVariant.DexMergerTool getDexMerger() {
+      return dexMerger_;
+    }
+    /**
+     * <code>optional .android_studio.GradleBuildVariant.DexMergerTool dex_merger = 16;</code>
+     */
+    public Builder setDexMerger(com.google.wireless.android.sdk.stats.GradleBuildVariant.DexMergerTool value) {
+      if (value == null) {
+        throw new NullPointerException();
+      }
+      bitField0_ |= 0x00008000;
+      dexMerger_ = value;
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.GradleBuildVariant.DexMergerTool dex_merger = 16;</code>
+     */
+    public Builder clearDexMerger() {
+      bitField0_ = (bitField0_ & ~0x00008000);
+      dexMerger_ = com.google.wireless.android.sdk.stats.GradleBuildVariant.DexMergerTool.UNKNOWN_DEX_MERGER_TOOL;
+      onChanged();
+      return this;
     }
 
     // @@protoc_insertion_point(builder_scope:android_studio.GradleBuildVariant)

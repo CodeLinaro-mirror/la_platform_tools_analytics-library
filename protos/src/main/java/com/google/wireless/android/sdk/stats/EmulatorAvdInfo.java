@@ -208,6 +208,10 @@ public  final class EmulatorAvdInfo extends
      * <code>GOOGLE = 2;</code>
      */
     GOOGLE(2, 2),
+    /**
+     * <code>PLAY_STORE_KIND = 3;</code>
+     */
+    PLAY_STORE_KIND(3, 3),
     ;
 
     /**
@@ -222,6 +226,10 @@ public  final class EmulatorAvdInfo extends
      * <code>GOOGLE = 2;</code>
      */
     public static final int GOOGLE_VALUE = 2;
+    /**
+     * <code>PLAY_STORE_KIND = 3;</code>
+     */
+    public static final int PLAY_STORE_KIND_VALUE = 3;
 
 
     public final int getNumber() { return value; }
@@ -231,6 +239,7 @@ public  final class EmulatorAvdInfo extends
         case 0: return UNKNOWN_EMULATOR_AVD_IMAGE_KIND;
         case 1: return AOSP;
         case 2: return GOOGLE;
+        case 3: return PLAY_STORE_KIND;
         default: return null;
       }
     }
