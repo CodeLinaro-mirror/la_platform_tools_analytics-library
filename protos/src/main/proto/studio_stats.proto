@@ -884,6 +884,7 @@ message EmulatorAvdInfo {
     UNKNOWN_EMULATOR_AVD_IMAGE_KIND = 0;
     AOSP = 1;
     GOOGLE = 2;
+    PLAY_STORE_KIND = 3;
   }
   // Other AVD properties that can combine with EmulatorAvdImageKind.
   enum EmulatorAvdProperty {
@@ -1649,6 +1650,8 @@ message GradleBuildVariant {
   optional ApiVersion target_sdk_version = 13;
   // The maximum sdk version
   optional ApiVersion max_sdk_version = 14;
+  optional DexBuilderTool dex_builder = 15;
+  optional DexMergerTool dex_merger = 16;
   // The nature of this variant.
   // The test variants have an associated tested variant.
   // See com.android.builder.core.VariantType
@@ -1679,6 +1682,20 @@ message GradleBuildVariant {
     DEXGUARD = 2;
     // Jack compiler
     JACK = 3;
+  }
+
+  // Tools that can used to build dex
+  enum DexBuilderTool {
+    UNKNOWN_DEX_BUILDER_TOOL = 0;
+    DX_DEXER = 1;
+    D8_DEXER = 2;
+  }
+
+  // Tools that can be used to merge dex files
+  enum DexMergerTool {
+    UNKNOWN_DEX_MERGER_TOOL = 0;
+    DX_MERGER = 1;
+    D8_MERGER = 2;
   }
 }
 

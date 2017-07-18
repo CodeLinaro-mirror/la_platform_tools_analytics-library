@@ -364,4 +364,24 @@ public interface GradleBuildVariantOrBuilder
    * </pre>
    */
   com.google.wireless.android.sdk.stats.ApiVersionOrBuilder getMaxSdkVersionOrBuilder();
+
+  // optional .android_studio.GradleBuildVariant.DexBuilderTool dex_builder = 15;
+  /**
+   * <code>optional .android_studio.GradleBuildVariant.DexBuilderTool dex_builder = 15;</code>
+   */
+  boolean hasDexBuilder();
+  /**
+   * <code>optional .android_studio.GradleBuildVariant.DexBuilderTool dex_builder = 15;</code>
+   */
+  com.google.wireless.android.sdk.stats.GradleBuildVariant.DexBuilderTool getDexBuilder();
+
+  // optional .android_studio.GradleBuildVariant.DexMergerTool dex_merger = 16;
+  /**
+   * <code>optional .android_studio.GradleBuildVariant.DexMergerTool dex_merger = 16;</code>
+   */
+  boolean hasDexMerger();
+  /**
+   * <code>optional .android_studio.GradleBuildVariant.DexMergerTool dex_merger = 16;</code>
+   */
+  com.google.wireless.android.sdk.stats.GradleBuildVariant.DexMergerTool getDexMerger();
 }
