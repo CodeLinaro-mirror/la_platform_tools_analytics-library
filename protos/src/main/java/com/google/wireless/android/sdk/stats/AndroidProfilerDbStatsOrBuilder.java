@@ -6,61 +6,84 @@ package com.google.wireless.android.sdk.stats;
 public interface AndroidProfilerDbStatsOrBuilder
     extends com.google.protobuf.MessageOrBuilder {
 
-  // optional uint32 num_records_cpu = 1;
+  // optional uint32 age_sec = 1;
   /**
-   * <code>optional uint32 num_records_cpu = 1;</code>
+   * <code>optional uint32 age_sec = 1;</code>
+   *
+   * <pre>
+   * The amount of time the database has been running (in seconds)
+   * </pre>
    */
-  boolean hasNumRecordsCpu();
+  boolean hasAgeSec();
   /**
-   * <code>optional uint32 num_records_cpu = 1;</code>
+   * <code>optional uint32 age_sec = 1;</code>
+   *
+   * <pre>
+   * The amount of time the database has been running (in seconds)
+   * </pre>
    */
-  int getNumRecordsCpu();
+  int getAgeSec();
 
-  // optional uint32 num_records_event = 2;
+  // optional uint32 total_disk_mb = 2;
   /**
-   * <code>optional uint32 num_records_event = 2;</code>
-   */
-  boolean hasNumRecordsEvent();
-  /**
-   * <code>optional uint32 num_records_event = 2;</code>
-   */
-  int getNumRecordsEvent();
-
-  // optional uint32 num_records_memory = 3;
-  /**
-   * <code>optional uint32 num_records_memory = 3;</code>
-   */
-  boolean hasNumRecordsMemory();
-  /**
-   * <code>optional uint32 num_records_memory = 3;</code>
-   */
-  int getNumRecordsMemory();
-
-  // optional uint32 num_records_network = 4;
-  /**
-   * <code>optional uint32 num_records_network = 4;</code>
-   */
-  boolean hasNumRecordsNetwork();
-  /**
-   * <code>optional uint32 num_records_network = 4;</code>
-   */
-  int getNumRecordsNetwork();
-
-  // optional uint32 total_disk = 5;
-  /**
-   * <code>optional uint32 total_disk = 5;</code>
+   * <code>optional uint32 total_disk_mb = 2;</code>
    *
    * <pre>
    * DB cache on disk (in MB)
    * </pre>
    */
-  boolean hasTotalDisk();
+  boolean hasTotalDiskMb();
   /**
-   * <code>optional uint32 total_disk = 5;</code>
+   * <code>optional uint32 total_disk_mb = 2;</code>
    *
    * <pre>
    * DB cache on disk (in MB)
    * </pre>
    */
-  int getTotalDisk();
+  int getTotalDiskMb();
+
+  // repeated .android_studio.AndroidProfilerDbTable tables = 3;
+  /**
+   * <code>repeated .android_studio.AndroidProfilerDbTable tables = 3;</code>
+   *
+   * <pre>
+   * Entries for each table in our DB
+   * </pre>
+   */
+  java.util.List<com.google.wireless.android.sdk.stats.AndroidProfilerDbTable> 
+      getTablesList();
+  /**
+   * <code>repeated .android_studio.AndroidProfilerDbTable tables = 3;</code>
+   *
+   * <pre>
+   * Entries for each table in our DB
+   * </pre>
+   */
+  com.google.wireless.android.sdk.stats.AndroidProfilerDbTable getTables(int index);
+  /**
+   * <code>repeated .android_studio.AndroidProfilerDbTable tables = 3;</code>
+   *
+   * <pre>
+   * Entries for each table in our DB
+   * </pre>
+   */
+  int getTablesCount();
+  /**
+   * <code>repeated .android_studio.AndroidProfilerDbTable tables = 3;</code>
+   *
+   * <pre>
+   * Entries for each table in our DB
+   * </pre>
+   */
+  java.util.List<? extends com.google.wireless.android.sdk.stats.AndroidProfilerDbTableOrBuilder> 
+      getTablesOrBuilderList();
+  /**
+   * <code>repeated .android_studio.AndroidProfilerDbTable tables = 3;</code>
+   *
+   * <pre>
+   * Entries for each table in our DB
+   * </pre>
+   */
+  com.google.wireless.android.sdk.stats.AndroidProfilerDbTableOrBuilder getTablesOrBuilder(
+      int index);
 }

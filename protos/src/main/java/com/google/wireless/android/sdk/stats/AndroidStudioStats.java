@@ -364,6 +364,11 @@ public final class AndroidStudioStats {
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_android_studio_AndroidProfilerEvent_fieldAccessorTable;
   static com.google.protobuf.Descriptors.Descriptor
+    internal_static_android_studio_AndroidProfilerDbTable_descriptor;
+  static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_android_studio_AndroidProfilerDbTable_fieldAccessorTable;
+  static com.google.protobuf.Descriptors.Descriptor
     internal_static_android_studio_AndroidProfilerDbStats_descriptor;
   static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
@@ -1398,30 +1403,31 @@ public final class AndroidStudioStats {
       "K\020\264\002\022\035\n\030SELECT_MEMORY_REFERENCES\020\265\002\022\026\n\021S" +
       "ELECT_CONNECTION\020\222\003\022\034\n\027SELECT_DETAILS_RE",
       "SPONSE\020\223\003\022\033\n\026SELECT_DETAILS_HEADERS\020\224\003\022\031" +
-      "\n\024SELECT_DETAILS_STACK\020\225\003\"\231\001\n\026AndroidPro" +
-      "filerDbStats\022\027\n\017num_records_cpu\030\001 \001(\r\022\031\n" +
-      "\021num_records_event\030\002 \001(\r\022\032\n\022num_records_" +
-      "memory\030\003 \001(\r\022\033\n\023num_records_network\030\004 \001(" +
-      "\r\022\022\n\ntotal_disk\030\005 \001(\r\"F\n\020ApkAnalyzerStat" +
-      "s\022\031\n\021uncompressed_size\030\001 \001(\004\022\027\n\017compress" +
-      "ed_size\030\002 \001(\004\"\203\002\n\017GradleSyncStats\0228\n\007tri" +
-      "gger\030\001 \001(\0162\'.android_studio.GradleSyncSt" +
-      "ats.Trigger\022\025\n\rtotal_time_ms\030\002 \001(\003\022\026\n\016gr",
-      "adle_time_ms\030\003 \001(\003\022\023\n\013ide_time_ms\030\004 \001(\003\"" +
-      "r\n\007Trigger\022\023\n\017TRIGGER_UNKNOWN\020\000\022\032\n\026TRIGG" +
-      "ER_PROJECT_LOADED\020\001\022\034\n\030TRIGGER_PROJECT_M" +
-      "ODIFIED\020\002\022\030\n\024TRIGGER_USER_REQUEST\020\003\"%\n\017A" +
-      "pkDebugProject\022\022\n\npackage_id\030\001 \001(\t\"\357\001\n\024L" +
-      "ayoutInspectorEvent\022K\n\004type\030\001 \001(\0162=.andr" +
-      "oid_studio.LayoutInspectorEvent.LayoutIn" +
-      "spectorEventType\022\026\n\016duration_in_ms\030\002 \001(\003" +
-      "\"r\n\030LayoutInspectorEventType\022\026\n\022UNKNOWN_" +
-      "EVENT_TYPE\020\000\022\013\n\007CAPTURE\020\001\022\010\n\004OPEN\020\002\022\024\n\020D",
-      "UMP_DISPLAYLIST\020\003\022\021\n\rOVERLAY_IMAGE\020\004*[\n\014" +
-      "SearchOption\022\031\n\025UNKNOWN_SEARCH_OPTION\020\000\022" +
-      "\010\n\004NONE\020\001\022\024\n\020MULTIPLE_MATCHES\020\002\022\020\n\014SINGL" +
-      "E_MATCH\020\003B=\n%com.google.wireless.android" +
-      ".sdk.statsB\022AndroidStudioStatsP\001"
+      "\n\024SELECT_DETAILS_STACK\020\225\003\";\n\026AndroidProf" +
+      "ilerDbTable\022\014\n\004name\030\001 \001(\t\022\023\n\013num_records" +
+      "\030\002 \001(\r\"x\n\026AndroidProfilerDbStats\022\017\n\007age_" +
+      "sec\030\001 \001(\r\022\025\n\rtotal_disk_mb\030\002 \001(\r\0226\n\006tabl" +
+      "es\030\003 \003(\0132&.android_studio.AndroidProfile" +
+      "rDbTable\"F\n\020ApkAnalyzerStats\022\031\n\021uncompre" +
+      "ssed_size\030\001 \001(\004\022\027\n\017compressed_size\030\002 \001(\004" +
+      "\"\203\002\n\017GradleSyncStats\0228\n\007trigger\030\001 \001(\0162\'." +
+      "android_studio.GradleSyncStats.Trigger\022\025",
+      "\n\rtotal_time_ms\030\002 \001(\003\022\026\n\016gradle_time_ms\030" +
+      "\003 \001(\003\022\023\n\013ide_time_ms\030\004 \001(\003\"r\n\007Trigger\022\023\n" +
+      "\017TRIGGER_UNKNOWN\020\000\022\032\n\026TRIGGER_PROJECT_LO" +
+      "ADED\020\001\022\034\n\030TRIGGER_PROJECT_MODIFIED\020\002\022\030\n\024" +
+      "TRIGGER_USER_REQUEST\020\003\"%\n\017ApkDebugProjec" +
+      "t\022\022\n\npackage_id\030\001 \001(\t\"\357\001\n\024LayoutInspecto" +
+      "rEvent\022K\n\004type\030\001 \001(\0162=.android_studio.La" +
+      "youtInspectorEvent.LayoutInspectorEventT" +
+      "ype\022\026\n\016duration_in_ms\030\002 \001(\003\"r\n\030LayoutIns" +
+      "pectorEventType\022\026\n\022UNKNOWN_EVENT_TYPE\020\000\022",
+      "\013\n\007CAPTURE\020\001\022\010\n\004OPEN\020\002\022\024\n\020DUMP_DISPLAYLI" +
+      "ST\020\003\022\021\n\rOVERLAY_IMAGE\020\004*[\n\014SearchOption\022" +
+      "\031\n\025UNKNOWN_SEARCH_OPTION\020\000\022\010\n\004NONE\020\001\022\024\n\020" +
+      "MULTIPLE_MATCHES\020\002\022\020\n\014SINGLE_MATCH\020\003B=\n%" +
+      "com.google.wireless.android.sdk.statsB\022A" +
+      "ndroidStudioStatsP\001"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -1854,32 +1860,38 @@ public final class AndroidStudioStats {
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_android_studio_AndroidProfilerEvent_descriptor,
               new java.lang.String[] { "Stage", "Type", "CpuConfig", });
-          internal_static_android_studio_AndroidProfilerDbStats_descriptor =
+          internal_static_android_studio_AndroidProfilerDbTable_descriptor =
             getDescriptor().getMessageTypes().get(71);
+          internal_static_android_studio_AndroidProfilerDbTable_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_android_studio_AndroidProfilerDbTable_descriptor,
+              new java.lang.String[] { "Name", "NumRecords", });
+          internal_static_android_studio_AndroidProfilerDbStats_descriptor =
+            getDescriptor().getMessageTypes().get(72);
           internal_static_android_studio_AndroidProfilerDbStats_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_android_studio_AndroidProfilerDbStats_descriptor,
-              new java.lang.String[] { "NumRecordsCpu", "NumRecordsEvent", "NumRecordsMemory", "NumRecordsNetwork", "TotalDisk", });
+              new java.lang.String[] { "AgeSec", "TotalDiskMb", "Tables", });
           internal_static_android_studio_ApkAnalyzerStats_descriptor =
-            getDescriptor().getMessageTypes().get(72);
+            getDescriptor().getMessageTypes().get(73);
           internal_static_android_studio_ApkAnalyzerStats_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_android_studio_ApkAnalyzerStats_descriptor,
               new java.lang.String[] { "UncompressedSize", "CompressedSize", });
           internal_static_android_studio_GradleSyncStats_descriptor =
-            getDescriptor().getMessageTypes().get(73);
+            getDescriptor().getMessageTypes().get(74);
           internal_static_android_studio_GradleSyncStats_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_android_studio_GradleSyncStats_descriptor,
               new java.lang.String[] { "Trigger", "TotalTimeMs", "GradleTimeMs", "IdeTimeMs", });
           internal_static_android_studio_ApkDebugProject_descriptor =
-            getDescriptor().getMessageTypes().get(74);
+            getDescriptor().getMessageTypes().get(75);
           internal_static_android_studio_ApkDebugProject_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_android_studio_ApkDebugProject_descriptor,
               new java.lang.String[] { "PackageId", });
           internal_static_android_studio_LayoutInspectorEvent_descriptor =
-            getDescriptor().getMessageTypes().get(75);
+            getDescriptor().getMessageTypes().get(76);
           internal_static_android_studio_LayoutInspectorEvent_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_android_studio_LayoutInspectorEvent_descriptor,

@@ -2867,14 +2867,24 @@ message AndroidProfilerEvent {
   }
 }
 
+// Stats for a single table in the Android Profiler DB
+message AndroidProfilerDbTable {
+  // The unique name that identifies this table, e.g. "Cpu_Data",
+  // "Memory_AllocationEvents", or "Network_Connection"
+  optional string name = 1;
+
+  // The number of records currently entered into this table
+  optional uint32 num_records = 2;
+}
+
 // Stats for the DB used by Android Profiler
 message AndroidProfilerDbStats {
-  optional uint32 num_records_cpu = 1;
-  optional uint32 num_records_event = 2;
-  optional uint32 num_records_memory = 3;
-  optional uint32 num_records_network = 4;
+  // The amount of time the database has been running (in seconds)
+  optional uint32 age_sec = 1;
   // DB cache on disk (in MB)
-  optional uint32 total_disk = 5;
+  optional uint32 total_disk_mb = 2;
+  // Entries for each table in our DB
+  repeated AndroidProfilerDbTable tables = 3;
 }
 
 // APK Analyzer stats

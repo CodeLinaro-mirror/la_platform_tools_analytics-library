@@ -60,27 +60,20 @@ public  final class AndroidProfilerDbStats extends
           }
           case 8: {
             bitField0_ |= 0x00000001;
-            numRecordsCpu_ = input.readUInt32();
+            ageSec_ = input.readUInt32();
             break;
           }
           case 16: {
             bitField0_ |= 0x00000002;
-            numRecordsEvent_ = input.readUInt32();
+            totalDiskMb_ = input.readUInt32();
             break;
           }
-          case 24: {
-            bitField0_ |= 0x00000004;
-            numRecordsMemory_ = input.readUInt32();
-            break;
-          }
-          case 32: {
-            bitField0_ |= 0x00000008;
-            numRecordsNetwork_ = input.readUInt32();
-            break;
-          }
-          case 40: {
-            bitField0_ |= 0x00000010;
-            totalDisk_ = input.readUInt32();
+          case 26: {
+            if (!((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
+              tables_ = new java.util.ArrayList<com.google.wireless.android.sdk.stats.AndroidProfilerDbTable>();
+              mutable_bitField0_ |= 0x00000004;
+            }
+            tables_.add(input.readMessage(com.google.wireless.android.sdk.stats.AndroidProfilerDbTable.PARSER, extensionRegistry));
             break;
           }
         }
@@ -91,6 +84,9 @@ public  final class AndroidProfilerDbStats extends
       throw new com.google.protobuf.InvalidProtocolBufferException(
           e.getMessage()).setUnfinishedMessage(this);
     } finally {
+      if (((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
+        tables_ = java.util.Collections.unmodifiableList(tables_);
+      }
       this.unknownFields = unknownFields.build();
       makeExtensionsImmutable();
     }
@@ -123,100 +119,114 @@ public  final class AndroidProfilerDbStats extends
   }
 
   private int bitField0_;
-  // optional uint32 num_records_cpu = 1;
-  public static final int NUM_RECORDS_CPU_FIELD_NUMBER = 1;
-  private int numRecordsCpu_;
+  // optional uint32 age_sec = 1;
+  public static final int AGE_SEC_FIELD_NUMBER = 1;
+  private int ageSec_;
   /**
-   * <code>optional uint32 num_records_cpu = 1;</code>
+   * <code>optional uint32 age_sec = 1;</code>
+   *
+   * <pre>
+   * The amount of time the database has been running (in seconds)
+   * </pre>
    */
-  public boolean hasNumRecordsCpu() {
+  public boolean hasAgeSec() {
     return ((bitField0_ & 0x00000001) == 0x00000001);
   }
   /**
-   * <code>optional uint32 num_records_cpu = 1;</code>
+   * <code>optional uint32 age_sec = 1;</code>
+   *
+   * <pre>
+   * The amount of time the database has been running (in seconds)
+   * </pre>
    */
-  public int getNumRecordsCpu() {
-    return numRecordsCpu_;
+  public int getAgeSec() {
+    return ageSec_;
   }
 
-  // optional uint32 num_records_event = 2;
-  public static final int NUM_RECORDS_EVENT_FIELD_NUMBER = 2;
-  private int numRecordsEvent_;
+  // optional uint32 total_disk_mb = 2;
+  public static final int TOTAL_DISK_MB_FIELD_NUMBER = 2;
+  private int totalDiskMb_;
   /**
-   * <code>optional uint32 num_records_event = 2;</code>
+   * <code>optional uint32 total_disk_mb = 2;</code>
+   *
+   * <pre>
+   * DB cache on disk (in MB)
+   * </pre>
    */
-  public boolean hasNumRecordsEvent() {
+  public boolean hasTotalDiskMb() {
     return ((bitField0_ & 0x00000002) == 0x00000002);
   }
   /**
-   * <code>optional uint32 num_records_event = 2;</code>
-   */
-  public int getNumRecordsEvent() {
-    return numRecordsEvent_;
-  }
-
-  // optional uint32 num_records_memory = 3;
-  public static final int NUM_RECORDS_MEMORY_FIELD_NUMBER = 3;
-  private int numRecordsMemory_;
-  /**
-   * <code>optional uint32 num_records_memory = 3;</code>
-   */
-  public boolean hasNumRecordsMemory() {
-    return ((bitField0_ & 0x00000004) == 0x00000004);
-  }
-  /**
-   * <code>optional uint32 num_records_memory = 3;</code>
-   */
-  public int getNumRecordsMemory() {
-    return numRecordsMemory_;
-  }
-
-  // optional uint32 num_records_network = 4;
-  public static final int NUM_RECORDS_NETWORK_FIELD_NUMBER = 4;
-  private int numRecordsNetwork_;
-  /**
-   * <code>optional uint32 num_records_network = 4;</code>
-   */
-  public boolean hasNumRecordsNetwork() {
-    return ((bitField0_ & 0x00000008) == 0x00000008);
-  }
-  /**
-   * <code>optional uint32 num_records_network = 4;</code>
-   */
-  public int getNumRecordsNetwork() {
-    return numRecordsNetwork_;
-  }
-
-  // optional uint32 total_disk = 5;
-  public static final int TOTAL_DISK_FIELD_NUMBER = 5;
-  private int totalDisk_;
-  /**
-   * <code>optional uint32 total_disk = 5;</code>
+   * <code>optional uint32 total_disk_mb = 2;</code>
    *
    * <pre>
    * DB cache on disk (in MB)
    * </pre>
    */
-  public boolean hasTotalDisk() {
-    return ((bitField0_ & 0x00000010) == 0x00000010);
+  public int getTotalDiskMb() {
+    return totalDiskMb_;
   }
+
+  // repeated .android_studio.AndroidProfilerDbTable tables = 3;
+  public static final int TABLES_FIELD_NUMBER = 3;
+  private java.util.List<com.google.wireless.android.sdk.stats.AndroidProfilerDbTable> tables_;
   /**
-   * <code>optional uint32 total_disk = 5;</code>
+   * <code>repeated .android_studio.AndroidProfilerDbTable tables = 3;</code>
    *
    * <pre>
-   * DB cache on disk (in MB)
+   * Entries for each table in our DB
    * </pre>
    */
-  public int getTotalDisk() {
-    return totalDisk_;
+  public java.util.List<com.google.wireless.android.sdk.stats.AndroidProfilerDbTable> getTablesList() {
+    return tables_;
+  }
+  /**
+   * <code>repeated .android_studio.AndroidProfilerDbTable tables = 3;</code>
+   *
+   * <pre>
+   * Entries for each table in our DB
+   * </pre>
+   */
+  public java.util.List<? extends com.google.wireless.android.sdk.stats.AndroidProfilerDbTableOrBuilder> 
+      getTablesOrBuilderList() {
+    return tables_;
+  }
+  /**
+   * <code>repeated .android_studio.AndroidProfilerDbTable tables = 3;</code>
+   *
+   * <pre>
+   * Entries for each table in our DB
+   * </pre>
+   */
+  public int getTablesCount() {
+    return tables_.size();
+  }
+  /**
+   * <code>repeated .android_studio.AndroidProfilerDbTable tables = 3;</code>
+   *
+   * <pre>
+   * Entries for each table in our DB
+   * </pre>
+   */
+  public com.google.wireless.android.sdk.stats.AndroidProfilerDbTable getTables(int index) {
+    return tables_.get(index);
+  }
+  /**
+   * <code>repeated .android_studio.AndroidProfilerDbTable tables = 3;</code>
+   *
+   * <pre>
+   * Entries for each table in our DB
+   * </pre>
+   */
+  public com.google.wireless.android.sdk.stats.AndroidProfilerDbTableOrBuilder getTablesOrBuilder(
+      int index) {
+    return tables_.get(index);
   }
 
   private void initFields() {
-    numRecordsCpu_ = 0;
-    numRecordsEvent_ = 0;
-    numRecordsMemory_ = 0;
-    numRecordsNetwork_ = 0;
-    totalDisk_ = 0;
+    ageSec_ = 0;
+    totalDiskMb_ = 0;
+    tables_ = java.util.Collections.emptyList();
   }
   private byte memoizedIsInitialized = -1;
   public final boolean isInitialized() {
@@ -231,19 +241,13 @@ public  final class AndroidProfilerDbStats extends
                       throws java.io.IOException {
     getSerializedSize();
     if (((bitField0_ & 0x00000001) == 0x00000001)) {
-      output.writeUInt32(1, numRecordsCpu_);
+      output.writeUInt32(1, ageSec_);
     }
     if (((bitField0_ & 0x00000002) == 0x00000002)) {
-      output.writeUInt32(2, numRecordsEvent_);
+      output.writeUInt32(2, totalDiskMb_);
     }
-    if (((bitField0_ & 0x00000004) == 0x00000004)) {
-      output.writeUInt32(3, numRecordsMemory_);
-    }
-    if (((bitField0_ & 0x00000008) == 0x00000008)) {
-      output.writeUInt32(4, numRecordsNetwork_);
-    }
-    if (((bitField0_ & 0x00000010) == 0x00000010)) {
-      output.writeUInt32(5, totalDisk_);
+    for (int i = 0; i < tables_.size(); i++) {
+      output.writeMessage(3, tables_.get(i));
     }
     getUnknownFields().writeTo(output);
   }
@@ -256,23 +260,15 @@ public  final class AndroidProfilerDbStats extends
     size = 0;
     if (((bitField0_ & 0x00000001) == 0x00000001)) {
       size += com.google.protobuf.CodedOutputStream
-        .computeUInt32Size(1, numRecordsCpu_);
+        .computeUInt32Size(1, ageSec_);
     }
     if (((bitField0_ & 0x00000002) == 0x00000002)) {
       size += com.google.protobuf.CodedOutputStream
-        .computeUInt32Size(2, numRecordsEvent_);
+        .computeUInt32Size(2, totalDiskMb_);
     }
-    if (((bitField0_ & 0x00000004) == 0x00000004)) {
+    for (int i = 0; i < tables_.size(); i++) {
       size += com.google.protobuf.CodedOutputStream
-        .computeUInt32Size(3, numRecordsMemory_);
-    }
-    if (((bitField0_ & 0x00000008) == 0x00000008)) {
-      size += com.google.protobuf.CodedOutputStream
-        .computeUInt32Size(4, numRecordsNetwork_);
-    }
-    if (((bitField0_ & 0x00000010) == 0x00000010)) {
-      size += com.google.protobuf.CodedOutputStream
-        .computeUInt32Size(5, totalDisk_);
+        .computeMessageSize(3, tables_.get(i));
     }
     size += getUnknownFields().getSerializedSize();
     memoizedSerializedSize = size;
@@ -386,6 +382,7 @@ public  final class AndroidProfilerDbStats extends
     }
     private void maybeForceBuilderInitialization() {
       if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        getTablesFieldBuilder();
       }
     }
     private static Builder create() {
@@ -394,16 +391,16 @@ public  final class AndroidProfilerDbStats extends
 
     public Builder clear() {
       super.clear();
-      numRecordsCpu_ = 0;
+      ageSec_ = 0;
       bitField0_ = (bitField0_ & ~0x00000001);
-      numRecordsEvent_ = 0;
+      totalDiskMb_ = 0;
       bitField0_ = (bitField0_ & ~0x00000002);
-      numRecordsMemory_ = 0;
-      bitField0_ = (bitField0_ & ~0x00000004);
-      numRecordsNetwork_ = 0;
-      bitField0_ = (bitField0_ & ~0x00000008);
-      totalDisk_ = 0;
-      bitField0_ = (bitField0_ & ~0x00000010);
+      if (tablesBuilder_ == null) {
+        tables_ = java.util.Collections.emptyList();
+        bitField0_ = (bitField0_ & ~0x00000004);
+      } else {
+        tablesBuilder_.clear();
+      }
       return this;
     }
 
@@ -435,23 +432,20 @@ public  final class AndroidProfilerDbStats extends
       if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
         to_bitField0_ |= 0x00000001;
       }
-      result.numRecordsCpu_ = numRecordsCpu_;
+      result.ageSec_ = ageSec_;
       if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
         to_bitField0_ |= 0x00000002;
       }
-      result.numRecordsEvent_ = numRecordsEvent_;
-      if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
-        to_bitField0_ |= 0x00000004;
+      result.totalDiskMb_ = totalDiskMb_;
+      if (tablesBuilder_ == null) {
+        if (((bitField0_ & 0x00000004) == 0x00000004)) {
+          tables_ = java.util.Collections.unmodifiableList(tables_);
+          bitField0_ = (bitField0_ & ~0x00000004);
+        }
+        result.tables_ = tables_;
+      } else {
+        result.tables_ = tablesBuilder_.build();
       }
-      result.numRecordsMemory_ = numRecordsMemory_;
-      if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
-        to_bitField0_ |= 0x00000008;
-      }
-      result.numRecordsNetwork_ = numRecordsNetwork_;
-      if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
-        to_bitField0_ |= 0x00000010;
-      }
-      result.totalDisk_ = totalDisk_;
       result.bitField0_ = to_bitField0_;
       onBuilt();
       return result;
@@ -468,20 +462,37 @@ public  final class AndroidProfilerDbStats extends
 
     public Builder mergeFrom(com.google.wireless.android.sdk.stats.AndroidProfilerDbStats other) {
       if (other == com.google.wireless.android.sdk.stats.AndroidProfilerDbStats.getDefaultInstance()) return this;
-      if (other.hasNumRecordsCpu()) {
-        setNumRecordsCpu(other.getNumRecordsCpu());
+      if (other.hasAgeSec()) {
+        setAgeSec(other.getAgeSec());
       }
-      if (other.hasNumRecordsEvent()) {
-        setNumRecordsEvent(other.getNumRecordsEvent());
+      if (other.hasTotalDiskMb()) {
+        setTotalDiskMb(other.getTotalDiskMb());
       }
-      if (other.hasNumRecordsMemory()) {
-        setNumRecordsMemory(other.getNumRecordsMemory());
-      }
-      if (other.hasNumRecordsNetwork()) {
-        setNumRecordsNetwork(other.getNumRecordsNetwork());
-      }
-      if (other.hasTotalDisk()) {
-        setTotalDisk(other.getTotalDisk());
+      if (tablesBuilder_ == null) {
+        if (!other.tables_.isEmpty()) {
+          if (tables_.isEmpty()) {
+            tables_ = other.tables_;
+            bitField0_ = (bitField0_ & ~0x00000004);
+          } else {
+            ensureTablesIsMutable();
+            tables_.addAll(other.tables_);
+          }
+          onChanged();
+        }
+      } else {
+        if (!other.tables_.isEmpty()) {
+          if (tablesBuilder_.isEmpty()) {
+            tablesBuilder_.dispose();
+            tablesBuilder_ = null;
+            tables_ = other.tables_;
+            bitField0_ = (bitField0_ & ~0x00000004);
+            tablesBuilder_ = 
+              com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                 getTablesFieldBuilder() : null;
+          } else {
+            tablesBuilder_.addAllMessages(other.tables_);
+          }
+        }
       }
       this.mergeUnknownFields(other.getUnknownFields());
       return this;
@@ -510,185 +521,414 @@ public  final class AndroidProfilerDbStats extends
     }
     private int bitField0_;
 
-    // optional uint32 num_records_cpu = 1;
-    private int numRecordsCpu_ ;
+    // optional uint32 age_sec = 1;
+    private int ageSec_ ;
     /**
-     * <code>optional uint32 num_records_cpu = 1;</code>
+     * <code>optional uint32 age_sec = 1;</code>
+     *
+     * <pre>
+     * The amount of time the database has been running (in seconds)
+     * </pre>
      */
-    public boolean hasNumRecordsCpu() {
+    public boolean hasAgeSec() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
-     * <code>optional uint32 num_records_cpu = 1;</code>
+     * <code>optional uint32 age_sec = 1;</code>
+     *
+     * <pre>
+     * The amount of time the database has been running (in seconds)
+     * </pre>
      */
-    public int getNumRecordsCpu() {
-      return numRecordsCpu_;
+    public int getAgeSec() {
+      return ageSec_;
     }
     /**
-     * <code>optional uint32 num_records_cpu = 1;</code>
+     * <code>optional uint32 age_sec = 1;</code>
+     *
+     * <pre>
+     * The amount of time the database has been running (in seconds)
+     * </pre>
      */
-    public Builder setNumRecordsCpu(int value) {
+    public Builder setAgeSec(int value) {
       bitField0_ |= 0x00000001;
-      numRecordsCpu_ = value;
+      ageSec_ = value;
       onChanged();
       return this;
     }
     /**
-     * <code>optional uint32 num_records_cpu = 1;</code>
+     * <code>optional uint32 age_sec = 1;</code>
+     *
+     * <pre>
+     * The amount of time the database has been running (in seconds)
+     * </pre>
      */
-    public Builder clearNumRecordsCpu() {
+    public Builder clearAgeSec() {
       bitField0_ = (bitField0_ & ~0x00000001);
-      numRecordsCpu_ = 0;
+      ageSec_ = 0;
       onChanged();
       return this;
     }
 
-    // optional uint32 num_records_event = 2;
-    private int numRecordsEvent_ ;
+    // optional uint32 total_disk_mb = 2;
+    private int totalDiskMb_ ;
     /**
-     * <code>optional uint32 num_records_event = 2;</code>
+     * <code>optional uint32 total_disk_mb = 2;</code>
+     *
+     * <pre>
+     * DB cache on disk (in MB)
+     * </pre>
      */
-    public boolean hasNumRecordsEvent() {
+    public boolean hasTotalDiskMb() {
       return ((bitField0_ & 0x00000002) == 0x00000002);
     }
     /**
-     * <code>optional uint32 num_records_event = 2;</code>
+     * <code>optional uint32 total_disk_mb = 2;</code>
+     *
+     * <pre>
+     * DB cache on disk (in MB)
+     * </pre>
      */
-    public int getNumRecordsEvent() {
-      return numRecordsEvent_;
+    public int getTotalDiskMb() {
+      return totalDiskMb_;
     }
     /**
-     * <code>optional uint32 num_records_event = 2;</code>
+     * <code>optional uint32 total_disk_mb = 2;</code>
+     *
+     * <pre>
+     * DB cache on disk (in MB)
+     * </pre>
      */
-    public Builder setNumRecordsEvent(int value) {
+    public Builder setTotalDiskMb(int value) {
       bitField0_ |= 0x00000002;
-      numRecordsEvent_ = value;
+      totalDiskMb_ = value;
       onChanged();
       return this;
     }
     /**
-     * <code>optional uint32 num_records_event = 2;</code>
+     * <code>optional uint32 total_disk_mb = 2;</code>
+     *
+     * <pre>
+     * DB cache on disk (in MB)
+     * </pre>
      */
-    public Builder clearNumRecordsEvent() {
+    public Builder clearTotalDiskMb() {
       bitField0_ = (bitField0_ & ~0x00000002);
-      numRecordsEvent_ = 0;
+      totalDiskMb_ = 0;
       onChanged();
       return this;
     }
 
-    // optional uint32 num_records_memory = 3;
-    private int numRecordsMemory_ ;
-    /**
-     * <code>optional uint32 num_records_memory = 3;</code>
-     */
-    public boolean hasNumRecordsMemory() {
-      return ((bitField0_ & 0x00000004) == 0x00000004);
-    }
-    /**
-     * <code>optional uint32 num_records_memory = 3;</code>
-     */
-    public int getNumRecordsMemory() {
-      return numRecordsMemory_;
-    }
-    /**
-     * <code>optional uint32 num_records_memory = 3;</code>
-     */
-    public Builder setNumRecordsMemory(int value) {
-      bitField0_ |= 0x00000004;
-      numRecordsMemory_ = value;
-      onChanged();
-      return this;
-    }
-    /**
-     * <code>optional uint32 num_records_memory = 3;</code>
-     */
-    public Builder clearNumRecordsMemory() {
-      bitField0_ = (bitField0_ & ~0x00000004);
-      numRecordsMemory_ = 0;
-      onChanged();
-      return this;
+    // repeated .android_studio.AndroidProfilerDbTable tables = 3;
+    private java.util.List<com.google.wireless.android.sdk.stats.AndroidProfilerDbTable> tables_ =
+      java.util.Collections.emptyList();
+    private void ensureTablesIsMutable() {
+      if (!((bitField0_ & 0x00000004) == 0x00000004)) {
+        tables_ = new java.util.ArrayList<com.google.wireless.android.sdk.stats.AndroidProfilerDbTable>(tables_);
+        bitField0_ |= 0x00000004;
+       }
     }
 
-    // optional uint32 num_records_network = 4;
-    private int numRecordsNetwork_ ;
-    /**
-     * <code>optional uint32 num_records_network = 4;</code>
-     */
-    public boolean hasNumRecordsNetwork() {
-      return ((bitField0_ & 0x00000008) == 0x00000008);
-    }
-    /**
-     * <code>optional uint32 num_records_network = 4;</code>
-     */
-    public int getNumRecordsNetwork() {
-      return numRecordsNetwork_;
-    }
-    /**
-     * <code>optional uint32 num_records_network = 4;</code>
-     */
-    public Builder setNumRecordsNetwork(int value) {
-      bitField0_ |= 0x00000008;
-      numRecordsNetwork_ = value;
-      onChanged();
-      return this;
-    }
-    /**
-     * <code>optional uint32 num_records_network = 4;</code>
-     */
-    public Builder clearNumRecordsNetwork() {
-      bitField0_ = (bitField0_ & ~0x00000008);
-      numRecordsNetwork_ = 0;
-      onChanged();
-      return this;
-    }
+    private com.google.protobuf.RepeatedFieldBuilder<
+        com.google.wireless.android.sdk.stats.AndroidProfilerDbTable, com.google.wireless.android.sdk.stats.AndroidProfilerDbTable.Builder, com.google.wireless.android.sdk.stats.AndroidProfilerDbTableOrBuilder> tablesBuilder_;
 
-    // optional uint32 total_disk = 5;
-    private int totalDisk_ ;
     /**
-     * <code>optional uint32 total_disk = 5;</code>
+     * <code>repeated .android_studio.AndroidProfilerDbTable tables = 3;</code>
      *
      * <pre>
-     * DB cache on disk (in MB)
+     * Entries for each table in our DB
      * </pre>
      */
-    public boolean hasTotalDisk() {
-      return ((bitField0_ & 0x00000010) == 0x00000010);
+    public java.util.List<com.google.wireless.android.sdk.stats.AndroidProfilerDbTable> getTablesList() {
+      if (tablesBuilder_ == null) {
+        return java.util.Collections.unmodifiableList(tables_);
+      } else {
+        return tablesBuilder_.getMessageList();
+      }
     }
     /**
-     * <code>optional uint32 total_disk = 5;</code>
+     * <code>repeated .android_studio.AndroidProfilerDbTable tables = 3;</code>
      *
      * <pre>
-     * DB cache on disk (in MB)
+     * Entries for each table in our DB
      * </pre>
      */
-    public int getTotalDisk() {
-      return totalDisk_;
+    public int getTablesCount() {
+      if (tablesBuilder_ == null) {
+        return tables_.size();
+      } else {
+        return tablesBuilder_.getCount();
+      }
     }
     /**
-     * <code>optional uint32 total_disk = 5;</code>
+     * <code>repeated .android_studio.AndroidProfilerDbTable tables = 3;</code>
      *
      * <pre>
-     * DB cache on disk (in MB)
+     * Entries for each table in our DB
      * </pre>
      */
-    public Builder setTotalDisk(int value) {
-      bitField0_ |= 0x00000010;
-      totalDisk_ = value;
-      onChanged();
+    public com.google.wireless.android.sdk.stats.AndroidProfilerDbTable getTables(int index) {
+      if (tablesBuilder_ == null) {
+        return tables_.get(index);
+      } else {
+        return tablesBuilder_.getMessage(index);
+      }
+    }
+    /**
+     * <code>repeated .android_studio.AndroidProfilerDbTable tables = 3;</code>
+     *
+     * <pre>
+     * Entries for each table in our DB
+     * </pre>
+     */
+    public Builder setTables(
+        int index, com.google.wireless.android.sdk.stats.AndroidProfilerDbTable value) {
+      if (tablesBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        ensureTablesIsMutable();
+        tables_.set(index, value);
+        onChanged();
+      } else {
+        tablesBuilder_.setMessage(index, value);
+      }
       return this;
     }
     /**
-     * <code>optional uint32 total_disk = 5;</code>
+     * <code>repeated .android_studio.AndroidProfilerDbTable tables = 3;</code>
      *
      * <pre>
-     * DB cache on disk (in MB)
+     * Entries for each table in our DB
      * </pre>
      */
-    public Builder clearTotalDisk() {
-      bitField0_ = (bitField0_ & ~0x00000010);
-      totalDisk_ = 0;
-      onChanged();
+    public Builder setTables(
+        int index, com.google.wireless.android.sdk.stats.AndroidProfilerDbTable.Builder builderForValue) {
+      if (tablesBuilder_ == null) {
+        ensureTablesIsMutable();
+        tables_.set(index, builderForValue.build());
+        onChanged();
+      } else {
+        tablesBuilder_.setMessage(index, builderForValue.build());
+      }
       return this;
+    }
+    /**
+     * <code>repeated .android_studio.AndroidProfilerDbTable tables = 3;</code>
+     *
+     * <pre>
+     * Entries for each table in our DB
+     * </pre>
+     */
+    public Builder addTables(com.google.wireless.android.sdk.stats.AndroidProfilerDbTable value) {
+      if (tablesBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        ensureTablesIsMutable();
+        tables_.add(value);
+        onChanged();
+      } else {
+        tablesBuilder_.addMessage(value);
+      }
+      return this;
+    }
+    /**
+     * <code>repeated .android_studio.AndroidProfilerDbTable tables = 3;</code>
+     *
+     * <pre>
+     * Entries for each table in our DB
+     * </pre>
+     */
+    public Builder addTables(
+        int index, com.google.wireless.android.sdk.stats.AndroidProfilerDbTable value) {
+      if (tablesBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        ensureTablesIsMutable();
+        tables_.add(index, value);
+        onChanged();
+      } else {
+        tablesBuilder_.addMessage(index, value);
+      }
+      return this;
+    }
+    /**
+     * <code>repeated .android_studio.AndroidProfilerDbTable tables = 3;</code>
+     *
+     * <pre>
+     * Entries for each table in our DB
+     * </pre>
+     */
+    public Builder addTables(
+        com.google.wireless.android.sdk.stats.AndroidProfilerDbTable.Builder builderForValue) {
+      if (tablesBuilder_ == null) {
+        ensureTablesIsMutable();
+        tables_.add(builderForValue.build());
+        onChanged();
+      } else {
+        tablesBuilder_.addMessage(builderForValue.build());
+      }
+      return this;
+    }
+    /**
+     * <code>repeated .android_studio.AndroidProfilerDbTable tables = 3;</code>
+     *
+     * <pre>
+     * Entries for each table in our DB
+     * </pre>
+     */
+    public Builder addTables(
+        int index, com.google.wireless.android.sdk.stats.AndroidProfilerDbTable.Builder builderForValue) {
+      if (tablesBuilder_ == null) {
+        ensureTablesIsMutable();
+        tables_.add(index, builderForValue.build());
+        onChanged();
+      } else {
+        tablesBuilder_.addMessage(index, builderForValue.build());
+      }
+      return this;
+    }
+    /**
+     * <code>repeated .android_studio.AndroidProfilerDbTable tables = 3;</code>
+     *
+     * <pre>
+     * Entries for each table in our DB
+     * </pre>
+     */
+    public Builder addAllTables(
+        java.lang.Iterable<? extends com.google.wireless.android.sdk.stats.AndroidProfilerDbTable> values) {
+      if (tablesBuilder_ == null) {
+        ensureTablesIsMutable();
+        super.addAll(values, tables_);
+        onChanged();
+      } else {
+        tablesBuilder_.addAllMessages(values);
+      }
+      return this;
+    }
+    /**
+     * <code>repeated .android_studio.AndroidProfilerDbTable tables = 3;</code>
+     *
+     * <pre>
+     * Entries for each table in our DB
+     * </pre>
+     */
+    public Builder clearTables() {
+      if (tablesBuilder_ == null) {
+        tables_ = java.util.Collections.emptyList();
+        bitField0_ = (bitField0_ & ~0x00000004);
+        onChanged();
+      } else {
+        tablesBuilder_.clear();
+      }
+      return this;
+    }
+    /**
+     * <code>repeated .android_studio.AndroidProfilerDbTable tables = 3;</code>
+     *
+     * <pre>
+     * Entries for each table in our DB
+     * </pre>
+     */
+    public Builder removeTables(int index) {
+      if (tablesBuilder_ == null) {
+        ensureTablesIsMutable();
+        tables_.remove(index);
+        onChanged();
+      } else {
+        tablesBuilder_.remove(index);
+      }
+      return this;
+    }
+    /**
+     * <code>repeated .android_studio.AndroidProfilerDbTable tables = 3;</code>
+     *
+     * <pre>
+     * Entries for each table in our DB
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.AndroidProfilerDbTable.Builder getTablesBuilder(
+        int index) {
+      return getTablesFieldBuilder().getBuilder(index);
+    }
+    /**
+     * <code>repeated .android_studio.AndroidProfilerDbTable tables = 3;</code>
+     *
+     * <pre>
+     * Entries for each table in our DB
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.AndroidProfilerDbTableOrBuilder getTablesOrBuilder(
+        int index) {
+      if (tablesBuilder_ == null) {
+        return tables_.get(index);  } else {
+        return tablesBuilder_.getMessageOrBuilder(index);
+      }
+    }
+    /**
+     * <code>repeated .android_studio.AndroidProfilerDbTable tables = 3;</code>
+     *
+     * <pre>
+     * Entries for each table in our DB
+     * </pre>
+     */
+    public java.util.List<? extends com.google.wireless.android.sdk.stats.AndroidProfilerDbTableOrBuilder> 
+         getTablesOrBuilderList() {
+      if (tablesBuilder_ != null) {
+        return tablesBuilder_.getMessageOrBuilderList();
+      } else {
+        return java.util.Collections.unmodifiableList(tables_);
+      }
+    }
+    /**
+     * <code>repeated .android_studio.AndroidProfilerDbTable tables = 3;</code>
+     *
+     * <pre>
+     * Entries for each table in our DB
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.AndroidProfilerDbTable.Builder addTablesBuilder() {
+      return getTablesFieldBuilder().addBuilder(
+          com.google.wireless.android.sdk.stats.AndroidProfilerDbTable.getDefaultInstance());
+    }
+    /**
+     * <code>repeated .android_studio.AndroidProfilerDbTable tables = 3;</code>
+     *
+     * <pre>
+     * Entries for each table in our DB
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.AndroidProfilerDbTable.Builder addTablesBuilder(
+        int index) {
+      return getTablesFieldBuilder().addBuilder(
+          index, com.google.wireless.android.sdk.stats.AndroidProfilerDbTable.getDefaultInstance());
+    }
+    /**
+     * <code>repeated .android_studio.AndroidProfilerDbTable tables = 3;</code>
+     *
+     * <pre>
+     * Entries for each table in our DB
+     * </pre>
+     */
+    public java.util.List<com.google.wireless.android.sdk.stats.AndroidProfilerDbTable.Builder> 
+         getTablesBuilderList() {
+      return getTablesFieldBuilder().getBuilderList();
+    }
+    private com.google.protobuf.RepeatedFieldBuilder<
+        com.google.wireless.android.sdk.stats.AndroidProfilerDbTable, com.google.wireless.android.sdk.stats.AndroidProfilerDbTable.Builder, com.google.wireless.android.sdk.stats.AndroidProfilerDbTableOrBuilder> 
+        getTablesFieldBuilder() {
+      if (tablesBuilder_ == null) {
+        tablesBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+            com.google.wireless.android.sdk.stats.AndroidProfilerDbTable, com.google.wireless.android.sdk.stats.AndroidProfilerDbTable.Builder, com.google.wireless.android.sdk.stats.AndroidProfilerDbTableOrBuilder>(
+                tables_,
+                ((bitField0_ & 0x00000004) == 0x00000004),
+                getParentForChildren(),
+                isClean());
+        tables_ = null;
+      }
+      return tablesBuilder_;
     }
 
     // @@protoc_insertion_point(builder_scope:android_studio.AndroidProfilerDbStats)
