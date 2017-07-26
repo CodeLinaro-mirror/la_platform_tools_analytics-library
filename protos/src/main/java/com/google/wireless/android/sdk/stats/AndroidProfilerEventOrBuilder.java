@@ -47,7 +47,8 @@ public interface AndroidProfilerEventOrBuilder
    * <code>optional .android_studio.CpuProfilingConfig cpu_config = 3;</code>
    *
    * <pre>
-   * Set if |type| is |TRACE_CPU|
+   * Used to be set if |type| was |TRACE_CPU|
+   * Deprecated since 3.0.0.8 and superceded by cpu_capture_metadata
    * </pre>
    */
   boolean hasCpuConfig();
@@ -55,7 +56,8 @@ public interface AndroidProfilerEventOrBuilder
    * <code>optional .android_studio.CpuProfilingConfig cpu_config = 3;</code>
    *
    * <pre>
-   * Set if |type| is |TRACE_CPU|
+   * Used to be set if |type| was |TRACE_CPU|
+   * Deprecated since 3.0.0.8 and superceded by cpu_capture_metadata
    * </pre>
    */
   com.google.wireless.android.sdk.stats.CpuProfilingConfig getCpuConfig();
@@ -63,8 +65,35 @@ public interface AndroidProfilerEventOrBuilder
    * <code>optional .android_studio.CpuProfilingConfig cpu_config = 3;</code>
    *
    * <pre>
-   * Set if |type| is |TRACE_CPU|
+   * Used to be set if |type| was |TRACE_CPU|
+   * Deprecated since 3.0.0.8 and superceded by cpu_capture_metadata
    * </pre>
    */
   com.google.wireless.android.sdk.stats.CpuProfilingConfigOrBuilder getCpuConfigOrBuilder();
+
+  // optional .android_studio.CpuCaptureMetadata cpu_capture_metadata = 4;
+  /**
+   * <code>optional .android_studio.CpuCaptureMetadata cpu_capture_metadata = 4;</code>
+   *
+   * <pre>
+   * Set if |type| is |CAPTURE_TRACE|
+   * </pre>
+   */
+  boolean hasCpuCaptureMetadata();
+  /**
+   * <code>optional .android_studio.CpuCaptureMetadata cpu_capture_metadata = 4;</code>
+   *
+   * <pre>
+   * Set if |type| is |CAPTURE_TRACE|
+   * </pre>
+   */
+  com.google.wireless.android.sdk.stats.CpuCaptureMetadata getCpuCaptureMetadata();
+  /**
+   * <code>optional .android_studio.CpuCaptureMetadata cpu_capture_metadata = 4;</code>
+   *
+   * <pre>
+   * Set if |type| is |CAPTURE_TRACE|
+   * </pre>
+   */
+  com.google.wireless.android.sdk.stats.CpuCaptureMetadataOrBuilder getCpuCaptureMetadataOrBuilder();
 }
