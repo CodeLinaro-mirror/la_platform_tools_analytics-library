@@ -93,6 +93,19 @@ public  final class AndroidProfilerEvent extends
             bitField0_ |= 0x00000004;
             break;
           }
+          case 34: {
+            com.google.wireless.android.sdk.stats.CpuCaptureMetadata.Builder subBuilder = null;
+            if (((bitField0_ & 0x00000008) == 0x00000008)) {
+              subBuilder = cpuCaptureMetadata_.toBuilder();
+            }
+            cpuCaptureMetadata_ = input.readMessage(com.google.wireless.android.sdk.stats.CpuCaptureMetadata.PARSER, extensionRegistry);
+            if (subBuilder != null) {
+              subBuilder.mergeFrom(cpuCaptureMetadata_);
+              cpuCaptureMetadata_ = subBuilder.buildPartial();
+            }
+            bitField0_ |= 0x00000008;
+            break;
+          }
         }
       }
     } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -392,62 +405,70 @@ public  final class AndroidProfilerEvent extends
      * <code>TRACE_CPU = 211;</code>
      *
      * <pre>
-     * Correlate with |cpu_config|
+     * Deprecated since 3.0.0.8. Use CAPTURE_TRACE.
      * </pre>
      */
     TRACE_CPU(23, 211),
     /**
+     * <code>CAPTURE_TRACE = 212;</code>
+     *
+     * <pre>
+     * Correlate with |cpu_capture_metadata|
+     * </pre>
+     */
+    CAPTURE_TRACE(24, 212),
+    /**
      * <code>FORCE_GC = 301;</code>
      */
-    FORCE_GC(24, 301),
+    FORCE_GC(25, 301),
     /**
      * <code>SNAPSHOT_HPROF = 302;</code>
      */
-    SNAPSHOT_HPROF(25, 302),
+    SNAPSHOT_HPROF(26, 302),
     /**
      * <code>CAPTURE_ALLOCATIONS = 303;</code>
      */
-    CAPTURE_ALLOCATIONS(26, 303),
+    CAPTURE_ALLOCATIONS(27, 303),
     /**
      * <code>SELECT_MEMORY_CHART = 304;</code>
      */
-    SELECT_MEMORY_CHART(27, 304),
+    SELECT_MEMORY_CHART(28, 304),
     /**
      * <code>EXPORT_HPROF = 305;</code>
      */
-    EXPORT_HPROF(28, 305),
+    EXPORT_HPROF(29, 305),
     /**
      * <code>EXPORT_ALLOCATION = 306;</code>
      */
-    EXPORT_ALLOCATION(29, 306),
+    EXPORT_ALLOCATION(30, 306),
     /**
      * <code>ARRANGE_CLASSES = 307;</code>
      */
-    ARRANGE_CLASSES(30, 307),
+    ARRANGE_CLASSES(31, 307),
     /**
      * <code>SELECT_MEMORY_STACK = 308;</code>
      */
-    SELECT_MEMORY_STACK(31, 308),
+    SELECT_MEMORY_STACK(32, 308),
     /**
      * <code>SELECT_MEMORY_REFERENCES = 309;</code>
      */
-    SELECT_MEMORY_REFERENCES(32, 309),
+    SELECT_MEMORY_REFERENCES(33, 309),
     /**
      * <code>SELECT_CONNECTION = 402;</code>
      */
-    SELECT_CONNECTION(33, 402),
+    SELECT_CONNECTION(34, 402),
     /**
      * <code>SELECT_DETAILS_RESPONSE = 403;</code>
      */
-    SELECT_DETAILS_RESPONSE(34, 403),
+    SELECT_DETAILS_RESPONSE(35, 403),
     /**
      * <code>SELECT_DETAILS_HEADERS = 404;</code>
      */
-    SELECT_DETAILS_HEADERS(35, 404),
+    SELECT_DETAILS_HEADERS(36, 404),
     /**
      * <code>SELECT_DETAILS_STACK = 405;</code>
      */
-    SELECT_DETAILS_STACK(36, 405),
+    SELECT_DETAILS_STACK(37, 405),
     ;
 
     /**
@@ -571,10 +592,18 @@ public  final class AndroidProfilerEvent extends
      * <code>TRACE_CPU = 211;</code>
      *
      * <pre>
-     * Correlate with |cpu_config|
+     * Deprecated since 3.0.0.8. Use CAPTURE_TRACE.
      * </pre>
      */
     public static final int TRACE_CPU_VALUE = 211;
+    /**
+     * <code>CAPTURE_TRACE = 212;</code>
+     *
+     * <pre>
+     * Correlate with |cpu_capture_metadata|
+     * </pre>
+     */
+    public static final int CAPTURE_TRACE_VALUE = 212;
     /**
      * <code>FORCE_GC = 301;</code>
      */
@@ -657,6 +686,7 @@ public  final class AndroidProfilerEvent extends
         case 208: return OPEN_CPU_CONFIG_DIALOG;
         case 209: return CREATE_CPU_CONFIG;
         case 211: return TRACE_CPU;
+        case 212: return CAPTURE_TRACE;
         case 301: return FORCE_GC;
         case 302: return SNAPSHOT_HPROF;
         case 303: return CAPTURE_ALLOCATIONS;
@@ -777,7 +807,8 @@ public  final class AndroidProfilerEvent extends
    * <code>optional .android_studio.CpuProfilingConfig cpu_config = 3;</code>
    *
    * <pre>
-   * Set if |type| is |TRACE_CPU|
+   * Used to be set if |type| was |TRACE_CPU|
+   * Deprecated since 3.0.0.8 and superceded by cpu_capture_metadata
    * </pre>
    */
   public boolean hasCpuConfig() {
@@ -787,7 +818,8 @@ public  final class AndroidProfilerEvent extends
    * <code>optional .android_studio.CpuProfilingConfig cpu_config = 3;</code>
    *
    * <pre>
-   * Set if |type| is |TRACE_CPU|
+   * Used to be set if |type| was |TRACE_CPU|
+   * Deprecated since 3.0.0.8 and superceded by cpu_capture_metadata
    * </pre>
    */
   public com.google.wireless.android.sdk.stats.CpuProfilingConfig getCpuConfig() {
@@ -797,17 +829,53 @@ public  final class AndroidProfilerEvent extends
    * <code>optional .android_studio.CpuProfilingConfig cpu_config = 3;</code>
    *
    * <pre>
-   * Set if |type| is |TRACE_CPU|
+   * Used to be set if |type| was |TRACE_CPU|
+   * Deprecated since 3.0.0.8 and superceded by cpu_capture_metadata
    * </pre>
    */
   public com.google.wireless.android.sdk.stats.CpuProfilingConfigOrBuilder getCpuConfigOrBuilder() {
     return cpuConfig_;
   }
 
+  // optional .android_studio.CpuCaptureMetadata cpu_capture_metadata = 4;
+  public static final int CPU_CAPTURE_METADATA_FIELD_NUMBER = 4;
+  private com.google.wireless.android.sdk.stats.CpuCaptureMetadata cpuCaptureMetadata_;
+  /**
+   * <code>optional .android_studio.CpuCaptureMetadata cpu_capture_metadata = 4;</code>
+   *
+   * <pre>
+   * Set if |type| is |CAPTURE_TRACE|
+   * </pre>
+   */
+  public boolean hasCpuCaptureMetadata() {
+    return ((bitField0_ & 0x00000008) == 0x00000008);
+  }
+  /**
+   * <code>optional .android_studio.CpuCaptureMetadata cpu_capture_metadata = 4;</code>
+   *
+   * <pre>
+   * Set if |type| is |CAPTURE_TRACE|
+   * </pre>
+   */
+  public com.google.wireless.android.sdk.stats.CpuCaptureMetadata getCpuCaptureMetadata() {
+    return cpuCaptureMetadata_;
+  }
+  /**
+   * <code>optional .android_studio.CpuCaptureMetadata cpu_capture_metadata = 4;</code>
+   *
+   * <pre>
+   * Set if |type| is |CAPTURE_TRACE|
+   * </pre>
+   */
+  public com.google.wireless.android.sdk.stats.CpuCaptureMetadataOrBuilder getCpuCaptureMetadataOrBuilder() {
+    return cpuCaptureMetadata_;
+  }
+
   private void initFields() {
     stage_ = com.google.wireless.android.sdk.stats.AndroidProfilerEvent.Stage.UNKNOWN_STAGE;
     type_ = com.google.wireless.android.sdk.stats.AndroidProfilerEvent.Type.UNKNOWN_TYPE;
     cpuConfig_ = com.google.wireless.android.sdk.stats.CpuProfilingConfig.getDefaultInstance();
+    cpuCaptureMetadata_ = com.google.wireless.android.sdk.stats.CpuCaptureMetadata.getDefaultInstance();
   }
   private byte memoizedIsInitialized = -1;
   public final boolean isInitialized() {
@@ -830,6 +898,9 @@ public  final class AndroidProfilerEvent extends
     if (((bitField0_ & 0x00000004) == 0x00000004)) {
       output.writeMessage(3, cpuConfig_);
     }
+    if (((bitField0_ & 0x00000008) == 0x00000008)) {
+      output.writeMessage(4, cpuCaptureMetadata_);
+    }
     getUnknownFields().writeTo(output);
   }
 
@@ -850,6 +921,10 @@ public  final class AndroidProfilerEvent extends
     if (((bitField0_ & 0x00000004) == 0x00000004)) {
       size += com.google.protobuf.CodedOutputStream
         .computeMessageSize(3, cpuConfig_);
+    }
+    if (((bitField0_ & 0x00000008) == 0x00000008)) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeMessageSize(4, cpuCaptureMetadata_);
     }
     size += getUnknownFields().getSerializedSize();
     memoizedSerializedSize = size;
@@ -964,6 +1039,7 @@ public  final class AndroidProfilerEvent extends
     private void maybeForceBuilderInitialization() {
       if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
         getCpuConfigFieldBuilder();
+        getCpuCaptureMetadataFieldBuilder();
       }
     }
     private static Builder create() {
@@ -982,6 +1058,12 @@ public  final class AndroidProfilerEvent extends
         cpuConfigBuilder_.clear();
       }
       bitField0_ = (bitField0_ & ~0x00000004);
+      if (cpuCaptureMetadataBuilder_ == null) {
+        cpuCaptureMetadata_ = com.google.wireless.android.sdk.stats.CpuCaptureMetadata.getDefaultInstance();
+      } else {
+        cpuCaptureMetadataBuilder_.clear();
+      }
+      bitField0_ = (bitField0_ & ~0x00000008);
       return this;
     }
 
@@ -1026,6 +1108,14 @@ public  final class AndroidProfilerEvent extends
       } else {
         result.cpuConfig_ = cpuConfigBuilder_.build();
       }
+      if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+        to_bitField0_ |= 0x00000008;
+      }
+      if (cpuCaptureMetadataBuilder_ == null) {
+        result.cpuCaptureMetadata_ = cpuCaptureMetadata_;
+      } else {
+        result.cpuCaptureMetadata_ = cpuCaptureMetadataBuilder_.build();
+      }
       result.bitField0_ = to_bitField0_;
       onBuilt();
       return result;
@@ -1050,6 +1140,9 @@ public  final class AndroidProfilerEvent extends
       }
       if (other.hasCpuConfig()) {
         mergeCpuConfig(other.getCpuConfig());
+      }
+      if (other.hasCpuCaptureMetadata()) {
+        mergeCpuCaptureMetadata(other.getCpuCaptureMetadata());
       }
       this.mergeUnknownFields(other.getUnknownFields());
       return this;
@@ -1190,7 +1283,8 @@ public  final class AndroidProfilerEvent extends
      * <code>optional .android_studio.CpuProfilingConfig cpu_config = 3;</code>
      *
      * <pre>
-     * Set if |type| is |TRACE_CPU|
+     * Used to be set if |type| was |TRACE_CPU|
+     * Deprecated since 3.0.0.8 and superceded by cpu_capture_metadata
      * </pre>
      */
     public boolean hasCpuConfig() {
@@ -1200,7 +1294,8 @@ public  final class AndroidProfilerEvent extends
      * <code>optional .android_studio.CpuProfilingConfig cpu_config = 3;</code>
      *
      * <pre>
-     * Set if |type| is |TRACE_CPU|
+     * Used to be set if |type| was |TRACE_CPU|
+     * Deprecated since 3.0.0.8 and superceded by cpu_capture_metadata
      * </pre>
      */
     public com.google.wireless.android.sdk.stats.CpuProfilingConfig getCpuConfig() {
@@ -1214,7 +1309,8 @@ public  final class AndroidProfilerEvent extends
      * <code>optional .android_studio.CpuProfilingConfig cpu_config = 3;</code>
      *
      * <pre>
-     * Set if |type| is |TRACE_CPU|
+     * Used to be set if |type| was |TRACE_CPU|
+     * Deprecated since 3.0.0.8 and superceded by cpu_capture_metadata
      * </pre>
      */
     public Builder setCpuConfig(com.google.wireless.android.sdk.stats.CpuProfilingConfig value) {
@@ -1234,7 +1330,8 @@ public  final class AndroidProfilerEvent extends
      * <code>optional .android_studio.CpuProfilingConfig cpu_config = 3;</code>
      *
      * <pre>
-     * Set if |type| is |TRACE_CPU|
+     * Used to be set if |type| was |TRACE_CPU|
+     * Deprecated since 3.0.0.8 and superceded by cpu_capture_metadata
      * </pre>
      */
     public Builder setCpuConfig(
@@ -1252,7 +1349,8 @@ public  final class AndroidProfilerEvent extends
      * <code>optional .android_studio.CpuProfilingConfig cpu_config = 3;</code>
      *
      * <pre>
-     * Set if |type| is |TRACE_CPU|
+     * Used to be set if |type| was |TRACE_CPU|
+     * Deprecated since 3.0.0.8 and superceded by cpu_capture_metadata
      * </pre>
      */
     public Builder mergeCpuConfig(com.google.wireless.android.sdk.stats.CpuProfilingConfig value) {
@@ -1275,7 +1373,8 @@ public  final class AndroidProfilerEvent extends
      * <code>optional .android_studio.CpuProfilingConfig cpu_config = 3;</code>
      *
      * <pre>
-     * Set if |type| is |TRACE_CPU|
+     * Used to be set if |type| was |TRACE_CPU|
+     * Deprecated since 3.0.0.8 and superceded by cpu_capture_metadata
      * </pre>
      */
     public Builder clearCpuConfig() {
@@ -1292,7 +1391,8 @@ public  final class AndroidProfilerEvent extends
      * <code>optional .android_studio.CpuProfilingConfig cpu_config = 3;</code>
      *
      * <pre>
-     * Set if |type| is |TRACE_CPU|
+     * Used to be set if |type| was |TRACE_CPU|
+     * Deprecated since 3.0.0.8 and superceded by cpu_capture_metadata
      * </pre>
      */
     public com.google.wireless.android.sdk.stats.CpuProfilingConfig.Builder getCpuConfigBuilder() {
@@ -1304,7 +1404,8 @@ public  final class AndroidProfilerEvent extends
      * <code>optional .android_studio.CpuProfilingConfig cpu_config = 3;</code>
      *
      * <pre>
-     * Set if |type| is |TRACE_CPU|
+     * Used to be set if |type| was |TRACE_CPU|
+     * Deprecated since 3.0.0.8 and superceded by cpu_capture_metadata
      * </pre>
      */
     public com.google.wireless.android.sdk.stats.CpuProfilingConfigOrBuilder getCpuConfigOrBuilder() {
@@ -1318,7 +1419,8 @@ public  final class AndroidProfilerEvent extends
      * <code>optional .android_studio.CpuProfilingConfig cpu_config = 3;</code>
      *
      * <pre>
-     * Set if |type| is |TRACE_CPU|
+     * Used to be set if |type| was |TRACE_CPU|
+     * Deprecated since 3.0.0.8 and superceded by cpu_capture_metadata
      * </pre>
      */
     private com.google.protobuf.SingleFieldBuilder<
@@ -1333,6 +1435,159 @@ public  final class AndroidProfilerEvent extends
         cpuConfig_ = null;
       }
       return cpuConfigBuilder_;
+    }
+
+    // optional .android_studio.CpuCaptureMetadata cpu_capture_metadata = 4;
+    private com.google.wireless.android.sdk.stats.CpuCaptureMetadata cpuCaptureMetadata_ = com.google.wireless.android.sdk.stats.CpuCaptureMetadata.getDefaultInstance();
+    private com.google.protobuf.SingleFieldBuilder<
+        com.google.wireless.android.sdk.stats.CpuCaptureMetadata, com.google.wireless.android.sdk.stats.CpuCaptureMetadata.Builder, com.google.wireless.android.sdk.stats.CpuCaptureMetadataOrBuilder> cpuCaptureMetadataBuilder_;
+    /**
+     * <code>optional .android_studio.CpuCaptureMetadata cpu_capture_metadata = 4;</code>
+     *
+     * <pre>
+     * Set if |type| is |CAPTURE_TRACE|
+     * </pre>
+     */
+    public boolean hasCpuCaptureMetadata() {
+      return ((bitField0_ & 0x00000008) == 0x00000008);
+    }
+    /**
+     * <code>optional .android_studio.CpuCaptureMetadata cpu_capture_metadata = 4;</code>
+     *
+     * <pre>
+     * Set if |type| is |CAPTURE_TRACE|
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.CpuCaptureMetadata getCpuCaptureMetadata() {
+      if (cpuCaptureMetadataBuilder_ == null) {
+        return cpuCaptureMetadata_;
+      } else {
+        return cpuCaptureMetadataBuilder_.getMessage();
+      }
+    }
+    /**
+     * <code>optional .android_studio.CpuCaptureMetadata cpu_capture_metadata = 4;</code>
+     *
+     * <pre>
+     * Set if |type| is |CAPTURE_TRACE|
+     * </pre>
+     */
+    public Builder setCpuCaptureMetadata(com.google.wireless.android.sdk.stats.CpuCaptureMetadata value) {
+      if (cpuCaptureMetadataBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        cpuCaptureMetadata_ = value;
+        onChanged();
+      } else {
+        cpuCaptureMetadataBuilder_.setMessage(value);
+      }
+      bitField0_ |= 0x00000008;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.CpuCaptureMetadata cpu_capture_metadata = 4;</code>
+     *
+     * <pre>
+     * Set if |type| is |CAPTURE_TRACE|
+     * </pre>
+     */
+    public Builder setCpuCaptureMetadata(
+        com.google.wireless.android.sdk.stats.CpuCaptureMetadata.Builder builderForValue) {
+      if (cpuCaptureMetadataBuilder_ == null) {
+        cpuCaptureMetadata_ = builderForValue.build();
+        onChanged();
+      } else {
+        cpuCaptureMetadataBuilder_.setMessage(builderForValue.build());
+      }
+      bitField0_ |= 0x00000008;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.CpuCaptureMetadata cpu_capture_metadata = 4;</code>
+     *
+     * <pre>
+     * Set if |type| is |CAPTURE_TRACE|
+     * </pre>
+     */
+    public Builder mergeCpuCaptureMetadata(com.google.wireless.android.sdk.stats.CpuCaptureMetadata value) {
+      if (cpuCaptureMetadataBuilder_ == null) {
+        if (((bitField0_ & 0x00000008) == 0x00000008) &&
+            cpuCaptureMetadata_ != com.google.wireless.android.sdk.stats.CpuCaptureMetadata.getDefaultInstance()) {
+          cpuCaptureMetadata_ =
+            com.google.wireless.android.sdk.stats.CpuCaptureMetadata.newBuilder(cpuCaptureMetadata_).mergeFrom(value).buildPartial();
+        } else {
+          cpuCaptureMetadata_ = value;
+        }
+        onChanged();
+      } else {
+        cpuCaptureMetadataBuilder_.mergeFrom(value);
+      }
+      bitField0_ |= 0x00000008;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.CpuCaptureMetadata cpu_capture_metadata = 4;</code>
+     *
+     * <pre>
+     * Set if |type| is |CAPTURE_TRACE|
+     * </pre>
+     */
+    public Builder clearCpuCaptureMetadata() {
+      if (cpuCaptureMetadataBuilder_ == null) {
+        cpuCaptureMetadata_ = com.google.wireless.android.sdk.stats.CpuCaptureMetadata.getDefaultInstance();
+        onChanged();
+      } else {
+        cpuCaptureMetadataBuilder_.clear();
+      }
+      bitField0_ = (bitField0_ & ~0x00000008);
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.CpuCaptureMetadata cpu_capture_metadata = 4;</code>
+     *
+     * <pre>
+     * Set if |type| is |CAPTURE_TRACE|
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.CpuCaptureMetadata.Builder getCpuCaptureMetadataBuilder() {
+      bitField0_ |= 0x00000008;
+      onChanged();
+      return getCpuCaptureMetadataFieldBuilder().getBuilder();
+    }
+    /**
+     * <code>optional .android_studio.CpuCaptureMetadata cpu_capture_metadata = 4;</code>
+     *
+     * <pre>
+     * Set if |type| is |CAPTURE_TRACE|
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.CpuCaptureMetadataOrBuilder getCpuCaptureMetadataOrBuilder() {
+      if (cpuCaptureMetadataBuilder_ != null) {
+        return cpuCaptureMetadataBuilder_.getMessageOrBuilder();
+      } else {
+        return cpuCaptureMetadata_;
+      }
+    }
+    /**
+     * <code>optional .android_studio.CpuCaptureMetadata cpu_capture_metadata = 4;</code>
+     *
+     * <pre>
+     * Set if |type| is |CAPTURE_TRACE|
+     * </pre>
+     */
+    private com.google.protobuf.SingleFieldBuilder<
+        com.google.wireless.android.sdk.stats.CpuCaptureMetadata, com.google.wireless.android.sdk.stats.CpuCaptureMetadata.Builder, com.google.wireless.android.sdk.stats.CpuCaptureMetadataOrBuilder> 
+        getCpuCaptureMetadataFieldBuilder() {
+      if (cpuCaptureMetadataBuilder_ == null) {
+        cpuCaptureMetadataBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+            com.google.wireless.android.sdk.stats.CpuCaptureMetadata, com.google.wireless.android.sdk.stats.CpuCaptureMetadata.Builder, com.google.wireless.android.sdk.stats.CpuCaptureMetadataOrBuilder>(
+                cpuCaptureMetadata_,
+                getParentForChildren(),
+                isClean());
+        cpuCaptureMetadata_ = null;
+      }
+      return cpuCaptureMetadataBuilder_;
     }
 
     // @@protoc_insertion_point(builder_scope:android_studio.AndroidProfilerEvent)
