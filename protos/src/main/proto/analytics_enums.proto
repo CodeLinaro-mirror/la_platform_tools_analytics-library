@@ -37,6 +37,7 @@ enum GradleTransformExecutionType {
     DEX_MERGER = 30;
     MAIN_DEX_LIST = 31;
     DESUGAR = 32;
+    FIX_STACK_FRAMES = 33;
 }
 
 enum GradleTaskExecutionType {
