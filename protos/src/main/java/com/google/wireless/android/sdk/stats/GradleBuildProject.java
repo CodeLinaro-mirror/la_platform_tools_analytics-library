@@ -135,6 +135,11 @@ public  final class GradleBuildProject extends
             bitField0_ |= 0x00000100;
             break;
           }
+          case 90: {
+            bitField0_ |= 0x00000200;
+            kotlinPluginVersion_ = input.readBytes();
+            break;
+          }
         }
       }
     } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -868,6 +873,64 @@ public  final class GradleBuildProject extends
     return splits_;
   }
 
+  // optional string kotlin_plugin_version = 11;
+  public static final int KOTLIN_PLUGIN_VERSION_FIELD_NUMBER = 11;
+  private java.lang.Object kotlinPluginVersion_;
+  /**
+   * <code>optional string kotlin_plugin_version = 11;</code>
+   *
+   * <pre>
+   * Version of the Kotlin Gradle plugin used, if any.
+   * e.g. '1.1.3'
+   * </pre>
+   */
+  public boolean hasKotlinPluginVersion() {
+    return ((bitField0_ & 0x00000200) == 0x00000200);
+  }
+  /**
+   * <code>optional string kotlin_plugin_version = 11;</code>
+   *
+   * <pre>
+   * Version of the Kotlin Gradle plugin used, if any.
+   * e.g. '1.1.3'
+   * </pre>
+   */
+  public java.lang.String getKotlinPluginVersion() {
+    java.lang.Object ref = kotlinPluginVersion_;
+    if (ref instanceof java.lang.String) {
+      return (java.lang.String) ref;
+    } else {
+      com.google.protobuf.ByteString bs = 
+          (com.google.protobuf.ByteString) ref;
+      java.lang.String s = bs.toStringUtf8();
+      if (bs.isValidUtf8()) {
+        kotlinPluginVersion_ = s;
+      }
+      return s;
+    }
+  }
+  /**
+   * <code>optional string kotlin_plugin_version = 11;</code>
+   *
+   * <pre>
+   * Version of the Kotlin Gradle plugin used, if any.
+   * e.g. '1.1.3'
+   * </pre>
+   */
+  public com.google.protobuf.ByteString
+      getKotlinPluginVersionBytes() {
+    java.lang.Object ref = kotlinPluginVersion_;
+    if (ref instanceof java.lang.String) {
+      com.google.protobuf.ByteString b = 
+          com.google.protobuf.ByteString.copyFromUtf8(
+              (java.lang.String) ref);
+      kotlinPluginVersion_ = b;
+      return b;
+    } else {
+      return (com.google.protobuf.ByteString) ref;
+    }
+  }
+
   private void initFields() {
     id_ = 0L;
     androidPluginVersion_ = "";
@@ -879,6 +942,7 @@ public  final class GradleBuildProject extends
     atoms_ = 0L;
     compileSdk_ = "";
     splits_ = com.google.wireless.android.sdk.stats.GradleBuildSplits.getDefaultInstance();
+    kotlinPluginVersion_ = "";
   }
   private byte memoizedIsInitialized = -1;
   public final boolean isInitialized() {
@@ -921,6 +985,9 @@ public  final class GradleBuildProject extends
     }
     if (((bitField0_ & 0x00000100) == 0x00000100)) {
       output.writeMessage(10, splits_);
+    }
+    if (((bitField0_ & 0x00000200) == 0x00000200)) {
+      output.writeBytes(11, getKotlinPluginVersionBytes());
     }
     getUnknownFields().writeTo(output);
   }
@@ -970,6 +1037,10 @@ public  final class GradleBuildProject extends
     if (((bitField0_ & 0x00000100) == 0x00000100)) {
       size += com.google.protobuf.CodedOutputStream
         .computeMessageSize(10, splits_);
+    }
+    if (((bitField0_ & 0x00000200) == 0x00000200)) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeBytesSize(11, getKotlinPluginVersionBytes());
     }
     size += getUnknownFields().getSerializedSize();
     memoizedSerializedSize = size;
@@ -1122,6 +1193,8 @@ public  final class GradleBuildProject extends
         splitsBuilder_.clear();
       }
       bitField0_ = (bitField0_ & ~0x00000200);
+      kotlinPluginVersion_ = "";
+      bitField0_ = (bitField0_ & ~0x00000400);
       return this;
     }
 
@@ -1203,6 +1276,10 @@ public  final class GradleBuildProject extends
       } else {
         result.splits_ = splitsBuilder_.build();
       }
+      if (((from_bitField0_ & 0x00000400) == 0x00000400)) {
+        to_bitField0_ |= 0x00000200;
+      }
+      result.kotlinPluginVersion_ = kotlinPluginVersion_;
       result.bitField0_ = to_bitField0_;
       onBuilt();
       return result;
@@ -1277,6 +1354,11 @@ public  final class GradleBuildProject extends
       }
       if (other.hasSplits()) {
         mergeSplits(other.getSplits());
+      }
+      if (other.hasKotlinPluginVersion()) {
+        bitField0_ |= 0x00000400;
+        kotlinPluginVersion_ = other.kotlinPluginVersion_;
+        onChanged();
       }
       this.mergeUnknownFields(other.getUnknownFields());
       return this;
@@ -2466,6 +2548,110 @@ public  final class GradleBuildProject extends
         splits_ = null;
       }
       return splitsBuilder_;
+    }
+
+    // optional string kotlin_plugin_version = 11;
+    private java.lang.Object kotlinPluginVersion_ = "";
+    /**
+     * <code>optional string kotlin_plugin_version = 11;</code>
+     *
+     * <pre>
+     * Version of the Kotlin Gradle plugin used, if any.
+     * e.g. '1.1.3'
+     * </pre>
+     */
+    public boolean hasKotlinPluginVersion() {
+      return ((bitField0_ & 0x00000400) == 0x00000400);
+    }
+    /**
+     * <code>optional string kotlin_plugin_version = 11;</code>
+     *
+     * <pre>
+     * Version of the Kotlin Gradle plugin used, if any.
+     * e.g. '1.1.3'
+     * </pre>
+     */
+    public java.lang.String getKotlinPluginVersion() {
+      java.lang.Object ref = kotlinPluginVersion_;
+      if (!(ref instanceof java.lang.String)) {
+        java.lang.String s = ((com.google.protobuf.ByteString) ref)
+            .toStringUtf8();
+        kotlinPluginVersion_ = s;
+        return s;
+      } else {
+        return (java.lang.String) ref;
+      }
+    }
+    /**
+     * <code>optional string kotlin_plugin_version = 11;</code>
+     *
+     * <pre>
+     * Version of the Kotlin Gradle plugin used, if any.
+     * e.g. '1.1.3'
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getKotlinPluginVersionBytes() {
+      java.lang.Object ref = kotlinPluginVersion_;
+      if (ref instanceof String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        kotlinPluginVersion_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+    /**
+     * <code>optional string kotlin_plugin_version = 11;</code>
+     *
+     * <pre>
+     * Version of the Kotlin Gradle plugin used, if any.
+     * e.g. '1.1.3'
+     * </pre>
+     */
+    public Builder setKotlinPluginVersion(
+        java.lang.String value) {
+      if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000400;
+      kotlinPluginVersion_ = value;
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>optional string kotlin_plugin_version = 11;</code>
+     *
+     * <pre>
+     * Version of the Kotlin Gradle plugin used, if any.
+     * e.g. '1.1.3'
+     * </pre>
+     */
+    public Builder clearKotlinPluginVersion() {
+      bitField0_ = (bitField0_ & ~0x00000400);
+      kotlinPluginVersion_ = getDefaultInstance().getKotlinPluginVersion();
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>optional string kotlin_plugin_version = 11;</code>
+     *
+     * <pre>
+     * Version of the Kotlin Gradle plugin used, if any.
+     * e.g. '1.1.3'
+     * </pre>
+     */
+    public Builder setKotlinPluginVersionBytes(
+        com.google.protobuf.ByteString value) {
+      if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000400;
+      kotlinPluginVersion_ = value;
+      onChanged();
+      return this;
     }
 
     // @@protoc_insertion_point(builder_scope:android_studio.GradleBuildProject)

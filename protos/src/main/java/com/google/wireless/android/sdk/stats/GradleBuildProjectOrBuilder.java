@@ -278,4 +278,34 @@ public interface GradleBuildProjectOrBuilder
    * </pre>
    */
   com.google.wireless.android.sdk.stats.GradleBuildSplitsOrBuilder getSplitsOrBuilder();
+
+  // optional string kotlin_plugin_version = 11;
+  /**
+   * <code>optional string kotlin_plugin_version = 11;</code>
+   *
+   * <pre>
+   * Version of the Kotlin Gradle plugin used, if any.
+   * e.g. '1.1.3'
+   * </pre>
+   */
+  boolean hasKotlinPluginVersion();
+  /**
+   * <code>optional string kotlin_plugin_version = 11;</code>
+   *
+   * <pre>
+   * Version of the Kotlin Gradle plugin used, if any.
+   * e.g. '1.1.3'
+   * </pre>
+   */
+  java.lang.String getKotlinPluginVersion();
+  /**
+   * <code>optional string kotlin_plugin_version = 11;</code>
+   *
+   * <pre>
+   * Version of the Kotlin Gradle plugin used, if any.
+   * e.g. '1.1.3'
+   * </pre>
+   */
+  com.google.protobuf.ByteString
+      getKotlinPluginVersionBytes();
 }
