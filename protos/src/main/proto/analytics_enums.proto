@@ -38,6 +38,7 @@ enum GradleTransformExecutionType {
     MAIN_DEX_LIST = 31;
     DESUGAR = 32;
     FIX_STACK_FRAMES = 33;
+    EXTERNAL_LIBS_MERGER = 34;
 }
 
 enum GradleTaskExecutionType {
