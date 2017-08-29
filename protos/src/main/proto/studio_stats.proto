@@ -201,6 +201,9 @@ message AndroidStudioEvent {
   // set when kind = ANDROID_PROFILER_DB_STATS
   optional AndroidProfilerDbStats android_profiler_db_stats = 53;
 
+  // set when kind = TEMPLATE_RENDER and template_renderer = ANDROID_PROJECT
+  optional KotlinSupport kotlin_support = 54;
+
   // Describes a group of event kinds related to each other.
   // This is redundant in the presence of EventKind + event specific message,
   // and is only necessary for events originally sent to GA.
@@ -2991,4 +2994,14 @@ message LayoutInspectorEvent {
 
   // defined if LayoutInspectorEventType = CAPTURE
   optional int64 duration_in_ms = 2;
+}
+
+// Kotlin support information for new Android projects
+message KotlinSupport {
+  // True if "Include Kotlin Support" option checked
+  // when Android project created, False otherwise
+  optional bool include_kotlin_support = 1;
+
+  // Kotlin version used for Kotlin support; e.g., "1.1.3-2".
+  optional string kotlin_support_version = 2;
 }

@@ -37,6 +37,8 @@ enum GradleTransformExecutionType {
     DEX_MERGER = 30;
     MAIN_DEX_LIST = 31;
     DESUGAR = 32;
+    FIX_STACK_FRAMES = 33;
+    EXTERNAL_LIBS_MERGER = 34;
 }
 
 enum GradleTaskExecutionType {
@@ -151,4 +153,5 @@ enum GradleTaskExecutionType {
     INSTANT_APP_PROVISION = 108;
     PLATFORM_ATTR_EXTRACTOR = 109;
     INSTANT_APP_SIDE_LOAD = 110;
+    KOTLIN_COMPILE = 116;
 }

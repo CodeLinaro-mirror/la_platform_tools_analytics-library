@@ -1373,4 +1373,30 @@ public interface AndroidStudioEventOrBuilder
    * </pre>
    */
   com.google.wireless.android.sdk.stats.AndroidProfilerDbStatsOrBuilder getAndroidProfilerDbStatsOrBuilder();
+
+  // optional .android_studio.KotlinSupport kotlin_support = 54;
+  /**
+   * <code>optional .android_studio.KotlinSupport kotlin_support = 54;</code>
+   *
+   * <pre>
+   * set when kind = TEMPLATE_RENDER and template_renderer = ANDROID_PROJECT
+   * </pre>
+   */
+  boolean hasKotlinSupport();
+  /**
+   * <code>optional .android_studio.KotlinSupport kotlin_support = 54;</code>
+   *
+   * <pre>
+   * set when kind = TEMPLATE_RENDER and template_renderer = ANDROID_PROJECT
+   * </pre>
+   */
+  com.google.wireless.android.sdk.stats.KotlinSupport getKotlinSupport();
+  /**
+   * <code>optional .android_studio.KotlinSupport kotlin_support = 54;</code>
+   *
+   * <pre>
+   * set when kind = TEMPLATE_RENDER and template_renderer = ANDROID_PROJECT
+   * </pre>
+   */
+  com.google.wireless.android.sdk.stats.KotlinSupportOrBuilder getKotlinSupportOrBuilder();
 }
