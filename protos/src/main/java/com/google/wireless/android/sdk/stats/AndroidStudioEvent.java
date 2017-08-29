@@ -662,19 +662,6 @@ public  final class AndroidStudioEvent extends
             bitField1_ |= 0x00100000;
             break;
           }
-          case 434: {
-            com.google.wireless.android.sdk.stats.KotlinSupport.Builder subBuilder = null;
-            if (((bitField1_ & 0x00200000) == 0x00200000)) {
-              subBuilder = kotlinSupport_.toBuilder();
-            }
-            kotlinSupport_ = input.readMessage(com.google.wireless.android.sdk.stats.KotlinSupport.PARSER, extensionRegistry);
-            if (subBuilder != null) {
-              subBuilder.mergeFrom(kotlinSupport_);
-              kotlinSupport_ = subBuilder.buildPartial();
-            }
-            bitField1_ |= 0x00200000;
-            break;
-          }
         }
       }
     } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -6510,40 +6497,6 @@ public  final class AndroidStudioEvent extends
     return androidProfilerDbStats_;
   }
 
-  // optional .android_studio.KotlinSupport kotlin_support = 54;
-  public static final int KOTLIN_SUPPORT_FIELD_NUMBER = 54;
-  private com.google.wireless.android.sdk.stats.KotlinSupport kotlinSupport_;
-  /**
-   * <code>optional .android_studio.KotlinSupport kotlin_support = 54;</code>
-   *
-   * <pre>
-   * set when kind = TEMPLATE_RENDER and template_renderer = ANDROID_PROJECT
-   * </pre>
-   */
-  public boolean hasKotlinSupport() {
-    return ((bitField1_ & 0x00200000) == 0x00200000);
-  }
-  /**
-   * <code>optional .android_studio.KotlinSupport kotlin_support = 54;</code>
-   *
-   * <pre>
-   * set when kind = TEMPLATE_RENDER and template_renderer = ANDROID_PROJECT
-   * </pre>
-   */
-  public com.google.wireless.android.sdk.stats.KotlinSupport getKotlinSupport() {
-    return kotlinSupport_;
-  }
-  /**
-   * <code>optional .android_studio.KotlinSupport kotlin_support = 54;</code>
-   *
-   * <pre>
-   * set when kind = TEMPLATE_RENDER and template_renderer = ANDROID_PROJECT
-   * </pre>
-   */
-  public com.google.wireless.android.sdk.stats.KotlinSupportOrBuilder getKotlinSupportOrBuilder() {
-    return kotlinSupport_;
-  }
-
   private void initFields() {
     category_ = com.google.wireless.android.sdk.stats.AndroidStudioEvent.EventCategory.NO_EVENT_CATEGORY;
     kind_ = com.google.wireless.android.sdk.stats.AndroidStudioEvent.EventKind.UNKNOWN_EVENT_KIND;
@@ -6598,7 +6551,6 @@ public  final class AndroidStudioEvent extends
     apkDebugProject_ = com.google.wireless.android.sdk.stats.ApkDebugProject.getDefaultInstance();
     layoutInspectorEvent_ = com.google.wireless.android.sdk.stats.LayoutInspectorEvent.getDefaultInstance();
     androidProfilerDbStats_ = com.google.wireless.android.sdk.stats.AndroidProfilerDbStats.getDefaultInstance();
-    kotlinSupport_ = com.google.wireless.android.sdk.stats.KotlinSupport.getDefaultInstance();
   }
   private byte memoizedIsInitialized = -1;
   public final boolean isInitialized() {
@@ -6770,9 +6722,6 @@ public  final class AndroidStudioEvent extends
     }
     if (((bitField1_ & 0x00100000) == 0x00100000)) {
       output.writeMessage(53, androidProfilerDbStats_);
-    }
-    if (((bitField1_ & 0x00200000) == 0x00200000)) {
-      output.writeMessage(54, kotlinSupport_);
     }
     getUnknownFields().writeTo(output);
   }
@@ -6995,10 +6944,6 @@ public  final class AndroidStudioEvent extends
       size += com.google.protobuf.CodedOutputStream
         .computeMessageSize(53, androidProfilerDbStats_);
     }
-    if (((bitField1_ & 0x00200000) == 0x00200000)) {
-      size += com.google.protobuf.CodedOutputStream
-        .computeMessageSize(54, kotlinSupport_);
-    }
     size += getUnknownFields().getSerializedSize();
     memoizedSerializedSize = size;
     return size;
@@ -7143,7 +7088,6 @@ public  final class AndroidStudioEvent extends
         getApkDebugProjectFieldBuilder();
         getLayoutInspectorEventFieldBuilder();
         getAndroidProfilerDbStatsFieldBuilder();
-        getKotlinSupportFieldBuilder();
       }
     }
     private static Builder create() {
@@ -7402,12 +7346,6 @@ public  final class AndroidStudioEvent extends
         androidProfilerDbStatsBuilder_.clear();
       }
       bitField1_ = (bitField1_ & ~0x00100000);
-      if (kotlinSupportBuilder_ == null) {
-        kotlinSupport_ = com.google.wireless.android.sdk.stats.KotlinSupport.getDefaultInstance();
-      } else {
-        kotlinSupportBuilder_.clear();
-      }
-      bitField1_ = (bitField1_ & ~0x00200000);
       return this;
     }
 
@@ -7794,14 +7732,6 @@ public  final class AndroidStudioEvent extends
       } else {
         result.androidProfilerDbStats_ = androidProfilerDbStatsBuilder_.build();
       }
-      if (((from_bitField1_ & 0x00200000) == 0x00200000)) {
-        to_bitField1_ |= 0x00200000;
-      }
-      if (kotlinSupportBuilder_ == null) {
-        result.kotlinSupport_ = kotlinSupport_;
-      } else {
-        result.kotlinSupport_ = kotlinSupportBuilder_.build();
-      }
       result.bitField0_ = to_bitField0_;
       result.bitField1_ = to_bitField1_;
       onBuilt();
@@ -7989,9 +7919,6 @@ public  final class AndroidStudioEvent extends
       }
       if (other.hasAndroidProfilerDbStats()) {
         mergeAndroidProfilerDbStats(other.getAndroidProfilerDbStats());
-      }
-      if (other.hasKotlinSupport()) {
-        mergeKotlinSupport(other.getKotlinSupport());
       }
       this.mergeUnknownFields(other.getUnknownFields());
       return this;
@@ -14867,159 +14794,6 @@ public  final class AndroidStudioEvent extends
         androidProfilerDbStats_ = null;
       }
       return androidProfilerDbStatsBuilder_;
-    }
-
-    // optional .android_studio.KotlinSupport kotlin_support = 54;
-    private com.google.wireless.android.sdk.stats.KotlinSupport kotlinSupport_ = com.google.wireless.android.sdk.stats.KotlinSupport.getDefaultInstance();
-    private com.google.protobuf.SingleFieldBuilder<
-        com.google.wireless.android.sdk.stats.KotlinSupport, com.google.wireless.android.sdk.stats.KotlinSupport.Builder, com.google.wireless.android.sdk.stats.KotlinSupportOrBuilder> kotlinSupportBuilder_;
-    /**
-     * <code>optional .android_studio.KotlinSupport kotlin_support = 54;</code>
-     *
-     * <pre>
-     * set when kind = TEMPLATE_RENDER and template_renderer = ANDROID_PROJECT
-     * </pre>
-     */
-    public boolean hasKotlinSupport() {
-      return ((bitField1_ & 0x00200000) == 0x00200000);
-    }
-    /**
-     * <code>optional .android_studio.KotlinSupport kotlin_support = 54;</code>
-     *
-     * <pre>
-     * set when kind = TEMPLATE_RENDER and template_renderer = ANDROID_PROJECT
-     * </pre>
-     */
-    public com.google.wireless.android.sdk.stats.KotlinSupport getKotlinSupport() {
-      if (kotlinSupportBuilder_ == null) {
-        return kotlinSupport_;
-      } else {
-        return kotlinSupportBuilder_.getMessage();
-      }
-    }
-    /**
-     * <code>optional .android_studio.KotlinSupport kotlin_support = 54;</code>
-     *
-     * <pre>
-     * set when kind = TEMPLATE_RENDER and template_renderer = ANDROID_PROJECT
-     * </pre>
-     */
-    public Builder setKotlinSupport(com.google.wireless.android.sdk.stats.KotlinSupport value) {
-      if (kotlinSupportBuilder_ == null) {
-        if (value == null) {
-          throw new NullPointerException();
-        }
-        kotlinSupport_ = value;
-        onChanged();
-      } else {
-        kotlinSupportBuilder_.setMessage(value);
-      }
-      bitField1_ |= 0x00200000;
-      return this;
-    }
-    /**
-     * <code>optional .android_studio.KotlinSupport kotlin_support = 54;</code>
-     *
-     * <pre>
-     * set when kind = TEMPLATE_RENDER and template_renderer = ANDROID_PROJECT
-     * </pre>
-     */
-    public Builder setKotlinSupport(
-        com.google.wireless.android.sdk.stats.KotlinSupport.Builder builderForValue) {
-      if (kotlinSupportBuilder_ == null) {
-        kotlinSupport_ = builderForValue.build();
-        onChanged();
-      } else {
-        kotlinSupportBuilder_.setMessage(builderForValue.build());
-      }
-      bitField1_ |= 0x00200000;
-      return this;
-    }
-    /**
-     * <code>optional .android_studio.KotlinSupport kotlin_support = 54;</code>
-     *
-     * <pre>
-     * set when kind = TEMPLATE_RENDER and template_renderer = ANDROID_PROJECT
-     * </pre>
-     */
-    public Builder mergeKotlinSupport(com.google.wireless.android.sdk.stats.KotlinSupport value) {
-      if (kotlinSupportBuilder_ == null) {
-        if (((bitField1_ & 0x00200000) == 0x00200000) &&
-            kotlinSupport_ != com.google.wireless.android.sdk.stats.KotlinSupport.getDefaultInstance()) {
-          kotlinSupport_ =
-            com.google.wireless.android.sdk.stats.KotlinSupport.newBuilder(kotlinSupport_).mergeFrom(value).buildPartial();
-        } else {
-          kotlinSupport_ = value;
-        }
-        onChanged();
-      } else {
-        kotlinSupportBuilder_.mergeFrom(value);
-      }
-      bitField1_ |= 0x00200000;
-      return this;
-    }
-    /**
-     * <code>optional .android_studio.KotlinSupport kotlin_support = 54;</code>
-     *
-     * <pre>
-     * set when kind = TEMPLATE_RENDER and template_renderer = ANDROID_PROJECT
-     * </pre>
-     */
-    public Builder clearKotlinSupport() {
-      if (kotlinSupportBuilder_ == null) {
-        kotlinSupport_ = com.google.wireless.android.sdk.stats.KotlinSupport.getDefaultInstance();
-        onChanged();
-      } else {
-        kotlinSupportBuilder_.clear();
-      }
-      bitField1_ = (bitField1_ & ~0x00200000);
-      return this;
-    }
-    /**
-     * <code>optional .android_studio.KotlinSupport kotlin_support = 54;</code>
-     *
-     * <pre>
-     * set when kind = TEMPLATE_RENDER and template_renderer = ANDROID_PROJECT
-     * </pre>
-     */
-    public com.google.wireless.android.sdk.stats.KotlinSupport.Builder getKotlinSupportBuilder() {
-      bitField1_ |= 0x00200000;
-      onChanged();
-      return getKotlinSupportFieldBuilder().getBuilder();
-    }
-    /**
-     * <code>optional .android_studio.KotlinSupport kotlin_support = 54;</code>
-     *
-     * <pre>
-     * set when kind = TEMPLATE_RENDER and template_renderer = ANDROID_PROJECT
-     * </pre>
-     */
-    public com.google.wireless.android.sdk.stats.KotlinSupportOrBuilder getKotlinSupportOrBuilder() {
-      if (kotlinSupportBuilder_ != null) {
-        return kotlinSupportBuilder_.getMessageOrBuilder();
-      } else {
-        return kotlinSupport_;
-      }
-    }
-    /**
-     * <code>optional .android_studio.KotlinSupport kotlin_support = 54;</code>
-     *
-     * <pre>
-     * set when kind = TEMPLATE_RENDER and template_renderer = ANDROID_PROJECT
-     * </pre>
-     */
-    private com.google.protobuf.SingleFieldBuilder<
-        com.google.wireless.android.sdk.stats.KotlinSupport, com.google.wireless.android.sdk.stats.KotlinSupport.Builder, com.google.wireless.android.sdk.stats.KotlinSupportOrBuilder> 
-        getKotlinSupportFieldBuilder() {
-      if (kotlinSupportBuilder_ == null) {
-        kotlinSupportBuilder_ = new com.google.protobuf.SingleFieldBuilder<
-            com.google.wireless.android.sdk.stats.KotlinSupport, com.google.wireless.android.sdk.stats.KotlinSupport.Builder, com.google.wireless.android.sdk.stats.KotlinSupportOrBuilder>(
-                kotlinSupport_,
-                getParentForChildren(),
-                isClean());
-        kotlinSupport_ = null;
-      }
-      return kotlinSupportBuilder_;
     }
 
     // @@protoc_insertion_point(builder_scope:android_studio.AndroidStudioEvent)
