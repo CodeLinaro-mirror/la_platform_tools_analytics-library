@@ -159,4 +159,7 @@ enum GradleTaskExecutionType {
     BUNDLE_FEATURE_CLASSES = 114;
     JAR_R_CLASS = 115;
     KOTLIN_COMPILE = 116;
+    LINT_GLOBAL = 117;
+    LINT_PER_VARIANT = 118;
+    PREPARE_LINT_JAR = 119;
 }
