@@ -163,3 +163,15 @@ enum GradleTaskExecutionType {
     LINT_PER_VARIANT = 118;
     PREPARE_LINT_JAR = 119;
 }
+
+enum CodeShrinker {
+    UNKNOWN_CODE_SHRINKER = 0;
+    PROGUARD = 1;
+    ANDROID_GRADLE_SHRINKER = 2;
+}
+
+enum TestExecution {
+    UNKNOWN_TEST_EXECUTION = 0;
+    HOST = 1;
+    ANDROID_TEST_ORCHESTRATOR = 2;
+}
