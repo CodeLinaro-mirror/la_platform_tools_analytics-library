@@ -1379,7 +1379,7 @@ public interface AndroidStudioEventOrBuilder
    * <code>optional .android_studio.KotlinSupport kotlin_support = 54;</code>
    *
    * <pre>
-   * set when kind = TEMPLATE_RENDER and template_renderer = ANDROID_PROJECT
+   * set when kind = TEMPLATE_RENDER
    * </pre>
    */
   boolean hasKotlinSupport();
@@ -1387,7 +1387,7 @@ public interface AndroidStudioEventOrBuilder
    * <code>optional .android_studio.KotlinSupport kotlin_support = 54;</code>
    *
    * <pre>
-   * set when kind = TEMPLATE_RENDER and template_renderer = ANDROID_PROJECT
+   * set when kind = TEMPLATE_RENDER
    * </pre>
    */
   com.google.wireless.android.sdk.stats.KotlinSupport getKotlinSupport();
@@ -1395,7 +1395,7 @@ public interface AndroidStudioEventOrBuilder
    * <code>optional .android_studio.KotlinSupport kotlin_support = 54;</code>
    *
    * <pre>
-   * set when kind = TEMPLATE_RENDER and template_renderer = ANDROID_PROJECT
+   * set when kind = TEMPLATE_RENDER
    * </pre>
    */
   com.google.wireless.android.sdk.stats.KotlinSupportOrBuilder getKotlinSupportOrBuilder();

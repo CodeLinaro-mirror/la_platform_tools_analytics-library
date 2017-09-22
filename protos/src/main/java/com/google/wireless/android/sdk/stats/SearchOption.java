@@ -107,7 +107,7 @@ public enum SearchOption
   }
   public static final com.google.protobuf.Descriptors.EnumDescriptor
       getDescriptor() {
-    return com.google.wireless.android.sdk.stats.AndroidStudioStats.getDescriptor().getEnumTypes().get(0);
+    return com.google.wireless.android.sdk.stats.AndroidStudioStats.getDescriptor().getEnumTypes().get(1);
   }
 
   private static final SearchOption[] VALUES = values();

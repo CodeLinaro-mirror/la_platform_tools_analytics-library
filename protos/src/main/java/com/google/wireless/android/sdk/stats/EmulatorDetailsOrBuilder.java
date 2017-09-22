@@ -415,4 +415,44 @@ public interface EmulatorDetailsOrBuilder
    * </pre>
    */
   com.google.wireless.android.sdk.stats.EmulatorDetails.EmulatorHypervisor getHypervisor();
+
+  // optional .android_studio.EmulatorQuickbootLoad quickboot_load = 21;
+  /**
+   * <code>optional .android_studio.EmulatorQuickbootLoad quickboot_load = 21;</code>
+   *
+   * <pre>
+   * Information about quickboot status of the current session.
+   * </pre>
+   */
+  boolean hasQuickbootLoad();
+  /**
+   * <code>optional .android_studio.EmulatorQuickbootLoad quickboot_load = 21;</code>
+   *
+   * <pre>
+   * Information about quickboot status of the current session.
+   * </pre>
+   */
+  com.google.wireless.android.sdk.stats.EmulatorQuickbootLoad getQuickbootLoad();
+  /**
+   * <code>optional .android_studio.EmulatorQuickbootLoad quickboot_load = 21;</code>
+   *
+   * <pre>
+   * Information about quickboot status of the current session.
+   * </pre>
+   */
+  com.google.wireless.android.sdk.stats.EmulatorQuickbootLoadOrBuilder getQuickbootLoadOrBuilder();
+
+  // optional .android_studio.EmulatorQuickbootSave quickboot_save = 22;
+  /**
+   * <code>optional .android_studio.EmulatorQuickbootSave quickboot_save = 22;</code>
+   */
+  boolean hasQuickbootSave();
+  /**
+   * <code>optional .android_studio.EmulatorQuickbootSave quickboot_save = 22;</code>
+   */
+  com.google.wireless.android.sdk.stats.EmulatorQuickbootSave getQuickbootSave();
+  /**
+   * <code>optional .android_studio.EmulatorQuickbootSave quickboot_save = 22;</code>
+   */
+  com.google.wireless.android.sdk.stats.EmulatorQuickbootSaveOrBuilder getQuickbootSaveOrBuilder();
 }

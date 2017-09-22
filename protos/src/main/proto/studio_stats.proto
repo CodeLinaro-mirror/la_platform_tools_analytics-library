@@ -201,7 +201,7 @@ message AndroidStudioEvent {
   // set when kind = ANDROID_PROFILER_DB_STATS
   optional AndroidProfilerDbStats android_profiler_db_stats = 53;
 
-  // set when kind = TEMPLATE_RENDER and template_renderer = ANDROID_PROJECT
+  // set when kind = TEMPLATE_RENDER
   optional KotlinSupport kotlin_support = 54;
 
   // Describes a group of event kinds related to each other.
@@ -973,6 +973,89 @@ message EmulatorMemoryUsage {
   optional uint64 total_page_file = 6;
 }
 
+// An enum representing all possible snapshot properties (bit flags).
+enum EmulatorSnapshotFlags {
+  // Default, no special properties.
+  SNAPSHOT_FLAGS_NONE = 0;
+  // RAM is compressed in this snapshot.
+  SNAPSHOT_FLAGS_RAM_COMPRESSED_BIT = 1;
+  // Textures are compressed in this snapshot.
+  SNAPSHOT_FLAGS_TEXTURES_COMPRESSED_BIT = 2;
+}
+
+// Emulator snapshot description.
+message EmulatorSnapshot {
+  // Anonymized snapshot name (SHA256 + salted).
+  optional string name = 1;
+  // A combination of EmulatorSnapshotFlags describing the snapshot.
+  optional int32 flags = 2;
+  // Total size on disk, in bytes.
+  optional int64 size_bytes = 3;
+}
+
+// Description of emulator's quickboot load.
+message EmulatorQuickbootLoad {
+  // List of possible states of a load operation.
+  enum EmulatorQuickbootLoadState {
+    // Quickboot succeeded.
+    EMULATOR_QUICKBOOT_LOAD_SUCCEEDED = 0;
+    // There was no snapshot for a quickboot load.
+    EMULATOR_QUICKBOOT_LOAD_NO_SNAPSHOT = 1;
+    // Generic failure during load.
+    EMULATOR_QUICKBOOT_LOAD_FAILED = 2;
+    // Guest hung after loading a quickboot snapshot.
+    EMULATOR_QUICKBOOT_LOAD_HUNG = 3;
+    // Performed a cold boot because of feature control settings.
+    EMULATOR_QUICKBOOT_LOAD_COLD_FEATURE = 4;
+    // Performed a cold boot because of command line flag.
+    EMULATOR_QUICKBOOT_LOAD_COLD_CMDLINE = 5;
+    // Performed a cold boot because of AVD configuration.
+    EMULATOR_QUICKBOOT_LOAD_COLD_AVD = 6;
+    // Performed a cold boot because quickboot is not supported in the current
+    // configuration.
+    EMULATOR_QUICKBOOT_LOAD_COLD_UNSUPPORTED = 7;
+    // Specified snapshot is too old for loading, fallback to cold boot.
+    EMULATOR_QUICKBOOT_LOAD_COLD_OLD_SNAPSHOT = 8;
+  }
+  // The state of the quickboot load operation.
+  optional EmulatorQuickbootLoadState state = 1;
+  // How long it took, milliseconds.
+  optional uint64 duration_ms = 2;
+  // Information about loaded snapshot.
+  optional EmulatorSnapshot snapshot = 3;
+  // Flag is set when on demand RAM loading was enabled for the load.
+  optional bool on_demand_ram_enabled = 4;
+}
+
+// Description of emulator's quickboot saving.
+message EmulatorQuickbootSave {
+  // List of possible states of a save operation.
+  enum EmulatorQuickbootSaveState {
+    // Successful saving.
+    EMULATOR_QUICKBOOT_SAVE_SUCCEEDED = 0;
+    // Generic failure when saving state.
+    EMULATOR_QUICKBOOT_SAVE_FAILED = 1;
+    // Saving disabled: feature control.
+    EMULATOR_QUICKBOOT_SAVE_DISABLED_FEATURE = 2;
+    // Saving disabled: command line argument.
+    EMULATOR_QUICKBOOT_SAVE_DISABLED_CMDLINE = 3;
+    // Saving disabled: AVD configuration.
+    EMULATOR_QUICKBOOT_SAVE_DISABLED_AVD = 4;
+    // Saving skipped: not supported in current configuration.
+    EMULATOR_QUICKBOOT_SAVE_SKIPPED_UNSUPPORTED = 5;
+    // Saving skipped: too low guest uptime.
+    EMULATOR_QUICKBOOT_SAVE_SKIPPED_LOW_UPTIME = 6;
+  }
+  // The state of the quickboot save operation.
+  optional EmulatorQuickbootSaveState state = 1;
+  // How long it took, milliseconds.
+  optional uint64 duration_ms = 2;
+  // Information about the saved snapshot.
+  optional EmulatorSnapshot snapshot = 3;
+  // What was the guest session uptime at the time of saving.
+  optional uint64 sesion_uptime_ms = 4;
+}
+
 // Metrics related to the Emulator.
 message EmulatorDetails {
   // Cpu architecture of the guest.
@@ -1013,6 +1096,9 @@ message EmulatorDetails {
   optional EmulatorFeatureFlagState feature_flag_state = 19;
   // Hypervisor used in current session.
   optional EmulatorHypervisor hypervisor = 20;
+  // Information about quickboot status of the current session.
+  optional EmulatorQuickbootLoad quickboot_load = 21;
+  optional EmulatorQuickbootSave quickboot_save = 22;
 
   // Emulator instance liveness as determined via adb connectivity.
   enum EmulatorAdbLiveness {
@@ -2088,6 +2174,10 @@ message InstantRunStatus {
     CHANGE_IN_SERIALIZABLE_CLASS_WITHOUT_VERSION_UID = 28;
 
     BUILD_NOT_INCREMENTAL = 29;
+
+    // abstract method became implemented | method with code became abstract.
+    ABSTRACT_METHOD_CHANGE = 30;
+
   }
 }
 
