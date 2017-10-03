@@ -218,6 +218,32 @@ public  final class EmulatorDetails extends
             }
             break;
           }
+          case 170: {
+            com.google.wireless.android.sdk.stats.EmulatorQuickbootLoad.Builder subBuilder = null;
+            if (((bitField0_ & 0x00040000) == 0x00040000)) {
+              subBuilder = quickbootLoad_.toBuilder();
+            }
+            quickbootLoad_ = input.readMessage(com.google.wireless.android.sdk.stats.EmulatorQuickbootLoad.PARSER, extensionRegistry);
+            if (subBuilder != null) {
+              subBuilder.mergeFrom(quickbootLoad_);
+              quickbootLoad_ = subBuilder.buildPartial();
+            }
+            bitField0_ |= 0x00040000;
+            break;
+          }
+          case 178: {
+            com.google.wireless.android.sdk.stats.EmulatorQuickbootSave.Builder subBuilder = null;
+            if (((bitField0_ & 0x00080000) == 0x00080000)) {
+              subBuilder = quickbootSave_.toBuilder();
+            }
+            quickbootSave_ = input.readMessage(com.google.wireless.android.sdk.stats.EmulatorQuickbootSave.PARSER, extensionRegistry);
+            if (subBuilder != null) {
+              subBuilder.mergeFrom(quickbootSave_);
+              quickbootSave_ = subBuilder.buildPartial();
+            }
+            bitField0_ |= 0x00080000;
+            break;
+          }
         }
       }
     } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -1554,6 +1580,62 @@ public  final class EmulatorDetails extends
     return hypervisor_;
   }
 
+  // optional .android_studio.EmulatorQuickbootLoad quickboot_load = 21;
+  public static final int QUICKBOOT_LOAD_FIELD_NUMBER = 21;
+  private com.google.wireless.android.sdk.stats.EmulatorQuickbootLoad quickbootLoad_;
+  /**
+   * <code>optional .android_studio.EmulatorQuickbootLoad quickboot_load = 21;</code>
+   *
+   * <pre>
+   * Information about quickboot status of the current session.
+   * </pre>
+   */
+  public boolean hasQuickbootLoad() {
+    return ((bitField0_ & 0x00040000) == 0x00040000);
+  }
+  /**
+   * <code>optional .android_studio.EmulatorQuickbootLoad quickboot_load = 21;</code>
+   *
+   * <pre>
+   * Information about quickboot status of the current session.
+   * </pre>
+   */
+  public com.google.wireless.android.sdk.stats.EmulatorQuickbootLoad getQuickbootLoad() {
+    return quickbootLoad_;
+  }
+  /**
+   * <code>optional .android_studio.EmulatorQuickbootLoad quickboot_load = 21;</code>
+   *
+   * <pre>
+   * Information about quickboot status of the current session.
+   * </pre>
+   */
+  public com.google.wireless.android.sdk.stats.EmulatorQuickbootLoadOrBuilder getQuickbootLoadOrBuilder() {
+    return quickbootLoad_;
+  }
+
+  // optional .android_studio.EmulatorQuickbootSave quickboot_save = 22;
+  public static final int QUICKBOOT_SAVE_FIELD_NUMBER = 22;
+  private com.google.wireless.android.sdk.stats.EmulatorQuickbootSave quickbootSave_;
+  /**
+   * <code>optional .android_studio.EmulatorQuickbootSave quickboot_save = 22;</code>
+   */
+  public boolean hasQuickbootSave() {
+    return ((bitField0_ & 0x00080000) == 0x00080000);
+  }
+  /**
+   * <code>optional .android_studio.EmulatorQuickbootSave quickboot_save = 22;</code>
+   */
+  public com.google.wireless.android.sdk.stats.EmulatorQuickbootSave getQuickbootSave() {
+    return quickbootSave_;
+  }
+  /**
+   * <code>optional .android_studio.EmulatorQuickbootSave quickboot_save = 22;</code>
+   */
+  public com.google.wireless.android.sdk.stats.EmulatorQuickbootSaveOrBuilder getQuickbootSaveOrBuilder() {
+    return quickbootSave_;
+  }
+
   private void initFields() {
     guestArch_ = com.google.wireless.android.sdk.stats.EmulatorDetails.GuestCpuArchitecture.UNKNOWN_GUEST_CPU_ARCHITECTURE;
     systemTime_ = 0L;
@@ -1574,6 +1656,8 @@ public  final class EmulatorDetails extends
     avdInfo_ = com.google.wireless.android.sdk.stats.EmulatorAvdInfo.getDefaultInstance();
     featureFlagState_ = com.google.wireless.android.sdk.stats.EmulatorFeatureFlagState.getDefaultInstance();
     hypervisor_ = com.google.wireless.android.sdk.stats.EmulatorDetails.EmulatorHypervisor.UNKNOWN_HYPERVISOR;
+    quickbootLoad_ = com.google.wireless.android.sdk.stats.EmulatorQuickbootLoad.getDefaultInstance();
+    quickbootSave_ = com.google.wireless.android.sdk.stats.EmulatorQuickbootSave.getDefaultInstance();
   }
   private byte memoizedIsInitialized = -1;
   public final boolean isInitialized() {
@@ -1643,6 +1727,12 @@ public  final class EmulatorDetails extends
     }
     if (((bitField0_ & 0x00020000) == 0x00020000)) {
       output.writeEnum(20, hypervisor_.getNumber());
+    }
+    if (((bitField0_ & 0x00040000) == 0x00040000)) {
+      output.writeMessage(21, quickbootLoad_);
+    }
+    if (((bitField0_ & 0x00080000) == 0x00080000)) {
+      output.writeMessage(22, quickbootSave_);
     }
     getUnknownFields().writeTo(output);
   }
@@ -1728,6 +1818,14 @@ public  final class EmulatorDetails extends
     if (((bitField0_ & 0x00020000) == 0x00020000)) {
       size += com.google.protobuf.CodedOutputStream
         .computeEnumSize(20, hypervisor_.getNumber());
+    }
+    if (((bitField0_ & 0x00040000) == 0x00040000)) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeMessageSize(21, quickbootLoad_);
+    }
+    if (((bitField0_ & 0x00080000) == 0x00080000)) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeMessageSize(22, quickbootSave_);
     }
     size += getUnknownFields().getSerializedSize();
     memoizedSerializedSize = size;
@@ -1846,6 +1944,8 @@ public  final class EmulatorDetails extends
         getUsedFeaturesFieldBuilder();
         getAvdInfoFieldBuilder();
         getFeatureFlagStateFieldBuilder();
+        getQuickbootLoadFieldBuilder();
+        getQuickbootSaveFieldBuilder();
       }
     }
     private static Builder create() {
@@ -1912,6 +2012,18 @@ public  final class EmulatorDetails extends
       bitField0_ = (bitField0_ & ~0x00020000);
       hypervisor_ = com.google.wireless.android.sdk.stats.EmulatorDetails.EmulatorHypervisor.UNKNOWN_HYPERVISOR;
       bitField0_ = (bitField0_ & ~0x00040000);
+      if (quickbootLoadBuilder_ == null) {
+        quickbootLoad_ = com.google.wireless.android.sdk.stats.EmulatorQuickbootLoad.getDefaultInstance();
+      } else {
+        quickbootLoadBuilder_.clear();
+      }
+      bitField0_ = (bitField0_ & ~0x00080000);
+      if (quickbootSaveBuilder_ == null) {
+        quickbootSave_ = com.google.wireless.android.sdk.stats.EmulatorQuickbootSave.getDefaultInstance();
+      } else {
+        quickbootSaveBuilder_.clear();
+      }
+      bitField0_ = (bitField0_ & ~0x00100000);
       return this;
     }
 
@@ -2037,6 +2149,22 @@ public  final class EmulatorDetails extends
         to_bitField0_ |= 0x00020000;
       }
       result.hypervisor_ = hypervisor_;
+      if (((from_bitField0_ & 0x00080000) == 0x00080000)) {
+        to_bitField0_ |= 0x00040000;
+      }
+      if (quickbootLoadBuilder_ == null) {
+        result.quickbootLoad_ = quickbootLoad_;
+      } else {
+        result.quickbootLoad_ = quickbootLoadBuilder_.build();
+      }
+      if (((from_bitField0_ & 0x00100000) == 0x00100000)) {
+        to_bitField0_ |= 0x00080000;
+      }
+      if (quickbootSaveBuilder_ == null) {
+        result.quickbootSave_ = quickbootSave_;
+      } else {
+        result.quickbootSave_ = quickbootSaveBuilder_.build();
+      }
       result.bitField0_ = to_bitField0_;
       onBuilt();
       return result;
@@ -2134,6 +2262,12 @@ public  final class EmulatorDetails extends
       }
       if (other.hasHypervisor()) {
         setHypervisor(other.getHypervisor());
+      }
+      if (other.hasQuickbootLoad()) {
+        mergeQuickbootLoad(other.getQuickbootLoad());
+      }
+      if (other.hasQuickbootSave()) {
+        mergeQuickbootSave(other.getQuickbootSave());
       }
       this.mergeUnknownFields(other.getUnknownFields());
       return this;
@@ -3834,6 +3968,276 @@ public  final class EmulatorDetails extends
       hypervisor_ = com.google.wireless.android.sdk.stats.EmulatorDetails.EmulatorHypervisor.UNKNOWN_HYPERVISOR;
       onChanged();
       return this;
+    }
+
+    // optional .android_studio.EmulatorQuickbootLoad quickboot_load = 21;
+    private com.google.wireless.android.sdk.stats.EmulatorQuickbootLoad quickbootLoad_ = com.google.wireless.android.sdk.stats.EmulatorQuickbootLoad.getDefaultInstance();
+    private com.google.protobuf.SingleFieldBuilder<
+        com.google.wireless.android.sdk.stats.EmulatorQuickbootLoad, com.google.wireless.android.sdk.stats.EmulatorQuickbootLoad.Builder, com.google.wireless.android.sdk.stats.EmulatorQuickbootLoadOrBuilder> quickbootLoadBuilder_;
+    /**
+     * <code>optional .android_studio.EmulatorQuickbootLoad quickboot_load = 21;</code>
+     *
+     * <pre>
+     * Information about quickboot status of the current session.
+     * </pre>
+     */
+    public boolean hasQuickbootLoad() {
+      return ((bitField0_ & 0x00080000) == 0x00080000);
+    }
+    /**
+     * <code>optional .android_studio.EmulatorQuickbootLoad quickboot_load = 21;</code>
+     *
+     * <pre>
+     * Information about quickboot status of the current session.
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.EmulatorQuickbootLoad getQuickbootLoad() {
+      if (quickbootLoadBuilder_ == null) {
+        return quickbootLoad_;
+      } else {
+        return quickbootLoadBuilder_.getMessage();
+      }
+    }
+    /**
+     * <code>optional .android_studio.EmulatorQuickbootLoad quickboot_load = 21;</code>
+     *
+     * <pre>
+     * Information about quickboot status of the current session.
+     * </pre>
+     */
+    public Builder setQuickbootLoad(com.google.wireless.android.sdk.stats.EmulatorQuickbootLoad value) {
+      if (quickbootLoadBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        quickbootLoad_ = value;
+        onChanged();
+      } else {
+        quickbootLoadBuilder_.setMessage(value);
+      }
+      bitField0_ |= 0x00080000;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.EmulatorQuickbootLoad quickboot_load = 21;</code>
+     *
+     * <pre>
+     * Information about quickboot status of the current session.
+     * </pre>
+     */
+    public Builder setQuickbootLoad(
+        com.google.wireless.android.sdk.stats.EmulatorQuickbootLoad.Builder builderForValue) {
+      if (quickbootLoadBuilder_ == null) {
+        quickbootLoad_ = builderForValue.build();
+        onChanged();
+      } else {
+        quickbootLoadBuilder_.setMessage(builderForValue.build());
+      }
+      bitField0_ |= 0x00080000;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.EmulatorQuickbootLoad quickboot_load = 21;</code>
+     *
+     * <pre>
+     * Information about quickboot status of the current session.
+     * </pre>
+     */
+    public Builder mergeQuickbootLoad(com.google.wireless.android.sdk.stats.EmulatorQuickbootLoad value) {
+      if (quickbootLoadBuilder_ == null) {
+        if (((bitField0_ & 0x00080000) == 0x00080000) &&
+            quickbootLoad_ != com.google.wireless.android.sdk.stats.EmulatorQuickbootLoad.getDefaultInstance()) {
+          quickbootLoad_ =
+            com.google.wireless.android.sdk.stats.EmulatorQuickbootLoad.newBuilder(quickbootLoad_).mergeFrom(value).buildPartial();
+        } else {
+          quickbootLoad_ = value;
+        }
+        onChanged();
+      } else {
+        quickbootLoadBuilder_.mergeFrom(value);
+      }
+      bitField0_ |= 0x00080000;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.EmulatorQuickbootLoad quickboot_load = 21;</code>
+     *
+     * <pre>
+     * Information about quickboot status of the current session.
+     * </pre>
+     */
+    public Builder clearQuickbootLoad() {
+      if (quickbootLoadBuilder_ == null) {
+        quickbootLoad_ = com.google.wireless.android.sdk.stats.EmulatorQuickbootLoad.getDefaultInstance();
+        onChanged();
+      } else {
+        quickbootLoadBuilder_.clear();
+      }
+      bitField0_ = (bitField0_ & ~0x00080000);
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.EmulatorQuickbootLoad quickboot_load = 21;</code>
+     *
+     * <pre>
+     * Information about quickboot status of the current session.
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.EmulatorQuickbootLoad.Builder getQuickbootLoadBuilder() {
+      bitField0_ |= 0x00080000;
+      onChanged();
+      return getQuickbootLoadFieldBuilder().getBuilder();
+    }
+    /**
+     * <code>optional .android_studio.EmulatorQuickbootLoad quickboot_load = 21;</code>
+     *
+     * <pre>
+     * Information about quickboot status of the current session.
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.EmulatorQuickbootLoadOrBuilder getQuickbootLoadOrBuilder() {
+      if (quickbootLoadBuilder_ != null) {
+        return quickbootLoadBuilder_.getMessageOrBuilder();
+      } else {
+        return quickbootLoad_;
+      }
+    }
+    /**
+     * <code>optional .android_studio.EmulatorQuickbootLoad quickboot_load = 21;</code>
+     *
+     * <pre>
+     * Information about quickboot status of the current session.
+     * </pre>
+     */
+    private com.google.protobuf.SingleFieldBuilder<
+        com.google.wireless.android.sdk.stats.EmulatorQuickbootLoad, com.google.wireless.android.sdk.stats.EmulatorQuickbootLoad.Builder, com.google.wireless.android.sdk.stats.EmulatorQuickbootLoadOrBuilder> 
+        getQuickbootLoadFieldBuilder() {
+      if (quickbootLoadBuilder_ == null) {
+        quickbootLoadBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+            com.google.wireless.android.sdk.stats.EmulatorQuickbootLoad, com.google.wireless.android.sdk.stats.EmulatorQuickbootLoad.Builder, com.google.wireless.android.sdk.stats.EmulatorQuickbootLoadOrBuilder>(
+                quickbootLoad_,
+                getParentForChildren(),
+                isClean());
+        quickbootLoad_ = null;
+      }
+      return quickbootLoadBuilder_;
+    }
+
+    // optional .android_studio.EmulatorQuickbootSave quickboot_save = 22;
+    private com.google.wireless.android.sdk.stats.EmulatorQuickbootSave quickbootSave_ = com.google.wireless.android.sdk.stats.EmulatorQuickbootSave.getDefaultInstance();
+    private com.google.protobuf.SingleFieldBuilder<
+        com.google.wireless.android.sdk.stats.EmulatorQuickbootSave, com.google.wireless.android.sdk.stats.EmulatorQuickbootSave.Builder, com.google.wireless.android.sdk.stats.EmulatorQuickbootSaveOrBuilder> quickbootSaveBuilder_;
+    /**
+     * <code>optional .android_studio.EmulatorQuickbootSave quickboot_save = 22;</code>
+     */
+    public boolean hasQuickbootSave() {
+      return ((bitField0_ & 0x00100000) == 0x00100000);
+    }
+    /**
+     * <code>optional .android_studio.EmulatorQuickbootSave quickboot_save = 22;</code>
+     */
+    public com.google.wireless.android.sdk.stats.EmulatorQuickbootSave getQuickbootSave() {
+      if (quickbootSaveBuilder_ == null) {
+        return quickbootSave_;
+      } else {
+        return quickbootSaveBuilder_.getMessage();
+      }
+    }
+    /**
+     * <code>optional .android_studio.EmulatorQuickbootSave quickboot_save = 22;</code>
+     */
+    public Builder setQuickbootSave(com.google.wireless.android.sdk.stats.EmulatorQuickbootSave value) {
+      if (quickbootSaveBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        quickbootSave_ = value;
+        onChanged();
+      } else {
+        quickbootSaveBuilder_.setMessage(value);
+      }
+      bitField0_ |= 0x00100000;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.EmulatorQuickbootSave quickboot_save = 22;</code>
+     */
+    public Builder setQuickbootSave(
+        com.google.wireless.android.sdk.stats.EmulatorQuickbootSave.Builder builderForValue) {
+      if (quickbootSaveBuilder_ == null) {
+        quickbootSave_ = builderForValue.build();
+        onChanged();
+      } else {
+        quickbootSaveBuilder_.setMessage(builderForValue.build());
+      }
+      bitField0_ |= 0x00100000;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.EmulatorQuickbootSave quickboot_save = 22;</code>
+     */
+    public Builder mergeQuickbootSave(com.google.wireless.android.sdk.stats.EmulatorQuickbootSave value) {
+      if (quickbootSaveBuilder_ == null) {
+        if (((bitField0_ & 0x00100000) == 0x00100000) &&
+            quickbootSave_ != com.google.wireless.android.sdk.stats.EmulatorQuickbootSave.getDefaultInstance()) {
+          quickbootSave_ =
+            com.google.wireless.android.sdk.stats.EmulatorQuickbootSave.newBuilder(quickbootSave_).mergeFrom(value).buildPartial();
+        } else {
+          quickbootSave_ = value;
+        }
+        onChanged();
+      } else {
+        quickbootSaveBuilder_.mergeFrom(value);
+      }
+      bitField0_ |= 0x00100000;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.EmulatorQuickbootSave quickboot_save = 22;</code>
+     */
+    public Builder clearQuickbootSave() {
+      if (quickbootSaveBuilder_ == null) {
+        quickbootSave_ = com.google.wireless.android.sdk.stats.EmulatorQuickbootSave.getDefaultInstance();
+        onChanged();
+      } else {
+        quickbootSaveBuilder_.clear();
+      }
+      bitField0_ = (bitField0_ & ~0x00100000);
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.EmulatorQuickbootSave quickboot_save = 22;</code>
+     */
+    public com.google.wireless.android.sdk.stats.EmulatorQuickbootSave.Builder getQuickbootSaveBuilder() {
+      bitField0_ |= 0x00100000;
+      onChanged();
+      return getQuickbootSaveFieldBuilder().getBuilder();
+    }
+    /**
+     * <code>optional .android_studio.EmulatorQuickbootSave quickboot_save = 22;</code>
+     */
+    public com.google.wireless.android.sdk.stats.EmulatorQuickbootSaveOrBuilder getQuickbootSaveOrBuilder() {
+      if (quickbootSaveBuilder_ != null) {
+        return quickbootSaveBuilder_.getMessageOrBuilder();
+      } else {
+        return quickbootSave_;
+      }
+    }
+    /**
+     * <code>optional .android_studio.EmulatorQuickbootSave quickboot_save = 22;</code>
+     */
+    private com.google.protobuf.SingleFieldBuilder<
+        com.google.wireless.android.sdk.stats.EmulatorQuickbootSave, com.google.wireless.android.sdk.stats.EmulatorQuickbootSave.Builder, com.google.wireless.android.sdk.stats.EmulatorQuickbootSaveOrBuilder> 
+        getQuickbootSaveFieldBuilder() {
+      if (quickbootSaveBuilder_ == null) {
+        quickbootSaveBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+            com.google.wireless.android.sdk.stats.EmulatorQuickbootSave, com.google.wireless.android.sdk.stats.EmulatorQuickbootSave.Builder, com.google.wireless.android.sdk.stats.EmulatorQuickbootSaveOrBuilder>(
+                quickbootSave_,
+                getParentForChildren(),
+                isClean());
+        quickbootSave_ = null;
+      }
+      return quickbootSaveBuilder_;
     }
 
     // @@protoc_insertion_point(builder_scope:android_studio.EmulatorDetails)

@@ -552,6 +552,14 @@ public  final class InstantRunStatus extends
      * <code>BUILD_NOT_INCREMENTAL = 29;</code>
      */
     BUILD_NOT_INCREMENTAL(29, 29),
+    /**
+     * <code>ABSTRACT_METHOD_CHANGE = 30;</code>
+     *
+     * <pre>
+     * abstract method became implemented | method with code became abstract.
+     * </pre>
+     */
+    ABSTRACT_METHOD_CHANGE(30, 30),
     ;
 
     /**
@@ -723,6 +731,14 @@ public  final class InstantRunStatus extends
      * <code>BUILD_NOT_INCREMENTAL = 29;</code>
      */
     public static final int BUILD_NOT_INCREMENTAL_VALUE = 29;
+    /**
+     * <code>ABSTRACT_METHOD_CHANGE = 30;</code>
+     *
+     * <pre>
+     * abstract method became implemented | method with code became abstract.
+     * </pre>
+     */
+    public static final int ABSTRACT_METHOD_CHANGE_VALUE = 30;
 
 
     public final int getNumber() { return value; }
@@ -759,6 +775,7 @@ public  final class InstantRunStatus extends
         case 27: return NO_CHANGES;
         case 28: return CHANGE_IN_SERIALIZABLE_CLASS_WITHOUT_VERSION_UID;
         case 29: return BUILD_NOT_INCREMENTAL;
+        case 30: return ABSTRACT_METHOD_CHANGE;
         default: return null;
       }
     }

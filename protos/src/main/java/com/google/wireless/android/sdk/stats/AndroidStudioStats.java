@@ -79,6 +79,21 @@ public final class AndroidStudioStats {
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_android_studio_EmulatorMemoryUsage_fieldAccessorTable;
   static com.google.protobuf.Descriptors.Descriptor
+    internal_static_android_studio_EmulatorSnapshot_descriptor;
+  static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_android_studio_EmulatorSnapshot_fieldAccessorTable;
+  static com.google.protobuf.Descriptors.Descriptor
+    internal_static_android_studio_EmulatorQuickbootLoad_descriptor;
+  static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_android_studio_EmulatorQuickbootLoad_fieldAccessorTable;
+  static com.google.protobuf.Descriptors.Descriptor
+    internal_static_android_studio_EmulatorQuickbootSave_descriptor;
+  static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_android_studio_EmulatorQuickbootSave_fieldAccessorTable;
+  static com.google.protobuf.Descriptors.Descriptor
     internal_static_android_studio_EmulatorDetails_descriptor;
   static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
@@ -764,696 +779,734 @@ public final class AndroidStudioStats {
       "\030\001 \001(\004\022\033\n\023resident_memory_max\030\002 \001(\004\022\026\n\016v",
       "irtual_memory\030\003 \001(\004\022\032\n\022virtual_memory_ma" +
       "x\030\004 \001(\004\022\031\n\021total_phys_memory\030\005 \001(\004\022\027\n\017to" +
-      "tal_page_file\030\006 \001(\004\"\253\014\n\017EmulatorDetails\022" +
-      "H\n\nguest_arch\030\001 \001(\01624.android_studio.Emu" +
-      "latorDetails.GuestCpuArchitecture\022\023\n\013sys" +
-      "tem_time\030\002 \001(\003\022\021\n\tuser_time\030\003 \001(\003\022\017\n\007cra" +
-      "shes\030\004 \001(\003\022\021\n\twall_time\030\005 \001(\003\022\024\n\014exit_st" +
-      "arted\030\006 \001(\010\022\027\n\017guest_api_level\030\007 \001(\003\022\031\n\021" +
-      "guest_gpu_enabled\030\010 \001(\010\022\027\n\017is_opengl_ali" +
-      "ve\030\n \001(\010\022I\n\014adb_liveness\030\013 \001(\01623.android",
-      "_studio.EmulatorDetails.EmulatorAdbLiven" +
-      "ess\0225\n\010guest_gl\030\014 \001(\0132#.android_studio.E" +
-      "mulatorGuestGlInfo\0221\n\010host_gpu\030\r \003(\0132\037.a" +
-      "ndroid_studio.EmulatorGpuInfo\022K\n\rsession" +
-      "_phase\030\016 \001(\01624.android_studio.EmulatorDe" +
-      "tails.EmulatorSessionPhase\022\024\n\014core_versi" +
-      "on\030\017 \001(\t\022B\n\010renderer\030\020 \001(\01620.android_stu" +
-      "dio.EmulatorDetails.EmulatorRenderer\0227\n\r" +
-      "used_features\030\021 \001(\0132 .android_studio.Emu" +
-      "latorFeatures\0221\n\010avd_info\030\022 \001(\0132\037.androi",
-      "d_studio.EmulatorAvdInfo\022D\n\022feature_flag" +
-      "_state\030\023 \001(\0132(.android_studio.EmulatorFe" +
-      "atureFlagState\022F\n\nhypervisor\030\024 \001(\01622.and" +
-      "roid_studio.EmulatorDetails.EmulatorHype" +
-      "rvisor\"\224\001\n\023EmulatorAdbLiveness\022!\n\035UNKNOW" +
-      "N_EMULATOR_ADB_LIVENESS\020\000\022\022\n\016FAILURE_NO_" +
-      "ADB\020\001\022\016\n\nADB_ONLINE\020\002\022\033\n\027FAILURE_ADB_SER" +
-      "VER_DEAD\020\003\022\031\n\025FAILURE_EMULATOR_DEAD\020\004\"\262\001" +
-      "\n\024EmulatorSessionPhase\022\"\n\036UNKNOWN_EMULAT" +
-      "OR_SESSION_PHASE\020\000\022\014\n\010LAUNCHER\020\001\022\021\n\rPARS",
-      "E_OPTIONS\020\002\022\020\n\014INIT_GENERAL\020\003\022\014\n\010INIT_GP" +
-      "U\020\004\022\016\n\nINIT_ACCEL\020\005\022\023\n\017RUNNING_GENERAL\020\006" +
-      "\022\020\n\014EXIT_GENERAL\020\007\"{\n\024GuestCpuArchitectu" +
-      "re\022\"\n\036UNKNOWN_GUEST_CPU_ARCHITECTURE\020\000\022\007" +
-      "\n\003X86\020\001\022\n\n\006X86_64\020\002\022\007\n\003ARM\020\003\022\n\n\006ARM_64\020\004" +
-      "\022\010\n\004MIPS\020\005\022\013\n\007MIPS_64\020\006\"\226\001\n\020EmulatorRend" +
-      "erer\022\035\n\031UNKNOWN_EMULATOR_RENDERER\020\000\022\010\n\004H" +
-      "OST\020\001\022\007\n\003OFF\020\002\022\t\n\005GUEST\020\003\022\010\n\004MESA\020\004\022\017\n\013S" +
-      "WIFTSHADER\020\005\022\t\n\005ANGLE\020\006\022\037\n\032ERROR_IN_EMUL" +
-      "ATOR_RENDERER\020\377\001\"g\n\022EmulatorHypervisor\022\026",
-      "\n\022UNKNOWN_HYPERVISOR\020\000\022\021\n\rNO_HYPERVISOR\020" +
-      "\001\022\007\n\003KVM\020\002\022\010\n\004HAXM\020\003\022\007\n\003HVF\020\004\022\n\n\006HYPERV\020" +
-      "\005\"\272\003\n\017EmulatorUiEvent\022\022\n\nelement_id\030\001 \001(" +
-      "\t\022A\n\004type\030\002 \001(\01623.android_studio.Emulato" +
-      "rUiEvent.EmulatorUiEventType\022G\n\007context\030" +
-      "\003 \001(\01626.android_studio.EmulatorUiEvent.E" +
-      "mulatorUiEventContext\022\r\n\005value\030\004 \001(\003\"\234\001\n" +
-      "\023EmulatorUiEventType\022\"\n\036UNKONWN_EMULATOR" +
-      "_UI_EVENT_TYPE\020\000\022\020\n\014BUTTON_PRESS\020\001\022\035\n\031OP" +
-      "TION_SET_TO_NON_DEFAULT\020\002\022\023\n\017OPTION_SELE",
-      "CTED\020\003\022\033\n\027LONG_PROCESSING_TIME_US\020\004\"Y\n\026E" +
-      "mulatorUiEventContext\022%\n!UNKNOWN_EMULATO" +
-      "R_UI_EVENT_CONTEXT\020\000\022\030\n\024EXTENDED_WINDOW_" +
-      "OPEN\020\001\"\371\001\n\033EmulatorPercentileEstimator\022U" +
-      "\n\006metric\030\001 \001(\0162E.android_studio.Emulator" +
-      "PercentileEstimator.EmulatorPerformanceM" +
-      "etric\022\017\n\007context\030\002 \001(\t\0226\n\testimator\030\003 \001(" +
-      "\0132#.android_studio.PercentileEstimator\":" +
-      "\n\031EmulatorPerformanceMetric\022\035\n\031UI_EVENT_" +
-      "HANDLING_TIME_US\020\000\"\225\001\n\030EmulatorPerforman",
-      "ceStats\022>\n\testimator\030\001 \003(\0132+.android_stu" +
-      "dio.EmulatorPercentileEstimator\0229\n\014memor" +
-      "y_usage\030\002 \003(\0132#.android_studio.EmulatorM" +
-      "emoryUsage\"\227\003\n\022GradleBuildDetails\022\036\n\026and" +
-      "roid_plugin_version\030\001 \001(\t\022\026\n\016gradle_vers" +
-      "ion\030\002 \001(\t\022\027\n\017user_enabled_ir\030\003 \001(\010\022\031\n\021mo" +
-      "del_supports_ir\030\004 \001(\010\022\033\n\023variant_support" +
-      "s_ir\030\005 \001(\010\0220\n\tlibraries\030\006 \003(\0132\035.android_" +
-      "studio.GradleLibrary\022-\n\007modules\030\007 \003(\0132\034." +
-      "android_studio.GradleModule\022<\n\017android_m",
-      "odules\030\010 \003(\0132#.android_studio.GradleAndr" +
-      "oidModule\022I\n\026native_android_modules\030\t \003(" +
-      "\0132).android_studio.GradleNativeAndroidMo" +
-      "dule\022\016\n\006app_id\030\n \001(\t\"K\n\rGradleLibrary\022\034\n" +
-      "\024jar_dependency_count\030\001 \001(\003\022\034\n\024aar_depen" +
-      "dency_count\030\002 \001(\003\"^\n\014GradleModule\022\032\n\022tot" +
-      "al_module_count\030\001 \001(\003\022\030\n\020app_module_coun" +
-      "t\030\002 \001(\003\022\030\n\020lib_module_count\030\003 \001(\003\"\266\001\n\023Gr" +
-      "adleAndroidModule\022\016\n\006app_id\030\001 \001(\t\022\023\n\013mod" +
-      "ule_name\030\002 \001(\t\022\022\n\nis_library\030\003 \001(\010\022\030\n\020bu",
-      "ild_type_count\030\004 \001(\003\022\024\n\014flavor_count\030\005 \001" +
-      "(\003\022\030\n\020flavor_dimension\030\006 \001(\003\022\034\n\024signing_" +
-      "config_count\030\007 \001(\003\"\240\002\n\031GradleNativeAndro" +
-      "idModule\022\016\n\006app_id\030\001 \001(\t\022\023\n\013module_name\030" +
-      "\002 \001(\t\022Z\n\021build_system_type\030\003 \001(\0162?.andro" +
-      "id_studio.GradleNativeAndroidModule.Nati" +
-      "veBuildSystemType\"\201\001\n\025NativeBuildSystemT" +
-      "ype\022$\n UNKNOWN_NATIVE_BUILD_SYSTEM_TYPE\020" +
-      "\000\022\027\n\023GRADLE_EXPERIMENTAL\020\001\022\017\n\013NDK_COMPIL" +
-      "E\020\002\022\r\n\tNDK_BUILD\020\003\022\t\n\005CMAKE\020\004\"\335\013\n\nInstan",
-      "tRun\022L\n\017deployment_kind\030\001 \001(\01623.android_" +
-      "studio.InstantRun.InstantRunDeploymentKi" +
-      "nd\022P\n\027instant_run_build_cause\030\003 \001(\0162/.an" +
-      "droid_studio.InstantRun.InstantRunBuildC" +
-      "ause\022\022\n\nbuild_time\030\004 \001(\003\022\022\n\nsession_id\030\005" +
-      " \001(\t\022K\n\017ide_build_cause\030\006 \001(\01622.android_" +
-      "studio.InstantRun.InstantRunIdeBuildCaus" +
-      "e\022K\n\022gradle_build_cause\030\007 \001(\0162/.android_" +
-      "studio.InstantRunStatus.VerifierStatus\"\242" +
-      "\001\n\030InstantRunDeploymentKind\022\'\n#UNKNOWN_I",
-      "NSTANT_RUN_DEPLOYMENT_KIND\020\000\022\n\n\006LEGACY\020\001" +
-      "\022\014\n\010FULL_APK\020\002\022\r\n\tSPLIT_APK\020\003\022\007\n\003DEX\020\004\022\014" +
-      "\n\010HOT_SWAP\020\005\022\r\n\tWARM_SWAP\020\006\022\016\n\nNO_CHANGE" +
-      "S\020\007\"\277\003\n\024InstantRunBuildCause\022#\n\037UNKNOWN_" +
-      "INSTANT_RUN_BUILD_CAUSE\020\000\022\016\n\nCOMPATIBLE\020" +
-      "\001\022\023\n\017MANIFEST_CHANGE\020\002\022\025\n\021FIELD_TYPE_CHA" +
-      "NGE\020\003\022\021\n\rFIELD_REMOVED\020\004\022\017\n\013FIELD_ADDED\020" +
-      "\005\022\022\n\016METHOD_DELETED\020\006\022\020\n\014METHOD_ADDED\020\007\022" +
-      "\017\n\013CLASS_ADDED\020\010\022\035\n\031STATIC_INITIALIZER_C" +
-      "HANGE\020\t\022\033\n\027CLASS_ANNOTATION_CHANGE\020\n\022\023\n\017",
-      "RESOURCE_CHANGE\020\013\022\037\n\033IMPLEMENTS_INTERFAC" +
-      "E_CHANGE\020\014\022\022\n\016R_CLASS_CHANGE\020\r\022\027\n\023PARENT" +
-      "_CLASS_CHANGE\020\016\022\034\n\030METHOD_ANNOTATION_CHA" +
-      "NGE\020\017\022\031\n\025API_LEVEL_UNSUPPORTED\020\020\022\023\n\017REFL" +
-      "ECTION_USED\020\021\"\205\004\n\027InstantRunIdeBuildCaus" +
-      "e\022\'\n#UNKNOWN_INSTANT_RUN_IDE_BUILD_CAUSE" +
-      "\020\000\022\r\n\tNO_DEVICE\020\001\022\025\n\021APP_NOT_INSTALLED\020\002" +
-      "\022\032\n\026MISMATCHING_TIMESTAMPS\020\003\022\036\n\032USER_REQ" +
-      "UESTED_CLEAN_BUILD\020\004\022\037\n\033API_TOO_LOW_FOR_" +
-      "INSTANT_RUN\020\005\022 \n\034FIRST_INSTALLATION_TO_D",
-      "EVICE\020\006\022\035\n\031MANIFEST_RESOURCE_CHANGED\020\007\022\036" +
-      "\n\032FREEZE_SWAP_REQUIRES_API21\020\010\022\'\n#FREEZE" +
-      "_SWAP_REQUIRES_WORKING_RUN_AS\020\t\022\023\n\017APP_N" +
-      "OT_RUNNING\020\n\022\037\n\033APP_USES_MULTIPLE_PROCES" +
-      "SES\020\013\022\025\n\021INCREMENTAL_BUILD\020\014\022\022\n\016NO_INSTA" +
-      "NT_RUN\020\r\022\032\n\026ANDROID_TV_UNSUPPORTED\020\016\022\033\n\027" +
-      "USER_REQUESTED_COLDSWAP\020\017\022\032\n\026USER_CHOSE_" +
-      "TO_COLDSWAP\020\020\"k\n\013MetaMetrics\022\032\n\022failed_c" +
-      "onnections\030\001 \001(\005\022!\n\031bytes_sent_in_last_u" +
-      "pload\030\002 \001(\003\022\035\n\025failed_server_replies\030\003 \001",
-      "(\005\"\200\004\n\007TestRun\022H\n\024test_invocation_type\030\001" +
-      " \001(\0162*.android_studio.TestRun.TestInvoca" +
-      "tionType\022 \n\030number_of_tests_executed\030\002 \001" +
-      "(\005\0223\n\ttest_kind\030\003 \001(\0162 .android_studio.T" +
-      "estRun.TestKind\022\017\n\007crashed\030\004 \001(\010\022\026\n\016grad" +
-      "le_version\030\005 \001(\t\022\035\n\025code_coverage_enable" +
-      "d\030\006 \001(\010\0225\n\016test_libraries\030\007 \001(\0132\035.androi" +
-      "d_studio.TestLibraries\"\210\001\n\022TestInvocatio" +
-      "nType\022 \n\034UNKNOWN_TEST_INVOCATION_TYPE\020\000\022" +
-      "\017\n\013GRADLE_TEST\020\001\022\027\n\023ANDROID_STUDIO_TEST\020",
-      "\002\022&\n\"ANDROID_STUDIO_THROUGH_GRADLE_TEST\020" +
-      "\003\"J\n\010TestKind\022\025\n\021UNKNOWN_TEST_KIND\020\000\022\r\n\t" +
-      "UNIT_TEST\020\001\022\030\n\024INSTRUMENTATION_TEST\020\002\"\205\001" +
-      "\n\rTestLibraries\022$\n\034test_support_library_" +
-      "version\030\001 \001(\t\022\030\n\020espresso_version\030\002 \001(\t\022" +
-      "\033\n\023robolectric_version\030\003 \001(\t\022\027\n\017mockito_" +
-      "version\030\004 \001(\t\"\311\001\n\nHypervisor\022=\n\rhyper_v_" +
-      "state\030\001 \001(\0162&.android_studio.Hypervisor." +
-      "HyperVState\"|\n\013HyperVState\022\030\n\024UNKNOWN_HY" +
-      "PERV_STATE\020\000\022\021\n\rHYPERV_ABSENT\020\001\022\024\n\020HYPER",
-      "V_INSTALLED\020\002\022\022\n\016HYPERV_RUNNING\020\003\022\026\n\022HYP" +
-      "ERV_CHECK_ERROR\020\004\"\363\001\n\014EmulatorHost\022\030\n\020cp" +
-      "u_manufacturer\030\001 \001(\t\022\024\n\014virt_support\030\002 \001" +
-      "(\010\022\025\n\rrunning_in_vm\030\003 \001(\010\022\024\n\014os_bit_coun" +
-      "t\030\004 \001(\003\022\026\n\016cpuid_stepping\030\005 \001(\r\022\023\n\013cpuid" +
-      "_model\030\006 \001(\r\022\024\n\014cpuid_family\030\007 \001(\r\022\022\n\ncp" +
-      "uid_type\030\010 \001(\r\022\026\n\016cpuid_extmodel\030\t \001(\r\022\027" +
-      "\n\017cpuid_extfamily\030\n \001(\r\"\310\003\n\022GradleBuildP" +
-      "rofile\022\026\n\016gradle_version\030\002 \001(\t\022\017\n\007os_nam" +
-      "e\030\006 \001(\t\022\022\n\nos_version\030\007 \001(\t\022\024\n\014java_vers",
-      "ion\030\010 \001(\t\022\027\n\017java_vm_version\030\t \001(\t\022\022\n\nma" +
-      "x_memory\030\n \001(\003\022\022\n\nbuild_time\030\013 \001(\003\022\020\n\010gc" +
-      "_count\030\014 \001(\003\022\017\n\007gc_time\030\r \001(\003\0223\n\007project" +
-      "\030\016 \003(\0132\".android_studio.GradleBuildProje" +
-      "ct\022>\n\rmemory_sample\030\017 \003(\0132\'.android_stud" +
-      "io.GradleBuildMemorySample\0224\n\004span\030\020 \003(\013" +
-      "2&.android_studio.GradleBuildProfileSpan" +
-      "\022<\n\022instant_run_status\030\021 \001(\0132 .android_s" +
-      "tudio.InstantRunStatus\022\022\n\nproject_id\030\022 \001" +
-      "(\t\"\244\005\n\022GradleBuildProject\022\n\n\002id\030\001 \001(\003\022\036\n",
-      "\026android_plugin_version\030\002 \001(\t\022E\n\016android" +
-      "_plugin\030\003 \001(\0162-.android_studio.GradleBui" +
-      "ldProject.PluginType\022N\n\021plugin_generatio" +
-      "n\030\004 \001(\01623.android_studio.GradleBuildProj" +
-      "ect.PluginGeneration\022\033\n\023build_tools_vers" +
-      "ion\030\005 \001(\t\022:\n\007metrics\030\006 \001(\0132).android_stu" +
-      "dio.GradleBuildProjectMetrics\0223\n\007variant" +
-      "\030\007 \003(\0132\".android_studio.GradleBuildVaria" +
-      "nt\022\r\n\005atoms\030\010 \001(\003\022\023\n\013compile_sdk\030\t \001(\t\0221" +
-      "\n\006splits\030\n \001(\0132!.android_studio.GradleBu",
-      "ildSplits\022\035\n\025kotlin_plugin_version\030\013 \001(\t" +
-      "\"t\n\nPluginType\022\027\n\023UNKNOWN_PLUGIN_TYPE\020\000\022" +
-      "\017\n\013APPLICATION\020\001\022\013\n\007LIBRARY\020\002\022\010\n\004TEST\020\003\022" +
-      "\010\n\004ATOM\020\004\022\016\n\nINSTANTAPP\020\005\022\013\n\007FEATURE\020\006\"Q" +
-      "\n\020PluginGeneration\022\035\n\031UNKNOWN_PLUGIN_GEN" +
-      "ERATION\020\000\022\t\n\005FIRST\020\001\022\023\n\017COMPONENT_MODEL\020" +
-      "\002\"\344\003\n\021GradleBuildSplits\022\027\n\017density_enabl" +
-      "ed\030\001 \001(\010\022\024\n\014density_auto\030\002 \001(\010\022Z\n\032densit" +
-      "y_compatible_screens\030\003 \003(\01626.android_stu" +
-      "dio.GradleBuildSplits.CompatibleScreenSi",
-      "ze\022\026\n\016density_values\030\004 \003(\005\022\030\n\020language_e" +
-      "nabled\030\005 \001(\010\022\025\n\rlanguage_auto\030\006 \001(\010\022\031\n\021l" +
-      "anguage_includes\030\007 \003(\t\022\023\n\013abi_enabled\030\010 " +
-      "\001(\010\022 \n\030abi_enable_universal_apk\030\t \001(\010\022J\n" +
-      "\013abi_filters\030\n \003(\01625.android_studio.Devi" +
-      "ceInfo.ApplicationBinaryInterface\"]\n\024Com" +
-      "patibleScreenSize\022\027\n\023UNKNOWN_SCREEN_SIZE" +
-      "\020\000\022\t\n\005SMALL\020\001\022\n\n\006NORMAL\020\002\022\t\n\005LARGE\020\003\022\n\n\006" +
-      "XLARGE\020\004\"a\n\031GradleBuildProjectMetrics\022\027\n" +
-      "\017metrics_time_ns\030\001 \001(\003\022\020\n\010apk_size\030\002 \001(\003",
-      "\022\031\n\021resources_ap_size\030\003 \001(\003\"\241\010\n\022GradleBu" +
-      "ildVariant\022\n\n\002id\030\001 \001(\003\022\020\n\010is_debug\030\002 \001(\010" +
-      "\022\020\n\010use_jack\030\003 \001(\010\022\026\n\016minify_enabled\030\004 \001" +
-      "(\010\022\024\n\014use_multidex\030\005 \001(\010\022\033\n\023use_legacy_m" +
-      "ultidex\030\006 \001(\010\022D\n\014variant_type\030\007 \001(\0162..an" +
-      "droid_studio.GradleBuildVariant.VariantT" +
-      "ype\022\021\n\ttested_id\030\010 \001(\003\022\026\n\016proguard_flags" +
-      "\030\t \003(\t\022F\n\025annotation_processors\030\n \003(\0132\'." +
-      "android_studio.AnnotationProcessorInfo\022O" +
-      "\n\022java8_lang_support\030\013 \001(\01623.android_stu",
-      "dio.GradleBuildVariant.Java8LangSupport\022" +
-      "3\n\017min_sdk_version\030\014 \001(\0132\032.android_studi" +
-      "o.ApiVersion\0226\n\022target_sdk_version\030\r \001(\013" +
-      "2\032.android_studio.ApiVersion\0223\n\017max_sdk_" +
-      "version\030\016 \001(\0132\032.android_studio.ApiVersio" +
-      "n\022F\n\013dex_builder\030\017 \001(\01621.android_studio." +
-      "GradleBuildVariant.DexBuilderTool\022D\n\ndex" +
-      "_merger\030\020 \001(\01620.android_studio.GradleBui" +
-      "ldVariant.DexMergerTool\"s\n\013VariantType\022\017" +
-      "\n\013APPLICATION\020\000\022\013\n\007LIBRARY\020\001\022\020\n\014ANDROID_",
-      "TEST\020\002\022\r\n\tUNIT_TEST\020\003\022\010\n\004ATOM\020\004\022\016\n\nINSTA" +
-      "NTAPP\020\005\022\013\n\007FEATURE\020\006\"I\n\020Java8LangSupport" +
-      "\022\014\n\010INTERNAL\020\000\022\017\n\013RETROLAMBDA\020\001\022\014\n\010DEXGU" +
-      "ARD\020\002\022\010\n\004JACK\020\003\"J\n\016DexBuilderTool\022\034\n\030UNK" +
-      "NOWN_DEX_BUILDER_TOOL\020\000\022\014\n\010DX_DEXER\020\001\022\014\n" +
-      "\010D8_DEXER\020\002\"J\n\rDexMergerTool\022\033\n\027UNKNOWN_" +
-      "DEX_MERGER_TOOL\020\000\022\r\n\tDX_MERGER\020\001\022\r\n\tD8_M" +
-      "ERGER\020\002\"\301\001\n\027AnnotationProcessorInfo\022\014\n\004s" +
-      "pec\030\001 \001(\t\022M\n\016inclusion_type\030\002 \001(\01625.andr" +
-      "oid_studio.AnnotationProcessorInfo.Inclu",
-      "sionType\"I\n\rInclusionType\022\007\n\003APT\020\000\022\025\n\021CO" +
-      "MPILE_CLASSPATH\020\001\022\030\n\024ANNOTATION_PROCESSO" +
-      "R\020\002\"1\n\nApiVersion\022\021\n\tapi_level\030\001 \001(\003\022\020\n\010" +
-      "codename\030\002 \001(\t\"\220\001\n\027GradleBuildMemorySamp" +
-      "le\022\022\n\ngc_time_ms\030\001 \001(\003\022\020\n\010gc_count\030\002 \001(\003" +
-      "\022\021\n\ttimestamp\030\003 \001(\003\022<\n\022java_process_stat" +
-      "s\030\004 \001(\0132 .android_studio.JavaProcessStat" +
-      "s\"\214,\n\026GradleBuildProfileSpan\022\n\n\002id\030\001 \001(\003" +
-      "\022\021\n\tparent_id\030\002 \001(\003\022\030\n\020start_time_in_ms\030" +
-      "\003 \001(\003\022\026\n\016duration_in_ms\030\004 \001(\003\022B\n\004type\030\005 ",
-      "\001(\01624.android_studio.GradleBuildProfileS" +
-      "pan.ExecutionType\022;\n\ttransform\030\006 \001(\0132(.a" +
-      "ndroid_studio.GradleTransformExecution\0221" +
-      "\n\004task\030\t \001(\0132#.android_studio.GradleTask" +
-      "Execution\022\017\n\007project\030\007 \001(\003\022\017\n\007variant\030\010 " +
-      "\001(\003\022\021\n\tthread_id\030\n \001(\003\"\267)\n\rExecutionType" +
-      "\022\032\n\026SOME_RANDOM_PROCESSING\020\001\022!\n\035BASE_PLU" +
-      "GIN_PROJECT_CONFIGURE\020\002\022/\n+BASE_PLUGIN_P" +
-      "ROJECT_BASE_EXTENSION_CREATION\020\003\022&\n\"BASE" +
-      "_PLUGIN_PROJECT_TASKS_CREATION\020\004\022\036\n\032BASE",
-      "_PLUGIN_BUILD_FINISHED\020\005\022\035\n\031TASK_MANAGER" +
-      "_CREATE_TASKS\020\006\022$\n BASE_PLUGIN_CREATE_AN" +
-      "DROID_TASKS\020\007\022(\n$VARIANT_MANAGER_CREATE_" +
-      "ANDROID_TASKS\020\010\022,\n(VARIANT_MANAGER_CREAT" +
-      "E_TASKS_FOR_VARIANT\020\t\022%\n!VARIANT_MANAGER" +
-      "_CREATE_LINT_TASKS\020\n\022&\n\"VARIANT_MANAGER_" +
-      "CREATE_TESTS_TASKS\020\013\022#\n\037VARIANT_MANAGER_" +
-      "CREATE_VARIANTS\020\014\022\030\n\024RESOLVE_DEPENDENCIE" +
-      "S\020\r\022\022\n\016TASK_EXECUTION\020\016\022\024\n\020INITIAL_METAD" +
-      "ATA\020d\022\022\n\016FINAL_METADATA\020e\022\022\n\016GENERAL_CON",
-      "FIG\020f\022\022\n\016VARIANT_CONFIG\020g\0221\n-VARIANT_MAN" +
-      "AGER_EXTERNAL_NATIVE_CONFIG_VALUES\020h\022\017\n\013" +
-      "APK_METRICS\020i\0220\n+APP_TASK_MANAGER_CREATE" +
-      "_MERGE_MANIFEST_TASK\020\350\007\0225\n0APP_TASK_MANA" +
-      "GER_CREATE_GENERATE_RES_VALUES_TASK\020\351\007\0225" +
-      "\n0APP_TASK_MANAGER_CREATE_CREATE_RENDERS" +
-      "CRIPT_TASK\020\352\007\0221\n,APP_TASK_MANAGER_CREATE" +
-      "_MERGE_RESOURCES_TASK\020\353\007\022.\n)APP_TASK_MAN" +
-      "AGER_CREATE_MERGE_ASSETS_TASK\020\354\007\022.\n)APP_" +
-      "TASK_MANAGER_CREATE_BUILD_CONFIG_TASK\020\355\007",
-      "\022-\n(APP_TASK_MANAGER_CREATE_PROCESS_RES_" +
-      "TASK\020\356\007\022&\n!APP_TASK_MANAGER_CREATE_AIDL_" +
-      "TASK\020\357\007\022)\n$APP_TASK_MANAGER_CREATE_COMPI" +
-      "LE_TASK\020\360\007\022%\n APP_TASK_MANAGER_CREATE_ND" +
-      "K_TASK\020\361\007\022\'\n\"APP_TASK_MANAGER_CREATE_SPL" +
-      "IT_TASK\020\362\007\022+\n&APP_TASK_MANAGER_CREATE_PA" +
-      "CKAGING_TASK\020\363\007\0226\n1APP_TASK_MANAGER_CREA" +
-      "TE_PREPROCESS_RESOURCES_TASK\020\364\007\0224\n/APP_T" +
-      "ASK_MANAGER_CREATE_BACKPORT_RESOURCES_TA" +
-      "SK\020\365\007\022&\n!APP_TASK_MANAGER_CREATE_LINT_TA",
-      "SK\020\366\007\0227\n2APP_TASK_MANAGER_CREATE_MERGE_J" +
-      "NILIBS_FOLDERS_TASK\020\367\007\022(\n#APP_TASK_MANAG" +
-      "ER_CREATE_SHADER_TASK\020\370\007\0227\n2APP_TASK_MAN" +
-      "AGER_CREATE_EXTERNAL_NATIVE_BUILD_TASK\020\371" +
-      "\007\0226\n1APP_TASK_MANAGER_CREATE_STRIP_NATIV" +
-      "E_LIBRARY_TASK\020\372\007\0220\n+LIB_TASK_MANAGER_CR" +
-      "EATE_MERGE_MANIFEST_TASK\020\320\017\0225\n0LIB_TASK_" +
-      "MANAGER_CREATE_GENERATE_RES_VALUES_TASK\020" +
-      "\321\017\0225\n0LIB_TASK_MANAGER_CREATE_CREATE_REN" +
-      "DERSCRIPT_TASK\020\322\017\0221\n,LIB_TASK_MANAGER_CR",
-      "EATE_MERGE_RESOURCES_TASK\020\323\017\022.\n)LIB_TASK" +
-      "_MANAGER_CREATE_MERGE_ASSETS_TASK\020\324\017\022.\n)" +
-      "LIB_TASK_MANAGER_CREATE_BUILD_CONFIG_TAS" +
-      "K\020\325\017\022-\n(LIB_TASK_MANAGER_CREATE_PROCESS_" +
-      "RES_TASK\020\326\017\022&\n!LIB_TASK_MANAGER_CREATE_A" +
-      "IDL_TASK\020\327\017\022)\n$LIB_TASK_MANAGER_CREATE_C" +
-      "OMPILE_TASK\020\330\017\022%\n LIB_TASK_MANAGER_CREAT" +
-      "E_NDK_TASK\020\331\017\022\'\n\"LIB_TASK_MANAGER_CREATE" +
-      "_SPLIT_TASK\020\332\017\022+\n&LIB_TASK_MANAGER_CREAT" +
-      "E_PACKAGING_TASK\020\333\017\0225\n0LIB_TASK_MANAGER_",
-      "CREATE_MERGE_PROGUARD_FILE_TASK\020\334\017\0222\n-LI" +
-      "B_TASK_MANAGER_CREATE_POST_COMPILATION_T" +
-      "ASK\020\335\017\022*\n%LIB_TASK_MANAGER_CREATE_PROGUA" +
-      "RD_TASK\020\336\017\022.\n)LIB_TASK_MANAGER_CREATE_PA" +
-      "CKAGE_LOCAL_JAR\020\337\017\0224\n/LIB_TASK_MANAGER_C" +
-      "REATE_BACKPORT_RESOURCES_TASK\020\340\017\022&\n!LIB_" +
-      "TASK_MANAGER_CREATE_LINT_TASK\020\341\017\022(\n#LIB_" +
-      "TASK_MANAGER_CREATE_SHADER_TASK\020\342\017\0227\n2LI" +
-      "B_TASK_MANAGER_CREATE_EXTERNAL_NATIVE_BU" +
-      "ILD_TASK\020\343\017\022\033\n\026GENERIC_TASK_EXECUTION\020\270\027",
-      "\022\026\n\021TASK_AIDL_COMPILE\020\271\027\022\020\n\013TASK_DELETE\020" +
-      "\272\027\022\030\n\023TASK_CHECK_MANIFEST\020\273\027\022#\n\036TASK_PRE" +
-      "PARE_DEPENDENCIES_TASK\020\274\027\022\036\n\031TASK_RENDER" +
-      "SCRIPT_COMPILE\020\275\027\022\037\n\032TASK_GENERATE_BUILD" +
-      "_CONFIG\020\276\027\022\026\n\021TASK_MERGE_ASSETS\020\277\027\022\035\n\030TA" +
-      "SK_GENERATE_RES_VALUES\020\300\027\022\031\n\024TASK_MERGE_" +
-      "RESOURCES\020\301\027\022\031\n\024TASK_MERGE_MANIFESTS\020\302\027\022" +
-      "#\n\036TASK_PROCESS_ANDROID_RESOURCES\020\303\027\022\026\n\021" +
-      "TASK_JAVA_COMPILE\020\304\027\022\025\n\020TASK_NDK_COMPILE" +
-      "\020\305\027\022\021\n\014TASK_PRE_DEX\020\306\027\022\r\n\010TASK_DEX\020\307\027\022\033\n",
-      "\026TASK_PACKAGE_SPLIT_RES\020\310\027\022\033\n\026TASK_PROCE" +
-      "SS_RESOURCES\020\311\027\022\037\n\032TASK_VALIDATE_SIGNING" +
-      "_TASK\020\312\027\022\035\n\030TASK_PACKAGE_APPLICATION\020\313\027\022" +
-      "\031\n\024TASK_SPLIT_ZIP_ALIGN\020\314\027\022\023\n\016TASK_ZIP_A" +
-      "LIGN\020\315\027\022\016\n\tTASK_COPY\020\316\027\022\016\n\tTASK_LINT\020\317\027\022" +
-      "\033\n\026TASK_FILE_VERIFICATION\020\322\027\022=\n8TASK_EXT" +
-      "ERNAL_NATIVE_BUILD_GENERATE_JSON_PROCESS" +
-      "_PER_ABI\020\323\027\0225\n0TASK_EXTERNAL_NATIVE_BUIL" +
-      "D_GENERATE_JSON_PROCESS\020\324\027\022\037\n\032TASK_TRANS" +
-      "FORM_PREPARATION\020\320\027\022\023\n\016TASK_TRANSFORM\020\321\027",
-      "\0221\n,ATOM_TASK_MANAGER_CREATE_MERGE_MANIF" +
-      "EST_TASK\020\240\037\0226\n1ATOM_TASK_MANAGER_CREATE_" +
-      "GENERATE_RES_VALUES_TASK\020\241\037\0226\n1ATOM_TASK" +
+      "tal_page_file\030\006 \001(\004\"C\n\020EmulatorSnapshot\022" +
+      "\014\n\004name\030\001 \001(\t\022\r\n\005flags\030\002 \001(\005\022\022\n\nsize_byt" +
+      "es\030\003 \001(\003\"\334\004\n\025EmulatorQuickbootLoad\022O\n\005st" +
+      "ate\030\001 \001(\0162@.android_studio.EmulatorQuick" +
+      "bootLoad.EmulatorQuickbootLoadState\022\023\n\013d" +
+      "uration_ms\030\002 \001(\004\0222\n\010snapshot\030\003 \001(\0132 .and" +
+      "roid_studio.EmulatorSnapshot\022\035\n\025on_deman" +
+      "d_ram_enabled\030\004 \001(\010\"\211\003\n\032EmulatorQuickboo",
+      "tLoadState\022%\n!EMULATOR_QUICKBOOT_LOAD_SU" +
+      "CCEEDED\020\000\022\'\n#EMULATOR_QUICKBOOT_LOAD_NO_" +
+      "SNAPSHOT\020\001\022\"\n\036EMULATOR_QUICKBOOT_LOAD_FA" +
+      "ILED\020\002\022 \n\034EMULATOR_QUICKBOOT_LOAD_HUNG\020\003" +
+      "\022(\n$EMULATOR_QUICKBOOT_LOAD_COLD_FEATURE" +
+      "\020\004\022(\n$EMULATOR_QUICKBOOT_LOAD_COLD_CMDLI" +
+      "NE\020\005\022$\n EMULATOR_QUICKBOOT_LOAD_COLD_AVD" +
+      "\020\006\022,\n(EMULATOR_QUICKBOOT_LOAD_COLD_UNSUP" +
+      "PORTED\020\007\022-\n)EMULATOR_QUICKBOOT_LOAD_COLD" +
+      "_OLD_SNAPSHOT\020\010\"\234\004\n\025EmulatorQuickbootSav",
+      "e\022O\n\005state\030\001 \001(\0162@.android_studio.Emulat" +
+      "orQuickbootSave.EmulatorQuickbootSaveSta" +
+      "te\022\023\n\013duration_ms\030\002 \001(\004\0222\n\010snapshot\030\003 \001(" +
+      "\0132 .android_studio.EmulatorSnapshot\022\030\n\020s" +
+      "esion_uptime_ms\030\004 \001(\004\"\316\002\n\032EmulatorQuickb" +
+      "ootSaveState\022%\n!EMULATOR_QUICKBOOT_SAVE_" +
+      "SUCCEEDED\020\000\022\"\n\036EMULATOR_QUICKBOOT_SAVE_F" +
+      "AILED\020\001\022,\n(EMULATOR_QUICKBOOT_SAVE_DISAB" +
+      "LED_FEATURE\020\002\022,\n(EMULATOR_QUICKBOOT_SAVE" +
+      "_DISABLED_CMDLINE\020\003\022(\n$EMULATOR_QUICKBOO",
+      "T_SAVE_DISABLED_AVD\020\004\022/\n+EMULATOR_QUICKB" +
+      "OOT_SAVE_SKIPPED_UNSUPPORTED\020\005\022.\n*EMULAT" +
+      "OR_QUICKBOOT_SAVE_SKIPPED_LOW_UPTIME\020\006\"\251" +
+      "\r\n\017EmulatorDetails\022H\n\nguest_arch\030\001 \001(\01624" +
+      ".android_studio.EmulatorDetails.GuestCpu" +
+      "Architecture\022\023\n\013system_time\030\002 \001(\003\022\021\n\tuse" +
+      "r_time\030\003 \001(\003\022\017\n\007crashes\030\004 \001(\003\022\021\n\twall_ti" +
+      "me\030\005 \001(\003\022\024\n\014exit_started\030\006 \001(\010\022\027\n\017guest_" +
+      "api_level\030\007 \001(\003\022\031\n\021guest_gpu_enabled\030\010 \001" +
+      "(\010\022\027\n\017is_opengl_alive\030\n \001(\010\022I\n\014adb_liven",
+      "ess\030\013 \001(\01623.android_studio.EmulatorDetai" +
+      "ls.EmulatorAdbLiveness\0225\n\010guest_gl\030\014 \001(\013" +
+      "2#.android_studio.EmulatorGuestGlInfo\0221\n" +
+      "\010host_gpu\030\r \003(\0132\037.android_studio.Emulato" +
+      "rGpuInfo\022K\n\rsession_phase\030\016 \001(\01624.androi" +
+      "d_studio.EmulatorDetails.EmulatorSession" +
+      "Phase\022\024\n\014core_version\030\017 \001(\t\022B\n\010renderer\030" +
+      "\020 \001(\01620.android_studio.EmulatorDetails.E" +
+      "mulatorRenderer\0227\n\rused_features\030\021 \001(\0132 " +
+      ".android_studio.EmulatorFeatures\0221\n\010avd_",
+      "info\030\022 \001(\0132\037.android_studio.EmulatorAvdI" +
+      "nfo\022D\n\022feature_flag_state\030\023 \001(\0132(.androi" +
+      "d_studio.EmulatorFeatureFlagState\022F\n\nhyp" +
+      "ervisor\030\024 \001(\01622.android_studio.EmulatorD" +
+      "etails.EmulatorHypervisor\022=\n\016quickboot_l" +
+      "oad\030\025 \001(\0132%.android_studio.EmulatorQuick" +
+      "bootLoad\022=\n\016quickboot_save\030\026 \001(\0132%.andro" +
+      "id_studio.EmulatorQuickbootSave\"\224\001\n\023Emul" +
+      "atorAdbLiveness\022!\n\035UNKNOWN_EMULATOR_ADB_" +
+      "LIVENESS\020\000\022\022\n\016FAILURE_NO_ADB\020\001\022\016\n\nADB_ON",
+      "LINE\020\002\022\033\n\027FAILURE_ADB_SERVER_DEAD\020\003\022\031\n\025F" +
+      "AILURE_EMULATOR_DEAD\020\004\"\262\001\n\024EmulatorSessi" +
+      "onPhase\022\"\n\036UNKNOWN_EMULATOR_SESSION_PHAS" +
+      "E\020\000\022\014\n\010LAUNCHER\020\001\022\021\n\rPARSE_OPTIONS\020\002\022\020\n\014" +
+      "INIT_GENERAL\020\003\022\014\n\010INIT_GPU\020\004\022\016\n\nINIT_ACC" +
+      "EL\020\005\022\023\n\017RUNNING_GENERAL\020\006\022\020\n\014EXIT_GENERA" +
+      "L\020\007\"{\n\024GuestCpuArchitecture\022\"\n\036UNKNOWN_G" +
+      "UEST_CPU_ARCHITECTURE\020\000\022\007\n\003X86\020\001\022\n\n\006X86_" +
+      "64\020\002\022\007\n\003ARM\020\003\022\n\n\006ARM_64\020\004\022\010\n\004MIPS\020\005\022\013\n\007M" +
+      "IPS_64\020\006\"\226\001\n\020EmulatorRenderer\022\035\n\031UNKNOWN",
+      "_EMULATOR_RENDERER\020\000\022\010\n\004HOST\020\001\022\007\n\003OFF\020\002\022" +
+      "\t\n\005GUEST\020\003\022\010\n\004MESA\020\004\022\017\n\013SWIFTSHADER\020\005\022\t\n" +
+      "\005ANGLE\020\006\022\037\n\032ERROR_IN_EMULATOR_RENDERER\020\377" +
+      "\001\"g\n\022EmulatorHypervisor\022\026\n\022UNKNOWN_HYPER" +
+      "VISOR\020\000\022\021\n\rNO_HYPERVISOR\020\001\022\007\n\003KVM\020\002\022\010\n\004H" +
+      "AXM\020\003\022\007\n\003HVF\020\004\022\n\n\006HYPERV\020\005\"\272\003\n\017EmulatorU" +
+      "iEvent\022\022\n\nelement_id\030\001 \001(\t\022A\n\004type\030\002 \001(\016" +
+      "23.android_studio.EmulatorUiEvent.Emulat" +
+      "orUiEventType\022G\n\007context\030\003 \001(\01626.android" +
+      "_studio.EmulatorUiEvent.EmulatorUiEventC",
+      "ontext\022\r\n\005value\030\004 \001(\003\"\234\001\n\023EmulatorUiEven" +
+      "tType\022\"\n\036UNKONWN_EMULATOR_UI_EVENT_TYPE\020" +
+      "\000\022\020\n\014BUTTON_PRESS\020\001\022\035\n\031OPTION_SET_TO_NON" +
+      "_DEFAULT\020\002\022\023\n\017OPTION_SELECTED\020\003\022\033\n\027LONG_" +
+      "PROCESSING_TIME_US\020\004\"Y\n\026EmulatorUiEventC" +
+      "ontext\022%\n!UNKNOWN_EMULATOR_UI_EVENT_CONT" +
+      "EXT\020\000\022\030\n\024EXTENDED_WINDOW_OPEN\020\001\"\371\001\n\033Emul" +
+      "atorPercentileEstimator\022U\n\006metric\030\001 \001(\0162" +
+      "E.android_studio.EmulatorPercentileEstim" +
+      "ator.EmulatorPerformanceMetric\022\017\n\007contex",
+      "t\030\002 \001(\t\0226\n\testimator\030\003 \001(\0132#.android_stu" +
+      "dio.PercentileEstimator\":\n\031EmulatorPerfo" +
+      "rmanceMetric\022\035\n\031UI_EVENT_HANDLING_TIME_U" +
+      "S\020\000\"\225\001\n\030EmulatorPerformanceStats\022>\n\testi" +
+      "mator\030\001 \003(\0132+.android_studio.EmulatorPer" +
+      "centileEstimator\0229\n\014memory_usage\030\002 \003(\0132#" +
+      ".android_studio.EmulatorMemoryUsage\"\227\003\n\022" +
+      "GradleBuildDetails\022\036\n\026android_plugin_ver" +
+      "sion\030\001 \001(\t\022\026\n\016gradle_version\030\002 \001(\t\022\027\n\017us" +
+      "er_enabled_ir\030\003 \001(\010\022\031\n\021model_supports_ir",
+      "\030\004 \001(\010\022\033\n\023variant_supports_ir\030\005 \001(\010\0220\n\tl" +
+      "ibraries\030\006 \003(\0132\035.android_studio.GradleLi" +
+      "brary\022-\n\007modules\030\007 \003(\0132\034.android_studio." +
+      "GradleModule\022<\n\017android_modules\030\010 \003(\0132#." +
+      "android_studio.GradleAndroidModule\022I\n\026na" +
+      "tive_android_modules\030\t \003(\0132).android_stu" +
+      "dio.GradleNativeAndroidModule\022\016\n\006app_id\030" +
+      "\n \001(\t\"K\n\rGradleLibrary\022\034\n\024jar_dependency" +
+      "_count\030\001 \001(\003\022\034\n\024aar_dependency_count\030\002 \001" +
+      "(\003\"^\n\014GradleModule\022\032\n\022total_module_count",
+      "\030\001 \001(\003\022\030\n\020app_module_count\030\002 \001(\003\022\030\n\020lib_" +
+      "module_count\030\003 \001(\003\"\266\001\n\023GradleAndroidModu" +
+      "le\022\016\n\006app_id\030\001 \001(\t\022\023\n\013module_name\030\002 \001(\t\022" +
+      "\022\n\nis_library\030\003 \001(\010\022\030\n\020build_type_count\030" +
+      "\004 \001(\003\022\024\n\014flavor_count\030\005 \001(\003\022\030\n\020flavor_di" +
+      "mension\030\006 \001(\003\022\034\n\024signing_config_count\030\007 " +
+      "\001(\003\"\240\002\n\031GradleNativeAndroidModule\022\016\n\006app" +
+      "_id\030\001 \001(\t\022\023\n\013module_name\030\002 \001(\t\022Z\n\021build_" +
+      "system_type\030\003 \001(\0162?.android_studio.Gradl" +
+      "eNativeAndroidModule.NativeBuildSystemTy",
+      "pe\"\201\001\n\025NativeBuildSystemType\022$\n UNKNOWN_" +
+      "NATIVE_BUILD_SYSTEM_TYPE\020\000\022\027\n\023GRADLE_EXP" +
+      "ERIMENTAL\020\001\022\017\n\013NDK_COMPILE\020\002\022\r\n\tNDK_BUIL" +
+      "D\020\003\022\t\n\005CMAKE\020\004\"\335\013\n\nInstantRun\022L\n\017deploym" +
+      "ent_kind\030\001 \001(\01623.android_studio.InstantR" +
+      "un.InstantRunDeploymentKind\022P\n\027instant_r" +
+      "un_build_cause\030\003 \001(\0162/.android_studio.In" +
+      "stantRun.InstantRunBuildCause\022\022\n\nbuild_t" +
+      "ime\030\004 \001(\003\022\022\n\nsession_id\030\005 \001(\t\022K\n\017ide_bui" +
+      "ld_cause\030\006 \001(\01622.android_studio.InstantR",
+      "un.InstantRunIdeBuildCause\022K\n\022gradle_bui" +
+      "ld_cause\030\007 \001(\0162/.android_studio.InstantR" +
+      "unStatus.VerifierStatus\"\242\001\n\030InstantRunDe" +
+      "ploymentKind\022\'\n#UNKNOWN_INSTANT_RUN_DEPL" +
+      "OYMENT_KIND\020\000\022\n\n\006LEGACY\020\001\022\014\n\010FULL_APK\020\002\022" +
+      "\r\n\tSPLIT_APK\020\003\022\007\n\003DEX\020\004\022\014\n\010HOT_SWAP\020\005\022\r\n" +
+      "\tWARM_SWAP\020\006\022\016\n\nNO_CHANGES\020\007\"\277\003\n\024Instant" +
+      "RunBuildCause\022#\n\037UNKNOWN_INSTANT_RUN_BUI" +
+      "LD_CAUSE\020\000\022\016\n\nCOMPATIBLE\020\001\022\023\n\017MANIFEST_C" +
+      "HANGE\020\002\022\025\n\021FIELD_TYPE_CHANGE\020\003\022\021\n\rFIELD_",
+      "REMOVED\020\004\022\017\n\013FIELD_ADDED\020\005\022\022\n\016METHOD_DEL" +
+      "ETED\020\006\022\020\n\014METHOD_ADDED\020\007\022\017\n\013CLASS_ADDED\020" +
+      "\010\022\035\n\031STATIC_INITIALIZER_CHANGE\020\t\022\033\n\027CLAS" +
+      "S_ANNOTATION_CHANGE\020\n\022\023\n\017RESOURCE_CHANGE" +
+      "\020\013\022\037\n\033IMPLEMENTS_INTERFACE_CHANGE\020\014\022\022\n\016R" +
+      "_CLASS_CHANGE\020\r\022\027\n\023PARENT_CLASS_CHANGE\020\016" +
+      "\022\034\n\030METHOD_ANNOTATION_CHANGE\020\017\022\031\n\025API_LE" +
+      "VEL_UNSUPPORTED\020\020\022\023\n\017REFLECTION_USED\020\021\"\205" +
+      "\004\n\027InstantRunIdeBuildCause\022\'\n#UNKNOWN_IN" +
+      "STANT_RUN_IDE_BUILD_CAUSE\020\000\022\r\n\tNO_DEVICE",
+      "\020\001\022\025\n\021APP_NOT_INSTALLED\020\002\022\032\n\026MISMATCHING" +
+      "_TIMESTAMPS\020\003\022\036\n\032USER_REQUESTED_CLEAN_BU" +
+      "ILD\020\004\022\037\n\033API_TOO_LOW_FOR_INSTANT_RUN\020\005\022 " +
+      "\n\034FIRST_INSTALLATION_TO_DEVICE\020\006\022\035\n\031MANI" +
+      "FEST_RESOURCE_CHANGED\020\007\022\036\n\032FREEZE_SWAP_R" +
+      "EQUIRES_API21\020\010\022\'\n#FREEZE_SWAP_REQUIRES_" +
+      "WORKING_RUN_AS\020\t\022\023\n\017APP_NOT_RUNNING\020\n\022\037\n" +
+      "\033APP_USES_MULTIPLE_PROCESSES\020\013\022\025\n\021INCREM" +
+      "ENTAL_BUILD\020\014\022\022\n\016NO_INSTANT_RUN\020\r\022\032\n\026AND" +
+      "ROID_TV_UNSUPPORTED\020\016\022\033\n\027USER_REQUESTED_",
+      "COLDSWAP\020\017\022\032\n\026USER_CHOSE_TO_COLDSWAP\020\020\"k" +
+      "\n\013MetaMetrics\022\032\n\022failed_connections\030\001 \001(" +
+      "\005\022!\n\031bytes_sent_in_last_upload\030\002 \001(\003\022\035\n\025" +
+      "failed_server_replies\030\003 \001(\005\"\200\004\n\007TestRun\022" +
+      "H\n\024test_invocation_type\030\001 \001(\0162*.android_" +
+      "studio.TestRun.TestInvocationType\022 \n\030num" +
+      "ber_of_tests_executed\030\002 \001(\005\0223\n\ttest_kind" +
+      "\030\003 \001(\0162 .android_studio.TestRun.TestKind" +
+      "\022\017\n\007crashed\030\004 \001(\010\022\026\n\016gradle_version\030\005 \001(" +
+      "\t\022\035\n\025code_coverage_enabled\030\006 \001(\010\0225\n\016test",
+      "_libraries\030\007 \001(\0132\035.android_studio.TestLi" +
+      "braries\"\210\001\n\022TestInvocationType\022 \n\034UNKNOW" +
+      "N_TEST_INVOCATION_TYPE\020\000\022\017\n\013GRADLE_TEST\020" +
+      "\001\022\027\n\023ANDROID_STUDIO_TEST\020\002\022&\n\"ANDROID_ST" +
+      "UDIO_THROUGH_GRADLE_TEST\020\003\"J\n\010TestKind\022\025" +
+      "\n\021UNKNOWN_TEST_KIND\020\000\022\r\n\tUNIT_TEST\020\001\022\030\n\024" +
+      "INSTRUMENTATION_TEST\020\002\"\205\001\n\rTestLibraries" +
+      "\022$\n\034test_support_library_version\030\001 \001(\t\022\030" +
+      "\n\020espresso_version\030\002 \001(\t\022\033\n\023robolectric_" +
+      "version\030\003 \001(\t\022\027\n\017mockito_version\030\004 \001(\t\"\311",
+      "\001\n\nHypervisor\022=\n\rhyper_v_state\030\001 \001(\0162&.a" +
+      "ndroid_studio.Hypervisor.HyperVState\"|\n\013" +
+      "HyperVState\022\030\n\024UNKNOWN_HYPERV_STATE\020\000\022\021\n" +
+      "\rHYPERV_ABSENT\020\001\022\024\n\020HYPERV_INSTALLED\020\002\022\022" +
+      "\n\016HYPERV_RUNNING\020\003\022\026\n\022HYPERV_CHECK_ERROR" +
+      "\020\004\"\363\001\n\014EmulatorHost\022\030\n\020cpu_manufacturer\030" +
+      "\001 \001(\t\022\024\n\014virt_support\030\002 \001(\010\022\025\n\rrunning_i" +
+      "n_vm\030\003 \001(\010\022\024\n\014os_bit_count\030\004 \001(\003\022\026\n\016cpui" +
+      "d_stepping\030\005 \001(\r\022\023\n\013cpuid_model\030\006 \001(\r\022\024\n" +
+      "\014cpuid_family\030\007 \001(\r\022\022\n\ncpuid_type\030\010 \001(\r\022",
+      "\026\n\016cpuid_extmodel\030\t \001(\r\022\027\n\017cpuid_extfami" +
+      "ly\030\n \001(\r\"\310\003\n\022GradleBuildProfile\022\026\n\016gradl" +
+      "e_version\030\002 \001(\t\022\017\n\007os_name\030\006 \001(\t\022\022\n\nos_v" +
+      "ersion\030\007 \001(\t\022\024\n\014java_version\030\010 \001(\t\022\027\n\017ja" +
+      "va_vm_version\030\t \001(\t\022\022\n\nmax_memory\030\n \001(\003\022" +
+      "\022\n\nbuild_time\030\013 \001(\003\022\020\n\010gc_count\030\014 \001(\003\022\017\n" +
+      "\007gc_time\030\r \001(\003\0223\n\007project\030\016 \003(\0132\".androi" +
+      "d_studio.GradleBuildProject\022>\n\rmemory_sa" +
+      "mple\030\017 \003(\0132\'.android_studio.GradleBuildM" +
+      "emorySample\0224\n\004span\030\020 \003(\0132&.android_stud",
+      "io.GradleBuildProfileSpan\022<\n\022instant_run" +
+      "_status\030\021 \001(\0132 .android_studio.InstantRu" +
+      "nStatus\022\022\n\nproject_id\030\022 \001(\t\"\244\005\n\022GradleBu" +
+      "ildProject\022\n\n\002id\030\001 \001(\003\022\036\n\026android_plugin" +
+      "_version\030\002 \001(\t\022E\n\016android_plugin\030\003 \001(\0162-" +
+      ".android_studio.GradleBuildProject.Plugi" +
+      "nType\022N\n\021plugin_generation\030\004 \001(\01623.andro" +
+      "id_studio.GradleBuildProject.PluginGener" +
+      "ation\022\033\n\023build_tools_version\030\005 \001(\t\022:\n\007me" +
+      "trics\030\006 \001(\0132).android_studio.GradleBuild",
+      "ProjectMetrics\0223\n\007variant\030\007 \003(\0132\".androi" +
+      "d_studio.GradleBuildVariant\022\r\n\005atoms\030\010 \001" +
+      "(\003\022\023\n\013compile_sdk\030\t \001(\t\0221\n\006splits\030\n \001(\0132" +
+      "!.android_studio.GradleBuildSplits\022\035\n\025ko" +
+      "tlin_plugin_version\030\013 \001(\t\"t\n\nPluginType\022" +
+      "\027\n\023UNKNOWN_PLUGIN_TYPE\020\000\022\017\n\013APPLICATION\020" +
+      "\001\022\013\n\007LIBRARY\020\002\022\010\n\004TEST\020\003\022\010\n\004ATOM\020\004\022\016\n\nIN" +
+      "STANTAPP\020\005\022\013\n\007FEATURE\020\006\"Q\n\020PluginGenerat" +
+      "ion\022\035\n\031UNKNOWN_PLUGIN_GENERATION\020\000\022\t\n\005FI" +
+      "RST\020\001\022\023\n\017COMPONENT_MODEL\020\002\"\344\003\n\021GradleBui",
+      "ldSplits\022\027\n\017density_enabled\030\001 \001(\010\022\024\n\014den" +
+      "sity_auto\030\002 \001(\010\022Z\n\032density_compatible_sc" +
+      "reens\030\003 \003(\01626.android_studio.GradleBuild" +
+      "Splits.CompatibleScreenSize\022\026\n\016density_v" +
+      "alues\030\004 \003(\005\022\030\n\020language_enabled\030\005 \001(\010\022\025\n" +
+      "\rlanguage_auto\030\006 \001(\010\022\031\n\021language_include" +
+      "s\030\007 \003(\t\022\023\n\013abi_enabled\030\010 \001(\010\022 \n\030abi_enab" +
+      "le_universal_apk\030\t \001(\010\022J\n\013abi_filters\030\n " +
+      "\003(\01625.android_studio.DeviceInfo.Applicat" +
+      "ionBinaryInterface\"]\n\024CompatibleScreenSi",
+      "ze\022\027\n\023UNKNOWN_SCREEN_SIZE\020\000\022\t\n\005SMALL\020\001\022\n" +
+      "\n\006NORMAL\020\002\022\t\n\005LARGE\020\003\022\n\n\006XLARGE\020\004\"a\n\031Gra" +
+      "dleBuildProjectMetrics\022\027\n\017metrics_time_n" +
+      "s\030\001 \001(\003\022\020\n\010apk_size\030\002 \001(\003\022\031\n\021resources_a" +
+      "p_size\030\003 \001(\003\"\241\010\n\022GradleBuildVariant\022\n\n\002i" +
+      "d\030\001 \001(\003\022\020\n\010is_debug\030\002 \001(\010\022\020\n\010use_jack\030\003 " +
+      "\001(\010\022\026\n\016minify_enabled\030\004 \001(\010\022\024\n\014use_multi" +
+      "dex\030\005 \001(\010\022\033\n\023use_legacy_multidex\030\006 \001(\010\022D" +
+      "\n\014variant_type\030\007 \001(\0162..android_studio.Gr" +
+      "adleBuildVariant.VariantType\022\021\n\ttested_i",
+      "d\030\010 \001(\003\022\026\n\016proguard_flags\030\t \003(\t\022F\n\025annot" +
+      "ation_processors\030\n \003(\0132\'.android_studio." +
+      "AnnotationProcessorInfo\022O\n\022java8_lang_su" +
+      "pport\030\013 \001(\01623.android_studio.GradleBuild" +
+      "Variant.Java8LangSupport\0223\n\017min_sdk_vers" +
+      "ion\030\014 \001(\0132\032.android_studio.ApiVersion\0226\n" +
+      "\022target_sdk_version\030\r \001(\0132\032.android_stud" +
+      "io.ApiVersion\0223\n\017max_sdk_version\030\016 \001(\0132\032" +
+      ".android_studio.ApiVersion\022F\n\013dex_builde" +
+      "r\030\017 \001(\01621.android_studio.GradleBuildVari",
+      "ant.DexBuilderTool\022D\n\ndex_merger\030\020 \001(\01620" +
+      ".android_studio.GradleBuildVariant.DexMe" +
+      "rgerTool\"s\n\013VariantType\022\017\n\013APPLICATION\020\000" +
+      "\022\013\n\007LIBRARY\020\001\022\020\n\014ANDROID_TEST\020\002\022\r\n\tUNIT_" +
+      "TEST\020\003\022\010\n\004ATOM\020\004\022\016\n\nINSTANTAPP\020\005\022\013\n\007FEAT" +
+      "URE\020\006\"I\n\020Java8LangSupport\022\014\n\010INTERNAL\020\000\022" +
+      "\017\n\013RETROLAMBDA\020\001\022\014\n\010DEXGUARD\020\002\022\010\n\004JACK\020\003" +
+      "\"J\n\016DexBuilderTool\022\034\n\030UNKNOWN_DEX_BUILDE" +
+      "R_TOOL\020\000\022\014\n\010DX_DEXER\020\001\022\014\n\010D8_DEXER\020\002\"J\n\r" +
+      "DexMergerTool\022\033\n\027UNKNOWN_DEX_MERGER_TOOL",
+      "\020\000\022\r\n\tDX_MERGER\020\001\022\r\n\tD8_MERGER\020\002\"\301\001\n\027Ann" +
+      "otationProcessorInfo\022\014\n\004spec\030\001 \001(\t\022M\n\016in" +
+      "clusion_type\030\002 \001(\01625.android_studio.Anno" +
+      "tationProcessorInfo.InclusionType\"I\n\rInc" +
+      "lusionType\022\007\n\003APT\020\000\022\025\n\021COMPILE_CLASSPATH" +
+      "\020\001\022\030\n\024ANNOTATION_PROCESSOR\020\002\"1\n\nApiVersi" +
+      "on\022\021\n\tapi_level\030\001 \001(\003\022\020\n\010codename\030\002 \001(\t\"" +
+      "\220\001\n\027GradleBuildMemorySample\022\022\n\ngc_time_m" +
+      "s\030\001 \001(\003\022\020\n\010gc_count\030\002 \001(\003\022\021\n\ttimestamp\030\003" +
+      " \001(\003\022<\n\022java_process_stats\030\004 \001(\0132 .andro",
+      "id_studio.JavaProcessStats\"\214,\n\026GradleBui" +
+      "ldProfileSpan\022\n\n\002id\030\001 \001(\003\022\021\n\tparent_id\030\002" +
+      " \001(\003\022\030\n\020start_time_in_ms\030\003 \001(\003\022\026\n\016durati" +
+      "on_in_ms\030\004 \001(\003\022B\n\004type\030\005 \001(\01624.android_s" +
+      "tudio.GradleBuildProfileSpan.ExecutionTy" +
+      "pe\022;\n\ttransform\030\006 \001(\0132(.android_studio.G" +
+      "radleTransformExecution\0221\n\004task\030\t \001(\0132#." +
+      "android_studio.GradleTaskExecution\022\017\n\007pr" +
+      "oject\030\007 \001(\003\022\017\n\007variant\030\010 \001(\003\022\021\n\tthread_i" +
+      "d\030\n \001(\003\"\267)\n\rExecutionType\022\032\n\026SOME_RANDOM",
+      "_PROCESSING\020\001\022!\n\035BASE_PLUGIN_PROJECT_CON" +
+      "FIGURE\020\002\022/\n+BASE_PLUGIN_PROJECT_BASE_EXT" +
+      "ENSION_CREATION\020\003\022&\n\"BASE_PLUGIN_PROJECT" +
+      "_TASKS_CREATION\020\004\022\036\n\032BASE_PLUGIN_BUILD_F" +
+      "INISHED\020\005\022\035\n\031TASK_MANAGER_CREATE_TASKS\020\006" +
+      "\022$\n BASE_PLUGIN_CREATE_ANDROID_TASKS\020\007\022(" +
+      "\n$VARIANT_MANAGER_CREATE_ANDROID_TASKS\020\010" +
+      "\022,\n(VARIANT_MANAGER_CREATE_TASKS_FOR_VAR" +
+      "IANT\020\t\022%\n!VARIANT_MANAGER_CREATE_LINT_TA" +
+      "SKS\020\n\022&\n\"VARIANT_MANAGER_CREATE_TESTS_TA",
+      "SKS\020\013\022#\n\037VARIANT_MANAGER_CREATE_VARIANTS" +
+      "\020\014\022\030\n\024RESOLVE_DEPENDENCIES\020\r\022\022\n\016TASK_EXE" +
+      "CUTION\020\016\022\024\n\020INITIAL_METADATA\020d\022\022\n\016FINAL_" +
+      "METADATA\020e\022\022\n\016GENERAL_CONFIG\020f\022\022\n\016VARIAN" +
+      "T_CONFIG\020g\0221\n-VARIANT_MANAGER_EXTERNAL_N" +
+      "ATIVE_CONFIG_VALUES\020h\022\017\n\013APK_METRICS\020i\0220" +
+      "\n+APP_TASK_MANAGER_CREATE_MERGE_MANIFEST" +
+      "_TASK\020\350\007\0225\n0APP_TASK_MANAGER_CREATE_GENE" +
+      "RATE_RES_VALUES_TASK\020\351\007\0225\n0APP_TASK_MANA" +
+      "GER_CREATE_CREATE_RENDERSCRIPT_TASK\020\352\007\0221",
+      "\n,APP_TASK_MANAGER_CREATE_MERGE_RESOURCE" +
+      "S_TASK\020\353\007\022.\n)APP_TASK_MANAGER_CREATE_MER" +
+      "GE_ASSETS_TASK\020\354\007\022.\n)APP_TASK_MANAGER_CR" +
+      "EATE_BUILD_CONFIG_TASK\020\355\007\022-\n(APP_TASK_MA" +
+      "NAGER_CREATE_PROCESS_RES_TASK\020\356\007\022&\n!APP_" +
+      "TASK_MANAGER_CREATE_AIDL_TASK\020\357\007\022)\n$APP_" +
+      "TASK_MANAGER_CREATE_COMPILE_TASK\020\360\007\022%\n A" +
+      "PP_TASK_MANAGER_CREATE_NDK_TASK\020\361\007\022\'\n\"AP" +
+      "P_TASK_MANAGER_CREATE_SPLIT_TASK\020\362\007\022+\n&A" +
+      "PP_TASK_MANAGER_CREATE_PACKAGING_TASK\020\363\007",
+      "\0226\n1APP_TASK_MANAGER_CREATE_PREPROCESS_R" +
+      "ESOURCES_TASK\020\364\007\0224\n/APP_TASK_MANAGER_CRE" +
+      "ATE_BACKPORT_RESOURCES_TASK\020\365\007\022&\n!APP_TA" +
+      "SK_MANAGER_CREATE_LINT_TASK\020\366\007\0227\n2APP_TA" +
+      "SK_MANAGER_CREATE_MERGE_JNILIBS_FOLDERS_" +
+      "TASK\020\367\007\022(\n#APP_TASK_MANAGER_CREATE_SHADE" +
+      "R_TASK\020\370\007\0227\n2APP_TASK_MANAGER_CREATE_EXT" +
+      "ERNAL_NATIVE_BUILD_TASK\020\371\007\0226\n1APP_TASK_M" +
+      "ANAGER_CREATE_STRIP_NATIVE_LIBRARY_TASK\020" +
+      "\372\007\0220\n+LIB_TASK_MANAGER_CREATE_MERGE_MANI",
+      "FEST_TASK\020\320\017\0225\n0LIB_TASK_MANAGER_CREATE_" +
+      "GENERATE_RES_VALUES_TASK\020\321\017\0225\n0LIB_TASK_" +
+      "MANAGER_CREATE_CREATE_RENDERSCRIPT_TASK\020" +
+      "\322\017\0221\n,LIB_TASK_MANAGER_CREATE_MERGE_RESO" +
+      "URCES_TASK\020\323\017\022.\n)LIB_TASK_MANAGER_CREATE" +
+      "_MERGE_ASSETS_TASK\020\324\017\022.\n)LIB_TASK_MANAGE" +
+      "R_CREATE_BUILD_CONFIG_TASK\020\325\017\022-\n(LIB_TAS" +
+      "K_MANAGER_CREATE_PROCESS_RES_TASK\020\326\017\022&\n!" +
+      "LIB_TASK_MANAGER_CREATE_AIDL_TASK\020\327\017\022)\n$" +
+      "LIB_TASK_MANAGER_CREATE_COMPILE_TASK\020\330\017\022",
+      "%\n LIB_TASK_MANAGER_CREATE_NDK_TASK\020\331\017\022\'" +
+      "\n\"LIB_TASK_MANAGER_CREATE_SPLIT_TASK\020\332\017\022" +
+      "+\n&LIB_TASK_MANAGER_CREATE_PACKAGING_TAS" +
+      "K\020\333\017\0225\n0LIB_TASK_MANAGER_CREATE_MERGE_PR" +
+      "OGUARD_FILE_TASK\020\334\017\0222\n-LIB_TASK_MANAGER_" +
+      "CREATE_POST_COMPILATION_TASK\020\335\017\022*\n%LIB_T" +
+      "ASK_MANAGER_CREATE_PROGUARD_TASK\020\336\017\022.\n)L" +
+      "IB_TASK_MANAGER_CREATE_PACKAGE_LOCAL_JAR" +
+      "\020\337\017\0224\n/LIB_TASK_MANAGER_CREATE_BACKPORT_" +
+      "RESOURCES_TASK\020\340\017\022&\n!LIB_TASK_MANAGER_CR",
+      "EATE_LINT_TASK\020\341\017\022(\n#LIB_TASK_MANAGER_CR" +
+      "EATE_SHADER_TASK\020\342\017\0227\n2LIB_TASK_MANAGER_" +
+      "CREATE_EXTERNAL_NATIVE_BUILD_TASK\020\343\017\022\033\n\026" +
+      "GENERIC_TASK_EXECUTION\020\270\027\022\026\n\021TASK_AIDL_C" +
+      "OMPILE\020\271\027\022\020\n\013TASK_DELETE\020\272\027\022\030\n\023TASK_CHEC" +
+      "K_MANIFEST\020\273\027\022#\n\036TASK_PREPARE_DEPENDENCI" +
+      "ES_TASK\020\274\027\022\036\n\031TASK_RENDERSCRIPT_COMPILE\020" +
+      "\275\027\022\037\n\032TASK_GENERATE_BUILD_CONFIG\020\276\027\022\026\n\021T" +
+      "ASK_MERGE_ASSETS\020\277\027\022\035\n\030TASK_GENERATE_RES" +
+      "_VALUES\020\300\027\022\031\n\024TASK_MERGE_RESOURCES\020\301\027\022\031\n",
+      "\024TASK_MERGE_MANIFESTS\020\302\027\022#\n\036TASK_PROCESS" +
+      "_ANDROID_RESOURCES\020\303\027\022\026\n\021TASK_JAVA_COMPI" +
+      "LE\020\304\027\022\025\n\020TASK_NDK_COMPILE\020\305\027\022\021\n\014TASK_PRE" +
+      "_DEX\020\306\027\022\r\n\010TASK_DEX\020\307\027\022\033\n\026TASK_PACKAGE_S" +
+      "PLIT_RES\020\310\027\022\033\n\026TASK_PROCESS_RESOURCES\020\311\027" +
+      "\022\037\n\032TASK_VALIDATE_SIGNING_TASK\020\312\027\022\035\n\030TAS" +
+      "K_PACKAGE_APPLICATION\020\313\027\022\031\n\024TASK_SPLIT_Z" +
+      "IP_ALIGN\020\314\027\022\023\n\016TASK_ZIP_ALIGN\020\315\027\022\016\n\tTASK" +
+      "_COPY\020\316\027\022\016\n\tTASK_LINT\020\317\027\022\033\n\026TASK_FILE_VE" +
+      "RIFICATION\020\322\027\022=\n8TASK_EXTERNAL_NATIVE_BU",
+      "ILD_GENERATE_JSON_PROCESS_PER_ABI\020\323\027\0225\n0" +
+      "TASK_EXTERNAL_NATIVE_BUILD_GENERATE_JSON" +
+      "_PROCESS\020\324\027\022\037\n\032TASK_TRANSFORM_PREPARATIO" +
+      "N\020\320\027\022\023\n\016TASK_TRANSFORM\020\321\027\0221\n,ATOM_TASK_M" +
+      "ANAGER_CREATE_MERGE_MANIFEST_TASK\020\240\037\0226\n1" +
+      "ATOM_TASK_MANAGER_CREATE_GENERATE_RES_VA" +
+      "LUES_TASK\020\241\037\0226\n1ATOM_TASK_MANAGER_CREATE" +
+      "_CREATE_RENDERSCRIPT_TASK\020\242\037\0222\n-ATOM_TAS" +
+      "K_MANAGER_CREATE_MERGE_RESOURCES_TASK\020\243\037" +
+      "\022/\n*ATOM_TASK_MANAGER_CREATE_MERGE_ASSET",
+      "S_TASK\020\244\037\022/\n*ATOM_TASK_MANAGER_CREATE_BU" +
+      "ILD_CONFIG_TASK\020\245\037\022.\n)ATOM_TASK_MANAGER_" +
+      "CREATE_PROCESS_RES_TASK\020\246\037\022\'\n\"ATOM_TASK_" +
+      "MANAGER_CREATE_AIDL_TASK\020\247\037\022)\n$ATOM_TASK" +
+      "_MANAGER_CREATE_SHADER_TASK\020\250\037\022&\n!ATOM_T" +
+      "ASK_MANAGER_CREATE_NDK_TASK\020\251\037\0228\n3ATOM_T" +
+      "ASK_MANAGER_CREATE_EXTERNAL_NATIVE_BUILD" +
+      "_TASK\020\252\037\0228\n3ATOM_TASK_MANAGER_CREATE_MER" +
+      "GE_JNILIBS_FOLDERS_TASK\020\253\037\022*\n%ATOM_TASK_" +
+      "MANAGER_CREATE_COMPILE_TASK\020\254\037\022+\n&ATOM_T",
+      "ASK_MANAGER_CREATE_BUNDLING_TASK\020\255\037\022\'\n\"A" +
+      "TOM_TASK_MANAGER_CREATE_LINT_TASK\020\256\037\0227\n2" +
+      "INSTANTAPP_TASK_MANAGER_CREATE_MERGE_MAN" +
+      "IFEST_TASK\020\210\'\0228\n3INSTANTAPP_TASK_MANAGER" +
+      "_CREATE_ATOM_PACKAGING_TASKS\020\211\'\0224\n/INSTA" +
+      "NTAPP_TASK_MANAGER_CREATE_PROCESS_RES_TA" +
+      "SK\020\212\'\0222\n-INSTANTAPP_TASK_MANAGER_CREATE_" +
+      "PACKAGING_TASK\020\213\'\022+\n&FEATURE_TASK_MANAGE" +
+      "R_CREATE_BASE_TASKS\020\360.\022/\n*FEATURE_TASK_M" +
+      "ANAGER_CREATE_NON_BASE_TASKS\020\361.\0224\n/FEATU",
+      "RE_TASK_MANAGER_CREATE_MERGE_MANIFEST_TA" +
+      "SK\020\362.\0229\n4FEATURE_TASK_MANAGER_CREATE_GEN" +
+      "ERATE_RES_VALUES_TASK\020\363.\0229\n4FEATURE_TASK" +
       "_MANAGER_CREATE_CREATE_RENDERSCRIPT_TASK" +
-      "\020\242\037\0222\n-ATOM_TASK_MANAGER_CREATE_MERGE_RE" +
-      "SOURCES_TASK\020\243\037\022/\n*ATOM_TASK_MANAGER_CRE" +
-      "ATE_MERGE_ASSETS_TASK\020\244\037\022/\n*ATOM_TASK_MA" +
-      "NAGER_CREATE_BUILD_CONFIG_TASK\020\245\037\022.\n)ATO" +
-      "M_TASK_MANAGER_CREATE_PROCESS_RES_TASK\020\246" +
-      "\037\022\'\n\"ATOM_TASK_MANAGER_CREATE_AIDL_TASK\020",
-      "\247\037\022)\n$ATOM_TASK_MANAGER_CREATE_SHADER_TA" +
-      "SK\020\250\037\022&\n!ATOM_TASK_MANAGER_CREATE_NDK_TA" +
-      "SK\020\251\037\0228\n3ATOM_TASK_MANAGER_CREATE_EXTERN" +
-      "AL_NATIVE_BUILD_TASK\020\252\037\0228\n3ATOM_TASK_MAN" +
-      "AGER_CREATE_MERGE_JNILIBS_FOLDERS_TASK\020\253" +
-      "\037\022*\n%ATOM_TASK_MANAGER_CREATE_COMPILE_TA" +
-      "SK\020\254\037\022+\n&ATOM_TASK_MANAGER_CREATE_BUNDLI" +
-      "NG_TASK\020\255\037\022\'\n\"ATOM_TASK_MANAGER_CREATE_L" +
-      "INT_TASK\020\256\037\0227\n2INSTANTAPP_TASK_MANAGER_C" +
-      "REATE_MERGE_MANIFEST_TASK\020\210\'\0228\n3INSTANTA",
-      "PP_TASK_MANAGER_CREATE_ATOM_PACKAGING_TA" +
-      "SKS\020\211\'\0224\n/INSTANTAPP_TASK_MANAGER_CREATE" +
-      "_PROCESS_RES_TASK\020\212\'\0222\n-INSTANTAPP_TASK_" +
-      "MANAGER_CREATE_PACKAGING_TASK\020\213\'\022+\n&FEAT" +
-      "URE_TASK_MANAGER_CREATE_BASE_TASKS\020\360.\022/\n" +
-      "*FEATURE_TASK_MANAGER_CREATE_NON_BASE_TA" +
-      "SKS\020\361.\0224\n/FEATURE_TASK_MANAGER_CREATE_ME" +
-      "RGE_MANIFEST_TASK\020\362.\0229\n4FEATURE_TASK_MAN" +
-      "AGER_CREATE_GENERATE_RES_VALUES_TASK\020\363.\022" +
-      "9\n4FEATURE_TASK_MANAGER_CREATE_CREATE_RE",
-      "NDERSCRIPT_TASK\020\364.\0225\n0FEATURE_TASK_MANAG" +
-      "ER_CREATE_MERGE_RESOURCES_TASK\020\365.\0222\n-FEA" +
-      "TURE_TASK_MANAGER_CREATE_MERGE_ASSETS_TA" +
-      "SK\020\366.\0222\n-FEATURE_TASK_MANAGER_CREATE_BUI" +
-      "LD_CONFIG_TASK\020\367.\0221\n,FEATURE_TASK_MANAGE" +
-      "R_CREATE_PROCESS_RES_TASK\020\370.\022*\n%FEATURE_" +
-      "TASK_MANAGER_CREATE_AIDL_TASK\020\371.\022,\n\'FEAT" +
-      "URE_TASK_MANAGER_CREATE_SHADER_TASK\020\372.\022)" +
-      "\n$FEATURE_TASK_MANAGER_CREATE_NDK_TASK\020\373" +
-      ".\022;\n6FEATURE_TASK_MANAGER_CREATE_EXTERNA",
-      "L_NATIVE_BUILD_TASK\020\374.\022;\n6FEATURE_TASK_M" +
-      "ANAGER_CREATE_MERGE_JNILIBS_FOLDERS_TASK" +
-      "\020\375.\022-\n(FEATURE_TASK_MANAGER_CREATE_COMPI" +
-      "LE_TASK\020\376.\022:\n5FEATURE_TASK_MANAGER_CREAT" +
-      "E_STRIP_NATIVE_LIBRARY_TASK\020\377.\022+\n&FEATUR" +
-      "E_TASK_MANAGER_CREATE_SPLIT_TASK\020\200/\022/\n*F" +
-      "EATURE_TASK_MANAGER_CREATE_PACKAGING_TAS" +
-      "K\020\201/\022*\n%FEATURE_TASK_MANAGER_CREATE_LINT" +
-      "_TASK\020\202/\"j\n\023GradleTaskExecution\022\014\n\004type\030" +
-      "\001 \001(\005\022\020\n\010did_work\030\002 \001(\010\022\017\n\007skipped\030\003 \001(\010",
-      "\022\022\n\nup_to_date\030\004 \001(\010\022\016\n\006failed\030\005 \001(\010\"@\n\030" +
-      "GradleTransformExecution\022\014\n\004type\030\001 \001(\005\022\026" +
-      "\n\016is_incremental\030\002 \001(\010\"\353\t\n\020InstantRunSta" +
-      "tus\022>\n\nbuild_mode\030\001 \001(\0162*.android_studio" +
-      ".InstantRunStatus.BuildMode\022H\n\017patching_" +
-      "policy\030\002 \001(\0162/.android_studio.InstantRun" +
-      "Status.PatchingPolicy\022H\n\017verifier_status" +
-      "\030\003 \001(\0162/.android_studio.InstantRunStatus" +
-      ".VerifierStatus\0224\n\010artifact\030\004 \003(\0132\".andr" +
-      "oid_studio.InstantRunArtifact\"E\n\tBuildMo",
-      "de\022\026\n\022UNKNOWN_BUILD_MODE\020\000\022\014\n\010HOT_WARM\020\001" +
-      "\022\010\n\004COLD\020\002\022\010\n\004FULL\020\003\"\177\n\016PatchingPolicy\022\033" +
-      "\n\027UNKNOWN_PATCHING_POLICY\020\000\022\020\n\014PRE_LOLLI" +
-      "POP\020\001\022\r\n\tMULTI_DEX\020\002\022\r\n\tMULTI_APK\020\003\022 \n\034M" +
-      "ULTI_APK_SEPARATE_RESOURCES\020\004\"\204\006\n\016Verifi" +
-      "erStatus\022\033\n\027UNKNOWN_VERIFIER_STATUS\020\000\022\016\n" +
-      "\nCOMPATIBLE\020\001\022\013\n\007NOT_RUN\020\002\022\030\n\024INSTANT_RU" +
-      "N_DISABLED\020\003\022\027\n\023INSTANT_RUN_FAILURE\020\004\022\017\n" +
-      "\013CLASS_ADDED\020\005\022\030\n\024PARENT_CLASS_CHANGED\020\006" +
-      "\022!\n\035IMPLEMENTED_INTERFACES_CHANGE\020\007\022\033\n\027C",
-      "LASS_ANNOTATION_CHANGE\020\010\022\035\n\031STATIC_INITI" +
-      "ALIZER_CHANGE\020\t\022 \n\034CONSTRUCTOR_SIGNATURE" +
-      "_CHANGE\020\n\022\033\n\027METHOD_SIGNATURE_CHANGE\020\013\022\034" +
-      "\n\030METHOD_ANNOTATION_CHANGE\020\014\022\022\n\016METHOD_D" +
-      "ELETED\020\r\022\020\n\014METHOD_ADDED\020\016\022\017\n\013FIELD_ADDE" +
-      "D\020\017\022\021\n\rFIELD_REMOVED\020\020\022\025\n\021FIELD_TYPE_CHA" +
-      "NGE\020\021\022\022\n\016R_CLASS_CHANGE\020\022\022\023\n\017REFLECTION_" +
-      "USED\020\023\022\032\n\026JAVA_RESOURCES_CHANGED\020\024\022\026\n\022DE" +
-      "PENDENCY_CHANGED\020\025\022\030\n\024MANIFEST_FILE_CHAN" +
-      "GE\020\026\022\037\n\033BINARY_MANIFEST_FILE_CHANGE\020\027\022\027\n",
-      "\023COLD_SWAP_REQUESTED\020\030\022\030\n\024FULL_BUILD_REQ" +
-      "UESTED\020\031\022\021\n\rINITIAL_BUILD\020\032\022\016\n\nNO_CHANGE" +
-      "S\020\033\0224\n0CHANGE_IN_SERIALIZABLE_CLASS_WITH" +
-      "OUT_VERSION_UID\020\034\022\031\n\025BUILD_NOT_INCREMENT" +
-      "AL\020\035\"\312\001\n\022InstantRunArtifact\0225\n\004type\030\001 \001(" +
-      "\0162\'.android_studio.InstantRunArtifact.Ty" +
-      "pe\"}\n\004Type\022\010\n\004MAIN\020\001\022\016\n\nSPLIT_MAIN\020\002\022\016\n\n" +
-      "RELOAD_DEX\020\003\022\017\n\013RESTART_DEX\020\004\022\007\n\003DEX\020\005\022\t" +
-      "\n\005SPLIT\020\006\022\r\n\tRESOURCES\020\007\022\016\n\nFULL_SPLIT\020\010" +
-      "\022\007\n\003AAR\020\t\"(\n\023LLDBFrontendDetails\022\021\n\texit",
-      "_code\030\001 \001(\005\"-\n\024FirebaseErrorDetails\022\025\n\re" +
-      "rror_message\030\001 \001(\t\"\265\002\n\026FirebaseContextDe" +
-      "tails\022\022\n\nproject_id\030\001 \001(\t\022\026\n\016project_num" +
-      "ber\030\002 \001(\t\022\021\n\tlogged_in\030\003 \001(\010\022L\n\016connect_" +
-      "status\030\004 \001(\01624.android_studio.FirebaseCo" +
-      "ntextDetails.ConnectStatus\022\024\n\014performed_" +
-      "on\030\005 \001(\t\022\020\n\010duration\030\006 \001(\003\"f\n\rConnectSta" +
-      "tus\022\032\n\026UNKNOWN_CONNECT_STATUS\020\001\022\021\n\rNOT_C" +
-      "ONNECTED\020\002\022\027\n\023PARTIALLY_CONNECTED\020\003\022\r\n\tC" +
-      "ONNECTED\020\004\"\244\001\n\021GfxTracingDetails\022\022\n\ntota",
-      "l_time\030\001 \001(\003\022\017\n\007command\030\002 \001(\t\022\025\n\rerror_m" +
-      "essage\030\003 \001(\t\022\022\n\ntrace_path\030\004 \001(\t\022\024\n\014imag" +
-      "e_format\030\005 \001(\t\022\023\n\013image_width\030\006 \001(\003\022\024\n\014i" +
-      "mage_height\030\007 \001(\003\"C\n\023TestRecorderDetails" +
-      "\022\023\n\013event_count\030\001 \001(\003\022\027\n\017assertion_count" +
-      "\030\002 \001(\003\"\211\002\n\rUIActionStats\022\031\n\021action_class" +
-      "_name\030\001 \001(\t\022\023\n\013invocations\030\002 \001(\003\022E\n\017invo" +
-      "cation_kind\030\003 \001(\0162,.android_studio.UIAct" +
-      "ionStats.InvocationKind\022\016\n\006direct\030\004 \001(\010\"" +
-      "q\n\016InvocationKind\022\033\n\027UNKNOWN_INVOCATION_",
-      "KIND\020\000\022\013\n\007TOOLBAR\020\001\022\010\n\004MENU\020\002\022\025\n\021KEYBOAR" +
-      "D_SHORTCUT\020\003\022\t\n\005MACRO\020\004\022\t\n\005MOUSE\020\005\"\206\001\n\016M" +
-      "achineDetails\022\021\n\ttotal_ram\030\001 \001(\003\022\022\n\ntota" +
-      "l_disk\030\002 \001(\003\022/\n\007display\030\003 \003(\0132\036.android_" +
-      "studio.DisplayDetails\022\034\n\024available_proce" +
-      "ssors\030\004 \001(\005\"q\n\016DisplayDetails\022\r\n\005width\030\001" +
-      " \001(\003\022\016\n\006height\030\002 \001(\003\022 \n\030dots_per_inch_ho" +
-      "rizontal\030\003 \001(\005\022\036\n\026dots_per_inch_vertical" +
-      "\030\004 \001(\005\"\310\001\n\020JavaProcessStats\022\031\n\021heap_memo" +
-      "ry_usage\030\001 \001(\003\022\035\n\025non_heap_memory_usage\030",
-      "\002 \001(\003\022\032\n\022loaded_class_count\030\003 \001(\005\022\024\n\014thr" +
-      "ead_count\030\004 \001(\005\022H\n\030garbage_collection_st" +
-      "ats\030\005 \003(\0132&.android_studio.GarbageCollec" +
-      "tionStats\"O\n\026GarbageCollectionStats\022\014\n\004n" +
-      "ame\030\001 \001(\t\022\026\n\016gc_collections\030\002 \001(\003\022\017\n\007gc_" +
-      "time\030\003 \001(\003\"\265\003\n\nJvmDetails\022\014\n\004name\030\001 \001(\t\022" +
-      "\017\n\007version\030\002 \001(\t\022\016\n\006vendor\030\003 \001(\t\022\031\n\021mini" +
-      "mum_heap_size\030\004 \001(\003\022\031\n\021maximum_heap_size" +
-      "\030\005 \001(\003\022$\n\034maximum_permanent_space_size\030\006" +
-      " \001(\003\022\037\n\027maximum_code_cache_size\030\007 \001(\003\022!\n",
-      "\031soft_reference_lru_policy\030\010 \001(\003\022F\n\021garb" +
-      "age_collector\030\t \001(\0162+.android_studio.Jvm" +
-      "Details.GarbageCollector\"\217\001\n\020GarbageColl" +
-      "ector\022\022\n\016UNSPECIFIED_GC\020\000\022\034\n\030CONCURRENT_" +
-      "MARK_SWEEP_GC\020\001\022\024\n\020GARBAGE_FIRST_GC\020\002\022\017\n" +
-      "\013PARALLEL_GC\020\003\022\023\n\017PARALLEL_OLD_GC\020\004\022\r\n\tS" +
-      "ERIAL_GC\020\005\"3\n\026StudioPerformanceStats\022\031\n\021" +
-      "ui_freeze_time_ms\030\001 \001(\005\"K\n\020PercentileBuc" +
-      "ket\022\031\n\021target_percentile\030\001 \001(\001\022\r\n\005value\030" +
-      "\002 \001(\001\022\r\n\005count\030\003 \001(\004\"[\n\023PercentileEstima",
-      "tor\022\022\n\nraw_sample\030\002 \003(\001\0220\n\006bucket\030\003 \003(\0132" +
-      " .android_studio.PercentileBucket\"\213\003\n\027Ll" +
-      "dbPercentileEstimator\022>\n\006metric\030\001 \001(\0162.." +
-      "android_studio.LldbPercentileEstimator.M" +
-      "etric\0226\n\testimator\030\002 \001(\0132#.android_studi" +
-      "o.PercentileEstimator\"\367\001\n\006Metric\022\026\n\022ATTA" +
-      "CH_TIME_MICROS\020\000\022$\n STEP_RESUME_RESPONSE" +
-      "_TIME_MICROS\020\001\022\035\n\031GET_VARIABLES_TIME_MIC" +
-      "ROS\020\002\022+\n\'GET_VARIABLE_CHILDREN_RANGE_TIM" +
-      "E_MICROS\020\003\022\032\n\026GET_FRAMES_TIME_MICROS\020\004\022\'",
-      "\n#ADD_SYMBOLIC_BREAKPOINT_TIME_MICROS\020\005\022" +
-      "\036\n\032ADD_BREAKPOINT_TIME_MICROS\020\006\"R\n\024LldbP" +
-      "erformanceStats\022:\n\testimator\030\001 \003(\0132\'.and" +
-      "roid_studio.LldbPercentileEstimator\",\n\023S" +
-      "tudioProjectChange\022\025\n\rprojects_open\030\001 \001(" +
-      "\005\"\352\004\n\021LayoutEditorState\0224\n\004mode\030\001 \001(\0162&." +
-      "android_studio.LayoutEditorState.Mode\0224\n" +
-      "\004type\030\002 \001(\0162&.android_studio.LayoutEdito" +
-      "rState.Type\022\030\n\020config_api_level\030\003 \001(\t\022\031\n" +
-      "\021config_zoom_level\030\004 \001(\005\022I\n\022config_orien",
-      "tation\030\005 \001(\0162-.android_studio.LayoutEdit" +
-      "orState.Orientation\022<\n\010surfaces\030\006 \001(\0162*." +
-      "android_studio.LayoutEditorState.Surface" +
-      "s\":\n\004Mode\022\017\n\013UNKOWN_MODE\020\000\022\017\n\013DESIGN_MOD" +
-      "E\020\001\022\020\n\014PREVIEW_MODE\020\002\"S\n\004Type\022\020\n\014UNKNOWN" +
-      "_TYPE\020\000\022\n\n\006LAYOUT\020\001\022\014\n\010DRAWABLE\020\002\022\010\n\004MEN" +
-      "U\020\003\022\025\n\021PREFERENCE_SCREEN\020\004\"C\n\013Orientatio" +
-      "n\022\027\n\023UNKNOWN_ORIENTATION\020\000\022\014\n\010PORTRAIT\020\001" +
-      "\022\r\n\tLANDSCAPE\020\002\"U\n\010Surfaces\022\024\n\020UNKNOWN_S" +
-      "URFACES\020\000\022\010\n\004BOTH\020\001\022\022\n\016SCREEN_SURFACE\020\002\022",
-      "\025\n\021BLUEPRINT_SURFACE\020\003\"\315\002\n\030LayoutEditorR" +
-      "enderResult\022A\n\007trigger\030\001 \001(\01620.android_s" +
-      "tudio.LayoutEditorRenderResult.Trigger\022\023" +
-      "\n\013result_code\030\002 \001(\005\022\034\n\024total_render_time" +
-      "_ms\030\004 \001(\003\022\027\n\017component_count\030\005 \001(\005\022\031\n\021to" +
-      "tal_issue_count\030\006 \001(\005\022\023\n\013error_count\030\007 \001" +
-      "(\005\022\036\n\026fidelity_warning_count\030\010 \001(\005\"R\n\007Tr" +
-      "igger\022\023\n\017UNKNOWN_TRIGGER\020\000\022\010\n\004USER\020\001\022\010\n\004" +
-      "EDIT\020\002\022\023\n\017RESOURCE_CHANGE\020\003\022\t\n\005BUILD\020\004\"\037" +
-      "\n\013AndroidView\022\020\n\010tag_name\030\001 \001(\t\"\322\001\n\020Andr",
-      "oidAttribute\022\026\n\016attribute_name\030\001 \001(\t\022P\n\023" +
-      "attribute_namespace\030\002 \001(\01623.android_stud" +
-      "io.AndroidAttribute.AttributeNamespace\"T" +
-      "\n\022AttributeNamespace\022\025\n\021UNKNOWN_NAMESPAC" +
-      "E\020\000\022\013\n\007ANDROID\020\001\022\017\n\013APPLICATION\020\002\022\t\n\005TOO" +
-      "LS\020\003\"\314\007\n\022LayoutPaletteEvent\022)\n\004view\030\001 \001(" +
-      "\0132\033.android_studio.AndroidView\022B\n\013view_o" +
-      "ption\030\002 \001(\0162-.android_studio.LayoutPalet" +
-      "teEvent.ViewOption\022D\n\016selected_group\030\003 \001" +
-      "(\0162,.android_studio.LayoutPaletteEvent.V",
-      "iewGroup\0223\n\rsearch_option\030\004 \001(\0162\034.androi" +
-      "d_studio.SearchOption\022>\n\tview_type\030\005 \001(\016" +
-      "2+.android_studio.LayoutPaletteEvent.Vie" +
-      "wType\"U\n\010ViewType\022\025\n\021UNKNOWN_VIEW_TYPE\020\000" +
-      "\022\021\n\rICON_AND_NAME\020\001\022\016\n\nLARGE_IONS\020\002\022\017\n\013S" +
-      "MALL_ICONS\020\003\"\314\001\n\tViewGroup\022\021\n\rUNKNOWN_GR" +
-      "OUP\020\000\022\n\n\006CUSTOM\020\001\022\016\n\nALL_GROUPS\020\002\022\013\n\007WID" +
-      "GETS\020\003\022\010\n\004TEXT\020\004\022\013\n\007LAYOUTS\020\005\022\016\n\nCONTAIN" +
-      "ERS\020\006\022\n\n\006IMAGES\020\007\022\t\n\005DATES\020\010\022\017\n\013TRANSITI" +
-      "ONS\020\t\022\014\n\010ADVANCED\020\n\022\n\n\006GOOGLE\020\013\022\n\n\006DESIG",
-      "N\020\014\022\016\n\nAPP_COMPAT\020\r\"\345\002\n\nViewOption\022\n\n\006NO" +
-      "RMAL\020\000\022\021\n\rCUSTOM_OPTION\020\001\022\033\n\027HORIZONTAL_" +
-      "PROGRESS_BAR\020\002\022\025\n\021DISCRETE_SEEK_BAR\020\003\022\023\n" +
-      "\017PLAIN_EDIT_TEXT\020\004\022\014\n\010PASSWORD\020\005\022\024\n\020PASS" +
-      "WORD_NUMERIC\020\006\022\t\n\005EMAIL\020\007\022\t\n\005PHONE\020\010\022\022\n\016" +
-      "POSTAL_ADDRESS\020\t\022\022\n\016MULTILINE_TEXT\020\n\022\017\n\013" +
-      "TIME_EDITOR\020\013\022\017\n\013DATE_EDITOR\020\014\022\n\n\006NUMBER" +
-      "\020\r\022\021\n\rSIGNED_NUMBER\020\016\022\022\n\016DECIMAL_NUMBER\020" +
-      "\017\022\034\n\030HORIZONTAL_LINEAR_LAYOUT\020\020\022\032\n\026VERTI" +
-      "CAL_LINEAR_LAYOUT\020\021\"\277\002\n\032LayoutAttributeC",
-      "hangeEvent\0223\n\tattribute\030\001 \001(\0132 .android_" +
-      "studio.AndroidAttribute\0223\n\rsearch_option" +
-      "\030\002 \001(\0162\034.android_studio.SearchOption\022F\n\t" +
-      "view_type\030\003 \001(\01623.android_studio.LayoutA" +
-      "ttributeChangeEvent.ViewType\022)\n\004view\030\004 \003" +
-      "(\0132\033.android_studio.AndroidView\"D\n\010ViewT" +
-      "ype\022\025\n\021UNKNOWN_VIEW_TYPE\020\000\022\r\n\tINSPECTOR\020" +
-      "\001\022\022\n\016PROPERTY_TABLE\020\002\"\272\001\n\"LayoutFavorite" +
-      "AttributeChangeEvent\022/\n\005added\030\001 \001(\0132 .an" +
-      "droid_studio.AndroidAttribute\0221\n\007removed",
-      "\030\002 \001(\0132 .android_studio.AndroidAttribute" +
-      "\0220\n\006active\030\003 \003(\0132 .android_studio.Androi" +
-      "dAttribute\"\246\t\n\021LayoutEditorEvent\022E\n\004type" +
-      "\030\001 \001(\01627.android_studio.LayoutEditorEven" +
-      "t.LayoutEditorEventType\0220\n\005state\030\002 \001(\0132!" +
-      ".android_studio.LayoutEditorState\022?\n\rren" +
-      "der_result\030\003 \001(\0132(.android_studio.Layout" +
-      "EditorRenderResult\0229\n\rpalette_event\030\004 \001(" +
-      "\0132\".android_studio.LayoutPaletteEvent\022J\n" +
-      "\026attribute_change_event\030\005 \001(\0132*.android_",
-      "studio.LayoutAttributeChangeEvent\022Q\n\025fav" +
-      "orite_change_event\030\006 \001(\01322.android_studi" +
-      "o.LayoutFavoriteAttributeChangeEvent\"\374\005\n" +
-      "\025LayoutEditorEventType\022\026\n\022UNKNOWN_EVENT_" +
-      "TYPE\020\000\022\n\n\006RENDER\020\001\022\013\n\007ZOOM_IN\020\002\022\014\n\010ZOOM_" +
-      "OUT\020\003\022\014\n\010ZOOM_FIT\020\004\022\017\n\013ZOOM_ACTUAL\020\005\022\025\n\021" +
-      "SHOW_PAN_AND_ZOOM\020\006\022\026\n\022SHOW_LINT_MESSAGE" +
-      "S\020\007\022\020\n\014LINT_TOOLTIP\020\010\022\027\n\023RESTORE_ERROR_P" +
-      "ANEL\020\t\022\030\n\024MINIMIZE_ERROR_PANEL\020\n\022\027\n\023SHOW" +
-      "_DESIGN_SURFACE\020\013\022\032\n\026SHOW_BLUEPRINT_SURF",
-      "ACE\020\014\022\025\n\021SHOW_BOTH_SURFACE\020\r\022\026\n\022SWITCH_O" +
-      "RIENTATION\020\016\022\021\n\rDEVICE_CHANGE\020\017\022\024\n\020API_L" +
-      "EVEL_CHANGE\020\020\022\020\n\014THEME_CHANGE\020\021\022\023\n\017LANGU" +
-      "AGE_CHANGE\020\022\022\024\n\020SHOW_CONSTRAINTS\020\023\022\024\n\020HI" +
-      "DE_CONSTRAINTS\020\024\022\027\n\023TURN_ON_AUTOCONNECT\020" +
-      "\025\022\030\n\024TURN_OFF_AUTOCONNECT\020\026\022\031\n\025CLEAR_ALL" +
-      "_CONSTRAINTS\020\027\022\024\n\020INFER_CONSTRAINS\020\030\022\023\n\017" +
-      "DEFAULT_MARGINS\020\031\022\010\n\004PACK\020\032\022\t\n\005ALIGN\020\033\022\032" +
-      "\n\026ADD_VERTICAL_GUIDELINE\020\034\022\034\n\030ADD_HORIZO" +
-      "NTAL_GUIDELINE\020\035\022\020\n\014SHOW_PALETTE\020\036\022\020\n\014HI",
-      "DE_PALETTE\020\037\022\032\n\026DROP_VIEW_FROM_PALETTE\020 " +
-      "\022\024\n\020ATTRIBUTE_CHANGE\020!\022\023\n\017FAVORITE_CHANG" +
-      "E\020\"\"\237\n\n\026AppLinksAssistantEvent\022\022\n\nprojec" +
-      "t_id\030\001 \001(\t\022\016\n\006app_id\030\002 \001(\t\022H\n\014event_sour" +
-      "ce\030\003 \001(\01622.android_studio.AppLinksAssist" +
-      "antEvent.EventSource\022F\n\013event_state\030\004 \001(" +
-      "\01621.android_studio.AppLinksAssistantEven" +
-      "t.EventState\022\032\n\022existing_app_links\030\005 \001(\010" +
-      "\022%\n\035assistant_panel_open_duration\030\006 \001(\003\022" +
-      "K\n\022app_link_path_type\030\007 \001(\0162/.android_st",
-      "udio.AppLinksAssistantEvent.PathType\022\033\n\023" +
-      "new_activity_linked\030\010 \001(\010\022\027\n\017new_host_li" +
-      "nked\030\t \001(\010\"\220\006\n\013EventSource\022\030\n\024ASSISTANT_" +
-      "SIDE_PANEL\020\001\022\025\n\021URL_MAPPING_PANEL\020\002\022#\n\037U" +
-      "RL_MAPPING_APP_LINK_ADD_DIALOG\020\003\022,\n(URL_" +
-      "MAPPING_APP_LINK_ADD_ADVANCED_DIALOG\020\004\022$" +
-      "\n URL_MAPPING_APP_LINK_EDIT_DIALOG\020\005\022&\n\"" +
-      "URL_MAPPING_APP_LINK_DELETE_BUTTON\020\006\022$\n " +
-      "URL_MAPPING_CHECK_MAPPING_BUTTON\020\007\022,\n(UR" +
-      "L_MAPPING_OPEN_ANDROID_MANIFEST_BUTTON\020\010",
-      "\022#\n\037URL_MAPPING_ADD_TEST_URL_BUTTON\020\025\022\026\n" +
-      "\022CODE_INSERT_DIALOG\020\t\022$\n CODE_INSERT_DIA" +
-      "LOG_INSERT_BUTTON\020\n\022%\n!CODE_INSERT_DIALO" +
-      "G_LIST_SELECTION\020\013\022\r\n\tDAL_PANEL\020\014\022$\n DAL" +
-      "_PANEL_BROWSE_KEYSTORE_BUTTON\020\r\022\035\n\031DAL_P" +
-      "ANEL_GENERATE_BUTTON\020\016\022\031\n\025DAL_PANEL_SAVE" +
-      "_BUTTON\020\017\022\033\n\027DAL_PANEL_VERIFY_BUTTON\020\020\022\"" +
-      "\n\035DAL_PANEL_SMART_LOCK_CHECKBOX\020\310\001\0222\n-DA" +
-      "L_PANEL_SIGN_IN_URL_SAME_AS_DOMAIN_CHECK" +
-      "BOX\020\311\001\022\030\n\024APP_LINKS_TEST_PANEL\020\021\022)\n%APP_",
-      "LINKS_TEST_PANEL_MODULE_SELECTION\020\022\022(\n$A" +
-      "PP_LINKS_TEST_PANEL_RUN_TEST_BUTTON\020\023\"=\n" +
-      "\nEventState\022\n\n\006OPENED\020\001\022\r\n\tCOMPLETED\020\002\022\n" +
-      "\n\006FAILED\020\003\022\010\n\004EXIT\020\004\"7\n\010PathType\022\010\n\004PATH" +
-      "\020\001\022\017\n\013PATH_PREFIX\020\002\022\020\n\014PATH_PATTERN\020\003\"\206\001" +
-      "\n\021AdbAssistantStats\022:\n\007trigger\030\001 \001(\0162).a" +
-      "ndroid_studio.AdbAssistantStats.Trigger\"" +
-      "5\n\007Trigger\022\025\n\021NO_RUNNING_DEVICE\020\001\022\023\n\017DON" +
-      "T_SEE_DEVICE\020\002\"\234\002\n\022CpuProfilingConfig\0225\n" +
-      "\004type\030\001 \001(\0162\'.android_studio.CpuProfilin",
-      "gConfig.Type\0225\n\004mode\030\002 \001(\0162\'.android_stu" +
-      "dio.CpuProfilingConfig.Mode\022\022\n\nsize_limi" +
-      "t\030\003 \001(\r\022\027\n\017sample_interval\030\004 \001(\r\"2\n\004Type" +
-      "\022\020\n\014UNKNOWN_TYPE\020\000\022\007\n\003ART\020\001\022\017\n\013SIMPLE_PE" +
-      "RF\020\002\"7\n\004Mode\022\020\n\014UNKNOWN_MODE\020\000\022\013\n\007SAMPLE" +
-      "D\020\001\022\020\n\014INSTRUMENTED\020\002\"\212\003\n\022CpuCaptureMeta" +
-      "data\022H\n\016capture_status\030\001 \001(\01620.android_s" +
-      "tudio.CpuCaptureMetadata.CaptureStatus\022\033" +
-      "\n\023capture_duration_ms\030\002 \001(\004\022\032\n\022record_du" +
-      "ration_ms\030\003 \001(\004\022\035\n\025trace_file_size_bytes",
-      "\030\004 \001(\r\022\027\n\017parsing_time_ms\030\005 \001(\004\022<\n\020profi" +
-      "ling_config\030\006 \001(\0132\".android_studio.CpuPr" +
-      "ofilingConfig\"{\n\rCaptureStatus\022\022\n\016UNKNOW" +
-      "N_STATUS\020\000\022\013\n\007SUCCESS\020\001\022\032\n\026STOP_CAPTURIN" +
-      "G_FAILURE\020\002\022\023\n\017PARSING_FAILURE\020\003\022\030\n\024USER" +
-      "_ABORTED_PARSING\020\004\"\275\t\n\024AndroidProfilerEv" +
-      "ent\0229\n\005stage\030\001 \001(\0162*.android_studio.Andr" +
-      "oidProfilerEvent.Stage\0227\n\004type\030\002 \001(\0162).a" +
-      "ndroid_studio.AndroidProfilerEvent.Type\022" +
-      "6\n\ncpu_config\030\003 \001(\0132\".android_studio.Cpu",
-      "ProfilingConfig\022@\n\024cpu_capture_metadata\030" +
-      "\004 \001(\0132\".android_studio.CpuCaptureMetadat" +
-      "a\"r\n\005Stage\022\021\n\rUNKNOWN_STAGE\020\000\022\016\n\nNULL_ST" +
-      "AGE\020\001\022\022\n\016OVERVIEW_STAGE\020\002\022\r\n\tCPU_STAGE\020\003" +
-      "\022\020\n\014MEMORY_STAGE\020\004\022\021\n\rNETWORK_STAGE\020\005\"\302\006" +
-      "\n\004Type\022\020\n\014UNKNOWN_TYPE\020\000\022\025\n\021PROFILING_ST" +
-      "ARTED\020\001\022\036\n\032ADVANCED_PROFILING_STARTED\020\002\022" +
-      "\021\n\rSTAGE_ENTERED\020\003\022\021\n\rCHANGE_DEVICE\020e\022\022\n" +
-      "\016CHANGE_PROCESS\020f\022\013\n\007GO_BACK\020g\022\022\n\016SELECT" +
-      "_MONITOR\020h\022\013\n\007ZOOM_IN\020i\022\014\n\010ZOOM_OUT\020j\022\016\n",
-      "\nZOOM_RESET\020k\022\013\n\007GO_LIVE\020l\022\024\n\020NAVIGATE_T" +
-      "O_CODE\020m\022\020\n\014SELECT_RANGE\020n\022\022\n\rTRACE_SAMP" +
-      "LED\020\311\001\022\027\n\022TRACE_INSTRUMENTED\020\312\001\022\022\n\rSELEC" +
-      "T_THREAD\020\314\001\022\024\n\017SELECT_TOP_DOWN\020\315\001\022\025\n\020SEL" +
-      "ECT_BOTTOM_UP\020\316\001\022\027\n\022SELECT_FLAME_CHART\020\317" +
-      "\001\022\026\n\021SELECT_CALL_CHART\020\322\001\022\033\n\026OPEN_CPU_CO" +
-      "NFIG_DIALOG\020\320\001\022\026\n\021CREATE_CPU_CONFIG\020\321\001\022\016" +
-      "\n\tTRACE_CPU\020\323\001\022\022\n\rCAPTURE_TRACE\020\324\001\022\r\n\010FO" +
-      "RCE_GC\020\255\002\022\023\n\016SNAPSHOT_HPROF\020\256\002\022\030\n\023CAPTUR" +
-      "E_ALLOCATIONS\020\257\002\022\030\n\023SELECT_MEMORY_CHART\020",
-      "\260\002\022\021\n\014EXPORT_HPROF\020\261\002\022\026\n\021EXPORT_ALLOCATI" +
-      "ON\020\262\002\022\024\n\017ARRANGE_CLASSES\020\263\002\022\030\n\023SELECT_ME" +
-      "MORY_STACK\020\264\002\022\035\n\030SELECT_MEMORY_REFERENCE" +
-      "S\020\265\002\022\026\n\021SELECT_CONNECTION\020\222\003\022\034\n\027SELECT_D" +
-      "ETAILS_RESPONSE\020\223\003\022\033\n\026SELECT_DETAILS_HEA" +
-      "DERS\020\224\003\022\031\n\024SELECT_DETAILS_STACK\020\225\003\";\n\026An" +
-      "droidProfilerDbTable\022\014\n\004name\030\001 \001(\t\022\023\n\013nu" +
-      "m_records\030\002 \001(\r\"x\n\026AndroidProfilerDbStat" +
-      "s\022\017\n\007age_sec\030\001 \001(\r\022\025\n\rtotal_disk_mb\030\002 \001(" +
-      "\r\0226\n\006tables\030\003 \003(\0132&.android_studio.Andro",
-      "idProfilerDbTable\"F\n\020ApkAnalyzerStats\022\031\n" +
-      "\021uncompressed_size\030\001 \001(\004\022\027\n\017compressed_s" +
-      "ize\030\002 \001(\004\"\203\002\n\017GradleSyncStats\0228\n\007trigger" +
-      "\030\001 \001(\0162\'.android_studio.GradleSyncStats." +
-      "Trigger\022\025\n\rtotal_time_ms\030\002 \001(\003\022\026\n\016gradle" +
-      "_time_ms\030\003 \001(\003\022\023\n\013ide_time_ms\030\004 \001(\003\"r\n\007T" +
-      "rigger\022\023\n\017TRIGGER_UNKNOWN\020\000\022\032\n\026TRIGGER_P" +
-      "ROJECT_LOADED\020\001\022\034\n\030TRIGGER_PROJECT_MODIF" +
-      "IED\020\002\022\030\n\024TRIGGER_USER_REQUEST\020\003\"%\n\017ApkDe" +
-      "bugProject\022\022\n\npackage_id\030\001 \001(\t\"\357\001\n\024Layou",
-      "tInspectorEvent\022K\n\004type\030\001 \001(\0162=.android_" +
-      "studio.LayoutInspectorEvent.LayoutInspec" +
-      "torEventType\022\026\n\016duration_in_ms\030\002 \001(\003\"r\n\030" +
-      "LayoutInspectorEventType\022\026\n\022UNKNOWN_EVEN" +
-      "T_TYPE\020\000\022\013\n\007CAPTURE\020\001\022\010\n\004OPEN\020\002\022\024\n\020DUMP_" +
-      "DISPLAYLIST\020\003\022\021\n\rOVERLAY_IMAGE\020\004\"O\n\rKotl" +
-      "inSupport\022\036\n\026include_kotlin_support\030\001 \001(" +
-      "\010\022\036\n\026kotlin_support_version\030\002 \001(\t*[\n\014Sea" +
-      "rchOption\022\031\n\025UNKNOWN_SEARCH_OPTION\020\000\022\010\n\004" +
-      "NONE\020\001\022\024\n\020MULTIPLE_MATCHES\020\002\022\020\n\014SINGLE_M",
-      "ATCH\020\003B=\n%com.google.wireless.android.sd" +
-      "k.statsB\022AndroidStudioStatsP\001"
+      "\020\364.\0225\n0FEATURE_TASK_MANAGER_CREATE_MERGE" +
+      "_RESOURCES_TASK\020\365.\0222\n-FEATURE_TASK_MANAG" +
+      "ER_CREATE_MERGE_ASSETS_TASK\020\366.\0222\n-FEATUR" +
+      "E_TASK_MANAGER_CREATE_BUILD_CONFIG_TASK\020" +
+      "\367.\0221\n,FEATURE_TASK_MANAGER_CREATE_PROCES" +
+      "S_RES_TASK\020\370.\022*\n%FEATURE_TASK_MANAGER_CR",
+      "EATE_AIDL_TASK\020\371.\022,\n\'FEATURE_TASK_MANAGE" +
+      "R_CREATE_SHADER_TASK\020\372.\022)\n$FEATURE_TASK_" +
+      "MANAGER_CREATE_NDK_TASK\020\373.\022;\n6FEATURE_TA" +
+      "SK_MANAGER_CREATE_EXTERNAL_NATIVE_BUILD_" +
+      "TASK\020\374.\022;\n6FEATURE_TASK_MANAGER_CREATE_M" +
+      "ERGE_JNILIBS_FOLDERS_TASK\020\375.\022-\n(FEATURE_" +
+      "TASK_MANAGER_CREATE_COMPILE_TASK\020\376.\022:\n5F" +
+      "EATURE_TASK_MANAGER_CREATE_STRIP_NATIVE_" +
+      "LIBRARY_TASK\020\377.\022+\n&FEATURE_TASK_MANAGER_" +
+      "CREATE_SPLIT_TASK\020\200/\022/\n*FEATURE_TASK_MAN",
+      "AGER_CREATE_PACKAGING_TASK\020\201/\022*\n%FEATURE" +
+      "_TASK_MANAGER_CREATE_LINT_TASK\020\202/\"j\n\023Gra" +
+      "dleTaskExecution\022\014\n\004type\030\001 \001(\005\022\020\n\010did_wo" +
+      "rk\030\002 \001(\010\022\017\n\007skipped\030\003 \001(\010\022\022\n\nup_to_date\030" +
+      "\004 \001(\010\022\016\n\006failed\030\005 \001(\010\"@\n\030GradleTransform" +
+      "Execution\022\014\n\004type\030\001 \001(\005\022\026\n\016is_incrementa" +
+      "l\030\002 \001(\010\"\207\n\n\020InstantRunStatus\022>\n\nbuild_mo" +
+      "de\030\001 \001(\0162*.android_studio.InstantRunStat" +
+      "us.BuildMode\022H\n\017patching_policy\030\002 \001(\0162/." +
+      "android_studio.InstantRunStatus.Patching",
+      "Policy\022H\n\017verifier_status\030\003 \001(\0162/.androi" +
+      "d_studio.InstantRunStatus.VerifierStatus" +
+      "\0224\n\010artifact\030\004 \003(\0132\".android_studio.Inst" +
+      "antRunArtifact\"E\n\tBuildMode\022\026\n\022UNKNOWN_B" +
+      "UILD_MODE\020\000\022\014\n\010HOT_WARM\020\001\022\010\n\004COLD\020\002\022\010\n\004F" +
+      "ULL\020\003\"\177\n\016PatchingPolicy\022\033\n\027UNKNOWN_PATCH" +
+      "ING_POLICY\020\000\022\020\n\014PRE_LOLLIPOP\020\001\022\r\n\tMULTI_" +
+      "DEX\020\002\022\r\n\tMULTI_APK\020\003\022 \n\034MULTI_APK_SEPARA" +
+      "TE_RESOURCES\020\004\"\240\006\n\016VerifierStatus\022\033\n\027UNK" +
+      "NOWN_VERIFIER_STATUS\020\000\022\016\n\nCOMPATIBLE\020\001\022\013",
+      "\n\007NOT_RUN\020\002\022\030\n\024INSTANT_RUN_DISABLED\020\003\022\027\n" +
+      "\023INSTANT_RUN_FAILURE\020\004\022\017\n\013CLASS_ADDED\020\005\022" +
+      "\030\n\024PARENT_CLASS_CHANGED\020\006\022!\n\035IMPLEMENTED" +
+      "_INTERFACES_CHANGE\020\007\022\033\n\027CLASS_ANNOTATION" +
+      "_CHANGE\020\010\022\035\n\031STATIC_INITIALIZER_CHANGE\020\t" +
+      "\022 \n\034CONSTRUCTOR_SIGNATURE_CHANGE\020\n\022\033\n\027ME" +
+      "THOD_SIGNATURE_CHANGE\020\013\022\034\n\030METHOD_ANNOTA" +
+      "TION_CHANGE\020\014\022\022\n\016METHOD_DELETED\020\r\022\020\n\014MET" +
+      "HOD_ADDED\020\016\022\017\n\013FIELD_ADDED\020\017\022\021\n\rFIELD_RE" +
+      "MOVED\020\020\022\025\n\021FIELD_TYPE_CHANGE\020\021\022\022\n\016R_CLAS",
+      "S_CHANGE\020\022\022\023\n\017REFLECTION_USED\020\023\022\032\n\026JAVA_" +
+      "RESOURCES_CHANGED\020\024\022\026\n\022DEPENDENCY_CHANGE" +
+      "D\020\025\022\030\n\024MANIFEST_FILE_CHANGE\020\026\022\037\n\033BINARY_" +
+      "MANIFEST_FILE_CHANGE\020\027\022\027\n\023COLD_SWAP_REQU" +
+      "ESTED\020\030\022\030\n\024FULL_BUILD_REQUESTED\020\031\022\021\n\rINI" +
+      "TIAL_BUILD\020\032\022\016\n\nNO_CHANGES\020\033\0224\n0CHANGE_I" +
+      "N_SERIALIZABLE_CLASS_WITHOUT_VERSION_UID" +
+      "\020\034\022\031\n\025BUILD_NOT_INCREMENTAL\020\035\022\032\n\026ABSTRAC" +
+      "T_METHOD_CHANGE\020\036\"\312\001\n\022InstantRunArtifact" +
+      "\0225\n\004type\030\001 \001(\0162\'.android_studio.InstantR",
+      "unArtifact.Type\"}\n\004Type\022\010\n\004MAIN\020\001\022\016\n\nSPL" +
+      "IT_MAIN\020\002\022\016\n\nRELOAD_DEX\020\003\022\017\n\013RESTART_DEX" +
+      "\020\004\022\007\n\003DEX\020\005\022\t\n\005SPLIT\020\006\022\r\n\tRESOURCES\020\007\022\016\n" +
+      "\nFULL_SPLIT\020\010\022\007\n\003AAR\020\t\"(\n\023LLDBFrontendDe" +
+      "tails\022\021\n\texit_code\030\001 \001(\005\"-\n\024FirebaseErro" +
+      "rDetails\022\025\n\rerror_message\030\001 \001(\t\"\265\002\n\026Fire" +
+      "baseContextDetails\022\022\n\nproject_id\030\001 \001(\t\022\026" +
+      "\n\016project_number\030\002 \001(\t\022\021\n\tlogged_in\030\003 \001(" +
+      "\010\022L\n\016connect_status\030\004 \001(\01624.android_stud" +
+      "io.FirebaseContextDetails.ConnectStatus\022",
+      "\024\n\014performed_on\030\005 \001(\t\022\020\n\010duration\030\006 \001(\003\"" +
+      "f\n\rConnectStatus\022\032\n\026UNKNOWN_CONNECT_STAT" +
+      "US\020\001\022\021\n\rNOT_CONNECTED\020\002\022\027\n\023PARTIALLY_CON" +
+      "NECTED\020\003\022\r\n\tCONNECTED\020\004\"\244\001\n\021GfxTracingDe" +
+      "tails\022\022\n\ntotal_time\030\001 \001(\003\022\017\n\007command\030\002 \001" +
+      "(\t\022\025\n\rerror_message\030\003 \001(\t\022\022\n\ntrace_path\030" +
+      "\004 \001(\t\022\024\n\014image_format\030\005 \001(\t\022\023\n\013image_wid" +
+      "th\030\006 \001(\003\022\024\n\014image_height\030\007 \001(\003\"C\n\023TestRe" +
+      "corderDetails\022\023\n\013event_count\030\001 \001(\003\022\027\n\017as" +
+      "sertion_count\030\002 \001(\003\"\211\002\n\rUIActionStats\022\031\n",
+      "\021action_class_name\030\001 \001(\t\022\023\n\013invocations\030" +
+      "\002 \001(\003\022E\n\017invocation_kind\030\003 \001(\0162,.android" +
+      "_studio.UIActionStats.InvocationKind\022\016\n\006" +
+      "direct\030\004 \001(\010\"q\n\016InvocationKind\022\033\n\027UNKNOW" +
+      "N_INVOCATION_KIND\020\000\022\013\n\007TOOLBAR\020\001\022\010\n\004MENU" +
+      "\020\002\022\025\n\021KEYBOARD_SHORTCUT\020\003\022\t\n\005MACRO\020\004\022\t\n\005" +
+      "MOUSE\020\005\"\206\001\n\016MachineDetails\022\021\n\ttotal_ram\030" +
+      "\001 \001(\003\022\022\n\ntotal_disk\030\002 \001(\003\022/\n\007display\030\003 \003" +
+      "(\0132\036.android_studio.DisplayDetails\022\034\n\024av" +
+      "ailable_processors\030\004 \001(\005\"q\n\016DisplayDetai",
+      "ls\022\r\n\005width\030\001 \001(\003\022\016\n\006height\030\002 \001(\003\022 \n\030dot" +
+      "s_per_inch_horizontal\030\003 \001(\005\022\036\n\026dots_per_" +
+      "inch_vertical\030\004 \001(\005\"\310\001\n\020JavaProcessStats" +
+      "\022\031\n\021heap_memory_usage\030\001 \001(\003\022\035\n\025non_heap_" +
+      "memory_usage\030\002 \001(\003\022\032\n\022loaded_class_count" +
+      "\030\003 \001(\005\022\024\n\014thread_count\030\004 \001(\005\022H\n\030garbage_" +
+      "collection_stats\030\005 \003(\0132&.android_studio." +
+      "GarbageCollectionStats\"O\n\026GarbageCollect" +
+      "ionStats\022\014\n\004name\030\001 \001(\t\022\026\n\016gc_collections" +
+      "\030\002 \001(\003\022\017\n\007gc_time\030\003 \001(\003\"\265\003\n\nJvmDetails\022\014",
+      "\n\004name\030\001 \001(\t\022\017\n\007version\030\002 \001(\t\022\016\n\006vendor\030" +
+      "\003 \001(\t\022\031\n\021minimum_heap_size\030\004 \001(\003\022\031\n\021maxi" +
+      "mum_heap_size\030\005 \001(\003\022$\n\034maximum_permanent" +
+      "_space_size\030\006 \001(\003\022\037\n\027maximum_code_cache_" +
+      "size\030\007 \001(\003\022!\n\031soft_reference_lru_policy\030" +
+      "\010 \001(\003\022F\n\021garbage_collector\030\t \001(\0162+.andro" +
+      "id_studio.JvmDetails.GarbageCollector\"\217\001" +
+      "\n\020GarbageCollector\022\022\n\016UNSPECIFIED_GC\020\000\022\034" +
+      "\n\030CONCURRENT_MARK_SWEEP_GC\020\001\022\024\n\020GARBAGE_" +
+      "FIRST_GC\020\002\022\017\n\013PARALLEL_GC\020\003\022\023\n\017PARALLEL_",
+      "OLD_GC\020\004\022\r\n\tSERIAL_GC\020\005\"3\n\026StudioPerform" +
+      "anceStats\022\031\n\021ui_freeze_time_ms\030\001 \001(\005\"K\n\020" +
+      "PercentileBucket\022\031\n\021target_percentile\030\001 " +
+      "\001(\001\022\r\n\005value\030\002 \001(\001\022\r\n\005count\030\003 \001(\004\"[\n\023Per" +
+      "centileEstimator\022\022\n\nraw_sample\030\002 \003(\001\0220\n\006" +
+      "bucket\030\003 \003(\0132 .android_studio.Percentile" +
+      "Bucket\"\213\003\n\027LldbPercentileEstimator\022>\n\006me" +
+      "tric\030\001 \001(\0162..android_studio.LldbPercenti" +
+      "leEstimator.Metric\0226\n\testimator\030\002 \001(\0132#." +
+      "android_studio.PercentileEstimator\"\367\001\n\006M",
+      "etric\022\026\n\022ATTACH_TIME_MICROS\020\000\022$\n STEP_RE" +
+      "SUME_RESPONSE_TIME_MICROS\020\001\022\035\n\031GET_VARIA" +
+      "BLES_TIME_MICROS\020\002\022+\n\'GET_VARIABLE_CHILD" +
+      "REN_RANGE_TIME_MICROS\020\003\022\032\n\026GET_FRAMES_TI" +
+      "ME_MICROS\020\004\022\'\n#ADD_SYMBOLIC_BREAKPOINT_T" +
+      "IME_MICROS\020\005\022\036\n\032ADD_BREAKPOINT_TIME_MICR" +
+      "OS\020\006\"R\n\024LldbPerformanceStats\022:\n\testimato" +
+      "r\030\001 \003(\0132\'.android_studio.LldbPercentileE" +
+      "stimator\",\n\023StudioProjectChange\022\025\n\rproje" +
+      "cts_open\030\001 \001(\005\"\352\004\n\021LayoutEditorState\0224\n\004",
+      "mode\030\001 \001(\0162&.android_studio.LayoutEditor" +
+      "State.Mode\0224\n\004type\030\002 \001(\0162&.android_studi" +
+      "o.LayoutEditorState.Type\022\030\n\020config_api_l" +
+      "evel\030\003 \001(\t\022\031\n\021config_zoom_level\030\004 \001(\005\022I\n" +
+      "\022config_orientation\030\005 \001(\0162-.android_stud" +
+      "io.LayoutEditorState.Orientation\022<\n\010surf" +
+      "aces\030\006 \001(\0162*.android_studio.LayoutEditor" +
+      "State.Surfaces\":\n\004Mode\022\017\n\013UNKOWN_MODE\020\000\022" +
+      "\017\n\013DESIGN_MODE\020\001\022\020\n\014PREVIEW_MODE\020\002\"S\n\004Ty" +
+      "pe\022\020\n\014UNKNOWN_TYPE\020\000\022\n\n\006LAYOUT\020\001\022\014\n\010DRAW",
+      "ABLE\020\002\022\010\n\004MENU\020\003\022\025\n\021PREFERENCE_SCREEN\020\004\"" +
+      "C\n\013Orientation\022\027\n\023UNKNOWN_ORIENTATION\020\000\022" +
+      "\014\n\010PORTRAIT\020\001\022\r\n\tLANDSCAPE\020\002\"U\n\010Surfaces" +
+      "\022\024\n\020UNKNOWN_SURFACES\020\000\022\010\n\004BOTH\020\001\022\022\n\016SCRE" +
+      "EN_SURFACE\020\002\022\025\n\021BLUEPRINT_SURFACE\020\003\"\315\002\n\030" +
+      "LayoutEditorRenderResult\022A\n\007trigger\030\001 \001(" +
+      "\01620.android_studio.LayoutEditorRenderRes" +
+      "ult.Trigger\022\023\n\013result_code\030\002 \001(\005\022\034\n\024tota" +
+      "l_render_time_ms\030\004 \001(\003\022\027\n\017component_coun" +
+      "t\030\005 \001(\005\022\031\n\021total_issue_count\030\006 \001(\005\022\023\n\013er",
+      "ror_count\030\007 \001(\005\022\036\n\026fidelity_warning_coun" +
+      "t\030\010 \001(\005\"R\n\007Trigger\022\023\n\017UNKNOWN_TRIGGER\020\000\022" +
+      "\010\n\004USER\020\001\022\010\n\004EDIT\020\002\022\023\n\017RESOURCE_CHANGE\020\003" +
+      "\022\t\n\005BUILD\020\004\"\037\n\013AndroidView\022\020\n\010tag_name\030\001" +
+      " \001(\t\"\322\001\n\020AndroidAttribute\022\026\n\016attribute_n" +
+      "ame\030\001 \001(\t\022P\n\023attribute_namespace\030\002 \001(\01623" +
+      ".android_studio.AndroidAttribute.Attribu" +
+      "teNamespace\"T\n\022AttributeNamespace\022\025\n\021UNK" +
+      "NOWN_NAMESPACE\020\000\022\013\n\007ANDROID\020\001\022\017\n\013APPLICA" +
+      "TION\020\002\022\t\n\005TOOLS\020\003\"\314\007\n\022LayoutPaletteEvent",
+      "\022)\n\004view\030\001 \001(\0132\033.android_studio.AndroidV" +
+      "iew\022B\n\013view_option\030\002 \001(\0162-.android_studi" +
+      "o.LayoutPaletteEvent.ViewOption\022D\n\016selec" +
+      "ted_group\030\003 \001(\0162,.android_studio.LayoutP" +
+      "aletteEvent.ViewGroup\0223\n\rsearch_option\030\004" +
+      " \001(\0162\034.android_studio.SearchOption\022>\n\tvi" +
+      "ew_type\030\005 \001(\0162+.android_studio.LayoutPal" +
+      "etteEvent.ViewType\"U\n\010ViewType\022\025\n\021UNKNOW" +
+      "N_VIEW_TYPE\020\000\022\021\n\rICON_AND_NAME\020\001\022\016\n\nLARG" +
+      "E_IONS\020\002\022\017\n\013SMALL_ICONS\020\003\"\314\001\n\tViewGroup\022",
+      "\021\n\rUNKNOWN_GROUP\020\000\022\n\n\006CUSTOM\020\001\022\016\n\nALL_GR" +
+      "OUPS\020\002\022\013\n\007WIDGETS\020\003\022\010\n\004TEXT\020\004\022\013\n\007LAYOUTS" +
+      "\020\005\022\016\n\nCONTAINERS\020\006\022\n\n\006IMAGES\020\007\022\t\n\005DATES\020" +
+      "\010\022\017\n\013TRANSITIONS\020\t\022\014\n\010ADVANCED\020\n\022\n\n\006GOOG" +
+      "LE\020\013\022\n\n\006DESIGN\020\014\022\016\n\nAPP_COMPAT\020\r\"\345\002\n\nVie" +
+      "wOption\022\n\n\006NORMAL\020\000\022\021\n\rCUSTOM_OPTION\020\001\022\033" +
+      "\n\027HORIZONTAL_PROGRESS_BAR\020\002\022\025\n\021DISCRETE_" +
+      "SEEK_BAR\020\003\022\023\n\017PLAIN_EDIT_TEXT\020\004\022\014\n\010PASSW" +
+      "ORD\020\005\022\024\n\020PASSWORD_NUMERIC\020\006\022\t\n\005EMAIL\020\007\022\t" +
+      "\n\005PHONE\020\010\022\022\n\016POSTAL_ADDRESS\020\t\022\022\n\016MULTILI",
+      "NE_TEXT\020\n\022\017\n\013TIME_EDITOR\020\013\022\017\n\013DATE_EDITO" +
+      "R\020\014\022\n\n\006NUMBER\020\r\022\021\n\rSIGNED_NUMBER\020\016\022\022\n\016DE" +
+      "CIMAL_NUMBER\020\017\022\034\n\030HORIZONTAL_LINEAR_LAYO" +
+      "UT\020\020\022\032\n\026VERTICAL_LINEAR_LAYOUT\020\021\"\277\002\n\032Lay" +
+      "outAttributeChangeEvent\0223\n\tattribute\030\001 \001" +
+      "(\0132 .android_studio.AndroidAttribute\0223\n\r" +
+      "search_option\030\002 \001(\0162\034.android_studio.Sea" +
+      "rchOption\022F\n\tview_type\030\003 \001(\01623.android_s" +
+      "tudio.LayoutAttributeChangeEvent.ViewTyp" +
+      "e\022)\n\004view\030\004 \003(\0132\033.android_studio.Android",
+      "View\"D\n\010ViewType\022\025\n\021UNKNOWN_VIEW_TYPE\020\000\022" +
+      "\r\n\tINSPECTOR\020\001\022\022\n\016PROPERTY_TABLE\020\002\"\272\001\n\"L" +
+      "ayoutFavoriteAttributeChangeEvent\022/\n\005add" +
+      "ed\030\001 \001(\0132 .android_studio.AndroidAttribu" +
+      "te\0221\n\007removed\030\002 \001(\0132 .android_studio.And" +
+      "roidAttribute\0220\n\006active\030\003 \003(\0132 .android_" +
+      "studio.AndroidAttribute\"\246\t\n\021LayoutEditor" +
+      "Event\022E\n\004type\030\001 \001(\01627.android_studio.Lay" +
+      "outEditorEvent.LayoutEditorEventType\0220\n\005" +
+      "state\030\002 \001(\0132!.android_studio.LayoutEdito",
+      "rState\022?\n\rrender_result\030\003 \001(\0132(.android_" +
+      "studio.LayoutEditorRenderResult\0229\n\rpalet" +
+      "te_event\030\004 \001(\0132\".android_studio.LayoutPa" +
+      "letteEvent\022J\n\026attribute_change_event\030\005 \001" +
+      "(\0132*.android_studio.LayoutAttributeChang" +
+      "eEvent\022Q\n\025favorite_change_event\030\006 \001(\01322." +
+      "android_studio.LayoutFavoriteAttributeCh" +
+      "angeEvent\"\374\005\n\025LayoutEditorEventType\022\026\n\022U" +
+      "NKNOWN_EVENT_TYPE\020\000\022\n\n\006RENDER\020\001\022\013\n\007ZOOM_" +
+      "IN\020\002\022\014\n\010ZOOM_OUT\020\003\022\014\n\010ZOOM_FIT\020\004\022\017\n\013ZOOM",
+      "_ACTUAL\020\005\022\025\n\021SHOW_PAN_AND_ZOOM\020\006\022\026\n\022SHOW" +
+      "_LINT_MESSAGES\020\007\022\020\n\014LINT_TOOLTIP\020\010\022\027\n\023RE" +
+      "STORE_ERROR_PANEL\020\t\022\030\n\024MINIMIZE_ERROR_PA" +
+      "NEL\020\n\022\027\n\023SHOW_DESIGN_SURFACE\020\013\022\032\n\026SHOW_B" +
+      "LUEPRINT_SURFACE\020\014\022\025\n\021SHOW_BOTH_SURFACE\020" +
+      "\r\022\026\n\022SWITCH_ORIENTATION\020\016\022\021\n\rDEVICE_CHAN" +
+      "GE\020\017\022\024\n\020API_LEVEL_CHANGE\020\020\022\020\n\014THEME_CHAN" +
+      "GE\020\021\022\023\n\017LANGUAGE_CHANGE\020\022\022\024\n\020SHOW_CONSTR" +
+      "AINTS\020\023\022\024\n\020HIDE_CONSTRAINTS\020\024\022\027\n\023TURN_ON" +
+      "_AUTOCONNECT\020\025\022\030\n\024TURN_OFF_AUTOCONNECT\020\026",
+      "\022\031\n\025CLEAR_ALL_CONSTRAINTS\020\027\022\024\n\020INFER_CON" +
+      "STRAINS\020\030\022\023\n\017DEFAULT_MARGINS\020\031\022\010\n\004PACK\020\032" +
+      "\022\t\n\005ALIGN\020\033\022\032\n\026ADD_VERTICAL_GUIDELINE\020\034\022" +
+      "\034\n\030ADD_HORIZONTAL_GUIDELINE\020\035\022\020\n\014SHOW_PA" +
+      "LETTE\020\036\022\020\n\014HIDE_PALETTE\020\037\022\032\n\026DROP_VIEW_F" +
+      "ROM_PALETTE\020 \022\024\n\020ATTRIBUTE_CHANGE\020!\022\023\n\017F" +
+      "AVORITE_CHANGE\020\"\"\237\n\n\026AppLinksAssistantEv" +
+      "ent\022\022\n\nproject_id\030\001 \001(\t\022\016\n\006app_id\030\002 \001(\t\022" +
+      "H\n\014event_source\030\003 \001(\01622.android_studio.A" +
+      "ppLinksAssistantEvent.EventSource\022F\n\013eve",
+      "nt_state\030\004 \001(\01621.android_studio.AppLinks" +
+      "AssistantEvent.EventState\022\032\n\022existing_ap" +
+      "p_links\030\005 \001(\010\022%\n\035assistant_panel_open_du" +
+      "ration\030\006 \001(\003\022K\n\022app_link_path_type\030\007 \001(\016" +
+      "2/.android_studio.AppLinksAssistantEvent" +
+      ".PathType\022\033\n\023new_activity_linked\030\010 \001(\010\022\027" +
+      "\n\017new_host_linked\030\t \001(\010\"\220\006\n\013EventSource\022" +
+      "\030\n\024ASSISTANT_SIDE_PANEL\020\001\022\025\n\021URL_MAPPING" +
+      "_PANEL\020\002\022#\n\037URL_MAPPING_APP_LINK_ADD_DIA" +
+      "LOG\020\003\022,\n(URL_MAPPING_APP_LINK_ADD_ADVANC",
+      "ED_DIALOG\020\004\022$\n URL_MAPPING_APP_LINK_EDIT" +
+      "_DIALOG\020\005\022&\n\"URL_MAPPING_APP_LINK_DELETE" +
+      "_BUTTON\020\006\022$\n URL_MAPPING_CHECK_MAPPING_B" +
+      "UTTON\020\007\022,\n(URL_MAPPING_OPEN_ANDROID_MANI" +
+      "FEST_BUTTON\020\010\022#\n\037URL_MAPPING_ADD_TEST_UR" +
+      "L_BUTTON\020\025\022\026\n\022CODE_INSERT_DIALOG\020\t\022$\n CO" +
+      "DE_INSERT_DIALOG_INSERT_BUTTON\020\n\022%\n!CODE" +
+      "_INSERT_DIALOG_LIST_SELECTION\020\013\022\r\n\tDAL_P" +
+      "ANEL\020\014\022$\n DAL_PANEL_BROWSE_KEYSTORE_BUTT" +
+      "ON\020\r\022\035\n\031DAL_PANEL_GENERATE_BUTTON\020\016\022\031\n\025D",
+      "AL_PANEL_SAVE_BUTTON\020\017\022\033\n\027DAL_PANEL_VERI" +
+      "FY_BUTTON\020\020\022\"\n\035DAL_PANEL_SMART_LOCK_CHEC" +
+      "KBOX\020\310\001\0222\n-DAL_PANEL_SIGN_IN_URL_SAME_AS" +
+      "_DOMAIN_CHECKBOX\020\311\001\022\030\n\024APP_LINKS_TEST_PA" +
+      "NEL\020\021\022)\n%APP_LINKS_TEST_PANEL_MODULE_SEL" +
+      "ECTION\020\022\022(\n$APP_LINKS_TEST_PANEL_RUN_TES" +
+      "T_BUTTON\020\023\"=\n\nEventState\022\n\n\006OPENED\020\001\022\r\n\t" +
+      "COMPLETED\020\002\022\n\n\006FAILED\020\003\022\010\n\004EXIT\020\004\"7\n\010Pat" +
+      "hType\022\010\n\004PATH\020\001\022\017\n\013PATH_PREFIX\020\002\022\020\n\014PATH" +
+      "_PATTERN\020\003\"\206\001\n\021AdbAssistantStats\022:\n\007trig",
+      "ger\030\001 \001(\0162).android_studio.AdbAssistantS" +
+      "tats.Trigger\"5\n\007Trigger\022\025\n\021NO_RUNNING_DE" +
+      "VICE\020\001\022\023\n\017DONT_SEE_DEVICE\020\002\"\234\002\n\022CpuProfi" +
+      "lingConfig\0225\n\004type\030\001 \001(\0162\'.android_studi" +
+      "o.CpuProfilingConfig.Type\0225\n\004mode\030\002 \001(\0162" +
+      "\'.android_studio.CpuProfilingConfig.Mode" +
+      "\022\022\n\nsize_limit\030\003 \001(\r\022\027\n\017sample_interval\030" +
+      "\004 \001(\r\"2\n\004Type\022\020\n\014UNKNOWN_TYPE\020\000\022\007\n\003ART\020\001" +
+      "\022\017\n\013SIMPLE_PERF\020\002\"7\n\004Mode\022\020\n\014UNKNOWN_MOD" +
+      "E\020\000\022\013\n\007SAMPLED\020\001\022\020\n\014INSTRUMENTED\020\002\"\212\003\n\022C",
+      "puCaptureMetadata\022H\n\016capture_status\030\001 \001(" +
+      "\01620.android_studio.CpuCaptureMetadata.Ca" +
+      "ptureStatus\022\033\n\023capture_duration_ms\030\002 \001(\004" +
+      "\022\032\n\022record_duration_ms\030\003 \001(\004\022\035\n\025trace_fi" +
+      "le_size_bytes\030\004 \001(\r\022\027\n\017parsing_time_ms\030\005" +
+      " \001(\004\022<\n\020profiling_config\030\006 \001(\0132\".android" +
+      "_studio.CpuProfilingConfig\"{\n\rCaptureSta" +
+      "tus\022\022\n\016UNKNOWN_STATUS\020\000\022\013\n\007SUCCESS\020\001\022\032\n\026" +
+      "STOP_CAPTURING_FAILURE\020\002\022\023\n\017PARSING_FAIL" +
+      "URE\020\003\022\030\n\024USER_ABORTED_PARSING\020\004\"\275\t\n\024Andr",
+      "oidProfilerEvent\0229\n\005stage\030\001 \001(\0162*.androi" +
+      "d_studio.AndroidProfilerEvent.Stage\0227\n\004t" +
+      "ype\030\002 \001(\0162).android_studio.AndroidProfil" +
+      "erEvent.Type\0226\n\ncpu_config\030\003 \001(\0132\".andro" +
+      "id_studio.CpuProfilingConfig\022@\n\024cpu_capt" +
+      "ure_metadata\030\004 \001(\0132\".android_studio.CpuC" +
+      "aptureMetadata\"r\n\005Stage\022\021\n\rUNKNOWN_STAGE" +
+      "\020\000\022\016\n\nNULL_STAGE\020\001\022\022\n\016OVERVIEW_STAGE\020\002\022\r" +
+      "\n\tCPU_STAGE\020\003\022\020\n\014MEMORY_STAGE\020\004\022\021\n\rNETWO" +
+      "RK_STAGE\020\005\"\302\006\n\004Type\022\020\n\014UNKNOWN_TYPE\020\000\022\025\n",
+      "\021PROFILING_STARTED\020\001\022\036\n\032ADVANCED_PROFILI" +
+      "NG_STARTED\020\002\022\021\n\rSTAGE_ENTERED\020\003\022\021\n\rCHANG" +
+      "E_DEVICE\020e\022\022\n\016CHANGE_PROCESS\020f\022\013\n\007GO_BAC" +
+      "K\020g\022\022\n\016SELECT_MONITOR\020h\022\013\n\007ZOOM_IN\020i\022\014\n\010" +
+      "ZOOM_OUT\020j\022\016\n\nZOOM_RESET\020k\022\013\n\007GO_LIVE\020l\022" +
+      "\024\n\020NAVIGATE_TO_CODE\020m\022\020\n\014SELECT_RANGE\020n\022" +
+      "\022\n\rTRACE_SAMPLED\020\311\001\022\027\n\022TRACE_INSTRUMENTE" +
+      "D\020\312\001\022\022\n\rSELECT_THREAD\020\314\001\022\024\n\017SELECT_TOP_D" +
+      "OWN\020\315\001\022\025\n\020SELECT_BOTTOM_UP\020\316\001\022\027\n\022SELECT_" +
+      "FLAME_CHART\020\317\001\022\026\n\021SELECT_CALL_CHART\020\322\001\022\033",
+      "\n\026OPEN_CPU_CONFIG_DIALOG\020\320\001\022\026\n\021CREATE_CP" +
+      "U_CONFIG\020\321\001\022\016\n\tTRACE_CPU\020\323\001\022\022\n\rCAPTURE_T" +
+      "RACE\020\324\001\022\r\n\010FORCE_GC\020\255\002\022\023\n\016SNAPSHOT_HPROF" +
+      "\020\256\002\022\030\n\023CAPTURE_ALLOCATIONS\020\257\002\022\030\n\023SELECT_" +
+      "MEMORY_CHART\020\260\002\022\021\n\014EXPORT_HPROF\020\261\002\022\026\n\021EX" +
+      "PORT_ALLOCATION\020\262\002\022\024\n\017ARRANGE_CLASSES\020\263\002" +
+      "\022\030\n\023SELECT_MEMORY_STACK\020\264\002\022\035\n\030SELECT_MEM" +
+      "ORY_REFERENCES\020\265\002\022\026\n\021SELECT_CONNECTION\020\222" +
+      "\003\022\034\n\027SELECT_DETAILS_RESPONSE\020\223\003\022\033\n\026SELEC" +
+      "T_DETAILS_HEADERS\020\224\003\022\031\n\024SELECT_DETAILS_S",
+      "TACK\020\225\003\";\n\026AndroidProfilerDbTable\022\014\n\004nam" +
+      "e\030\001 \001(\t\022\023\n\013num_records\030\002 \001(\r\"x\n\026AndroidP" +
+      "rofilerDbStats\022\017\n\007age_sec\030\001 \001(\r\022\025\n\rtotal" +
+      "_disk_mb\030\002 \001(\r\0226\n\006tables\030\003 \003(\0132&.android" +
+      "_studio.AndroidProfilerDbTable\"F\n\020ApkAna" +
+      "lyzerStats\022\031\n\021uncompressed_size\030\001 \001(\004\022\027\n" +
+      "\017compressed_size\030\002 \001(\004\"\203\002\n\017GradleSyncSta" +
+      "ts\0228\n\007trigger\030\001 \001(\0162\'.android_studio.Gra" +
+      "dleSyncStats.Trigger\022\025\n\rtotal_time_ms\030\002 " +
+      "\001(\003\022\026\n\016gradle_time_ms\030\003 \001(\003\022\023\n\013ide_time_",
+      "ms\030\004 \001(\003\"r\n\007Trigger\022\023\n\017TRIGGER_UNKNOWN\020\000" +
+      "\022\032\n\026TRIGGER_PROJECT_LOADED\020\001\022\034\n\030TRIGGER_" +
+      "PROJECT_MODIFIED\020\002\022\030\n\024TRIGGER_USER_REQUE" +
+      "ST\020\003\"%\n\017ApkDebugProject\022\022\n\npackage_id\030\001 " +
+      "\001(\t\"\357\001\n\024LayoutInspectorEvent\022K\n\004type\030\001 \001" +
+      "(\0162=.android_studio.LayoutInspectorEvent" +
+      ".LayoutInspectorEventType\022\026\n\016duration_in" +
+      "_ms\030\002 \001(\003\"r\n\030LayoutInspectorEventType\022\026\n" +
+      "\022UNKNOWN_EVENT_TYPE\020\000\022\013\n\007CAPTURE\020\001\022\010\n\004OP" +
+      "EN\020\002\022\024\n\020DUMP_DISPLAYLIST\020\003\022\021\n\rOVERLAY_IM",
+      "AGE\020\004\"O\n\rKotlinSupport\022\036\n\026include_kotlin" +
+      "_support\030\001 \001(\010\022\036\n\026kotlin_support_version" +
+      "\030\002 \001(\t*\203\001\n\025EmulatorSnapshotFlags\022\027\n\023SNAP" +
+      "SHOT_FLAGS_NONE\020\000\022%\n!SNAPSHOT_FLAGS_RAM_" +
+      "COMPRESSED_BIT\020\001\022*\n&SNAPSHOT_FLAGS_TEXTU" +
+      "RES_COMPRESSED_BIT\020\002*[\n\014SearchOption\022\031\n\025" +
+      "UNKNOWN_SEARCH_OPTION\020\000\022\010\n\004NONE\020\001\022\024\n\020MUL" +
+      "TIPLE_MATCHES\020\002\022\020\n\014SINGLE_MATCH\020\003B=\n%com" +
+      ".google.wireless.android.sdk.statsB\022Andr" +
+      "oidStudioStatsP\001"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -1544,392 +1597,410 @@ public final class AndroidStudioStats {
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_android_studio_EmulatorMemoryUsage_descriptor,
               new java.lang.String[] { "ResidentMemory", "ResidentMemoryMax", "VirtualMemory", "VirtualMemoryMax", "TotalPhysMemory", "TotalPageFile", });
-          internal_static_android_studio_EmulatorDetails_descriptor =
+          internal_static_android_studio_EmulatorSnapshot_descriptor =
             getDescriptor().getMessageTypes().get(14);
+          internal_static_android_studio_EmulatorSnapshot_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_android_studio_EmulatorSnapshot_descriptor,
+              new java.lang.String[] { "Name", "Flags", "SizeBytes", });
+          internal_static_android_studio_EmulatorQuickbootLoad_descriptor =
+            getDescriptor().getMessageTypes().get(15);
+          internal_static_android_studio_EmulatorQuickbootLoad_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_android_studio_EmulatorQuickbootLoad_descriptor,
+              new java.lang.String[] { "State", "DurationMs", "Snapshot", "OnDemandRamEnabled", });
+          internal_static_android_studio_EmulatorQuickbootSave_descriptor =
+            getDescriptor().getMessageTypes().get(16);
+          internal_static_android_studio_EmulatorQuickbootSave_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_android_studio_EmulatorQuickbootSave_descriptor,
+              new java.lang.String[] { "State", "DurationMs", "Snapshot", "SesionUptimeMs", });
+          internal_static_android_studio_EmulatorDetails_descriptor =
+            getDescriptor().getMessageTypes().get(17);
           internal_static_android_studio_EmulatorDetails_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_android_studio_EmulatorDetails_descriptor,
-              new java.lang.String[] { "GuestArch", "SystemTime", "UserTime", "Crashes", "WallTime", "ExitStarted", "GuestApiLevel", "GuestGpuEnabled", "IsOpenglAlive", "AdbLiveness", "GuestGl", "HostGpu", "SessionPhase", "CoreVersion", "Renderer", "UsedFeatures", "AvdInfo", "FeatureFlagState", "Hypervisor", });
+              new java.lang.String[] { "GuestArch", "SystemTime", "UserTime", "Crashes", "WallTime", "ExitStarted", "GuestApiLevel", "GuestGpuEnabled", "IsOpenglAlive", "AdbLiveness", "GuestGl", "HostGpu", "SessionPhase", "CoreVersion", "Renderer", "UsedFeatures", "AvdInfo", "FeatureFlagState", "Hypervisor", "QuickbootLoad", "QuickbootSave", });
           internal_static_android_studio_EmulatorUiEvent_descriptor =
-            getDescriptor().getMessageTypes().get(15);
+            getDescriptor().getMessageTypes().get(18);
           internal_static_android_studio_EmulatorUiEvent_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_android_studio_EmulatorUiEvent_descriptor,
               new java.lang.String[] { "ElementId", "Type", "Context", "Value", });
           internal_static_android_studio_EmulatorPercentileEstimator_descriptor =
-            getDescriptor().getMessageTypes().get(16);
+            getDescriptor().getMessageTypes().get(19);
           internal_static_android_studio_EmulatorPercentileEstimator_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_android_studio_EmulatorPercentileEstimator_descriptor,
               new java.lang.String[] { "Metric", "Context", "Estimator", });
           internal_static_android_studio_EmulatorPerformanceStats_descriptor =
-            getDescriptor().getMessageTypes().get(17);
+            getDescriptor().getMessageTypes().get(20);
           internal_static_android_studio_EmulatorPerformanceStats_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_android_studio_EmulatorPerformanceStats_descriptor,
               new java.lang.String[] { "Estimator", "MemoryUsage", });
           internal_static_android_studio_GradleBuildDetails_descriptor =
-            getDescriptor().getMessageTypes().get(18);
+            getDescriptor().getMessageTypes().get(21);
           internal_static_android_studio_GradleBuildDetails_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_android_studio_GradleBuildDetails_descriptor,
               new java.lang.String[] { "AndroidPluginVersion", "GradleVersion", "UserEnabledIr", "ModelSupportsIr", "VariantSupportsIr", "Libraries", "Modules", "AndroidModules", "NativeAndroidModules", "AppId", });
           internal_static_android_studio_GradleLibrary_descriptor =
-            getDescriptor().getMessageTypes().get(19);
+            getDescriptor().getMessageTypes().get(22);
           internal_static_android_studio_GradleLibrary_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_android_studio_GradleLibrary_descriptor,
               new java.lang.String[] { "JarDependencyCount", "AarDependencyCount", });
           internal_static_android_studio_GradleModule_descriptor =
-            getDescriptor().getMessageTypes().get(20);
+            getDescriptor().getMessageTypes().get(23);
           internal_static_android_studio_GradleModule_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_android_studio_GradleModule_descriptor,
               new java.lang.String[] { "TotalModuleCount", "AppModuleCount", "LibModuleCount", });
           internal_static_android_studio_GradleAndroidModule_descriptor =
-            getDescriptor().getMessageTypes().get(21);
+            getDescriptor().getMessageTypes().get(24);
           internal_static_android_studio_GradleAndroidModule_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_android_studio_GradleAndroidModule_descriptor,
               new java.lang.String[] { "AppId", "ModuleName", "IsLibrary", "BuildTypeCount", "FlavorCount", "FlavorDimension", "SigningConfigCount", });
           internal_static_android_studio_GradleNativeAndroidModule_descriptor =
-            getDescriptor().getMessageTypes().get(22);
+            getDescriptor().getMessageTypes().get(25);
           internal_static_android_studio_GradleNativeAndroidModule_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_android_studio_GradleNativeAndroidModule_descriptor,
               new java.lang.String[] { "AppId", "ModuleName", "BuildSystemType", });
           internal_static_android_studio_InstantRun_descriptor =
-            getDescriptor().getMessageTypes().get(23);
+            getDescriptor().getMessageTypes().get(26);
           internal_static_android_studio_InstantRun_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_android_studio_InstantRun_descriptor,
               new java.lang.String[] { "DeploymentKind", "InstantRunBuildCause", "BuildTime", "SessionId", "IdeBuildCause", "GradleBuildCause", });
           internal_static_android_studio_MetaMetrics_descriptor =
-            getDescriptor().getMessageTypes().get(24);
+            getDescriptor().getMessageTypes().get(27);
           internal_static_android_studio_MetaMetrics_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_android_studio_MetaMetrics_descriptor,
               new java.lang.String[] { "FailedConnections", "BytesSentInLastUpload", "FailedServerReplies", });
           internal_static_android_studio_TestRun_descriptor =
-            getDescriptor().getMessageTypes().get(25);
+            getDescriptor().getMessageTypes().get(28);
           internal_static_android_studio_TestRun_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_android_studio_TestRun_descriptor,
               new java.lang.String[] { "TestInvocationType", "NumberOfTestsExecuted", "TestKind", "Crashed", "GradleVersion", "CodeCoverageEnabled", "TestLibraries", });
           internal_static_android_studio_TestLibraries_descriptor =
-            getDescriptor().getMessageTypes().get(26);
+            getDescriptor().getMessageTypes().get(29);
           internal_static_android_studio_TestLibraries_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_android_studio_TestLibraries_descriptor,
               new java.lang.String[] { "TestSupportLibraryVersion", "EspressoVersion", "RobolectricVersion", "MockitoVersion", });
           internal_static_android_studio_Hypervisor_descriptor =
-            getDescriptor().getMessageTypes().get(27);
+            getDescriptor().getMessageTypes().get(30);
           internal_static_android_studio_Hypervisor_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_android_studio_Hypervisor_descriptor,
               new java.lang.String[] { "HyperVState", });
           internal_static_android_studio_EmulatorHost_descriptor =
-            getDescriptor().getMessageTypes().get(28);
+            getDescriptor().getMessageTypes().get(31);
           internal_static_android_studio_EmulatorHost_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_android_studio_EmulatorHost_descriptor,
               new java.lang.String[] { "CpuManufacturer", "VirtSupport", "RunningInVm", "OsBitCount", "CpuidStepping", "CpuidModel", "CpuidFamily", "CpuidType", "CpuidExtmodel", "CpuidExtfamily", });
           internal_static_android_studio_GradleBuildProfile_descriptor =
-            getDescriptor().getMessageTypes().get(29);
+            getDescriptor().getMessageTypes().get(32);
           internal_static_android_studio_GradleBuildProfile_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_android_studio_GradleBuildProfile_descriptor,
               new java.lang.String[] { "GradleVersion", "OsName", "OsVersion", "JavaVersion", "JavaVmVersion", "MaxMemory", "BuildTime", "GcCount", "GcTime", "Project", "MemorySample", "Span", "InstantRunStatus", "ProjectId", });
           internal_static_android_studio_GradleBuildProject_descriptor =
-            getDescriptor().getMessageTypes().get(30);
+            getDescriptor().getMessageTypes().get(33);
           internal_static_android_studio_GradleBuildProject_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_android_studio_GradleBuildProject_descriptor,
               new java.lang.String[] { "Id", "AndroidPluginVersion", "AndroidPlugin", "PluginGeneration", "BuildToolsVersion", "Metrics", "Variant", "Atoms", "CompileSdk", "Splits", "KotlinPluginVersion", });
           internal_static_android_studio_GradleBuildSplits_descriptor =
-            getDescriptor().getMessageTypes().get(31);
+            getDescriptor().getMessageTypes().get(34);
           internal_static_android_studio_GradleBuildSplits_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_android_studio_GradleBuildSplits_descriptor,
               new java.lang.String[] { "DensityEnabled", "DensityAuto", "DensityCompatibleScreens", "DensityValues", "LanguageEnabled", "LanguageAuto", "LanguageIncludes", "AbiEnabled", "AbiEnableUniversalApk", "AbiFilters", });
           internal_static_android_studio_GradleBuildProjectMetrics_descriptor =
-            getDescriptor().getMessageTypes().get(32);
+            getDescriptor().getMessageTypes().get(35);
           internal_static_android_studio_GradleBuildProjectMetrics_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_android_studio_GradleBuildProjectMetrics_descriptor,
               new java.lang.String[] { "MetricsTimeNs", "ApkSize", "ResourcesApSize", });
           internal_static_android_studio_GradleBuildVariant_descriptor =
-            getDescriptor().getMessageTypes().get(33);
+            getDescriptor().getMessageTypes().get(36);
           internal_static_android_studio_GradleBuildVariant_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_android_studio_GradleBuildVariant_descriptor,
               new java.lang.String[] { "Id", "IsDebug", "UseJack", "MinifyEnabled", "UseMultidex", "UseLegacyMultidex", "VariantType", "TestedId", "ProguardFlags", "AnnotationProcessors", "Java8LangSupport", "MinSdkVersion", "TargetSdkVersion", "MaxSdkVersion", "DexBuilder", "DexMerger", });
           internal_static_android_studio_AnnotationProcessorInfo_descriptor =
-            getDescriptor().getMessageTypes().get(34);
+            getDescriptor().getMessageTypes().get(37);
           internal_static_android_studio_AnnotationProcessorInfo_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_android_studio_AnnotationProcessorInfo_descriptor,
               new java.lang.String[] { "Spec", "InclusionType", });
           internal_static_android_studio_ApiVersion_descriptor =
-            getDescriptor().getMessageTypes().get(35);
+            getDescriptor().getMessageTypes().get(38);
           internal_static_android_studio_ApiVersion_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_android_studio_ApiVersion_descriptor,
               new java.lang.String[] { "ApiLevel", "Codename", });
           internal_static_android_studio_GradleBuildMemorySample_descriptor =
-            getDescriptor().getMessageTypes().get(36);
+            getDescriptor().getMessageTypes().get(39);
           internal_static_android_studio_GradleBuildMemorySample_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_android_studio_GradleBuildMemorySample_descriptor,
               new java.lang.String[] { "GcTimeMs", "GcCount", "Timestamp", "JavaProcessStats", });
           internal_static_android_studio_GradleBuildProfileSpan_descriptor =
-            getDescriptor().getMessageTypes().get(37);
+            getDescriptor().getMessageTypes().get(40);
           internal_static_android_studio_GradleBuildProfileSpan_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_android_studio_GradleBuildProfileSpan_descriptor,
               new java.lang.String[] { "Id", "ParentId", "StartTimeInMs", "DurationInMs", "Type", "Transform", "Task", "Project", "Variant", "ThreadId", });
           internal_static_android_studio_GradleTaskExecution_descriptor =
-            getDescriptor().getMessageTypes().get(38);
+            getDescriptor().getMessageTypes().get(41);
           internal_static_android_studio_GradleTaskExecution_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_android_studio_GradleTaskExecution_descriptor,
               new java.lang.String[] { "Type", "DidWork", "Skipped", "UpToDate", "Failed", });
           internal_static_android_studio_GradleTransformExecution_descriptor =
-            getDescriptor().getMessageTypes().get(39);
+            getDescriptor().getMessageTypes().get(42);
           internal_static_android_studio_GradleTransformExecution_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_android_studio_GradleTransformExecution_descriptor,
               new java.lang.String[] { "Type", "IsIncremental", });
           internal_static_android_studio_InstantRunStatus_descriptor =
-            getDescriptor().getMessageTypes().get(40);
+            getDescriptor().getMessageTypes().get(43);
           internal_static_android_studio_InstantRunStatus_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_android_studio_InstantRunStatus_descriptor,
               new java.lang.String[] { "BuildMode", "PatchingPolicy", "VerifierStatus", "Artifact", });
           internal_static_android_studio_InstantRunArtifact_descriptor =
-            getDescriptor().getMessageTypes().get(41);
+            getDescriptor().getMessageTypes().get(44);
           internal_static_android_studio_InstantRunArtifact_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_android_studio_InstantRunArtifact_descriptor,
               new java.lang.String[] { "Type", });
           internal_static_android_studio_LLDBFrontendDetails_descriptor =
-            getDescriptor().getMessageTypes().get(42);
+            getDescriptor().getMessageTypes().get(45);
           internal_static_android_studio_LLDBFrontendDetails_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_android_studio_LLDBFrontendDetails_descriptor,
               new java.lang.String[] { "ExitCode", });
           internal_static_android_studio_FirebaseErrorDetails_descriptor =
-            getDescriptor().getMessageTypes().get(43);
+            getDescriptor().getMessageTypes().get(46);
           internal_static_android_studio_FirebaseErrorDetails_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_android_studio_FirebaseErrorDetails_descriptor,
               new java.lang.String[] { "ErrorMessage", });
           internal_static_android_studio_FirebaseContextDetails_descriptor =
-            getDescriptor().getMessageTypes().get(44);
+            getDescriptor().getMessageTypes().get(47);
           internal_static_android_studio_FirebaseContextDetails_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_android_studio_FirebaseContextDetails_descriptor,
               new java.lang.String[] { "ProjectId", "ProjectNumber", "LoggedIn", "ConnectStatus", "PerformedOn", "Duration", });
           internal_static_android_studio_GfxTracingDetails_descriptor =
-            getDescriptor().getMessageTypes().get(45);
+            getDescriptor().getMessageTypes().get(48);
           internal_static_android_studio_GfxTracingDetails_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_android_studio_GfxTracingDetails_descriptor,
               new java.lang.String[] { "TotalTime", "Command", "ErrorMessage", "TracePath", "ImageFormat", "ImageWidth", "ImageHeight", });
           internal_static_android_studio_TestRecorderDetails_descriptor =
-            getDescriptor().getMessageTypes().get(46);
+            getDescriptor().getMessageTypes().get(49);
           internal_static_android_studio_TestRecorderDetails_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_android_studio_TestRecorderDetails_descriptor,
               new java.lang.String[] { "EventCount", "AssertionCount", });
           internal_static_android_studio_UIActionStats_descriptor =
-            getDescriptor().getMessageTypes().get(47);
+            getDescriptor().getMessageTypes().get(50);
           internal_static_android_studio_UIActionStats_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_android_studio_UIActionStats_descriptor,
               new java.lang.String[] { "ActionClassName", "Invocations", "InvocationKind", "Direct", });
           internal_static_android_studio_MachineDetails_descriptor =
-            getDescriptor().getMessageTypes().get(48);
+            getDescriptor().getMessageTypes().get(51);
           internal_static_android_studio_MachineDetails_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_android_studio_MachineDetails_descriptor,
               new java.lang.String[] { "TotalRam", "TotalDisk", "Display", "AvailableProcessors", });
           internal_static_android_studio_DisplayDetails_descriptor =
-            getDescriptor().getMessageTypes().get(49);
+            getDescriptor().getMessageTypes().get(52);
           internal_static_android_studio_DisplayDetails_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_android_studio_DisplayDetails_descriptor,
               new java.lang.String[] { "Width", "Height", "DotsPerInchHorizontal", "DotsPerInchVertical", });
           internal_static_android_studio_JavaProcessStats_descriptor =
-            getDescriptor().getMessageTypes().get(50);
+            getDescriptor().getMessageTypes().get(53);
           internal_static_android_studio_JavaProcessStats_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_android_studio_JavaProcessStats_descriptor,
               new java.lang.String[] { "HeapMemoryUsage", "NonHeapMemoryUsage", "LoadedClassCount", "ThreadCount", "GarbageCollectionStats", });
           internal_static_android_studio_GarbageCollectionStats_descriptor =
-            getDescriptor().getMessageTypes().get(51);
+            getDescriptor().getMessageTypes().get(54);
           internal_static_android_studio_GarbageCollectionStats_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_android_studio_GarbageCollectionStats_descriptor,
               new java.lang.String[] { "Name", "GcCollections", "GcTime", });
           internal_static_android_studio_JvmDetails_descriptor =
-            getDescriptor().getMessageTypes().get(52);
+            getDescriptor().getMessageTypes().get(55);
           internal_static_android_studio_JvmDetails_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_android_studio_JvmDetails_descriptor,
               new java.lang.String[] { "Name", "Version", "Vendor", "MinimumHeapSize", "MaximumHeapSize", "MaximumPermanentSpaceSize", "MaximumCodeCacheSize", "SoftReferenceLruPolicy", "GarbageCollector", });
           internal_static_android_studio_StudioPerformanceStats_descriptor =
-            getDescriptor().getMessageTypes().get(53);
+            getDescriptor().getMessageTypes().get(56);
           internal_static_android_studio_StudioPerformanceStats_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_android_studio_StudioPerformanceStats_descriptor,
               new java.lang.String[] { "UiFreezeTimeMs", });
           internal_static_android_studio_PercentileBucket_descriptor =
-            getDescriptor().getMessageTypes().get(54);
+            getDescriptor().getMessageTypes().get(57);
           internal_static_android_studio_PercentileBucket_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_android_studio_PercentileBucket_descriptor,
               new java.lang.String[] { "TargetPercentile", "Value", "Count", });
           internal_static_android_studio_PercentileEstimator_descriptor =
-            getDescriptor().getMessageTypes().get(55);
+            getDescriptor().getMessageTypes().get(58);
           internal_static_android_studio_PercentileEstimator_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_android_studio_PercentileEstimator_descriptor,
               new java.lang.String[] { "RawSample", "Bucket", });
           internal_static_android_studio_LldbPercentileEstimator_descriptor =
-            getDescriptor().getMessageTypes().get(56);
+            getDescriptor().getMessageTypes().get(59);
           internal_static_android_studio_LldbPercentileEstimator_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_android_studio_LldbPercentileEstimator_descriptor,
               new java.lang.String[] { "Metric", "Estimator", });
           internal_static_android_studio_LldbPerformanceStats_descriptor =
-            getDescriptor().getMessageTypes().get(57);
+            getDescriptor().getMessageTypes().get(60);
           internal_static_android_studio_LldbPerformanceStats_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_android_studio_LldbPerformanceStats_descriptor,
               new java.lang.String[] { "Estimator", });
           internal_static_android_studio_StudioProjectChange_descriptor =
-            getDescriptor().getMessageTypes().get(58);
+            getDescriptor().getMessageTypes().get(61);
           internal_static_android_studio_StudioProjectChange_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_android_studio_StudioProjectChange_descriptor,
               new java.lang.String[] { "ProjectsOpen", });
           internal_static_android_studio_LayoutEditorState_descriptor =
-            getDescriptor().getMessageTypes().get(59);
+            getDescriptor().getMessageTypes().get(62);
           internal_static_android_studio_LayoutEditorState_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_android_studio_LayoutEditorState_descriptor,
               new java.lang.String[] { "Mode", "Type", "ConfigApiLevel", "ConfigZoomLevel", "ConfigOrientation", "Surfaces", });
           internal_static_android_studio_LayoutEditorRenderResult_descriptor =
-            getDescriptor().getMessageTypes().get(60);
+            getDescriptor().getMessageTypes().get(63);
           internal_static_android_studio_LayoutEditorRenderResult_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_android_studio_LayoutEditorRenderResult_descriptor,
               new java.lang.String[] { "Trigger", "ResultCode", "TotalRenderTimeMs", "ComponentCount", "TotalIssueCount", "ErrorCount", "FidelityWarningCount", });
           internal_static_android_studio_AndroidView_descriptor =
-            getDescriptor().getMessageTypes().get(61);
+            getDescriptor().getMessageTypes().get(64);
           internal_static_android_studio_AndroidView_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_android_studio_AndroidView_descriptor,
               new java.lang.String[] { "TagName", });
           internal_static_android_studio_AndroidAttribute_descriptor =
-            getDescriptor().getMessageTypes().get(62);
+            getDescriptor().getMessageTypes().get(65);
           internal_static_android_studio_AndroidAttribute_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_android_studio_AndroidAttribute_descriptor,
               new java.lang.String[] { "AttributeName", "AttributeNamespace", });
           internal_static_android_studio_LayoutPaletteEvent_descriptor =
-            getDescriptor().getMessageTypes().get(63);
+            getDescriptor().getMessageTypes().get(66);
           internal_static_android_studio_LayoutPaletteEvent_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_android_studio_LayoutPaletteEvent_descriptor,
               new java.lang.String[] { "View", "ViewOption", "SelectedGroup", "SearchOption", "ViewType", });
           internal_static_android_studio_LayoutAttributeChangeEvent_descriptor =
-            getDescriptor().getMessageTypes().get(64);
+            getDescriptor().getMessageTypes().get(67);
           internal_static_android_studio_LayoutAttributeChangeEvent_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_android_studio_LayoutAttributeChangeEvent_descriptor,
               new java.lang.String[] { "Attribute", "SearchOption", "ViewType", "View", });
           internal_static_android_studio_LayoutFavoriteAttributeChangeEvent_descriptor =
-            getDescriptor().getMessageTypes().get(65);
+            getDescriptor().getMessageTypes().get(68);
           internal_static_android_studio_LayoutFavoriteAttributeChangeEvent_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_android_studio_LayoutFavoriteAttributeChangeEvent_descriptor,
               new java.lang.String[] { "Added", "Removed", "Active", });
           internal_static_android_studio_LayoutEditorEvent_descriptor =
-            getDescriptor().getMessageTypes().get(66);
+            getDescriptor().getMessageTypes().get(69);
           internal_static_android_studio_LayoutEditorEvent_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_android_studio_LayoutEditorEvent_descriptor,
               new java.lang.String[] { "Type", "State", "RenderResult", "PaletteEvent", "AttributeChangeEvent", "FavoriteChangeEvent", });
           internal_static_android_studio_AppLinksAssistantEvent_descriptor =
-            getDescriptor().getMessageTypes().get(67);
+            getDescriptor().getMessageTypes().get(70);
           internal_static_android_studio_AppLinksAssistantEvent_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_android_studio_AppLinksAssistantEvent_descriptor,
               new java.lang.String[] { "ProjectId", "AppId", "EventSource", "EventState", "ExistingAppLinks", "AssistantPanelOpenDuration", "AppLinkPathType", "NewActivityLinked", "NewHostLinked", });
           internal_static_android_studio_AdbAssistantStats_descriptor =
-            getDescriptor().getMessageTypes().get(68);
+            getDescriptor().getMessageTypes().get(71);
           internal_static_android_studio_AdbAssistantStats_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_android_studio_AdbAssistantStats_descriptor,
               new java.lang.String[] { "Trigger", });
           internal_static_android_studio_CpuProfilingConfig_descriptor =
-            getDescriptor().getMessageTypes().get(69);
+            getDescriptor().getMessageTypes().get(72);
           internal_static_android_studio_CpuProfilingConfig_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_android_studio_CpuProfilingConfig_descriptor,
               new java.lang.String[] { "Type", "Mode", "SizeLimit", "SampleInterval", });
           internal_static_android_studio_CpuCaptureMetadata_descriptor =
-            getDescriptor().getMessageTypes().get(70);
+            getDescriptor().getMessageTypes().get(73);
           internal_static_android_studio_CpuCaptureMetadata_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_android_studio_CpuCaptureMetadata_descriptor,
               new java.lang.String[] { "CaptureStatus", "CaptureDurationMs", "RecordDurationMs", "TraceFileSizeBytes", "ParsingTimeMs", "ProfilingConfig", });
           internal_static_android_studio_AndroidProfilerEvent_descriptor =
-            getDescriptor().getMessageTypes().get(71);
+            getDescriptor().getMessageTypes().get(74);
           internal_static_android_studio_AndroidProfilerEvent_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_android_studio_AndroidProfilerEvent_descriptor,
               new java.lang.String[] { "Stage", "Type", "CpuConfig", "CpuCaptureMetadata", });
           internal_static_android_studio_AndroidProfilerDbTable_descriptor =
-            getDescriptor().getMessageTypes().get(72);
+            getDescriptor().getMessageTypes().get(75);
           internal_static_android_studio_AndroidProfilerDbTable_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_android_studio_AndroidProfilerDbTable_descriptor,
               new java.lang.String[] { "Name", "NumRecords", });
           internal_static_android_studio_AndroidProfilerDbStats_descriptor =
-            getDescriptor().getMessageTypes().get(73);
+            getDescriptor().getMessageTypes().get(76);
           internal_static_android_studio_AndroidProfilerDbStats_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_android_studio_AndroidProfilerDbStats_descriptor,
               new java.lang.String[] { "AgeSec", "TotalDiskMb", "Tables", });
           internal_static_android_studio_ApkAnalyzerStats_descriptor =
-            getDescriptor().getMessageTypes().get(74);
+            getDescriptor().getMessageTypes().get(77);
           internal_static_android_studio_ApkAnalyzerStats_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_android_studio_ApkAnalyzerStats_descriptor,
               new java.lang.String[] { "UncompressedSize", "CompressedSize", });
           internal_static_android_studio_GradleSyncStats_descriptor =
-            getDescriptor().getMessageTypes().get(75);
+            getDescriptor().getMessageTypes().get(78);
           internal_static_android_studio_GradleSyncStats_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_android_studio_GradleSyncStats_descriptor,
               new java.lang.String[] { "Trigger", "TotalTimeMs", "GradleTimeMs", "IdeTimeMs", });
           internal_static_android_studio_ApkDebugProject_descriptor =
-            getDescriptor().getMessageTypes().get(76);
+            getDescriptor().getMessageTypes().get(79);
           internal_static_android_studio_ApkDebugProject_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_android_studio_ApkDebugProject_descriptor,
               new java.lang.String[] { "PackageId", });
           internal_static_android_studio_LayoutInspectorEvent_descriptor =
-            getDescriptor().getMessageTypes().get(77);
+            getDescriptor().getMessageTypes().get(80);
           internal_static_android_studio_LayoutInspectorEvent_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_android_studio_LayoutInspectorEvent_descriptor,
               new java.lang.String[] { "Type", "DurationInMs", });
           internal_static_android_studio_KotlinSupport_descriptor =
-            getDescriptor().getMessageTypes().get(78);
+            getDescriptor().getMessageTypes().get(81);
           internal_static_android_studio_KotlinSupport_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_android_studio_KotlinSupport_descriptor,

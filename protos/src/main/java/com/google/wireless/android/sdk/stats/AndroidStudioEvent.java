@@ -6517,7 +6517,7 @@ public  final class AndroidStudioEvent extends
    * <code>optional .android_studio.KotlinSupport kotlin_support = 54;</code>
    *
    * <pre>
-   * set when kind = TEMPLATE_RENDER and template_renderer = ANDROID_PROJECT
+   * set when kind = TEMPLATE_RENDER
    * </pre>
    */
   public boolean hasKotlinSupport() {
@@ -6527,7 +6527,7 @@ public  final class AndroidStudioEvent extends
    * <code>optional .android_studio.KotlinSupport kotlin_support = 54;</code>
    *
    * <pre>
-   * set when kind = TEMPLATE_RENDER and template_renderer = ANDROID_PROJECT
+   * set when kind = TEMPLATE_RENDER
    * </pre>
    */
   public com.google.wireless.android.sdk.stats.KotlinSupport getKotlinSupport() {
@@ -6537,7 +6537,7 @@ public  final class AndroidStudioEvent extends
    * <code>optional .android_studio.KotlinSupport kotlin_support = 54;</code>
    *
    * <pre>
-   * set when kind = TEMPLATE_RENDER and template_renderer = ANDROID_PROJECT
+   * set when kind = TEMPLATE_RENDER
    * </pre>
    */
   public com.google.wireless.android.sdk.stats.KotlinSupportOrBuilder getKotlinSupportOrBuilder() {
@@ -14877,7 +14877,7 @@ public  final class AndroidStudioEvent extends
      * <code>optional .android_studio.KotlinSupport kotlin_support = 54;</code>
      *
      * <pre>
-     * set when kind = TEMPLATE_RENDER and template_renderer = ANDROID_PROJECT
+     * set when kind = TEMPLATE_RENDER
      * </pre>
      */
     public boolean hasKotlinSupport() {
@@ -14887,7 +14887,7 @@ public  final class AndroidStudioEvent extends
      * <code>optional .android_studio.KotlinSupport kotlin_support = 54;</code>
      *
      * <pre>
-     * set when kind = TEMPLATE_RENDER and template_renderer = ANDROID_PROJECT
+     * set when kind = TEMPLATE_RENDER
      * </pre>
      */
     public com.google.wireless.android.sdk.stats.KotlinSupport getKotlinSupport() {
@@ -14901,7 +14901,7 @@ public  final class AndroidStudioEvent extends
      * <code>optional .android_studio.KotlinSupport kotlin_support = 54;</code>
      *
      * <pre>
-     * set when kind = TEMPLATE_RENDER and template_renderer = ANDROID_PROJECT
+     * set when kind = TEMPLATE_RENDER
      * </pre>
      */
     public Builder setKotlinSupport(com.google.wireless.android.sdk.stats.KotlinSupport value) {
@@ -14921,7 +14921,7 @@ public  final class AndroidStudioEvent extends
      * <code>optional .android_studio.KotlinSupport kotlin_support = 54;</code>
      *
      * <pre>
-     * set when kind = TEMPLATE_RENDER and template_renderer = ANDROID_PROJECT
+     * set when kind = TEMPLATE_RENDER
      * </pre>
      */
     public Builder setKotlinSupport(
@@ -14939,7 +14939,7 @@ public  final class AndroidStudioEvent extends
      * <code>optional .android_studio.KotlinSupport kotlin_support = 54;</code>
      *
      * <pre>
-     * set when kind = TEMPLATE_RENDER and template_renderer = ANDROID_PROJECT
+     * set when kind = TEMPLATE_RENDER
      * </pre>
      */
     public Builder mergeKotlinSupport(com.google.wireless.android.sdk.stats.KotlinSupport value) {
@@ -14962,7 +14962,7 @@ public  final class AndroidStudioEvent extends
      * <code>optional .android_studio.KotlinSupport kotlin_support = 54;</code>
      *
      * <pre>
-     * set when kind = TEMPLATE_RENDER and template_renderer = ANDROID_PROJECT
+     * set when kind = TEMPLATE_RENDER
      * </pre>
      */
     public Builder clearKotlinSupport() {
@@ -14979,7 +14979,7 @@ public  final class AndroidStudioEvent extends
      * <code>optional .android_studio.KotlinSupport kotlin_support = 54;</code>
      *
      * <pre>
-     * set when kind = TEMPLATE_RENDER and template_renderer = ANDROID_PROJECT
+     * set when kind = TEMPLATE_RENDER
      * </pre>
      */
     public com.google.wireless.android.sdk.stats.KotlinSupport.Builder getKotlinSupportBuilder() {
@@ -14991,7 +14991,7 @@ public  final class AndroidStudioEvent extends
      * <code>optional .android_studio.KotlinSupport kotlin_support = 54;</code>
      *
      * <pre>
-     * set when kind = TEMPLATE_RENDER and template_renderer = ANDROID_PROJECT
+     * set when kind = TEMPLATE_RENDER
      * </pre>
      */
     public com.google.wireless.android.sdk.stats.KotlinSupportOrBuilder getKotlinSupportOrBuilder() {
@@ -15005,7 +15005,7 @@ public  final class AndroidStudioEvent extends
      * <code>optional .android_studio.KotlinSupport kotlin_support = 54;</code>
      *
      * <pre>
-     * set when kind = TEMPLATE_RENDER and template_renderer = ANDROID_PROJECT
+     * set when kind = TEMPLATE_RENDER
      * </pre>
      */
     private com.google.protobuf.SingleFieldBuilder<
