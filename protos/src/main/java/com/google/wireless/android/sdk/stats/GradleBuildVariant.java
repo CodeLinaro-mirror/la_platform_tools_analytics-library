@@ -188,6 +188,28 @@ public  final class GradleBuildVariant extends
             }
             break;
           }
+          case 136: {
+            int rawValue = input.readEnum();
+            com.google.wireless.android.sdk.stats.GradleBuildVariant.CodeShrinkerTool value = com.google.wireless.android.sdk.stats.GradleBuildVariant.CodeShrinkerTool.valueOf(rawValue);
+            if (value == null) {
+              unknownFields.mergeVarintField(17, rawValue);
+            } else {
+              bitField0_ |= 0x00004000;
+              codeShrinker_ = value;
+            }
+            break;
+          }
+          case 144: {
+            int rawValue = input.readEnum();
+            com.google.wireless.android.sdk.stats.TestRun.TestExecution value = com.google.wireless.android.sdk.stats.TestRun.TestExecution.valueOf(rawValue);
+            if (value == null) {
+              unknownFields.mergeVarintField(18, rawValue);
+            } else {
+              bitField0_ |= 0x00008000;
+              testExecution_ = value;
+            }
+            break;
+          }
         }
       }
     } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -748,6 +770,110 @@ public  final class GradleBuildVariant extends
     // @@protoc_insertion_point(enum_scope:android_studio.GradleBuildVariant.DexMergerTool)
   }
 
+  /**
+   * Protobuf enum {@code android_studio.GradleBuildVariant.CodeShrinkerTool}
+   *
+   * <pre>
+   * The tool used for code shrinking
+   * </pre>
+   */
+  public enum CodeShrinkerTool
+      implements com.google.protobuf.ProtocolMessageEnum {
+    /**
+     * <code>UNKNOWN_CODE_SHRINKER = 0;</code>
+     */
+    UNKNOWN_CODE_SHRINKER(0, 0),
+    /**
+     * <code>PROGUARD = 1;</code>
+     */
+    PROGUARD(1, 1),
+    /**
+     * <code>ANDROID_GRADLE_SHRINKER = 2;</code>
+     */
+    ANDROID_GRADLE_SHRINKER(2, 2),
+    /**
+     * <code>R8 = 3;</code>
+     */
+    R8(3, 3),
+    ;
+
+    /**
+     * <code>UNKNOWN_CODE_SHRINKER = 0;</code>
+     */
+    public static final int UNKNOWN_CODE_SHRINKER_VALUE = 0;
+    /**
+     * <code>PROGUARD = 1;</code>
+     */
+    public static final int PROGUARD_VALUE = 1;
+    /**
+     * <code>ANDROID_GRADLE_SHRINKER = 2;</code>
+     */
+    public static final int ANDROID_GRADLE_SHRINKER_VALUE = 2;
+    /**
+     * <code>R8 = 3;</code>
+     */
+    public static final int R8_VALUE = 3;
+
+
+    public final int getNumber() { return value; }
+
+    public static CodeShrinkerTool valueOf(int value) {
+      switch (value) {
+        case 0: return UNKNOWN_CODE_SHRINKER;
+        case 1: return PROGUARD;
+        case 2: return ANDROID_GRADLE_SHRINKER;
+        case 3: return R8;
+        default: return null;
+      }
+    }
+
+    public static com.google.protobuf.Internal.EnumLiteMap<CodeShrinkerTool>
+        internalGetValueMap() {
+      return internalValueMap;
+    }
+    private static com.google.protobuf.Internal.EnumLiteMap<CodeShrinkerTool>
+        internalValueMap =
+          new com.google.protobuf.Internal.EnumLiteMap<CodeShrinkerTool>() {
+            public CodeShrinkerTool findValueByNumber(int number) {
+              return CodeShrinkerTool.valueOf(number);
+            }
+          };
+
+    public final com.google.protobuf.Descriptors.EnumValueDescriptor
+        getValueDescriptor() {
+      return getDescriptor().getValues().get(index);
+    }
+    public final com.google.protobuf.Descriptors.EnumDescriptor
+        getDescriptorForType() {
+      return getDescriptor();
+    }
+    public static final com.google.protobuf.Descriptors.EnumDescriptor
+        getDescriptor() {
+      return com.google.wireless.android.sdk.stats.GradleBuildVariant.getDescriptor().getEnumTypes().get(4);
+    }
+
+    private static final CodeShrinkerTool[] VALUES = values();
+
+    public static CodeShrinkerTool valueOf(
+        com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
+      if (desc.getType() != getDescriptor()) {
+        throw new java.lang.IllegalArgumentException(
+          "EnumValueDescriptor is not for this type.");
+      }
+      return VALUES[desc.getIndex()];
+    }
+
+    private final int index;
+    private final int value;
+
+    private CodeShrinkerTool(int index, int value) {
+      this.index = index;
+      this.value = value;
+    }
+
+    // @@protoc_insertion_point(enum_scope:android_studio.GradleBuildVariant.CodeShrinkerTool)
+  }
+
   private int bitField0_;
   // optional int64 id = 1;
   public static final int ID_FIELD_NUMBER = 1;
@@ -1239,6 +1365,46 @@ public  final class GradleBuildVariant extends
     return dexMerger_;
   }
 
+  // optional .android_studio.GradleBuildVariant.CodeShrinkerTool code_shrinker = 17;
+  public static final int CODE_SHRINKER_FIELD_NUMBER = 17;
+  private com.google.wireless.android.sdk.stats.GradleBuildVariant.CodeShrinkerTool codeShrinker_;
+  /**
+   * <code>optional .android_studio.GradleBuildVariant.CodeShrinkerTool code_shrinker = 17;</code>
+   */
+  public boolean hasCodeShrinker() {
+    return ((bitField0_ & 0x00004000) == 0x00004000);
+  }
+  /**
+   * <code>optional .android_studio.GradleBuildVariant.CodeShrinkerTool code_shrinker = 17;</code>
+   */
+  public com.google.wireless.android.sdk.stats.GradleBuildVariant.CodeShrinkerTool getCodeShrinker() {
+    return codeShrinker_;
+  }
+
+  // optional .android_studio.TestRun.TestExecution test_execution = 18;
+  public static final int TEST_EXECUTION_FIELD_NUMBER = 18;
+  private com.google.wireless.android.sdk.stats.TestRun.TestExecution testExecution_;
+  /**
+   * <code>optional .android_studio.TestRun.TestExecution test_execution = 18;</code>
+   *
+   * <pre>
+   * The method used to run instrumentation tests for this variant.
+   * </pre>
+   */
+  public boolean hasTestExecution() {
+    return ((bitField0_ & 0x00008000) == 0x00008000);
+  }
+  /**
+   * <code>optional .android_studio.TestRun.TestExecution test_execution = 18;</code>
+   *
+   * <pre>
+   * The method used to run instrumentation tests for this variant.
+   * </pre>
+   */
+  public com.google.wireless.android.sdk.stats.TestRun.TestExecution getTestExecution() {
+    return testExecution_;
+  }
+
   private void initFields() {
     id_ = 0L;
     isDebug_ = false;
@@ -1256,6 +1422,8 @@ public  final class GradleBuildVariant extends
     maxSdkVersion_ = com.google.wireless.android.sdk.stats.ApiVersion.getDefaultInstance();
     dexBuilder_ = com.google.wireless.android.sdk.stats.GradleBuildVariant.DexBuilderTool.UNKNOWN_DEX_BUILDER_TOOL;
     dexMerger_ = com.google.wireless.android.sdk.stats.GradleBuildVariant.DexMergerTool.UNKNOWN_DEX_MERGER_TOOL;
+    codeShrinker_ = com.google.wireless.android.sdk.stats.GradleBuildVariant.CodeShrinkerTool.UNKNOWN_CODE_SHRINKER;
+    testExecution_ = com.google.wireless.android.sdk.stats.TestRun.TestExecution.UNKNOWN_TEST_EXECUTION;
   }
   private byte memoizedIsInitialized = -1;
   public final boolean isInitialized() {
@@ -1316,6 +1484,12 @@ public  final class GradleBuildVariant extends
     }
     if (((bitField0_ & 0x00002000) == 0x00002000)) {
       output.writeEnum(16, dexMerger_.getNumber());
+    }
+    if (((bitField0_ & 0x00004000) == 0x00004000)) {
+      output.writeEnum(17, codeShrinker_.getNumber());
+    }
+    if (((bitField0_ & 0x00008000) == 0x00008000)) {
+      output.writeEnum(18, testExecution_.getNumber());
     }
     getUnknownFields().writeTo(output);
   }
@@ -1394,6 +1568,14 @@ public  final class GradleBuildVariant extends
     if (((bitField0_ & 0x00002000) == 0x00002000)) {
       size += com.google.protobuf.CodedOutputStream
         .computeEnumSize(16, dexMerger_.getNumber());
+    }
+    if (((bitField0_ & 0x00004000) == 0x00004000)) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeEnumSize(17, codeShrinker_.getNumber());
+    }
+    if (((bitField0_ & 0x00008000) == 0x00008000)) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeEnumSize(18, testExecution_.getNumber());
     }
     size += getUnknownFields().getSerializedSize();
     memoizedSerializedSize = size;
@@ -1563,6 +1745,10 @@ public  final class GradleBuildVariant extends
       bitField0_ = (bitField0_ & ~0x00004000);
       dexMerger_ = com.google.wireless.android.sdk.stats.GradleBuildVariant.DexMergerTool.UNKNOWN_DEX_MERGER_TOOL;
       bitField0_ = (bitField0_ & ~0x00008000);
+      codeShrinker_ = com.google.wireless.android.sdk.stats.GradleBuildVariant.CodeShrinkerTool.UNKNOWN_CODE_SHRINKER;
+      bitField0_ = (bitField0_ & ~0x00010000);
+      testExecution_ = com.google.wireless.android.sdk.stats.TestRun.TestExecution.UNKNOWN_TEST_EXECUTION;
+      bitField0_ = (bitField0_ & ~0x00020000);
       return this;
     }
 
@@ -1674,6 +1860,14 @@ public  final class GradleBuildVariant extends
         to_bitField0_ |= 0x00002000;
       }
       result.dexMerger_ = dexMerger_;
+      if (((from_bitField0_ & 0x00010000) == 0x00010000)) {
+        to_bitField0_ |= 0x00004000;
+      }
+      result.codeShrinker_ = codeShrinker_;
+      if (((from_bitField0_ & 0x00020000) == 0x00020000)) {
+        to_bitField0_ |= 0x00008000;
+      }
+      result.testExecution_ = testExecution_;
       result.bitField0_ = to_bitField0_;
       onBuilt();
       return result;
@@ -1767,6 +1961,12 @@ public  final class GradleBuildVariant extends
       }
       if (other.hasDexMerger()) {
         setDexMerger(other.getDexMerger());
+      }
+      if (other.hasCodeShrinker()) {
+        setCodeShrinker(other.getCodeShrinker());
+      }
+      if (other.hasTestExecution()) {
+        setTestExecution(other.getTestExecution());
       }
       this.mergeUnknownFields(other.getUnknownFields());
       return this;
@@ -3302,6 +3502,94 @@ public  final class GradleBuildVariant extends
     public Builder clearDexMerger() {
       bitField0_ = (bitField0_ & ~0x00008000);
       dexMerger_ = com.google.wireless.android.sdk.stats.GradleBuildVariant.DexMergerTool.UNKNOWN_DEX_MERGER_TOOL;
+      onChanged();
+      return this;
+    }
+
+    // optional .android_studio.GradleBuildVariant.CodeShrinkerTool code_shrinker = 17;
+    private com.google.wireless.android.sdk.stats.GradleBuildVariant.CodeShrinkerTool codeShrinker_ = com.google.wireless.android.sdk.stats.GradleBuildVariant.CodeShrinkerTool.UNKNOWN_CODE_SHRINKER;
+    /**
+     * <code>optional .android_studio.GradleBuildVariant.CodeShrinkerTool code_shrinker = 17;</code>
+     */
+    public boolean hasCodeShrinker() {
+      return ((bitField0_ & 0x00010000) == 0x00010000);
+    }
+    /**
+     * <code>optional .android_studio.GradleBuildVariant.CodeShrinkerTool code_shrinker = 17;</code>
+     */
+    public com.google.wireless.android.sdk.stats.GradleBuildVariant.CodeShrinkerTool getCodeShrinker() {
+      return codeShrinker_;
+    }
+    /**
+     * <code>optional .android_studio.GradleBuildVariant.CodeShrinkerTool code_shrinker = 17;</code>
+     */
+    public Builder setCodeShrinker(com.google.wireless.android.sdk.stats.GradleBuildVariant.CodeShrinkerTool value) {
+      if (value == null) {
+        throw new NullPointerException();
+      }
+      bitField0_ |= 0x00010000;
+      codeShrinker_ = value;
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.GradleBuildVariant.CodeShrinkerTool code_shrinker = 17;</code>
+     */
+    public Builder clearCodeShrinker() {
+      bitField0_ = (bitField0_ & ~0x00010000);
+      codeShrinker_ = com.google.wireless.android.sdk.stats.GradleBuildVariant.CodeShrinkerTool.UNKNOWN_CODE_SHRINKER;
+      onChanged();
+      return this;
+    }
+
+    // optional .android_studio.TestRun.TestExecution test_execution = 18;
+    private com.google.wireless.android.sdk.stats.TestRun.TestExecution testExecution_ = com.google.wireless.android.sdk.stats.TestRun.TestExecution.UNKNOWN_TEST_EXECUTION;
+    /**
+     * <code>optional .android_studio.TestRun.TestExecution test_execution = 18;</code>
+     *
+     * <pre>
+     * The method used to run instrumentation tests for this variant.
+     * </pre>
+     */
+    public boolean hasTestExecution() {
+      return ((bitField0_ & 0x00020000) == 0x00020000);
+    }
+    /**
+     * <code>optional .android_studio.TestRun.TestExecution test_execution = 18;</code>
+     *
+     * <pre>
+     * The method used to run instrumentation tests for this variant.
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.TestRun.TestExecution getTestExecution() {
+      return testExecution_;
+    }
+    /**
+     * <code>optional .android_studio.TestRun.TestExecution test_execution = 18;</code>
+     *
+     * <pre>
+     * The method used to run instrumentation tests for this variant.
+     * </pre>
+     */
+    public Builder setTestExecution(com.google.wireless.android.sdk.stats.TestRun.TestExecution value) {
+      if (value == null) {
+        throw new NullPointerException();
+      }
+      bitField0_ |= 0x00020000;
+      testExecution_ = value;
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.TestRun.TestExecution test_execution = 18;</code>
+     *
+     * <pre>
+     * The method used to run instrumentation tests for this variant.
+     * </pre>
+     */
+    public Builder clearTestExecution() {
+      bitField0_ = (bitField0_ & ~0x00020000);
+      testExecution_ = com.google.wireless.android.sdk.stats.TestRun.TestExecution.UNKNOWN_TEST_EXECUTION;
       onChanged();
       return this;
     }
