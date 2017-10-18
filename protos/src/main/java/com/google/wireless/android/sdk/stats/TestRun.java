@@ -113,6 +113,17 @@ public  final class TestRun extends
             bitField0_ |= 0x00000040;
             break;
           }
+          case 64: {
+            int rawValue = input.readEnum();
+            com.google.wireless.android.sdk.stats.TestRun.TestExecution value = com.google.wireless.android.sdk.stats.TestRun.TestExecution.valueOf(rawValue);
+            if (value == null) {
+              unknownFields.mergeVarintField(8, rawValue);
+            } else {
+              bitField0_ |= 0x00000080;
+              testExecution_ = value;
+            }
+            break;
+          }
         }
       }
     } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -375,6 +386,101 @@ public  final class TestRun extends
     // @@protoc_insertion_point(enum_scope:android_studio.TestRun.TestKind)
   }
 
+  /**
+   * Protobuf enum {@code android_studio.TestRun.TestExecution}
+   *
+   * <pre>
+   * How instrumentation tests will be run
+   * </pre>
+   */
+  public enum TestExecution
+      implements com.google.protobuf.ProtocolMessageEnum {
+    /**
+     * <code>UNKNOWN_TEST_EXECUTION = 0;</code>
+     */
+    UNKNOWN_TEST_EXECUTION(0, 0),
+    /**
+     * <code>HOST = 1;</code>
+     */
+    HOST(1, 1),
+    /**
+     * <code>ANDROID_TEST_ORCHESTRATOR = 2;</code>
+     */
+    ANDROID_TEST_ORCHESTRATOR(2, 2),
+    ;
+
+    /**
+     * <code>UNKNOWN_TEST_EXECUTION = 0;</code>
+     */
+    public static final int UNKNOWN_TEST_EXECUTION_VALUE = 0;
+    /**
+     * <code>HOST = 1;</code>
+     */
+    public static final int HOST_VALUE = 1;
+    /**
+     * <code>ANDROID_TEST_ORCHESTRATOR = 2;</code>
+     */
+    public static final int ANDROID_TEST_ORCHESTRATOR_VALUE = 2;
+
+
+    public final int getNumber() { return value; }
+
+    public static TestExecution valueOf(int value) {
+      switch (value) {
+        case 0: return UNKNOWN_TEST_EXECUTION;
+        case 1: return HOST;
+        case 2: return ANDROID_TEST_ORCHESTRATOR;
+        default: return null;
+      }
+    }
+
+    public static com.google.protobuf.Internal.EnumLiteMap<TestExecution>
+        internalGetValueMap() {
+      return internalValueMap;
+    }
+    private static com.google.protobuf.Internal.EnumLiteMap<TestExecution>
+        internalValueMap =
+          new com.google.protobuf.Internal.EnumLiteMap<TestExecution>() {
+            public TestExecution findValueByNumber(int number) {
+              return TestExecution.valueOf(number);
+            }
+          };
+
+    public final com.google.protobuf.Descriptors.EnumValueDescriptor
+        getValueDescriptor() {
+      return getDescriptor().getValues().get(index);
+    }
+    public final com.google.protobuf.Descriptors.EnumDescriptor
+        getDescriptorForType() {
+      return getDescriptor();
+    }
+    public static final com.google.protobuf.Descriptors.EnumDescriptor
+        getDescriptor() {
+      return com.google.wireless.android.sdk.stats.TestRun.getDescriptor().getEnumTypes().get(2);
+    }
+
+    private static final TestExecution[] VALUES = values();
+
+    public static TestExecution valueOf(
+        com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
+      if (desc.getType() != getDescriptor()) {
+        throw new java.lang.IllegalArgumentException(
+          "EnumValueDescriptor is not for this type.");
+      }
+      return VALUES[desc.getIndex()];
+    }
+
+    private final int index;
+    private final int value;
+
+    private TestExecution(int index, int value) {
+      this.index = index;
+      this.value = value;
+    }
+
+    // @@protoc_insertion_point(enum_scope:android_studio.TestRun.TestExecution)
+  }
+
   private int bitField0_;
   // optional .android_studio.TestRun.TestInvocationType test_invocation_type = 1;
   public static final int TEST_INVOCATION_TYPE_FIELD_NUMBER = 1;
@@ -587,6 +693,30 @@ public  final class TestRun extends
     return testLibraries_;
   }
 
+  // optional .android_studio.TestRun.TestExecution test_execution = 8;
+  public static final int TEST_EXECUTION_FIELD_NUMBER = 8;
+  private com.google.wireless.android.sdk.stats.TestRun.TestExecution testExecution_;
+  /**
+   * <code>optional .android_studio.TestRun.TestExecution test_execution = 8;</code>
+   *
+   * <pre>
+   * Only set when test_kind=INSTRUMENTATION_TEST
+   * </pre>
+   */
+  public boolean hasTestExecution() {
+    return ((bitField0_ & 0x00000080) == 0x00000080);
+  }
+  /**
+   * <code>optional .android_studio.TestRun.TestExecution test_execution = 8;</code>
+   *
+   * <pre>
+   * Only set when test_kind=INSTRUMENTATION_TEST
+   * </pre>
+   */
+  public com.google.wireless.android.sdk.stats.TestRun.TestExecution getTestExecution() {
+    return testExecution_;
+  }
+
   private void initFields() {
     testInvocationType_ = com.google.wireless.android.sdk.stats.TestRun.TestInvocationType.UNKNOWN_TEST_INVOCATION_TYPE;
     numberOfTestsExecuted_ = 0;
@@ -595,6 +725,7 @@ public  final class TestRun extends
     gradleVersion_ = "";
     codeCoverageEnabled_ = false;
     testLibraries_ = com.google.wireless.android.sdk.stats.TestLibraries.getDefaultInstance();
+    testExecution_ = com.google.wireless.android.sdk.stats.TestRun.TestExecution.UNKNOWN_TEST_EXECUTION;
   }
   private byte memoizedIsInitialized = -1;
   public final boolean isInitialized() {
@@ -628,6 +759,9 @@ public  final class TestRun extends
     }
     if (((bitField0_ & 0x00000040) == 0x00000040)) {
       output.writeMessage(7, testLibraries_);
+    }
+    if (((bitField0_ & 0x00000080) == 0x00000080)) {
+      output.writeEnum(8, testExecution_.getNumber());
     }
     getUnknownFields().writeTo(output);
   }
@@ -665,6 +799,10 @@ public  final class TestRun extends
     if (((bitField0_ & 0x00000040) == 0x00000040)) {
       size += com.google.protobuf.CodedOutputStream
         .computeMessageSize(7, testLibraries_);
+    }
+    if (((bitField0_ & 0x00000080) == 0x00000080)) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeEnumSize(8, testExecution_.getNumber());
     }
     size += getUnknownFields().getSerializedSize();
     memoizedSerializedSize = size;
@@ -805,6 +943,8 @@ public  final class TestRun extends
         testLibrariesBuilder_.clear();
       }
       bitField0_ = (bitField0_ & ~0x00000040);
+      testExecution_ = com.google.wireless.android.sdk.stats.TestRun.TestExecution.UNKNOWN_TEST_EXECUTION;
+      bitField0_ = (bitField0_ & ~0x00000080);
       return this;
     }
 
@@ -865,6 +1005,10 @@ public  final class TestRun extends
       } else {
         result.testLibraries_ = testLibrariesBuilder_.build();
       }
+      if (((from_bitField0_ & 0x00000080) == 0x00000080)) {
+        to_bitField0_ |= 0x00000080;
+      }
+      result.testExecution_ = testExecution_;
       result.bitField0_ = to_bitField0_;
       onBuilt();
       return result;
@@ -903,6 +1047,9 @@ public  final class TestRun extends
       }
       if (other.hasTestLibraries()) {
         mergeTestLibraries(other.getTestLibraries());
+      }
+      if (other.hasTestExecution()) {
+        setTestExecution(other.getTestExecution());
       }
       this.mergeUnknownFields(other.getUnknownFields());
       return this;
@@ -1435,6 +1582,58 @@ public  final class TestRun extends
         testLibraries_ = null;
       }
       return testLibrariesBuilder_;
+    }
+
+    // optional .android_studio.TestRun.TestExecution test_execution = 8;
+    private com.google.wireless.android.sdk.stats.TestRun.TestExecution testExecution_ = com.google.wireless.android.sdk.stats.TestRun.TestExecution.UNKNOWN_TEST_EXECUTION;
+    /**
+     * <code>optional .android_studio.TestRun.TestExecution test_execution = 8;</code>
+     *
+     * <pre>
+     * Only set when test_kind=INSTRUMENTATION_TEST
+     * </pre>
+     */
+    public boolean hasTestExecution() {
+      return ((bitField0_ & 0x00000080) == 0x00000080);
+    }
+    /**
+     * <code>optional .android_studio.TestRun.TestExecution test_execution = 8;</code>
+     *
+     * <pre>
+     * Only set when test_kind=INSTRUMENTATION_TEST
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.TestRun.TestExecution getTestExecution() {
+      return testExecution_;
+    }
+    /**
+     * <code>optional .android_studio.TestRun.TestExecution test_execution = 8;</code>
+     *
+     * <pre>
+     * Only set when test_kind=INSTRUMENTATION_TEST
+     * </pre>
+     */
+    public Builder setTestExecution(com.google.wireless.android.sdk.stats.TestRun.TestExecution value) {
+      if (value == null) {
+        throw new NullPointerException();
+      }
+      bitField0_ |= 0x00000080;
+      testExecution_ = value;
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.TestRun.TestExecution test_execution = 8;</code>
+     *
+     * <pre>
+     * Only set when test_kind=INSTRUMENTATION_TEST
+     * </pre>
+     */
+    public Builder clearTestExecution() {
+      bitField0_ = (bitField0_ & ~0x00000080);
+      testExecution_ = com.google.wireless.android.sdk.stats.TestRun.TestExecution.UNKNOWN_TEST_EXECUTION;
+      onChanged();
+      return this;
     }
 
     // @@protoc_insertion_point(builder_scope:android_studio.TestRun)

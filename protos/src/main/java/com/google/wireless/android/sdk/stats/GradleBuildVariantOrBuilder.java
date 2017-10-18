@@ -384,4 +384,32 @@ public interface GradleBuildVariantOrBuilder
    * <code>optional .android_studio.GradleBuildVariant.DexMergerTool dex_merger = 16;</code>
    */
   com.google.wireless.android.sdk.stats.GradleBuildVariant.DexMergerTool getDexMerger();
+
+  // optional .android_studio.GradleBuildVariant.CodeShrinkerTool code_shrinker = 17;
+  /**
+   * <code>optional .android_studio.GradleBuildVariant.CodeShrinkerTool code_shrinker = 17;</code>
+   */
+  boolean hasCodeShrinker();
+  /**
+   * <code>optional .android_studio.GradleBuildVariant.CodeShrinkerTool code_shrinker = 17;</code>
+   */
+  com.google.wireless.android.sdk.stats.GradleBuildVariant.CodeShrinkerTool getCodeShrinker();
+
+  // optional .android_studio.TestRun.TestExecution test_execution = 18;
+  /**
+   * <code>optional .android_studio.TestRun.TestExecution test_execution = 18;</code>
+   *
+   * <pre>
+   * The method used to run instrumentation tests for this variant.
+   * </pre>
+   */
+  boolean hasTestExecution();
+  /**
+   * <code>optional .android_studio.TestRun.TestExecution test_execution = 18;</code>
+   *
+   * <pre>
+   * The method used to run instrumentation tests for this variant.
+   * </pre>
+   */
+  com.google.wireless.android.sdk.stats.TestRun.TestExecution getTestExecution();
 }

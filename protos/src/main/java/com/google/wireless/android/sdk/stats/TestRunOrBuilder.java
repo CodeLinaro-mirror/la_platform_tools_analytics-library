@@ -150,4 +150,22 @@ public interface TestRunOrBuilder
    * </pre>
    */
   com.google.wireless.android.sdk.stats.TestLibrariesOrBuilder getTestLibrariesOrBuilder();
+
+  // optional .android_studio.TestRun.TestExecution test_execution = 8;
+  /**
+   * <code>optional .android_studio.TestRun.TestExecution test_execution = 8;</code>
+   *
+   * <pre>
+   * Only set when test_kind=INSTRUMENTATION_TEST
+   * </pre>
+   */
+  boolean hasTestExecution();
+  /**
+   * <code>optional .android_studio.TestRun.TestExecution test_execution = 8;</code>
+   *
+   * <pre>
+   * Only set when test_kind=INSTRUMENTATION_TEST
+   * </pre>
+   */
+  com.google.wireless.android.sdk.stats.TestRun.TestExecution getTestExecution();
 }

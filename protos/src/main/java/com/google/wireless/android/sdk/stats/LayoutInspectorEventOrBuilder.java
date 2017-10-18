@@ -29,7 +29,7 @@ public interface LayoutInspectorEventOrBuilder
    * <code>optional int64 duration_in_ms = 2;</code>
    *
    * <pre>
-   * defined if LayoutInspectorEventType = CAPTURE
+   * defined if LayoutInspectorEventType = CAPTURE, CAPTURE_TIME_OUT
    * </pre>
    */
   boolean hasDurationInMs();
@@ -37,8 +37,28 @@ public interface LayoutInspectorEventOrBuilder
    * <code>optional int64 duration_in_ms = 2;</code>
    *
    * <pre>
-   * defined if LayoutInspectorEventType = CAPTURE
+   * defined if LayoutInspectorEventType = CAPTURE, CAPTURE_TIME_OUT
    * </pre>
    */
   long getDurationInMs();
+
+  // optional int64 data_size = 3;
+  /**
+   * <code>optional int64 data_size = 3;</code>
+   *
+   * <pre>
+   * defined if LayoutInspectorEventType = CAPTURE
+   * size of the captured view data in bytes
+   * </pre>
+   */
+  boolean hasDataSize();
+  /**
+   * <code>optional int64 data_size = 3;</code>
+   *
+   * <pre>
+   * defined if LayoutInspectorEventType = CAPTURE
+   * size of the captured view data in bytes
+   * </pre>
+   */
+  long getDataSize();
 }

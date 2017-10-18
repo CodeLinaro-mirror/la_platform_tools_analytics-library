@@ -74,6 +74,11 @@ public  final class LayoutInspectorEvent extends
             durationInMs_ = input.readInt64();
             break;
           }
+          case 24: {
+            bitField0_ |= 0x00000004;
+            dataSize_ = input.readInt64();
+            break;
+          }
         }
       }
     } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -124,20 +129,60 @@ public  final class LayoutInspectorEvent extends
     UNKNOWN_EVENT_TYPE(0, 0),
     /**
      * <code>CAPTURE = 1;</code>
+     *
+     * <pre>
+     * Capture view data from a window
+     * </pre>
      */
     CAPTURE(1, 1),
     /**
      * <code>OPEN = 2;</code>
+     *
+     * <pre>
+     * Layout inspector was opened
+     * </pre>
      */
     OPEN(2, 2),
     /**
      * <code>DUMP_DISPLAYLIST = 3;</code>
+     *
+     * <pre>
+     * Dump Display List of selected node
+     * </pre>
      */
     DUMP_DISPLAYLIST(3, 3),
     /**
      * <code>OVERLAY_IMAGE = 4;</code>
+     *
+     * <pre>
+     * Pixel perfect feature used to overlay a design mock
+     * </pre>
      */
     OVERLAY_IMAGE(4, 4),
+    /**
+     * <code>RENDER_SUB_VIEW = 5;</code>
+     *
+     * <pre>
+     * Render a sub section of the captured view
+     * </pre>
+     */
+    RENDER_SUB_VIEW(5, 5),
+    /**
+     * <code>GO_TO_DECLARATION = 6;</code>
+     *
+     * <pre>
+     * Navigate to declaration of a view resource by id
+     * </pre>
+     */
+    GO_TO_DECLARATION(6, 6),
+    /**
+     * <code>CAPTURE_TIME_OUT = 7;</code>
+     *
+     * <pre>
+     * Capture view data timeout
+     * </pre>
+     */
+    CAPTURE_TIME_OUT(7, 7),
     ;
 
     /**
@@ -146,20 +191,60 @@ public  final class LayoutInspectorEvent extends
     public static final int UNKNOWN_EVENT_TYPE_VALUE = 0;
     /**
      * <code>CAPTURE = 1;</code>
+     *
+     * <pre>
+     * Capture view data from a window
+     * </pre>
      */
     public static final int CAPTURE_VALUE = 1;
     /**
      * <code>OPEN = 2;</code>
+     *
+     * <pre>
+     * Layout inspector was opened
+     * </pre>
      */
     public static final int OPEN_VALUE = 2;
     /**
      * <code>DUMP_DISPLAYLIST = 3;</code>
+     *
+     * <pre>
+     * Dump Display List of selected node
+     * </pre>
      */
     public static final int DUMP_DISPLAYLIST_VALUE = 3;
     /**
      * <code>OVERLAY_IMAGE = 4;</code>
+     *
+     * <pre>
+     * Pixel perfect feature used to overlay a design mock
+     * </pre>
      */
     public static final int OVERLAY_IMAGE_VALUE = 4;
+    /**
+     * <code>RENDER_SUB_VIEW = 5;</code>
+     *
+     * <pre>
+     * Render a sub section of the captured view
+     * </pre>
+     */
+    public static final int RENDER_SUB_VIEW_VALUE = 5;
+    /**
+     * <code>GO_TO_DECLARATION = 6;</code>
+     *
+     * <pre>
+     * Navigate to declaration of a view resource by id
+     * </pre>
+     */
+    public static final int GO_TO_DECLARATION_VALUE = 6;
+    /**
+     * <code>CAPTURE_TIME_OUT = 7;</code>
+     *
+     * <pre>
+     * Capture view data timeout
+     * </pre>
+     */
+    public static final int CAPTURE_TIME_OUT_VALUE = 7;
 
 
     public final int getNumber() { return value; }
@@ -171,6 +256,9 @@ public  final class LayoutInspectorEvent extends
         case 2: return OPEN;
         case 3: return DUMP_DISPLAYLIST;
         case 4: return OVERLAY_IMAGE;
+        case 5: return RENDER_SUB_VIEW;
+        case 6: return GO_TO_DECLARATION;
+        case 7: return CAPTURE_TIME_OUT;
         default: return null;
       }
     }
@@ -254,7 +342,7 @@ public  final class LayoutInspectorEvent extends
    * <code>optional int64 duration_in_ms = 2;</code>
    *
    * <pre>
-   * defined if LayoutInspectorEventType = CAPTURE
+   * defined if LayoutInspectorEventType = CAPTURE, CAPTURE_TIME_OUT
    * </pre>
    */
   public boolean hasDurationInMs() {
@@ -264,16 +352,43 @@ public  final class LayoutInspectorEvent extends
    * <code>optional int64 duration_in_ms = 2;</code>
    *
    * <pre>
-   * defined if LayoutInspectorEventType = CAPTURE
+   * defined if LayoutInspectorEventType = CAPTURE, CAPTURE_TIME_OUT
    * </pre>
    */
   public long getDurationInMs() {
     return durationInMs_;
   }
 
+  // optional int64 data_size = 3;
+  public static final int DATA_SIZE_FIELD_NUMBER = 3;
+  private long dataSize_;
+  /**
+   * <code>optional int64 data_size = 3;</code>
+   *
+   * <pre>
+   * defined if LayoutInspectorEventType = CAPTURE
+   * size of the captured view data in bytes
+   * </pre>
+   */
+  public boolean hasDataSize() {
+    return ((bitField0_ & 0x00000004) == 0x00000004);
+  }
+  /**
+   * <code>optional int64 data_size = 3;</code>
+   *
+   * <pre>
+   * defined if LayoutInspectorEventType = CAPTURE
+   * size of the captured view data in bytes
+   * </pre>
+   */
+  public long getDataSize() {
+    return dataSize_;
+  }
+
   private void initFields() {
     type_ = com.google.wireless.android.sdk.stats.LayoutInspectorEvent.LayoutInspectorEventType.UNKNOWN_EVENT_TYPE;
     durationInMs_ = 0L;
+    dataSize_ = 0L;
   }
   private byte memoizedIsInitialized = -1;
   public final boolean isInitialized() {
@@ -293,6 +408,9 @@ public  final class LayoutInspectorEvent extends
     if (((bitField0_ & 0x00000002) == 0x00000002)) {
       output.writeInt64(2, durationInMs_);
     }
+    if (((bitField0_ & 0x00000004) == 0x00000004)) {
+      output.writeInt64(3, dataSize_);
+    }
     getUnknownFields().writeTo(output);
   }
 
@@ -309,6 +427,10 @@ public  final class LayoutInspectorEvent extends
     if (((bitField0_ & 0x00000002) == 0x00000002)) {
       size += com.google.protobuf.CodedOutputStream
         .computeInt64Size(2, durationInMs_);
+    }
+    if (((bitField0_ & 0x00000004) == 0x00000004)) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeInt64Size(3, dataSize_);
     }
     size += getUnknownFields().getSerializedSize();
     memoizedSerializedSize = size;
@@ -434,6 +556,8 @@ public  final class LayoutInspectorEvent extends
       bitField0_ = (bitField0_ & ~0x00000001);
       durationInMs_ = 0L;
       bitField0_ = (bitField0_ & ~0x00000002);
+      dataSize_ = 0L;
+      bitField0_ = (bitField0_ & ~0x00000004);
       return this;
     }
 
@@ -470,6 +594,10 @@ public  final class LayoutInspectorEvent extends
         to_bitField0_ |= 0x00000002;
       }
       result.durationInMs_ = durationInMs_;
+      if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+        to_bitField0_ |= 0x00000004;
+      }
+      result.dataSize_ = dataSize_;
       result.bitField0_ = to_bitField0_;
       onBuilt();
       return result;
@@ -491,6 +619,9 @@ public  final class LayoutInspectorEvent extends
       }
       if (other.hasDurationInMs()) {
         setDurationInMs(other.getDurationInMs());
+      }
+      if (other.hasDataSize()) {
+        setDataSize(other.getDataSize());
       }
       this.mergeUnknownFields(other.getUnknownFields());
       return this;
@@ -577,7 +708,7 @@ public  final class LayoutInspectorEvent extends
      * <code>optional int64 duration_in_ms = 2;</code>
      *
      * <pre>
-     * defined if LayoutInspectorEventType = CAPTURE
+     * defined if LayoutInspectorEventType = CAPTURE, CAPTURE_TIME_OUT
      * </pre>
      */
     public boolean hasDurationInMs() {
@@ -587,7 +718,7 @@ public  final class LayoutInspectorEvent extends
      * <code>optional int64 duration_in_ms = 2;</code>
      *
      * <pre>
-     * defined if LayoutInspectorEventType = CAPTURE
+     * defined if LayoutInspectorEventType = CAPTURE, CAPTURE_TIME_OUT
      * </pre>
      */
     public long getDurationInMs() {
@@ -597,7 +728,7 @@ public  final class LayoutInspectorEvent extends
      * <code>optional int64 duration_in_ms = 2;</code>
      *
      * <pre>
-     * defined if LayoutInspectorEventType = CAPTURE
+     * defined if LayoutInspectorEventType = CAPTURE, CAPTURE_TIME_OUT
      * </pre>
      */
     public Builder setDurationInMs(long value) {
@@ -610,12 +741,65 @@ public  final class LayoutInspectorEvent extends
      * <code>optional int64 duration_in_ms = 2;</code>
      *
      * <pre>
-     * defined if LayoutInspectorEventType = CAPTURE
+     * defined if LayoutInspectorEventType = CAPTURE, CAPTURE_TIME_OUT
      * </pre>
      */
     public Builder clearDurationInMs() {
       bitField0_ = (bitField0_ & ~0x00000002);
       durationInMs_ = 0L;
+      onChanged();
+      return this;
+    }
+
+    // optional int64 data_size = 3;
+    private long dataSize_ ;
+    /**
+     * <code>optional int64 data_size = 3;</code>
+     *
+     * <pre>
+     * defined if LayoutInspectorEventType = CAPTURE
+     * size of the captured view data in bytes
+     * </pre>
+     */
+    public boolean hasDataSize() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>optional int64 data_size = 3;</code>
+     *
+     * <pre>
+     * defined if LayoutInspectorEventType = CAPTURE
+     * size of the captured view data in bytes
+     * </pre>
+     */
+    public long getDataSize() {
+      return dataSize_;
+    }
+    /**
+     * <code>optional int64 data_size = 3;</code>
+     *
+     * <pre>
+     * defined if LayoutInspectorEventType = CAPTURE
+     * size of the captured view data in bytes
+     * </pre>
+     */
+    public Builder setDataSize(long value) {
+      bitField0_ |= 0x00000004;
+      dataSize_ = value;
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>optional int64 data_size = 3;</code>
+     *
+     * <pre>
+     * defined if LayoutInspectorEventType = CAPTURE
+     * size of the captured view data in bytes
+     * </pre>
+     */
+    public Builder clearDataSize() {
+      bitField0_ = (bitField0_ & ~0x00000004);
+      dataSize_ = 0L;
       onChanged();
       return this;
     }
