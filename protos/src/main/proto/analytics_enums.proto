@@ -162,6 +162,9 @@ enum GradleTaskExecutionType {
     LINT_GLOBAL = 117;
     LINT_PER_VARIANT = 118;
     PREPARE_LINT_JAR = 119;
+    LINT_STANDALONE = 120;
+    LINK_APPLICATION_ANDROID_RESOURCES = 121;
+    GENERATE_LIBRARY_R_FILE = 122;
 }
 
 enum BooleanOption {
