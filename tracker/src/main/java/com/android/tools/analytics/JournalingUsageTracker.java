@@ -22,7 +22,6 @@ import com.google.wireless.android.play.playlog.proto.ClientAnalytics;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.nio.channels.Channels;
 import java.nio.channels.FileChannel;
 import java.nio.channels.FileLock;
 import java.nio.channels.OverlappingFileLockException;
@@ -89,15 +88,19 @@ public class JournalingUsageTracker extends UsageTracker {
                 Paths.get(mSpoolLocation.toString(), UUID.randomUUID().toString() + ".trk");
         Files.createDirectories(spoolFile.getParent());
         FileOutputStream fileOutputStream = new FileOutputStream(spoolFile.toFile());
+        mOutputStream = fileOutputStream;
         mChannel = fileOutputStream.getChannel();
 
         try {
             mLock = mChannel.tryLock();
-            mOutputStream = Channels.newOutputStream(mChannel);
         } catch (OverlappingFileLockException e) {
+            mChannel.close();
+            mOutputStream.close();
             throw new IOException("Unable to lock usage tracking spool file", e);
         }
         if (mLock == null) {
+            mChannel.close();
+            mOutputStream.close();
             throw new IOException("Unable to lock usage tracking spool file, file already locked");
         }
         mCurrentLogCount = 0;
@@ -115,6 +118,11 @@ public class JournalingUsageTracker extends UsageTracker {
         if (mChannel != null) {
             mChannel.close();
             mChannel = null;
+        }
+
+        if (mOutputStream != null) {
+            mOutputStream.close();
+            mOutputStream = null;
         }
     }
 
