@@ -1789,6 +1789,8 @@ message GradleBuildVariant {
     DEXGUARD = 2;
     // Jack compiler
     JACK = 3;
+    // D8 compiler
+    D8 = 4;
   }
 
   // Tools that can used to build dex
@@ -2891,6 +2893,8 @@ message CpuProfilingConfig {
     ART = 1;
     // Use simpleperf for advanced Android profiling, works on Android O+
     SIMPLE_PERF = 2;
+    // Use atrace for advanced Android profiling, works on Android O+
+    ATRACE = 3;
   }
 
   enum Mode {

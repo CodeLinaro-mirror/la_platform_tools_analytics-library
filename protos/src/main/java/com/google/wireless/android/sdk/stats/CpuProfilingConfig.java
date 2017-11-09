@@ -150,6 +150,14 @@ public  final class CpuProfilingConfig extends
      * </pre>
      */
     SIMPLE_PERF(2, 2),
+    /**
+     * <code>ATRACE = 3;</code>
+     *
+     * <pre>
+     * Use atrace for advanced Android profiling, works on Android O+
+     * </pre>
+     */
+    ATRACE(3, 3),
     ;
 
     /**
@@ -172,6 +180,14 @@ public  final class CpuProfilingConfig extends
      * </pre>
      */
     public static final int SIMPLE_PERF_VALUE = 2;
+    /**
+     * <code>ATRACE = 3;</code>
+     *
+     * <pre>
+     * Use atrace for advanced Android profiling, works on Android O+
+     * </pre>
+     */
+    public static final int ATRACE_VALUE = 3;
 
 
     public final int getNumber() { return value; }
@@ -181,6 +197,7 @@ public  final class CpuProfilingConfig extends
         case 0: return UNKNOWN_TYPE;
         case 1: return ART;
         case 2: return SIMPLE_PERF;
+        case 3: return ATRACE;
         default: return null;
       }
     }

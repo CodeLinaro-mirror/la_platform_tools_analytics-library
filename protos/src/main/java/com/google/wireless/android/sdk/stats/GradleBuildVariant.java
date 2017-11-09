@@ -485,6 +485,14 @@ public  final class GradleBuildVariant extends
      * </pre>
      */
     JACK(3, 3),
+    /**
+     * <code>D8 = 4;</code>
+     *
+     * <pre>
+     * D8 compiler
+     * </pre>
+     */
+    D8(4, 4),
     ;
 
     /**
@@ -519,6 +527,14 @@ public  final class GradleBuildVariant extends
      * </pre>
      */
     public static final int JACK_VALUE = 3;
+    /**
+     * <code>D8 = 4;</code>
+     *
+     * <pre>
+     * D8 compiler
+     * </pre>
+     */
+    public static final int D8_VALUE = 4;
 
 
     public final int getNumber() { return value; }
@@ -529,6 +545,7 @@ public  final class GradleBuildVariant extends
         case 1: return RETROLAMBDA;
         case 2: return DEXGUARD;
         case 3: return JACK;
+        case 4: return D8;
         default: return null;
       }
     }
