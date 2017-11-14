@@ -1,5 +1,11 @@
 apply plugin: 'java'
-apply plugin: 'jacoco'
+
+// Apply the Jacoco plugin only if we are not on Windows, as there is currently a bug relating to
+// long file paths (https://github.com/gradle/gradle/issues/949) that prevents our tools Windows
+// build bot from passing.
+if (!System.getProperty("os.name").toLowerCase().startsWith("windows")) {
+    apply plugin: 'jacoco'
+}
 
 dependencies {
     compile project(':base:annotations')
