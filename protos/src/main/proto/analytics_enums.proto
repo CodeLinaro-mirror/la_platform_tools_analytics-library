@@ -207,6 +207,7 @@ enum BooleanOption {
     ENABLE_NEW_DSL_AND_API = 35;
     ENABLE_D8_DESUGARING = 36;
     ENABLE_INCREMENTAL_DESUGARING = 37;
+    ENABLE_SEPARATE_R_CLASS_COMPILATION = 38;
 }
 
 enum OptionalBooleanOption {
