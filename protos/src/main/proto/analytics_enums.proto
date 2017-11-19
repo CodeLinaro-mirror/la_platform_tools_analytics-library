@@ -40,6 +40,7 @@ enum GradleTransformExecutionType {
     FIX_STACK_FRAMES = 33;
     EXTERNAL_LIBS_MERGER = 34;
     D8_MAIN_DEX_LIST=35;
+    DATA_BINDING_MERGE_GEN_CLASS_LOG = 36;
 }
 
 enum GradleTaskExecutionType {
@@ -167,6 +168,7 @@ enum GradleTaskExecutionType {
     LINK_APPLICATION_ANDROID_RESOURCES = 121;
     GENERATE_LIBRARY_R_FILE = 122;
     INSTANT_RUN_MAIN_APK_RESOURCES_BUILDER = 123;
+    DATA_BINDING_GEN_BASE_CLASSES = 124;
 }
 
 enum BooleanOption {
@@ -210,6 +212,7 @@ enum BooleanOption {
     ENABLE_INCREMENTAL_DESUGARING = 37;
     ENABLE_SEPARATE_R_CLASS_COMPILATION = 38;
     ENABLE_D8_MAIN_DEX_LIST = 39;
+    ENABLE_DATA_BINDING_V2 = 40;
 }
 
 enum OptionalBooleanOption {
