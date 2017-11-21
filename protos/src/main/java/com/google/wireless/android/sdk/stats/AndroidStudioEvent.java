@@ -675,6 +675,19 @@ public  final class AndroidStudioEvent extends
             bitField1_ |= 0x00200000;
             break;
           }
+          case 442: {
+            com.google.wireless.android.sdk.stats.ConnectionAssistantEvent.Builder subBuilder = null;
+            if (((bitField1_ & 0x00400000) == 0x00400000)) {
+              subBuilder = connectionAssistantEvent_.toBuilder();
+            }
+            connectionAssistantEvent_ = input.readMessage(com.google.wireless.android.sdk.stats.ConnectionAssistantEvent.PARSER, extensionRegistry);
+            if (subBuilder != null) {
+              subBuilder.mergeFrom(connectionAssistantEvent_);
+              connectionAssistantEvent_ = subBuilder.buildPartial();
+            }
+            bitField1_ |= 0x00400000;
+            break;
+          }
         }
       }
     } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -2211,6 +2224,14 @@ public  final class AndroidStudioEvent extends
      * </pre>
      */
     ANDROID_PROFILER_DB_STATS(122, 125),
+    /**
+     * <code>CONNECTION_ASSISTANT_EVENT = 126;</code>
+     *
+     * <pre>
+     * Connection Assistant event
+     * </pre>
+     */
+    CONNECTION_ASSISTANT_EVENT(123, 126),
     ;
 
     /**
@@ -3178,6 +3199,14 @@ public  final class AndroidStudioEvent extends
      * </pre>
      */
     public static final int ANDROID_PROFILER_DB_STATS_VALUE = 125;
+    /**
+     * <code>CONNECTION_ASSISTANT_EVENT = 126;</code>
+     *
+     * <pre>
+     * Connection Assistant event
+     * </pre>
+     */
+    public static final int CONNECTION_ASSISTANT_EVENT_VALUE = 126;
 
 
     public final int getNumber() { return value; }
@@ -3307,6 +3336,7 @@ public  final class AndroidStudioEvent extends
         case 123: return APK_DEBUG_SELECT_PATH_MAPPINGS;
         case 124: return LAYOUT_INSPECTOR_EVENT;
         case 125: return ANDROID_PROFILER_DB_STATS;
+        case 126: return CONNECTION_ASSISTANT_EVENT;
         default: return null;
       }
     }
@@ -6544,6 +6574,40 @@ public  final class AndroidStudioEvent extends
     return kotlinSupport_;
   }
 
+  // optional .android_studio.ConnectionAssistantEvent connection_assistant_event = 55;
+  public static final int CONNECTION_ASSISTANT_EVENT_FIELD_NUMBER = 55;
+  private com.google.wireless.android.sdk.stats.ConnectionAssistantEvent connectionAssistantEvent_;
+  /**
+   * <code>optional .android_studio.ConnectionAssistantEvent connection_assistant_event = 55;</code>
+   *
+   * <pre>
+   * set when kind = CONNECTION_ASSISTANT_EVENT
+   * </pre>
+   */
+  public boolean hasConnectionAssistantEvent() {
+    return ((bitField1_ & 0x00400000) == 0x00400000);
+  }
+  /**
+   * <code>optional .android_studio.ConnectionAssistantEvent connection_assistant_event = 55;</code>
+   *
+   * <pre>
+   * set when kind = CONNECTION_ASSISTANT_EVENT
+   * </pre>
+   */
+  public com.google.wireless.android.sdk.stats.ConnectionAssistantEvent getConnectionAssistantEvent() {
+    return connectionAssistantEvent_;
+  }
+  /**
+   * <code>optional .android_studio.ConnectionAssistantEvent connection_assistant_event = 55;</code>
+   *
+   * <pre>
+   * set when kind = CONNECTION_ASSISTANT_EVENT
+   * </pre>
+   */
+  public com.google.wireless.android.sdk.stats.ConnectionAssistantEventOrBuilder getConnectionAssistantEventOrBuilder() {
+    return connectionAssistantEvent_;
+  }
+
   private void initFields() {
     category_ = com.google.wireless.android.sdk.stats.AndroidStudioEvent.EventCategory.NO_EVENT_CATEGORY;
     kind_ = com.google.wireless.android.sdk.stats.AndroidStudioEvent.EventKind.UNKNOWN_EVENT_KIND;
@@ -6599,6 +6663,7 @@ public  final class AndroidStudioEvent extends
     layoutInspectorEvent_ = com.google.wireless.android.sdk.stats.LayoutInspectorEvent.getDefaultInstance();
     androidProfilerDbStats_ = com.google.wireless.android.sdk.stats.AndroidProfilerDbStats.getDefaultInstance();
     kotlinSupport_ = com.google.wireless.android.sdk.stats.KotlinSupport.getDefaultInstance();
+    connectionAssistantEvent_ = com.google.wireless.android.sdk.stats.ConnectionAssistantEvent.getDefaultInstance();
   }
   private byte memoizedIsInitialized = -1;
   public final boolean isInitialized() {
@@ -6773,6 +6838,9 @@ public  final class AndroidStudioEvent extends
     }
     if (((bitField1_ & 0x00200000) == 0x00200000)) {
       output.writeMessage(54, kotlinSupport_);
+    }
+    if (((bitField1_ & 0x00400000) == 0x00400000)) {
+      output.writeMessage(55, connectionAssistantEvent_);
     }
     getUnknownFields().writeTo(output);
   }
@@ -6999,6 +7067,10 @@ public  final class AndroidStudioEvent extends
       size += com.google.protobuf.CodedOutputStream
         .computeMessageSize(54, kotlinSupport_);
     }
+    if (((bitField1_ & 0x00400000) == 0x00400000)) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeMessageSize(55, connectionAssistantEvent_);
+    }
     size += getUnknownFields().getSerializedSize();
     memoizedSerializedSize = size;
     return size;
@@ -7144,6 +7216,7 @@ public  final class AndroidStudioEvent extends
         getLayoutInspectorEventFieldBuilder();
         getAndroidProfilerDbStatsFieldBuilder();
         getKotlinSupportFieldBuilder();
+        getConnectionAssistantEventFieldBuilder();
       }
     }
     private static Builder create() {
@@ -7408,6 +7481,12 @@ public  final class AndroidStudioEvent extends
         kotlinSupportBuilder_.clear();
       }
       bitField1_ = (bitField1_ & ~0x00200000);
+      if (connectionAssistantEventBuilder_ == null) {
+        connectionAssistantEvent_ = com.google.wireless.android.sdk.stats.ConnectionAssistantEvent.getDefaultInstance();
+      } else {
+        connectionAssistantEventBuilder_.clear();
+      }
+      bitField1_ = (bitField1_ & ~0x00400000);
       return this;
     }
 
@@ -7802,6 +7881,14 @@ public  final class AndroidStudioEvent extends
       } else {
         result.kotlinSupport_ = kotlinSupportBuilder_.build();
       }
+      if (((from_bitField1_ & 0x00400000) == 0x00400000)) {
+        to_bitField1_ |= 0x00400000;
+      }
+      if (connectionAssistantEventBuilder_ == null) {
+        result.connectionAssistantEvent_ = connectionAssistantEvent_;
+      } else {
+        result.connectionAssistantEvent_ = connectionAssistantEventBuilder_.build();
+      }
       result.bitField0_ = to_bitField0_;
       result.bitField1_ = to_bitField1_;
       onBuilt();
@@ -7992,6 +8079,9 @@ public  final class AndroidStudioEvent extends
       }
       if (other.hasKotlinSupport()) {
         mergeKotlinSupport(other.getKotlinSupport());
+      }
+      if (other.hasConnectionAssistantEvent()) {
+        mergeConnectionAssistantEvent(other.getConnectionAssistantEvent());
       }
       this.mergeUnknownFields(other.getUnknownFields());
       return this;
@@ -15020,6 +15110,159 @@ public  final class AndroidStudioEvent extends
         kotlinSupport_ = null;
       }
       return kotlinSupportBuilder_;
+    }
+
+    // optional .android_studio.ConnectionAssistantEvent connection_assistant_event = 55;
+    private com.google.wireless.android.sdk.stats.ConnectionAssistantEvent connectionAssistantEvent_ = com.google.wireless.android.sdk.stats.ConnectionAssistantEvent.getDefaultInstance();
+    private com.google.protobuf.SingleFieldBuilder<
+        com.google.wireless.android.sdk.stats.ConnectionAssistantEvent, com.google.wireless.android.sdk.stats.ConnectionAssistantEvent.Builder, com.google.wireless.android.sdk.stats.ConnectionAssistantEventOrBuilder> connectionAssistantEventBuilder_;
+    /**
+     * <code>optional .android_studio.ConnectionAssistantEvent connection_assistant_event = 55;</code>
+     *
+     * <pre>
+     * set when kind = CONNECTION_ASSISTANT_EVENT
+     * </pre>
+     */
+    public boolean hasConnectionAssistantEvent() {
+      return ((bitField1_ & 0x00400000) == 0x00400000);
+    }
+    /**
+     * <code>optional .android_studio.ConnectionAssistantEvent connection_assistant_event = 55;</code>
+     *
+     * <pre>
+     * set when kind = CONNECTION_ASSISTANT_EVENT
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.ConnectionAssistantEvent getConnectionAssistantEvent() {
+      if (connectionAssistantEventBuilder_ == null) {
+        return connectionAssistantEvent_;
+      } else {
+        return connectionAssistantEventBuilder_.getMessage();
+      }
+    }
+    /**
+     * <code>optional .android_studio.ConnectionAssistantEvent connection_assistant_event = 55;</code>
+     *
+     * <pre>
+     * set when kind = CONNECTION_ASSISTANT_EVENT
+     * </pre>
+     */
+    public Builder setConnectionAssistantEvent(com.google.wireless.android.sdk.stats.ConnectionAssistantEvent value) {
+      if (connectionAssistantEventBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        connectionAssistantEvent_ = value;
+        onChanged();
+      } else {
+        connectionAssistantEventBuilder_.setMessage(value);
+      }
+      bitField1_ |= 0x00400000;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.ConnectionAssistantEvent connection_assistant_event = 55;</code>
+     *
+     * <pre>
+     * set when kind = CONNECTION_ASSISTANT_EVENT
+     * </pre>
+     */
+    public Builder setConnectionAssistantEvent(
+        com.google.wireless.android.sdk.stats.ConnectionAssistantEvent.Builder builderForValue) {
+      if (connectionAssistantEventBuilder_ == null) {
+        connectionAssistantEvent_ = builderForValue.build();
+        onChanged();
+      } else {
+        connectionAssistantEventBuilder_.setMessage(builderForValue.build());
+      }
+      bitField1_ |= 0x00400000;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.ConnectionAssistantEvent connection_assistant_event = 55;</code>
+     *
+     * <pre>
+     * set when kind = CONNECTION_ASSISTANT_EVENT
+     * </pre>
+     */
+    public Builder mergeConnectionAssistantEvent(com.google.wireless.android.sdk.stats.ConnectionAssistantEvent value) {
+      if (connectionAssistantEventBuilder_ == null) {
+        if (((bitField1_ & 0x00400000) == 0x00400000) &&
+            connectionAssistantEvent_ != com.google.wireless.android.sdk.stats.ConnectionAssistantEvent.getDefaultInstance()) {
+          connectionAssistantEvent_ =
+            com.google.wireless.android.sdk.stats.ConnectionAssistantEvent.newBuilder(connectionAssistantEvent_).mergeFrom(value).buildPartial();
+        } else {
+          connectionAssistantEvent_ = value;
+        }
+        onChanged();
+      } else {
+        connectionAssistantEventBuilder_.mergeFrom(value);
+      }
+      bitField1_ |= 0x00400000;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.ConnectionAssistantEvent connection_assistant_event = 55;</code>
+     *
+     * <pre>
+     * set when kind = CONNECTION_ASSISTANT_EVENT
+     * </pre>
+     */
+    public Builder clearConnectionAssistantEvent() {
+      if (connectionAssistantEventBuilder_ == null) {
+        connectionAssistantEvent_ = com.google.wireless.android.sdk.stats.ConnectionAssistantEvent.getDefaultInstance();
+        onChanged();
+      } else {
+        connectionAssistantEventBuilder_.clear();
+      }
+      bitField1_ = (bitField1_ & ~0x00400000);
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.ConnectionAssistantEvent connection_assistant_event = 55;</code>
+     *
+     * <pre>
+     * set when kind = CONNECTION_ASSISTANT_EVENT
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.ConnectionAssistantEvent.Builder getConnectionAssistantEventBuilder() {
+      bitField1_ |= 0x00400000;
+      onChanged();
+      return getConnectionAssistantEventFieldBuilder().getBuilder();
+    }
+    /**
+     * <code>optional .android_studio.ConnectionAssistantEvent connection_assistant_event = 55;</code>
+     *
+     * <pre>
+     * set when kind = CONNECTION_ASSISTANT_EVENT
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.ConnectionAssistantEventOrBuilder getConnectionAssistantEventOrBuilder() {
+      if (connectionAssistantEventBuilder_ != null) {
+        return connectionAssistantEventBuilder_.getMessageOrBuilder();
+      } else {
+        return connectionAssistantEvent_;
+      }
+    }
+    /**
+     * <code>optional .android_studio.ConnectionAssistantEvent connection_assistant_event = 55;</code>
+     *
+     * <pre>
+     * set when kind = CONNECTION_ASSISTANT_EVENT
+     * </pre>
+     */
+    private com.google.protobuf.SingleFieldBuilder<
+        com.google.wireless.android.sdk.stats.ConnectionAssistantEvent, com.google.wireless.android.sdk.stats.ConnectionAssistantEvent.Builder, com.google.wireless.android.sdk.stats.ConnectionAssistantEventOrBuilder> 
+        getConnectionAssistantEventFieldBuilder() {
+      if (connectionAssistantEventBuilder_ == null) {
+        connectionAssistantEventBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+            com.google.wireless.android.sdk.stats.ConnectionAssistantEvent, com.google.wireless.android.sdk.stats.ConnectionAssistantEvent.Builder, com.google.wireless.android.sdk.stats.ConnectionAssistantEventOrBuilder>(
+                connectionAssistantEvent_,
+                getParentForChildren(),
+                isClean());
+        connectionAssistantEvent_ = null;
+      }
+      return connectionAssistantEventBuilder_;
     }
 
     // @@protoc_insertion_point(builder_scope:android_studio.AndroidStudioEvent)

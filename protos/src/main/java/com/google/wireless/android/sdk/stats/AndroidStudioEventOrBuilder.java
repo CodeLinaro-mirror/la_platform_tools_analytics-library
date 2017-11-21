@@ -1399,4 +1399,30 @@ public interface AndroidStudioEventOrBuilder
    * </pre>
    */
   com.google.wireless.android.sdk.stats.KotlinSupportOrBuilder getKotlinSupportOrBuilder();
+
+  // optional .android_studio.ConnectionAssistantEvent connection_assistant_event = 55;
+  /**
+   * <code>optional .android_studio.ConnectionAssistantEvent connection_assistant_event = 55;</code>
+   *
+   * <pre>
+   * set when kind = CONNECTION_ASSISTANT_EVENT
+   * </pre>
+   */
+  boolean hasConnectionAssistantEvent();
+  /**
+   * <code>optional .android_studio.ConnectionAssistantEvent connection_assistant_event = 55;</code>
+   *
+   * <pre>
+   * set when kind = CONNECTION_ASSISTANT_EVENT
+   * </pre>
+   */
+  com.google.wireless.android.sdk.stats.ConnectionAssistantEvent getConnectionAssistantEvent();
+  /**
+   * <code>optional .android_studio.ConnectionAssistantEvent connection_assistant_event = 55;</code>
+   *
+   * <pre>
+   * set when kind = CONNECTION_ASSISTANT_EVENT
+   * </pre>
+   */
+  com.google.wireless.android.sdk.stats.ConnectionAssistantEventOrBuilder getConnectionAssistantEventOrBuilder();
 }

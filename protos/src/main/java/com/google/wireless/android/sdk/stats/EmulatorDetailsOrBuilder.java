@@ -455,4 +455,30 @@ public interface EmulatorDetailsOrBuilder
    * <code>optional .android_studio.EmulatorQuickbootSave quickboot_save = 22;</code>
    */
   com.google.wireless.android.sdk.stats.EmulatorQuickbootSaveOrBuilder getQuickbootSaveOrBuilder();
+
+  // optional .android_studio.EmulatorGLESUsages gles_usages = 23;
+  /**
+   * <code>optional .android_studio.EmulatorGLESUsages gles_usages = 23;</code>
+   *
+   * <pre>
+   * Track GLES command usages
+   * </pre>
+   */
+  boolean hasGlesUsages();
+  /**
+   * <code>optional .android_studio.EmulatorGLESUsages gles_usages = 23;</code>
+   *
+   * <pre>
+   * Track GLES command usages
+   * </pre>
+   */
+  com.google.wireless.android.sdk.stats.EmulatorGLESUsages getGlesUsages();
+  /**
+   * <code>optional .android_studio.EmulatorGLESUsages gles_usages = 23;</code>
+   *
+   * <pre>
+   * Track GLES command usages
+   * </pre>
+   */
+  com.google.wireless.android.sdk.stats.EmulatorGLESUsagesOrBuilder getGlesUsagesOrBuilder();
 }
