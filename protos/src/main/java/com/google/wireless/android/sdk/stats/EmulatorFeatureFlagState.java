@@ -318,12 +318,20 @@ public  final class EmulatorFeatureFlagState extends
     KVM(15, 15),
     /**
      * <code>HAXM = 16;</code>
-     *
-     * <pre>
-     * Next tag: 17
-     * </pre>
      */
     HAXM(16, 16),
+    /**
+     * <code>FAST_SNAPSHOT_V1 = 17;</code>
+     */
+    FAST_SNAPSHOT_V1(17, 17),
+    /**
+     * <code>SCREEN_RECORDING = 18;</code>
+     *
+     * <pre>
+     * Next tag: 19
+     * </pre>
+     */
+    SCREEN_RECORDING(18, 18),
     ;
 
     /**
@@ -396,12 +404,20 @@ public  final class EmulatorFeatureFlagState extends
     public static final int KVM_VALUE = 15;
     /**
      * <code>HAXM = 16;</code>
-     *
-     * <pre>
-     * Next tag: 17
-     * </pre>
      */
     public static final int HAXM_VALUE = 16;
+    /**
+     * <code>FAST_SNAPSHOT_V1 = 17;</code>
+     */
+    public static final int FAST_SNAPSHOT_V1_VALUE = 17;
+    /**
+     * <code>SCREEN_RECORDING = 18;</code>
+     *
+     * <pre>
+     * Next tag: 19
+     * </pre>
+     */
+    public static final int SCREEN_RECORDING_VALUE = 18;
 
 
     public final int getNumber() { return value; }
@@ -425,6 +441,8 @@ public  final class EmulatorFeatureFlagState extends
         case 14: return HVF;
         case 15: return KVM;
         case 16: return HAXM;
+        case 17: return FAST_SNAPSHOT_V1;
+        case 18: return SCREEN_RECORDING;
         default: return null;
       }
     }

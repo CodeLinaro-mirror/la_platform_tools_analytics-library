@@ -244,6 +244,19 @@ public  final class EmulatorDetails extends
             bitField0_ |= 0x00080000;
             break;
           }
+          case 186: {
+            com.google.wireless.android.sdk.stats.EmulatorGLESUsages.Builder subBuilder = null;
+            if (((bitField0_ & 0x00100000) == 0x00100000)) {
+              subBuilder = glesUsages_.toBuilder();
+            }
+            glesUsages_ = input.readMessage(com.google.wireless.android.sdk.stats.EmulatorGLESUsages.PARSER, extensionRegistry);
+            if (subBuilder != null) {
+              subBuilder.mergeFrom(glesUsages_);
+              glesUsages_ = subBuilder.buildPartial();
+            }
+            bitField0_ |= 0x00100000;
+            break;
+          }
         }
       }
     } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -764,9 +777,25 @@ public  final class EmulatorDetails extends
      */
     ANGLE(6, 6),
     /**
+     * <code>ANGLE9 = 7;</code>
+     */
+    ANGLE9(7, 7),
+    /**
+     * <code>SWIFTSHADER_INDIRECT = 8;</code>
+     */
+    SWIFTSHADER_INDIRECT(8, 8),
+    /**
+     * <code>ANGLE_INDIRECT = 9;</code>
+     */
+    ANGLE_INDIRECT(9, 9),
+    /**
+     * <code>ANGLE9_INDIRECT = 10;</code>
+     */
+    ANGLE9_INDIRECT(10, 10),
+    /**
      * <code>ERROR_IN_EMULATOR_RENDERER = 255;</code>
      */
-    ERROR_IN_EMULATOR_RENDERER(7, 255),
+    ERROR_IN_EMULATOR_RENDERER(11, 255),
     ;
 
     /**
@@ -798,6 +827,22 @@ public  final class EmulatorDetails extends
      */
     public static final int ANGLE_VALUE = 6;
     /**
+     * <code>ANGLE9 = 7;</code>
+     */
+    public static final int ANGLE9_VALUE = 7;
+    /**
+     * <code>SWIFTSHADER_INDIRECT = 8;</code>
+     */
+    public static final int SWIFTSHADER_INDIRECT_VALUE = 8;
+    /**
+     * <code>ANGLE_INDIRECT = 9;</code>
+     */
+    public static final int ANGLE_INDIRECT_VALUE = 9;
+    /**
+     * <code>ANGLE9_INDIRECT = 10;</code>
+     */
+    public static final int ANGLE9_INDIRECT_VALUE = 10;
+    /**
      * <code>ERROR_IN_EMULATOR_RENDERER = 255;</code>
      */
     public static final int ERROR_IN_EMULATOR_RENDERER_VALUE = 255;
@@ -814,6 +859,10 @@ public  final class EmulatorDetails extends
         case 4: return MESA;
         case 5: return SWIFTSHADER;
         case 6: return ANGLE;
+        case 7: return ANGLE9;
+        case 8: return SWIFTSHADER_INDIRECT;
+        case 9: return ANGLE_INDIRECT;
+        case 10: return ANGLE9_INDIRECT;
         case 255: return ERROR_IN_EMULATOR_RENDERER;
         default: return null;
       }
@@ -1636,6 +1685,40 @@ public  final class EmulatorDetails extends
     return quickbootSave_;
   }
 
+  // optional .android_studio.EmulatorGLESUsages gles_usages = 23;
+  public static final int GLES_USAGES_FIELD_NUMBER = 23;
+  private com.google.wireless.android.sdk.stats.EmulatorGLESUsages glesUsages_;
+  /**
+   * <code>optional .android_studio.EmulatorGLESUsages gles_usages = 23;</code>
+   *
+   * <pre>
+   * Track GLES command usages
+   * </pre>
+   */
+  public boolean hasGlesUsages() {
+    return ((bitField0_ & 0x00100000) == 0x00100000);
+  }
+  /**
+   * <code>optional .android_studio.EmulatorGLESUsages gles_usages = 23;</code>
+   *
+   * <pre>
+   * Track GLES command usages
+   * </pre>
+   */
+  public com.google.wireless.android.sdk.stats.EmulatorGLESUsages getGlesUsages() {
+    return glesUsages_;
+  }
+  /**
+   * <code>optional .android_studio.EmulatorGLESUsages gles_usages = 23;</code>
+   *
+   * <pre>
+   * Track GLES command usages
+   * </pre>
+   */
+  public com.google.wireless.android.sdk.stats.EmulatorGLESUsagesOrBuilder getGlesUsagesOrBuilder() {
+    return glesUsages_;
+  }
+
   private void initFields() {
     guestArch_ = com.google.wireless.android.sdk.stats.EmulatorDetails.GuestCpuArchitecture.UNKNOWN_GUEST_CPU_ARCHITECTURE;
     systemTime_ = 0L;
@@ -1658,6 +1741,7 @@ public  final class EmulatorDetails extends
     hypervisor_ = com.google.wireless.android.sdk.stats.EmulatorDetails.EmulatorHypervisor.UNKNOWN_HYPERVISOR;
     quickbootLoad_ = com.google.wireless.android.sdk.stats.EmulatorQuickbootLoad.getDefaultInstance();
     quickbootSave_ = com.google.wireless.android.sdk.stats.EmulatorQuickbootSave.getDefaultInstance();
+    glesUsages_ = com.google.wireless.android.sdk.stats.EmulatorGLESUsages.getDefaultInstance();
   }
   private byte memoizedIsInitialized = -1;
   public final boolean isInitialized() {
@@ -1733,6 +1817,9 @@ public  final class EmulatorDetails extends
     }
     if (((bitField0_ & 0x00080000) == 0x00080000)) {
       output.writeMessage(22, quickbootSave_);
+    }
+    if (((bitField0_ & 0x00100000) == 0x00100000)) {
+      output.writeMessage(23, glesUsages_);
     }
     getUnknownFields().writeTo(output);
   }
@@ -1826,6 +1913,10 @@ public  final class EmulatorDetails extends
     if (((bitField0_ & 0x00080000) == 0x00080000)) {
       size += com.google.protobuf.CodedOutputStream
         .computeMessageSize(22, quickbootSave_);
+    }
+    if (((bitField0_ & 0x00100000) == 0x00100000)) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeMessageSize(23, glesUsages_);
     }
     size += getUnknownFields().getSerializedSize();
     memoizedSerializedSize = size;
@@ -1946,6 +2037,7 @@ public  final class EmulatorDetails extends
         getFeatureFlagStateFieldBuilder();
         getQuickbootLoadFieldBuilder();
         getQuickbootSaveFieldBuilder();
+        getGlesUsagesFieldBuilder();
       }
     }
     private static Builder create() {
@@ -2024,6 +2116,12 @@ public  final class EmulatorDetails extends
         quickbootSaveBuilder_.clear();
       }
       bitField0_ = (bitField0_ & ~0x00100000);
+      if (glesUsagesBuilder_ == null) {
+        glesUsages_ = com.google.wireless.android.sdk.stats.EmulatorGLESUsages.getDefaultInstance();
+      } else {
+        glesUsagesBuilder_.clear();
+      }
+      bitField0_ = (bitField0_ & ~0x00200000);
       return this;
     }
 
@@ -2165,6 +2263,14 @@ public  final class EmulatorDetails extends
       } else {
         result.quickbootSave_ = quickbootSaveBuilder_.build();
       }
+      if (((from_bitField0_ & 0x00200000) == 0x00200000)) {
+        to_bitField0_ |= 0x00100000;
+      }
+      if (glesUsagesBuilder_ == null) {
+        result.glesUsages_ = glesUsages_;
+      } else {
+        result.glesUsages_ = glesUsagesBuilder_.build();
+      }
       result.bitField0_ = to_bitField0_;
       onBuilt();
       return result;
@@ -2268,6 +2374,9 @@ public  final class EmulatorDetails extends
       }
       if (other.hasQuickbootSave()) {
         mergeQuickbootSave(other.getQuickbootSave());
+      }
+      if (other.hasGlesUsages()) {
+        mergeGlesUsages(other.getGlesUsages());
       }
       this.mergeUnknownFields(other.getUnknownFields());
       return this;
@@ -4238,6 +4347,159 @@ public  final class EmulatorDetails extends
         quickbootSave_ = null;
       }
       return quickbootSaveBuilder_;
+    }
+
+    // optional .android_studio.EmulatorGLESUsages gles_usages = 23;
+    private com.google.wireless.android.sdk.stats.EmulatorGLESUsages glesUsages_ = com.google.wireless.android.sdk.stats.EmulatorGLESUsages.getDefaultInstance();
+    private com.google.protobuf.SingleFieldBuilder<
+        com.google.wireless.android.sdk.stats.EmulatorGLESUsages, com.google.wireless.android.sdk.stats.EmulatorGLESUsages.Builder, com.google.wireless.android.sdk.stats.EmulatorGLESUsagesOrBuilder> glesUsagesBuilder_;
+    /**
+     * <code>optional .android_studio.EmulatorGLESUsages gles_usages = 23;</code>
+     *
+     * <pre>
+     * Track GLES command usages
+     * </pre>
+     */
+    public boolean hasGlesUsages() {
+      return ((bitField0_ & 0x00200000) == 0x00200000);
+    }
+    /**
+     * <code>optional .android_studio.EmulatorGLESUsages gles_usages = 23;</code>
+     *
+     * <pre>
+     * Track GLES command usages
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.EmulatorGLESUsages getGlesUsages() {
+      if (glesUsagesBuilder_ == null) {
+        return glesUsages_;
+      } else {
+        return glesUsagesBuilder_.getMessage();
+      }
+    }
+    /**
+     * <code>optional .android_studio.EmulatorGLESUsages gles_usages = 23;</code>
+     *
+     * <pre>
+     * Track GLES command usages
+     * </pre>
+     */
+    public Builder setGlesUsages(com.google.wireless.android.sdk.stats.EmulatorGLESUsages value) {
+      if (glesUsagesBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        glesUsages_ = value;
+        onChanged();
+      } else {
+        glesUsagesBuilder_.setMessage(value);
+      }
+      bitField0_ |= 0x00200000;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.EmulatorGLESUsages gles_usages = 23;</code>
+     *
+     * <pre>
+     * Track GLES command usages
+     * </pre>
+     */
+    public Builder setGlesUsages(
+        com.google.wireless.android.sdk.stats.EmulatorGLESUsages.Builder builderForValue) {
+      if (glesUsagesBuilder_ == null) {
+        glesUsages_ = builderForValue.build();
+        onChanged();
+      } else {
+        glesUsagesBuilder_.setMessage(builderForValue.build());
+      }
+      bitField0_ |= 0x00200000;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.EmulatorGLESUsages gles_usages = 23;</code>
+     *
+     * <pre>
+     * Track GLES command usages
+     * </pre>
+     */
+    public Builder mergeGlesUsages(com.google.wireless.android.sdk.stats.EmulatorGLESUsages value) {
+      if (glesUsagesBuilder_ == null) {
+        if (((bitField0_ & 0x00200000) == 0x00200000) &&
+            glesUsages_ != com.google.wireless.android.sdk.stats.EmulatorGLESUsages.getDefaultInstance()) {
+          glesUsages_ =
+            com.google.wireless.android.sdk.stats.EmulatorGLESUsages.newBuilder(glesUsages_).mergeFrom(value).buildPartial();
+        } else {
+          glesUsages_ = value;
+        }
+        onChanged();
+      } else {
+        glesUsagesBuilder_.mergeFrom(value);
+      }
+      bitField0_ |= 0x00200000;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.EmulatorGLESUsages gles_usages = 23;</code>
+     *
+     * <pre>
+     * Track GLES command usages
+     * </pre>
+     */
+    public Builder clearGlesUsages() {
+      if (glesUsagesBuilder_ == null) {
+        glesUsages_ = com.google.wireless.android.sdk.stats.EmulatorGLESUsages.getDefaultInstance();
+        onChanged();
+      } else {
+        glesUsagesBuilder_.clear();
+      }
+      bitField0_ = (bitField0_ & ~0x00200000);
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.EmulatorGLESUsages gles_usages = 23;</code>
+     *
+     * <pre>
+     * Track GLES command usages
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.EmulatorGLESUsages.Builder getGlesUsagesBuilder() {
+      bitField0_ |= 0x00200000;
+      onChanged();
+      return getGlesUsagesFieldBuilder().getBuilder();
+    }
+    /**
+     * <code>optional .android_studio.EmulatorGLESUsages gles_usages = 23;</code>
+     *
+     * <pre>
+     * Track GLES command usages
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.EmulatorGLESUsagesOrBuilder getGlesUsagesOrBuilder() {
+      if (glesUsagesBuilder_ != null) {
+        return glesUsagesBuilder_.getMessageOrBuilder();
+      } else {
+        return glesUsages_;
+      }
+    }
+    /**
+     * <code>optional .android_studio.EmulatorGLESUsages gles_usages = 23;</code>
+     *
+     * <pre>
+     * Track GLES command usages
+     * </pre>
+     */
+    private com.google.protobuf.SingleFieldBuilder<
+        com.google.wireless.android.sdk.stats.EmulatorGLESUsages, com.google.wireless.android.sdk.stats.EmulatorGLESUsages.Builder, com.google.wireless.android.sdk.stats.EmulatorGLESUsagesOrBuilder> 
+        getGlesUsagesFieldBuilder() {
+      if (glesUsagesBuilder_ == null) {
+        glesUsagesBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+            com.google.wireless.android.sdk.stats.EmulatorGLESUsages, com.google.wireless.android.sdk.stats.EmulatorGLESUsages.Builder, com.google.wireless.android.sdk.stats.EmulatorGLESUsagesOrBuilder>(
+                glesUsages_,
+                getParentForChildren(),
+                isClean());
+        glesUsages_ = null;
+      }
+      return glesUsagesBuilder_;
     }
 
     // @@protoc_insertion_point(builder_scope:android_studio.EmulatorDetails)
