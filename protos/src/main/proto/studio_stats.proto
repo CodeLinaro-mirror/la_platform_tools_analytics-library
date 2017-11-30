@@ -2250,6 +2250,8 @@ message InstantRunStatus {
     // abstract method became implemented | method with code became abstract.
     ABSTRACT_METHOD_CHANGE = 30;
 
+    // a synthetic constructor was changed.
+    SYNTHETIC_CONSTRUCTOR_CHANGE = 31;
   }
 }
 

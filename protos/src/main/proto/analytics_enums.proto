@@ -39,6 +39,7 @@ enum GradleTransformExecutionType {
     DESUGAR = 32;
     FIX_STACK_FRAMES = 33;
     EXTERNAL_LIBS_MERGER = 34;
+    D8_MAIN_DEX_LIST=35;
 }
 
 enum GradleTaskExecutionType {
@@ -208,6 +209,7 @@ enum BooleanOption {
     ENABLE_D8_DESUGARING = 36;
     ENABLE_INCREMENTAL_DESUGARING = 37;
     ENABLE_SEPARATE_R_CLASS_COMPILATION = 38;
+    ENABLE_D8_MAIN_DEX_LIST = 39;
 }
 
 enum OptionalBooleanOption {

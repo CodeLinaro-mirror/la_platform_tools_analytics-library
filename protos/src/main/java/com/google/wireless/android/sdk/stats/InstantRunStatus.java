@@ -560,6 +560,14 @@ public  final class InstantRunStatus extends
      * </pre>
      */
     ABSTRACT_METHOD_CHANGE(30, 30),
+    /**
+     * <code>SYNTHETIC_CONSTRUCTOR_CHANGE = 31;</code>
+     *
+     * <pre>
+     * a synthetic constructor was changed.
+     * </pre>
+     */
+    SYNTHETIC_CONSTRUCTOR_CHANGE(31, 31),
     ;
 
     /**
@@ -739,6 +747,14 @@ public  final class InstantRunStatus extends
      * </pre>
      */
     public static final int ABSTRACT_METHOD_CHANGE_VALUE = 30;
+    /**
+     * <code>SYNTHETIC_CONSTRUCTOR_CHANGE = 31;</code>
+     *
+     * <pre>
+     * a synthetic constructor was changed.
+     * </pre>
+     */
+    public static final int SYNTHETIC_CONSTRUCTOR_CHANGE_VALUE = 31;
 
 
     public final int getNumber() { return value; }
@@ -776,6 +792,7 @@ public  final class InstantRunStatus extends
         case 28: return CHANGE_IN_SERIALIZABLE_CLASS_WITHOUT_VERSION_UID;
         case 29: return BUILD_NOT_INCREMENTAL;
         case 30: return ABSTRACT_METHOD_CHANGE;
+        case 31: return SYNTHETIC_CONSTRUCTOR_CHANGE;
         default: return null;
       }
     }
