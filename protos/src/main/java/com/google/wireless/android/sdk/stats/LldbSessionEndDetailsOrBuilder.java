@@ -82,4 +82,24 @@ public interface LldbSessionEndDetailsOrBuilder
    * </pre>
    */
   long getStops();
+
+  // optional uint64 errors = 4;
+  /**
+   * <code>optional uint64 errors = 4;</code>
+   *
+   * <pre>
+   * Number of errors encountered during the session.
+   * Includes both fatal and non-fatal errors.
+   * </pre>
+   */
+  boolean hasErrors();
+  /**
+   * <code>optional uint64 errors = 4;</code>
+   *
+   * <pre>
+   * Number of errors encountered during the session.
+   * Includes both fatal and non-fatal errors.
+   * </pre>
+   */
+  long getErrors();
 }

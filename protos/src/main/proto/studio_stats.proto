@@ -803,6 +803,9 @@ message LldbSessionEndDetails {
   // Number of times the program was stopped by the debugger.
   // Proxy for use of the session to compute error rates.
   optional uint64 stops = 3;
+  // Number of errors encountered during the session.
+  // Includes both fatal and non-fatal errors.
+  optional uint64 errors = 4;
 }
 
 message StudioExceptionDetails {
@@ -1665,6 +1668,9 @@ message GradleBuildProject {
   // e.g. '1.1.3'
   optional string kotlin_plugin_version = 11;
 
+  // The project options as set by the user or by studio.
+  optional GradleProjectOptionsSettings options = 12;
+
   enum PluginType {
     UNKNOWN_PLUGIN_TYPE = 0;
     // The 'com.android.application' or 'com.android.model.application' plugins.
@@ -1688,6 +1694,67 @@ message GradleBuildProject {
     // The 'com.android.model.[application,library]' plugins
     COMPONENT_MODEL = 2;
   }
+}
+
+// Configuration flags for the gradle plugin.
+//
+// These are set by studio when invoking the gradle plugin, or manually by the
+// end user.
+//
+// The Android Gradle Plugin will only report options that are explictly set.
+// See tools/analytics-library/protos/src/main/proto/analytics_enums.proto for
+// the enums for these option classes.
+message GradleProjectOptionsSettings {
+  // Boolean options that are explictly set.
+  // Note that boolean options have defaults. This is not captured here,
+  // only what is overridden either manually by the developer or by studio.
+  // A reference to the proto enum in android git, see BooleanOption in
+  // tools/analytics-library/protos/src/main/proto/analytics_enums.proto
+  // Boolean options that are explicitly set to true.
+  repeated int32 true_boolean_options = 1;
+  // Boolean options that are explicitly set to false.
+  // (see above description of true_boolean_options)
+  repeated int32 false_boolean_options = 2;
+
+  // Optional boolean options that are explictly set.
+  // A reference to the proto enum in android git, see OptionalBooleanOption in
+  // tools/analytics-library/protos/src/main/proto/analytics_enums.proto
+  // Optional boolean options that are explicitly set to true.
+  repeated int32 true_optional_boolean_options = 3;
+  // Optional boolean options that are explicitly set to false.
+  // (see above description of true_optional_boolean_options)
+  repeated int32 false_optional_boolean_options = 4;
+
+  // Integer option values that are explicitly set, with their values.
+  // Contains a reference to the proto enum in android git, see IntegerOption in
+  // tools/analytics-library/protos/src/main/proto/analytics_enums.proto
+  repeated GradleIntegerOptionEntry integer_option_values = 5;
+
+  // Long options that are explicitly set. Values are not included.
+  // A reference to the proto enum in android git, see LongOption in
+  // tools/analytics-library/protos/src/main/proto/analytics_enums.proto
+  repeated int32 long_options = 6;
+
+  // String options that are explicitly set. Values are not recorded as they
+  // could include arbitrary information.
+  // A reference to the proto enum in android git, see StringOption in
+  // tools/analytics-library/protos/src/main/proto/analytics_enums.proto
+  repeated int32 string_options = 7;
+}
+
+// An explicitly set integer option in the gradle plugin, with its value.
+message GradleIntegerOptionEntry {
+  // The integer option, set by studio or the user.
+  // A reference to the proto enum in android git, see IntegerOption in
+  // tools/analytics-library/protos/src/main/proto/analytics_enums.proto
+  optional int32 integer_option = 1;
+  // The value set by the user for this integer option.
+  // Integer options are of one of two forms, and do not identify users.
+  //   1. Software and protocol versions, such as the build target device API
+  //      level, or the type of model requested by studio.
+  //   2. Performance tuning settings, such as test shard counts, thread pool
+  //      sizes and buffer sizes.
+  optional int32 integer_option_value = 2;
 }
 
 message GradleBuildSplits {

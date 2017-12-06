@@ -308,4 +308,30 @@ public interface GradleBuildProjectOrBuilder
    */
   com.google.protobuf.ByteString
       getKotlinPluginVersionBytes();
+
+  // optional .android_studio.GradleProjectOptionsSettings options = 12;
+  /**
+   * <code>optional .android_studio.GradleProjectOptionsSettings options = 12;</code>
+   *
+   * <pre>
+   * The project options as set by the user or by studio.
+   * </pre>
+   */
+  boolean hasOptions();
+  /**
+   * <code>optional .android_studio.GradleProjectOptionsSettings options = 12;</code>
+   *
+   * <pre>
+   * The project options as set by the user or by studio.
+   * </pre>
+   */
+  com.google.wireless.android.sdk.stats.GradleProjectOptionsSettings getOptions();
+  /**
+   * <code>optional .android_studio.GradleProjectOptionsSettings options = 12;</code>
+   *
+   * <pre>
+   * The project options as set by the user or by studio.
+   * </pre>
+   */
+  com.google.wireless.android.sdk.stats.GradleProjectOptionsSettingsOrBuilder getOptionsOrBuilder();
 }

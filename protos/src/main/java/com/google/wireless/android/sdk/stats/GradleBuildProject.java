@@ -140,6 +140,19 @@ public  final class GradleBuildProject extends
             kotlinPluginVersion_ = input.readBytes();
             break;
           }
+          case 98: {
+            com.google.wireless.android.sdk.stats.GradleProjectOptionsSettings.Builder subBuilder = null;
+            if (((bitField0_ & 0x00000400) == 0x00000400)) {
+              subBuilder = options_.toBuilder();
+            }
+            options_ = input.readMessage(com.google.wireless.android.sdk.stats.GradleProjectOptionsSettings.PARSER, extensionRegistry);
+            if (subBuilder != null) {
+              subBuilder.mergeFrom(options_);
+              options_ = subBuilder.buildPartial();
+            }
+            bitField0_ |= 0x00000400;
+            break;
+          }
         }
       }
     } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -931,6 +944,40 @@ public  final class GradleBuildProject extends
     }
   }
 
+  // optional .android_studio.GradleProjectOptionsSettings options = 12;
+  public static final int OPTIONS_FIELD_NUMBER = 12;
+  private com.google.wireless.android.sdk.stats.GradleProjectOptionsSettings options_;
+  /**
+   * <code>optional .android_studio.GradleProjectOptionsSettings options = 12;</code>
+   *
+   * <pre>
+   * The project options as set by the user or by studio.
+   * </pre>
+   */
+  public boolean hasOptions() {
+    return ((bitField0_ & 0x00000400) == 0x00000400);
+  }
+  /**
+   * <code>optional .android_studio.GradleProjectOptionsSettings options = 12;</code>
+   *
+   * <pre>
+   * The project options as set by the user or by studio.
+   * </pre>
+   */
+  public com.google.wireless.android.sdk.stats.GradleProjectOptionsSettings getOptions() {
+    return options_;
+  }
+  /**
+   * <code>optional .android_studio.GradleProjectOptionsSettings options = 12;</code>
+   *
+   * <pre>
+   * The project options as set by the user or by studio.
+   * </pre>
+   */
+  public com.google.wireless.android.sdk.stats.GradleProjectOptionsSettingsOrBuilder getOptionsOrBuilder() {
+    return options_;
+  }
+
   private void initFields() {
     id_ = 0L;
     androidPluginVersion_ = "";
@@ -943,6 +990,7 @@ public  final class GradleBuildProject extends
     compileSdk_ = "";
     splits_ = com.google.wireless.android.sdk.stats.GradleBuildSplits.getDefaultInstance();
     kotlinPluginVersion_ = "";
+    options_ = com.google.wireless.android.sdk.stats.GradleProjectOptionsSettings.getDefaultInstance();
   }
   private byte memoizedIsInitialized = -1;
   public final boolean isInitialized() {
@@ -988,6 +1036,9 @@ public  final class GradleBuildProject extends
     }
     if (((bitField0_ & 0x00000200) == 0x00000200)) {
       output.writeBytes(11, getKotlinPluginVersionBytes());
+    }
+    if (((bitField0_ & 0x00000400) == 0x00000400)) {
+      output.writeMessage(12, options_);
     }
     getUnknownFields().writeTo(output);
   }
@@ -1041,6 +1092,10 @@ public  final class GradleBuildProject extends
     if (((bitField0_ & 0x00000200) == 0x00000200)) {
       size += com.google.protobuf.CodedOutputStream
         .computeBytesSize(11, getKotlinPluginVersionBytes());
+    }
+    if (((bitField0_ & 0x00000400) == 0x00000400)) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeMessageSize(12, options_);
     }
     size += getUnknownFields().getSerializedSize();
     memoizedSerializedSize = size;
@@ -1153,6 +1208,7 @@ public  final class GradleBuildProject extends
         getMetricsFieldBuilder();
         getVariantFieldBuilder();
         getSplitsFieldBuilder();
+        getOptionsFieldBuilder();
       }
     }
     private static Builder create() {
@@ -1195,6 +1251,12 @@ public  final class GradleBuildProject extends
       bitField0_ = (bitField0_ & ~0x00000200);
       kotlinPluginVersion_ = "";
       bitField0_ = (bitField0_ & ~0x00000400);
+      if (optionsBuilder_ == null) {
+        options_ = com.google.wireless.android.sdk.stats.GradleProjectOptionsSettings.getDefaultInstance();
+      } else {
+        optionsBuilder_.clear();
+      }
+      bitField0_ = (bitField0_ & ~0x00000800);
       return this;
     }
 
@@ -1280,6 +1342,14 @@ public  final class GradleBuildProject extends
         to_bitField0_ |= 0x00000200;
       }
       result.kotlinPluginVersion_ = kotlinPluginVersion_;
+      if (((from_bitField0_ & 0x00000800) == 0x00000800)) {
+        to_bitField0_ |= 0x00000400;
+      }
+      if (optionsBuilder_ == null) {
+        result.options_ = options_;
+      } else {
+        result.options_ = optionsBuilder_.build();
+      }
       result.bitField0_ = to_bitField0_;
       onBuilt();
       return result;
@@ -1359,6 +1429,9 @@ public  final class GradleBuildProject extends
         bitField0_ |= 0x00000400;
         kotlinPluginVersion_ = other.kotlinPluginVersion_;
         onChanged();
+      }
+      if (other.hasOptions()) {
+        mergeOptions(other.getOptions());
       }
       this.mergeUnknownFields(other.getUnknownFields());
       return this;
@@ -2652,6 +2725,159 @@ public  final class GradleBuildProject extends
       kotlinPluginVersion_ = value;
       onChanged();
       return this;
+    }
+
+    // optional .android_studio.GradleProjectOptionsSettings options = 12;
+    private com.google.wireless.android.sdk.stats.GradleProjectOptionsSettings options_ = com.google.wireless.android.sdk.stats.GradleProjectOptionsSettings.getDefaultInstance();
+    private com.google.protobuf.SingleFieldBuilder<
+        com.google.wireless.android.sdk.stats.GradleProjectOptionsSettings, com.google.wireless.android.sdk.stats.GradleProjectOptionsSettings.Builder, com.google.wireless.android.sdk.stats.GradleProjectOptionsSettingsOrBuilder> optionsBuilder_;
+    /**
+     * <code>optional .android_studio.GradleProjectOptionsSettings options = 12;</code>
+     *
+     * <pre>
+     * The project options as set by the user or by studio.
+     * </pre>
+     */
+    public boolean hasOptions() {
+      return ((bitField0_ & 0x00000800) == 0x00000800);
+    }
+    /**
+     * <code>optional .android_studio.GradleProjectOptionsSettings options = 12;</code>
+     *
+     * <pre>
+     * The project options as set by the user or by studio.
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.GradleProjectOptionsSettings getOptions() {
+      if (optionsBuilder_ == null) {
+        return options_;
+      } else {
+        return optionsBuilder_.getMessage();
+      }
+    }
+    /**
+     * <code>optional .android_studio.GradleProjectOptionsSettings options = 12;</code>
+     *
+     * <pre>
+     * The project options as set by the user or by studio.
+     * </pre>
+     */
+    public Builder setOptions(com.google.wireless.android.sdk.stats.GradleProjectOptionsSettings value) {
+      if (optionsBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        options_ = value;
+        onChanged();
+      } else {
+        optionsBuilder_.setMessage(value);
+      }
+      bitField0_ |= 0x00000800;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.GradleProjectOptionsSettings options = 12;</code>
+     *
+     * <pre>
+     * The project options as set by the user or by studio.
+     * </pre>
+     */
+    public Builder setOptions(
+        com.google.wireless.android.sdk.stats.GradleProjectOptionsSettings.Builder builderForValue) {
+      if (optionsBuilder_ == null) {
+        options_ = builderForValue.build();
+        onChanged();
+      } else {
+        optionsBuilder_.setMessage(builderForValue.build());
+      }
+      bitField0_ |= 0x00000800;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.GradleProjectOptionsSettings options = 12;</code>
+     *
+     * <pre>
+     * The project options as set by the user or by studio.
+     * </pre>
+     */
+    public Builder mergeOptions(com.google.wireless.android.sdk.stats.GradleProjectOptionsSettings value) {
+      if (optionsBuilder_ == null) {
+        if (((bitField0_ & 0x00000800) == 0x00000800) &&
+            options_ != com.google.wireless.android.sdk.stats.GradleProjectOptionsSettings.getDefaultInstance()) {
+          options_ =
+            com.google.wireless.android.sdk.stats.GradleProjectOptionsSettings.newBuilder(options_).mergeFrom(value).buildPartial();
+        } else {
+          options_ = value;
+        }
+        onChanged();
+      } else {
+        optionsBuilder_.mergeFrom(value);
+      }
+      bitField0_ |= 0x00000800;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.GradleProjectOptionsSettings options = 12;</code>
+     *
+     * <pre>
+     * The project options as set by the user or by studio.
+     * </pre>
+     */
+    public Builder clearOptions() {
+      if (optionsBuilder_ == null) {
+        options_ = com.google.wireless.android.sdk.stats.GradleProjectOptionsSettings.getDefaultInstance();
+        onChanged();
+      } else {
+        optionsBuilder_.clear();
+      }
+      bitField0_ = (bitField0_ & ~0x00000800);
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.GradleProjectOptionsSettings options = 12;</code>
+     *
+     * <pre>
+     * The project options as set by the user or by studio.
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.GradleProjectOptionsSettings.Builder getOptionsBuilder() {
+      bitField0_ |= 0x00000800;
+      onChanged();
+      return getOptionsFieldBuilder().getBuilder();
+    }
+    /**
+     * <code>optional .android_studio.GradleProjectOptionsSettings options = 12;</code>
+     *
+     * <pre>
+     * The project options as set by the user or by studio.
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.GradleProjectOptionsSettingsOrBuilder getOptionsOrBuilder() {
+      if (optionsBuilder_ != null) {
+        return optionsBuilder_.getMessageOrBuilder();
+      } else {
+        return options_;
+      }
+    }
+    /**
+     * <code>optional .android_studio.GradleProjectOptionsSettings options = 12;</code>
+     *
+     * <pre>
+     * The project options as set by the user or by studio.
+     * </pre>
+     */
+    private com.google.protobuf.SingleFieldBuilder<
+        com.google.wireless.android.sdk.stats.GradleProjectOptionsSettings, com.google.wireless.android.sdk.stats.GradleProjectOptionsSettings.Builder, com.google.wireless.android.sdk.stats.GradleProjectOptionsSettingsOrBuilder> 
+        getOptionsFieldBuilder() {
+      if (optionsBuilder_ == null) {
+        optionsBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+            com.google.wireless.android.sdk.stats.GradleProjectOptionsSettings, com.google.wireless.android.sdk.stats.GradleProjectOptionsSettings.Builder, com.google.wireless.android.sdk.stats.GradleProjectOptionsSettingsOrBuilder>(
+                options_,
+                getParentForChildren(),
+                isClean());
+        options_ = null;
+      }
+      return optionsBuilder_;
     }
 
     // @@protoc_insertion_point(builder_scope:android_studio.GradleBuildProject)
