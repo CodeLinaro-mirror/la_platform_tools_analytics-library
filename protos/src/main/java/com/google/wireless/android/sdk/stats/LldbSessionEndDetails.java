@@ -69,6 +69,11 @@ public  final class LldbSessionEndDetails extends
             stops_ = input.readUInt64();
             break;
           }
+          case 32: {
+            bitField0_ |= 0x00000008;
+            errors_ = input.readUInt64();
+            break;
+          }
         }
       }
     } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -248,10 +253,37 @@ public  final class LldbSessionEndDetails extends
     return stops_;
   }
 
+  // optional uint64 errors = 4;
+  public static final int ERRORS_FIELD_NUMBER = 4;
+  private long errors_;
+  /**
+   * <code>optional uint64 errors = 4;</code>
+   *
+   * <pre>
+   * Number of errors encountered during the session.
+   * Includes both fatal and non-fatal errors.
+   * </pre>
+   */
+  public boolean hasErrors() {
+    return ((bitField0_ & 0x00000008) == 0x00000008);
+  }
+  /**
+   * <code>optional uint64 errors = 4;</code>
+   *
+   * <pre>
+   * Number of errors encountered during the session.
+   * Includes both fatal and non-fatal errors.
+   * </pre>
+   */
+  public long getErrors() {
+    return errors_;
+  }
+
   private void initFields() {
     debugSessionId_ = "";
     failureMessage_ = "";
     stops_ = 0L;
+    errors_ = 0L;
   }
   private byte memoizedIsInitialized = -1;
   public final boolean isInitialized() {
@@ -274,6 +306,9 @@ public  final class LldbSessionEndDetails extends
     if (((bitField0_ & 0x00000004) == 0x00000004)) {
       output.writeUInt64(3, stops_);
     }
+    if (((bitField0_ & 0x00000008) == 0x00000008)) {
+      output.writeUInt64(4, errors_);
+    }
     getUnknownFields().writeTo(output);
   }
 
@@ -294,6 +329,10 @@ public  final class LldbSessionEndDetails extends
     if (((bitField0_ & 0x00000004) == 0x00000004)) {
       size += com.google.protobuf.CodedOutputStream
         .computeUInt64Size(3, stops_);
+    }
+    if (((bitField0_ & 0x00000008) == 0x00000008)) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeUInt64Size(4, errors_);
     }
     size += getUnknownFields().getSerializedSize();
     memoizedSerializedSize = size;
@@ -417,6 +456,8 @@ public  final class LldbSessionEndDetails extends
       bitField0_ = (bitField0_ & ~0x00000002);
       stops_ = 0L;
       bitField0_ = (bitField0_ & ~0x00000004);
+      errors_ = 0L;
+      bitField0_ = (bitField0_ & ~0x00000008);
       return this;
     }
 
@@ -457,6 +498,10 @@ public  final class LldbSessionEndDetails extends
         to_bitField0_ |= 0x00000004;
       }
       result.stops_ = stops_;
+      if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+        to_bitField0_ |= 0x00000008;
+      }
+      result.errors_ = errors_;
       result.bitField0_ = to_bitField0_;
       onBuilt();
       return result;
@@ -485,6 +530,9 @@ public  final class LldbSessionEndDetails extends
       }
       if (other.hasStops()) {
         setStops(other.getStops());
+      }
+      if (other.hasErrors()) {
+        setErrors(other.getErrors());
       }
       this.mergeUnknownFields(other.getUnknownFields());
       return this;
@@ -764,6 +812,59 @@ public  final class LldbSessionEndDetails extends
     public Builder clearStops() {
       bitField0_ = (bitField0_ & ~0x00000004);
       stops_ = 0L;
+      onChanged();
+      return this;
+    }
+
+    // optional uint64 errors = 4;
+    private long errors_ ;
+    /**
+     * <code>optional uint64 errors = 4;</code>
+     *
+     * <pre>
+     * Number of errors encountered during the session.
+     * Includes both fatal and non-fatal errors.
+     * </pre>
+     */
+    public boolean hasErrors() {
+      return ((bitField0_ & 0x00000008) == 0x00000008);
+    }
+    /**
+     * <code>optional uint64 errors = 4;</code>
+     *
+     * <pre>
+     * Number of errors encountered during the session.
+     * Includes both fatal and non-fatal errors.
+     * </pre>
+     */
+    public long getErrors() {
+      return errors_;
+    }
+    /**
+     * <code>optional uint64 errors = 4;</code>
+     *
+     * <pre>
+     * Number of errors encountered during the session.
+     * Includes both fatal and non-fatal errors.
+     * </pre>
+     */
+    public Builder setErrors(long value) {
+      bitField0_ |= 0x00000008;
+      errors_ = value;
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>optional uint64 errors = 4;</code>
+     *
+     * <pre>
+     * Number of errors encountered during the session.
+     * Includes both fatal and non-fatal errors.
+     * </pre>
+     */
+    public Builder clearErrors() {
+      bitField0_ = (bitField0_ & ~0x00000008);
+      errors_ = 0L;
       onChanged();
       return this;
     }
