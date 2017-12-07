@@ -469,6 +469,18 @@ public  final class AndroidProfilerEvent extends
      * <code>SELECT_DETAILS_STACK = 405;</code>
      */
     SELECT_DETAILS_STACK(37, 405),
+    /**
+     * <code>SELECT_DETAILS_OVERVIEW = 406;</code>
+     */
+    SELECT_DETAILS_OVERVIEW(38, 406),
+    /**
+     * <code>SELECT_DETAILS_REQUEST = 407;</code>
+     */
+    SELECT_DETAILS_REQUEST(39, 407),
+    /**
+     * <code>SELECT_DETAILS_ERROR = 408;</code>
+     */
+    SELECT_DETAILS_ERROR(40, 408),
     ;
 
     /**
@@ -656,6 +668,18 @@ public  final class AndroidProfilerEvent extends
      * <code>SELECT_DETAILS_STACK = 405;</code>
      */
     public static final int SELECT_DETAILS_STACK_VALUE = 405;
+    /**
+     * <code>SELECT_DETAILS_OVERVIEW = 406;</code>
+     */
+    public static final int SELECT_DETAILS_OVERVIEW_VALUE = 406;
+    /**
+     * <code>SELECT_DETAILS_REQUEST = 407;</code>
+     */
+    public static final int SELECT_DETAILS_REQUEST_VALUE = 407;
+    /**
+     * <code>SELECT_DETAILS_ERROR = 408;</code>
+     */
+    public static final int SELECT_DETAILS_ERROR_VALUE = 408;
 
 
     public final int getNumber() { return value; }
@@ -700,6 +724,9 @@ public  final class AndroidProfilerEvent extends
         case 403: return SELECT_DETAILS_RESPONSE;
         case 404: return SELECT_DETAILS_HEADERS;
         case 405: return SELECT_DETAILS_STACK;
+        case 406: return SELECT_DETAILS_OVERVIEW;
+        case 407: return SELECT_DETAILS_REQUEST;
+        case 408: return SELECT_DETAILS_ERROR;
         default: return null;
       }
     }

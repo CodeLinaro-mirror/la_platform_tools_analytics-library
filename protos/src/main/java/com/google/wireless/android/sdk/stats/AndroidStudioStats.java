@@ -1516,7 +1516,7 @@ public final class AndroidStudioStats {
       "tudio.CpuProfilingConfig\"{\n\rCaptureStatu" +
       "s\022\022\n\016UNKNOWN_STATUS\020\000\022\013\n\007SUCCESS\020\001\022\032\n\026ST" +
       "OP_CAPTURING_FAILURE\020\002\022\023\n\017PARSING_FAILUR" +
-      "E\020\003\022\030\n\024USER_ABORTED_PARSING\020\004\"\275\t\n\024Androi",
+      "E\020\003\022\030\n\024USER_ABORTED_PARSING\020\004\"\223\n\n\024Androi",
       "dProfilerEvent\0229\n\005stage\030\001 \001(\0162*.android_" +
       "studio.AndroidProfilerEvent.Stage\0227\n\004typ" +
       "e\030\002 \001(\0162).android_studio.AndroidProfiler" +
@@ -1526,7 +1526,7 @@ public final class AndroidStudioStats {
       "tureMetadata\"r\n\005Stage\022\021\n\rUNKNOWN_STAGE\020\000" +
       "\022\016\n\nNULL_STAGE\020\001\022\022\n\016OVERVIEW_STAGE\020\002\022\r\n\t" +
       "CPU_STAGE\020\003\022\020\n\014MEMORY_STAGE\020\004\022\021\n\rNETWORK" +
-      "_STAGE\020\005\"\302\006\n\004Type\022\020\n\014UNKNOWN_TYPE\020\000\022\025\n\021P",
+      "_STAGE\020\005\"\230\007\n\004Type\022\020\n\014UNKNOWN_TYPE\020\000\022\025\n\021P",
       "ROFILING_STARTED\020\001\022\036\n\032ADVANCED_PROFILING" +
       "_STARTED\020\002\022\021\n\rSTAGE_ENTERED\020\003\022\021\n\rCHANGE_" +
       "DEVICE\020e\022\022\n\016CHANGE_PROCESS\020f\022\013\n\007GO_BACK\020" +
@@ -1547,48 +1547,50 @@ public final class AndroidStudioStats {
       "Y_REFERENCES\020\265\002\022\026\n\021SELECT_CONNECTION\020\222\003\022" +
       "\034\n\027SELECT_DETAILS_RESPONSE\020\223\003\022\033\n\026SELECT_" +
       "DETAILS_HEADERS\020\224\003\022\031\n\024SELECT_DETAILS_STA",
-      "CK\020\225\003\";\n\026AndroidProfilerDbTable\022\014\n\004name\030" +
-      "\001 \001(\t\022\023\n\013num_records\030\002 \001(\r\"x\n\026AndroidPro" +
-      "filerDbStats\022\017\n\007age_sec\030\001 \001(\r\022\025\n\rtotal_d" +
-      "isk_mb\030\002 \001(\r\0226\n\006tables\030\003 \003(\0132&.android_s" +
-      "tudio.AndroidProfilerDbTable\"F\n\020ApkAnaly" +
-      "zerStats\022\031\n\021uncompressed_size\030\001 \001(\004\022\027\n\017c" +
-      "ompressed_size\030\002 \001(\004\"\203\002\n\017GradleSyncStats" +
-      "\0228\n\007trigger\030\001 \001(\0162\'.android_studio.Gradl" +
-      "eSyncStats.Trigger\022\025\n\rtotal_time_ms\030\002 \001(" +
-      "\003\022\026\n\016gradle_time_ms\030\003 \001(\003\022\023\n\013ide_time_ms",
-      "\030\004 \001(\003\"r\n\007Trigger\022\023\n\017TRIGGER_UNKNOWN\020\000\022\032" +
-      "\n\026TRIGGER_PROJECT_LOADED\020\001\022\034\n\030TRIGGER_PR" +
-      "OJECT_MODIFIED\020\002\022\030\n\024TRIGGER_USER_REQUEST" +
-      "\020\003\"%\n\017ApkDebugProject\022\022\n\npackage_id\030\001 \001(" +
-      "\t\"\305\002\n\024LayoutInspectorEvent\022K\n\004type\030\001 \001(\016" +
-      "2=.android_studio.LayoutInspectorEvent.L" +
-      "ayoutInspectorEventType\022\026\n\016duration_in_m" +
-      "s\030\002 \001(\003\022\021\n\tdata_size\030\003 \001(\003\"\264\001\n\030LayoutIns" +
-      "pectorEventType\022\026\n\022UNKNOWN_EVENT_TYPE\020\000\022" +
-      "\013\n\007CAPTURE\020\001\022\010\n\004OPEN\020\002\022\024\n\020DUMP_DISPLAYLI",
-      "ST\020\003\022\021\n\rOVERLAY_IMAGE\020\004\022\023\n\017RENDER_SUB_VI" +
-      "EW\020\005\022\025\n\021GO_TO_DECLARATION\020\006\022\024\n\020CAPTURE_T" +
-      "IME_OUT\020\007\"O\n\rKotlinSupport\022\036\n\026include_ko" +
-      "tlin_support\030\001 \001(\010\022\036\n\026kotlin_support_ver" +
-      "sion\030\002 \001(\t\"\207\003\n\030ConnectionAssistantEvent\022" +
-      "S\n\004type\030\001 \001(\0162E.android_studio.Connectio" +
-      "nAssistantEvent.ConnectionAssistantEvent" +
-      "Type\022\034\n\024usb_devices_detected\030\002 \001(\005\022\034\n\024ad" +
-      "b_devices_detected\030\003 \001(\005\"\331\001\n\034ConnectionA" +
-      "ssistantEventType\022\026\n\022UNKNOWN_EVENT_TYPE\020",
-      "\000\022\010\n\004OPEN\020\001\022\034\n\030SCAN_USB_DEVICES_CLICKED\020" +
-      "\002\022\030\n\024USB_DEVICES_DETECTED\020\003\022\027\n\023RESTART_A" +
-      "DB_CLICKED\020\004\022\030\n\024ADB_DEVICES_DETECTED\020\005\022\030" +
-      "\n\024REPORT_ISSUE_CLICKED\020\006\022\022\n\016ISSUE_REPORT" +
-      "ED\020\007*\203\001\n\025EmulatorSnapshotFlags\022\027\n\023SNAPSH" +
-      "OT_FLAGS_NONE\020\000\022%\n!SNAPSHOT_FLAGS_RAM_CO" +
-      "MPRESSED_BIT\020\001\022*\n&SNAPSHOT_FLAGS_TEXTURE" +
-      "S_COMPRESSED_BIT\020\002*[\n\014SearchOption\022\031\n\025UN" +
-      "KNOWN_SEARCH_OPTION\020\000\022\010\n\004NONE\020\001\022\024\n\020MULTI" +
-      "PLE_MATCHES\020\002\022\020\n\014SINGLE_MATCH\020\003B=\n%com.g",
-      "oogle.wireless.android.sdk.statsB\022Androi" +
-      "dStudioStatsP\001"
+      "CK\020\225\003\022\034\n\027SELECT_DETAILS_OVERVIEW\020\226\003\022\033\n\026S" +
+      "ELECT_DETAILS_REQUEST\020\227\003\022\031\n\024SELECT_DETAI" +
+      "LS_ERROR\020\230\003\";\n\026AndroidProfilerDbTable\022\014\n" +
+      "\004name\030\001 \001(\t\022\023\n\013num_records\030\002 \001(\r\"x\n\026Andr" +
+      "oidProfilerDbStats\022\017\n\007age_sec\030\001 \001(\r\022\025\n\rt" +
+      "otal_disk_mb\030\002 \001(\r\0226\n\006tables\030\003 \003(\0132&.and" +
+      "roid_studio.AndroidProfilerDbTable\"F\n\020Ap" +
+      "kAnalyzerStats\022\031\n\021uncompressed_size\030\001 \001(" +
+      "\004\022\027\n\017compressed_size\030\002 \001(\004\"\203\002\n\017GradleSyn" +
+      "cStats\0228\n\007trigger\030\001 \001(\0162\'.android_studio",
+      ".GradleSyncStats.Trigger\022\025\n\rtotal_time_m" +
+      "s\030\002 \001(\003\022\026\n\016gradle_time_ms\030\003 \001(\003\022\023\n\013ide_t" +
+      "ime_ms\030\004 \001(\003\"r\n\007Trigger\022\023\n\017TRIGGER_UNKNO" +
+      "WN\020\000\022\032\n\026TRIGGER_PROJECT_LOADED\020\001\022\034\n\030TRIG" +
+      "GER_PROJECT_MODIFIED\020\002\022\030\n\024TRIGGER_USER_R" +
+      "EQUEST\020\003\"%\n\017ApkDebugProject\022\022\n\npackage_i" +
+      "d\030\001 \001(\t\"\305\002\n\024LayoutInspectorEvent\022K\n\004type" +
+      "\030\001 \001(\0162=.android_studio.LayoutInspectorE" +
+      "vent.LayoutInspectorEventType\022\026\n\016duratio" +
+      "n_in_ms\030\002 \001(\003\022\021\n\tdata_size\030\003 \001(\003\"\264\001\n\030Lay",
+      "outInspectorEventType\022\026\n\022UNKNOWN_EVENT_T" +
+      "YPE\020\000\022\013\n\007CAPTURE\020\001\022\010\n\004OPEN\020\002\022\024\n\020DUMP_DIS" +
+      "PLAYLIST\020\003\022\021\n\rOVERLAY_IMAGE\020\004\022\023\n\017RENDER_" +
+      "SUB_VIEW\020\005\022\025\n\021GO_TO_DECLARATION\020\006\022\024\n\020CAP" +
+      "TURE_TIME_OUT\020\007\"O\n\rKotlinSupport\022\036\n\026incl" +
+      "ude_kotlin_support\030\001 \001(\010\022\036\n\026kotlin_suppo" +
+      "rt_version\030\002 \001(\t\"\207\003\n\030ConnectionAssistant" +
+      "Event\022S\n\004type\030\001 \001(\0162E.android_studio.Con" +
+      "nectionAssistantEvent.ConnectionAssistan" +
+      "tEventType\022\034\n\024usb_devices_detected\030\002 \001(\005",
+      "\022\034\n\024adb_devices_detected\030\003 \001(\005\"\331\001\n\034Conne" +
+      "ctionAssistantEventType\022\026\n\022UNKNOWN_EVENT" +
+      "_TYPE\020\000\022\010\n\004OPEN\020\001\022\034\n\030SCAN_USB_DEVICES_CL" +
+      "ICKED\020\002\022\030\n\024USB_DEVICES_DETECTED\020\003\022\027\n\023RES" +
+      "TART_ADB_CLICKED\020\004\022\030\n\024ADB_DEVICES_DETECT" +
+      "ED\020\005\022\030\n\024REPORT_ISSUE_CLICKED\020\006\022\022\n\016ISSUE_" +
+      "REPORTED\020\007*\203\001\n\025EmulatorSnapshotFlags\022\027\n\023" +
+      "SNAPSHOT_FLAGS_NONE\020\000\022%\n!SNAPSHOT_FLAGS_" +
+      "RAM_COMPRESSED_BIT\020\001\022*\n&SNAPSHOT_FLAGS_T" +
+      "EXTURES_COMPRESSED_BIT\020\002*[\n\014SearchOption",
+      "\022\031\n\025UNKNOWN_SEARCH_OPTION\020\000\022\010\n\004NONE\020\001\022\024\n" +
+      "\020MULTIPLE_MATCHES\020\002\022\020\n\014SINGLE_MATCH\020\003B=\n" +
+      "%com.google.wireless.android.sdk.statsB\022" +
+      "AndroidStudioStatsP\001"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
