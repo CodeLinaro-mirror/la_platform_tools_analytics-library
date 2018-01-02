@@ -85,4 +85,22 @@ public interface EmulatorQuickbootLoadOrBuilder
    * </pre>
    */
   boolean getOnDemandRamEnabled();
+
+  // optional uint32 adb_connection_retries = 6;
+  /**
+   * <code>optional uint32 adb_connection_retries = 6;</code>
+   *
+   * <pre>
+   * ADB connection retries.
+   * </pre>
+   */
+  boolean hasAdbConnectionRetries();
+  /**
+   * <code>optional uint32 adb_connection_retries = 6;</code>
+   *
+   * <pre>
+   * ADB connection retries.
+   * </pre>
+   */
+  int getAdbConnectionRetries();
 }

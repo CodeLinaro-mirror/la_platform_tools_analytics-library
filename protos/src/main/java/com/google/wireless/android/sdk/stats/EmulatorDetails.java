@@ -257,6 +257,61 @@ public  final class EmulatorDetails extends
             bitField0_ |= 0x00100000;
             break;
           }
+          case 194: {
+            if (!((mutable_bitField0_ & 0x00400000) == 0x00400000)) {
+              snapshotLoads_ = new java.util.ArrayList<com.google.wireless.android.sdk.stats.EmulatorSnapshot>();
+              mutable_bitField0_ |= 0x00400000;
+            }
+            snapshotLoads_.add(input.readMessage(com.google.wireless.android.sdk.stats.EmulatorSnapshot.PARSER, extensionRegistry));
+            break;
+          }
+          case 202: {
+            if (!((mutable_bitField0_ & 0x00800000) == 0x00800000)) {
+              snapshotSaves_ = new java.util.ArrayList<com.google.wireless.android.sdk.stats.EmulatorSnapshot>();
+              mutable_bitField0_ |= 0x00800000;
+            }
+            snapshotSaves_.add(input.readMessage(com.google.wireless.android.sdk.stats.EmulatorSnapshot.PARSER, extensionRegistry));
+            break;
+          }
+          case 210: {
+            com.google.wireless.android.sdk.stats.EmulatorSnapshotUICounts.Builder subBuilder = null;
+            if (((bitField0_ & 0x00200000) == 0x00200000)) {
+              subBuilder = snapshotUiCounts_.toBuilder();
+            }
+            snapshotUiCounts_ = input.readMessage(com.google.wireless.android.sdk.stats.EmulatorSnapshotUICounts.PARSER, extensionRegistry);
+            if (subBuilder != null) {
+              subBuilder.mergeFrom(snapshotUiCounts_);
+              snapshotUiCounts_ = subBuilder.buildPartial();
+            }
+            bitField0_ |= 0x00200000;
+            break;
+          }
+          case 218: {
+            com.google.wireless.android.sdk.stats.EmulatorCameraSession.Builder subBuilder = null;
+            if (((bitField0_ & 0x00400000) == 0x00400000)) {
+              subBuilder = camera_.toBuilder();
+            }
+            camera_ = input.readMessage(com.google.wireless.android.sdk.stats.EmulatorCameraSession.PARSER, extensionRegistry);
+            if (subBuilder != null) {
+              subBuilder.mergeFrom(camera_);
+              camera_ = subBuilder.buildPartial();
+            }
+            bitField0_ |= 0x00400000;
+            break;
+          }
+          case 226: {
+            com.google.wireless.android.sdk.stats.EmulatorVirtualSceneSession.Builder subBuilder = null;
+            if (((bitField0_ & 0x00800000) == 0x00800000)) {
+              subBuilder = virtualScene_.toBuilder();
+            }
+            virtualScene_ = input.readMessage(com.google.wireless.android.sdk.stats.EmulatorVirtualSceneSession.PARSER, extensionRegistry);
+            if (subBuilder != null) {
+              subBuilder.mergeFrom(virtualScene_);
+              virtualScene_ = subBuilder.buildPartial();
+            }
+            bitField0_ |= 0x00800000;
+            break;
+          }
         }
       }
     } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -267,6 +322,12 @@ public  final class EmulatorDetails extends
     } finally {
       if (((mutable_bitField0_ & 0x00000800) == 0x00000800)) {
         hostGpu_ = java.util.Collections.unmodifiableList(hostGpu_);
+      }
+      if (((mutable_bitField0_ & 0x00400000) == 0x00400000)) {
+        snapshotLoads_ = java.util.Collections.unmodifiableList(snapshotLoads_);
+      }
+      if (((mutable_bitField0_ & 0x00800000) == 0x00800000)) {
+        snapshotSaves_ = java.util.Collections.unmodifiableList(snapshotSaves_);
       }
       this.unknownFields = unknownFields.build();
       makeExtensionsImmutable();
@@ -1719,6 +1780,200 @@ public  final class EmulatorDetails extends
     return glesUsages_;
   }
 
+  // repeated .android_studio.EmulatorSnapshot snapshot_loads = 24;
+  public static final int SNAPSHOT_LOADS_FIELD_NUMBER = 24;
+  private java.util.List<com.google.wireless.android.sdk.stats.EmulatorSnapshot> snapshotLoads_;
+  /**
+   * <code>repeated .android_studio.EmulatorSnapshot snapshot_loads = 24;</code>
+   *
+   * <pre>
+   * Metrics on all generic emulator snapshot saves and loads.
+   * </pre>
+   */
+  public java.util.List<com.google.wireless.android.sdk.stats.EmulatorSnapshot> getSnapshotLoadsList() {
+    return snapshotLoads_;
+  }
+  /**
+   * <code>repeated .android_studio.EmulatorSnapshot snapshot_loads = 24;</code>
+   *
+   * <pre>
+   * Metrics on all generic emulator snapshot saves and loads.
+   * </pre>
+   */
+  public java.util.List<? extends com.google.wireless.android.sdk.stats.EmulatorSnapshotOrBuilder> 
+      getSnapshotLoadsOrBuilderList() {
+    return snapshotLoads_;
+  }
+  /**
+   * <code>repeated .android_studio.EmulatorSnapshot snapshot_loads = 24;</code>
+   *
+   * <pre>
+   * Metrics on all generic emulator snapshot saves and loads.
+   * </pre>
+   */
+  public int getSnapshotLoadsCount() {
+    return snapshotLoads_.size();
+  }
+  /**
+   * <code>repeated .android_studio.EmulatorSnapshot snapshot_loads = 24;</code>
+   *
+   * <pre>
+   * Metrics on all generic emulator snapshot saves and loads.
+   * </pre>
+   */
+  public com.google.wireless.android.sdk.stats.EmulatorSnapshot getSnapshotLoads(int index) {
+    return snapshotLoads_.get(index);
+  }
+  /**
+   * <code>repeated .android_studio.EmulatorSnapshot snapshot_loads = 24;</code>
+   *
+   * <pre>
+   * Metrics on all generic emulator snapshot saves and loads.
+   * </pre>
+   */
+  public com.google.wireless.android.sdk.stats.EmulatorSnapshotOrBuilder getSnapshotLoadsOrBuilder(
+      int index) {
+    return snapshotLoads_.get(index);
+  }
+
+  // repeated .android_studio.EmulatorSnapshot snapshot_saves = 25;
+  public static final int SNAPSHOT_SAVES_FIELD_NUMBER = 25;
+  private java.util.List<com.google.wireless.android.sdk.stats.EmulatorSnapshot> snapshotSaves_;
+  /**
+   * <code>repeated .android_studio.EmulatorSnapshot snapshot_saves = 25;</code>
+   */
+  public java.util.List<com.google.wireless.android.sdk.stats.EmulatorSnapshot> getSnapshotSavesList() {
+    return snapshotSaves_;
+  }
+  /**
+   * <code>repeated .android_studio.EmulatorSnapshot snapshot_saves = 25;</code>
+   */
+  public java.util.List<? extends com.google.wireless.android.sdk.stats.EmulatorSnapshotOrBuilder> 
+      getSnapshotSavesOrBuilderList() {
+    return snapshotSaves_;
+  }
+  /**
+   * <code>repeated .android_studio.EmulatorSnapshot snapshot_saves = 25;</code>
+   */
+  public int getSnapshotSavesCount() {
+    return snapshotSaves_.size();
+  }
+  /**
+   * <code>repeated .android_studio.EmulatorSnapshot snapshot_saves = 25;</code>
+   */
+  public com.google.wireless.android.sdk.stats.EmulatorSnapshot getSnapshotSaves(int index) {
+    return snapshotSaves_.get(index);
+  }
+  /**
+   * <code>repeated .android_studio.EmulatorSnapshot snapshot_saves = 25;</code>
+   */
+  public com.google.wireless.android.sdk.stats.EmulatorSnapshotOrBuilder getSnapshotSavesOrBuilder(
+      int index) {
+    return snapshotSaves_.get(index);
+  }
+
+  // optional .android_studio.EmulatorSnapshotUICounts snapshot_ui_counts = 26;
+  public static final int SNAPSHOT_UI_COUNTS_FIELD_NUMBER = 26;
+  private com.google.wireless.android.sdk.stats.EmulatorSnapshotUICounts snapshotUiCounts_;
+  /**
+   * <code>optional .android_studio.EmulatorSnapshotUICounts snapshot_ui_counts = 26;</code>
+   *
+   * <pre>
+   * Metrics on all snapshot UI.
+   * </pre>
+   */
+  public boolean hasSnapshotUiCounts() {
+    return ((bitField0_ & 0x00200000) == 0x00200000);
+  }
+  /**
+   * <code>optional .android_studio.EmulatorSnapshotUICounts snapshot_ui_counts = 26;</code>
+   *
+   * <pre>
+   * Metrics on all snapshot UI.
+   * </pre>
+   */
+  public com.google.wireless.android.sdk.stats.EmulatorSnapshotUICounts getSnapshotUiCounts() {
+    return snapshotUiCounts_;
+  }
+  /**
+   * <code>optional .android_studio.EmulatorSnapshotUICounts snapshot_ui_counts = 26;</code>
+   *
+   * <pre>
+   * Metrics on all snapshot UI.
+   * </pre>
+   */
+  public com.google.wireless.android.sdk.stats.EmulatorSnapshotUICountsOrBuilder getSnapshotUiCountsOrBuilder() {
+    return snapshotUiCounts_;
+  }
+
+  // optional .android_studio.EmulatorCameraSession camera = 27;
+  public static final int CAMERA_FIELD_NUMBER = 27;
+  private com.google.wireless.android.sdk.stats.EmulatorCameraSession camera_;
+  /**
+   * <code>optional .android_studio.EmulatorCameraSession camera = 27;</code>
+   *
+   * <pre>
+   * Metrics on camera usage.
+   * </pre>
+   */
+  public boolean hasCamera() {
+    return ((bitField0_ & 0x00400000) == 0x00400000);
+  }
+  /**
+   * <code>optional .android_studio.EmulatorCameraSession camera = 27;</code>
+   *
+   * <pre>
+   * Metrics on camera usage.
+   * </pre>
+   */
+  public com.google.wireless.android.sdk.stats.EmulatorCameraSession getCamera() {
+    return camera_;
+  }
+  /**
+   * <code>optional .android_studio.EmulatorCameraSession camera = 27;</code>
+   *
+   * <pre>
+   * Metrics on camera usage.
+   * </pre>
+   */
+  public com.google.wireless.android.sdk.stats.EmulatorCameraSessionOrBuilder getCameraOrBuilder() {
+    return camera_;
+  }
+
+  // optional .android_studio.EmulatorVirtualSceneSession virtual_scene = 28;
+  public static final int VIRTUAL_SCENE_FIELD_NUMBER = 28;
+  private com.google.wireless.android.sdk.stats.EmulatorVirtualSceneSession virtualScene_;
+  /**
+   * <code>optional .android_studio.EmulatorVirtualSceneSession virtual_scene = 28;</code>
+   *
+   * <pre>
+   * Metrics for virtual scene camera sessions.
+   * </pre>
+   */
+  public boolean hasVirtualScene() {
+    return ((bitField0_ & 0x00800000) == 0x00800000);
+  }
+  /**
+   * <code>optional .android_studio.EmulatorVirtualSceneSession virtual_scene = 28;</code>
+   *
+   * <pre>
+   * Metrics for virtual scene camera sessions.
+   * </pre>
+   */
+  public com.google.wireless.android.sdk.stats.EmulatorVirtualSceneSession getVirtualScene() {
+    return virtualScene_;
+  }
+  /**
+   * <code>optional .android_studio.EmulatorVirtualSceneSession virtual_scene = 28;</code>
+   *
+   * <pre>
+   * Metrics for virtual scene camera sessions.
+   * </pre>
+   */
+  public com.google.wireless.android.sdk.stats.EmulatorVirtualSceneSessionOrBuilder getVirtualSceneOrBuilder() {
+    return virtualScene_;
+  }
+
   private void initFields() {
     guestArch_ = com.google.wireless.android.sdk.stats.EmulatorDetails.GuestCpuArchitecture.UNKNOWN_GUEST_CPU_ARCHITECTURE;
     systemTime_ = 0L;
@@ -1742,6 +1997,11 @@ public  final class EmulatorDetails extends
     quickbootLoad_ = com.google.wireless.android.sdk.stats.EmulatorQuickbootLoad.getDefaultInstance();
     quickbootSave_ = com.google.wireless.android.sdk.stats.EmulatorQuickbootSave.getDefaultInstance();
     glesUsages_ = com.google.wireless.android.sdk.stats.EmulatorGLESUsages.getDefaultInstance();
+    snapshotLoads_ = java.util.Collections.emptyList();
+    snapshotSaves_ = java.util.Collections.emptyList();
+    snapshotUiCounts_ = com.google.wireless.android.sdk.stats.EmulatorSnapshotUICounts.getDefaultInstance();
+    camera_ = com.google.wireless.android.sdk.stats.EmulatorCameraSession.getDefaultInstance();
+    virtualScene_ = com.google.wireless.android.sdk.stats.EmulatorVirtualSceneSession.getDefaultInstance();
   }
   private byte memoizedIsInitialized = -1;
   public final boolean isInitialized() {
@@ -1820,6 +2080,21 @@ public  final class EmulatorDetails extends
     }
     if (((bitField0_ & 0x00100000) == 0x00100000)) {
       output.writeMessage(23, glesUsages_);
+    }
+    for (int i = 0; i < snapshotLoads_.size(); i++) {
+      output.writeMessage(24, snapshotLoads_.get(i));
+    }
+    for (int i = 0; i < snapshotSaves_.size(); i++) {
+      output.writeMessage(25, snapshotSaves_.get(i));
+    }
+    if (((bitField0_ & 0x00200000) == 0x00200000)) {
+      output.writeMessage(26, snapshotUiCounts_);
+    }
+    if (((bitField0_ & 0x00400000) == 0x00400000)) {
+      output.writeMessage(27, camera_);
+    }
+    if (((bitField0_ & 0x00800000) == 0x00800000)) {
+      output.writeMessage(28, virtualScene_);
     }
     getUnknownFields().writeTo(output);
   }
@@ -1917,6 +2192,26 @@ public  final class EmulatorDetails extends
     if (((bitField0_ & 0x00100000) == 0x00100000)) {
       size += com.google.protobuf.CodedOutputStream
         .computeMessageSize(23, glesUsages_);
+    }
+    for (int i = 0; i < snapshotLoads_.size(); i++) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeMessageSize(24, snapshotLoads_.get(i));
+    }
+    for (int i = 0; i < snapshotSaves_.size(); i++) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeMessageSize(25, snapshotSaves_.get(i));
+    }
+    if (((bitField0_ & 0x00200000) == 0x00200000)) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeMessageSize(26, snapshotUiCounts_);
+    }
+    if (((bitField0_ & 0x00400000) == 0x00400000)) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeMessageSize(27, camera_);
+    }
+    if (((bitField0_ & 0x00800000) == 0x00800000)) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeMessageSize(28, virtualScene_);
     }
     size += getUnknownFields().getSerializedSize();
     memoizedSerializedSize = size;
@@ -2038,6 +2333,11 @@ public  final class EmulatorDetails extends
         getQuickbootLoadFieldBuilder();
         getQuickbootSaveFieldBuilder();
         getGlesUsagesFieldBuilder();
+        getSnapshotLoadsFieldBuilder();
+        getSnapshotSavesFieldBuilder();
+        getSnapshotUiCountsFieldBuilder();
+        getCameraFieldBuilder();
+        getVirtualSceneFieldBuilder();
       }
     }
     private static Builder create() {
@@ -2122,6 +2422,36 @@ public  final class EmulatorDetails extends
         glesUsagesBuilder_.clear();
       }
       bitField0_ = (bitField0_ & ~0x00200000);
+      if (snapshotLoadsBuilder_ == null) {
+        snapshotLoads_ = java.util.Collections.emptyList();
+        bitField0_ = (bitField0_ & ~0x00400000);
+      } else {
+        snapshotLoadsBuilder_.clear();
+      }
+      if (snapshotSavesBuilder_ == null) {
+        snapshotSaves_ = java.util.Collections.emptyList();
+        bitField0_ = (bitField0_ & ~0x00800000);
+      } else {
+        snapshotSavesBuilder_.clear();
+      }
+      if (snapshotUiCountsBuilder_ == null) {
+        snapshotUiCounts_ = com.google.wireless.android.sdk.stats.EmulatorSnapshotUICounts.getDefaultInstance();
+      } else {
+        snapshotUiCountsBuilder_.clear();
+      }
+      bitField0_ = (bitField0_ & ~0x01000000);
+      if (cameraBuilder_ == null) {
+        camera_ = com.google.wireless.android.sdk.stats.EmulatorCameraSession.getDefaultInstance();
+      } else {
+        cameraBuilder_.clear();
+      }
+      bitField0_ = (bitField0_ & ~0x02000000);
+      if (virtualSceneBuilder_ == null) {
+        virtualScene_ = com.google.wireless.android.sdk.stats.EmulatorVirtualSceneSession.getDefaultInstance();
+      } else {
+        virtualSceneBuilder_.clear();
+      }
+      bitField0_ = (bitField0_ & ~0x04000000);
       return this;
     }
 
@@ -2271,6 +2601,48 @@ public  final class EmulatorDetails extends
       } else {
         result.glesUsages_ = glesUsagesBuilder_.build();
       }
+      if (snapshotLoadsBuilder_ == null) {
+        if (((bitField0_ & 0x00400000) == 0x00400000)) {
+          snapshotLoads_ = java.util.Collections.unmodifiableList(snapshotLoads_);
+          bitField0_ = (bitField0_ & ~0x00400000);
+        }
+        result.snapshotLoads_ = snapshotLoads_;
+      } else {
+        result.snapshotLoads_ = snapshotLoadsBuilder_.build();
+      }
+      if (snapshotSavesBuilder_ == null) {
+        if (((bitField0_ & 0x00800000) == 0x00800000)) {
+          snapshotSaves_ = java.util.Collections.unmodifiableList(snapshotSaves_);
+          bitField0_ = (bitField0_ & ~0x00800000);
+        }
+        result.snapshotSaves_ = snapshotSaves_;
+      } else {
+        result.snapshotSaves_ = snapshotSavesBuilder_.build();
+      }
+      if (((from_bitField0_ & 0x01000000) == 0x01000000)) {
+        to_bitField0_ |= 0x00200000;
+      }
+      if (snapshotUiCountsBuilder_ == null) {
+        result.snapshotUiCounts_ = snapshotUiCounts_;
+      } else {
+        result.snapshotUiCounts_ = snapshotUiCountsBuilder_.build();
+      }
+      if (((from_bitField0_ & 0x02000000) == 0x02000000)) {
+        to_bitField0_ |= 0x00400000;
+      }
+      if (cameraBuilder_ == null) {
+        result.camera_ = camera_;
+      } else {
+        result.camera_ = cameraBuilder_.build();
+      }
+      if (((from_bitField0_ & 0x04000000) == 0x04000000)) {
+        to_bitField0_ |= 0x00800000;
+      }
+      if (virtualSceneBuilder_ == null) {
+        result.virtualScene_ = virtualScene_;
+      } else {
+        result.virtualScene_ = virtualSceneBuilder_.build();
+      }
       result.bitField0_ = to_bitField0_;
       onBuilt();
       return result;
@@ -2377,6 +2749,67 @@ public  final class EmulatorDetails extends
       }
       if (other.hasGlesUsages()) {
         mergeGlesUsages(other.getGlesUsages());
+      }
+      if (snapshotLoadsBuilder_ == null) {
+        if (!other.snapshotLoads_.isEmpty()) {
+          if (snapshotLoads_.isEmpty()) {
+            snapshotLoads_ = other.snapshotLoads_;
+            bitField0_ = (bitField0_ & ~0x00400000);
+          } else {
+            ensureSnapshotLoadsIsMutable();
+            snapshotLoads_.addAll(other.snapshotLoads_);
+          }
+          onChanged();
+        }
+      } else {
+        if (!other.snapshotLoads_.isEmpty()) {
+          if (snapshotLoadsBuilder_.isEmpty()) {
+            snapshotLoadsBuilder_.dispose();
+            snapshotLoadsBuilder_ = null;
+            snapshotLoads_ = other.snapshotLoads_;
+            bitField0_ = (bitField0_ & ~0x00400000);
+            snapshotLoadsBuilder_ = 
+              com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                 getSnapshotLoadsFieldBuilder() : null;
+          } else {
+            snapshotLoadsBuilder_.addAllMessages(other.snapshotLoads_);
+          }
+        }
+      }
+      if (snapshotSavesBuilder_ == null) {
+        if (!other.snapshotSaves_.isEmpty()) {
+          if (snapshotSaves_.isEmpty()) {
+            snapshotSaves_ = other.snapshotSaves_;
+            bitField0_ = (bitField0_ & ~0x00800000);
+          } else {
+            ensureSnapshotSavesIsMutable();
+            snapshotSaves_.addAll(other.snapshotSaves_);
+          }
+          onChanged();
+        }
+      } else {
+        if (!other.snapshotSaves_.isEmpty()) {
+          if (snapshotSavesBuilder_.isEmpty()) {
+            snapshotSavesBuilder_.dispose();
+            snapshotSavesBuilder_ = null;
+            snapshotSaves_ = other.snapshotSaves_;
+            bitField0_ = (bitField0_ & ~0x00800000);
+            snapshotSavesBuilder_ = 
+              com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                 getSnapshotSavesFieldBuilder() : null;
+          } else {
+            snapshotSavesBuilder_.addAllMessages(other.snapshotSaves_);
+          }
+        }
+      }
+      if (other.hasSnapshotUiCounts()) {
+        mergeSnapshotUiCounts(other.getSnapshotUiCounts());
+      }
+      if (other.hasCamera()) {
+        mergeCamera(other.getCamera());
+      }
+      if (other.hasVirtualScene()) {
+        mergeVirtualScene(other.getVirtualScene());
       }
       this.mergeUnknownFields(other.getUnknownFields());
       return this;
@@ -4500,6 +4933,1017 @@ public  final class EmulatorDetails extends
         glesUsages_ = null;
       }
       return glesUsagesBuilder_;
+    }
+
+    // repeated .android_studio.EmulatorSnapshot snapshot_loads = 24;
+    private java.util.List<com.google.wireless.android.sdk.stats.EmulatorSnapshot> snapshotLoads_ =
+      java.util.Collections.emptyList();
+    private void ensureSnapshotLoadsIsMutable() {
+      if (!((bitField0_ & 0x00400000) == 0x00400000)) {
+        snapshotLoads_ = new java.util.ArrayList<com.google.wireless.android.sdk.stats.EmulatorSnapshot>(snapshotLoads_);
+        bitField0_ |= 0x00400000;
+       }
+    }
+
+    private com.google.protobuf.RepeatedFieldBuilder<
+        com.google.wireless.android.sdk.stats.EmulatorSnapshot, com.google.wireless.android.sdk.stats.EmulatorSnapshot.Builder, com.google.wireless.android.sdk.stats.EmulatorSnapshotOrBuilder> snapshotLoadsBuilder_;
+
+    /**
+     * <code>repeated .android_studio.EmulatorSnapshot snapshot_loads = 24;</code>
+     *
+     * <pre>
+     * Metrics on all generic emulator snapshot saves and loads.
+     * </pre>
+     */
+    public java.util.List<com.google.wireless.android.sdk.stats.EmulatorSnapshot> getSnapshotLoadsList() {
+      if (snapshotLoadsBuilder_ == null) {
+        return java.util.Collections.unmodifiableList(snapshotLoads_);
+      } else {
+        return snapshotLoadsBuilder_.getMessageList();
+      }
+    }
+    /**
+     * <code>repeated .android_studio.EmulatorSnapshot snapshot_loads = 24;</code>
+     *
+     * <pre>
+     * Metrics on all generic emulator snapshot saves and loads.
+     * </pre>
+     */
+    public int getSnapshotLoadsCount() {
+      if (snapshotLoadsBuilder_ == null) {
+        return snapshotLoads_.size();
+      } else {
+        return snapshotLoadsBuilder_.getCount();
+      }
+    }
+    /**
+     * <code>repeated .android_studio.EmulatorSnapshot snapshot_loads = 24;</code>
+     *
+     * <pre>
+     * Metrics on all generic emulator snapshot saves and loads.
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.EmulatorSnapshot getSnapshotLoads(int index) {
+      if (snapshotLoadsBuilder_ == null) {
+        return snapshotLoads_.get(index);
+      } else {
+        return snapshotLoadsBuilder_.getMessage(index);
+      }
+    }
+    /**
+     * <code>repeated .android_studio.EmulatorSnapshot snapshot_loads = 24;</code>
+     *
+     * <pre>
+     * Metrics on all generic emulator snapshot saves and loads.
+     * </pre>
+     */
+    public Builder setSnapshotLoads(
+        int index, com.google.wireless.android.sdk.stats.EmulatorSnapshot value) {
+      if (snapshotLoadsBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        ensureSnapshotLoadsIsMutable();
+        snapshotLoads_.set(index, value);
+        onChanged();
+      } else {
+        snapshotLoadsBuilder_.setMessage(index, value);
+      }
+      return this;
+    }
+    /**
+     * <code>repeated .android_studio.EmulatorSnapshot snapshot_loads = 24;</code>
+     *
+     * <pre>
+     * Metrics on all generic emulator snapshot saves and loads.
+     * </pre>
+     */
+    public Builder setSnapshotLoads(
+        int index, com.google.wireless.android.sdk.stats.EmulatorSnapshot.Builder builderForValue) {
+      if (snapshotLoadsBuilder_ == null) {
+        ensureSnapshotLoadsIsMutable();
+        snapshotLoads_.set(index, builderForValue.build());
+        onChanged();
+      } else {
+        snapshotLoadsBuilder_.setMessage(index, builderForValue.build());
+      }
+      return this;
+    }
+    /**
+     * <code>repeated .android_studio.EmulatorSnapshot snapshot_loads = 24;</code>
+     *
+     * <pre>
+     * Metrics on all generic emulator snapshot saves and loads.
+     * </pre>
+     */
+    public Builder addSnapshotLoads(com.google.wireless.android.sdk.stats.EmulatorSnapshot value) {
+      if (snapshotLoadsBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        ensureSnapshotLoadsIsMutable();
+        snapshotLoads_.add(value);
+        onChanged();
+      } else {
+        snapshotLoadsBuilder_.addMessage(value);
+      }
+      return this;
+    }
+    /**
+     * <code>repeated .android_studio.EmulatorSnapshot snapshot_loads = 24;</code>
+     *
+     * <pre>
+     * Metrics on all generic emulator snapshot saves and loads.
+     * </pre>
+     */
+    public Builder addSnapshotLoads(
+        int index, com.google.wireless.android.sdk.stats.EmulatorSnapshot value) {
+      if (snapshotLoadsBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        ensureSnapshotLoadsIsMutable();
+        snapshotLoads_.add(index, value);
+        onChanged();
+      } else {
+        snapshotLoadsBuilder_.addMessage(index, value);
+      }
+      return this;
+    }
+    /**
+     * <code>repeated .android_studio.EmulatorSnapshot snapshot_loads = 24;</code>
+     *
+     * <pre>
+     * Metrics on all generic emulator snapshot saves and loads.
+     * </pre>
+     */
+    public Builder addSnapshotLoads(
+        com.google.wireless.android.sdk.stats.EmulatorSnapshot.Builder builderForValue) {
+      if (snapshotLoadsBuilder_ == null) {
+        ensureSnapshotLoadsIsMutable();
+        snapshotLoads_.add(builderForValue.build());
+        onChanged();
+      } else {
+        snapshotLoadsBuilder_.addMessage(builderForValue.build());
+      }
+      return this;
+    }
+    /**
+     * <code>repeated .android_studio.EmulatorSnapshot snapshot_loads = 24;</code>
+     *
+     * <pre>
+     * Metrics on all generic emulator snapshot saves and loads.
+     * </pre>
+     */
+    public Builder addSnapshotLoads(
+        int index, com.google.wireless.android.sdk.stats.EmulatorSnapshot.Builder builderForValue) {
+      if (snapshotLoadsBuilder_ == null) {
+        ensureSnapshotLoadsIsMutable();
+        snapshotLoads_.add(index, builderForValue.build());
+        onChanged();
+      } else {
+        snapshotLoadsBuilder_.addMessage(index, builderForValue.build());
+      }
+      return this;
+    }
+    /**
+     * <code>repeated .android_studio.EmulatorSnapshot snapshot_loads = 24;</code>
+     *
+     * <pre>
+     * Metrics on all generic emulator snapshot saves and loads.
+     * </pre>
+     */
+    public Builder addAllSnapshotLoads(
+        java.lang.Iterable<? extends com.google.wireless.android.sdk.stats.EmulatorSnapshot> values) {
+      if (snapshotLoadsBuilder_ == null) {
+        ensureSnapshotLoadsIsMutable();
+        super.addAll(values, snapshotLoads_);
+        onChanged();
+      } else {
+        snapshotLoadsBuilder_.addAllMessages(values);
+      }
+      return this;
+    }
+    /**
+     * <code>repeated .android_studio.EmulatorSnapshot snapshot_loads = 24;</code>
+     *
+     * <pre>
+     * Metrics on all generic emulator snapshot saves and loads.
+     * </pre>
+     */
+    public Builder clearSnapshotLoads() {
+      if (snapshotLoadsBuilder_ == null) {
+        snapshotLoads_ = java.util.Collections.emptyList();
+        bitField0_ = (bitField0_ & ~0x00400000);
+        onChanged();
+      } else {
+        snapshotLoadsBuilder_.clear();
+      }
+      return this;
+    }
+    /**
+     * <code>repeated .android_studio.EmulatorSnapshot snapshot_loads = 24;</code>
+     *
+     * <pre>
+     * Metrics on all generic emulator snapshot saves and loads.
+     * </pre>
+     */
+    public Builder removeSnapshotLoads(int index) {
+      if (snapshotLoadsBuilder_ == null) {
+        ensureSnapshotLoadsIsMutable();
+        snapshotLoads_.remove(index);
+        onChanged();
+      } else {
+        snapshotLoadsBuilder_.remove(index);
+      }
+      return this;
+    }
+    /**
+     * <code>repeated .android_studio.EmulatorSnapshot snapshot_loads = 24;</code>
+     *
+     * <pre>
+     * Metrics on all generic emulator snapshot saves and loads.
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.EmulatorSnapshot.Builder getSnapshotLoadsBuilder(
+        int index) {
+      return getSnapshotLoadsFieldBuilder().getBuilder(index);
+    }
+    /**
+     * <code>repeated .android_studio.EmulatorSnapshot snapshot_loads = 24;</code>
+     *
+     * <pre>
+     * Metrics on all generic emulator snapshot saves and loads.
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.EmulatorSnapshotOrBuilder getSnapshotLoadsOrBuilder(
+        int index) {
+      if (snapshotLoadsBuilder_ == null) {
+        return snapshotLoads_.get(index);  } else {
+        return snapshotLoadsBuilder_.getMessageOrBuilder(index);
+      }
+    }
+    /**
+     * <code>repeated .android_studio.EmulatorSnapshot snapshot_loads = 24;</code>
+     *
+     * <pre>
+     * Metrics on all generic emulator snapshot saves and loads.
+     * </pre>
+     */
+    public java.util.List<? extends com.google.wireless.android.sdk.stats.EmulatorSnapshotOrBuilder> 
+         getSnapshotLoadsOrBuilderList() {
+      if (snapshotLoadsBuilder_ != null) {
+        return snapshotLoadsBuilder_.getMessageOrBuilderList();
+      } else {
+        return java.util.Collections.unmodifiableList(snapshotLoads_);
+      }
+    }
+    /**
+     * <code>repeated .android_studio.EmulatorSnapshot snapshot_loads = 24;</code>
+     *
+     * <pre>
+     * Metrics on all generic emulator snapshot saves and loads.
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.EmulatorSnapshot.Builder addSnapshotLoadsBuilder() {
+      return getSnapshotLoadsFieldBuilder().addBuilder(
+          com.google.wireless.android.sdk.stats.EmulatorSnapshot.getDefaultInstance());
+    }
+    /**
+     * <code>repeated .android_studio.EmulatorSnapshot snapshot_loads = 24;</code>
+     *
+     * <pre>
+     * Metrics on all generic emulator snapshot saves and loads.
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.EmulatorSnapshot.Builder addSnapshotLoadsBuilder(
+        int index) {
+      return getSnapshotLoadsFieldBuilder().addBuilder(
+          index, com.google.wireless.android.sdk.stats.EmulatorSnapshot.getDefaultInstance());
+    }
+    /**
+     * <code>repeated .android_studio.EmulatorSnapshot snapshot_loads = 24;</code>
+     *
+     * <pre>
+     * Metrics on all generic emulator snapshot saves and loads.
+     * </pre>
+     */
+    public java.util.List<com.google.wireless.android.sdk.stats.EmulatorSnapshot.Builder> 
+         getSnapshotLoadsBuilderList() {
+      return getSnapshotLoadsFieldBuilder().getBuilderList();
+    }
+    private com.google.protobuf.RepeatedFieldBuilder<
+        com.google.wireless.android.sdk.stats.EmulatorSnapshot, com.google.wireless.android.sdk.stats.EmulatorSnapshot.Builder, com.google.wireless.android.sdk.stats.EmulatorSnapshotOrBuilder> 
+        getSnapshotLoadsFieldBuilder() {
+      if (snapshotLoadsBuilder_ == null) {
+        snapshotLoadsBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+            com.google.wireless.android.sdk.stats.EmulatorSnapshot, com.google.wireless.android.sdk.stats.EmulatorSnapshot.Builder, com.google.wireless.android.sdk.stats.EmulatorSnapshotOrBuilder>(
+                snapshotLoads_,
+                ((bitField0_ & 0x00400000) == 0x00400000),
+                getParentForChildren(),
+                isClean());
+        snapshotLoads_ = null;
+      }
+      return snapshotLoadsBuilder_;
+    }
+
+    // repeated .android_studio.EmulatorSnapshot snapshot_saves = 25;
+    private java.util.List<com.google.wireless.android.sdk.stats.EmulatorSnapshot> snapshotSaves_ =
+      java.util.Collections.emptyList();
+    private void ensureSnapshotSavesIsMutable() {
+      if (!((bitField0_ & 0x00800000) == 0x00800000)) {
+        snapshotSaves_ = new java.util.ArrayList<com.google.wireless.android.sdk.stats.EmulatorSnapshot>(snapshotSaves_);
+        bitField0_ |= 0x00800000;
+       }
+    }
+
+    private com.google.protobuf.RepeatedFieldBuilder<
+        com.google.wireless.android.sdk.stats.EmulatorSnapshot, com.google.wireless.android.sdk.stats.EmulatorSnapshot.Builder, com.google.wireless.android.sdk.stats.EmulatorSnapshotOrBuilder> snapshotSavesBuilder_;
+
+    /**
+     * <code>repeated .android_studio.EmulatorSnapshot snapshot_saves = 25;</code>
+     */
+    public java.util.List<com.google.wireless.android.sdk.stats.EmulatorSnapshot> getSnapshotSavesList() {
+      if (snapshotSavesBuilder_ == null) {
+        return java.util.Collections.unmodifiableList(snapshotSaves_);
+      } else {
+        return snapshotSavesBuilder_.getMessageList();
+      }
+    }
+    /**
+     * <code>repeated .android_studio.EmulatorSnapshot snapshot_saves = 25;</code>
+     */
+    public int getSnapshotSavesCount() {
+      if (snapshotSavesBuilder_ == null) {
+        return snapshotSaves_.size();
+      } else {
+        return snapshotSavesBuilder_.getCount();
+      }
+    }
+    /**
+     * <code>repeated .android_studio.EmulatorSnapshot snapshot_saves = 25;</code>
+     */
+    public com.google.wireless.android.sdk.stats.EmulatorSnapshot getSnapshotSaves(int index) {
+      if (snapshotSavesBuilder_ == null) {
+        return snapshotSaves_.get(index);
+      } else {
+        return snapshotSavesBuilder_.getMessage(index);
+      }
+    }
+    /**
+     * <code>repeated .android_studio.EmulatorSnapshot snapshot_saves = 25;</code>
+     */
+    public Builder setSnapshotSaves(
+        int index, com.google.wireless.android.sdk.stats.EmulatorSnapshot value) {
+      if (snapshotSavesBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        ensureSnapshotSavesIsMutable();
+        snapshotSaves_.set(index, value);
+        onChanged();
+      } else {
+        snapshotSavesBuilder_.setMessage(index, value);
+      }
+      return this;
+    }
+    /**
+     * <code>repeated .android_studio.EmulatorSnapshot snapshot_saves = 25;</code>
+     */
+    public Builder setSnapshotSaves(
+        int index, com.google.wireless.android.sdk.stats.EmulatorSnapshot.Builder builderForValue) {
+      if (snapshotSavesBuilder_ == null) {
+        ensureSnapshotSavesIsMutable();
+        snapshotSaves_.set(index, builderForValue.build());
+        onChanged();
+      } else {
+        snapshotSavesBuilder_.setMessage(index, builderForValue.build());
+      }
+      return this;
+    }
+    /**
+     * <code>repeated .android_studio.EmulatorSnapshot snapshot_saves = 25;</code>
+     */
+    public Builder addSnapshotSaves(com.google.wireless.android.sdk.stats.EmulatorSnapshot value) {
+      if (snapshotSavesBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        ensureSnapshotSavesIsMutable();
+        snapshotSaves_.add(value);
+        onChanged();
+      } else {
+        snapshotSavesBuilder_.addMessage(value);
+      }
+      return this;
+    }
+    /**
+     * <code>repeated .android_studio.EmulatorSnapshot snapshot_saves = 25;</code>
+     */
+    public Builder addSnapshotSaves(
+        int index, com.google.wireless.android.sdk.stats.EmulatorSnapshot value) {
+      if (snapshotSavesBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        ensureSnapshotSavesIsMutable();
+        snapshotSaves_.add(index, value);
+        onChanged();
+      } else {
+        snapshotSavesBuilder_.addMessage(index, value);
+      }
+      return this;
+    }
+    /**
+     * <code>repeated .android_studio.EmulatorSnapshot snapshot_saves = 25;</code>
+     */
+    public Builder addSnapshotSaves(
+        com.google.wireless.android.sdk.stats.EmulatorSnapshot.Builder builderForValue) {
+      if (snapshotSavesBuilder_ == null) {
+        ensureSnapshotSavesIsMutable();
+        snapshotSaves_.add(builderForValue.build());
+        onChanged();
+      } else {
+        snapshotSavesBuilder_.addMessage(builderForValue.build());
+      }
+      return this;
+    }
+    /**
+     * <code>repeated .android_studio.EmulatorSnapshot snapshot_saves = 25;</code>
+     */
+    public Builder addSnapshotSaves(
+        int index, com.google.wireless.android.sdk.stats.EmulatorSnapshot.Builder builderForValue) {
+      if (snapshotSavesBuilder_ == null) {
+        ensureSnapshotSavesIsMutable();
+        snapshotSaves_.add(index, builderForValue.build());
+        onChanged();
+      } else {
+        snapshotSavesBuilder_.addMessage(index, builderForValue.build());
+      }
+      return this;
+    }
+    /**
+     * <code>repeated .android_studio.EmulatorSnapshot snapshot_saves = 25;</code>
+     */
+    public Builder addAllSnapshotSaves(
+        java.lang.Iterable<? extends com.google.wireless.android.sdk.stats.EmulatorSnapshot> values) {
+      if (snapshotSavesBuilder_ == null) {
+        ensureSnapshotSavesIsMutable();
+        super.addAll(values, snapshotSaves_);
+        onChanged();
+      } else {
+        snapshotSavesBuilder_.addAllMessages(values);
+      }
+      return this;
+    }
+    /**
+     * <code>repeated .android_studio.EmulatorSnapshot snapshot_saves = 25;</code>
+     */
+    public Builder clearSnapshotSaves() {
+      if (snapshotSavesBuilder_ == null) {
+        snapshotSaves_ = java.util.Collections.emptyList();
+        bitField0_ = (bitField0_ & ~0x00800000);
+        onChanged();
+      } else {
+        snapshotSavesBuilder_.clear();
+      }
+      return this;
+    }
+    /**
+     * <code>repeated .android_studio.EmulatorSnapshot snapshot_saves = 25;</code>
+     */
+    public Builder removeSnapshotSaves(int index) {
+      if (snapshotSavesBuilder_ == null) {
+        ensureSnapshotSavesIsMutable();
+        snapshotSaves_.remove(index);
+        onChanged();
+      } else {
+        snapshotSavesBuilder_.remove(index);
+      }
+      return this;
+    }
+    /**
+     * <code>repeated .android_studio.EmulatorSnapshot snapshot_saves = 25;</code>
+     */
+    public com.google.wireless.android.sdk.stats.EmulatorSnapshot.Builder getSnapshotSavesBuilder(
+        int index) {
+      return getSnapshotSavesFieldBuilder().getBuilder(index);
+    }
+    /**
+     * <code>repeated .android_studio.EmulatorSnapshot snapshot_saves = 25;</code>
+     */
+    public com.google.wireless.android.sdk.stats.EmulatorSnapshotOrBuilder getSnapshotSavesOrBuilder(
+        int index) {
+      if (snapshotSavesBuilder_ == null) {
+        return snapshotSaves_.get(index);  } else {
+        return snapshotSavesBuilder_.getMessageOrBuilder(index);
+      }
+    }
+    /**
+     * <code>repeated .android_studio.EmulatorSnapshot snapshot_saves = 25;</code>
+     */
+    public java.util.List<? extends com.google.wireless.android.sdk.stats.EmulatorSnapshotOrBuilder> 
+         getSnapshotSavesOrBuilderList() {
+      if (snapshotSavesBuilder_ != null) {
+        return snapshotSavesBuilder_.getMessageOrBuilderList();
+      } else {
+        return java.util.Collections.unmodifiableList(snapshotSaves_);
+      }
+    }
+    /**
+     * <code>repeated .android_studio.EmulatorSnapshot snapshot_saves = 25;</code>
+     */
+    public com.google.wireless.android.sdk.stats.EmulatorSnapshot.Builder addSnapshotSavesBuilder() {
+      return getSnapshotSavesFieldBuilder().addBuilder(
+          com.google.wireless.android.sdk.stats.EmulatorSnapshot.getDefaultInstance());
+    }
+    /**
+     * <code>repeated .android_studio.EmulatorSnapshot snapshot_saves = 25;</code>
+     */
+    public com.google.wireless.android.sdk.stats.EmulatorSnapshot.Builder addSnapshotSavesBuilder(
+        int index) {
+      return getSnapshotSavesFieldBuilder().addBuilder(
+          index, com.google.wireless.android.sdk.stats.EmulatorSnapshot.getDefaultInstance());
+    }
+    /**
+     * <code>repeated .android_studio.EmulatorSnapshot snapshot_saves = 25;</code>
+     */
+    public java.util.List<com.google.wireless.android.sdk.stats.EmulatorSnapshot.Builder> 
+         getSnapshotSavesBuilderList() {
+      return getSnapshotSavesFieldBuilder().getBuilderList();
+    }
+    private com.google.protobuf.RepeatedFieldBuilder<
+        com.google.wireless.android.sdk.stats.EmulatorSnapshot, com.google.wireless.android.sdk.stats.EmulatorSnapshot.Builder, com.google.wireless.android.sdk.stats.EmulatorSnapshotOrBuilder> 
+        getSnapshotSavesFieldBuilder() {
+      if (snapshotSavesBuilder_ == null) {
+        snapshotSavesBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+            com.google.wireless.android.sdk.stats.EmulatorSnapshot, com.google.wireless.android.sdk.stats.EmulatorSnapshot.Builder, com.google.wireless.android.sdk.stats.EmulatorSnapshotOrBuilder>(
+                snapshotSaves_,
+                ((bitField0_ & 0x00800000) == 0x00800000),
+                getParentForChildren(),
+                isClean());
+        snapshotSaves_ = null;
+      }
+      return snapshotSavesBuilder_;
+    }
+
+    // optional .android_studio.EmulatorSnapshotUICounts snapshot_ui_counts = 26;
+    private com.google.wireless.android.sdk.stats.EmulatorSnapshotUICounts snapshotUiCounts_ = com.google.wireless.android.sdk.stats.EmulatorSnapshotUICounts.getDefaultInstance();
+    private com.google.protobuf.SingleFieldBuilder<
+        com.google.wireless.android.sdk.stats.EmulatorSnapshotUICounts, com.google.wireless.android.sdk.stats.EmulatorSnapshotUICounts.Builder, com.google.wireless.android.sdk.stats.EmulatorSnapshotUICountsOrBuilder> snapshotUiCountsBuilder_;
+    /**
+     * <code>optional .android_studio.EmulatorSnapshotUICounts snapshot_ui_counts = 26;</code>
+     *
+     * <pre>
+     * Metrics on all snapshot UI.
+     * </pre>
+     */
+    public boolean hasSnapshotUiCounts() {
+      return ((bitField0_ & 0x01000000) == 0x01000000);
+    }
+    /**
+     * <code>optional .android_studio.EmulatorSnapshotUICounts snapshot_ui_counts = 26;</code>
+     *
+     * <pre>
+     * Metrics on all snapshot UI.
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.EmulatorSnapshotUICounts getSnapshotUiCounts() {
+      if (snapshotUiCountsBuilder_ == null) {
+        return snapshotUiCounts_;
+      } else {
+        return snapshotUiCountsBuilder_.getMessage();
+      }
+    }
+    /**
+     * <code>optional .android_studio.EmulatorSnapshotUICounts snapshot_ui_counts = 26;</code>
+     *
+     * <pre>
+     * Metrics on all snapshot UI.
+     * </pre>
+     */
+    public Builder setSnapshotUiCounts(com.google.wireless.android.sdk.stats.EmulatorSnapshotUICounts value) {
+      if (snapshotUiCountsBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        snapshotUiCounts_ = value;
+        onChanged();
+      } else {
+        snapshotUiCountsBuilder_.setMessage(value);
+      }
+      bitField0_ |= 0x01000000;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.EmulatorSnapshotUICounts snapshot_ui_counts = 26;</code>
+     *
+     * <pre>
+     * Metrics on all snapshot UI.
+     * </pre>
+     */
+    public Builder setSnapshotUiCounts(
+        com.google.wireless.android.sdk.stats.EmulatorSnapshotUICounts.Builder builderForValue) {
+      if (snapshotUiCountsBuilder_ == null) {
+        snapshotUiCounts_ = builderForValue.build();
+        onChanged();
+      } else {
+        snapshotUiCountsBuilder_.setMessage(builderForValue.build());
+      }
+      bitField0_ |= 0x01000000;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.EmulatorSnapshotUICounts snapshot_ui_counts = 26;</code>
+     *
+     * <pre>
+     * Metrics on all snapshot UI.
+     * </pre>
+     */
+    public Builder mergeSnapshotUiCounts(com.google.wireless.android.sdk.stats.EmulatorSnapshotUICounts value) {
+      if (snapshotUiCountsBuilder_ == null) {
+        if (((bitField0_ & 0x01000000) == 0x01000000) &&
+            snapshotUiCounts_ != com.google.wireless.android.sdk.stats.EmulatorSnapshotUICounts.getDefaultInstance()) {
+          snapshotUiCounts_ =
+            com.google.wireless.android.sdk.stats.EmulatorSnapshotUICounts.newBuilder(snapshotUiCounts_).mergeFrom(value).buildPartial();
+        } else {
+          snapshotUiCounts_ = value;
+        }
+        onChanged();
+      } else {
+        snapshotUiCountsBuilder_.mergeFrom(value);
+      }
+      bitField0_ |= 0x01000000;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.EmulatorSnapshotUICounts snapshot_ui_counts = 26;</code>
+     *
+     * <pre>
+     * Metrics on all snapshot UI.
+     * </pre>
+     */
+    public Builder clearSnapshotUiCounts() {
+      if (snapshotUiCountsBuilder_ == null) {
+        snapshotUiCounts_ = com.google.wireless.android.sdk.stats.EmulatorSnapshotUICounts.getDefaultInstance();
+        onChanged();
+      } else {
+        snapshotUiCountsBuilder_.clear();
+      }
+      bitField0_ = (bitField0_ & ~0x01000000);
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.EmulatorSnapshotUICounts snapshot_ui_counts = 26;</code>
+     *
+     * <pre>
+     * Metrics on all snapshot UI.
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.EmulatorSnapshotUICounts.Builder getSnapshotUiCountsBuilder() {
+      bitField0_ |= 0x01000000;
+      onChanged();
+      return getSnapshotUiCountsFieldBuilder().getBuilder();
+    }
+    /**
+     * <code>optional .android_studio.EmulatorSnapshotUICounts snapshot_ui_counts = 26;</code>
+     *
+     * <pre>
+     * Metrics on all snapshot UI.
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.EmulatorSnapshotUICountsOrBuilder getSnapshotUiCountsOrBuilder() {
+      if (snapshotUiCountsBuilder_ != null) {
+        return snapshotUiCountsBuilder_.getMessageOrBuilder();
+      } else {
+        return snapshotUiCounts_;
+      }
+    }
+    /**
+     * <code>optional .android_studio.EmulatorSnapshotUICounts snapshot_ui_counts = 26;</code>
+     *
+     * <pre>
+     * Metrics on all snapshot UI.
+     * </pre>
+     */
+    private com.google.protobuf.SingleFieldBuilder<
+        com.google.wireless.android.sdk.stats.EmulatorSnapshotUICounts, com.google.wireless.android.sdk.stats.EmulatorSnapshotUICounts.Builder, com.google.wireless.android.sdk.stats.EmulatorSnapshotUICountsOrBuilder> 
+        getSnapshotUiCountsFieldBuilder() {
+      if (snapshotUiCountsBuilder_ == null) {
+        snapshotUiCountsBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+            com.google.wireless.android.sdk.stats.EmulatorSnapshotUICounts, com.google.wireless.android.sdk.stats.EmulatorSnapshotUICounts.Builder, com.google.wireless.android.sdk.stats.EmulatorSnapshotUICountsOrBuilder>(
+                snapshotUiCounts_,
+                getParentForChildren(),
+                isClean());
+        snapshotUiCounts_ = null;
+      }
+      return snapshotUiCountsBuilder_;
+    }
+
+    // optional .android_studio.EmulatorCameraSession camera = 27;
+    private com.google.wireless.android.sdk.stats.EmulatorCameraSession camera_ = com.google.wireless.android.sdk.stats.EmulatorCameraSession.getDefaultInstance();
+    private com.google.protobuf.SingleFieldBuilder<
+        com.google.wireless.android.sdk.stats.EmulatorCameraSession, com.google.wireless.android.sdk.stats.EmulatorCameraSession.Builder, com.google.wireless.android.sdk.stats.EmulatorCameraSessionOrBuilder> cameraBuilder_;
+    /**
+     * <code>optional .android_studio.EmulatorCameraSession camera = 27;</code>
+     *
+     * <pre>
+     * Metrics on camera usage.
+     * </pre>
+     */
+    public boolean hasCamera() {
+      return ((bitField0_ & 0x02000000) == 0x02000000);
+    }
+    /**
+     * <code>optional .android_studio.EmulatorCameraSession camera = 27;</code>
+     *
+     * <pre>
+     * Metrics on camera usage.
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.EmulatorCameraSession getCamera() {
+      if (cameraBuilder_ == null) {
+        return camera_;
+      } else {
+        return cameraBuilder_.getMessage();
+      }
+    }
+    /**
+     * <code>optional .android_studio.EmulatorCameraSession camera = 27;</code>
+     *
+     * <pre>
+     * Metrics on camera usage.
+     * </pre>
+     */
+    public Builder setCamera(com.google.wireless.android.sdk.stats.EmulatorCameraSession value) {
+      if (cameraBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        camera_ = value;
+        onChanged();
+      } else {
+        cameraBuilder_.setMessage(value);
+      }
+      bitField0_ |= 0x02000000;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.EmulatorCameraSession camera = 27;</code>
+     *
+     * <pre>
+     * Metrics on camera usage.
+     * </pre>
+     */
+    public Builder setCamera(
+        com.google.wireless.android.sdk.stats.EmulatorCameraSession.Builder builderForValue) {
+      if (cameraBuilder_ == null) {
+        camera_ = builderForValue.build();
+        onChanged();
+      } else {
+        cameraBuilder_.setMessage(builderForValue.build());
+      }
+      bitField0_ |= 0x02000000;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.EmulatorCameraSession camera = 27;</code>
+     *
+     * <pre>
+     * Metrics on camera usage.
+     * </pre>
+     */
+    public Builder mergeCamera(com.google.wireless.android.sdk.stats.EmulatorCameraSession value) {
+      if (cameraBuilder_ == null) {
+        if (((bitField0_ & 0x02000000) == 0x02000000) &&
+            camera_ != com.google.wireless.android.sdk.stats.EmulatorCameraSession.getDefaultInstance()) {
+          camera_ =
+            com.google.wireless.android.sdk.stats.EmulatorCameraSession.newBuilder(camera_).mergeFrom(value).buildPartial();
+        } else {
+          camera_ = value;
+        }
+        onChanged();
+      } else {
+        cameraBuilder_.mergeFrom(value);
+      }
+      bitField0_ |= 0x02000000;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.EmulatorCameraSession camera = 27;</code>
+     *
+     * <pre>
+     * Metrics on camera usage.
+     * </pre>
+     */
+    public Builder clearCamera() {
+      if (cameraBuilder_ == null) {
+        camera_ = com.google.wireless.android.sdk.stats.EmulatorCameraSession.getDefaultInstance();
+        onChanged();
+      } else {
+        cameraBuilder_.clear();
+      }
+      bitField0_ = (bitField0_ & ~0x02000000);
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.EmulatorCameraSession camera = 27;</code>
+     *
+     * <pre>
+     * Metrics on camera usage.
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.EmulatorCameraSession.Builder getCameraBuilder() {
+      bitField0_ |= 0x02000000;
+      onChanged();
+      return getCameraFieldBuilder().getBuilder();
+    }
+    /**
+     * <code>optional .android_studio.EmulatorCameraSession camera = 27;</code>
+     *
+     * <pre>
+     * Metrics on camera usage.
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.EmulatorCameraSessionOrBuilder getCameraOrBuilder() {
+      if (cameraBuilder_ != null) {
+        return cameraBuilder_.getMessageOrBuilder();
+      } else {
+        return camera_;
+      }
+    }
+    /**
+     * <code>optional .android_studio.EmulatorCameraSession camera = 27;</code>
+     *
+     * <pre>
+     * Metrics on camera usage.
+     * </pre>
+     */
+    private com.google.protobuf.SingleFieldBuilder<
+        com.google.wireless.android.sdk.stats.EmulatorCameraSession, com.google.wireless.android.sdk.stats.EmulatorCameraSession.Builder, com.google.wireless.android.sdk.stats.EmulatorCameraSessionOrBuilder> 
+        getCameraFieldBuilder() {
+      if (cameraBuilder_ == null) {
+        cameraBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+            com.google.wireless.android.sdk.stats.EmulatorCameraSession, com.google.wireless.android.sdk.stats.EmulatorCameraSession.Builder, com.google.wireless.android.sdk.stats.EmulatorCameraSessionOrBuilder>(
+                camera_,
+                getParentForChildren(),
+                isClean());
+        camera_ = null;
+      }
+      return cameraBuilder_;
+    }
+
+    // optional .android_studio.EmulatorVirtualSceneSession virtual_scene = 28;
+    private com.google.wireless.android.sdk.stats.EmulatorVirtualSceneSession virtualScene_ = com.google.wireless.android.sdk.stats.EmulatorVirtualSceneSession.getDefaultInstance();
+    private com.google.protobuf.SingleFieldBuilder<
+        com.google.wireless.android.sdk.stats.EmulatorVirtualSceneSession, com.google.wireless.android.sdk.stats.EmulatorVirtualSceneSession.Builder, com.google.wireless.android.sdk.stats.EmulatorVirtualSceneSessionOrBuilder> virtualSceneBuilder_;
+    /**
+     * <code>optional .android_studio.EmulatorVirtualSceneSession virtual_scene = 28;</code>
+     *
+     * <pre>
+     * Metrics for virtual scene camera sessions.
+     * </pre>
+     */
+    public boolean hasVirtualScene() {
+      return ((bitField0_ & 0x04000000) == 0x04000000);
+    }
+    /**
+     * <code>optional .android_studio.EmulatorVirtualSceneSession virtual_scene = 28;</code>
+     *
+     * <pre>
+     * Metrics for virtual scene camera sessions.
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.EmulatorVirtualSceneSession getVirtualScene() {
+      if (virtualSceneBuilder_ == null) {
+        return virtualScene_;
+      } else {
+        return virtualSceneBuilder_.getMessage();
+      }
+    }
+    /**
+     * <code>optional .android_studio.EmulatorVirtualSceneSession virtual_scene = 28;</code>
+     *
+     * <pre>
+     * Metrics for virtual scene camera sessions.
+     * </pre>
+     */
+    public Builder setVirtualScene(com.google.wireless.android.sdk.stats.EmulatorVirtualSceneSession value) {
+      if (virtualSceneBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        virtualScene_ = value;
+        onChanged();
+      } else {
+        virtualSceneBuilder_.setMessage(value);
+      }
+      bitField0_ |= 0x04000000;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.EmulatorVirtualSceneSession virtual_scene = 28;</code>
+     *
+     * <pre>
+     * Metrics for virtual scene camera sessions.
+     * </pre>
+     */
+    public Builder setVirtualScene(
+        com.google.wireless.android.sdk.stats.EmulatorVirtualSceneSession.Builder builderForValue) {
+      if (virtualSceneBuilder_ == null) {
+        virtualScene_ = builderForValue.build();
+        onChanged();
+      } else {
+        virtualSceneBuilder_.setMessage(builderForValue.build());
+      }
+      bitField0_ |= 0x04000000;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.EmulatorVirtualSceneSession virtual_scene = 28;</code>
+     *
+     * <pre>
+     * Metrics for virtual scene camera sessions.
+     * </pre>
+     */
+    public Builder mergeVirtualScene(com.google.wireless.android.sdk.stats.EmulatorVirtualSceneSession value) {
+      if (virtualSceneBuilder_ == null) {
+        if (((bitField0_ & 0x04000000) == 0x04000000) &&
+            virtualScene_ != com.google.wireless.android.sdk.stats.EmulatorVirtualSceneSession.getDefaultInstance()) {
+          virtualScene_ =
+            com.google.wireless.android.sdk.stats.EmulatorVirtualSceneSession.newBuilder(virtualScene_).mergeFrom(value).buildPartial();
+        } else {
+          virtualScene_ = value;
+        }
+        onChanged();
+      } else {
+        virtualSceneBuilder_.mergeFrom(value);
+      }
+      bitField0_ |= 0x04000000;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.EmulatorVirtualSceneSession virtual_scene = 28;</code>
+     *
+     * <pre>
+     * Metrics for virtual scene camera sessions.
+     * </pre>
+     */
+    public Builder clearVirtualScene() {
+      if (virtualSceneBuilder_ == null) {
+        virtualScene_ = com.google.wireless.android.sdk.stats.EmulatorVirtualSceneSession.getDefaultInstance();
+        onChanged();
+      } else {
+        virtualSceneBuilder_.clear();
+      }
+      bitField0_ = (bitField0_ & ~0x04000000);
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.EmulatorVirtualSceneSession virtual_scene = 28;</code>
+     *
+     * <pre>
+     * Metrics for virtual scene camera sessions.
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.EmulatorVirtualSceneSession.Builder getVirtualSceneBuilder() {
+      bitField0_ |= 0x04000000;
+      onChanged();
+      return getVirtualSceneFieldBuilder().getBuilder();
+    }
+    /**
+     * <code>optional .android_studio.EmulatorVirtualSceneSession virtual_scene = 28;</code>
+     *
+     * <pre>
+     * Metrics for virtual scene camera sessions.
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.EmulatorVirtualSceneSessionOrBuilder getVirtualSceneOrBuilder() {
+      if (virtualSceneBuilder_ != null) {
+        return virtualSceneBuilder_.getMessageOrBuilder();
+      } else {
+        return virtualScene_;
+      }
+    }
+    /**
+     * <code>optional .android_studio.EmulatorVirtualSceneSession virtual_scene = 28;</code>
+     *
+     * <pre>
+     * Metrics for virtual scene camera sessions.
+     * </pre>
+     */
+    private com.google.protobuf.SingleFieldBuilder<
+        com.google.wireless.android.sdk.stats.EmulatorVirtualSceneSession, com.google.wireless.android.sdk.stats.EmulatorVirtualSceneSession.Builder, com.google.wireless.android.sdk.stats.EmulatorVirtualSceneSessionOrBuilder> 
+        getVirtualSceneFieldBuilder() {
+      if (virtualSceneBuilder_ == null) {
+        virtualSceneBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+            com.google.wireless.android.sdk.stats.EmulatorVirtualSceneSession, com.google.wireless.android.sdk.stats.EmulatorVirtualSceneSession.Builder, com.google.wireless.android.sdk.stats.EmulatorVirtualSceneSessionOrBuilder>(
+                virtualScene_,
+                getParentForChildren(),
+                isClean());
+        virtualScene_ = null;
+      }
+      return virtualSceneBuilder_;
     }
 
     // @@protoc_insertion_point(builder_scope:android_studio.EmulatorDetails)

@@ -196,6 +196,22 @@ public  final class EmulatorQuickbootSave extends
      * </pre>
      */
     EMULATOR_QUICKBOOT_SAVE_SKIPPED_LOW_UPTIME(6, 6),
+    /**
+     * <code>EMULATOR_QUICKBOOT_SAVE_DISABLED_UI = 7;</code>
+     *
+     * <pre>
+     * Saving skipped: Used the UI to skip saving.
+     * </pre>
+     */
+    EMULATOR_QUICKBOOT_SAVE_DISABLED_UI(7, 7),
+    /**
+     * <code>EMULATOR_QUICKBOOT_SAVE_SKIPPED_NOT_BOOTED = 8;</code>
+     *
+     * <pre>
+     * Saving skipped: Not booted yet.
+     * </pre>
+     */
+    EMULATOR_QUICKBOOT_SAVE_SKIPPED_NOT_BOOTED(8, 8),
     ;
 
     /**
@@ -254,6 +270,22 @@ public  final class EmulatorQuickbootSave extends
      * </pre>
      */
     public static final int EMULATOR_QUICKBOOT_SAVE_SKIPPED_LOW_UPTIME_VALUE = 6;
+    /**
+     * <code>EMULATOR_QUICKBOOT_SAVE_DISABLED_UI = 7;</code>
+     *
+     * <pre>
+     * Saving skipped: Used the UI to skip saving.
+     * </pre>
+     */
+    public static final int EMULATOR_QUICKBOOT_SAVE_DISABLED_UI_VALUE = 7;
+    /**
+     * <code>EMULATOR_QUICKBOOT_SAVE_SKIPPED_NOT_BOOTED = 8;</code>
+     *
+     * <pre>
+     * Saving skipped: Not booted yet.
+     * </pre>
+     */
+    public static final int EMULATOR_QUICKBOOT_SAVE_SKIPPED_NOT_BOOTED_VALUE = 8;
 
 
     public final int getNumber() { return value; }
@@ -267,6 +299,8 @@ public  final class EmulatorQuickbootSave extends
         case 4: return EMULATOR_QUICKBOOT_SAVE_DISABLED_AVD;
         case 5: return EMULATOR_QUICKBOOT_SAVE_SKIPPED_UNSUPPORTED;
         case 6: return EMULATOR_QUICKBOOT_SAVE_SKIPPED_LOW_UPTIME;
+        case 7: return EMULATOR_QUICKBOOT_SAVE_DISABLED_UI;
+        case 8: return EMULATOR_QUICKBOOT_SAVE_SKIPPED_NOT_BOOTED;
         default: return null;
       }
     }

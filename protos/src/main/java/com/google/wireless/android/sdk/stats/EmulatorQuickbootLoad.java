@@ -92,6 +92,11 @@ public  final class EmulatorQuickbootLoad extends
             onDemandRamEnabled_ = input.readBool();
             break;
           }
+          case 48: {
+            bitField0_ |= 0x00000010;
+            adbConnectionRetries_ = input.readUInt32();
+            break;
+          }
         }
       }
     } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -461,11 +466,36 @@ public  final class EmulatorQuickbootLoad extends
     return onDemandRamEnabled_;
   }
 
+  // optional uint32 adb_connection_retries = 6;
+  public static final int ADB_CONNECTION_RETRIES_FIELD_NUMBER = 6;
+  private int adbConnectionRetries_;
+  /**
+   * <code>optional uint32 adb_connection_retries = 6;</code>
+   *
+   * <pre>
+   * ADB connection retries.
+   * </pre>
+   */
+  public boolean hasAdbConnectionRetries() {
+    return ((bitField0_ & 0x00000010) == 0x00000010);
+  }
+  /**
+   * <code>optional uint32 adb_connection_retries = 6;</code>
+   *
+   * <pre>
+   * ADB connection retries.
+   * </pre>
+   */
+  public int getAdbConnectionRetries() {
+    return adbConnectionRetries_;
+  }
+
   private void initFields() {
     state_ = com.google.wireless.android.sdk.stats.EmulatorQuickbootLoad.EmulatorQuickbootLoadState.EMULATOR_QUICKBOOT_LOAD_SUCCEEDED;
     durationMs_ = 0L;
     snapshot_ = com.google.wireless.android.sdk.stats.EmulatorSnapshot.getDefaultInstance();
     onDemandRamEnabled_ = false;
+    adbConnectionRetries_ = 0;
   }
   private byte memoizedIsInitialized = -1;
   public final boolean isInitialized() {
@@ -491,6 +521,9 @@ public  final class EmulatorQuickbootLoad extends
     if (((bitField0_ & 0x00000008) == 0x00000008)) {
       output.writeBool(4, onDemandRamEnabled_);
     }
+    if (((bitField0_ & 0x00000010) == 0x00000010)) {
+      output.writeUInt32(6, adbConnectionRetries_);
+    }
     getUnknownFields().writeTo(output);
   }
 
@@ -515,6 +548,10 @@ public  final class EmulatorQuickbootLoad extends
     if (((bitField0_ & 0x00000008) == 0x00000008)) {
       size += com.google.protobuf.CodedOutputStream
         .computeBoolSize(4, onDemandRamEnabled_);
+    }
+    if (((bitField0_ & 0x00000010) == 0x00000010)) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeUInt32Size(6, adbConnectionRetries_);
     }
     size += getUnknownFields().getSerializedSize();
     memoizedSerializedSize = size;
@@ -649,6 +686,8 @@ public  final class EmulatorQuickbootLoad extends
       bitField0_ = (bitField0_ & ~0x00000004);
       onDemandRamEnabled_ = false;
       bitField0_ = (bitField0_ & ~0x00000008);
+      adbConnectionRetries_ = 0;
+      bitField0_ = (bitField0_ & ~0x00000010);
       return this;
     }
 
@@ -697,6 +736,10 @@ public  final class EmulatorQuickbootLoad extends
         to_bitField0_ |= 0x00000008;
       }
       result.onDemandRamEnabled_ = onDemandRamEnabled_;
+      if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
+        to_bitField0_ |= 0x00000010;
+      }
+      result.adbConnectionRetries_ = adbConnectionRetries_;
       result.bitField0_ = to_bitField0_;
       onBuilt();
       return result;
@@ -724,6 +767,9 @@ public  final class EmulatorQuickbootLoad extends
       }
       if (other.hasOnDemandRamEnabled()) {
         setOnDemandRamEnabled(other.getOnDemandRamEnabled());
+      }
+      if (other.hasAdbConnectionRetries()) {
+        setAdbConnectionRetries(other.getAdbConnectionRetries());
       }
       this.mergeUnknownFields(other.getUnknownFields());
       return this;
@@ -1051,6 +1097,55 @@ public  final class EmulatorQuickbootLoad extends
     public Builder clearOnDemandRamEnabled() {
       bitField0_ = (bitField0_ & ~0x00000008);
       onDemandRamEnabled_ = false;
+      onChanged();
+      return this;
+    }
+
+    // optional uint32 adb_connection_retries = 6;
+    private int adbConnectionRetries_ ;
+    /**
+     * <code>optional uint32 adb_connection_retries = 6;</code>
+     *
+     * <pre>
+     * ADB connection retries.
+     * </pre>
+     */
+    public boolean hasAdbConnectionRetries() {
+      return ((bitField0_ & 0x00000010) == 0x00000010);
+    }
+    /**
+     * <code>optional uint32 adb_connection_retries = 6;</code>
+     *
+     * <pre>
+     * ADB connection retries.
+     * </pre>
+     */
+    public int getAdbConnectionRetries() {
+      return adbConnectionRetries_;
+    }
+    /**
+     * <code>optional uint32 adb_connection_retries = 6;</code>
+     *
+     * <pre>
+     * ADB connection retries.
+     * </pre>
+     */
+    public Builder setAdbConnectionRetries(int value) {
+      bitField0_ |= 0x00000010;
+      adbConnectionRetries_ = value;
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>optional uint32 adb_connection_retries = 6;</code>
+     *
+     * <pre>
+     * ADB connection retries.
+     * </pre>
+     */
+    public Builder clearAdbConnectionRetries() {
+      bitField0_ = (bitField0_ & ~0x00000010);
+      adbConnectionRetries_ = 0;
       onChanged();
       return this;
     }

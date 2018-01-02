@@ -73,6 +73,100 @@ public  final class EmulatorSnapshot extends
             sizeBytes_ = input.readInt64();
             break;
           }
+          case 32: {
+            int rawValue = input.readEnum();
+            com.google.wireless.android.sdk.stats.EmulatorSnapshotSaveState value = com.google.wireless.android.sdk.stats.EmulatorSnapshotSaveState.valueOf(rawValue);
+            if (value == null) {
+              unknownFields.mergeVarintField(4, rawValue);
+            } else {
+              bitField0_ |= 0x00000008;
+              saveState_ = value;
+            }
+            break;
+          }
+          case 40: {
+            int rawValue = input.readEnum();
+            com.google.wireless.android.sdk.stats.EmulatorSnapshotLoadState value = com.google.wireless.android.sdk.stats.EmulatorSnapshotLoadState.valueOf(rawValue);
+            if (value == null) {
+              unknownFields.mergeVarintField(5, rawValue);
+            } else {
+              bitField0_ |= 0x00000010;
+              loadState_ = value;
+            }
+            break;
+          }
+          case 48: {
+            int rawValue = input.readEnum();
+            com.google.wireless.android.sdk.stats.EmulatorSnapshotFailureReason value = com.google.wireless.android.sdk.stats.EmulatorSnapshotFailureReason.valueOf(rawValue);
+            if (value == null) {
+              unknownFields.mergeVarintField(6, rawValue);
+            } else {
+              bitField0_ |= 0x00000020;
+              loadFailureReason_ = value;
+            }
+            break;
+          }
+          case 56: {
+            int rawValue = input.readEnum();
+            com.google.wireless.android.sdk.stats.EmulatorSnapshotFailureReason value = com.google.wireless.android.sdk.stats.EmulatorSnapshotFailureReason.valueOf(rawValue);
+            if (value == null) {
+              unknownFields.mergeVarintField(7, rawValue);
+            } else {
+              bitField0_ |= 0x00000040;
+              saveFailureReason_ = value;
+            }
+            break;
+          }
+          case 64: {
+            bitField0_ |= 0x00000080;
+            lazyLoaded_ = input.readBool();
+            break;
+          }
+          case 72: {
+            bitField0_ |= 0x00000100;
+            incrementallySaved_ = input.readBool();
+            break;
+          }
+          case 80: {
+            bitField0_ |= 0x00000200;
+            ramSizeBytes_ = input.readInt64();
+            break;
+          }
+          case 88: {
+            bitField0_ |= 0x00000400;
+            texturesSizeBytes_ = input.readInt64();
+            break;
+          }
+          case 96: {
+            bitField0_ |= 0x00000800;
+            loadDurationMs_ = input.readUInt64();
+            break;
+          }
+          case 104: {
+            bitField0_ |= 0x00001000;
+            saveDurationMs_ = input.readUInt64();
+            break;
+          }
+          case 112: {
+            bitField0_ |= 0x00002000;
+            ramLoadDurationMs_ = input.readUInt64();
+            break;
+          }
+          case 120: {
+            bitField0_ |= 0x00004000;
+            ramSaveDurationMs_ = input.readUInt64();
+            break;
+          }
+          case 128: {
+            bitField0_ |= 0x00008000;
+            texturesLoadDurationMs_ = input.readUInt64();
+            break;
+          }
+          case 136: {
+            bitField0_ |= 0x00010000;
+            texturesSaveDurationMs_ = input.readUInt64();
+            break;
+          }
         }
       }
     } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -216,10 +310,336 @@ public  final class EmulatorSnapshot extends
     return sizeBytes_;
   }
 
+  // optional .android_studio.EmulatorSnapshotSaveState save_state = 4;
+  public static final int SAVE_STATE_FIELD_NUMBER = 4;
+  private com.google.wireless.android.sdk.stats.EmulatorSnapshotSaveState saveState_;
+  /**
+   * <code>optional .android_studio.EmulatorSnapshotSaveState save_state = 4;</code>
+   *
+   * <pre>
+   * Snapshot save/load states.
+   * </pre>
+   */
+  public boolean hasSaveState() {
+    return ((bitField0_ & 0x00000008) == 0x00000008);
+  }
+  /**
+   * <code>optional .android_studio.EmulatorSnapshotSaveState save_state = 4;</code>
+   *
+   * <pre>
+   * Snapshot save/load states.
+   * </pre>
+   */
+  public com.google.wireless.android.sdk.stats.EmulatorSnapshotSaveState getSaveState() {
+    return saveState_;
+  }
+
+  // optional .android_studio.EmulatorSnapshotLoadState load_state = 5;
+  public static final int LOAD_STATE_FIELD_NUMBER = 5;
+  private com.google.wireless.android.sdk.stats.EmulatorSnapshotLoadState loadState_;
+  /**
+   * <code>optional .android_studio.EmulatorSnapshotLoadState load_state = 5;</code>
+   */
+  public boolean hasLoadState() {
+    return ((bitField0_ & 0x00000010) == 0x00000010);
+  }
+  /**
+   * <code>optional .android_studio.EmulatorSnapshotLoadState load_state = 5;</code>
+   */
+  public com.google.wireless.android.sdk.stats.EmulatorSnapshotLoadState getLoadState() {
+    return loadState_;
+  }
+
+  // optional .android_studio.EmulatorSnapshotFailureReason load_failure_reason = 6;
+  public static final int LOAD_FAILURE_REASON_FIELD_NUMBER = 6;
+  private com.google.wireless.android.sdk.stats.EmulatorSnapshotFailureReason loadFailureReason_;
+  /**
+   * <code>optional .android_studio.EmulatorSnapshotFailureReason load_failure_reason = 6;</code>
+   *
+   * <pre>
+   * Detailed reason for non-success of snapshot load.
+   * </pre>
+   */
+  public boolean hasLoadFailureReason() {
+    return ((bitField0_ & 0x00000020) == 0x00000020);
+  }
+  /**
+   * <code>optional .android_studio.EmulatorSnapshotFailureReason load_failure_reason = 6;</code>
+   *
+   * <pre>
+   * Detailed reason for non-success of snapshot load.
+   * </pre>
+   */
+  public com.google.wireless.android.sdk.stats.EmulatorSnapshotFailureReason getLoadFailureReason() {
+    return loadFailureReason_;
+  }
+
+  // optional .android_studio.EmulatorSnapshotFailureReason save_failure_reason = 7;
+  public static final int SAVE_FAILURE_REASON_FIELD_NUMBER = 7;
+  private com.google.wireless.android.sdk.stats.EmulatorSnapshotFailureReason saveFailureReason_;
+  /**
+   * <code>optional .android_studio.EmulatorSnapshotFailureReason save_failure_reason = 7;</code>
+   *
+   * <pre>
+   * Detailed reason for non-success of snapshot save.
+   * </pre>
+   */
+  public boolean hasSaveFailureReason() {
+    return ((bitField0_ & 0x00000040) == 0x00000040);
+  }
+  /**
+   * <code>optional .android_studio.EmulatorSnapshotFailureReason save_failure_reason = 7;</code>
+   *
+   * <pre>
+   * Detailed reason for non-success of snapshot save.
+   * </pre>
+   */
+  public com.google.wireless.android.sdk.stats.EmulatorSnapshotFailureReason getSaveFailureReason() {
+    return saveFailureReason_;
+  }
+
+  // optional bool lazy_loaded = 8;
+  public static final int LAZY_LOADED_FIELD_NUMBER = 8;
+  private boolean lazyLoaded_;
+  /**
+   * <code>optional bool lazy_loaded = 8;</code>
+   *
+   * <pre>
+   * Whether or not it was lazy loaded.
+   * </pre>
+   */
+  public boolean hasLazyLoaded() {
+    return ((bitField0_ & 0x00000080) == 0x00000080);
+  }
+  /**
+   * <code>optional bool lazy_loaded = 8;</code>
+   *
+   * <pre>
+   * Whether or not it was lazy loaded.
+   * </pre>
+   */
+  public boolean getLazyLoaded() {
+    return lazyLoaded_;
+  }
+
+  // optional bool incrementally_saved = 9;
+  public static final int INCREMENTALLY_SAVED_FIELD_NUMBER = 9;
+  private boolean incrementallySaved_;
+  /**
+   * <code>optional bool incrementally_saved = 9;</code>
+   *
+   * <pre>
+   * Whether or not it was incrementally saved.
+   * </pre>
+   */
+  public boolean hasIncrementallySaved() {
+    return ((bitField0_ & 0x00000100) == 0x00000100);
+  }
+  /**
+   * <code>optional bool incrementally_saved = 9;</code>
+   *
+   * <pre>
+   * Whether or not it was incrementally saved.
+   * </pre>
+   */
+  public boolean getIncrementallySaved() {
+    return incrementallySaved_;
+  }
+
+  // optional int64 ram_size_bytes = 10;
+  public static final int RAM_SIZE_BYTES_FIELD_NUMBER = 10;
+  private long ramSizeBytes_;
+  /**
+   * <code>optional int64 ram_size_bytes = 10;</code>
+   *
+   * <pre>
+   * Size of RAM (possibly incl. incremental / compression)
+   * </pre>
+   */
+  public boolean hasRamSizeBytes() {
+    return ((bitField0_ & 0x00000200) == 0x00000200);
+  }
+  /**
+   * <code>optional int64 ram_size_bytes = 10;</code>
+   *
+   * <pre>
+   * Size of RAM (possibly incl. incremental / compression)
+   * </pre>
+   */
+  public long getRamSizeBytes() {
+    return ramSizeBytes_;
+  }
+
+  // optional int64 textures_size_bytes = 11;
+  public static final int TEXTURES_SIZE_BYTES_FIELD_NUMBER = 11;
+  private long texturesSizeBytes_;
+  /**
+   * <code>optional int64 textures_size_bytes = 11;</code>
+   *
+   * <pre>
+   * Size of textures (possibly incl. incremental / compression)
+   * </pre>
+   */
+  public boolean hasTexturesSizeBytes() {
+    return ((bitField0_ & 0x00000400) == 0x00000400);
+  }
+  /**
+   * <code>optional int64 textures_size_bytes = 11;</code>
+   *
+   * <pre>
+   * Size of textures (possibly incl. incremental / compression)
+   * </pre>
+   */
+  public long getTexturesSizeBytes() {
+    return texturesSizeBytes_;
+  }
+
+  // optional uint64 load_duration_ms = 12;
+  public static final int LOAD_DURATION_MS_FIELD_NUMBER = 12;
+  private long loadDurationMs_;
+  /**
+   * <code>optional uint64 load_duration_ms = 12;</code>
+   *
+   * <pre>
+   * Duration of load / save (total).
+   * </pre>
+   */
+  public boolean hasLoadDurationMs() {
+    return ((bitField0_ & 0x00000800) == 0x00000800);
+  }
+  /**
+   * <code>optional uint64 load_duration_ms = 12;</code>
+   *
+   * <pre>
+   * Duration of load / save (total).
+   * </pre>
+   */
+  public long getLoadDurationMs() {
+    return loadDurationMs_;
+  }
+
+  // optional uint64 save_duration_ms = 13;
+  public static final int SAVE_DURATION_MS_FIELD_NUMBER = 13;
+  private long saveDurationMs_;
+  /**
+   * <code>optional uint64 save_duration_ms = 13;</code>
+   */
+  public boolean hasSaveDurationMs() {
+    return ((bitField0_ & 0x00001000) == 0x00001000);
+  }
+  /**
+   * <code>optional uint64 save_duration_ms = 13;</code>
+   */
+  public long getSaveDurationMs() {
+    return saveDurationMs_;
+  }
+
+  // optional uint64 ram_load_duration_ms = 14;
+  public static final int RAM_LOAD_DURATION_MS_FIELD_NUMBER = 14;
+  private long ramLoadDurationMs_;
+  /**
+   * <code>optional uint64 ram_load_duration_ms = 14;</code>
+   *
+   * <pre>
+   * Duration of load / save (ram).
+   * </pre>
+   */
+  public boolean hasRamLoadDurationMs() {
+    return ((bitField0_ & 0x00002000) == 0x00002000);
+  }
+  /**
+   * <code>optional uint64 ram_load_duration_ms = 14;</code>
+   *
+   * <pre>
+   * Duration of load / save (ram).
+   * </pre>
+   */
+  public long getRamLoadDurationMs() {
+    return ramLoadDurationMs_;
+  }
+
+  // optional uint64 ram_save_duration_ms = 15;
+  public static final int RAM_SAVE_DURATION_MS_FIELD_NUMBER = 15;
+  private long ramSaveDurationMs_;
+  /**
+   * <code>optional uint64 ram_save_duration_ms = 15;</code>
+   */
+  public boolean hasRamSaveDurationMs() {
+    return ((bitField0_ & 0x00004000) == 0x00004000);
+  }
+  /**
+   * <code>optional uint64 ram_save_duration_ms = 15;</code>
+   */
+  public long getRamSaveDurationMs() {
+    return ramSaveDurationMs_;
+  }
+
+  // optional uint64 textures_load_duration_ms = 16;
+  public static final int TEXTURES_LOAD_DURATION_MS_FIELD_NUMBER = 16;
+  private long texturesLoadDurationMs_;
+  /**
+   * <code>optional uint64 textures_load_duration_ms = 16;</code>
+   *
+   * <pre>
+   * Duration of load / save (textures).
+   * </pre>
+   */
+  public boolean hasTexturesLoadDurationMs() {
+    return ((bitField0_ & 0x00008000) == 0x00008000);
+  }
+  /**
+   * <code>optional uint64 textures_load_duration_ms = 16;</code>
+   *
+   * <pre>
+   * Duration of load / save (textures).
+   * </pre>
+   */
+  public long getTexturesLoadDurationMs() {
+    return texturesLoadDurationMs_;
+  }
+
+  // optional uint64 textures_save_duration_ms = 17;
+  public static final int TEXTURES_SAVE_DURATION_MS_FIELD_NUMBER = 17;
+  private long texturesSaveDurationMs_;
+  /**
+   * <code>optional uint64 textures_save_duration_ms = 17;</code>
+   *
+   * <pre>
+   * Next tag: 18
+   * </pre>
+   */
+  public boolean hasTexturesSaveDurationMs() {
+    return ((bitField0_ & 0x00010000) == 0x00010000);
+  }
+  /**
+   * <code>optional uint64 textures_save_duration_ms = 17;</code>
+   *
+   * <pre>
+   * Next tag: 18
+   * </pre>
+   */
+  public long getTexturesSaveDurationMs() {
+    return texturesSaveDurationMs_;
+  }
+
   private void initFields() {
     name_ = "";
     flags_ = 0;
     sizeBytes_ = 0L;
+    saveState_ = com.google.wireless.android.sdk.stats.EmulatorSnapshotSaveState.EMULATOR_SNAPSHOT_SAVE_SUCCEEDED_NORMAL;
+    loadState_ = com.google.wireless.android.sdk.stats.EmulatorSnapshotLoadState.EMULATOR_SNAPSHOT_LOAD_SUCCEEDED_NORMAL;
+    loadFailureReason_ = com.google.wireless.android.sdk.stats.EmulatorSnapshotFailureReason.EMULATOR_SNAPSHOT_FAILURE_REASON_UNSPECIFIED;
+    saveFailureReason_ = com.google.wireless.android.sdk.stats.EmulatorSnapshotFailureReason.EMULATOR_SNAPSHOT_FAILURE_REASON_UNSPECIFIED;
+    lazyLoaded_ = false;
+    incrementallySaved_ = false;
+    ramSizeBytes_ = 0L;
+    texturesSizeBytes_ = 0L;
+    loadDurationMs_ = 0L;
+    saveDurationMs_ = 0L;
+    ramLoadDurationMs_ = 0L;
+    ramSaveDurationMs_ = 0L;
+    texturesLoadDurationMs_ = 0L;
+    texturesSaveDurationMs_ = 0L;
   }
   private byte memoizedIsInitialized = -1;
   public final boolean isInitialized() {
@@ -242,6 +662,48 @@ public  final class EmulatorSnapshot extends
     if (((bitField0_ & 0x00000004) == 0x00000004)) {
       output.writeInt64(3, sizeBytes_);
     }
+    if (((bitField0_ & 0x00000008) == 0x00000008)) {
+      output.writeEnum(4, saveState_.getNumber());
+    }
+    if (((bitField0_ & 0x00000010) == 0x00000010)) {
+      output.writeEnum(5, loadState_.getNumber());
+    }
+    if (((bitField0_ & 0x00000020) == 0x00000020)) {
+      output.writeEnum(6, loadFailureReason_.getNumber());
+    }
+    if (((bitField0_ & 0x00000040) == 0x00000040)) {
+      output.writeEnum(7, saveFailureReason_.getNumber());
+    }
+    if (((bitField0_ & 0x00000080) == 0x00000080)) {
+      output.writeBool(8, lazyLoaded_);
+    }
+    if (((bitField0_ & 0x00000100) == 0x00000100)) {
+      output.writeBool(9, incrementallySaved_);
+    }
+    if (((bitField0_ & 0x00000200) == 0x00000200)) {
+      output.writeInt64(10, ramSizeBytes_);
+    }
+    if (((bitField0_ & 0x00000400) == 0x00000400)) {
+      output.writeInt64(11, texturesSizeBytes_);
+    }
+    if (((bitField0_ & 0x00000800) == 0x00000800)) {
+      output.writeUInt64(12, loadDurationMs_);
+    }
+    if (((bitField0_ & 0x00001000) == 0x00001000)) {
+      output.writeUInt64(13, saveDurationMs_);
+    }
+    if (((bitField0_ & 0x00002000) == 0x00002000)) {
+      output.writeUInt64(14, ramLoadDurationMs_);
+    }
+    if (((bitField0_ & 0x00004000) == 0x00004000)) {
+      output.writeUInt64(15, ramSaveDurationMs_);
+    }
+    if (((bitField0_ & 0x00008000) == 0x00008000)) {
+      output.writeUInt64(16, texturesLoadDurationMs_);
+    }
+    if (((bitField0_ & 0x00010000) == 0x00010000)) {
+      output.writeUInt64(17, texturesSaveDurationMs_);
+    }
     getUnknownFields().writeTo(output);
   }
 
@@ -262,6 +724,62 @@ public  final class EmulatorSnapshot extends
     if (((bitField0_ & 0x00000004) == 0x00000004)) {
       size += com.google.protobuf.CodedOutputStream
         .computeInt64Size(3, sizeBytes_);
+    }
+    if (((bitField0_ & 0x00000008) == 0x00000008)) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeEnumSize(4, saveState_.getNumber());
+    }
+    if (((bitField0_ & 0x00000010) == 0x00000010)) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeEnumSize(5, loadState_.getNumber());
+    }
+    if (((bitField0_ & 0x00000020) == 0x00000020)) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeEnumSize(6, loadFailureReason_.getNumber());
+    }
+    if (((bitField0_ & 0x00000040) == 0x00000040)) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeEnumSize(7, saveFailureReason_.getNumber());
+    }
+    if (((bitField0_ & 0x00000080) == 0x00000080)) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeBoolSize(8, lazyLoaded_);
+    }
+    if (((bitField0_ & 0x00000100) == 0x00000100)) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeBoolSize(9, incrementallySaved_);
+    }
+    if (((bitField0_ & 0x00000200) == 0x00000200)) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeInt64Size(10, ramSizeBytes_);
+    }
+    if (((bitField0_ & 0x00000400) == 0x00000400)) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeInt64Size(11, texturesSizeBytes_);
+    }
+    if (((bitField0_ & 0x00000800) == 0x00000800)) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeUInt64Size(12, loadDurationMs_);
+    }
+    if (((bitField0_ & 0x00001000) == 0x00001000)) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeUInt64Size(13, saveDurationMs_);
+    }
+    if (((bitField0_ & 0x00002000) == 0x00002000)) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeUInt64Size(14, ramLoadDurationMs_);
+    }
+    if (((bitField0_ & 0x00004000) == 0x00004000)) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeUInt64Size(15, ramSaveDurationMs_);
+    }
+    if (((bitField0_ & 0x00008000) == 0x00008000)) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeUInt64Size(16, texturesLoadDurationMs_);
+    }
+    if (((bitField0_ & 0x00010000) == 0x00010000)) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeUInt64Size(17, texturesSaveDurationMs_);
     }
     size += getUnknownFields().getSerializedSize();
     memoizedSerializedSize = size;
@@ -389,6 +907,34 @@ public  final class EmulatorSnapshot extends
       bitField0_ = (bitField0_ & ~0x00000002);
       sizeBytes_ = 0L;
       bitField0_ = (bitField0_ & ~0x00000004);
+      saveState_ = com.google.wireless.android.sdk.stats.EmulatorSnapshotSaveState.EMULATOR_SNAPSHOT_SAVE_SUCCEEDED_NORMAL;
+      bitField0_ = (bitField0_ & ~0x00000008);
+      loadState_ = com.google.wireless.android.sdk.stats.EmulatorSnapshotLoadState.EMULATOR_SNAPSHOT_LOAD_SUCCEEDED_NORMAL;
+      bitField0_ = (bitField0_ & ~0x00000010);
+      loadFailureReason_ = com.google.wireless.android.sdk.stats.EmulatorSnapshotFailureReason.EMULATOR_SNAPSHOT_FAILURE_REASON_UNSPECIFIED;
+      bitField0_ = (bitField0_ & ~0x00000020);
+      saveFailureReason_ = com.google.wireless.android.sdk.stats.EmulatorSnapshotFailureReason.EMULATOR_SNAPSHOT_FAILURE_REASON_UNSPECIFIED;
+      bitField0_ = (bitField0_ & ~0x00000040);
+      lazyLoaded_ = false;
+      bitField0_ = (bitField0_ & ~0x00000080);
+      incrementallySaved_ = false;
+      bitField0_ = (bitField0_ & ~0x00000100);
+      ramSizeBytes_ = 0L;
+      bitField0_ = (bitField0_ & ~0x00000200);
+      texturesSizeBytes_ = 0L;
+      bitField0_ = (bitField0_ & ~0x00000400);
+      loadDurationMs_ = 0L;
+      bitField0_ = (bitField0_ & ~0x00000800);
+      saveDurationMs_ = 0L;
+      bitField0_ = (bitField0_ & ~0x00001000);
+      ramLoadDurationMs_ = 0L;
+      bitField0_ = (bitField0_ & ~0x00002000);
+      ramSaveDurationMs_ = 0L;
+      bitField0_ = (bitField0_ & ~0x00004000);
+      texturesLoadDurationMs_ = 0L;
+      bitField0_ = (bitField0_ & ~0x00008000);
+      texturesSaveDurationMs_ = 0L;
+      bitField0_ = (bitField0_ & ~0x00010000);
       return this;
     }
 
@@ -429,6 +975,62 @@ public  final class EmulatorSnapshot extends
         to_bitField0_ |= 0x00000004;
       }
       result.sizeBytes_ = sizeBytes_;
+      if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+        to_bitField0_ |= 0x00000008;
+      }
+      result.saveState_ = saveState_;
+      if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
+        to_bitField0_ |= 0x00000010;
+      }
+      result.loadState_ = loadState_;
+      if (((from_bitField0_ & 0x00000020) == 0x00000020)) {
+        to_bitField0_ |= 0x00000020;
+      }
+      result.loadFailureReason_ = loadFailureReason_;
+      if (((from_bitField0_ & 0x00000040) == 0x00000040)) {
+        to_bitField0_ |= 0x00000040;
+      }
+      result.saveFailureReason_ = saveFailureReason_;
+      if (((from_bitField0_ & 0x00000080) == 0x00000080)) {
+        to_bitField0_ |= 0x00000080;
+      }
+      result.lazyLoaded_ = lazyLoaded_;
+      if (((from_bitField0_ & 0x00000100) == 0x00000100)) {
+        to_bitField0_ |= 0x00000100;
+      }
+      result.incrementallySaved_ = incrementallySaved_;
+      if (((from_bitField0_ & 0x00000200) == 0x00000200)) {
+        to_bitField0_ |= 0x00000200;
+      }
+      result.ramSizeBytes_ = ramSizeBytes_;
+      if (((from_bitField0_ & 0x00000400) == 0x00000400)) {
+        to_bitField0_ |= 0x00000400;
+      }
+      result.texturesSizeBytes_ = texturesSizeBytes_;
+      if (((from_bitField0_ & 0x00000800) == 0x00000800)) {
+        to_bitField0_ |= 0x00000800;
+      }
+      result.loadDurationMs_ = loadDurationMs_;
+      if (((from_bitField0_ & 0x00001000) == 0x00001000)) {
+        to_bitField0_ |= 0x00001000;
+      }
+      result.saveDurationMs_ = saveDurationMs_;
+      if (((from_bitField0_ & 0x00002000) == 0x00002000)) {
+        to_bitField0_ |= 0x00002000;
+      }
+      result.ramLoadDurationMs_ = ramLoadDurationMs_;
+      if (((from_bitField0_ & 0x00004000) == 0x00004000)) {
+        to_bitField0_ |= 0x00004000;
+      }
+      result.ramSaveDurationMs_ = ramSaveDurationMs_;
+      if (((from_bitField0_ & 0x00008000) == 0x00008000)) {
+        to_bitField0_ |= 0x00008000;
+      }
+      result.texturesLoadDurationMs_ = texturesLoadDurationMs_;
+      if (((from_bitField0_ & 0x00010000) == 0x00010000)) {
+        to_bitField0_ |= 0x00010000;
+      }
+      result.texturesSaveDurationMs_ = texturesSaveDurationMs_;
       result.bitField0_ = to_bitField0_;
       onBuilt();
       return result;
@@ -455,6 +1057,48 @@ public  final class EmulatorSnapshot extends
       }
       if (other.hasSizeBytes()) {
         setSizeBytes(other.getSizeBytes());
+      }
+      if (other.hasSaveState()) {
+        setSaveState(other.getSaveState());
+      }
+      if (other.hasLoadState()) {
+        setLoadState(other.getLoadState());
+      }
+      if (other.hasLoadFailureReason()) {
+        setLoadFailureReason(other.getLoadFailureReason());
+      }
+      if (other.hasSaveFailureReason()) {
+        setSaveFailureReason(other.getSaveFailureReason());
+      }
+      if (other.hasLazyLoaded()) {
+        setLazyLoaded(other.getLazyLoaded());
+      }
+      if (other.hasIncrementallySaved()) {
+        setIncrementallySaved(other.getIncrementallySaved());
+      }
+      if (other.hasRamSizeBytes()) {
+        setRamSizeBytes(other.getRamSizeBytes());
+      }
+      if (other.hasTexturesSizeBytes()) {
+        setTexturesSizeBytes(other.getTexturesSizeBytes());
+      }
+      if (other.hasLoadDurationMs()) {
+        setLoadDurationMs(other.getLoadDurationMs());
+      }
+      if (other.hasSaveDurationMs()) {
+        setSaveDurationMs(other.getSaveDurationMs());
+      }
+      if (other.hasRamLoadDurationMs()) {
+        setRamLoadDurationMs(other.getRamLoadDurationMs());
+      }
+      if (other.hasRamSaveDurationMs()) {
+        setRamSaveDurationMs(other.getRamSaveDurationMs());
+      }
+      if (other.hasTexturesLoadDurationMs()) {
+        setTexturesLoadDurationMs(other.getTexturesLoadDurationMs());
+      }
+      if (other.hasTexturesSaveDurationMs()) {
+        setTexturesSaveDurationMs(other.getTexturesSaveDurationMs());
       }
       this.mergeUnknownFields(other.getUnknownFields());
       return this;
@@ -675,6 +1319,656 @@ public  final class EmulatorSnapshot extends
     public Builder clearSizeBytes() {
       bitField0_ = (bitField0_ & ~0x00000004);
       sizeBytes_ = 0L;
+      onChanged();
+      return this;
+    }
+
+    // optional .android_studio.EmulatorSnapshotSaveState save_state = 4;
+    private com.google.wireless.android.sdk.stats.EmulatorSnapshotSaveState saveState_ = com.google.wireless.android.sdk.stats.EmulatorSnapshotSaveState.EMULATOR_SNAPSHOT_SAVE_SUCCEEDED_NORMAL;
+    /**
+     * <code>optional .android_studio.EmulatorSnapshotSaveState save_state = 4;</code>
+     *
+     * <pre>
+     * Snapshot save/load states.
+     * </pre>
+     */
+    public boolean hasSaveState() {
+      return ((bitField0_ & 0x00000008) == 0x00000008);
+    }
+    /**
+     * <code>optional .android_studio.EmulatorSnapshotSaveState save_state = 4;</code>
+     *
+     * <pre>
+     * Snapshot save/load states.
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.EmulatorSnapshotSaveState getSaveState() {
+      return saveState_;
+    }
+    /**
+     * <code>optional .android_studio.EmulatorSnapshotSaveState save_state = 4;</code>
+     *
+     * <pre>
+     * Snapshot save/load states.
+     * </pre>
+     */
+    public Builder setSaveState(com.google.wireless.android.sdk.stats.EmulatorSnapshotSaveState value) {
+      if (value == null) {
+        throw new NullPointerException();
+      }
+      bitField0_ |= 0x00000008;
+      saveState_ = value;
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.EmulatorSnapshotSaveState save_state = 4;</code>
+     *
+     * <pre>
+     * Snapshot save/load states.
+     * </pre>
+     */
+    public Builder clearSaveState() {
+      bitField0_ = (bitField0_ & ~0x00000008);
+      saveState_ = com.google.wireless.android.sdk.stats.EmulatorSnapshotSaveState.EMULATOR_SNAPSHOT_SAVE_SUCCEEDED_NORMAL;
+      onChanged();
+      return this;
+    }
+
+    // optional .android_studio.EmulatorSnapshotLoadState load_state = 5;
+    private com.google.wireless.android.sdk.stats.EmulatorSnapshotLoadState loadState_ = com.google.wireless.android.sdk.stats.EmulatorSnapshotLoadState.EMULATOR_SNAPSHOT_LOAD_SUCCEEDED_NORMAL;
+    /**
+     * <code>optional .android_studio.EmulatorSnapshotLoadState load_state = 5;</code>
+     */
+    public boolean hasLoadState() {
+      return ((bitField0_ & 0x00000010) == 0x00000010);
+    }
+    /**
+     * <code>optional .android_studio.EmulatorSnapshotLoadState load_state = 5;</code>
+     */
+    public com.google.wireless.android.sdk.stats.EmulatorSnapshotLoadState getLoadState() {
+      return loadState_;
+    }
+    /**
+     * <code>optional .android_studio.EmulatorSnapshotLoadState load_state = 5;</code>
+     */
+    public Builder setLoadState(com.google.wireless.android.sdk.stats.EmulatorSnapshotLoadState value) {
+      if (value == null) {
+        throw new NullPointerException();
+      }
+      bitField0_ |= 0x00000010;
+      loadState_ = value;
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.EmulatorSnapshotLoadState load_state = 5;</code>
+     */
+    public Builder clearLoadState() {
+      bitField0_ = (bitField0_ & ~0x00000010);
+      loadState_ = com.google.wireless.android.sdk.stats.EmulatorSnapshotLoadState.EMULATOR_SNAPSHOT_LOAD_SUCCEEDED_NORMAL;
+      onChanged();
+      return this;
+    }
+
+    // optional .android_studio.EmulatorSnapshotFailureReason load_failure_reason = 6;
+    private com.google.wireless.android.sdk.stats.EmulatorSnapshotFailureReason loadFailureReason_ = com.google.wireless.android.sdk.stats.EmulatorSnapshotFailureReason.EMULATOR_SNAPSHOT_FAILURE_REASON_UNSPECIFIED;
+    /**
+     * <code>optional .android_studio.EmulatorSnapshotFailureReason load_failure_reason = 6;</code>
+     *
+     * <pre>
+     * Detailed reason for non-success of snapshot load.
+     * </pre>
+     */
+    public boolean hasLoadFailureReason() {
+      return ((bitField0_ & 0x00000020) == 0x00000020);
+    }
+    /**
+     * <code>optional .android_studio.EmulatorSnapshotFailureReason load_failure_reason = 6;</code>
+     *
+     * <pre>
+     * Detailed reason for non-success of snapshot load.
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.EmulatorSnapshotFailureReason getLoadFailureReason() {
+      return loadFailureReason_;
+    }
+    /**
+     * <code>optional .android_studio.EmulatorSnapshotFailureReason load_failure_reason = 6;</code>
+     *
+     * <pre>
+     * Detailed reason for non-success of snapshot load.
+     * </pre>
+     */
+    public Builder setLoadFailureReason(com.google.wireless.android.sdk.stats.EmulatorSnapshotFailureReason value) {
+      if (value == null) {
+        throw new NullPointerException();
+      }
+      bitField0_ |= 0x00000020;
+      loadFailureReason_ = value;
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.EmulatorSnapshotFailureReason load_failure_reason = 6;</code>
+     *
+     * <pre>
+     * Detailed reason for non-success of snapshot load.
+     * </pre>
+     */
+    public Builder clearLoadFailureReason() {
+      bitField0_ = (bitField0_ & ~0x00000020);
+      loadFailureReason_ = com.google.wireless.android.sdk.stats.EmulatorSnapshotFailureReason.EMULATOR_SNAPSHOT_FAILURE_REASON_UNSPECIFIED;
+      onChanged();
+      return this;
+    }
+
+    // optional .android_studio.EmulatorSnapshotFailureReason save_failure_reason = 7;
+    private com.google.wireless.android.sdk.stats.EmulatorSnapshotFailureReason saveFailureReason_ = com.google.wireless.android.sdk.stats.EmulatorSnapshotFailureReason.EMULATOR_SNAPSHOT_FAILURE_REASON_UNSPECIFIED;
+    /**
+     * <code>optional .android_studio.EmulatorSnapshotFailureReason save_failure_reason = 7;</code>
+     *
+     * <pre>
+     * Detailed reason for non-success of snapshot save.
+     * </pre>
+     */
+    public boolean hasSaveFailureReason() {
+      return ((bitField0_ & 0x00000040) == 0x00000040);
+    }
+    /**
+     * <code>optional .android_studio.EmulatorSnapshotFailureReason save_failure_reason = 7;</code>
+     *
+     * <pre>
+     * Detailed reason for non-success of snapshot save.
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.EmulatorSnapshotFailureReason getSaveFailureReason() {
+      return saveFailureReason_;
+    }
+    /**
+     * <code>optional .android_studio.EmulatorSnapshotFailureReason save_failure_reason = 7;</code>
+     *
+     * <pre>
+     * Detailed reason for non-success of snapshot save.
+     * </pre>
+     */
+    public Builder setSaveFailureReason(com.google.wireless.android.sdk.stats.EmulatorSnapshotFailureReason value) {
+      if (value == null) {
+        throw new NullPointerException();
+      }
+      bitField0_ |= 0x00000040;
+      saveFailureReason_ = value;
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.EmulatorSnapshotFailureReason save_failure_reason = 7;</code>
+     *
+     * <pre>
+     * Detailed reason for non-success of snapshot save.
+     * </pre>
+     */
+    public Builder clearSaveFailureReason() {
+      bitField0_ = (bitField0_ & ~0x00000040);
+      saveFailureReason_ = com.google.wireless.android.sdk.stats.EmulatorSnapshotFailureReason.EMULATOR_SNAPSHOT_FAILURE_REASON_UNSPECIFIED;
+      onChanged();
+      return this;
+    }
+
+    // optional bool lazy_loaded = 8;
+    private boolean lazyLoaded_ ;
+    /**
+     * <code>optional bool lazy_loaded = 8;</code>
+     *
+     * <pre>
+     * Whether or not it was lazy loaded.
+     * </pre>
+     */
+    public boolean hasLazyLoaded() {
+      return ((bitField0_ & 0x00000080) == 0x00000080);
+    }
+    /**
+     * <code>optional bool lazy_loaded = 8;</code>
+     *
+     * <pre>
+     * Whether or not it was lazy loaded.
+     * </pre>
+     */
+    public boolean getLazyLoaded() {
+      return lazyLoaded_;
+    }
+    /**
+     * <code>optional bool lazy_loaded = 8;</code>
+     *
+     * <pre>
+     * Whether or not it was lazy loaded.
+     * </pre>
+     */
+    public Builder setLazyLoaded(boolean value) {
+      bitField0_ |= 0x00000080;
+      lazyLoaded_ = value;
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>optional bool lazy_loaded = 8;</code>
+     *
+     * <pre>
+     * Whether or not it was lazy loaded.
+     * </pre>
+     */
+    public Builder clearLazyLoaded() {
+      bitField0_ = (bitField0_ & ~0x00000080);
+      lazyLoaded_ = false;
+      onChanged();
+      return this;
+    }
+
+    // optional bool incrementally_saved = 9;
+    private boolean incrementallySaved_ ;
+    /**
+     * <code>optional bool incrementally_saved = 9;</code>
+     *
+     * <pre>
+     * Whether or not it was incrementally saved.
+     * </pre>
+     */
+    public boolean hasIncrementallySaved() {
+      return ((bitField0_ & 0x00000100) == 0x00000100);
+    }
+    /**
+     * <code>optional bool incrementally_saved = 9;</code>
+     *
+     * <pre>
+     * Whether or not it was incrementally saved.
+     * </pre>
+     */
+    public boolean getIncrementallySaved() {
+      return incrementallySaved_;
+    }
+    /**
+     * <code>optional bool incrementally_saved = 9;</code>
+     *
+     * <pre>
+     * Whether or not it was incrementally saved.
+     * </pre>
+     */
+    public Builder setIncrementallySaved(boolean value) {
+      bitField0_ |= 0x00000100;
+      incrementallySaved_ = value;
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>optional bool incrementally_saved = 9;</code>
+     *
+     * <pre>
+     * Whether or not it was incrementally saved.
+     * </pre>
+     */
+    public Builder clearIncrementallySaved() {
+      bitField0_ = (bitField0_ & ~0x00000100);
+      incrementallySaved_ = false;
+      onChanged();
+      return this;
+    }
+
+    // optional int64 ram_size_bytes = 10;
+    private long ramSizeBytes_ ;
+    /**
+     * <code>optional int64 ram_size_bytes = 10;</code>
+     *
+     * <pre>
+     * Size of RAM (possibly incl. incremental / compression)
+     * </pre>
+     */
+    public boolean hasRamSizeBytes() {
+      return ((bitField0_ & 0x00000200) == 0x00000200);
+    }
+    /**
+     * <code>optional int64 ram_size_bytes = 10;</code>
+     *
+     * <pre>
+     * Size of RAM (possibly incl. incremental / compression)
+     * </pre>
+     */
+    public long getRamSizeBytes() {
+      return ramSizeBytes_;
+    }
+    /**
+     * <code>optional int64 ram_size_bytes = 10;</code>
+     *
+     * <pre>
+     * Size of RAM (possibly incl. incremental / compression)
+     * </pre>
+     */
+    public Builder setRamSizeBytes(long value) {
+      bitField0_ |= 0x00000200;
+      ramSizeBytes_ = value;
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>optional int64 ram_size_bytes = 10;</code>
+     *
+     * <pre>
+     * Size of RAM (possibly incl. incremental / compression)
+     * </pre>
+     */
+    public Builder clearRamSizeBytes() {
+      bitField0_ = (bitField0_ & ~0x00000200);
+      ramSizeBytes_ = 0L;
+      onChanged();
+      return this;
+    }
+
+    // optional int64 textures_size_bytes = 11;
+    private long texturesSizeBytes_ ;
+    /**
+     * <code>optional int64 textures_size_bytes = 11;</code>
+     *
+     * <pre>
+     * Size of textures (possibly incl. incremental / compression)
+     * </pre>
+     */
+    public boolean hasTexturesSizeBytes() {
+      return ((bitField0_ & 0x00000400) == 0x00000400);
+    }
+    /**
+     * <code>optional int64 textures_size_bytes = 11;</code>
+     *
+     * <pre>
+     * Size of textures (possibly incl. incremental / compression)
+     * </pre>
+     */
+    public long getTexturesSizeBytes() {
+      return texturesSizeBytes_;
+    }
+    /**
+     * <code>optional int64 textures_size_bytes = 11;</code>
+     *
+     * <pre>
+     * Size of textures (possibly incl. incremental / compression)
+     * </pre>
+     */
+    public Builder setTexturesSizeBytes(long value) {
+      bitField0_ |= 0x00000400;
+      texturesSizeBytes_ = value;
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>optional int64 textures_size_bytes = 11;</code>
+     *
+     * <pre>
+     * Size of textures (possibly incl. incremental / compression)
+     * </pre>
+     */
+    public Builder clearTexturesSizeBytes() {
+      bitField0_ = (bitField0_ & ~0x00000400);
+      texturesSizeBytes_ = 0L;
+      onChanged();
+      return this;
+    }
+
+    // optional uint64 load_duration_ms = 12;
+    private long loadDurationMs_ ;
+    /**
+     * <code>optional uint64 load_duration_ms = 12;</code>
+     *
+     * <pre>
+     * Duration of load / save (total).
+     * </pre>
+     */
+    public boolean hasLoadDurationMs() {
+      return ((bitField0_ & 0x00000800) == 0x00000800);
+    }
+    /**
+     * <code>optional uint64 load_duration_ms = 12;</code>
+     *
+     * <pre>
+     * Duration of load / save (total).
+     * </pre>
+     */
+    public long getLoadDurationMs() {
+      return loadDurationMs_;
+    }
+    /**
+     * <code>optional uint64 load_duration_ms = 12;</code>
+     *
+     * <pre>
+     * Duration of load / save (total).
+     * </pre>
+     */
+    public Builder setLoadDurationMs(long value) {
+      bitField0_ |= 0x00000800;
+      loadDurationMs_ = value;
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>optional uint64 load_duration_ms = 12;</code>
+     *
+     * <pre>
+     * Duration of load / save (total).
+     * </pre>
+     */
+    public Builder clearLoadDurationMs() {
+      bitField0_ = (bitField0_ & ~0x00000800);
+      loadDurationMs_ = 0L;
+      onChanged();
+      return this;
+    }
+
+    // optional uint64 save_duration_ms = 13;
+    private long saveDurationMs_ ;
+    /**
+     * <code>optional uint64 save_duration_ms = 13;</code>
+     */
+    public boolean hasSaveDurationMs() {
+      return ((bitField0_ & 0x00001000) == 0x00001000);
+    }
+    /**
+     * <code>optional uint64 save_duration_ms = 13;</code>
+     */
+    public long getSaveDurationMs() {
+      return saveDurationMs_;
+    }
+    /**
+     * <code>optional uint64 save_duration_ms = 13;</code>
+     */
+    public Builder setSaveDurationMs(long value) {
+      bitField0_ |= 0x00001000;
+      saveDurationMs_ = value;
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>optional uint64 save_duration_ms = 13;</code>
+     */
+    public Builder clearSaveDurationMs() {
+      bitField0_ = (bitField0_ & ~0x00001000);
+      saveDurationMs_ = 0L;
+      onChanged();
+      return this;
+    }
+
+    // optional uint64 ram_load_duration_ms = 14;
+    private long ramLoadDurationMs_ ;
+    /**
+     * <code>optional uint64 ram_load_duration_ms = 14;</code>
+     *
+     * <pre>
+     * Duration of load / save (ram).
+     * </pre>
+     */
+    public boolean hasRamLoadDurationMs() {
+      return ((bitField0_ & 0x00002000) == 0x00002000);
+    }
+    /**
+     * <code>optional uint64 ram_load_duration_ms = 14;</code>
+     *
+     * <pre>
+     * Duration of load / save (ram).
+     * </pre>
+     */
+    public long getRamLoadDurationMs() {
+      return ramLoadDurationMs_;
+    }
+    /**
+     * <code>optional uint64 ram_load_duration_ms = 14;</code>
+     *
+     * <pre>
+     * Duration of load / save (ram).
+     * </pre>
+     */
+    public Builder setRamLoadDurationMs(long value) {
+      bitField0_ |= 0x00002000;
+      ramLoadDurationMs_ = value;
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>optional uint64 ram_load_duration_ms = 14;</code>
+     *
+     * <pre>
+     * Duration of load / save (ram).
+     * </pre>
+     */
+    public Builder clearRamLoadDurationMs() {
+      bitField0_ = (bitField0_ & ~0x00002000);
+      ramLoadDurationMs_ = 0L;
+      onChanged();
+      return this;
+    }
+
+    // optional uint64 ram_save_duration_ms = 15;
+    private long ramSaveDurationMs_ ;
+    /**
+     * <code>optional uint64 ram_save_duration_ms = 15;</code>
+     */
+    public boolean hasRamSaveDurationMs() {
+      return ((bitField0_ & 0x00004000) == 0x00004000);
+    }
+    /**
+     * <code>optional uint64 ram_save_duration_ms = 15;</code>
+     */
+    public long getRamSaveDurationMs() {
+      return ramSaveDurationMs_;
+    }
+    /**
+     * <code>optional uint64 ram_save_duration_ms = 15;</code>
+     */
+    public Builder setRamSaveDurationMs(long value) {
+      bitField0_ |= 0x00004000;
+      ramSaveDurationMs_ = value;
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>optional uint64 ram_save_duration_ms = 15;</code>
+     */
+    public Builder clearRamSaveDurationMs() {
+      bitField0_ = (bitField0_ & ~0x00004000);
+      ramSaveDurationMs_ = 0L;
+      onChanged();
+      return this;
+    }
+
+    // optional uint64 textures_load_duration_ms = 16;
+    private long texturesLoadDurationMs_ ;
+    /**
+     * <code>optional uint64 textures_load_duration_ms = 16;</code>
+     *
+     * <pre>
+     * Duration of load / save (textures).
+     * </pre>
+     */
+    public boolean hasTexturesLoadDurationMs() {
+      return ((bitField0_ & 0x00008000) == 0x00008000);
+    }
+    /**
+     * <code>optional uint64 textures_load_duration_ms = 16;</code>
+     *
+     * <pre>
+     * Duration of load / save (textures).
+     * </pre>
+     */
+    public long getTexturesLoadDurationMs() {
+      return texturesLoadDurationMs_;
+    }
+    /**
+     * <code>optional uint64 textures_load_duration_ms = 16;</code>
+     *
+     * <pre>
+     * Duration of load / save (textures).
+     * </pre>
+     */
+    public Builder setTexturesLoadDurationMs(long value) {
+      bitField0_ |= 0x00008000;
+      texturesLoadDurationMs_ = value;
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>optional uint64 textures_load_duration_ms = 16;</code>
+     *
+     * <pre>
+     * Duration of load / save (textures).
+     * </pre>
+     */
+    public Builder clearTexturesLoadDurationMs() {
+      bitField0_ = (bitField0_ & ~0x00008000);
+      texturesLoadDurationMs_ = 0L;
+      onChanged();
+      return this;
+    }
+
+    // optional uint64 textures_save_duration_ms = 17;
+    private long texturesSaveDurationMs_ ;
+    /**
+     * <code>optional uint64 textures_save_duration_ms = 17;</code>
+     *
+     * <pre>
+     * Next tag: 18
+     * </pre>
+     */
+    public boolean hasTexturesSaveDurationMs() {
+      return ((bitField0_ & 0x00010000) == 0x00010000);
+    }
+    /**
+     * <code>optional uint64 textures_save_duration_ms = 17;</code>
+     *
+     * <pre>
+     * Next tag: 18
+     * </pre>
+     */
+    public long getTexturesSaveDurationMs() {
+      return texturesSaveDurationMs_;
+    }
+    /**
+     * <code>optional uint64 textures_save_duration_ms = 17;</code>
+     *
+     * <pre>
+     * Next tag: 18
+     * </pre>
+     */
+    public Builder setTexturesSaveDurationMs(long value) {
+      bitField0_ |= 0x00010000;
+      texturesSaveDurationMs_ = value;
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>optional uint64 textures_save_duration_ms = 17;</code>
+     *
+     * <pre>
+     * Next tag: 18
+     * </pre>
+     */
+    public Builder clearTexturesSaveDurationMs() {
+      bitField0_ = (bitField0_ & ~0x00010000);
+      texturesSaveDurationMs_ = 0L;
       onChanged();
       return this;
     }
