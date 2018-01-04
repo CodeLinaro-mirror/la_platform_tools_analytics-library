@@ -68,4 +68,232 @@ public interface EmulatorSnapshotOrBuilder
    * </pre>
    */
   long getSizeBytes();
+
+  // optional .android_studio.EmulatorSnapshotSaveState save_state = 4;
+  /**
+   * <code>optional .android_studio.EmulatorSnapshotSaveState save_state = 4;</code>
+   *
+   * <pre>
+   * Snapshot save/load states.
+   * </pre>
+   */
+  boolean hasSaveState();
+  /**
+   * <code>optional .android_studio.EmulatorSnapshotSaveState save_state = 4;</code>
+   *
+   * <pre>
+   * Snapshot save/load states.
+   * </pre>
+   */
+  com.google.wireless.android.sdk.stats.EmulatorSnapshotSaveState getSaveState();
+
+  // optional .android_studio.EmulatorSnapshotLoadState load_state = 5;
+  /**
+   * <code>optional .android_studio.EmulatorSnapshotLoadState load_state = 5;</code>
+   */
+  boolean hasLoadState();
+  /**
+   * <code>optional .android_studio.EmulatorSnapshotLoadState load_state = 5;</code>
+   */
+  com.google.wireless.android.sdk.stats.EmulatorSnapshotLoadState getLoadState();
+
+  // optional .android_studio.EmulatorSnapshotFailureReason load_failure_reason = 6;
+  /**
+   * <code>optional .android_studio.EmulatorSnapshotFailureReason load_failure_reason = 6;</code>
+   *
+   * <pre>
+   * Detailed reason for non-success of snapshot load.
+   * </pre>
+   */
+  boolean hasLoadFailureReason();
+  /**
+   * <code>optional .android_studio.EmulatorSnapshotFailureReason load_failure_reason = 6;</code>
+   *
+   * <pre>
+   * Detailed reason for non-success of snapshot load.
+   * </pre>
+   */
+  com.google.wireless.android.sdk.stats.EmulatorSnapshotFailureReason getLoadFailureReason();
+
+  // optional .android_studio.EmulatorSnapshotFailureReason save_failure_reason = 7;
+  /**
+   * <code>optional .android_studio.EmulatorSnapshotFailureReason save_failure_reason = 7;</code>
+   *
+   * <pre>
+   * Detailed reason for non-success of snapshot save.
+   * </pre>
+   */
+  boolean hasSaveFailureReason();
+  /**
+   * <code>optional .android_studio.EmulatorSnapshotFailureReason save_failure_reason = 7;</code>
+   *
+   * <pre>
+   * Detailed reason for non-success of snapshot save.
+   * </pre>
+   */
+  com.google.wireless.android.sdk.stats.EmulatorSnapshotFailureReason getSaveFailureReason();
+
+  // optional bool lazy_loaded = 8;
+  /**
+   * <code>optional bool lazy_loaded = 8;</code>
+   *
+   * <pre>
+   * Whether or not it was lazy loaded.
+   * </pre>
+   */
+  boolean hasLazyLoaded();
+  /**
+   * <code>optional bool lazy_loaded = 8;</code>
+   *
+   * <pre>
+   * Whether or not it was lazy loaded.
+   * </pre>
+   */
+  boolean getLazyLoaded();
+
+  // optional bool incrementally_saved = 9;
+  /**
+   * <code>optional bool incrementally_saved = 9;</code>
+   *
+   * <pre>
+   * Whether or not it was incrementally saved.
+   * </pre>
+   */
+  boolean hasIncrementallySaved();
+  /**
+   * <code>optional bool incrementally_saved = 9;</code>
+   *
+   * <pre>
+   * Whether or not it was incrementally saved.
+   * </pre>
+   */
+  boolean getIncrementallySaved();
+
+  // optional int64 ram_size_bytes = 10;
+  /**
+   * <code>optional int64 ram_size_bytes = 10;</code>
+   *
+   * <pre>
+   * Size of RAM (possibly incl. incremental / compression)
+   * </pre>
+   */
+  boolean hasRamSizeBytes();
+  /**
+   * <code>optional int64 ram_size_bytes = 10;</code>
+   *
+   * <pre>
+   * Size of RAM (possibly incl. incremental / compression)
+   * </pre>
+   */
+  long getRamSizeBytes();
+
+  // optional int64 textures_size_bytes = 11;
+  /**
+   * <code>optional int64 textures_size_bytes = 11;</code>
+   *
+   * <pre>
+   * Size of textures (possibly incl. incremental / compression)
+   * </pre>
+   */
+  boolean hasTexturesSizeBytes();
+  /**
+   * <code>optional int64 textures_size_bytes = 11;</code>
+   *
+   * <pre>
+   * Size of textures (possibly incl. incremental / compression)
+   * </pre>
+   */
+  long getTexturesSizeBytes();
+
+  // optional uint64 load_duration_ms = 12;
+  /**
+   * <code>optional uint64 load_duration_ms = 12;</code>
+   *
+   * <pre>
+   * Duration of load / save (total).
+   * </pre>
+   */
+  boolean hasLoadDurationMs();
+  /**
+   * <code>optional uint64 load_duration_ms = 12;</code>
+   *
+   * <pre>
+   * Duration of load / save (total).
+   * </pre>
+   */
+  long getLoadDurationMs();
+
+  // optional uint64 save_duration_ms = 13;
+  /**
+   * <code>optional uint64 save_duration_ms = 13;</code>
+   */
+  boolean hasSaveDurationMs();
+  /**
+   * <code>optional uint64 save_duration_ms = 13;</code>
+   */
+  long getSaveDurationMs();
+
+  // optional uint64 ram_load_duration_ms = 14;
+  /**
+   * <code>optional uint64 ram_load_duration_ms = 14;</code>
+   *
+   * <pre>
+   * Duration of load / save (ram).
+   * </pre>
+   */
+  boolean hasRamLoadDurationMs();
+  /**
+   * <code>optional uint64 ram_load_duration_ms = 14;</code>
+   *
+   * <pre>
+   * Duration of load / save (ram).
+   * </pre>
+   */
+  long getRamLoadDurationMs();
+
+  // optional uint64 ram_save_duration_ms = 15;
+  /**
+   * <code>optional uint64 ram_save_duration_ms = 15;</code>
+   */
+  boolean hasRamSaveDurationMs();
+  /**
+   * <code>optional uint64 ram_save_duration_ms = 15;</code>
+   */
+  long getRamSaveDurationMs();
+
+  // optional uint64 textures_load_duration_ms = 16;
+  /**
+   * <code>optional uint64 textures_load_duration_ms = 16;</code>
+   *
+   * <pre>
+   * Duration of load / save (textures).
+   * </pre>
+   */
+  boolean hasTexturesLoadDurationMs();
+  /**
+   * <code>optional uint64 textures_load_duration_ms = 16;</code>
+   *
+   * <pre>
+   * Duration of load / save (textures).
+   * </pre>
+   */
+  long getTexturesLoadDurationMs();
+
+  // optional uint64 textures_save_duration_ms = 17;
+  /**
+   * <code>optional uint64 textures_save_duration_ms = 17;</code>
+   *
+   * <pre>
+   * Next tag: 18
+   * </pre>
+   */
+  boolean hasTexturesSaveDurationMs();
+  /**
+   * <code>optional uint64 textures_save_duration_ms = 17;</code>
+   *
+   * <pre>
+   * Next tag: 18
+   * </pre>
+   */
+  long getTexturesSaveDurationMs();
 }

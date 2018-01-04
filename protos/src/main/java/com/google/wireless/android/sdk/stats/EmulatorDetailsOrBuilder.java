@@ -481,4 +481,152 @@ public interface EmulatorDetailsOrBuilder
    * </pre>
    */
   com.google.wireless.android.sdk.stats.EmulatorGLESUsagesOrBuilder getGlesUsagesOrBuilder();
+
+  // repeated .android_studio.EmulatorSnapshot snapshot_loads = 24;
+  /**
+   * <code>repeated .android_studio.EmulatorSnapshot snapshot_loads = 24;</code>
+   *
+   * <pre>
+   * Metrics on all generic emulator snapshot saves and loads.
+   * </pre>
+   */
+  java.util.List<com.google.wireless.android.sdk.stats.EmulatorSnapshot> 
+      getSnapshotLoadsList();
+  /**
+   * <code>repeated .android_studio.EmulatorSnapshot snapshot_loads = 24;</code>
+   *
+   * <pre>
+   * Metrics on all generic emulator snapshot saves and loads.
+   * </pre>
+   */
+  com.google.wireless.android.sdk.stats.EmulatorSnapshot getSnapshotLoads(int index);
+  /**
+   * <code>repeated .android_studio.EmulatorSnapshot snapshot_loads = 24;</code>
+   *
+   * <pre>
+   * Metrics on all generic emulator snapshot saves and loads.
+   * </pre>
+   */
+  int getSnapshotLoadsCount();
+  /**
+   * <code>repeated .android_studio.EmulatorSnapshot snapshot_loads = 24;</code>
+   *
+   * <pre>
+   * Metrics on all generic emulator snapshot saves and loads.
+   * </pre>
+   */
+  java.util.List<? extends com.google.wireless.android.sdk.stats.EmulatorSnapshotOrBuilder> 
+      getSnapshotLoadsOrBuilderList();
+  /**
+   * <code>repeated .android_studio.EmulatorSnapshot snapshot_loads = 24;</code>
+   *
+   * <pre>
+   * Metrics on all generic emulator snapshot saves and loads.
+   * </pre>
+   */
+  com.google.wireless.android.sdk.stats.EmulatorSnapshotOrBuilder getSnapshotLoadsOrBuilder(
+      int index);
+
+  // repeated .android_studio.EmulatorSnapshot snapshot_saves = 25;
+  /**
+   * <code>repeated .android_studio.EmulatorSnapshot snapshot_saves = 25;</code>
+   */
+  java.util.List<com.google.wireless.android.sdk.stats.EmulatorSnapshot> 
+      getSnapshotSavesList();
+  /**
+   * <code>repeated .android_studio.EmulatorSnapshot snapshot_saves = 25;</code>
+   */
+  com.google.wireless.android.sdk.stats.EmulatorSnapshot getSnapshotSaves(int index);
+  /**
+   * <code>repeated .android_studio.EmulatorSnapshot snapshot_saves = 25;</code>
+   */
+  int getSnapshotSavesCount();
+  /**
+   * <code>repeated .android_studio.EmulatorSnapshot snapshot_saves = 25;</code>
+   */
+  java.util.List<? extends com.google.wireless.android.sdk.stats.EmulatorSnapshotOrBuilder> 
+      getSnapshotSavesOrBuilderList();
+  /**
+   * <code>repeated .android_studio.EmulatorSnapshot snapshot_saves = 25;</code>
+   */
+  com.google.wireless.android.sdk.stats.EmulatorSnapshotOrBuilder getSnapshotSavesOrBuilder(
+      int index);
+
+  // optional .android_studio.EmulatorSnapshotUICounts snapshot_ui_counts = 26;
+  /**
+   * <code>optional .android_studio.EmulatorSnapshotUICounts snapshot_ui_counts = 26;</code>
+   *
+   * <pre>
+   * Metrics on all snapshot UI.
+   * </pre>
+   */
+  boolean hasSnapshotUiCounts();
+  /**
+   * <code>optional .android_studio.EmulatorSnapshotUICounts snapshot_ui_counts = 26;</code>
+   *
+   * <pre>
+   * Metrics on all snapshot UI.
+   * </pre>
+   */
+  com.google.wireless.android.sdk.stats.EmulatorSnapshotUICounts getSnapshotUiCounts();
+  /**
+   * <code>optional .android_studio.EmulatorSnapshotUICounts snapshot_ui_counts = 26;</code>
+   *
+   * <pre>
+   * Metrics on all snapshot UI.
+   * </pre>
+   */
+  com.google.wireless.android.sdk.stats.EmulatorSnapshotUICountsOrBuilder getSnapshotUiCountsOrBuilder();
+
+  // optional .android_studio.EmulatorCameraSession camera = 27;
+  /**
+   * <code>optional .android_studio.EmulatorCameraSession camera = 27;</code>
+   *
+   * <pre>
+   * Metrics on camera usage.
+   * </pre>
+   */
+  boolean hasCamera();
+  /**
+   * <code>optional .android_studio.EmulatorCameraSession camera = 27;</code>
+   *
+   * <pre>
+   * Metrics on camera usage.
+   * </pre>
+   */
+  com.google.wireless.android.sdk.stats.EmulatorCameraSession getCamera();
+  /**
+   * <code>optional .android_studio.EmulatorCameraSession camera = 27;</code>
+   *
+   * <pre>
+   * Metrics on camera usage.
+   * </pre>
+   */
+  com.google.wireless.android.sdk.stats.EmulatorCameraSessionOrBuilder getCameraOrBuilder();
+
+  // optional .android_studio.EmulatorVirtualSceneSession virtual_scene = 28;
+  /**
+   * <code>optional .android_studio.EmulatorVirtualSceneSession virtual_scene = 28;</code>
+   *
+   * <pre>
+   * Metrics for virtual scene camera sessions.
+   * </pre>
+   */
+  boolean hasVirtualScene();
+  /**
+   * <code>optional .android_studio.EmulatorVirtualSceneSession virtual_scene = 28;</code>
+   *
+   * <pre>
+   * Metrics for virtual scene camera sessions.
+   * </pre>
+   */
+  com.google.wireless.android.sdk.stats.EmulatorVirtualSceneSession getVirtualScene();
+  /**
+   * <code>optional .android_studio.EmulatorVirtualSceneSession virtual_scene = 28;</code>
+   *
+   * <pre>
+   * Metrics for virtual scene camera sessions.
+   * </pre>
+   */
+  com.google.wireless.android.sdk.stats.EmulatorVirtualSceneSessionOrBuilder getVirtualSceneOrBuilder();
 }

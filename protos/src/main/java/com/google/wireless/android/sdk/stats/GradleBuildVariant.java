@@ -210,6 +210,30 @@ public  final class GradleBuildVariant extends
             }
             break;
           }
+          case 152: {
+            int rawValue = input.readEnum();
+            com.google.wireless.android.sdk.stats.GradleNativeAndroidModule.NativeBuildSystemType value = com.google.wireless.android.sdk.stats.GradleNativeAndroidModule.NativeBuildSystemType.valueOf(rawValue);
+            if (value == null) {
+              unknownFields.mergeVarintField(19, rawValue);
+            } else {
+              bitField0_ |= 0x00010000;
+              nativeBuildSystemType_ = value;
+            }
+            break;
+          }
+          case 162: {
+            bitField0_ |= 0x00020000;
+            nativeCmakeVersion_ = input.readBytes();
+            break;
+          }
+          case 170: {
+            if (!((mutable_bitField0_ & 0x00100000) == 0x00100000)) {
+              nativeBuildConfig_ = new java.util.ArrayList<com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeBuildConfigInfo>();
+              mutable_bitField0_ |= 0x00100000;
+            }
+            nativeBuildConfig_.add(input.readMessage(com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeBuildConfigInfo.PARSER, extensionRegistry));
+            break;
+          }
         }
       }
     } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -223,6 +247,9 @@ public  final class GradleBuildVariant extends
       }
       if (((mutable_bitField0_ & 0x00000200) == 0x00000200)) {
         annotationProcessors_ = java.util.Collections.unmodifiableList(annotationProcessors_);
+      }
+      if (((mutable_bitField0_ & 0x00100000) == 0x00100000)) {
+        nativeBuildConfig_ = java.util.Collections.unmodifiableList(nativeBuildConfig_);
       }
       this.unknownFields = unknownFields.build();
       makeExtensionsImmutable();
@@ -891,6 +918,2116 @@ public  final class GradleBuildVariant extends
     // @@protoc_insertion_point(enum_scope:android_studio.GradleBuildVariant.CodeShrinkerTool)
   }
 
+  public interface NativeBuildConfigInfoOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // optional .android_studio.GradleBuildVariant.NativeBuildConfigInfo.GenerationOutcome outcome = 1;
+    /**
+     * <code>optional .android_studio.GradleBuildVariant.NativeBuildConfigInfo.GenerationOutcome outcome = 1;</code>
+     *
+     * <pre>
+     * Whether the Json generation phase was successful, up-to-date, or failed
+     * </pre>
+     */
+    boolean hasOutcome();
+    /**
+     * <code>optional .android_studio.GradleBuildVariant.NativeBuildConfigInfo.GenerationOutcome outcome = 1;</code>
+     *
+     * <pre>
+     * Whether the Json generation phase was successful, up-to-date, or failed
+     * </pre>
+     */
+    com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeBuildConfigInfo.GenerationOutcome getOutcome();
+
+    // optional .android_studio.DeviceInfo.ApplicationBinaryInterface abi = 2;
+    /**
+     * <code>optional .android_studio.DeviceInfo.ApplicationBinaryInterface abi = 2;</code>
+     *
+     * <pre>
+     * The ABI that generation is run for
+     * </pre>
+     */
+    boolean hasAbi();
+    /**
+     * <code>optional .android_studio.DeviceInfo.ApplicationBinaryInterface abi = 2;</code>
+     *
+     * <pre>
+     * The ABI that generation is run for
+     * </pre>
+     */
+    com.google.wireless.android.sdk.stats.DeviceInfo.ApplicationBinaryInterface getAbi();
+
+    // optional int32 platform_api_version = 3;
+    /**
+     * <code>optional int32 platform_api_version = 3;</code>
+     *
+     * <pre>
+     * The Platform API version that generation phase chose
+     * </pre>
+     */
+    boolean hasPlatformApiVersion();
+    /**
+     * <code>optional int32 platform_api_version = 3;</code>
+     *
+     * <pre>
+     * The Platform API version that generation phase chose
+     * </pre>
+     */
+    int getPlatformApiVersion();
+
+    // optional bool debuggable = 4;
+    /**
+     * <code>optional bool debuggable = 4;</code>
+     *
+     * <pre>
+     * Whether or not this was a debuggable build
+     * </pre>
+     */
+    boolean hasDebuggable();
+    /**
+     * <code>optional bool debuggable = 4;</code>
+     *
+     * <pre>
+     * Whether or not this was a debuggable build
+     * </pre>
+     */
+    boolean getDebuggable();
+
+    // optional int64 generation_start_ms = 5;
+    /**
+     * <code>optional int64 generation_start_ms = 5;</code>
+     *
+     * <pre>
+     * Time at the start of generation
+     * </pre>
+     */
+    boolean hasGenerationStartMs();
+    /**
+     * <code>optional int64 generation_start_ms = 5;</code>
+     *
+     * <pre>
+     * Time at the start of generation
+     * </pre>
+     */
+    long getGenerationStartMs();
+
+    // optional int64 generation_duration_ms = 6;
+    /**
+     * <code>optional int64 generation_duration_ms = 6;</code>
+     *
+     * <pre>
+     * Duration of Json generation
+     * </pre>
+     */
+    boolean hasGenerationDurationMs();
+    /**
+     * <code>optional int64 generation_duration_ms = 6;</code>
+     *
+     * <pre>
+     * Duration of Json generation
+     * </pre>
+     */
+    long getGenerationDurationMs();
+
+    // repeated .android_studio.GradleBuildVariant.NativeLibraryInfo libraries = 7;
+    /**
+     * <code>repeated .android_studio.GradleBuildVariant.NativeLibraryInfo libraries = 7;</code>
+     *
+     * <pre>
+     * Information about individual libraries
+     * </pre>
+     */
+    java.util.List<com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeLibraryInfo> 
+        getLibrariesList();
+    /**
+     * <code>repeated .android_studio.GradleBuildVariant.NativeLibraryInfo libraries = 7;</code>
+     *
+     * <pre>
+     * Information about individual libraries
+     * </pre>
+     */
+    com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeLibraryInfo getLibraries(int index);
+    /**
+     * <code>repeated .android_studio.GradleBuildVariant.NativeLibraryInfo libraries = 7;</code>
+     *
+     * <pre>
+     * Information about individual libraries
+     * </pre>
+     */
+    int getLibrariesCount();
+    /**
+     * <code>repeated .android_studio.GradleBuildVariant.NativeLibraryInfo libraries = 7;</code>
+     *
+     * <pre>
+     * Information about individual libraries
+     * </pre>
+     */
+    java.util.List<? extends com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeLibraryInfoOrBuilder> 
+        getLibrariesOrBuilderList();
+    /**
+     * <code>repeated .android_studio.GradleBuildVariant.NativeLibraryInfo libraries = 7;</code>
+     *
+     * <pre>
+     * Information about individual libraries
+     * </pre>
+     */
+    com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeLibraryInfoOrBuilder getLibrariesOrBuilder(
+        int index);
+  }
+  /**
+   * Protobuf type {@code android_studio.GradleBuildVariant.NativeBuildConfigInfo}
+   *
+   * <pre>
+   * Per-variant information about native build
+   * </pre>
+   */
+  public static final class NativeBuildConfigInfo extends
+      com.google.protobuf.GeneratedMessage
+      implements NativeBuildConfigInfoOrBuilder {
+    // Use NativeBuildConfigInfo.newBuilder() to construct.
+    private NativeBuildConfigInfo(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private NativeBuildConfigInfo(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final NativeBuildConfigInfo defaultInstance;
+    public static NativeBuildConfigInfo getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public NativeBuildConfigInfo getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private NativeBuildConfigInfo(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              int rawValue = input.readEnum();
+              com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeBuildConfigInfo.GenerationOutcome value = com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeBuildConfigInfo.GenerationOutcome.valueOf(rawValue);
+              if (value == null) {
+                unknownFields.mergeVarintField(1, rawValue);
+              } else {
+                bitField0_ |= 0x00000001;
+                outcome_ = value;
+              }
+              break;
+            }
+            case 16: {
+              int rawValue = input.readEnum();
+              com.google.wireless.android.sdk.stats.DeviceInfo.ApplicationBinaryInterface value = com.google.wireless.android.sdk.stats.DeviceInfo.ApplicationBinaryInterface.valueOf(rawValue);
+              if (value == null) {
+                unknownFields.mergeVarintField(2, rawValue);
+              } else {
+                bitField0_ |= 0x00000002;
+                abi_ = value;
+              }
+              break;
+            }
+            case 24: {
+              bitField0_ |= 0x00000004;
+              platformApiVersion_ = input.readInt32();
+              break;
+            }
+            case 32: {
+              bitField0_ |= 0x00000008;
+              debuggable_ = input.readBool();
+              break;
+            }
+            case 40: {
+              bitField0_ |= 0x00000010;
+              generationStartMs_ = input.readInt64();
+              break;
+            }
+            case 48: {
+              bitField0_ |= 0x00000020;
+              generationDurationMs_ = input.readInt64();
+              break;
+            }
+            case 58: {
+              if (!((mutable_bitField0_ & 0x00000040) == 0x00000040)) {
+                libraries_ = new java.util.ArrayList<com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeLibraryInfo>();
+                mutable_bitField0_ |= 0x00000040;
+              }
+              libraries_.add(input.readMessage(com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeLibraryInfo.PARSER, extensionRegistry));
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        if (((mutable_bitField0_ & 0x00000040) == 0x00000040)) {
+          libraries_ = java.util.Collections.unmodifiableList(libraries_);
+        }
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.google.wireless.android.sdk.stats.AndroidStudioStats.internal_static_android_studio_GradleBuildVariant_NativeBuildConfigInfo_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.google.wireless.android.sdk.stats.AndroidStudioStats.internal_static_android_studio_GradleBuildVariant_NativeBuildConfigInfo_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeBuildConfigInfo.class, com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeBuildConfigInfo.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<NativeBuildConfigInfo> PARSER =
+        new com.google.protobuf.AbstractParser<NativeBuildConfigInfo>() {
+      public NativeBuildConfigInfo parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new NativeBuildConfigInfo(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<NativeBuildConfigInfo> getParserForType() {
+      return PARSER;
+    }
+
+    /**
+     * Protobuf enum {@code android_studio.GradleBuildVariant.NativeBuildConfigInfo.GenerationOutcome}
+     */
+    public enum GenerationOutcome
+        implements com.google.protobuf.ProtocolMessageEnum {
+      /**
+       * <code>UNKNOWN_GENERATION_OUTCOME = 0;</code>
+       */
+      UNKNOWN_GENERATION_OUTCOME(0, 0),
+      /**
+       * <code>FAILED = 1;</code>
+       */
+      FAILED(1, 1),
+      /**
+       * <code>SUCCESS_BUILT = 2;</code>
+       */
+      SUCCESS_BUILT(2, 2),
+      /**
+       * <code>SUCCESS_UP_TO_DATE = 3;</code>
+       */
+      SUCCESS_UP_TO_DATE(3, 3),
+      ;
+
+      /**
+       * <code>UNKNOWN_GENERATION_OUTCOME = 0;</code>
+       */
+      public static final int UNKNOWN_GENERATION_OUTCOME_VALUE = 0;
+      /**
+       * <code>FAILED = 1;</code>
+       */
+      public static final int FAILED_VALUE = 1;
+      /**
+       * <code>SUCCESS_BUILT = 2;</code>
+       */
+      public static final int SUCCESS_BUILT_VALUE = 2;
+      /**
+       * <code>SUCCESS_UP_TO_DATE = 3;</code>
+       */
+      public static final int SUCCESS_UP_TO_DATE_VALUE = 3;
+
+
+      public final int getNumber() { return value; }
+
+      public static GenerationOutcome valueOf(int value) {
+        switch (value) {
+          case 0: return UNKNOWN_GENERATION_OUTCOME;
+          case 1: return FAILED;
+          case 2: return SUCCESS_BUILT;
+          case 3: return SUCCESS_UP_TO_DATE;
+          default: return null;
+        }
+      }
+
+      public static com.google.protobuf.Internal.EnumLiteMap<GenerationOutcome>
+          internalGetValueMap() {
+        return internalValueMap;
+      }
+      private static com.google.protobuf.Internal.EnumLiteMap<GenerationOutcome>
+          internalValueMap =
+            new com.google.protobuf.Internal.EnumLiteMap<GenerationOutcome>() {
+              public GenerationOutcome findValueByNumber(int number) {
+                return GenerationOutcome.valueOf(number);
+              }
+            };
+
+      public final com.google.protobuf.Descriptors.EnumValueDescriptor
+          getValueDescriptor() {
+        return getDescriptor().getValues().get(index);
+      }
+      public final com.google.protobuf.Descriptors.EnumDescriptor
+          getDescriptorForType() {
+        return getDescriptor();
+      }
+      public static final com.google.protobuf.Descriptors.EnumDescriptor
+          getDescriptor() {
+        return com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeBuildConfigInfo.getDescriptor().getEnumTypes().get(0);
+      }
+
+      private static final GenerationOutcome[] VALUES = values();
+
+      public static GenerationOutcome valueOf(
+          com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
+        if (desc.getType() != getDescriptor()) {
+          throw new java.lang.IllegalArgumentException(
+            "EnumValueDescriptor is not for this type.");
+        }
+        return VALUES[desc.getIndex()];
+      }
+
+      private final int index;
+      private final int value;
+
+      private GenerationOutcome(int index, int value) {
+        this.index = index;
+        this.value = value;
+      }
+
+      // @@protoc_insertion_point(enum_scope:android_studio.GradleBuildVariant.NativeBuildConfigInfo.GenerationOutcome)
+    }
+
+    private int bitField0_;
+    // optional .android_studio.GradleBuildVariant.NativeBuildConfigInfo.GenerationOutcome outcome = 1;
+    public static final int OUTCOME_FIELD_NUMBER = 1;
+    private com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeBuildConfigInfo.GenerationOutcome outcome_;
+    /**
+     * <code>optional .android_studio.GradleBuildVariant.NativeBuildConfigInfo.GenerationOutcome outcome = 1;</code>
+     *
+     * <pre>
+     * Whether the Json generation phase was successful, up-to-date, or failed
+     * </pre>
+     */
+    public boolean hasOutcome() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>optional .android_studio.GradleBuildVariant.NativeBuildConfigInfo.GenerationOutcome outcome = 1;</code>
+     *
+     * <pre>
+     * Whether the Json generation phase was successful, up-to-date, or failed
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeBuildConfigInfo.GenerationOutcome getOutcome() {
+      return outcome_;
+    }
+
+    // optional .android_studio.DeviceInfo.ApplicationBinaryInterface abi = 2;
+    public static final int ABI_FIELD_NUMBER = 2;
+    private com.google.wireless.android.sdk.stats.DeviceInfo.ApplicationBinaryInterface abi_;
+    /**
+     * <code>optional .android_studio.DeviceInfo.ApplicationBinaryInterface abi = 2;</code>
+     *
+     * <pre>
+     * The ABI that generation is run for
+     * </pre>
+     */
+    public boolean hasAbi() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>optional .android_studio.DeviceInfo.ApplicationBinaryInterface abi = 2;</code>
+     *
+     * <pre>
+     * The ABI that generation is run for
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.DeviceInfo.ApplicationBinaryInterface getAbi() {
+      return abi_;
+    }
+
+    // optional int32 platform_api_version = 3;
+    public static final int PLATFORM_API_VERSION_FIELD_NUMBER = 3;
+    private int platformApiVersion_;
+    /**
+     * <code>optional int32 platform_api_version = 3;</code>
+     *
+     * <pre>
+     * The Platform API version that generation phase chose
+     * </pre>
+     */
+    public boolean hasPlatformApiVersion() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>optional int32 platform_api_version = 3;</code>
+     *
+     * <pre>
+     * The Platform API version that generation phase chose
+     * </pre>
+     */
+    public int getPlatformApiVersion() {
+      return platformApiVersion_;
+    }
+
+    // optional bool debuggable = 4;
+    public static final int DEBUGGABLE_FIELD_NUMBER = 4;
+    private boolean debuggable_;
+    /**
+     * <code>optional bool debuggable = 4;</code>
+     *
+     * <pre>
+     * Whether or not this was a debuggable build
+     * </pre>
+     */
+    public boolean hasDebuggable() {
+      return ((bitField0_ & 0x00000008) == 0x00000008);
+    }
+    /**
+     * <code>optional bool debuggable = 4;</code>
+     *
+     * <pre>
+     * Whether or not this was a debuggable build
+     * </pre>
+     */
+    public boolean getDebuggable() {
+      return debuggable_;
+    }
+
+    // optional int64 generation_start_ms = 5;
+    public static final int GENERATION_START_MS_FIELD_NUMBER = 5;
+    private long generationStartMs_;
+    /**
+     * <code>optional int64 generation_start_ms = 5;</code>
+     *
+     * <pre>
+     * Time at the start of generation
+     * </pre>
+     */
+    public boolean hasGenerationStartMs() {
+      return ((bitField0_ & 0x00000010) == 0x00000010);
+    }
+    /**
+     * <code>optional int64 generation_start_ms = 5;</code>
+     *
+     * <pre>
+     * Time at the start of generation
+     * </pre>
+     */
+    public long getGenerationStartMs() {
+      return generationStartMs_;
+    }
+
+    // optional int64 generation_duration_ms = 6;
+    public static final int GENERATION_DURATION_MS_FIELD_NUMBER = 6;
+    private long generationDurationMs_;
+    /**
+     * <code>optional int64 generation_duration_ms = 6;</code>
+     *
+     * <pre>
+     * Duration of Json generation
+     * </pre>
+     */
+    public boolean hasGenerationDurationMs() {
+      return ((bitField0_ & 0x00000020) == 0x00000020);
+    }
+    /**
+     * <code>optional int64 generation_duration_ms = 6;</code>
+     *
+     * <pre>
+     * Duration of Json generation
+     * </pre>
+     */
+    public long getGenerationDurationMs() {
+      return generationDurationMs_;
+    }
+
+    // repeated .android_studio.GradleBuildVariant.NativeLibraryInfo libraries = 7;
+    public static final int LIBRARIES_FIELD_NUMBER = 7;
+    private java.util.List<com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeLibraryInfo> libraries_;
+    /**
+     * <code>repeated .android_studio.GradleBuildVariant.NativeLibraryInfo libraries = 7;</code>
+     *
+     * <pre>
+     * Information about individual libraries
+     * </pre>
+     */
+    public java.util.List<com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeLibraryInfo> getLibrariesList() {
+      return libraries_;
+    }
+    /**
+     * <code>repeated .android_studio.GradleBuildVariant.NativeLibraryInfo libraries = 7;</code>
+     *
+     * <pre>
+     * Information about individual libraries
+     * </pre>
+     */
+    public java.util.List<? extends com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeLibraryInfoOrBuilder> 
+        getLibrariesOrBuilderList() {
+      return libraries_;
+    }
+    /**
+     * <code>repeated .android_studio.GradleBuildVariant.NativeLibraryInfo libraries = 7;</code>
+     *
+     * <pre>
+     * Information about individual libraries
+     * </pre>
+     */
+    public int getLibrariesCount() {
+      return libraries_.size();
+    }
+    /**
+     * <code>repeated .android_studio.GradleBuildVariant.NativeLibraryInfo libraries = 7;</code>
+     *
+     * <pre>
+     * Information about individual libraries
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeLibraryInfo getLibraries(int index) {
+      return libraries_.get(index);
+    }
+    /**
+     * <code>repeated .android_studio.GradleBuildVariant.NativeLibraryInfo libraries = 7;</code>
+     *
+     * <pre>
+     * Information about individual libraries
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeLibraryInfoOrBuilder getLibrariesOrBuilder(
+        int index) {
+      return libraries_.get(index);
+    }
+
+    private void initFields() {
+      outcome_ = com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeBuildConfigInfo.GenerationOutcome.UNKNOWN_GENERATION_OUTCOME;
+      abi_ = com.google.wireless.android.sdk.stats.DeviceInfo.ApplicationBinaryInterface.UNKNOWN_ABI;
+      platformApiVersion_ = 0;
+      debuggable_ = false;
+      generationStartMs_ = 0L;
+      generationDurationMs_ = 0L;
+      libraries_ = java.util.Collections.emptyList();
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeEnum(1, outcome_.getNumber());
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeEnum(2, abi_.getNumber());
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeInt32(3, platformApiVersion_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        output.writeBool(4, debuggable_);
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        output.writeInt64(5, generationStartMs_);
+      }
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+        output.writeInt64(6, generationDurationMs_);
+      }
+      for (int i = 0; i < libraries_.size(); i++) {
+        output.writeMessage(7, libraries_.get(i));
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeEnumSize(1, outcome_.getNumber());
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeEnumSize(2, abi_.getNumber());
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(3, platformApiVersion_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(4, debuggable_);
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt64Size(5, generationStartMs_);
+      }
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt64Size(6, generationDurationMs_);
+      }
+      for (int i = 0; i < libraries_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(7, libraries_.get(i));
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeBuildConfigInfo parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeBuildConfigInfo parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeBuildConfigInfo parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeBuildConfigInfo parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeBuildConfigInfo parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeBuildConfigInfo parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeBuildConfigInfo parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeBuildConfigInfo parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeBuildConfigInfo parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeBuildConfigInfo parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeBuildConfigInfo prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code android_studio.GradleBuildVariant.NativeBuildConfigInfo}
+     *
+     * <pre>
+     * Per-variant information about native build
+     * </pre>
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeBuildConfigInfoOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.google.wireless.android.sdk.stats.AndroidStudioStats.internal_static_android_studio_GradleBuildVariant_NativeBuildConfigInfo_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.google.wireless.android.sdk.stats.AndroidStudioStats.internal_static_android_studio_GradleBuildVariant_NativeBuildConfigInfo_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeBuildConfigInfo.class, com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeBuildConfigInfo.Builder.class);
+      }
+
+      // Construct using com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeBuildConfigInfo.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+          getLibrariesFieldBuilder();
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        outcome_ = com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeBuildConfigInfo.GenerationOutcome.UNKNOWN_GENERATION_OUTCOME;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        abi_ = com.google.wireless.android.sdk.stats.DeviceInfo.ApplicationBinaryInterface.UNKNOWN_ABI;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        platformApiVersion_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000004);
+        debuggable_ = false;
+        bitField0_ = (bitField0_ & ~0x00000008);
+        generationStartMs_ = 0L;
+        bitField0_ = (bitField0_ & ~0x00000010);
+        generationDurationMs_ = 0L;
+        bitField0_ = (bitField0_ & ~0x00000020);
+        if (librariesBuilder_ == null) {
+          libraries_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000040);
+        } else {
+          librariesBuilder_.clear();
+        }
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.google.wireless.android.sdk.stats.AndroidStudioStats.internal_static_android_studio_GradleBuildVariant_NativeBuildConfigInfo_descriptor;
+      }
+
+      public com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeBuildConfigInfo getDefaultInstanceForType() {
+        return com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeBuildConfigInfo.getDefaultInstance();
+      }
+
+      public com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeBuildConfigInfo build() {
+        com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeBuildConfigInfo result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeBuildConfigInfo buildPartial() {
+        com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeBuildConfigInfo result = new com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeBuildConfigInfo(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.outcome_ = outcome_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.abi_ = abi_;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000004;
+        }
+        result.platformApiVersion_ = platformApiVersion_;
+        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+          to_bitField0_ |= 0x00000008;
+        }
+        result.debuggable_ = debuggable_;
+        if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
+          to_bitField0_ |= 0x00000010;
+        }
+        result.generationStartMs_ = generationStartMs_;
+        if (((from_bitField0_ & 0x00000020) == 0x00000020)) {
+          to_bitField0_ |= 0x00000020;
+        }
+        result.generationDurationMs_ = generationDurationMs_;
+        if (librariesBuilder_ == null) {
+          if (((bitField0_ & 0x00000040) == 0x00000040)) {
+            libraries_ = java.util.Collections.unmodifiableList(libraries_);
+            bitField0_ = (bitField0_ & ~0x00000040);
+          }
+          result.libraries_ = libraries_;
+        } else {
+          result.libraries_ = librariesBuilder_.build();
+        }
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeBuildConfigInfo) {
+          return mergeFrom((com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeBuildConfigInfo)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeBuildConfigInfo other) {
+        if (other == com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeBuildConfigInfo.getDefaultInstance()) return this;
+        if (other.hasOutcome()) {
+          setOutcome(other.getOutcome());
+        }
+        if (other.hasAbi()) {
+          setAbi(other.getAbi());
+        }
+        if (other.hasPlatformApiVersion()) {
+          setPlatformApiVersion(other.getPlatformApiVersion());
+        }
+        if (other.hasDebuggable()) {
+          setDebuggable(other.getDebuggable());
+        }
+        if (other.hasGenerationStartMs()) {
+          setGenerationStartMs(other.getGenerationStartMs());
+        }
+        if (other.hasGenerationDurationMs()) {
+          setGenerationDurationMs(other.getGenerationDurationMs());
+        }
+        if (librariesBuilder_ == null) {
+          if (!other.libraries_.isEmpty()) {
+            if (libraries_.isEmpty()) {
+              libraries_ = other.libraries_;
+              bitField0_ = (bitField0_ & ~0x00000040);
+            } else {
+              ensureLibrariesIsMutable();
+              libraries_.addAll(other.libraries_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.libraries_.isEmpty()) {
+            if (librariesBuilder_.isEmpty()) {
+              librariesBuilder_.dispose();
+              librariesBuilder_ = null;
+              libraries_ = other.libraries_;
+              bitField0_ = (bitField0_ & ~0x00000040);
+              librariesBuilder_ = 
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                   getLibrariesFieldBuilder() : null;
+            } else {
+              librariesBuilder_.addAllMessages(other.libraries_);
+            }
+          }
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeBuildConfigInfo parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeBuildConfigInfo) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // optional .android_studio.GradleBuildVariant.NativeBuildConfigInfo.GenerationOutcome outcome = 1;
+      private com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeBuildConfigInfo.GenerationOutcome outcome_ = com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeBuildConfigInfo.GenerationOutcome.UNKNOWN_GENERATION_OUTCOME;
+      /**
+       * <code>optional .android_studio.GradleBuildVariant.NativeBuildConfigInfo.GenerationOutcome outcome = 1;</code>
+       *
+       * <pre>
+       * Whether the Json generation phase was successful, up-to-date, or failed
+       * </pre>
+       */
+      public boolean hasOutcome() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>optional .android_studio.GradleBuildVariant.NativeBuildConfigInfo.GenerationOutcome outcome = 1;</code>
+       *
+       * <pre>
+       * Whether the Json generation phase was successful, up-to-date, or failed
+       * </pre>
+       */
+      public com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeBuildConfigInfo.GenerationOutcome getOutcome() {
+        return outcome_;
+      }
+      /**
+       * <code>optional .android_studio.GradleBuildVariant.NativeBuildConfigInfo.GenerationOutcome outcome = 1;</code>
+       *
+       * <pre>
+       * Whether the Json generation phase was successful, up-to-date, or failed
+       * </pre>
+       */
+      public Builder setOutcome(com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeBuildConfigInfo.GenerationOutcome value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        bitField0_ |= 0x00000001;
+        outcome_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional .android_studio.GradleBuildVariant.NativeBuildConfigInfo.GenerationOutcome outcome = 1;</code>
+       *
+       * <pre>
+       * Whether the Json generation phase was successful, up-to-date, or failed
+       * </pre>
+       */
+      public Builder clearOutcome() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        outcome_ = com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeBuildConfigInfo.GenerationOutcome.UNKNOWN_GENERATION_OUTCOME;
+        onChanged();
+        return this;
+      }
+
+      // optional .android_studio.DeviceInfo.ApplicationBinaryInterface abi = 2;
+      private com.google.wireless.android.sdk.stats.DeviceInfo.ApplicationBinaryInterface abi_ = com.google.wireless.android.sdk.stats.DeviceInfo.ApplicationBinaryInterface.UNKNOWN_ABI;
+      /**
+       * <code>optional .android_studio.DeviceInfo.ApplicationBinaryInterface abi = 2;</code>
+       *
+       * <pre>
+       * The ABI that generation is run for
+       * </pre>
+       */
+      public boolean hasAbi() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>optional .android_studio.DeviceInfo.ApplicationBinaryInterface abi = 2;</code>
+       *
+       * <pre>
+       * The ABI that generation is run for
+       * </pre>
+       */
+      public com.google.wireless.android.sdk.stats.DeviceInfo.ApplicationBinaryInterface getAbi() {
+        return abi_;
+      }
+      /**
+       * <code>optional .android_studio.DeviceInfo.ApplicationBinaryInterface abi = 2;</code>
+       *
+       * <pre>
+       * The ABI that generation is run for
+       * </pre>
+       */
+      public Builder setAbi(com.google.wireless.android.sdk.stats.DeviceInfo.ApplicationBinaryInterface value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        bitField0_ |= 0x00000002;
+        abi_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional .android_studio.DeviceInfo.ApplicationBinaryInterface abi = 2;</code>
+       *
+       * <pre>
+       * The ABI that generation is run for
+       * </pre>
+       */
+      public Builder clearAbi() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        abi_ = com.google.wireless.android.sdk.stats.DeviceInfo.ApplicationBinaryInterface.UNKNOWN_ABI;
+        onChanged();
+        return this;
+      }
+
+      // optional int32 platform_api_version = 3;
+      private int platformApiVersion_ ;
+      /**
+       * <code>optional int32 platform_api_version = 3;</code>
+       *
+       * <pre>
+       * The Platform API version that generation phase chose
+       * </pre>
+       */
+      public boolean hasPlatformApiVersion() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>optional int32 platform_api_version = 3;</code>
+       *
+       * <pre>
+       * The Platform API version that generation phase chose
+       * </pre>
+       */
+      public int getPlatformApiVersion() {
+        return platformApiVersion_;
+      }
+      /**
+       * <code>optional int32 platform_api_version = 3;</code>
+       *
+       * <pre>
+       * The Platform API version that generation phase chose
+       * </pre>
+       */
+      public Builder setPlatformApiVersion(int value) {
+        bitField0_ |= 0x00000004;
+        platformApiVersion_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 platform_api_version = 3;</code>
+       *
+       * <pre>
+       * The Platform API version that generation phase chose
+       * </pre>
+       */
+      public Builder clearPlatformApiVersion() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        platformApiVersion_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // optional bool debuggable = 4;
+      private boolean debuggable_ ;
+      /**
+       * <code>optional bool debuggable = 4;</code>
+       *
+       * <pre>
+       * Whether or not this was a debuggable build
+       * </pre>
+       */
+      public boolean hasDebuggable() {
+        return ((bitField0_ & 0x00000008) == 0x00000008);
+      }
+      /**
+       * <code>optional bool debuggable = 4;</code>
+       *
+       * <pre>
+       * Whether or not this was a debuggable build
+       * </pre>
+       */
+      public boolean getDebuggable() {
+        return debuggable_;
+      }
+      /**
+       * <code>optional bool debuggable = 4;</code>
+       *
+       * <pre>
+       * Whether or not this was a debuggable build
+       * </pre>
+       */
+      public Builder setDebuggable(boolean value) {
+        bitField0_ |= 0x00000008;
+        debuggable_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional bool debuggable = 4;</code>
+       *
+       * <pre>
+       * Whether or not this was a debuggable build
+       * </pre>
+       */
+      public Builder clearDebuggable() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        debuggable_ = false;
+        onChanged();
+        return this;
+      }
+
+      // optional int64 generation_start_ms = 5;
+      private long generationStartMs_ ;
+      /**
+       * <code>optional int64 generation_start_ms = 5;</code>
+       *
+       * <pre>
+       * Time at the start of generation
+       * </pre>
+       */
+      public boolean hasGenerationStartMs() {
+        return ((bitField0_ & 0x00000010) == 0x00000010);
+      }
+      /**
+       * <code>optional int64 generation_start_ms = 5;</code>
+       *
+       * <pre>
+       * Time at the start of generation
+       * </pre>
+       */
+      public long getGenerationStartMs() {
+        return generationStartMs_;
+      }
+      /**
+       * <code>optional int64 generation_start_ms = 5;</code>
+       *
+       * <pre>
+       * Time at the start of generation
+       * </pre>
+       */
+      public Builder setGenerationStartMs(long value) {
+        bitField0_ |= 0x00000010;
+        generationStartMs_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int64 generation_start_ms = 5;</code>
+       *
+       * <pre>
+       * Time at the start of generation
+       * </pre>
+       */
+      public Builder clearGenerationStartMs() {
+        bitField0_ = (bitField0_ & ~0x00000010);
+        generationStartMs_ = 0L;
+        onChanged();
+        return this;
+      }
+
+      // optional int64 generation_duration_ms = 6;
+      private long generationDurationMs_ ;
+      /**
+       * <code>optional int64 generation_duration_ms = 6;</code>
+       *
+       * <pre>
+       * Duration of Json generation
+       * </pre>
+       */
+      public boolean hasGenerationDurationMs() {
+        return ((bitField0_ & 0x00000020) == 0x00000020);
+      }
+      /**
+       * <code>optional int64 generation_duration_ms = 6;</code>
+       *
+       * <pre>
+       * Duration of Json generation
+       * </pre>
+       */
+      public long getGenerationDurationMs() {
+        return generationDurationMs_;
+      }
+      /**
+       * <code>optional int64 generation_duration_ms = 6;</code>
+       *
+       * <pre>
+       * Duration of Json generation
+       * </pre>
+       */
+      public Builder setGenerationDurationMs(long value) {
+        bitField0_ |= 0x00000020;
+        generationDurationMs_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int64 generation_duration_ms = 6;</code>
+       *
+       * <pre>
+       * Duration of Json generation
+       * </pre>
+       */
+      public Builder clearGenerationDurationMs() {
+        bitField0_ = (bitField0_ & ~0x00000020);
+        generationDurationMs_ = 0L;
+        onChanged();
+        return this;
+      }
+
+      // repeated .android_studio.GradleBuildVariant.NativeLibraryInfo libraries = 7;
+      private java.util.List<com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeLibraryInfo> libraries_ =
+        java.util.Collections.emptyList();
+      private void ensureLibrariesIsMutable() {
+        if (!((bitField0_ & 0x00000040) == 0x00000040)) {
+          libraries_ = new java.util.ArrayList<com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeLibraryInfo>(libraries_);
+          bitField0_ |= 0x00000040;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeLibraryInfo, com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeLibraryInfo.Builder, com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeLibraryInfoOrBuilder> librariesBuilder_;
+
+      /**
+       * <code>repeated .android_studio.GradleBuildVariant.NativeLibraryInfo libraries = 7;</code>
+       *
+       * <pre>
+       * Information about individual libraries
+       * </pre>
+       */
+      public java.util.List<com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeLibraryInfo> getLibrariesList() {
+        if (librariesBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(libraries_);
+        } else {
+          return librariesBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .android_studio.GradleBuildVariant.NativeLibraryInfo libraries = 7;</code>
+       *
+       * <pre>
+       * Information about individual libraries
+       * </pre>
+       */
+      public int getLibrariesCount() {
+        if (librariesBuilder_ == null) {
+          return libraries_.size();
+        } else {
+          return librariesBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .android_studio.GradleBuildVariant.NativeLibraryInfo libraries = 7;</code>
+       *
+       * <pre>
+       * Information about individual libraries
+       * </pre>
+       */
+      public com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeLibraryInfo getLibraries(int index) {
+        if (librariesBuilder_ == null) {
+          return libraries_.get(index);
+        } else {
+          return librariesBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .android_studio.GradleBuildVariant.NativeLibraryInfo libraries = 7;</code>
+       *
+       * <pre>
+       * Information about individual libraries
+       * </pre>
+       */
+      public Builder setLibraries(
+          int index, com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeLibraryInfo value) {
+        if (librariesBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureLibrariesIsMutable();
+          libraries_.set(index, value);
+          onChanged();
+        } else {
+          librariesBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .android_studio.GradleBuildVariant.NativeLibraryInfo libraries = 7;</code>
+       *
+       * <pre>
+       * Information about individual libraries
+       * </pre>
+       */
+      public Builder setLibraries(
+          int index, com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeLibraryInfo.Builder builderForValue) {
+        if (librariesBuilder_ == null) {
+          ensureLibrariesIsMutable();
+          libraries_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          librariesBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .android_studio.GradleBuildVariant.NativeLibraryInfo libraries = 7;</code>
+       *
+       * <pre>
+       * Information about individual libraries
+       * </pre>
+       */
+      public Builder addLibraries(com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeLibraryInfo value) {
+        if (librariesBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureLibrariesIsMutable();
+          libraries_.add(value);
+          onChanged();
+        } else {
+          librariesBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .android_studio.GradleBuildVariant.NativeLibraryInfo libraries = 7;</code>
+       *
+       * <pre>
+       * Information about individual libraries
+       * </pre>
+       */
+      public Builder addLibraries(
+          int index, com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeLibraryInfo value) {
+        if (librariesBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureLibrariesIsMutable();
+          libraries_.add(index, value);
+          onChanged();
+        } else {
+          librariesBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .android_studio.GradleBuildVariant.NativeLibraryInfo libraries = 7;</code>
+       *
+       * <pre>
+       * Information about individual libraries
+       * </pre>
+       */
+      public Builder addLibraries(
+          com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeLibraryInfo.Builder builderForValue) {
+        if (librariesBuilder_ == null) {
+          ensureLibrariesIsMutable();
+          libraries_.add(builderForValue.build());
+          onChanged();
+        } else {
+          librariesBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .android_studio.GradleBuildVariant.NativeLibraryInfo libraries = 7;</code>
+       *
+       * <pre>
+       * Information about individual libraries
+       * </pre>
+       */
+      public Builder addLibraries(
+          int index, com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeLibraryInfo.Builder builderForValue) {
+        if (librariesBuilder_ == null) {
+          ensureLibrariesIsMutable();
+          libraries_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          librariesBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .android_studio.GradleBuildVariant.NativeLibraryInfo libraries = 7;</code>
+       *
+       * <pre>
+       * Information about individual libraries
+       * </pre>
+       */
+      public Builder addAllLibraries(
+          java.lang.Iterable<? extends com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeLibraryInfo> values) {
+        if (librariesBuilder_ == null) {
+          ensureLibrariesIsMutable();
+          super.addAll(values, libraries_);
+          onChanged();
+        } else {
+          librariesBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .android_studio.GradleBuildVariant.NativeLibraryInfo libraries = 7;</code>
+       *
+       * <pre>
+       * Information about individual libraries
+       * </pre>
+       */
+      public Builder clearLibraries() {
+        if (librariesBuilder_ == null) {
+          libraries_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000040);
+          onChanged();
+        } else {
+          librariesBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .android_studio.GradleBuildVariant.NativeLibraryInfo libraries = 7;</code>
+       *
+       * <pre>
+       * Information about individual libraries
+       * </pre>
+       */
+      public Builder removeLibraries(int index) {
+        if (librariesBuilder_ == null) {
+          ensureLibrariesIsMutable();
+          libraries_.remove(index);
+          onChanged();
+        } else {
+          librariesBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .android_studio.GradleBuildVariant.NativeLibraryInfo libraries = 7;</code>
+       *
+       * <pre>
+       * Information about individual libraries
+       * </pre>
+       */
+      public com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeLibraryInfo.Builder getLibrariesBuilder(
+          int index) {
+        return getLibrariesFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .android_studio.GradleBuildVariant.NativeLibraryInfo libraries = 7;</code>
+       *
+       * <pre>
+       * Information about individual libraries
+       * </pre>
+       */
+      public com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeLibraryInfoOrBuilder getLibrariesOrBuilder(
+          int index) {
+        if (librariesBuilder_ == null) {
+          return libraries_.get(index);  } else {
+          return librariesBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .android_studio.GradleBuildVariant.NativeLibraryInfo libraries = 7;</code>
+       *
+       * <pre>
+       * Information about individual libraries
+       * </pre>
+       */
+      public java.util.List<? extends com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeLibraryInfoOrBuilder> 
+           getLibrariesOrBuilderList() {
+        if (librariesBuilder_ != null) {
+          return librariesBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(libraries_);
+        }
+      }
+      /**
+       * <code>repeated .android_studio.GradleBuildVariant.NativeLibraryInfo libraries = 7;</code>
+       *
+       * <pre>
+       * Information about individual libraries
+       * </pre>
+       */
+      public com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeLibraryInfo.Builder addLibrariesBuilder() {
+        return getLibrariesFieldBuilder().addBuilder(
+            com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeLibraryInfo.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .android_studio.GradleBuildVariant.NativeLibraryInfo libraries = 7;</code>
+       *
+       * <pre>
+       * Information about individual libraries
+       * </pre>
+       */
+      public com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeLibraryInfo.Builder addLibrariesBuilder(
+          int index) {
+        return getLibrariesFieldBuilder().addBuilder(
+            index, com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeLibraryInfo.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .android_studio.GradleBuildVariant.NativeLibraryInfo libraries = 7;</code>
+       *
+       * <pre>
+       * Information about individual libraries
+       * </pre>
+       */
+      public java.util.List<com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeLibraryInfo.Builder> 
+           getLibrariesBuilderList() {
+        return getLibrariesFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeLibraryInfo, com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeLibraryInfo.Builder, com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeLibraryInfoOrBuilder> 
+          getLibrariesFieldBuilder() {
+        if (librariesBuilder_ == null) {
+          librariesBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+              com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeLibraryInfo, com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeLibraryInfo.Builder, com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeLibraryInfoOrBuilder>(
+                  libraries_,
+                  ((bitField0_ & 0x00000040) == 0x00000040),
+                  getParentForChildren(),
+                  isClean());
+          libraries_ = null;
+        }
+        return librariesBuilder_;
+      }
+
+      // @@protoc_insertion_point(builder_scope:android_studio.GradleBuildVariant.NativeBuildConfigInfo)
+    }
+
+    static {
+      defaultInstance = new NativeBuildConfigInfo(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:android_studio.GradleBuildVariant.NativeBuildConfigInfo)
+  }
+
+  public interface NativeLibraryInfoOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // optional int32 source_file_count = 1;
+    /**
+     * <code>optional int32 source_file_count = 1;</code>
+     */
+    boolean hasSourceFileCount();
+    /**
+     * <code>optional int32 source_file_count = 1;</code>
+     */
+    int getSourceFileCount();
+
+    // optional bool has_glldb_flag = 2;
+    /**
+     * <code>optional bool has_glldb_flag = 2;</code>
+     *
+     * <pre>
+     * Whether or not the compiler flags contain -glldb
+     * </pre>
+     */
+    boolean hasHasGlldbFlag();
+    /**
+     * <code>optional bool has_glldb_flag = 2;</code>
+     *
+     * <pre>
+     * Whether or not the compiler flags contain -glldb
+     * </pre>
+     */
+    boolean getHasGlldbFlag();
+  }
+  /**
+   * Protobuf type {@code android_studio.GradleBuildVariant.NativeLibraryInfo}
+   *
+   * <pre>
+   * Per-variant-per-library information about native build
+   * </pre>
+   */
+  public static final class NativeLibraryInfo extends
+      com.google.protobuf.GeneratedMessage
+      implements NativeLibraryInfoOrBuilder {
+    // Use NativeLibraryInfo.newBuilder() to construct.
+    private NativeLibraryInfo(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private NativeLibraryInfo(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final NativeLibraryInfo defaultInstance;
+    public static NativeLibraryInfo getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public NativeLibraryInfo getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private NativeLibraryInfo(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              bitField0_ |= 0x00000001;
+              sourceFileCount_ = input.readInt32();
+              break;
+            }
+            case 16: {
+              bitField0_ |= 0x00000002;
+              hasGlldbFlag_ = input.readBool();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.google.wireless.android.sdk.stats.AndroidStudioStats.internal_static_android_studio_GradleBuildVariant_NativeLibraryInfo_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.google.wireless.android.sdk.stats.AndroidStudioStats.internal_static_android_studio_GradleBuildVariant_NativeLibraryInfo_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeLibraryInfo.class, com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeLibraryInfo.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<NativeLibraryInfo> PARSER =
+        new com.google.protobuf.AbstractParser<NativeLibraryInfo>() {
+      public NativeLibraryInfo parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new NativeLibraryInfo(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<NativeLibraryInfo> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // optional int32 source_file_count = 1;
+    public static final int SOURCE_FILE_COUNT_FIELD_NUMBER = 1;
+    private int sourceFileCount_;
+    /**
+     * <code>optional int32 source_file_count = 1;</code>
+     */
+    public boolean hasSourceFileCount() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>optional int32 source_file_count = 1;</code>
+     */
+    public int getSourceFileCount() {
+      return sourceFileCount_;
+    }
+
+    // optional bool has_glldb_flag = 2;
+    public static final int HAS_GLLDB_FLAG_FIELD_NUMBER = 2;
+    private boolean hasGlldbFlag_;
+    /**
+     * <code>optional bool has_glldb_flag = 2;</code>
+     *
+     * <pre>
+     * Whether or not the compiler flags contain -glldb
+     * </pre>
+     */
+    public boolean hasHasGlldbFlag() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>optional bool has_glldb_flag = 2;</code>
+     *
+     * <pre>
+     * Whether or not the compiler flags contain -glldb
+     * </pre>
+     */
+    public boolean getHasGlldbFlag() {
+      return hasGlldbFlag_;
+    }
+
+    private void initFields() {
+      sourceFileCount_ = 0;
+      hasGlldbFlag_ = false;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeInt32(1, sourceFileCount_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeBool(2, hasGlldbFlag_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, sourceFileCount_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(2, hasGlldbFlag_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeLibraryInfo parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeLibraryInfo parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeLibraryInfo parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeLibraryInfo parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeLibraryInfo parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeLibraryInfo parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeLibraryInfo parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeLibraryInfo parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeLibraryInfo parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeLibraryInfo parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeLibraryInfo prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code android_studio.GradleBuildVariant.NativeLibraryInfo}
+     *
+     * <pre>
+     * Per-variant-per-library information about native build
+     * </pre>
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeLibraryInfoOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.google.wireless.android.sdk.stats.AndroidStudioStats.internal_static_android_studio_GradleBuildVariant_NativeLibraryInfo_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.google.wireless.android.sdk.stats.AndroidStudioStats.internal_static_android_studio_GradleBuildVariant_NativeLibraryInfo_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeLibraryInfo.class, com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeLibraryInfo.Builder.class);
+      }
+
+      // Construct using com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeLibraryInfo.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        sourceFileCount_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        hasGlldbFlag_ = false;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.google.wireless.android.sdk.stats.AndroidStudioStats.internal_static_android_studio_GradleBuildVariant_NativeLibraryInfo_descriptor;
+      }
+
+      public com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeLibraryInfo getDefaultInstanceForType() {
+        return com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeLibraryInfo.getDefaultInstance();
+      }
+
+      public com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeLibraryInfo build() {
+        com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeLibraryInfo result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeLibraryInfo buildPartial() {
+        com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeLibraryInfo result = new com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeLibraryInfo(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.sourceFileCount_ = sourceFileCount_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.hasGlldbFlag_ = hasGlldbFlag_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeLibraryInfo) {
+          return mergeFrom((com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeLibraryInfo)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeLibraryInfo other) {
+        if (other == com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeLibraryInfo.getDefaultInstance()) return this;
+        if (other.hasSourceFileCount()) {
+          setSourceFileCount(other.getSourceFileCount());
+        }
+        if (other.hasHasGlldbFlag()) {
+          setHasGlldbFlag(other.getHasGlldbFlag());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeLibraryInfo parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeLibraryInfo) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // optional int32 source_file_count = 1;
+      private int sourceFileCount_ ;
+      /**
+       * <code>optional int32 source_file_count = 1;</code>
+       */
+      public boolean hasSourceFileCount() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>optional int32 source_file_count = 1;</code>
+       */
+      public int getSourceFileCount() {
+        return sourceFileCount_;
+      }
+      /**
+       * <code>optional int32 source_file_count = 1;</code>
+       */
+      public Builder setSourceFileCount(int value) {
+        bitField0_ |= 0x00000001;
+        sourceFileCount_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 source_file_count = 1;</code>
+       */
+      public Builder clearSourceFileCount() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        sourceFileCount_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // optional bool has_glldb_flag = 2;
+      private boolean hasGlldbFlag_ ;
+      /**
+       * <code>optional bool has_glldb_flag = 2;</code>
+       *
+       * <pre>
+       * Whether or not the compiler flags contain -glldb
+       * </pre>
+       */
+      public boolean hasHasGlldbFlag() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>optional bool has_glldb_flag = 2;</code>
+       *
+       * <pre>
+       * Whether or not the compiler flags contain -glldb
+       * </pre>
+       */
+      public boolean getHasGlldbFlag() {
+        return hasGlldbFlag_;
+      }
+      /**
+       * <code>optional bool has_glldb_flag = 2;</code>
+       *
+       * <pre>
+       * Whether or not the compiler flags contain -glldb
+       * </pre>
+       */
+      public Builder setHasGlldbFlag(boolean value) {
+        bitField0_ |= 0x00000002;
+        hasGlldbFlag_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional bool has_glldb_flag = 2;</code>
+       *
+       * <pre>
+       * Whether or not the compiler flags contain -glldb
+       * </pre>
+       */
+      public Builder clearHasGlldbFlag() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        hasGlldbFlag_ = false;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:android_studio.GradleBuildVariant.NativeLibraryInfo)
+    }
+
+    static {
+      defaultInstance = new NativeLibraryInfo(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:android_studio.GradleBuildVariant.NativeLibraryInfo)
+  }
+
   private int bitField0_;
   // optional int64 id = 1;
   public static final int ID_FIELD_NUMBER = 1;
@@ -1422,6 +3559,141 @@ public  final class GradleBuildVariant extends
     return testExecution_;
   }
 
+  // optional .android_studio.GradleNativeAndroidModule.NativeBuildSystemType native_build_system_type = 19;
+  public static final int NATIVE_BUILD_SYSTEM_TYPE_FIELD_NUMBER = 19;
+  private com.google.wireless.android.sdk.stats.GradleNativeAndroidModule.NativeBuildSystemType nativeBuildSystemType_;
+  /**
+   * <code>optional .android_studio.GradleNativeAndroidModule.NativeBuildSystemType native_build_system_type = 19;</code>
+   *
+   * <pre>
+   * The underlying native project system.
+   * </pre>
+   */
+  public boolean hasNativeBuildSystemType() {
+    return ((bitField0_ & 0x00010000) == 0x00010000);
+  }
+  /**
+   * <code>optional .android_studio.GradleNativeAndroidModule.NativeBuildSystemType native_build_system_type = 19;</code>
+   *
+   * <pre>
+   * The underlying native project system.
+   * </pre>
+   */
+  public com.google.wireless.android.sdk.stats.GradleNativeAndroidModule.NativeBuildSystemType getNativeBuildSystemType() {
+    return nativeBuildSystemType_;
+  }
+
+  // optional string native_cmake_version = 20;
+  public static final int NATIVE_CMAKE_VERSION_FIELD_NUMBER = 20;
+  private java.lang.Object nativeCmakeVersion_;
+  /**
+   * <code>optional string native_cmake_version = 20;</code>
+   *
+   * <pre>
+   * The CMake version number if this is a CMake-based build.
+   * </pre>
+   */
+  public boolean hasNativeCmakeVersion() {
+    return ((bitField0_ & 0x00020000) == 0x00020000);
+  }
+  /**
+   * <code>optional string native_cmake_version = 20;</code>
+   *
+   * <pre>
+   * The CMake version number if this is a CMake-based build.
+   * </pre>
+   */
+  public java.lang.String getNativeCmakeVersion() {
+    java.lang.Object ref = nativeCmakeVersion_;
+    if (ref instanceof java.lang.String) {
+      return (java.lang.String) ref;
+    } else {
+      com.google.protobuf.ByteString bs = 
+          (com.google.protobuf.ByteString) ref;
+      java.lang.String s = bs.toStringUtf8();
+      if (bs.isValidUtf8()) {
+        nativeCmakeVersion_ = s;
+      }
+      return s;
+    }
+  }
+  /**
+   * <code>optional string native_cmake_version = 20;</code>
+   *
+   * <pre>
+   * The CMake version number if this is a CMake-based build.
+   * </pre>
+   */
+  public com.google.protobuf.ByteString
+      getNativeCmakeVersionBytes() {
+    java.lang.Object ref = nativeCmakeVersion_;
+    if (ref instanceof java.lang.String) {
+      com.google.protobuf.ByteString b = 
+          com.google.protobuf.ByteString.copyFromUtf8(
+              (java.lang.String) ref);
+      nativeCmakeVersion_ = b;
+      return b;
+    } else {
+      return (com.google.protobuf.ByteString) ref;
+    }
+  }
+
+  // repeated .android_studio.GradleBuildVariant.NativeBuildConfigInfo native_build_config = 21;
+  public static final int NATIVE_BUILD_CONFIG_FIELD_NUMBER = 21;
+  private java.util.List<com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeBuildConfigInfo> nativeBuildConfig_;
+  /**
+   * <code>repeated .android_studio.GradleBuildVariant.NativeBuildConfigInfo native_build_config = 21;</code>
+   *
+   * <pre>
+   * Per-ABI native build info.
+   * </pre>
+   */
+  public java.util.List<com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeBuildConfigInfo> getNativeBuildConfigList() {
+    return nativeBuildConfig_;
+  }
+  /**
+   * <code>repeated .android_studio.GradleBuildVariant.NativeBuildConfigInfo native_build_config = 21;</code>
+   *
+   * <pre>
+   * Per-ABI native build info.
+   * </pre>
+   */
+  public java.util.List<? extends com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeBuildConfigInfoOrBuilder> 
+      getNativeBuildConfigOrBuilderList() {
+    return nativeBuildConfig_;
+  }
+  /**
+   * <code>repeated .android_studio.GradleBuildVariant.NativeBuildConfigInfo native_build_config = 21;</code>
+   *
+   * <pre>
+   * Per-ABI native build info.
+   * </pre>
+   */
+  public int getNativeBuildConfigCount() {
+    return nativeBuildConfig_.size();
+  }
+  /**
+   * <code>repeated .android_studio.GradleBuildVariant.NativeBuildConfigInfo native_build_config = 21;</code>
+   *
+   * <pre>
+   * Per-ABI native build info.
+   * </pre>
+   */
+  public com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeBuildConfigInfo getNativeBuildConfig(int index) {
+    return nativeBuildConfig_.get(index);
+  }
+  /**
+   * <code>repeated .android_studio.GradleBuildVariant.NativeBuildConfigInfo native_build_config = 21;</code>
+   *
+   * <pre>
+   * Per-ABI native build info.
+   * </pre>
+   */
+  public com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeBuildConfigInfoOrBuilder getNativeBuildConfigOrBuilder(
+      int index) {
+    return nativeBuildConfig_.get(index);
+  }
+
   private void initFields() {
     id_ = 0L;
     isDebug_ = false;
@@ -1441,6 +3713,9 @@ public  final class GradleBuildVariant extends
     dexMerger_ = com.google.wireless.android.sdk.stats.GradleBuildVariant.DexMergerTool.UNKNOWN_DEX_MERGER_TOOL;
     codeShrinker_ = com.google.wireless.android.sdk.stats.GradleBuildVariant.CodeShrinkerTool.UNKNOWN_CODE_SHRINKER;
     testExecution_ = com.google.wireless.android.sdk.stats.TestRun.TestExecution.UNKNOWN_TEST_EXECUTION;
+    nativeBuildSystemType_ = com.google.wireless.android.sdk.stats.GradleNativeAndroidModule.NativeBuildSystemType.UNKNOWN_NATIVE_BUILD_SYSTEM_TYPE;
+    nativeCmakeVersion_ = "";
+    nativeBuildConfig_ = java.util.Collections.emptyList();
   }
   private byte memoizedIsInitialized = -1;
   public final boolean isInitialized() {
@@ -1507,6 +3782,15 @@ public  final class GradleBuildVariant extends
     }
     if (((bitField0_ & 0x00008000) == 0x00008000)) {
       output.writeEnum(18, testExecution_.getNumber());
+    }
+    if (((bitField0_ & 0x00010000) == 0x00010000)) {
+      output.writeEnum(19, nativeBuildSystemType_.getNumber());
+    }
+    if (((bitField0_ & 0x00020000) == 0x00020000)) {
+      output.writeBytes(20, getNativeCmakeVersionBytes());
+    }
+    for (int i = 0; i < nativeBuildConfig_.size(); i++) {
+      output.writeMessage(21, nativeBuildConfig_.get(i));
     }
     getUnknownFields().writeTo(output);
   }
@@ -1593,6 +3877,18 @@ public  final class GradleBuildVariant extends
     if (((bitField0_ & 0x00008000) == 0x00008000)) {
       size += com.google.protobuf.CodedOutputStream
         .computeEnumSize(18, testExecution_.getNumber());
+    }
+    if (((bitField0_ & 0x00010000) == 0x00010000)) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeEnumSize(19, nativeBuildSystemType_.getNumber());
+    }
+    if (((bitField0_ & 0x00020000) == 0x00020000)) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeBytesSize(20, getNativeCmakeVersionBytes());
+    }
+    for (int i = 0; i < nativeBuildConfig_.size(); i++) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeMessageSize(21, nativeBuildConfig_.get(i));
     }
     size += getUnknownFields().getSerializedSize();
     memoizedSerializedSize = size;
@@ -1706,6 +4002,7 @@ public  final class GradleBuildVariant extends
         getMinSdkVersionFieldBuilder();
         getTargetSdkVersionFieldBuilder();
         getMaxSdkVersionFieldBuilder();
+        getNativeBuildConfigFieldBuilder();
       }
     }
     private static Builder create() {
@@ -1766,6 +4063,16 @@ public  final class GradleBuildVariant extends
       bitField0_ = (bitField0_ & ~0x00010000);
       testExecution_ = com.google.wireless.android.sdk.stats.TestRun.TestExecution.UNKNOWN_TEST_EXECUTION;
       bitField0_ = (bitField0_ & ~0x00020000);
+      nativeBuildSystemType_ = com.google.wireless.android.sdk.stats.GradleNativeAndroidModule.NativeBuildSystemType.UNKNOWN_NATIVE_BUILD_SYSTEM_TYPE;
+      bitField0_ = (bitField0_ & ~0x00040000);
+      nativeCmakeVersion_ = "";
+      bitField0_ = (bitField0_ & ~0x00080000);
+      if (nativeBuildConfigBuilder_ == null) {
+        nativeBuildConfig_ = java.util.Collections.emptyList();
+        bitField0_ = (bitField0_ & ~0x00100000);
+      } else {
+        nativeBuildConfigBuilder_.clear();
+      }
       return this;
     }
 
@@ -1885,6 +4192,23 @@ public  final class GradleBuildVariant extends
         to_bitField0_ |= 0x00008000;
       }
       result.testExecution_ = testExecution_;
+      if (((from_bitField0_ & 0x00040000) == 0x00040000)) {
+        to_bitField0_ |= 0x00010000;
+      }
+      result.nativeBuildSystemType_ = nativeBuildSystemType_;
+      if (((from_bitField0_ & 0x00080000) == 0x00080000)) {
+        to_bitField0_ |= 0x00020000;
+      }
+      result.nativeCmakeVersion_ = nativeCmakeVersion_;
+      if (nativeBuildConfigBuilder_ == null) {
+        if (((bitField0_ & 0x00100000) == 0x00100000)) {
+          nativeBuildConfig_ = java.util.Collections.unmodifiableList(nativeBuildConfig_);
+          bitField0_ = (bitField0_ & ~0x00100000);
+        }
+        result.nativeBuildConfig_ = nativeBuildConfig_;
+      } else {
+        result.nativeBuildConfig_ = nativeBuildConfigBuilder_.build();
+      }
       result.bitField0_ = to_bitField0_;
       onBuilt();
       return result;
@@ -1984,6 +4308,40 @@ public  final class GradleBuildVariant extends
       }
       if (other.hasTestExecution()) {
         setTestExecution(other.getTestExecution());
+      }
+      if (other.hasNativeBuildSystemType()) {
+        setNativeBuildSystemType(other.getNativeBuildSystemType());
+      }
+      if (other.hasNativeCmakeVersion()) {
+        bitField0_ |= 0x00080000;
+        nativeCmakeVersion_ = other.nativeCmakeVersion_;
+        onChanged();
+      }
+      if (nativeBuildConfigBuilder_ == null) {
+        if (!other.nativeBuildConfig_.isEmpty()) {
+          if (nativeBuildConfig_.isEmpty()) {
+            nativeBuildConfig_ = other.nativeBuildConfig_;
+            bitField0_ = (bitField0_ & ~0x00100000);
+          } else {
+            ensureNativeBuildConfigIsMutable();
+            nativeBuildConfig_.addAll(other.nativeBuildConfig_);
+          }
+          onChanged();
+        }
+      } else {
+        if (!other.nativeBuildConfig_.isEmpty()) {
+          if (nativeBuildConfigBuilder_.isEmpty()) {
+            nativeBuildConfigBuilder_.dispose();
+            nativeBuildConfigBuilder_ = null;
+            nativeBuildConfig_ = other.nativeBuildConfig_;
+            bitField0_ = (bitField0_ & ~0x00100000);
+            nativeBuildConfigBuilder_ = 
+              com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                 getNativeBuildConfigFieldBuilder() : null;
+          } else {
+            nativeBuildConfigBuilder_.addAllMessages(other.nativeBuildConfig_);
+          }
+        }
       }
       this.mergeUnknownFields(other.getUnknownFields());
       return this;
@@ -3609,6 +5967,468 @@ public  final class GradleBuildVariant extends
       testExecution_ = com.google.wireless.android.sdk.stats.TestRun.TestExecution.UNKNOWN_TEST_EXECUTION;
       onChanged();
       return this;
+    }
+
+    // optional .android_studio.GradleNativeAndroidModule.NativeBuildSystemType native_build_system_type = 19;
+    private com.google.wireless.android.sdk.stats.GradleNativeAndroidModule.NativeBuildSystemType nativeBuildSystemType_ = com.google.wireless.android.sdk.stats.GradleNativeAndroidModule.NativeBuildSystemType.UNKNOWN_NATIVE_BUILD_SYSTEM_TYPE;
+    /**
+     * <code>optional .android_studio.GradleNativeAndroidModule.NativeBuildSystemType native_build_system_type = 19;</code>
+     *
+     * <pre>
+     * The underlying native project system.
+     * </pre>
+     */
+    public boolean hasNativeBuildSystemType() {
+      return ((bitField0_ & 0x00040000) == 0x00040000);
+    }
+    /**
+     * <code>optional .android_studio.GradleNativeAndroidModule.NativeBuildSystemType native_build_system_type = 19;</code>
+     *
+     * <pre>
+     * The underlying native project system.
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.GradleNativeAndroidModule.NativeBuildSystemType getNativeBuildSystemType() {
+      return nativeBuildSystemType_;
+    }
+    /**
+     * <code>optional .android_studio.GradleNativeAndroidModule.NativeBuildSystemType native_build_system_type = 19;</code>
+     *
+     * <pre>
+     * The underlying native project system.
+     * </pre>
+     */
+    public Builder setNativeBuildSystemType(com.google.wireless.android.sdk.stats.GradleNativeAndroidModule.NativeBuildSystemType value) {
+      if (value == null) {
+        throw new NullPointerException();
+      }
+      bitField0_ |= 0x00040000;
+      nativeBuildSystemType_ = value;
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.GradleNativeAndroidModule.NativeBuildSystemType native_build_system_type = 19;</code>
+     *
+     * <pre>
+     * The underlying native project system.
+     * </pre>
+     */
+    public Builder clearNativeBuildSystemType() {
+      bitField0_ = (bitField0_ & ~0x00040000);
+      nativeBuildSystemType_ = com.google.wireless.android.sdk.stats.GradleNativeAndroidModule.NativeBuildSystemType.UNKNOWN_NATIVE_BUILD_SYSTEM_TYPE;
+      onChanged();
+      return this;
+    }
+
+    // optional string native_cmake_version = 20;
+    private java.lang.Object nativeCmakeVersion_ = "";
+    /**
+     * <code>optional string native_cmake_version = 20;</code>
+     *
+     * <pre>
+     * The CMake version number if this is a CMake-based build.
+     * </pre>
+     */
+    public boolean hasNativeCmakeVersion() {
+      return ((bitField0_ & 0x00080000) == 0x00080000);
+    }
+    /**
+     * <code>optional string native_cmake_version = 20;</code>
+     *
+     * <pre>
+     * The CMake version number if this is a CMake-based build.
+     * </pre>
+     */
+    public java.lang.String getNativeCmakeVersion() {
+      java.lang.Object ref = nativeCmakeVersion_;
+      if (!(ref instanceof java.lang.String)) {
+        java.lang.String s = ((com.google.protobuf.ByteString) ref)
+            .toStringUtf8();
+        nativeCmakeVersion_ = s;
+        return s;
+      } else {
+        return (java.lang.String) ref;
+      }
+    }
+    /**
+     * <code>optional string native_cmake_version = 20;</code>
+     *
+     * <pre>
+     * The CMake version number if this is a CMake-based build.
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getNativeCmakeVersionBytes() {
+      java.lang.Object ref = nativeCmakeVersion_;
+      if (ref instanceof String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        nativeCmakeVersion_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+    /**
+     * <code>optional string native_cmake_version = 20;</code>
+     *
+     * <pre>
+     * The CMake version number if this is a CMake-based build.
+     * </pre>
+     */
+    public Builder setNativeCmakeVersion(
+        java.lang.String value) {
+      if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00080000;
+      nativeCmakeVersion_ = value;
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>optional string native_cmake_version = 20;</code>
+     *
+     * <pre>
+     * The CMake version number if this is a CMake-based build.
+     * </pre>
+     */
+    public Builder clearNativeCmakeVersion() {
+      bitField0_ = (bitField0_ & ~0x00080000);
+      nativeCmakeVersion_ = getDefaultInstance().getNativeCmakeVersion();
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>optional string native_cmake_version = 20;</code>
+     *
+     * <pre>
+     * The CMake version number if this is a CMake-based build.
+     * </pre>
+     */
+    public Builder setNativeCmakeVersionBytes(
+        com.google.protobuf.ByteString value) {
+      if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00080000;
+      nativeCmakeVersion_ = value;
+      onChanged();
+      return this;
+    }
+
+    // repeated .android_studio.GradleBuildVariant.NativeBuildConfigInfo native_build_config = 21;
+    private java.util.List<com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeBuildConfigInfo> nativeBuildConfig_ =
+      java.util.Collections.emptyList();
+    private void ensureNativeBuildConfigIsMutable() {
+      if (!((bitField0_ & 0x00100000) == 0x00100000)) {
+        nativeBuildConfig_ = new java.util.ArrayList<com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeBuildConfigInfo>(nativeBuildConfig_);
+        bitField0_ |= 0x00100000;
+       }
+    }
+
+    private com.google.protobuf.RepeatedFieldBuilder<
+        com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeBuildConfigInfo, com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeBuildConfigInfo.Builder, com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeBuildConfigInfoOrBuilder> nativeBuildConfigBuilder_;
+
+    /**
+     * <code>repeated .android_studio.GradleBuildVariant.NativeBuildConfigInfo native_build_config = 21;</code>
+     *
+     * <pre>
+     * Per-ABI native build info.
+     * </pre>
+     */
+    public java.util.List<com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeBuildConfigInfo> getNativeBuildConfigList() {
+      if (nativeBuildConfigBuilder_ == null) {
+        return java.util.Collections.unmodifiableList(nativeBuildConfig_);
+      } else {
+        return nativeBuildConfigBuilder_.getMessageList();
+      }
+    }
+    /**
+     * <code>repeated .android_studio.GradleBuildVariant.NativeBuildConfigInfo native_build_config = 21;</code>
+     *
+     * <pre>
+     * Per-ABI native build info.
+     * </pre>
+     */
+    public int getNativeBuildConfigCount() {
+      if (nativeBuildConfigBuilder_ == null) {
+        return nativeBuildConfig_.size();
+      } else {
+        return nativeBuildConfigBuilder_.getCount();
+      }
+    }
+    /**
+     * <code>repeated .android_studio.GradleBuildVariant.NativeBuildConfigInfo native_build_config = 21;</code>
+     *
+     * <pre>
+     * Per-ABI native build info.
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeBuildConfigInfo getNativeBuildConfig(int index) {
+      if (nativeBuildConfigBuilder_ == null) {
+        return nativeBuildConfig_.get(index);
+      } else {
+        return nativeBuildConfigBuilder_.getMessage(index);
+      }
+    }
+    /**
+     * <code>repeated .android_studio.GradleBuildVariant.NativeBuildConfigInfo native_build_config = 21;</code>
+     *
+     * <pre>
+     * Per-ABI native build info.
+     * </pre>
+     */
+    public Builder setNativeBuildConfig(
+        int index, com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeBuildConfigInfo value) {
+      if (nativeBuildConfigBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        ensureNativeBuildConfigIsMutable();
+        nativeBuildConfig_.set(index, value);
+        onChanged();
+      } else {
+        nativeBuildConfigBuilder_.setMessage(index, value);
+      }
+      return this;
+    }
+    /**
+     * <code>repeated .android_studio.GradleBuildVariant.NativeBuildConfigInfo native_build_config = 21;</code>
+     *
+     * <pre>
+     * Per-ABI native build info.
+     * </pre>
+     */
+    public Builder setNativeBuildConfig(
+        int index, com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeBuildConfigInfo.Builder builderForValue) {
+      if (nativeBuildConfigBuilder_ == null) {
+        ensureNativeBuildConfigIsMutable();
+        nativeBuildConfig_.set(index, builderForValue.build());
+        onChanged();
+      } else {
+        nativeBuildConfigBuilder_.setMessage(index, builderForValue.build());
+      }
+      return this;
+    }
+    /**
+     * <code>repeated .android_studio.GradleBuildVariant.NativeBuildConfigInfo native_build_config = 21;</code>
+     *
+     * <pre>
+     * Per-ABI native build info.
+     * </pre>
+     */
+    public Builder addNativeBuildConfig(com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeBuildConfigInfo value) {
+      if (nativeBuildConfigBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        ensureNativeBuildConfigIsMutable();
+        nativeBuildConfig_.add(value);
+        onChanged();
+      } else {
+        nativeBuildConfigBuilder_.addMessage(value);
+      }
+      return this;
+    }
+    /**
+     * <code>repeated .android_studio.GradleBuildVariant.NativeBuildConfigInfo native_build_config = 21;</code>
+     *
+     * <pre>
+     * Per-ABI native build info.
+     * </pre>
+     */
+    public Builder addNativeBuildConfig(
+        int index, com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeBuildConfigInfo value) {
+      if (nativeBuildConfigBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        ensureNativeBuildConfigIsMutable();
+        nativeBuildConfig_.add(index, value);
+        onChanged();
+      } else {
+        nativeBuildConfigBuilder_.addMessage(index, value);
+      }
+      return this;
+    }
+    /**
+     * <code>repeated .android_studio.GradleBuildVariant.NativeBuildConfigInfo native_build_config = 21;</code>
+     *
+     * <pre>
+     * Per-ABI native build info.
+     * </pre>
+     */
+    public Builder addNativeBuildConfig(
+        com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeBuildConfigInfo.Builder builderForValue) {
+      if (nativeBuildConfigBuilder_ == null) {
+        ensureNativeBuildConfigIsMutable();
+        nativeBuildConfig_.add(builderForValue.build());
+        onChanged();
+      } else {
+        nativeBuildConfigBuilder_.addMessage(builderForValue.build());
+      }
+      return this;
+    }
+    /**
+     * <code>repeated .android_studio.GradleBuildVariant.NativeBuildConfigInfo native_build_config = 21;</code>
+     *
+     * <pre>
+     * Per-ABI native build info.
+     * </pre>
+     */
+    public Builder addNativeBuildConfig(
+        int index, com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeBuildConfigInfo.Builder builderForValue) {
+      if (nativeBuildConfigBuilder_ == null) {
+        ensureNativeBuildConfigIsMutable();
+        nativeBuildConfig_.add(index, builderForValue.build());
+        onChanged();
+      } else {
+        nativeBuildConfigBuilder_.addMessage(index, builderForValue.build());
+      }
+      return this;
+    }
+    /**
+     * <code>repeated .android_studio.GradleBuildVariant.NativeBuildConfigInfo native_build_config = 21;</code>
+     *
+     * <pre>
+     * Per-ABI native build info.
+     * </pre>
+     */
+    public Builder addAllNativeBuildConfig(
+        java.lang.Iterable<? extends com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeBuildConfigInfo> values) {
+      if (nativeBuildConfigBuilder_ == null) {
+        ensureNativeBuildConfigIsMutable();
+        super.addAll(values, nativeBuildConfig_);
+        onChanged();
+      } else {
+        nativeBuildConfigBuilder_.addAllMessages(values);
+      }
+      return this;
+    }
+    /**
+     * <code>repeated .android_studio.GradleBuildVariant.NativeBuildConfigInfo native_build_config = 21;</code>
+     *
+     * <pre>
+     * Per-ABI native build info.
+     * </pre>
+     */
+    public Builder clearNativeBuildConfig() {
+      if (nativeBuildConfigBuilder_ == null) {
+        nativeBuildConfig_ = java.util.Collections.emptyList();
+        bitField0_ = (bitField0_ & ~0x00100000);
+        onChanged();
+      } else {
+        nativeBuildConfigBuilder_.clear();
+      }
+      return this;
+    }
+    /**
+     * <code>repeated .android_studio.GradleBuildVariant.NativeBuildConfigInfo native_build_config = 21;</code>
+     *
+     * <pre>
+     * Per-ABI native build info.
+     * </pre>
+     */
+    public Builder removeNativeBuildConfig(int index) {
+      if (nativeBuildConfigBuilder_ == null) {
+        ensureNativeBuildConfigIsMutable();
+        nativeBuildConfig_.remove(index);
+        onChanged();
+      } else {
+        nativeBuildConfigBuilder_.remove(index);
+      }
+      return this;
+    }
+    /**
+     * <code>repeated .android_studio.GradleBuildVariant.NativeBuildConfigInfo native_build_config = 21;</code>
+     *
+     * <pre>
+     * Per-ABI native build info.
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeBuildConfigInfo.Builder getNativeBuildConfigBuilder(
+        int index) {
+      return getNativeBuildConfigFieldBuilder().getBuilder(index);
+    }
+    /**
+     * <code>repeated .android_studio.GradleBuildVariant.NativeBuildConfigInfo native_build_config = 21;</code>
+     *
+     * <pre>
+     * Per-ABI native build info.
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeBuildConfigInfoOrBuilder getNativeBuildConfigOrBuilder(
+        int index) {
+      if (nativeBuildConfigBuilder_ == null) {
+        return nativeBuildConfig_.get(index);  } else {
+        return nativeBuildConfigBuilder_.getMessageOrBuilder(index);
+      }
+    }
+    /**
+     * <code>repeated .android_studio.GradleBuildVariant.NativeBuildConfigInfo native_build_config = 21;</code>
+     *
+     * <pre>
+     * Per-ABI native build info.
+     * </pre>
+     */
+    public java.util.List<? extends com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeBuildConfigInfoOrBuilder> 
+         getNativeBuildConfigOrBuilderList() {
+      if (nativeBuildConfigBuilder_ != null) {
+        return nativeBuildConfigBuilder_.getMessageOrBuilderList();
+      } else {
+        return java.util.Collections.unmodifiableList(nativeBuildConfig_);
+      }
+    }
+    /**
+     * <code>repeated .android_studio.GradleBuildVariant.NativeBuildConfigInfo native_build_config = 21;</code>
+     *
+     * <pre>
+     * Per-ABI native build info.
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeBuildConfigInfo.Builder addNativeBuildConfigBuilder() {
+      return getNativeBuildConfigFieldBuilder().addBuilder(
+          com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeBuildConfigInfo.getDefaultInstance());
+    }
+    /**
+     * <code>repeated .android_studio.GradleBuildVariant.NativeBuildConfigInfo native_build_config = 21;</code>
+     *
+     * <pre>
+     * Per-ABI native build info.
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeBuildConfigInfo.Builder addNativeBuildConfigBuilder(
+        int index) {
+      return getNativeBuildConfigFieldBuilder().addBuilder(
+          index, com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeBuildConfigInfo.getDefaultInstance());
+    }
+    /**
+     * <code>repeated .android_studio.GradleBuildVariant.NativeBuildConfigInfo native_build_config = 21;</code>
+     *
+     * <pre>
+     * Per-ABI native build info.
+     * </pre>
+     */
+    public java.util.List<com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeBuildConfigInfo.Builder> 
+         getNativeBuildConfigBuilderList() {
+      return getNativeBuildConfigFieldBuilder().getBuilderList();
+    }
+    private com.google.protobuf.RepeatedFieldBuilder<
+        com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeBuildConfigInfo, com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeBuildConfigInfo.Builder, com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeBuildConfigInfoOrBuilder> 
+        getNativeBuildConfigFieldBuilder() {
+      if (nativeBuildConfigBuilder_ == null) {
+        nativeBuildConfigBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+            com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeBuildConfigInfo, com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeBuildConfigInfo.Builder, com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeBuildConfigInfoOrBuilder>(
+                nativeBuildConfig_,
+                ((bitField0_ & 0x00100000) == 0x00100000),
+                getParentForChildren(),
+                isClean());
+        nativeBuildConfig_ = null;
+      }
+      return nativeBuildConfigBuilder_;
     }
 
     // @@protoc_insertion_point(builder_scope:android_studio.GradleBuildVariant)

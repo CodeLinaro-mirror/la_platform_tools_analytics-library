@@ -326,12 +326,20 @@ public  final class EmulatorFeatureFlagState extends
     FAST_SNAPSHOT_V1(17, 17),
     /**
      * <code>SCREEN_RECORDING = 18;</code>
-     *
-     * <pre>
-     * Next tag: 19
-     * </pre>
      */
     SCREEN_RECORDING(18, 18),
+    /**
+     * <code>VIRTUAL_SCENE = 19;</code>
+     */
+    VIRTUAL_SCENE(19, 19),
+    /**
+     * <code>SYSTEM_AS_ROOT = 20;</code>
+     *
+     * <pre>
+     * Next tag: 21
+     * </pre>
+     */
+    SYSTEM_AS_ROOT(20, 20),
     ;
 
     /**
@@ -412,12 +420,20 @@ public  final class EmulatorFeatureFlagState extends
     public static final int FAST_SNAPSHOT_V1_VALUE = 17;
     /**
      * <code>SCREEN_RECORDING = 18;</code>
-     *
-     * <pre>
-     * Next tag: 19
-     * </pre>
      */
     public static final int SCREEN_RECORDING_VALUE = 18;
+    /**
+     * <code>VIRTUAL_SCENE = 19;</code>
+     */
+    public static final int VIRTUAL_SCENE_VALUE = 19;
+    /**
+     * <code>SYSTEM_AS_ROOT = 20;</code>
+     *
+     * <pre>
+     * Next tag: 21
+     * </pre>
+     */
+    public static final int SYSTEM_AS_ROOT_VALUE = 20;
 
 
     public final int getNumber() { return value; }
@@ -443,6 +459,8 @@ public  final class EmulatorFeatureFlagState extends
         case 16: return HAXM;
         case 17: return FAST_SNAPSHOT_V1;
         case 18: return SCREEN_RECORDING;
+        case 19: return VIRTUAL_SCENE;
+        case 20: return SYSTEM_AS_ROOT;
         default: return null;
       }
     }

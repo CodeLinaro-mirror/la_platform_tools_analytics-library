@@ -412,4 +412,94 @@ public interface GradleBuildVariantOrBuilder
    * </pre>
    */
   com.google.wireless.android.sdk.stats.TestRun.TestExecution getTestExecution();
+
+  // optional .android_studio.GradleNativeAndroidModule.NativeBuildSystemType native_build_system_type = 19;
+  /**
+   * <code>optional .android_studio.GradleNativeAndroidModule.NativeBuildSystemType native_build_system_type = 19;</code>
+   *
+   * <pre>
+   * The underlying native project system.
+   * </pre>
+   */
+  boolean hasNativeBuildSystemType();
+  /**
+   * <code>optional .android_studio.GradleNativeAndroidModule.NativeBuildSystemType native_build_system_type = 19;</code>
+   *
+   * <pre>
+   * The underlying native project system.
+   * </pre>
+   */
+  com.google.wireless.android.sdk.stats.GradleNativeAndroidModule.NativeBuildSystemType getNativeBuildSystemType();
+
+  // optional string native_cmake_version = 20;
+  /**
+   * <code>optional string native_cmake_version = 20;</code>
+   *
+   * <pre>
+   * The CMake version number if this is a CMake-based build.
+   * </pre>
+   */
+  boolean hasNativeCmakeVersion();
+  /**
+   * <code>optional string native_cmake_version = 20;</code>
+   *
+   * <pre>
+   * The CMake version number if this is a CMake-based build.
+   * </pre>
+   */
+  java.lang.String getNativeCmakeVersion();
+  /**
+   * <code>optional string native_cmake_version = 20;</code>
+   *
+   * <pre>
+   * The CMake version number if this is a CMake-based build.
+   * </pre>
+   */
+  com.google.protobuf.ByteString
+      getNativeCmakeVersionBytes();
+
+  // repeated .android_studio.GradleBuildVariant.NativeBuildConfigInfo native_build_config = 21;
+  /**
+   * <code>repeated .android_studio.GradleBuildVariant.NativeBuildConfigInfo native_build_config = 21;</code>
+   *
+   * <pre>
+   * Per-ABI native build info.
+   * </pre>
+   */
+  java.util.List<com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeBuildConfigInfo> 
+      getNativeBuildConfigList();
+  /**
+   * <code>repeated .android_studio.GradleBuildVariant.NativeBuildConfigInfo native_build_config = 21;</code>
+   *
+   * <pre>
+   * Per-ABI native build info.
+   * </pre>
+   */
+  com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeBuildConfigInfo getNativeBuildConfig(int index);
+  /**
+   * <code>repeated .android_studio.GradleBuildVariant.NativeBuildConfigInfo native_build_config = 21;</code>
+   *
+   * <pre>
+   * Per-ABI native build info.
+   * </pre>
+   */
+  int getNativeBuildConfigCount();
+  /**
+   * <code>repeated .android_studio.GradleBuildVariant.NativeBuildConfigInfo native_build_config = 21;</code>
+   *
+   * <pre>
+   * Per-ABI native build info.
+   * </pre>
+   */
+  java.util.List<? extends com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeBuildConfigInfoOrBuilder> 
+      getNativeBuildConfigOrBuilderList();
+  /**
+   * <code>repeated .android_studio.GradleBuildVariant.NativeBuildConfigInfo native_build_config = 21;</code>
+   *
+   * <pre>
+   * Per-ABI native build info.
+   * </pre>
+   */
+  com.google.wireless.android.sdk.stats.GradleBuildVariant.NativeBuildConfigInfoOrBuilder getNativeBuildConfigOrBuilder(
+      int index);
 }
