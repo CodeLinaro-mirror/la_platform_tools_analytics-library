@@ -217,6 +217,7 @@ enum BooleanOption {
     ENABLE_SEPARATE_R_CLASS_COMPILATION = 38;
     ENABLE_D8_MAIN_DEX_LIST = 39;
     ENABLE_DATA_BINDING_V2 = 40;
+    ENABLE_AAPT2_WORKER_ACTIONS = 41;
 }
 
 enum OptionalBooleanOption {
