@@ -78,6 +78,41 @@ public  final class TestLibraries extends
             mockitoVersion_ = input.readBytes();
             break;
           }
+          case 42: {
+            bitField0_ |= 0x00000010;
+            espressoContribVersion_ = input.readBytes();
+            break;
+          }
+          case 50: {
+            bitField0_ |= 0x00000020;
+            espressoWebVersion_ = input.readBytes();
+            break;
+          }
+          case 58: {
+            bitField0_ |= 0x00000040;
+            espressoIntentsVersion_ = input.readBytes();
+            break;
+          }
+          case 66: {
+            bitField0_ |= 0x00000080;
+            espressoIdlingResourceVersion_ = input.readBytes();
+            break;
+          }
+          case 74: {
+            bitField0_ |= 0x00000100;
+            espressoAccessibilityVersion_ = input.readBytes();
+            break;
+          }
+          case 82: {
+            bitField0_ |= 0x00000200;
+            testOrchestratorVersion_ = input.readBytes();
+            break;
+          }
+          case 90: {
+            bitField0_ |= 0x00000400;
+            testRulesVersion_ = input.readBytes();
+            break;
+          }
         }
       }
     } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -341,11 +376,403 @@ public  final class TestLibraries extends
     }
   }
 
+  // optional string espresso_contrib_version = 5;
+  public static final int ESPRESSO_CONTRIB_VERSION_FIELD_NUMBER = 5;
+  private java.lang.Object espressoContribVersion_;
+  /**
+   * <code>optional string espresso_contrib_version = 5;</code>
+   *
+   * <pre>
+   * e.g. '2.2.2'
+   * </pre>
+   */
+  public boolean hasEspressoContribVersion() {
+    return ((bitField0_ & 0x00000010) == 0x00000010);
+  }
+  /**
+   * <code>optional string espresso_contrib_version = 5;</code>
+   *
+   * <pre>
+   * e.g. '2.2.2'
+   * </pre>
+   */
+  public java.lang.String getEspressoContribVersion() {
+    java.lang.Object ref = espressoContribVersion_;
+    if (ref instanceof java.lang.String) {
+      return (java.lang.String) ref;
+    } else {
+      com.google.protobuf.ByteString bs = 
+          (com.google.protobuf.ByteString) ref;
+      java.lang.String s = bs.toStringUtf8();
+      if (bs.isValidUtf8()) {
+        espressoContribVersion_ = s;
+      }
+      return s;
+    }
+  }
+  /**
+   * <code>optional string espresso_contrib_version = 5;</code>
+   *
+   * <pre>
+   * e.g. '2.2.2'
+   * </pre>
+   */
+  public com.google.protobuf.ByteString
+      getEspressoContribVersionBytes() {
+    java.lang.Object ref = espressoContribVersion_;
+    if (ref instanceof java.lang.String) {
+      com.google.protobuf.ByteString b = 
+          com.google.protobuf.ByteString.copyFromUtf8(
+              (java.lang.String) ref);
+      espressoContribVersion_ = b;
+      return b;
+    } else {
+      return (com.google.protobuf.ByteString) ref;
+    }
+  }
+
+  // optional string espresso_web_version = 6;
+  public static final int ESPRESSO_WEB_VERSION_FIELD_NUMBER = 6;
+  private java.lang.Object espressoWebVersion_;
+  /**
+   * <code>optional string espresso_web_version = 6;</code>
+   *
+   * <pre>
+   * e.g. '2.2.2'
+   * </pre>
+   */
+  public boolean hasEspressoWebVersion() {
+    return ((bitField0_ & 0x00000020) == 0x00000020);
+  }
+  /**
+   * <code>optional string espresso_web_version = 6;</code>
+   *
+   * <pre>
+   * e.g. '2.2.2'
+   * </pre>
+   */
+  public java.lang.String getEspressoWebVersion() {
+    java.lang.Object ref = espressoWebVersion_;
+    if (ref instanceof java.lang.String) {
+      return (java.lang.String) ref;
+    } else {
+      com.google.protobuf.ByteString bs = 
+          (com.google.protobuf.ByteString) ref;
+      java.lang.String s = bs.toStringUtf8();
+      if (bs.isValidUtf8()) {
+        espressoWebVersion_ = s;
+      }
+      return s;
+    }
+  }
+  /**
+   * <code>optional string espresso_web_version = 6;</code>
+   *
+   * <pre>
+   * e.g. '2.2.2'
+   * </pre>
+   */
+  public com.google.protobuf.ByteString
+      getEspressoWebVersionBytes() {
+    java.lang.Object ref = espressoWebVersion_;
+    if (ref instanceof java.lang.String) {
+      com.google.protobuf.ByteString b = 
+          com.google.protobuf.ByteString.copyFromUtf8(
+              (java.lang.String) ref);
+      espressoWebVersion_ = b;
+      return b;
+    } else {
+      return (com.google.protobuf.ByteString) ref;
+    }
+  }
+
+  // optional string espresso_intents_version = 7;
+  public static final int ESPRESSO_INTENTS_VERSION_FIELD_NUMBER = 7;
+  private java.lang.Object espressoIntentsVersion_;
+  /**
+   * <code>optional string espresso_intents_version = 7;</code>
+   *
+   * <pre>
+   * e.g. '2.2.2'
+   * </pre>
+   */
+  public boolean hasEspressoIntentsVersion() {
+    return ((bitField0_ & 0x00000040) == 0x00000040);
+  }
+  /**
+   * <code>optional string espresso_intents_version = 7;</code>
+   *
+   * <pre>
+   * e.g. '2.2.2'
+   * </pre>
+   */
+  public java.lang.String getEspressoIntentsVersion() {
+    java.lang.Object ref = espressoIntentsVersion_;
+    if (ref instanceof java.lang.String) {
+      return (java.lang.String) ref;
+    } else {
+      com.google.protobuf.ByteString bs = 
+          (com.google.protobuf.ByteString) ref;
+      java.lang.String s = bs.toStringUtf8();
+      if (bs.isValidUtf8()) {
+        espressoIntentsVersion_ = s;
+      }
+      return s;
+    }
+  }
+  /**
+   * <code>optional string espresso_intents_version = 7;</code>
+   *
+   * <pre>
+   * e.g. '2.2.2'
+   * </pre>
+   */
+  public com.google.protobuf.ByteString
+      getEspressoIntentsVersionBytes() {
+    java.lang.Object ref = espressoIntentsVersion_;
+    if (ref instanceof java.lang.String) {
+      com.google.protobuf.ByteString b = 
+          com.google.protobuf.ByteString.copyFromUtf8(
+              (java.lang.String) ref);
+      espressoIntentsVersion_ = b;
+      return b;
+    } else {
+      return (com.google.protobuf.ByteString) ref;
+    }
+  }
+
+  // optional string espresso_idling_resource_version = 8;
+  public static final int ESPRESSO_IDLING_RESOURCE_VERSION_FIELD_NUMBER = 8;
+  private java.lang.Object espressoIdlingResourceVersion_;
+  /**
+   * <code>optional string espresso_idling_resource_version = 8;</code>
+   *
+   * <pre>
+   * e.g. '2.2.2'
+   * </pre>
+   */
+  public boolean hasEspressoIdlingResourceVersion() {
+    return ((bitField0_ & 0x00000080) == 0x00000080);
+  }
+  /**
+   * <code>optional string espresso_idling_resource_version = 8;</code>
+   *
+   * <pre>
+   * e.g. '2.2.2'
+   * </pre>
+   */
+  public java.lang.String getEspressoIdlingResourceVersion() {
+    java.lang.Object ref = espressoIdlingResourceVersion_;
+    if (ref instanceof java.lang.String) {
+      return (java.lang.String) ref;
+    } else {
+      com.google.protobuf.ByteString bs = 
+          (com.google.protobuf.ByteString) ref;
+      java.lang.String s = bs.toStringUtf8();
+      if (bs.isValidUtf8()) {
+        espressoIdlingResourceVersion_ = s;
+      }
+      return s;
+    }
+  }
+  /**
+   * <code>optional string espresso_idling_resource_version = 8;</code>
+   *
+   * <pre>
+   * e.g. '2.2.2'
+   * </pre>
+   */
+  public com.google.protobuf.ByteString
+      getEspressoIdlingResourceVersionBytes() {
+    java.lang.Object ref = espressoIdlingResourceVersion_;
+    if (ref instanceof java.lang.String) {
+      com.google.protobuf.ByteString b = 
+          com.google.protobuf.ByteString.copyFromUtf8(
+              (java.lang.String) ref);
+      espressoIdlingResourceVersion_ = b;
+      return b;
+    } else {
+      return (com.google.protobuf.ByteString) ref;
+    }
+  }
+
+  // optional string espresso_accessibility_version = 9;
+  public static final int ESPRESSO_ACCESSIBILITY_VERSION_FIELD_NUMBER = 9;
+  private java.lang.Object espressoAccessibilityVersion_;
+  /**
+   * <code>optional string espresso_accessibility_version = 9;</code>
+   *
+   * <pre>
+   * e.g. '2.2.2'
+   * </pre>
+   */
+  public boolean hasEspressoAccessibilityVersion() {
+    return ((bitField0_ & 0x00000100) == 0x00000100);
+  }
+  /**
+   * <code>optional string espresso_accessibility_version = 9;</code>
+   *
+   * <pre>
+   * e.g. '2.2.2'
+   * </pre>
+   */
+  public java.lang.String getEspressoAccessibilityVersion() {
+    java.lang.Object ref = espressoAccessibilityVersion_;
+    if (ref instanceof java.lang.String) {
+      return (java.lang.String) ref;
+    } else {
+      com.google.protobuf.ByteString bs = 
+          (com.google.protobuf.ByteString) ref;
+      java.lang.String s = bs.toStringUtf8();
+      if (bs.isValidUtf8()) {
+        espressoAccessibilityVersion_ = s;
+      }
+      return s;
+    }
+  }
+  /**
+   * <code>optional string espresso_accessibility_version = 9;</code>
+   *
+   * <pre>
+   * e.g. '2.2.2'
+   * </pre>
+   */
+  public com.google.protobuf.ByteString
+      getEspressoAccessibilityVersionBytes() {
+    java.lang.Object ref = espressoAccessibilityVersion_;
+    if (ref instanceof java.lang.String) {
+      com.google.protobuf.ByteString b = 
+          com.google.protobuf.ByteString.copyFromUtf8(
+              (java.lang.String) ref);
+      espressoAccessibilityVersion_ = b;
+      return b;
+    } else {
+      return (com.google.protobuf.ByteString) ref;
+    }
+  }
+
+  // optional string test_orchestrator_version = 10;
+  public static final int TEST_ORCHESTRATOR_VERSION_FIELD_NUMBER = 10;
+  private java.lang.Object testOrchestratorVersion_;
+  /**
+   * <code>optional string test_orchestrator_version = 10;</code>
+   *
+   * <pre>
+   * e.g. '1.0.0'
+   * </pre>
+   */
+  public boolean hasTestOrchestratorVersion() {
+    return ((bitField0_ & 0x00000200) == 0x00000200);
+  }
+  /**
+   * <code>optional string test_orchestrator_version = 10;</code>
+   *
+   * <pre>
+   * e.g. '1.0.0'
+   * </pre>
+   */
+  public java.lang.String getTestOrchestratorVersion() {
+    java.lang.Object ref = testOrchestratorVersion_;
+    if (ref instanceof java.lang.String) {
+      return (java.lang.String) ref;
+    } else {
+      com.google.protobuf.ByteString bs = 
+          (com.google.protobuf.ByteString) ref;
+      java.lang.String s = bs.toStringUtf8();
+      if (bs.isValidUtf8()) {
+        testOrchestratorVersion_ = s;
+      }
+      return s;
+    }
+  }
+  /**
+   * <code>optional string test_orchestrator_version = 10;</code>
+   *
+   * <pre>
+   * e.g. '1.0.0'
+   * </pre>
+   */
+  public com.google.protobuf.ByteString
+      getTestOrchestratorVersionBytes() {
+    java.lang.Object ref = testOrchestratorVersion_;
+    if (ref instanceof java.lang.String) {
+      com.google.protobuf.ByteString b = 
+          com.google.protobuf.ByteString.copyFromUtf8(
+              (java.lang.String) ref);
+      testOrchestratorVersion_ = b;
+      return b;
+    } else {
+      return (com.google.protobuf.ByteString) ref;
+    }
+  }
+
+  // optional string test_rules_version = 11;
+  public static final int TEST_RULES_VERSION_FIELD_NUMBER = 11;
+  private java.lang.Object testRulesVersion_;
+  /**
+   * <code>optional string test_rules_version = 11;</code>
+   *
+   * <pre>
+   * e.g. '1.0.0'
+   * </pre>
+   */
+  public boolean hasTestRulesVersion() {
+    return ((bitField0_ & 0x00000400) == 0x00000400);
+  }
+  /**
+   * <code>optional string test_rules_version = 11;</code>
+   *
+   * <pre>
+   * e.g. '1.0.0'
+   * </pre>
+   */
+  public java.lang.String getTestRulesVersion() {
+    java.lang.Object ref = testRulesVersion_;
+    if (ref instanceof java.lang.String) {
+      return (java.lang.String) ref;
+    } else {
+      com.google.protobuf.ByteString bs = 
+          (com.google.protobuf.ByteString) ref;
+      java.lang.String s = bs.toStringUtf8();
+      if (bs.isValidUtf8()) {
+        testRulesVersion_ = s;
+      }
+      return s;
+    }
+  }
+  /**
+   * <code>optional string test_rules_version = 11;</code>
+   *
+   * <pre>
+   * e.g. '1.0.0'
+   * </pre>
+   */
+  public com.google.protobuf.ByteString
+      getTestRulesVersionBytes() {
+    java.lang.Object ref = testRulesVersion_;
+    if (ref instanceof java.lang.String) {
+      com.google.protobuf.ByteString b = 
+          com.google.protobuf.ByteString.copyFromUtf8(
+              (java.lang.String) ref);
+      testRulesVersion_ = b;
+      return b;
+    } else {
+      return (com.google.protobuf.ByteString) ref;
+    }
+  }
+
   private void initFields() {
     testSupportLibraryVersion_ = "";
     espressoVersion_ = "";
     robolectricVersion_ = "";
     mockitoVersion_ = "";
+    espressoContribVersion_ = "";
+    espressoWebVersion_ = "";
+    espressoIntentsVersion_ = "";
+    espressoIdlingResourceVersion_ = "";
+    espressoAccessibilityVersion_ = "";
+    testOrchestratorVersion_ = "";
+    testRulesVersion_ = "";
   }
   private byte memoizedIsInitialized = -1;
   public final boolean isInitialized() {
@@ -371,6 +798,27 @@ public  final class TestLibraries extends
     if (((bitField0_ & 0x00000008) == 0x00000008)) {
       output.writeBytes(4, getMockitoVersionBytes());
     }
+    if (((bitField0_ & 0x00000010) == 0x00000010)) {
+      output.writeBytes(5, getEspressoContribVersionBytes());
+    }
+    if (((bitField0_ & 0x00000020) == 0x00000020)) {
+      output.writeBytes(6, getEspressoWebVersionBytes());
+    }
+    if (((bitField0_ & 0x00000040) == 0x00000040)) {
+      output.writeBytes(7, getEspressoIntentsVersionBytes());
+    }
+    if (((bitField0_ & 0x00000080) == 0x00000080)) {
+      output.writeBytes(8, getEspressoIdlingResourceVersionBytes());
+    }
+    if (((bitField0_ & 0x00000100) == 0x00000100)) {
+      output.writeBytes(9, getEspressoAccessibilityVersionBytes());
+    }
+    if (((bitField0_ & 0x00000200) == 0x00000200)) {
+      output.writeBytes(10, getTestOrchestratorVersionBytes());
+    }
+    if (((bitField0_ & 0x00000400) == 0x00000400)) {
+      output.writeBytes(11, getTestRulesVersionBytes());
+    }
     getUnknownFields().writeTo(output);
   }
 
@@ -395,6 +843,34 @@ public  final class TestLibraries extends
     if (((bitField0_ & 0x00000008) == 0x00000008)) {
       size += com.google.protobuf.CodedOutputStream
         .computeBytesSize(4, getMockitoVersionBytes());
+    }
+    if (((bitField0_ & 0x00000010) == 0x00000010)) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeBytesSize(5, getEspressoContribVersionBytes());
+    }
+    if (((bitField0_ & 0x00000020) == 0x00000020)) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeBytesSize(6, getEspressoWebVersionBytes());
+    }
+    if (((bitField0_ & 0x00000040) == 0x00000040)) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeBytesSize(7, getEspressoIntentsVersionBytes());
+    }
+    if (((bitField0_ & 0x00000080) == 0x00000080)) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeBytesSize(8, getEspressoIdlingResourceVersionBytes());
+    }
+    if (((bitField0_ & 0x00000100) == 0x00000100)) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeBytesSize(9, getEspressoAccessibilityVersionBytes());
+    }
+    if (((bitField0_ & 0x00000200) == 0x00000200)) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeBytesSize(10, getTestOrchestratorVersionBytes());
+    }
+    if (((bitField0_ & 0x00000400) == 0x00000400)) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeBytesSize(11, getTestRulesVersionBytes());
     }
     size += getUnknownFields().getSerializedSize();
     memoizedSerializedSize = size;
@@ -524,6 +1000,20 @@ public  final class TestLibraries extends
       bitField0_ = (bitField0_ & ~0x00000004);
       mockitoVersion_ = "";
       bitField0_ = (bitField0_ & ~0x00000008);
+      espressoContribVersion_ = "";
+      bitField0_ = (bitField0_ & ~0x00000010);
+      espressoWebVersion_ = "";
+      bitField0_ = (bitField0_ & ~0x00000020);
+      espressoIntentsVersion_ = "";
+      bitField0_ = (bitField0_ & ~0x00000040);
+      espressoIdlingResourceVersion_ = "";
+      bitField0_ = (bitField0_ & ~0x00000080);
+      espressoAccessibilityVersion_ = "";
+      bitField0_ = (bitField0_ & ~0x00000100);
+      testOrchestratorVersion_ = "";
+      bitField0_ = (bitField0_ & ~0x00000200);
+      testRulesVersion_ = "";
+      bitField0_ = (bitField0_ & ~0x00000400);
       return this;
     }
 
@@ -568,6 +1058,34 @@ public  final class TestLibraries extends
         to_bitField0_ |= 0x00000008;
       }
       result.mockitoVersion_ = mockitoVersion_;
+      if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
+        to_bitField0_ |= 0x00000010;
+      }
+      result.espressoContribVersion_ = espressoContribVersion_;
+      if (((from_bitField0_ & 0x00000020) == 0x00000020)) {
+        to_bitField0_ |= 0x00000020;
+      }
+      result.espressoWebVersion_ = espressoWebVersion_;
+      if (((from_bitField0_ & 0x00000040) == 0x00000040)) {
+        to_bitField0_ |= 0x00000040;
+      }
+      result.espressoIntentsVersion_ = espressoIntentsVersion_;
+      if (((from_bitField0_ & 0x00000080) == 0x00000080)) {
+        to_bitField0_ |= 0x00000080;
+      }
+      result.espressoIdlingResourceVersion_ = espressoIdlingResourceVersion_;
+      if (((from_bitField0_ & 0x00000100) == 0x00000100)) {
+        to_bitField0_ |= 0x00000100;
+      }
+      result.espressoAccessibilityVersion_ = espressoAccessibilityVersion_;
+      if (((from_bitField0_ & 0x00000200) == 0x00000200)) {
+        to_bitField0_ |= 0x00000200;
+      }
+      result.testOrchestratorVersion_ = testOrchestratorVersion_;
+      if (((from_bitField0_ & 0x00000400) == 0x00000400)) {
+        to_bitField0_ |= 0x00000400;
+      }
+      result.testRulesVersion_ = testRulesVersion_;
       result.bitField0_ = to_bitField0_;
       onBuilt();
       return result;
@@ -602,6 +1120,41 @@ public  final class TestLibraries extends
       if (other.hasMockitoVersion()) {
         bitField0_ |= 0x00000008;
         mockitoVersion_ = other.mockitoVersion_;
+        onChanged();
+      }
+      if (other.hasEspressoContribVersion()) {
+        bitField0_ |= 0x00000010;
+        espressoContribVersion_ = other.espressoContribVersion_;
+        onChanged();
+      }
+      if (other.hasEspressoWebVersion()) {
+        bitField0_ |= 0x00000020;
+        espressoWebVersion_ = other.espressoWebVersion_;
+        onChanged();
+      }
+      if (other.hasEspressoIntentsVersion()) {
+        bitField0_ |= 0x00000040;
+        espressoIntentsVersion_ = other.espressoIntentsVersion_;
+        onChanged();
+      }
+      if (other.hasEspressoIdlingResourceVersion()) {
+        bitField0_ |= 0x00000080;
+        espressoIdlingResourceVersion_ = other.espressoIdlingResourceVersion_;
+        onChanged();
+      }
+      if (other.hasEspressoAccessibilityVersion()) {
+        bitField0_ |= 0x00000100;
+        espressoAccessibilityVersion_ = other.espressoAccessibilityVersion_;
+        onChanged();
+      }
+      if (other.hasTestOrchestratorVersion()) {
+        bitField0_ |= 0x00000200;
+        testOrchestratorVersion_ = other.testOrchestratorVersion_;
+        onChanged();
+      }
+      if (other.hasTestRulesVersion()) {
+        bitField0_ |= 0x00000400;
+        testRulesVersion_ = other.testRulesVersion_;
         onChanged();
       }
       this.mergeUnknownFields(other.getUnknownFields());
@@ -1025,6 +1578,692 @@ public  final class TestLibraries extends
   }
   bitField0_ |= 0x00000008;
       mockitoVersion_ = value;
+      onChanged();
+      return this;
+    }
+
+    // optional string espresso_contrib_version = 5;
+    private java.lang.Object espressoContribVersion_ = "";
+    /**
+     * <code>optional string espresso_contrib_version = 5;</code>
+     *
+     * <pre>
+     * e.g. '2.2.2'
+     * </pre>
+     */
+    public boolean hasEspressoContribVersion() {
+      return ((bitField0_ & 0x00000010) == 0x00000010);
+    }
+    /**
+     * <code>optional string espresso_contrib_version = 5;</code>
+     *
+     * <pre>
+     * e.g. '2.2.2'
+     * </pre>
+     */
+    public java.lang.String getEspressoContribVersion() {
+      java.lang.Object ref = espressoContribVersion_;
+      if (!(ref instanceof java.lang.String)) {
+        java.lang.String s = ((com.google.protobuf.ByteString) ref)
+            .toStringUtf8();
+        espressoContribVersion_ = s;
+        return s;
+      } else {
+        return (java.lang.String) ref;
+      }
+    }
+    /**
+     * <code>optional string espresso_contrib_version = 5;</code>
+     *
+     * <pre>
+     * e.g. '2.2.2'
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getEspressoContribVersionBytes() {
+      java.lang.Object ref = espressoContribVersion_;
+      if (ref instanceof String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        espressoContribVersion_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+    /**
+     * <code>optional string espresso_contrib_version = 5;</code>
+     *
+     * <pre>
+     * e.g. '2.2.2'
+     * </pre>
+     */
+    public Builder setEspressoContribVersion(
+        java.lang.String value) {
+      if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000010;
+      espressoContribVersion_ = value;
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>optional string espresso_contrib_version = 5;</code>
+     *
+     * <pre>
+     * e.g. '2.2.2'
+     * </pre>
+     */
+    public Builder clearEspressoContribVersion() {
+      bitField0_ = (bitField0_ & ~0x00000010);
+      espressoContribVersion_ = getDefaultInstance().getEspressoContribVersion();
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>optional string espresso_contrib_version = 5;</code>
+     *
+     * <pre>
+     * e.g. '2.2.2'
+     * </pre>
+     */
+    public Builder setEspressoContribVersionBytes(
+        com.google.protobuf.ByteString value) {
+      if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000010;
+      espressoContribVersion_ = value;
+      onChanged();
+      return this;
+    }
+
+    // optional string espresso_web_version = 6;
+    private java.lang.Object espressoWebVersion_ = "";
+    /**
+     * <code>optional string espresso_web_version = 6;</code>
+     *
+     * <pre>
+     * e.g. '2.2.2'
+     * </pre>
+     */
+    public boolean hasEspressoWebVersion() {
+      return ((bitField0_ & 0x00000020) == 0x00000020);
+    }
+    /**
+     * <code>optional string espresso_web_version = 6;</code>
+     *
+     * <pre>
+     * e.g. '2.2.2'
+     * </pre>
+     */
+    public java.lang.String getEspressoWebVersion() {
+      java.lang.Object ref = espressoWebVersion_;
+      if (!(ref instanceof java.lang.String)) {
+        java.lang.String s = ((com.google.protobuf.ByteString) ref)
+            .toStringUtf8();
+        espressoWebVersion_ = s;
+        return s;
+      } else {
+        return (java.lang.String) ref;
+      }
+    }
+    /**
+     * <code>optional string espresso_web_version = 6;</code>
+     *
+     * <pre>
+     * e.g. '2.2.2'
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getEspressoWebVersionBytes() {
+      java.lang.Object ref = espressoWebVersion_;
+      if (ref instanceof String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        espressoWebVersion_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+    /**
+     * <code>optional string espresso_web_version = 6;</code>
+     *
+     * <pre>
+     * e.g. '2.2.2'
+     * </pre>
+     */
+    public Builder setEspressoWebVersion(
+        java.lang.String value) {
+      if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000020;
+      espressoWebVersion_ = value;
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>optional string espresso_web_version = 6;</code>
+     *
+     * <pre>
+     * e.g. '2.2.2'
+     * </pre>
+     */
+    public Builder clearEspressoWebVersion() {
+      bitField0_ = (bitField0_ & ~0x00000020);
+      espressoWebVersion_ = getDefaultInstance().getEspressoWebVersion();
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>optional string espresso_web_version = 6;</code>
+     *
+     * <pre>
+     * e.g. '2.2.2'
+     * </pre>
+     */
+    public Builder setEspressoWebVersionBytes(
+        com.google.protobuf.ByteString value) {
+      if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000020;
+      espressoWebVersion_ = value;
+      onChanged();
+      return this;
+    }
+
+    // optional string espresso_intents_version = 7;
+    private java.lang.Object espressoIntentsVersion_ = "";
+    /**
+     * <code>optional string espresso_intents_version = 7;</code>
+     *
+     * <pre>
+     * e.g. '2.2.2'
+     * </pre>
+     */
+    public boolean hasEspressoIntentsVersion() {
+      return ((bitField0_ & 0x00000040) == 0x00000040);
+    }
+    /**
+     * <code>optional string espresso_intents_version = 7;</code>
+     *
+     * <pre>
+     * e.g. '2.2.2'
+     * </pre>
+     */
+    public java.lang.String getEspressoIntentsVersion() {
+      java.lang.Object ref = espressoIntentsVersion_;
+      if (!(ref instanceof java.lang.String)) {
+        java.lang.String s = ((com.google.protobuf.ByteString) ref)
+            .toStringUtf8();
+        espressoIntentsVersion_ = s;
+        return s;
+      } else {
+        return (java.lang.String) ref;
+      }
+    }
+    /**
+     * <code>optional string espresso_intents_version = 7;</code>
+     *
+     * <pre>
+     * e.g. '2.2.2'
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getEspressoIntentsVersionBytes() {
+      java.lang.Object ref = espressoIntentsVersion_;
+      if (ref instanceof String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        espressoIntentsVersion_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+    /**
+     * <code>optional string espresso_intents_version = 7;</code>
+     *
+     * <pre>
+     * e.g. '2.2.2'
+     * </pre>
+     */
+    public Builder setEspressoIntentsVersion(
+        java.lang.String value) {
+      if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000040;
+      espressoIntentsVersion_ = value;
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>optional string espresso_intents_version = 7;</code>
+     *
+     * <pre>
+     * e.g. '2.2.2'
+     * </pre>
+     */
+    public Builder clearEspressoIntentsVersion() {
+      bitField0_ = (bitField0_ & ~0x00000040);
+      espressoIntentsVersion_ = getDefaultInstance().getEspressoIntentsVersion();
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>optional string espresso_intents_version = 7;</code>
+     *
+     * <pre>
+     * e.g. '2.2.2'
+     * </pre>
+     */
+    public Builder setEspressoIntentsVersionBytes(
+        com.google.protobuf.ByteString value) {
+      if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000040;
+      espressoIntentsVersion_ = value;
+      onChanged();
+      return this;
+    }
+
+    // optional string espresso_idling_resource_version = 8;
+    private java.lang.Object espressoIdlingResourceVersion_ = "";
+    /**
+     * <code>optional string espresso_idling_resource_version = 8;</code>
+     *
+     * <pre>
+     * e.g. '2.2.2'
+     * </pre>
+     */
+    public boolean hasEspressoIdlingResourceVersion() {
+      return ((bitField0_ & 0x00000080) == 0x00000080);
+    }
+    /**
+     * <code>optional string espresso_idling_resource_version = 8;</code>
+     *
+     * <pre>
+     * e.g. '2.2.2'
+     * </pre>
+     */
+    public java.lang.String getEspressoIdlingResourceVersion() {
+      java.lang.Object ref = espressoIdlingResourceVersion_;
+      if (!(ref instanceof java.lang.String)) {
+        java.lang.String s = ((com.google.protobuf.ByteString) ref)
+            .toStringUtf8();
+        espressoIdlingResourceVersion_ = s;
+        return s;
+      } else {
+        return (java.lang.String) ref;
+      }
+    }
+    /**
+     * <code>optional string espresso_idling_resource_version = 8;</code>
+     *
+     * <pre>
+     * e.g. '2.2.2'
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getEspressoIdlingResourceVersionBytes() {
+      java.lang.Object ref = espressoIdlingResourceVersion_;
+      if (ref instanceof String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        espressoIdlingResourceVersion_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+    /**
+     * <code>optional string espresso_idling_resource_version = 8;</code>
+     *
+     * <pre>
+     * e.g. '2.2.2'
+     * </pre>
+     */
+    public Builder setEspressoIdlingResourceVersion(
+        java.lang.String value) {
+      if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000080;
+      espressoIdlingResourceVersion_ = value;
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>optional string espresso_idling_resource_version = 8;</code>
+     *
+     * <pre>
+     * e.g. '2.2.2'
+     * </pre>
+     */
+    public Builder clearEspressoIdlingResourceVersion() {
+      bitField0_ = (bitField0_ & ~0x00000080);
+      espressoIdlingResourceVersion_ = getDefaultInstance().getEspressoIdlingResourceVersion();
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>optional string espresso_idling_resource_version = 8;</code>
+     *
+     * <pre>
+     * e.g. '2.2.2'
+     * </pre>
+     */
+    public Builder setEspressoIdlingResourceVersionBytes(
+        com.google.protobuf.ByteString value) {
+      if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000080;
+      espressoIdlingResourceVersion_ = value;
+      onChanged();
+      return this;
+    }
+
+    // optional string espresso_accessibility_version = 9;
+    private java.lang.Object espressoAccessibilityVersion_ = "";
+    /**
+     * <code>optional string espresso_accessibility_version = 9;</code>
+     *
+     * <pre>
+     * e.g. '2.2.2'
+     * </pre>
+     */
+    public boolean hasEspressoAccessibilityVersion() {
+      return ((bitField0_ & 0x00000100) == 0x00000100);
+    }
+    /**
+     * <code>optional string espresso_accessibility_version = 9;</code>
+     *
+     * <pre>
+     * e.g. '2.2.2'
+     * </pre>
+     */
+    public java.lang.String getEspressoAccessibilityVersion() {
+      java.lang.Object ref = espressoAccessibilityVersion_;
+      if (!(ref instanceof java.lang.String)) {
+        java.lang.String s = ((com.google.protobuf.ByteString) ref)
+            .toStringUtf8();
+        espressoAccessibilityVersion_ = s;
+        return s;
+      } else {
+        return (java.lang.String) ref;
+      }
+    }
+    /**
+     * <code>optional string espresso_accessibility_version = 9;</code>
+     *
+     * <pre>
+     * e.g. '2.2.2'
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getEspressoAccessibilityVersionBytes() {
+      java.lang.Object ref = espressoAccessibilityVersion_;
+      if (ref instanceof String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        espressoAccessibilityVersion_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+    /**
+     * <code>optional string espresso_accessibility_version = 9;</code>
+     *
+     * <pre>
+     * e.g. '2.2.2'
+     * </pre>
+     */
+    public Builder setEspressoAccessibilityVersion(
+        java.lang.String value) {
+      if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000100;
+      espressoAccessibilityVersion_ = value;
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>optional string espresso_accessibility_version = 9;</code>
+     *
+     * <pre>
+     * e.g. '2.2.2'
+     * </pre>
+     */
+    public Builder clearEspressoAccessibilityVersion() {
+      bitField0_ = (bitField0_ & ~0x00000100);
+      espressoAccessibilityVersion_ = getDefaultInstance().getEspressoAccessibilityVersion();
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>optional string espresso_accessibility_version = 9;</code>
+     *
+     * <pre>
+     * e.g. '2.2.2'
+     * </pre>
+     */
+    public Builder setEspressoAccessibilityVersionBytes(
+        com.google.protobuf.ByteString value) {
+      if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000100;
+      espressoAccessibilityVersion_ = value;
+      onChanged();
+      return this;
+    }
+
+    // optional string test_orchestrator_version = 10;
+    private java.lang.Object testOrchestratorVersion_ = "";
+    /**
+     * <code>optional string test_orchestrator_version = 10;</code>
+     *
+     * <pre>
+     * e.g. '1.0.0'
+     * </pre>
+     */
+    public boolean hasTestOrchestratorVersion() {
+      return ((bitField0_ & 0x00000200) == 0x00000200);
+    }
+    /**
+     * <code>optional string test_orchestrator_version = 10;</code>
+     *
+     * <pre>
+     * e.g. '1.0.0'
+     * </pre>
+     */
+    public java.lang.String getTestOrchestratorVersion() {
+      java.lang.Object ref = testOrchestratorVersion_;
+      if (!(ref instanceof java.lang.String)) {
+        java.lang.String s = ((com.google.protobuf.ByteString) ref)
+            .toStringUtf8();
+        testOrchestratorVersion_ = s;
+        return s;
+      } else {
+        return (java.lang.String) ref;
+      }
+    }
+    /**
+     * <code>optional string test_orchestrator_version = 10;</code>
+     *
+     * <pre>
+     * e.g. '1.0.0'
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getTestOrchestratorVersionBytes() {
+      java.lang.Object ref = testOrchestratorVersion_;
+      if (ref instanceof String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        testOrchestratorVersion_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+    /**
+     * <code>optional string test_orchestrator_version = 10;</code>
+     *
+     * <pre>
+     * e.g. '1.0.0'
+     * </pre>
+     */
+    public Builder setTestOrchestratorVersion(
+        java.lang.String value) {
+      if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000200;
+      testOrchestratorVersion_ = value;
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>optional string test_orchestrator_version = 10;</code>
+     *
+     * <pre>
+     * e.g. '1.0.0'
+     * </pre>
+     */
+    public Builder clearTestOrchestratorVersion() {
+      bitField0_ = (bitField0_ & ~0x00000200);
+      testOrchestratorVersion_ = getDefaultInstance().getTestOrchestratorVersion();
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>optional string test_orchestrator_version = 10;</code>
+     *
+     * <pre>
+     * e.g. '1.0.0'
+     * </pre>
+     */
+    public Builder setTestOrchestratorVersionBytes(
+        com.google.protobuf.ByteString value) {
+      if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000200;
+      testOrchestratorVersion_ = value;
+      onChanged();
+      return this;
+    }
+
+    // optional string test_rules_version = 11;
+    private java.lang.Object testRulesVersion_ = "";
+    /**
+     * <code>optional string test_rules_version = 11;</code>
+     *
+     * <pre>
+     * e.g. '1.0.0'
+     * </pre>
+     */
+    public boolean hasTestRulesVersion() {
+      return ((bitField0_ & 0x00000400) == 0x00000400);
+    }
+    /**
+     * <code>optional string test_rules_version = 11;</code>
+     *
+     * <pre>
+     * e.g. '1.0.0'
+     * </pre>
+     */
+    public java.lang.String getTestRulesVersion() {
+      java.lang.Object ref = testRulesVersion_;
+      if (!(ref instanceof java.lang.String)) {
+        java.lang.String s = ((com.google.protobuf.ByteString) ref)
+            .toStringUtf8();
+        testRulesVersion_ = s;
+        return s;
+      } else {
+        return (java.lang.String) ref;
+      }
+    }
+    /**
+     * <code>optional string test_rules_version = 11;</code>
+     *
+     * <pre>
+     * e.g. '1.0.0'
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getTestRulesVersionBytes() {
+      java.lang.Object ref = testRulesVersion_;
+      if (ref instanceof String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        testRulesVersion_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+    /**
+     * <code>optional string test_rules_version = 11;</code>
+     *
+     * <pre>
+     * e.g. '1.0.0'
+     * </pre>
+     */
+    public Builder setTestRulesVersion(
+        java.lang.String value) {
+      if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000400;
+      testRulesVersion_ = value;
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>optional string test_rules_version = 11;</code>
+     *
+     * <pre>
+     * e.g. '1.0.0'
+     * </pre>
+     */
+    public Builder clearTestRulesVersion() {
+      bitField0_ = (bitField0_ & ~0x00000400);
+      testRulesVersion_ = getDefaultInstance().getTestRulesVersion();
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>optional string test_rules_version = 11;</code>
+     *
+     * <pre>
+     * e.g. '1.0.0'
+     * </pre>
+     */
+    public Builder setTestRulesVersionBytes(
+        com.google.protobuf.ByteString value) {
+      if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000400;
+      testRulesVersion_ = value;
       onChanged();
       return this;
     }

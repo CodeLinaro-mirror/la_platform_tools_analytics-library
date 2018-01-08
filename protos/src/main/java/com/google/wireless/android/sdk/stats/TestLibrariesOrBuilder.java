@@ -116,4 +116,193 @@ public interface TestLibrariesOrBuilder
    */
   com.google.protobuf.ByteString
       getMockitoVersionBytes();
+
+  // optional string espresso_contrib_version = 5;
+  /**
+   * <code>optional string espresso_contrib_version = 5;</code>
+   *
+   * <pre>
+   * e.g. '2.2.2'
+   * </pre>
+   */
+  boolean hasEspressoContribVersion();
+  /**
+   * <code>optional string espresso_contrib_version = 5;</code>
+   *
+   * <pre>
+   * e.g. '2.2.2'
+   * </pre>
+   */
+  java.lang.String getEspressoContribVersion();
+  /**
+   * <code>optional string espresso_contrib_version = 5;</code>
+   *
+   * <pre>
+   * e.g. '2.2.2'
+   * </pre>
+   */
+  com.google.protobuf.ByteString
+      getEspressoContribVersionBytes();
+
+  // optional string espresso_web_version = 6;
+  /**
+   * <code>optional string espresso_web_version = 6;</code>
+   *
+   * <pre>
+   * e.g. '2.2.2'
+   * </pre>
+   */
+  boolean hasEspressoWebVersion();
+  /**
+   * <code>optional string espresso_web_version = 6;</code>
+   *
+   * <pre>
+   * e.g. '2.2.2'
+   * </pre>
+   */
+  java.lang.String getEspressoWebVersion();
+  /**
+   * <code>optional string espresso_web_version = 6;</code>
+   *
+   * <pre>
+   * e.g. '2.2.2'
+   * </pre>
+   */
+  com.google.protobuf.ByteString
+      getEspressoWebVersionBytes();
+
+  // optional string espresso_intents_version = 7;
+  /**
+   * <code>optional string espresso_intents_version = 7;</code>
+   *
+   * <pre>
+   * e.g. '2.2.2'
+   * </pre>
+   */
+  boolean hasEspressoIntentsVersion();
+  /**
+   * <code>optional string espresso_intents_version = 7;</code>
+   *
+   * <pre>
+   * e.g. '2.2.2'
+   * </pre>
+   */
+  java.lang.String getEspressoIntentsVersion();
+  /**
+   * <code>optional string espresso_intents_version = 7;</code>
+   *
+   * <pre>
+   * e.g. '2.2.2'
+   * </pre>
+   */
+  com.google.protobuf.ByteString
+      getEspressoIntentsVersionBytes();
+
+  // optional string espresso_idling_resource_version = 8;
+  /**
+   * <code>optional string espresso_idling_resource_version = 8;</code>
+   *
+   * <pre>
+   * e.g. '2.2.2'
+   * </pre>
+   */
+  boolean hasEspressoIdlingResourceVersion();
+  /**
+   * <code>optional string espresso_idling_resource_version = 8;</code>
+   *
+   * <pre>
+   * e.g. '2.2.2'
+   * </pre>
+   */
+  java.lang.String getEspressoIdlingResourceVersion();
+  /**
+   * <code>optional string espresso_idling_resource_version = 8;</code>
+   *
+   * <pre>
+   * e.g. '2.2.2'
+   * </pre>
+   */
+  com.google.protobuf.ByteString
+      getEspressoIdlingResourceVersionBytes();
+
+  // optional string espresso_accessibility_version = 9;
+  /**
+   * <code>optional string espresso_accessibility_version = 9;</code>
+   *
+   * <pre>
+   * e.g. '2.2.2'
+   * </pre>
+   */
+  boolean hasEspressoAccessibilityVersion();
+  /**
+   * <code>optional string espresso_accessibility_version = 9;</code>
+   *
+   * <pre>
+   * e.g. '2.2.2'
+   * </pre>
+   */
+  java.lang.String getEspressoAccessibilityVersion();
+  /**
+   * <code>optional string espresso_accessibility_version = 9;</code>
+   *
+   * <pre>
+   * e.g. '2.2.2'
+   * </pre>
+   */
+  com.google.protobuf.ByteString
+      getEspressoAccessibilityVersionBytes();
+
+  // optional string test_orchestrator_version = 10;
+  /**
+   * <code>optional string test_orchestrator_version = 10;</code>
+   *
+   * <pre>
+   * e.g. '1.0.0'
+   * </pre>
+   */
+  boolean hasTestOrchestratorVersion();
+  /**
+   * <code>optional string test_orchestrator_version = 10;</code>
+   *
+   * <pre>
+   * e.g. '1.0.0'
+   * </pre>
+   */
+  java.lang.String getTestOrchestratorVersion();
+  /**
+   * <code>optional string test_orchestrator_version = 10;</code>
+   *
+   * <pre>
+   * e.g. '1.0.0'
+   * </pre>
+   */
+  com.google.protobuf.ByteString
+      getTestOrchestratorVersionBytes();
+
+  // optional string test_rules_version = 11;
+  /**
+   * <code>optional string test_rules_version = 11;</code>
+   *
+   * <pre>
+   * e.g. '1.0.0'
+   * </pre>
+   */
+  boolean hasTestRulesVersion();
+  /**
+   * <code>optional string test_rules_version = 11;</code>
+   *
+   * <pre>
+   * e.g. '1.0.0'
+   * </pre>
+   */
+  java.lang.String getTestRulesVersion();
+  /**
+   * <code>optional string test_rules_version = 11;</code>
+   *
+   * <pre>
+   * e.g. '1.0.0'
+   * </pre>
+   */
+  com.google.protobuf.ByteString
+      getTestRulesVersionBytes();
 }
