@@ -218,6 +218,7 @@ enum BooleanOption {
     ENABLE_D8_MAIN_DEX_LIST = 39;
     ENABLE_DATA_BINDING_V2 = 40;
     ENABLE_AAPT2_WORKER_ACTIONS = 41;
+    ENABLE_CORE_LAMBDA_STUBS = 42;
 }
 
 enum OptionalBooleanOption {
