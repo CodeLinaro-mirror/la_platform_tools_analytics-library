@@ -1779,6 +1779,13 @@ message TestLibraries {
   optional string espresso_version = 2;  // e.g. '2.2.2'
   optional string robolectric_version = 3;  // e.g. '3.0'
   optional string mockito_version = 4;  // e.g. '1.10.19'
+  optional string espresso_contrib_version = 5;  // e.g. '2.2.2'
+  optional string espresso_web_version = 6;  // e.g. '2.2.2'
+  optional string espresso_intents_version = 7;  // e.g. '2.2.2'
+  optional string espresso_idling_resource_version = 8;  // e.g. '2.2.2'
+  optional string espresso_accessibility_version = 9;  // e.g. '2.2.2'
+  optional string test_orchestrator_version = 10;  // e.g. '1.0.0'
+  optional string test_rules_version = 11;  // e.g. '1.0.0'
 }
 
 // Describes the status of various Hypervisors
