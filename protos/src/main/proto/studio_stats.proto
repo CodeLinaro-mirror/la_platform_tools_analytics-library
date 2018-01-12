@@ -3366,6 +3366,48 @@ message CpuCaptureMetadata {
   optional CpuProfilingConfig profiling_config = 6;
 }
 
+// Metadata associated with how users are using the profilers filter.
+message FilterMetadata {
+  enum View {
+    // Default state
+    UNKNOWN_FILTER_VIEW = 0;
+    CPU_TOP_DOWN = 1;
+    CPU_BOTTOM_UP = 2;
+    CPU_FLAME_CHART = 3;
+    CPU_CALL_CHART = 4;
+    MEMORY_PACKAGE = 5;
+    MEMORY_CLASS = 6;
+    MEMORY_CALLSTACK = 7;
+    NETWORK_THREADS = 8;
+    NETWORK_CONNECTIONS = 9;
+  }
+
+  enum FeaturesFlags {
+    // Default state
+    UNSET_FEATURE_FLAGS = 0;
+    // Used to represent the state of the match case checkbox.
+    MATCH_CASE = 1;
+    // Used to represent the state of the regex checkbox.
+    MATCH_REGEX = 2;
+  }
+
+  // The view that is active when opening / using the filter.
+  optional View active_view = 1;
+
+  // Bitwise field used to store features used derived from
+  // FilterMetadata.FeaturesFlags enum.
+  optional uint64 features_used = 2;
+
+  // The count of elements matched.
+  optional uint32 matched_elements = 3;
+
+  // The number of total elements to be searched.
+  optional uint32 total_elements = 4;
+
+  // The length of the string used to filter.
+  optional uint32 search_length = 5;
+}
+
 // Android Profiler metrics
 message AndroidProfilerEvent {
   // The current stage we're on when this event was generated
@@ -3380,6 +3422,9 @@ message AndroidProfilerEvent {
 
   // Set if |type| is |CAPTURE_TRACE|
   optional CpuCaptureMetadata cpu_capture_metadata = 4;
+
+  // Set if |type| is |FILTER|
+  optional FilterMetadata filter_metadata = 5;
 
   enum Stage {
     UNKNOWN_STAGE = 0;
@@ -3404,6 +3449,8 @@ message AndroidProfilerEvent {
     ADVANCED_PROFILING_STARTED = 2;
     // This event should be correlated with |stage|
     STAGE_ENTERED = 3;
+    // Triggered when the user starts an app in profiling mode.
+    RUN_WITH_PROFILING = 4;
 
     /// General
 
@@ -3419,6 +3466,7 @@ message AndroidProfilerEvent {
     // Create a selection on the current monitor's main chart. This event should
     // be correlated with |stage|.
     SELECT_RANGE = 110;
+    FILTER = 111;
 
     /// CPU
 
@@ -3455,6 +3503,8 @@ message AndroidProfilerEvent {
     SELECT_DETAILS_OVERVIEW = 406;
     SELECT_DETAILS_REQUEST = 407;
     SELECT_DETAILS_ERROR = 408;
+    SELECT_CONNECTIONS_CONNECTION_VIEW = 409;
+    SELECT_CONNECTIONS_THREADS_VIEW = 410;
   }
 }
 
