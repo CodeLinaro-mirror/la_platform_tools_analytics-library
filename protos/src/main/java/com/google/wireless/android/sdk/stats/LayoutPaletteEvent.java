@@ -323,6 +323,22 @@ public  final class LayoutPaletteEvent extends
      * <code>APP_COMPAT = 13;</code>
      */
     APP_COMPAT(13, 13),
+    /**
+     * <code>BUTTONS = 14;</code>
+     */
+    BUTTONS(14, 14),
+    /**
+     * <code>LEGACY = 15;</code>
+     */
+    LEGACY(15, 15),
+    /**
+     * <code>COMMON = 16;</code>
+     */
+    COMMON(16, 16),
+    /**
+     * <code>ALL_RESULTS = 17;</code>
+     */
+    ALL_RESULTS(17, 17),
     ;
 
     /**
@@ -381,6 +397,22 @@ public  final class LayoutPaletteEvent extends
      * <code>APP_COMPAT = 13;</code>
      */
     public static final int APP_COMPAT_VALUE = 13;
+    /**
+     * <code>BUTTONS = 14;</code>
+     */
+    public static final int BUTTONS_VALUE = 14;
+    /**
+     * <code>LEGACY = 15;</code>
+     */
+    public static final int LEGACY_VALUE = 15;
+    /**
+     * <code>COMMON = 16;</code>
+     */
+    public static final int COMMON_VALUE = 16;
+    /**
+     * <code>ALL_RESULTS = 17;</code>
+     */
+    public static final int ALL_RESULTS_VALUE = 17;
 
 
     public final int getNumber() { return value; }
@@ -401,6 +433,10 @@ public  final class LayoutPaletteEvent extends
         case 11: return GOOGLE;
         case 12: return DESIGN;
         case 13: return APP_COMPAT;
+        case 14: return BUTTONS;
+        case 15: return LEGACY;
+        case 16: return COMMON;
+        case 17: return ALL_RESULTS;
         default: return null;
       }
     }

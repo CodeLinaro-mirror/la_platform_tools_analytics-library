@@ -3057,6 +3057,10 @@ message LayoutPaletteEvent {
     GOOGLE = 11;
     DESIGN = 12;
     APP_COMPAT = 13;
+    BUTTONS = 14;
+    LEGACY = 15;
+    COMMON = 16;
+    ALL_RESULTS = 17;
   }
 
   // The view parameter options used for the dropped component
