@@ -106,6 +106,19 @@ public  final class AndroidProfilerEvent extends
             bitField0_ |= 0x00000008;
             break;
           }
+          case 42: {
+            com.google.wireless.android.sdk.stats.FilterMetadata.Builder subBuilder = null;
+            if (((bitField0_ & 0x00000010) == 0x00000010)) {
+              subBuilder = filterMetadata_.toBuilder();
+            }
+            filterMetadata_ = input.readMessage(com.google.wireless.android.sdk.stats.FilterMetadata.PARSER, extensionRegistry);
+            if (subBuilder != null) {
+              subBuilder.mergeFrom(filterMetadata_);
+              filterMetadata_ = subBuilder.buildPartial();
+            }
+            bitField0_ |= 0x00000010;
+            break;
+          }
         }
       }
     } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -313,41 +326,49 @@ public  final class AndroidProfilerEvent extends
      */
     STAGE_ENTERED(3, 3),
     /**
+     * <code>RUN_WITH_PROFILING = 4;</code>
+     *
+     * <pre>
+     * Triggered when the user starts an app in profiling mode.
+     * </pre>
+     */
+    RUN_WITH_PROFILING(4, 4),
+    /**
      * <code>CHANGE_DEVICE = 101;</code>
      */
-    CHANGE_DEVICE(4, 101),
+    CHANGE_DEVICE(5, 101),
     /**
      * <code>CHANGE_PROCESS = 102;</code>
      */
-    CHANGE_PROCESS(5, 102),
+    CHANGE_PROCESS(6, 102),
     /**
      * <code>GO_BACK = 103;</code>
      */
-    GO_BACK(6, 103),
+    GO_BACK(7, 103),
     /**
      * <code>SELECT_MONITOR = 104;</code>
      */
-    SELECT_MONITOR(7, 104),
+    SELECT_MONITOR(8, 104),
     /**
      * <code>ZOOM_IN = 105;</code>
      */
-    ZOOM_IN(8, 105),
+    ZOOM_IN(9, 105),
     /**
      * <code>ZOOM_OUT = 106;</code>
      */
-    ZOOM_OUT(9, 106),
+    ZOOM_OUT(10, 106),
     /**
      * <code>ZOOM_RESET = 107;</code>
      */
-    ZOOM_RESET(10, 107),
+    ZOOM_RESET(11, 107),
     /**
      * <code>GO_LIVE = 108;</code>
      */
-    GO_LIVE(11, 108),
+    GO_LIVE(12, 108),
     /**
      * <code>NAVIGATE_TO_CODE = 109;</code>
      */
-    NAVIGATE_TO_CODE(12, 109),
+    NAVIGATE_TO_CODE(13, 109),
     /**
      * <code>SELECT_RANGE = 110;</code>
      *
@@ -356,7 +377,11 @@ public  final class AndroidProfilerEvent extends
      * be correlated with |stage|.
      * </pre>
      */
-    SELECT_RANGE(13, 110),
+    SELECT_RANGE(14, 110),
+    /**
+     * <code>FILTER = 111;</code>
+     */
+    FILTER(15, 111),
     /**
      * <code>TRACE_SAMPLED = 201;</code>
      *
@@ -364,7 +389,7 @@ public  final class AndroidProfilerEvent extends
      * Deprecated since 3.0.0.5. Use TRACE_CPU.
      * </pre>
      */
-    TRACE_SAMPLED(14, 201),
+    TRACE_SAMPLED(16, 201),
     /**
      * <code>TRACE_INSTRUMENTED = 202;</code>
      *
@@ -372,35 +397,35 @@ public  final class AndroidProfilerEvent extends
      * Deprecated since 3.0.0.5. Use TRACE_CPU.
      * </pre>
      */
-    TRACE_INSTRUMENTED(15, 202),
+    TRACE_INSTRUMENTED(17, 202),
     /**
      * <code>SELECT_THREAD = 204;</code>
      */
-    SELECT_THREAD(16, 204),
+    SELECT_THREAD(18, 204),
     /**
      * <code>SELECT_TOP_DOWN = 205;</code>
      */
-    SELECT_TOP_DOWN(17, 205),
+    SELECT_TOP_DOWN(19, 205),
     /**
      * <code>SELECT_BOTTOM_UP = 206;</code>
      */
-    SELECT_BOTTOM_UP(18, 206),
+    SELECT_BOTTOM_UP(20, 206),
     /**
      * <code>SELECT_FLAME_CHART = 207;</code>
      */
-    SELECT_FLAME_CHART(19, 207),
+    SELECT_FLAME_CHART(21, 207),
     /**
      * <code>SELECT_CALL_CHART = 210;</code>
      */
-    SELECT_CALL_CHART(20, 210),
+    SELECT_CALL_CHART(22, 210),
     /**
      * <code>OPEN_CPU_CONFIG_DIALOG = 208;</code>
      */
-    OPEN_CPU_CONFIG_DIALOG(21, 208),
+    OPEN_CPU_CONFIG_DIALOG(23, 208),
     /**
      * <code>CREATE_CPU_CONFIG = 209;</code>
      */
-    CREATE_CPU_CONFIG(22, 209),
+    CREATE_CPU_CONFIG(24, 209),
     /**
      * <code>TRACE_CPU = 211;</code>
      *
@@ -408,7 +433,7 @@ public  final class AndroidProfilerEvent extends
      * Deprecated since 3.0.0.8. Use CAPTURE_TRACE.
      * </pre>
      */
-    TRACE_CPU(23, 211),
+    TRACE_CPU(25, 211),
     /**
      * <code>CAPTURE_TRACE = 212;</code>
      *
@@ -416,71 +441,79 @@ public  final class AndroidProfilerEvent extends
      * Correlate with |cpu_capture_metadata|
      * </pre>
      */
-    CAPTURE_TRACE(24, 212),
+    CAPTURE_TRACE(26, 212),
     /**
      * <code>FORCE_GC = 301;</code>
      */
-    FORCE_GC(25, 301),
+    FORCE_GC(27, 301),
     /**
      * <code>SNAPSHOT_HPROF = 302;</code>
      */
-    SNAPSHOT_HPROF(26, 302),
+    SNAPSHOT_HPROF(28, 302),
     /**
      * <code>CAPTURE_ALLOCATIONS = 303;</code>
      */
-    CAPTURE_ALLOCATIONS(27, 303),
+    CAPTURE_ALLOCATIONS(29, 303),
     /**
      * <code>SELECT_MEMORY_CHART = 304;</code>
      */
-    SELECT_MEMORY_CHART(28, 304),
+    SELECT_MEMORY_CHART(30, 304),
     /**
      * <code>EXPORT_HPROF = 305;</code>
      */
-    EXPORT_HPROF(29, 305),
+    EXPORT_HPROF(31, 305),
     /**
      * <code>EXPORT_ALLOCATION = 306;</code>
      */
-    EXPORT_ALLOCATION(30, 306),
+    EXPORT_ALLOCATION(32, 306),
     /**
      * <code>ARRANGE_CLASSES = 307;</code>
      */
-    ARRANGE_CLASSES(31, 307),
+    ARRANGE_CLASSES(33, 307),
     /**
      * <code>SELECT_MEMORY_STACK = 308;</code>
      */
-    SELECT_MEMORY_STACK(32, 308),
+    SELECT_MEMORY_STACK(34, 308),
     /**
      * <code>SELECT_MEMORY_REFERENCES = 309;</code>
      */
-    SELECT_MEMORY_REFERENCES(33, 309),
+    SELECT_MEMORY_REFERENCES(35, 309),
     /**
      * <code>SELECT_CONNECTION = 402;</code>
      */
-    SELECT_CONNECTION(34, 402),
+    SELECT_CONNECTION(36, 402),
     /**
      * <code>SELECT_DETAILS_RESPONSE = 403;</code>
      */
-    SELECT_DETAILS_RESPONSE(35, 403),
+    SELECT_DETAILS_RESPONSE(37, 403),
     /**
      * <code>SELECT_DETAILS_HEADERS = 404;</code>
      */
-    SELECT_DETAILS_HEADERS(36, 404),
+    SELECT_DETAILS_HEADERS(38, 404),
     /**
      * <code>SELECT_DETAILS_STACK = 405;</code>
      */
-    SELECT_DETAILS_STACK(37, 405),
+    SELECT_DETAILS_STACK(39, 405),
     /**
      * <code>SELECT_DETAILS_OVERVIEW = 406;</code>
      */
-    SELECT_DETAILS_OVERVIEW(38, 406),
+    SELECT_DETAILS_OVERVIEW(40, 406),
     /**
      * <code>SELECT_DETAILS_REQUEST = 407;</code>
      */
-    SELECT_DETAILS_REQUEST(39, 407),
+    SELECT_DETAILS_REQUEST(41, 407),
     /**
      * <code>SELECT_DETAILS_ERROR = 408;</code>
      */
-    SELECT_DETAILS_ERROR(40, 408),
+    SELECT_DETAILS_ERROR(42, 408),
+    /**
+     * <code>SELECT_CONNECTIONS_CONNECTION_VIEW = 409;</code>
+     */
+    SELECT_CONNECTIONS_CONNECTION_VIEW(43, 409),
+    /**
+     * <code>SELECT_CONNECTIONS_THREADS_VIEW = 410;</code>
+     */
+    SELECT_CONNECTIONS_THREADS_VIEW(44, 410),
     ;
 
     /**
@@ -511,6 +544,14 @@ public  final class AndroidProfilerEvent extends
      * </pre>
      */
     public static final int STAGE_ENTERED_VALUE = 3;
+    /**
+     * <code>RUN_WITH_PROFILING = 4;</code>
+     *
+     * <pre>
+     * Triggered when the user starts an app in profiling mode.
+     * </pre>
+     */
+    public static final int RUN_WITH_PROFILING_VALUE = 4;
     /**
      * <code>CHANGE_DEVICE = 101;</code>
      */
@@ -556,6 +597,10 @@ public  final class AndroidProfilerEvent extends
      * </pre>
      */
     public static final int SELECT_RANGE_VALUE = 110;
+    /**
+     * <code>FILTER = 111;</code>
+     */
+    public static final int FILTER_VALUE = 111;
     /**
      * <code>TRACE_SAMPLED = 201;</code>
      *
@@ -680,6 +725,14 @@ public  final class AndroidProfilerEvent extends
      * <code>SELECT_DETAILS_ERROR = 408;</code>
      */
     public static final int SELECT_DETAILS_ERROR_VALUE = 408;
+    /**
+     * <code>SELECT_CONNECTIONS_CONNECTION_VIEW = 409;</code>
+     */
+    public static final int SELECT_CONNECTIONS_CONNECTION_VIEW_VALUE = 409;
+    /**
+     * <code>SELECT_CONNECTIONS_THREADS_VIEW = 410;</code>
+     */
+    public static final int SELECT_CONNECTIONS_THREADS_VIEW_VALUE = 410;
 
 
     public final int getNumber() { return value; }
@@ -690,6 +743,7 @@ public  final class AndroidProfilerEvent extends
         case 1: return PROFILING_STARTED;
         case 2: return ADVANCED_PROFILING_STARTED;
         case 3: return STAGE_ENTERED;
+        case 4: return RUN_WITH_PROFILING;
         case 101: return CHANGE_DEVICE;
         case 102: return CHANGE_PROCESS;
         case 103: return GO_BACK;
@@ -700,6 +754,7 @@ public  final class AndroidProfilerEvent extends
         case 108: return GO_LIVE;
         case 109: return NAVIGATE_TO_CODE;
         case 110: return SELECT_RANGE;
+        case 111: return FILTER;
         case 201: return TRACE_SAMPLED;
         case 202: return TRACE_INSTRUMENTED;
         case 204: return SELECT_THREAD;
@@ -727,6 +782,8 @@ public  final class AndroidProfilerEvent extends
         case 406: return SELECT_DETAILS_OVERVIEW;
         case 407: return SELECT_DETAILS_REQUEST;
         case 408: return SELECT_DETAILS_ERROR;
+        case 409: return SELECT_CONNECTIONS_CONNECTION_VIEW;
+        case 410: return SELECT_CONNECTIONS_THREADS_VIEW;
         default: return null;
       }
     }
@@ -898,11 +955,46 @@ public  final class AndroidProfilerEvent extends
     return cpuCaptureMetadata_;
   }
 
+  // optional .android_studio.FilterMetadata filter_metadata = 5;
+  public static final int FILTER_METADATA_FIELD_NUMBER = 5;
+  private com.google.wireless.android.sdk.stats.FilterMetadata filterMetadata_;
+  /**
+   * <code>optional .android_studio.FilterMetadata filter_metadata = 5;</code>
+   *
+   * <pre>
+   * Set if |type| is |FILTER|
+   * </pre>
+   */
+  public boolean hasFilterMetadata() {
+    return ((bitField0_ & 0x00000010) == 0x00000010);
+  }
+  /**
+   * <code>optional .android_studio.FilterMetadata filter_metadata = 5;</code>
+   *
+   * <pre>
+   * Set if |type| is |FILTER|
+   * </pre>
+   */
+  public com.google.wireless.android.sdk.stats.FilterMetadata getFilterMetadata() {
+    return filterMetadata_;
+  }
+  /**
+   * <code>optional .android_studio.FilterMetadata filter_metadata = 5;</code>
+   *
+   * <pre>
+   * Set if |type| is |FILTER|
+   * </pre>
+   */
+  public com.google.wireless.android.sdk.stats.FilterMetadataOrBuilder getFilterMetadataOrBuilder() {
+    return filterMetadata_;
+  }
+
   private void initFields() {
     stage_ = com.google.wireless.android.sdk.stats.AndroidProfilerEvent.Stage.UNKNOWN_STAGE;
     type_ = com.google.wireless.android.sdk.stats.AndroidProfilerEvent.Type.UNKNOWN_TYPE;
     cpuConfig_ = com.google.wireless.android.sdk.stats.CpuProfilingConfig.getDefaultInstance();
     cpuCaptureMetadata_ = com.google.wireless.android.sdk.stats.CpuCaptureMetadata.getDefaultInstance();
+    filterMetadata_ = com.google.wireless.android.sdk.stats.FilterMetadata.getDefaultInstance();
   }
   private byte memoizedIsInitialized = -1;
   public final boolean isInitialized() {
@@ -928,6 +1020,9 @@ public  final class AndroidProfilerEvent extends
     if (((bitField0_ & 0x00000008) == 0x00000008)) {
       output.writeMessage(4, cpuCaptureMetadata_);
     }
+    if (((bitField0_ & 0x00000010) == 0x00000010)) {
+      output.writeMessage(5, filterMetadata_);
+    }
     getUnknownFields().writeTo(output);
   }
 
@@ -952,6 +1047,10 @@ public  final class AndroidProfilerEvent extends
     if (((bitField0_ & 0x00000008) == 0x00000008)) {
       size += com.google.protobuf.CodedOutputStream
         .computeMessageSize(4, cpuCaptureMetadata_);
+    }
+    if (((bitField0_ & 0x00000010) == 0x00000010)) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeMessageSize(5, filterMetadata_);
     }
     size += getUnknownFields().getSerializedSize();
     memoizedSerializedSize = size;
@@ -1067,6 +1166,7 @@ public  final class AndroidProfilerEvent extends
       if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
         getCpuConfigFieldBuilder();
         getCpuCaptureMetadataFieldBuilder();
+        getFilterMetadataFieldBuilder();
       }
     }
     private static Builder create() {
@@ -1091,6 +1191,12 @@ public  final class AndroidProfilerEvent extends
         cpuCaptureMetadataBuilder_.clear();
       }
       bitField0_ = (bitField0_ & ~0x00000008);
+      if (filterMetadataBuilder_ == null) {
+        filterMetadata_ = com.google.wireless.android.sdk.stats.FilterMetadata.getDefaultInstance();
+      } else {
+        filterMetadataBuilder_.clear();
+      }
+      bitField0_ = (bitField0_ & ~0x00000010);
       return this;
     }
 
@@ -1143,6 +1249,14 @@ public  final class AndroidProfilerEvent extends
       } else {
         result.cpuCaptureMetadata_ = cpuCaptureMetadataBuilder_.build();
       }
+      if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
+        to_bitField0_ |= 0x00000010;
+      }
+      if (filterMetadataBuilder_ == null) {
+        result.filterMetadata_ = filterMetadata_;
+      } else {
+        result.filterMetadata_ = filterMetadataBuilder_.build();
+      }
       result.bitField0_ = to_bitField0_;
       onBuilt();
       return result;
@@ -1170,6 +1284,9 @@ public  final class AndroidProfilerEvent extends
       }
       if (other.hasCpuCaptureMetadata()) {
         mergeCpuCaptureMetadata(other.getCpuCaptureMetadata());
+      }
+      if (other.hasFilterMetadata()) {
+        mergeFilterMetadata(other.getFilterMetadata());
       }
       this.mergeUnknownFields(other.getUnknownFields());
       return this;
@@ -1615,6 +1732,159 @@ public  final class AndroidProfilerEvent extends
         cpuCaptureMetadata_ = null;
       }
       return cpuCaptureMetadataBuilder_;
+    }
+
+    // optional .android_studio.FilterMetadata filter_metadata = 5;
+    private com.google.wireless.android.sdk.stats.FilterMetadata filterMetadata_ = com.google.wireless.android.sdk.stats.FilterMetadata.getDefaultInstance();
+    private com.google.protobuf.SingleFieldBuilder<
+        com.google.wireless.android.sdk.stats.FilterMetadata, com.google.wireless.android.sdk.stats.FilterMetadata.Builder, com.google.wireless.android.sdk.stats.FilterMetadataOrBuilder> filterMetadataBuilder_;
+    /**
+     * <code>optional .android_studio.FilterMetadata filter_metadata = 5;</code>
+     *
+     * <pre>
+     * Set if |type| is |FILTER|
+     * </pre>
+     */
+    public boolean hasFilterMetadata() {
+      return ((bitField0_ & 0x00000010) == 0x00000010);
+    }
+    /**
+     * <code>optional .android_studio.FilterMetadata filter_metadata = 5;</code>
+     *
+     * <pre>
+     * Set if |type| is |FILTER|
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.FilterMetadata getFilterMetadata() {
+      if (filterMetadataBuilder_ == null) {
+        return filterMetadata_;
+      } else {
+        return filterMetadataBuilder_.getMessage();
+      }
+    }
+    /**
+     * <code>optional .android_studio.FilterMetadata filter_metadata = 5;</code>
+     *
+     * <pre>
+     * Set if |type| is |FILTER|
+     * </pre>
+     */
+    public Builder setFilterMetadata(com.google.wireless.android.sdk.stats.FilterMetadata value) {
+      if (filterMetadataBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        filterMetadata_ = value;
+        onChanged();
+      } else {
+        filterMetadataBuilder_.setMessage(value);
+      }
+      bitField0_ |= 0x00000010;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.FilterMetadata filter_metadata = 5;</code>
+     *
+     * <pre>
+     * Set if |type| is |FILTER|
+     * </pre>
+     */
+    public Builder setFilterMetadata(
+        com.google.wireless.android.sdk.stats.FilterMetadata.Builder builderForValue) {
+      if (filterMetadataBuilder_ == null) {
+        filterMetadata_ = builderForValue.build();
+        onChanged();
+      } else {
+        filterMetadataBuilder_.setMessage(builderForValue.build());
+      }
+      bitField0_ |= 0x00000010;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.FilterMetadata filter_metadata = 5;</code>
+     *
+     * <pre>
+     * Set if |type| is |FILTER|
+     * </pre>
+     */
+    public Builder mergeFilterMetadata(com.google.wireless.android.sdk.stats.FilterMetadata value) {
+      if (filterMetadataBuilder_ == null) {
+        if (((bitField0_ & 0x00000010) == 0x00000010) &&
+            filterMetadata_ != com.google.wireless.android.sdk.stats.FilterMetadata.getDefaultInstance()) {
+          filterMetadata_ =
+            com.google.wireless.android.sdk.stats.FilterMetadata.newBuilder(filterMetadata_).mergeFrom(value).buildPartial();
+        } else {
+          filterMetadata_ = value;
+        }
+        onChanged();
+      } else {
+        filterMetadataBuilder_.mergeFrom(value);
+      }
+      bitField0_ |= 0x00000010;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.FilterMetadata filter_metadata = 5;</code>
+     *
+     * <pre>
+     * Set if |type| is |FILTER|
+     * </pre>
+     */
+    public Builder clearFilterMetadata() {
+      if (filterMetadataBuilder_ == null) {
+        filterMetadata_ = com.google.wireless.android.sdk.stats.FilterMetadata.getDefaultInstance();
+        onChanged();
+      } else {
+        filterMetadataBuilder_.clear();
+      }
+      bitField0_ = (bitField0_ & ~0x00000010);
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.FilterMetadata filter_metadata = 5;</code>
+     *
+     * <pre>
+     * Set if |type| is |FILTER|
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.FilterMetadata.Builder getFilterMetadataBuilder() {
+      bitField0_ |= 0x00000010;
+      onChanged();
+      return getFilterMetadataFieldBuilder().getBuilder();
+    }
+    /**
+     * <code>optional .android_studio.FilterMetadata filter_metadata = 5;</code>
+     *
+     * <pre>
+     * Set if |type| is |FILTER|
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.FilterMetadataOrBuilder getFilterMetadataOrBuilder() {
+      if (filterMetadataBuilder_ != null) {
+        return filterMetadataBuilder_.getMessageOrBuilder();
+      } else {
+        return filterMetadata_;
+      }
+    }
+    /**
+     * <code>optional .android_studio.FilterMetadata filter_metadata = 5;</code>
+     *
+     * <pre>
+     * Set if |type| is |FILTER|
+     * </pre>
+     */
+    private com.google.protobuf.SingleFieldBuilder<
+        com.google.wireless.android.sdk.stats.FilterMetadata, com.google.wireless.android.sdk.stats.FilterMetadata.Builder, com.google.wireless.android.sdk.stats.FilterMetadataOrBuilder> 
+        getFilterMetadataFieldBuilder() {
+      if (filterMetadataBuilder_ == null) {
+        filterMetadataBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+            com.google.wireless.android.sdk.stats.FilterMetadata, com.google.wireless.android.sdk.stats.FilterMetadata.Builder, com.google.wireless.android.sdk.stats.FilterMetadataOrBuilder>(
+                filterMetadata_,
+                getParentForChildren(),
+                isClean());
+        filterMetadata_ = null;
+      }
+      return filterMetadataBuilder_;
     }
 
     // @@protoc_insertion_point(builder_scope:android_studio.AndroidProfilerEvent)
