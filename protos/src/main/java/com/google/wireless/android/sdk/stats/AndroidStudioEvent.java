@@ -688,6 +688,19 @@ public  final class AndroidStudioEvent extends
             bitField1_ |= 0x00400000;
             break;
           }
+          case 450: {
+            com.google.wireless.android.sdk.stats.OomDialogEvent.Builder subBuilder = null;
+            if (((bitField1_ & 0x00800000) == 0x00800000)) {
+              subBuilder = oomDialogEvent_.toBuilder();
+            }
+            oomDialogEvent_ = input.readMessage(com.google.wireless.android.sdk.stats.OomDialogEvent.PARSER, extensionRegistry);
+            if (subBuilder != null) {
+              subBuilder.mergeFrom(oomDialogEvent_);
+              oomDialogEvent_ = subBuilder.buildPartial();
+            }
+            bitField1_ |= 0x00800000;
+            break;
+          }
         }
       }
     } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -2232,6 +2245,14 @@ public  final class AndroidStudioEvent extends
      * </pre>
      */
     CONNECTION_ASSISTANT_EVENT(123, 126),
+    /**
+     * <code>STUDIO_UI_OOM_DIALOG_EVENT = 127;</code>
+     *
+     * <pre>
+     * Out of Memory Dialog event
+     * </pre>
+     */
+    STUDIO_UI_OOM_DIALOG_EVENT(124, 127),
     ;
 
     /**
@@ -3207,6 +3228,14 @@ public  final class AndroidStudioEvent extends
      * </pre>
      */
     public static final int CONNECTION_ASSISTANT_EVENT_VALUE = 126;
+    /**
+     * <code>STUDIO_UI_OOM_DIALOG_EVENT = 127;</code>
+     *
+     * <pre>
+     * Out of Memory Dialog event
+     * </pre>
+     */
+    public static final int STUDIO_UI_OOM_DIALOG_EVENT_VALUE = 127;
 
 
     public final int getNumber() { return value; }
@@ -3337,6 +3366,7 @@ public  final class AndroidStudioEvent extends
         case 124: return LAYOUT_INSPECTOR_EVENT;
         case 125: return ANDROID_PROFILER_DB_STATS;
         case 126: return CONNECTION_ASSISTANT_EVENT;
+        case 127: return STUDIO_UI_OOM_DIALOG_EVENT;
         default: return null;
       }
     }
@@ -4769,10 +4799,10 @@ public  final class AndroidStudioEvent extends
    * <code>optional .android_studio.ProductDetails product_details = 4;</code>
    *
    * <pre>
-   * set when kind = STUDIO_PING
+   * Fully set when kind = STUDIO_PING
    * or kind = EMULATOR_PING
-   * or ANDROID_STUDIO_TEST
-   * or ANDROID_STUDIO_THROUGH_GRADLE
+   * or kind = TEST_RUN.
+   * The version field is set for most messages.
    * </pre>
    */
   public boolean hasProductDetails() {
@@ -4782,10 +4812,10 @@ public  final class AndroidStudioEvent extends
    * <code>optional .android_studio.ProductDetails product_details = 4;</code>
    *
    * <pre>
-   * set when kind = STUDIO_PING
+   * Fully set when kind = STUDIO_PING
    * or kind = EMULATOR_PING
-   * or ANDROID_STUDIO_TEST
-   * or ANDROID_STUDIO_THROUGH_GRADLE
+   * or kind = TEST_RUN.
+   * The version field is set for most messages.
    * </pre>
    */
   public com.google.wireless.android.sdk.stats.ProductDetails getProductDetails() {
@@ -4795,10 +4825,10 @@ public  final class AndroidStudioEvent extends
    * <code>optional .android_studio.ProductDetails product_details = 4;</code>
    *
    * <pre>
-   * set when kind = STUDIO_PING
+   * Fully set when kind = STUDIO_PING
    * or kind = EMULATOR_PING
-   * or ANDROID_STUDIO_TEST
-   * or ANDROID_STUDIO_THROUGH_GRADLE
+   * or kind = TEST_RUN.
+   * The version field is set for most messages.
    * </pre>
    */
   public com.google.wireless.android.sdk.stats.ProductDetailsOrBuilder getProductDetailsOrBuilder() {
@@ -5966,7 +5996,9 @@ public  final class AndroidStudioEvent extends
    * <code>optional .android_studio.JavaProcessStats java_process_stats = 37;</code>
    *
    * <pre>
-   * set when kind = STUDIO_PROCESS_STATS or kind = GRADLE_BUILD_PROFILE
+   * set when kind = STUDIO_PROCESS_STATS
+   * or kind = GRADLE_BUILD_PROFILE
+   * or kind = STUDIO_UI_OOM_DIALOG_EVENT
    * </pre>
    */
   public boolean hasJavaProcessStats() {
@@ -5976,7 +6008,9 @@ public  final class AndroidStudioEvent extends
    * <code>optional .android_studio.JavaProcessStats java_process_stats = 37;</code>
    *
    * <pre>
-   * set when kind = STUDIO_PROCESS_STATS or kind = GRADLE_BUILD_PROFILE
+   * set when kind = STUDIO_PROCESS_STATS
+   * or kind = GRADLE_BUILD_PROFILE
+   * or kind = STUDIO_UI_OOM_DIALOG_EVENT
    * </pre>
    */
   public com.google.wireless.android.sdk.stats.JavaProcessStats getJavaProcessStats() {
@@ -5986,7 +6020,9 @@ public  final class AndroidStudioEvent extends
    * <code>optional .android_studio.JavaProcessStats java_process_stats = 37;</code>
    *
    * <pre>
-   * set when kind = STUDIO_PROCESS_STATS or kind = GRADLE_BUILD_PROFILE
+   * set when kind = STUDIO_PROCESS_STATS
+   * or kind = GRADLE_BUILD_PROFILE
+   * or kind = STUDIO_UI_OOM_DIALOG_EVENT
    * </pre>
    */
   public com.google.wireless.android.sdk.stats.JavaProcessStatsOrBuilder getJavaProcessStatsOrBuilder() {
@@ -6548,6 +6584,7 @@ public  final class AndroidStudioEvent extends
    *
    * <pre>
    * set when kind = TEMPLATE_RENDER
+   * or kind = GRADLE_SYNC_ENDED
    * </pre>
    */
   public boolean hasKotlinSupport() {
@@ -6558,6 +6595,7 @@ public  final class AndroidStudioEvent extends
    *
    * <pre>
    * set when kind = TEMPLATE_RENDER
+   * or kind = GRADLE_SYNC_ENDED
    * </pre>
    */
   public com.google.wireless.android.sdk.stats.KotlinSupport getKotlinSupport() {
@@ -6568,6 +6606,7 @@ public  final class AndroidStudioEvent extends
    *
    * <pre>
    * set when kind = TEMPLATE_RENDER
+   * or kind = GRADLE_SYNC_ENDED
    * </pre>
    */
   public com.google.wireless.android.sdk.stats.KotlinSupportOrBuilder getKotlinSupportOrBuilder() {
@@ -6606,6 +6645,40 @@ public  final class AndroidStudioEvent extends
    */
   public com.google.wireless.android.sdk.stats.ConnectionAssistantEventOrBuilder getConnectionAssistantEventOrBuilder() {
     return connectionAssistantEvent_;
+  }
+
+  // optional .android_studio.OomDialogEvent oom_dialog_event = 56;
+  public static final int OOM_DIALOG_EVENT_FIELD_NUMBER = 56;
+  private com.google.wireless.android.sdk.stats.OomDialogEvent oomDialogEvent_;
+  /**
+   * <code>optional .android_studio.OomDialogEvent oom_dialog_event = 56;</code>
+   *
+   * <pre>
+   * set when kind = STUDIO_UI_OOM_DIALOG_EVENT
+   * </pre>
+   */
+  public boolean hasOomDialogEvent() {
+    return ((bitField1_ & 0x00800000) == 0x00800000);
+  }
+  /**
+   * <code>optional .android_studio.OomDialogEvent oom_dialog_event = 56;</code>
+   *
+   * <pre>
+   * set when kind = STUDIO_UI_OOM_DIALOG_EVENT
+   * </pre>
+   */
+  public com.google.wireless.android.sdk.stats.OomDialogEvent getOomDialogEvent() {
+    return oomDialogEvent_;
+  }
+  /**
+   * <code>optional .android_studio.OomDialogEvent oom_dialog_event = 56;</code>
+   *
+   * <pre>
+   * set when kind = STUDIO_UI_OOM_DIALOG_EVENT
+   * </pre>
+   */
+  public com.google.wireless.android.sdk.stats.OomDialogEventOrBuilder getOomDialogEventOrBuilder() {
+    return oomDialogEvent_;
   }
 
   private void initFields() {
@@ -6664,6 +6737,7 @@ public  final class AndroidStudioEvent extends
     androidProfilerDbStats_ = com.google.wireless.android.sdk.stats.AndroidProfilerDbStats.getDefaultInstance();
     kotlinSupport_ = com.google.wireless.android.sdk.stats.KotlinSupport.getDefaultInstance();
     connectionAssistantEvent_ = com.google.wireless.android.sdk.stats.ConnectionAssistantEvent.getDefaultInstance();
+    oomDialogEvent_ = com.google.wireless.android.sdk.stats.OomDialogEvent.getDefaultInstance();
   }
   private byte memoizedIsInitialized = -1;
   public final boolean isInitialized() {
@@ -6841,6 +6915,9 @@ public  final class AndroidStudioEvent extends
     }
     if (((bitField1_ & 0x00400000) == 0x00400000)) {
       output.writeMessage(55, connectionAssistantEvent_);
+    }
+    if (((bitField1_ & 0x00800000) == 0x00800000)) {
+      output.writeMessage(56, oomDialogEvent_);
     }
     getUnknownFields().writeTo(output);
   }
@@ -7071,6 +7148,10 @@ public  final class AndroidStudioEvent extends
       size += com.google.protobuf.CodedOutputStream
         .computeMessageSize(55, connectionAssistantEvent_);
     }
+    if (((bitField1_ & 0x00800000) == 0x00800000)) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeMessageSize(56, oomDialogEvent_);
+    }
     size += getUnknownFields().getSerializedSize();
     memoizedSerializedSize = size;
     return size;
@@ -7217,6 +7298,7 @@ public  final class AndroidStudioEvent extends
         getAndroidProfilerDbStatsFieldBuilder();
         getKotlinSupportFieldBuilder();
         getConnectionAssistantEventFieldBuilder();
+        getOomDialogEventFieldBuilder();
       }
     }
     private static Builder create() {
@@ -7487,6 +7569,12 @@ public  final class AndroidStudioEvent extends
         connectionAssistantEventBuilder_.clear();
       }
       bitField1_ = (bitField1_ & ~0x00400000);
+      if (oomDialogEventBuilder_ == null) {
+        oomDialogEvent_ = com.google.wireless.android.sdk.stats.OomDialogEvent.getDefaultInstance();
+      } else {
+        oomDialogEventBuilder_.clear();
+      }
+      bitField1_ = (bitField1_ & ~0x00800000);
       return this;
     }
 
@@ -7889,6 +7977,14 @@ public  final class AndroidStudioEvent extends
       } else {
         result.connectionAssistantEvent_ = connectionAssistantEventBuilder_.build();
       }
+      if (((from_bitField1_ & 0x00800000) == 0x00800000)) {
+        to_bitField1_ |= 0x00800000;
+      }
+      if (oomDialogEventBuilder_ == null) {
+        result.oomDialogEvent_ = oomDialogEvent_;
+      } else {
+        result.oomDialogEvent_ = oomDialogEventBuilder_.build();
+      }
       result.bitField0_ = to_bitField0_;
       result.bitField1_ = to_bitField1_;
       onBuilt();
@@ -8082,6 +8178,9 @@ public  final class AndroidStudioEvent extends
       }
       if (other.hasConnectionAssistantEvent()) {
         mergeConnectionAssistantEvent(other.getConnectionAssistantEvent());
+      }
+      if (other.hasOomDialogEvent()) {
+        mergeOomDialogEvent(other.getOomDialogEvent());
       }
       this.mergeUnknownFields(other.getUnknownFields());
       return this;
@@ -8339,10 +8438,10 @@ public  final class AndroidStudioEvent extends
      * <code>optional .android_studio.ProductDetails product_details = 4;</code>
      *
      * <pre>
-     * set when kind = STUDIO_PING
+     * Fully set when kind = STUDIO_PING
      * or kind = EMULATOR_PING
-     * or ANDROID_STUDIO_TEST
-     * or ANDROID_STUDIO_THROUGH_GRADLE
+     * or kind = TEST_RUN.
+     * The version field is set for most messages.
      * </pre>
      */
     public boolean hasProductDetails() {
@@ -8352,10 +8451,10 @@ public  final class AndroidStudioEvent extends
      * <code>optional .android_studio.ProductDetails product_details = 4;</code>
      *
      * <pre>
-     * set when kind = STUDIO_PING
+     * Fully set when kind = STUDIO_PING
      * or kind = EMULATOR_PING
-     * or ANDROID_STUDIO_TEST
-     * or ANDROID_STUDIO_THROUGH_GRADLE
+     * or kind = TEST_RUN.
+     * The version field is set for most messages.
      * </pre>
      */
     public com.google.wireless.android.sdk.stats.ProductDetails getProductDetails() {
@@ -8369,10 +8468,10 @@ public  final class AndroidStudioEvent extends
      * <code>optional .android_studio.ProductDetails product_details = 4;</code>
      *
      * <pre>
-     * set when kind = STUDIO_PING
+     * Fully set when kind = STUDIO_PING
      * or kind = EMULATOR_PING
-     * or ANDROID_STUDIO_TEST
-     * or ANDROID_STUDIO_THROUGH_GRADLE
+     * or kind = TEST_RUN.
+     * The version field is set for most messages.
      * </pre>
      */
     public Builder setProductDetails(com.google.wireless.android.sdk.stats.ProductDetails value) {
@@ -8392,10 +8491,10 @@ public  final class AndroidStudioEvent extends
      * <code>optional .android_studio.ProductDetails product_details = 4;</code>
      *
      * <pre>
-     * set when kind = STUDIO_PING
+     * Fully set when kind = STUDIO_PING
      * or kind = EMULATOR_PING
-     * or ANDROID_STUDIO_TEST
-     * or ANDROID_STUDIO_THROUGH_GRADLE
+     * or kind = TEST_RUN.
+     * The version field is set for most messages.
      * </pre>
      */
     public Builder setProductDetails(
@@ -8413,10 +8512,10 @@ public  final class AndroidStudioEvent extends
      * <code>optional .android_studio.ProductDetails product_details = 4;</code>
      *
      * <pre>
-     * set when kind = STUDIO_PING
+     * Fully set when kind = STUDIO_PING
      * or kind = EMULATOR_PING
-     * or ANDROID_STUDIO_TEST
-     * or ANDROID_STUDIO_THROUGH_GRADLE
+     * or kind = TEST_RUN.
+     * The version field is set for most messages.
      * </pre>
      */
     public Builder mergeProductDetails(com.google.wireless.android.sdk.stats.ProductDetails value) {
@@ -8439,10 +8538,10 @@ public  final class AndroidStudioEvent extends
      * <code>optional .android_studio.ProductDetails product_details = 4;</code>
      *
      * <pre>
-     * set when kind = STUDIO_PING
+     * Fully set when kind = STUDIO_PING
      * or kind = EMULATOR_PING
-     * or ANDROID_STUDIO_TEST
-     * or ANDROID_STUDIO_THROUGH_GRADLE
+     * or kind = TEST_RUN.
+     * The version field is set for most messages.
      * </pre>
      */
     public Builder clearProductDetails() {
@@ -8459,10 +8558,10 @@ public  final class AndroidStudioEvent extends
      * <code>optional .android_studio.ProductDetails product_details = 4;</code>
      *
      * <pre>
-     * set when kind = STUDIO_PING
+     * Fully set when kind = STUDIO_PING
      * or kind = EMULATOR_PING
-     * or ANDROID_STUDIO_TEST
-     * or ANDROID_STUDIO_THROUGH_GRADLE
+     * or kind = TEST_RUN.
+     * The version field is set for most messages.
      * </pre>
      */
     public com.google.wireless.android.sdk.stats.ProductDetails.Builder getProductDetailsBuilder() {
@@ -8474,10 +8573,10 @@ public  final class AndroidStudioEvent extends
      * <code>optional .android_studio.ProductDetails product_details = 4;</code>
      *
      * <pre>
-     * set when kind = STUDIO_PING
+     * Fully set when kind = STUDIO_PING
      * or kind = EMULATOR_PING
-     * or ANDROID_STUDIO_TEST
-     * or ANDROID_STUDIO_THROUGH_GRADLE
+     * or kind = TEST_RUN.
+     * The version field is set for most messages.
      * </pre>
      */
     public com.google.wireless.android.sdk.stats.ProductDetailsOrBuilder getProductDetailsOrBuilder() {
@@ -8491,10 +8590,10 @@ public  final class AndroidStudioEvent extends
      * <code>optional .android_studio.ProductDetails product_details = 4;</code>
      *
      * <pre>
-     * set when kind = STUDIO_PING
+     * Fully set when kind = STUDIO_PING
      * or kind = EMULATOR_PING
-     * or ANDROID_STUDIO_TEST
-     * or ANDROID_STUDIO_THROUGH_GRADLE
+     * or kind = TEST_RUN.
+     * The version field is set for most messages.
      * </pre>
      */
     private com.google.protobuf.SingleFieldBuilder<
@@ -12357,7 +12456,9 @@ public  final class AndroidStudioEvent extends
      * <code>optional .android_studio.JavaProcessStats java_process_stats = 37;</code>
      *
      * <pre>
-     * set when kind = STUDIO_PROCESS_STATS or kind = GRADLE_BUILD_PROFILE
+     * set when kind = STUDIO_PROCESS_STATS
+     * or kind = GRADLE_BUILD_PROFILE
+     * or kind = STUDIO_UI_OOM_DIALOG_EVENT
      * </pre>
      */
     public boolean hasJavaProcessStats() {
@@ -12367,7 +12468,9 @@ public  final class AndroidStudioEvent extends
      * <code>optional .android_studio.JavaProcessStats java_process_stats = 37;</code>
      *
      * <pre>
-     * set when kind = STUDIO_PROCESS_STATS or kind = GRADLE_BUILD_PROFILE
+     * set when kind = STUDIO_PROCESS_STATS
+     * or kind = GRADLE_BUILD_PROFILE
+     * or kind = STUDIO_UI_OOM_DIALOG_EVENT
      * </pre>
      */
     public com.google.wireless.android.sdk.stats.JavaProcessStats getJavaProcessStats() {
@@ -12381,7 +12484,9 @@ public  final class AndroidStudioEvent extends
      * <code>optional .android_studio.JavaProcessStats java_process_stats = 37;</code>
      *
      * <pre>
-     * set when kind = STUDIO_PROCESS_STATS or kind = GRADLE_BUILD_PROFILE
+     * set when kind = STUDIO_PROCESS_STATS
+     * or kind = GRADLE_BUILD_PROFILE
+     * or kind = STUDIO_UI_OOM_DIALOG_EVENT
      * </pre>
      */
     public Builder setJavaProcessStats(com.google.wireless.android.sdk.stats.JavaProcessStats value) {
@@ -12401,7 +12506,9 @@ public  final class AndroidStudioEvent extends
      * <code>optional .android_studio.JavaProcessStats java_process_stats = 37;</code>
      *
      * <pre>
-     * set when kind = STUDIO_PROCESS_STATS or kind = GRADLE_BUILD_PROFILE
+     * set when kind = STUDIO_PROCESS_STATS
+     * or kind = GRADLE_BUILD_PROFILE
+     * or kind = STUDIO_UI_OOM_DIALOG_EVENT
      * </pre>
      */
     public Builder setJavaProcessStats(
@@ -12419,7 +12526,9 @@ public  final class AndroidStudioEvent extends
      * <code>optional .android_studio.JavaProcessStats java_process_stats = 37;</code>
      *
      * <pre>
-     * set when kind = STUDIO_PROCESS_STATS or kind = GRADLE_BUILD_PROFILE
+     * set when kind = STUDIO_PROCESS_STATS
+     * or kind = GRADLE_BUILD_PROFILE
+     * or kind = STUDIO_UI_OOM_DIALOG_EVENT
      * </pre>
      */
     public Builder mergeJavaProcessStats(com.google.wireless.android.sdk.stats.JavaProcessStats value) {
@@ -12442,7 +12551,9 @@ public  final class AndroidStudioEvent extends
      * <code>optional .android_studio.JavaProcessStats java_process_stats = 37;</code>
      *
      * <pre>
-     * set when kind = STUDIO_PROCESS_STATS or kind = GRADLE_BUILD_PROFILE
+     * set when kind = STUDIO_PROCESS_STATS
+     * or kind = GRADLE_BUILD_PROFILE
+     * or kind = STUDIO_UI_OOM_DIALOG_EVENT
      * </pre>
      */
     public Builder clearJavaProcessStats() {
@@ -12459,7 +12570,9 @@ public  final class AndroidStudioEvent extends
      * <code>optional .android_studio.JavaProcessStats java_process_stats = 37;</code>
      *
      * <pre>
-     * set when kind = STUDIO_PROCESS_STATS or kind = GRADLE_BUILD_PROFILE
+     * set when kind = STUDIO_PROCESS_STATS
+     * or kind = GRADLE_BUILD_PROFILE
+     * or kind = STUDIO_UI_OOM_DIALOG_EVENT
      * </pre>
      */
     public com.google.wireless.android.sdk.stats.JavaProcessStats.Builder getJavaProcessStatsBuilder() {
@@ -12471,7 +12584,9 @@ public  final class AndroidStudioEvent extends
      * <code>optional .android_studio.JavaProcessStats java_process_stats = 37;</code>
      *
      * <pre>
-     * set when kind = STUDIO_PROCESS_STATS or kind = GRADLE_BUILD_PROFILE
+     * set when kind = STUDIO_PROCESS_STATS
+     * or kind = GRADLE_BUILD_PROFILE
+     * or kind = STUDIO_UI_OOM_DIALOG_EVENT
      * </pre>
      */
     public com.google.wireless.android.sdk.stats.JavaProcessStatsOrBuilder getJavaProcessStatsOrBuilder() {
@@ -12485,7 +12600,9 @@ public  final class AndroidStudioEvent extends
      * <code>optional .android_studio.JavaProcessStats java_process_stats = 37;</code>
      *
      * <pre>
-     * set when kind = STUDIO_PROCESS_STATS or kind = GRADLE_BUILD_PROFILE
+     * set when kind = STUDIO_PROCESS_STATS
+     * or kind = GRADLE_BUILD_PROFILE
+     * or kind = STUDIO_UI_OOM_DIALOG_EVENT
      * </pre>
      */
     private com.google.protobuf.SingleFieldBuilder<
@@ -14968,6 +15085,7 @@ public  final class AndroidStudioEvent extends
      *
      * <pre>
      * set when kind = TEMPLATE_RENDER
+     * or kind = GRADLE_SYNC_ENDED
      * </pre>
      */
     public boolean hasKotlinSupport() {
@@ -14978,6 +15096,7 @@ public  final class AndroidStudioEvent extends
      *
      * <pre>
      * set when kind = TEMPLATE_RENDER
+     * or kind = GRADLE_SYNC_ENDED
      * </pre>
      */
     public com.google.wireless.android.sdk.stats.KotlinSupport getKotlinSupport() {
@@ -14992,6 +15111,7 @@ public  final class AndroidStudioEvent extends
      *
      * <pre>
      * set when kind = TEMPLATE_RENDER
+     * or kind = GRADLE_SYNC_ENDED
      * </pre>
      */
     public Builder setKotlinSupport(com.google.wireless.android.sdk.stats.KotlinSupport value) {
@@ -15012,6 +15132,7 @@ public  final class AndroidStudioEvent extends
      *
      * <pre>
      * set when kind = TEMPLATE_RENDER
+     * or kind = GRADLE_SYNC_ENDED
      * </pre>
      */
     public Builder setKotlinSupport(
@@ -15030,6 +15151,7 @@ public  final class AndroidStudioEvent extends
      *
      * <pre>
      * set when kind = TEMPLATE_RENDER
+     * or kind = GRADLE_SYNC_ENDED
      * </pre>
      */
     public Builder mergeKotlinSupport(com.google.wireless.android.sdk.stats.KotlinSupport value) {
@@ -15053,6 +15175,7 @@ public  final class AndroidStudioEvent extends
      *
      * <pre>
      * set when kind = TEMPLATE_RENDER
+     * or kind = GRADLE_SYNC_ENDED
      * </pre>
      */
     public Builder clearKotlinSupport() {
@@ -15070,6 +15193,7 @@ public  final class AndroidStudioEvent extends
      *
      * <pre>
      * set when kind = TEMPLATE_RENDER
+     * or kind = GRADLE_SYNC_ENDED
      * </pre>
      */
     public com.google.wireless.android.sdk.stats.KotlinSupport.Builder getKotlinSupportBuilder() {
@@ -15082,6 +15206,7 @@ public  final class AndroidStudioEvent extends
      *
      * <pre>
      * set when kind = TEMPLATE_RENDER
+     * or kind = GRADLE_SYNC_ENDED
      * </pre>
      */
     public com.google.wireless.android.sdk.stats.KotlinSupportOrBuilder getKotlinSupportOrBuilder() {
@@ -15096,6 +15221,7 @@ public  final class AndroidStudioEvent extends
      *
      * <pre>
      * set when kind = TEMPLATE_RENDER
+     * or kind = GRADLE_SYNC_ENDED
      * </pre>
      */
     private com.google.protobuf.SingleFieldBuilder<
@@ -15263,6 +15389,159 @@ public  final class AndroidStudioEvent extends
         connectionAssistantEvent_ = null;
       }
       return connectionAssistantEventBuilder_;
+    }
+
+    // optional .android_studio.OomDialogEvent oom_dialog_event = 56;
+    private com.google.wireless.android.sdk.stats.OomDialogEvent oomDialogEvent_ = com.google.wireless.android.sdk.stats.OomDialogEvent.getDefaultInstance();
+    private com.google.protobuf.SingleFieldBuilder<
+        com.google.wireless.android.sdk.stats.OomDialogEvent, com.google.wireless.android.sdk.stats.OomDialogEvent.Builder, com.google.wireless.android.sdk.stats.OomDialogEventOrBuilder> oomDialogEventBuilder_;
+    /**
+     * <code>optional .android_studio.OomDialogEvent oom_dialog_event = 56;</code>
+     *
+     * <pre>
+     * set when kind = STUDIO_UI_OOM_DIALOG_EVENT
+     * </pre>
+     */
+    public boolean hasOomDialogEvent() {
+      return ((bitField1_ & 0x00800000) == 0x00800000);
+    }
+    /**
+     * <code>optional .android_studio.OomDialogEvent oom_dialog_event = 56;</code>
+     *
+     * <pre>
+     * set when kind = STUDIO_UI_OOM_DIALOG_EVENT
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.OomDialogEvent getOomDialogEvent() {
+      if (oomDialogEventBuilder_ == null) {
+        return oomDialogEvent_;
+      } else {
+        return oomDialogEventBuilder_.getMessage();
+      }
+    }
+    /**
+     * <code>optional .android_studio.OomDialogEvent oom_dialog_event = 56;</code>
+     *
+     * <pre>
+     * set when kind = STUDIO_UI_OOM_DIALOG_EVENT
+     * </pre>
+     */
+    public Builder setOomDialogEvent(com.google.wireless.android.sdk.stats.OomDialogEvent value) {
+      if (oomDialogEventBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        oomDialogEvent_ = value;
+        onChanged();
+      } else {
+        oomDialogEventBuilder_.setMessage(value);
+      }
+      bitField1_ |= 0x00800000;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.OomDialogEvent oom_dialog_event = 56;</code>
+     *
+     * <pre>
+     * set when kind = STUDIO_UI_OOM_DIALOG_EVENT
+     * </pre>
+     */
+    public Builder setOomDialogEvent(
+        com.google.wireless.android.sdk.stats.OomDialogEvent.Builder builderForValue) {
+      if (oomDialogEventBuilder_ == null) {
+        oomDialogEvent_ = builderForValue.build();
+        onChanged();
+      } else {
+        oomDialogEventBuilder_.setMessage(builderForValue.build());
+      }
+      bitField1_ |= 0x00800000;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.OomDialogEvent oom_dialog_event = 56;</code>
+     *
+     * <pre>
+     * set when kind = STUDIO_UI_OOM_DIALOG_EVENT
+     * </pre>
+     */
+    public Builder mergeOomDialogEvent(com.google.wireless.android.sdk.stats.OomDialogEvent value) {
+      if (oomDialogEventBuilder_ == null) {
+        if (((bitField1_ & 0x00800000) == 0x00800000) &&
+            oomDialogEvent_ != com.google.wireless.android.sdk.stats.OomDialogEvent.getDefaultInstance()) {
+          oomDialogEvent_ =
+            com.google.wireless.android.sdk.stats.OomDialogEvent.newBuilder(oomDialogEvent_).mergeFrom(value).buildPartial();
+        } else {
+          oomDialogEvent_ = value;
+        }
+        onChanged();
+      } else {
+        oomDialogEventBuilder_.mergeFrom(value);
+      }
+      bitField1_ |= 0x00800000;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.OomDialogEvent oom_dialog_event = 56;</code>
+     *
+     * <pre>
+     * set when kind = STUDIO_UI_OOM_DIALOG_EVENT
+     * </pre>
+     */
+    public Builder clearOomDialogEvent() {
+      if (oomDialogEventBuilder_ == null) {
+        oomDialogEvent_ = com.google.wireless.android.sdk.stats.OomDialogEvent.getDefaultInstance();
+        onChanged();
+      } else {
+        oomDialogEventBuilder_.clear();
+      }
+      bitField1_ = (bitField1_ & ~0x00800000);
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.OomDialogEvent oom_dialog_event = 56;</code>
+     *
+     * <pre>
+     * set when kind = STUDIO_UI_OOM_DIALOG_EVENT
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.OomDialogEvent.Builder getOomDialogEventBuilder() {
+      bitField1_ |= 0x00800000;
+      onChanged();
+      return getOomDialogEventFieldBuilder().getBuilder();
+    }
+    /**
+     * <code>optional .android_studio.OomDialogEvent oom_dialog_event = 56;</code>
+     *
+     * <pre>
+     * set when kind = STUDIO_UI_OOM_DIALOG_EVENT
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.OomDialogEventOrBuilder getOomDialogEventOrBuilder() {
+      if (oomDialogEventBuilder_ != null) {
+        return oomDialogEventBuilder_.getMessageOrBuilder();
+      } else {
+        return oomDialogEvent_;
+      }
+    }
+    /**
+     * <code>optional .android_studio.OomDialogEvent oom_dialog_event = 56;</code>
+     *
+     * <pre>
+     * set when kind = STUDIO_UI_OOM_DIALOG_EVENT
+     * </pre>
+     */
+    private com.google.protobuf.SingleFieldBuilder<
+        com.google.wireless.android.sdk.stats.OomDialogEvent, com.google.wireless.android.sdk.stats.OomDialogEvent.Builder, com.google.wireless.android.sdk.stats.OomDialogEventOrBuilder> 
+        getOomDialogEventFieldBuilder() {
+      if (oomDialogEventBuilder_ == null) {
+        oomDialogEventBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+            com.google.wireless.android.sdk.stats.OomDialogEvent, com.google.wireless.android.sdk.stats.OomDialogEvent.Builder, com.google.wireless.android.sdk.stats.OomDialogEventOrBuilder>(
+                oomDialogEvent_,
+                getParentForChildren(),
+                isClean());
+        oomDialogEvent_ = null;
+      }
+      return oomDialogEventBuilder_;
     }
 
     // @@protoc_insertion_point(builder_scope:android_studio.AndroidStudioEvent)
