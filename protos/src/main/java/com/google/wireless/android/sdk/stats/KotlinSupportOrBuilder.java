@@ -12,7 +12,8 @@ public interface KotlinSupportOrBuilder
    *
    * <pre>
    * True if "Include Kotlin Support" option checked
-   * when Android project created, False otherwise
+   * when Android project created, False otherwise.
+   * Set when kind = TEMPLATE_RENDER
    * </pre>
    */
   boolean hasIncludeKotlinSupport();
@@ -21,7 +22,8 @@ public interface KotlinSupportOrBuilder
    *
    * <pre>
    * True if "Include Kotlin Support" option checked
-   * when Android project created, False otherwise
+   * when Android project created, False otherwise.
+   * Set when kind = TEMPLATE_RENDER
    * </pre>
    */
   boolean getIncludeKotlinSupport();
@@ -31,7 +33,7 @@ public interface KotlinSupportOrBuilder
    * <code>optional string kotlin_support_version = 2;</code>
    *
    * <pre>
-   * Kotlin version used for Kotlin support; e.g., "1.1.3-2".
+   * Kotlin version used, e.g. "1.1.3-2".
    * </pre>
    */
   boolean hasKotlinSupportVersion();
@@ -39,7 +41,7 @@ public interface KotlinSupportOrBuilder
    * <code>optional string kotlin_support_version = 2;</code>
    *
    * <pre>
-   * Kotlin version used for Kotlin support; e.g., "1.1.3-2".
+   * Kotlin version used, e.g. "1.1.3-2".
    * </pre>
    */
   java.lang.String getKotlinSupportVersion();
@@ -47,9 +49,36 @@ public interface KotlinSupportOrBuilder
    * <code>optional string kotlin_support_version = 2;</code>
    *
    * <pre>
-   * Kotlin version used for Kotlin support; e.g., "1.1.3-2".
+   * Kotlin version used, e.g. "1.1.3-2".
    * </pre>
    */
   com.google.protobuf.ByteString
       getKotlinSupportVersionBytes();
+
+  // optional string android_ktx_version = 3;
+  /**
+   * <code>optional string android_ktx_version = 3;</code>
+   *
+   * <pre>
+   * Android Ktx version used, e.g. "1.0.0".
+   * </pre>
+   */
+  boolean hasAndroidKtxVersion();
+  /**
+   * <code>optional string android_ktx_version = 3;</code>
+   *
+   * <pre>
+   * Android Ktx version used, e.g. "1.0.0".
+   * </pre>
+   */
+  java.lang.String getAndroidKtxVersion();
+  /**
+   * <code>optional string android_ktx_version = 3;</code>
+   *
+   * <pre>
+   * Android Ktx version used, e.g. "1.0.0".
+   * </pre>
+   */
+  com.google.protobuf.ByteString
+      getAndroidKtxVersionBytes();
 }

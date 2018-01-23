@@ -83,10 +83,10 @@ public interface AndroidStudioEventOrBuilder
    * <code>optional .android_studio.ProductDetails product_details = 4;</code>
    *
    * <pre>
-   * set when kind = STUDIO_PING
+   * Fully set when kind = STUDIO_PING
    * or kind = EMULATOR_PING
-   * or ANDROID_STUDIO_TEST
-   * or ANDROID_STUDIO_THROUGH_GRADLE
+   * or kind = TEST_RUN.
+   * The version field is set for most messages.
    * </pre>
    */
   boolean hasProductDetails();
@@ -94,10 +94,10 @@ public interface AndroidStudioEventOrBuilder
    * <code>optional .android_studio.ProductDetails product_details = 4;</code>
    *
    * <pre>
-   * set when kind = STUDIO_PING
+   * Fully set when kind = STUDIO_PING
    * or kind = EMULATOR_PING
-   * or ANDROID_STUDIO_TEST
-   * or ANDROID_STUDIO_THROUGH_GRADLE
+   * or kind = TEST_RUN.
+   * The version field is set for most messages.
    * </pre>
    */
   com.google.wireless.android.sdk.stats.ProductDetails getProductDetails();
@@ -105,10 +105,10 @@ public interface AndroidStudioEventOrBuilder
    * <code>optional .android_studio.ProductDetails product_details = 4;</code>
    *
    * <pre>
-   * set when kind = STUDIO_PING
+   * Fully set when kind = STUDIO_PING
    * or kind = EMULATOR_PING
-   * or ANDROID_STUDIO_TEST
-   * or ANDROID_STUDIO_THROUGH_GRADLE
+   * or kind = TEST_RUN.
+   * The version field is set for most messages.
    * </pre>
    */
   com.google.wireless.android.sdk.stats.ProductDetailsOrBuilder getProductDetailsOrBuilder();
@@ -934,7 +934,9 @@ public interface AndroidStudioEventOrBuilder
    * <code>optional .android_studio.JavaProcessStats java_process_stats = 37;</code>
    *
    * <pre>
-   * set when kind = STUDIO_PROCESS_STATS or kind = GRADLE_BUILD_PROFILE
+   * set when kind = STUDIO_PROCESS_STATS
+   * or kind = GRADLE_BUILD_PROFILE
+   * or kind = STUDIO_UI_OOM_DIALOG_EVENT
    * </pre>
    */
   boolean hasJavaProcessStats();
@@ -942,7 +944,9 @@ public interface AndroidStudioEventOrBuilder
    * <code>optional .android_studio.JavaProcessStats java_process_stats = 37;</code>
    *
    * <pre>
-   * set when kind = STUDIO_PROCESS_STATS or kind = GRADLE_BUILD_PROFILE
+   * set when kind = STUDIO_PROCESS_STATS
+   * or kind = GRADLE_BUILD_PROFILE
+   * or kind = STUDIO_UI_OOM_DIALOG_EVENT
    * </pre>
    */
   com.google.wireless.android.sdk.stats.JavaProcessStats getJavaProcessStats();
@@ -950,7 +954,9 @@ public interface AndroidStudioEventOrBuilder
    * <code>optional .android_studio.JavaProcessStats java_process_stats = 37;</code>
    *
    * <pre>
-   * set when kind = STUDIO_PROCESS_STATS or kind = GRADLE_BUILD_PROFILE
+   * set when kind = STUDIO_PROCESS_STATS
+   * or kind = GRADLE_BUILD_PROFILE
+   * or kind = STUDIO_UI_OOM_DIALOG_EVENT
    * </pre>
    */
   com.google.wireless.android.sdk.stats.JavaProcessStatsOrBuilder getJavaProcessStatsOrBuilder();
@@ -1380,6 +1386,7 @@ public interface AndroidStudioEventOrBuilder
    *
    * <pre>
    * set when kind = TEMPLATE_RENDER
+   * or kind = GRADLE_SYNC_ENDED
    * </pre>
    */
   boolean hasKotlinSupport();
@@ -1388,6 +1395,7 @@ public interface AndroidStudioEventOrBuilder
    *
    * <pre>
    * set when kind = TEMPLATE_RENDER
+   * or kind = GRADLE_SYNC_ENDED
    * </pre>
    */
   com.google.wireless.android.sdk.stats.KotlinSupport getKotlinSupport();
@@ -1396,6 +1404,7 @@ public interface AndroidStudioEventOrBuilder
    *
    * <pre>
    * set when kind = TEMPLATE_RENDER
+   * or kind = GRADLE_SYNC_ENDED
    * </pre>
    */
   com.google.wireless.android.sdk.stats.KotlinSupportOrBuilder getKotlinSupportOrBuilder();
@@ -1425,4 +1434,30 @@ public interface AndroidStudioEventOrBuilder
    * </pre>
    */
   com.google.wireless.android.sdk.stats.ConnectionAssistantEventOrBuilder getConnectionAssistantEventOrBuilder();
+
+  // optional .android_studio.OomDialogEvent oom_dialog_event = 56;
+  /**
+   * <code>optional .android_studio.OomDialogEvent oom_dialog_event = 56;</code>
+   *
+   * <pre>
+   * set when kind = STUDIO_UI_OOM_DIALOG_EVENT
+   * </pre>
+   */
+  boolean hasOomDialogEvent();
+  /**
+   * <code>optional .android_studio.OomDialogEvent oom_dialog_event = 56;</code>
+   *
+   * <pre>
+   * set when kind = STUDIO_UI_OOM_DIALOG_EVENT
+   * </pre>
+   */
+  com.google.wireless.android.sdk.stats.OomDialogEvent getOomDialogEvent();
+  /**
+   * <code>optional .android_studio.OomDialogEvent oom_dialog_event = 56;</code>
+   *
+   * <pre>
+   * set when kind = STUDIO_UI_OOM_DIALOG_EVENT
+   * </pre>
+   */
+  com.google.wireless.android.sdk.stats.OomDialogEventOrBuilder getOomDialogEventOrBuilder();
 }
