@@ -84,6 +84,11 @@ public  final class GradleSyncStats extends
             ideTimeMs_ = input.readInt64();
             break;
           }
+          case 40: {
+            bitField0_ |= 0x00000010;
+            embeddedRepoEnabled_ = input.readBool();
+            break;
+          }
         }
       }
     } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -164,6 +169,14 @@ public  final class GradleSyncStats extends
      * </pre>
      */
     TRIGGER_USER_REQUEST(3, 3),
+    /**
+     * <code>TRIGGER_EMBEDDED_REPO_ENABLED_BY_QUICKFIX = 4;</code>
+     *
+     * <pre>
+     * User clicked quickfix to enable embedded Maven repo
+     * </pre>
+     */
+    TRIGGER_EMBEDDED_REPO_ENABLED_BY_QUICKFIX(4, 4),
     ;
 
     /**
@@ -198,6 +211,14 @@ public  final class GradleSyncStats extends
      * </pre>
      */
     public static final int TRIGGER_USER_REQUEST_VALUE = 3;
+    /**
+     * <code>TRIGGER_EMBEDDED_REPO_ENABLED_BY_QUICKFIX = 4;</code>
+     *
+     * <pre>
+     * User clicked quickfix to enable embedded Maven repo
+     * </pre>
+     */
+    public static final int TRIGGER_EMBEDDED_REPO_ENABLED_BY_QUICKFIX_VALUE = 4;
 
 
     public final int getNumber() { return value; }
@@ -208,6 +229,7 @@ public  final class GradleSyncStats extends
         case 1: return TRIGGER_PROJECT_LOADED;
         case 2: return TRIGGER_PROJECT_MODIFIED;
         case 3: return TRIGGER_USER_REQUEST;
+        case 4: return TRIGGER_EMBEDDED_REPO_ENABLED_BY_QUICKFIX;
         default: return null;
       }
     }
@@ -356,11 +378,36 @@ public  final class GradleSyncStats extends
     return ideTimeMs_;
   }
 
+  // optional bool embedded_repo_enabled = 5;
+  public static final int EMBEDDED_REPO_ENABLED_FIELD_NUMBER = 5;
+  private boolean embeddedRepoEnabled_;
+  /**
+   * <code>optional bool embedded_repo_enabled = 5;</code>
+   *
+   * <pre>
+   * Whether the embedded maven repository is enabled
+   * </pre>
+   */
+  public boolean hasEmbeddedRepoEnabled() {
+    return ((bitField0_ & 0x00000010) == 0x00000010);
+  }
+  /**
+   * <code>optional bool embedded_repo_enabled = 5;</code>
+   *
+   * <pre>
+   * Whether the embedded maven repository is enabled
+   * </pre>
+   */
+  public boolean getEmbeddedRepoEnabled() {
+    return embeddedRepoEnabled_;
+  }
+
   private void initFields() {
     trigger_ = com.google.wireless.android.sdk.stats.GradleSyncStats.Trigger.TRIGGER_UNKNOWN;
     totalTimeMs_ = 0L;
     gradleTimeMs_ = 0L;
     ideTimeMs_ = 0L;
+    embeddedRepoEnabled_ = false;
   }
   private byte memoizedIsInitialized = -1;
   public final boolean isInitialized() {
@@ -386,6 +433,9 @@ public  final class GradleSyncStats extends
     if (((bitField0_ & 0x00000008) == 0x00000008)) {
       output.writeInt64(4, ideTimeMs_);
     }
+    if (((bitField0_ & 0x00000010) == 0x00000010)) {
+      output.writeBool(5, embeddedRepoEnabled_);
+    }
     getUnknownFields().writeTo(output);
   }
 
@@ -410,6 +460,10 @@ public  final class GradleSyncStats extends
     if (((bitField0_ & 0x00000008) == 0x00000008)) {
       size += com.google.protobuf.CodedOutputStream
         .computeInt64Size(4, ideTimeMs_);
+    }
+    if (((bitField0_ & 0x00000010) == 0x00000010)) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeBoolSize(5, embeddedRepoEnabled_);
     }
     size += getUnknownFields().getSerializedSize();
     memoizedSerializedSize = size;
@@ -539,6 +593,8 @@ public  final class GradleSyncStats extends
       bitField0_ = (bitField0_ & ~0x00000004);
       ideTimeMs_ = 0L;
       bitField0_ = (bitField0_ & ~0x00000008);
+      embeddedRepoEnabled_ = false;
+      bitField0_ = (bitField0_ & ~0x00000010);
       return this;
     }
 
@@ -583,6 +639,10 @@ public  final class GradleSyncStats extends
         to_bitField0_ |= 0x00000008;
       }
       result.ideTimeMs_ = ideTimeMs_;
+      if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
+        to_bitField0_ |= 0x00000010;
+      }
+      result.embeddedRepoEnabled_ = embeddedRepoEnabled_;
       result.bitField0_ = to_bitField0_;
       onBuilt();
       return result;
@@ -610,6 +670,9 @@ public  final class GradleSyncStats extends
       }
       if (other.hasIdeTimeMs()) {
         setIdeTimeMs(other.getIdeTimeMs());
+      }
+      if (other.hasEmbeddedRepoEnabled()) {
+        setEmbeddedRepoEnabled(other.getEmbeddedRepoEnabled());
       }
       this.mergeUnknownFields(other.getUnknownFields());
       return this;
@@ -833,6 +896,55 @@ public  final class GradleSyncStats extends
     public Builder clearIdeTimeMs() {
       bitField0_ = (bitField0_ & ~0x00000008);
       ideTimeMs_ = 0L;
+      onChanged();
+      return this;
+    }
+
+    // optional bool embedded_repo_enabled = 5;
+    private boolean embeddedRepoEnabled_ ;
+    /**
+     * <code>optional bool embedded_repo_enabled = 5;</code>
+     *
+     * <pre>
+     * Whether the embedded maven repository is enabled
+     * </pre>
+     */
+    public boolean hasEmbeddedRepoEnabled() {
+      return ((bitField0_ & 0x00000010) == 0x00000010);
+    }
+    /**
+     * <code>optional bool embedded_repo_enabled = 5;</code>
+     *
+     * <pre>
+     * Whether the embedded maven repository is enabled
+     * </pre>
+     */
+    public boolean getEmbeddedRepoEnabled() {
+      return embeddedRepoEnabled_;
+    }
+    /**
+     * <code>optional bool embedded_repo_enabled = 5;</code>
+     *
+     * <pre>
+     * Whether the embedded maven repository is enabled
+     * </pre>
+     */
+    public Builder setEmbeddedRepoEnabled(boolean value) {
+      bitField0_ |= 0x00000010;
+      embeddedRepoEnabled_ = value;
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>optional bool embedded_repo_enabled = 5;</code>
+     *
+     * <pre>
+     * Whether the embedded maven repository is enabled
+     * </pre>
+     */
+    public Builder clearEmbeddedRepoEnabled() {
+      bitField0_ = (bitField0_ & ~0x00000010);
+      embeddedRepoEnabled_ = false;
       onChanged();
       return this;
     }
