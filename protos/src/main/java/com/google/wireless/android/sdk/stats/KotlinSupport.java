@@ -7,7 +7,7 @@ package com.google.wireless.android.sdk.stats;
  * Protobuf type {@code android_studio.KotlinSupport}
  *
  * <pre>
- * Kotlin support information for new Android projects
+ * Kotlin support information
  * </pre>
  */
 public  final class KotlinSupport extends
@@ -68,6 +68,11 @@ public  final class KotlinSupport extends
             kotlinSupportVersion_ = input.readBytes();
             break;
           }
+          case 26: {
+            bitField0_ |= 0x00000004;
+            androidKtxVersion_ = input.readBytes();
+            break;
+          }
         }
       }
     } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -116,7 +121,8 @@ public  final class KotlinSupport extends
    *
    * <pre>
    * True if "Include Kotlin Support" option checked
-   * when Android project created, False otherwise
+   * when Android project created, False otherwise.
+   * Set when kind = TEMPLATE_RENDER
    * </pre>
    */
   public boolean hasIncludeKotlinSupport() {
@@ -127,7 +133,8 @@ public  final class KotlinSupport extends
    *
    * <pre>
    * True if "Include Kotlin Support" option checked
-   * when Android project created, False otherwise
+   * when Android project created, False otherwise.
+   * Set when kind = TEMPLATE_RENDER
    * </pre>
    */
   public boolean getIncludeKotlinSupport() {
@@ -141,7 +148,7 @@ public  final class KotlinSupport extends
    * <code>optional string kotlin_support_version = 2;</code>
    *
    * <pre>
-   * Kotlin version used for Kotlin support; e.g., "1.1.3-2".
+   * Kotlin version used, e.g. "1.1.3-2".
    * </pre>
    */
   public boolean hasKotlinSupportVersion() {
@@ -151,7 +158,7 @@ public  final class KotlinSupport extends
    * <code>optional string kotlin_support_version = 2;</code>
    *
    * <pre>
-   * Kotlin version used for Kotlin support; e.g., "1.1.3-2".
+   * Kotlin version used, e.g. "1.1.3-2".
    * </pre>
    */
   public java.lang.String getKotlinSupportVersion() {
@@ -172,7 +179,7 @@ public  final class KotlinSupport extends
    * <code>optional string kotlin_support_version = 2;</code>
    *
    * <pre>
-   * Kotlin version used for Kotlin support; e.g., "1.1.3-2".
+   * Kotlin version used, e.g. "1.1.3-2".
    * </pre>
    */
   public com.google.protobuf.ByteString
@@ -189,9 +196,65 @@ public  final class KotlinSupport extends
     }
   }
 
+  // optional string android_ktx_version = 3;
+  public static final int ANDROID_KTX_VERSION_FIELD_NUMBER = 3;
+  private java.lang.Object androidKtxVersion_;
+  /**
+   * <code>optional string android_ktx_version = 3;</code>
+   *
+   * <pre>
+   * Android Ktx version used, e.g. "1.0.0".
+   * </pre>
+   */
+  public boolean hasAndroidKtxVersion() {
+    return ((bitField0_ & 0x00000004) == 0x00000004);
+  }
+  /**
+   * <code>optional string android_ktx_version = 3;</code>
+   *
+   * <pre>
+   * Android Ktx version used, e.g. "1.0.0".
+   * </pre>
+   */
+  public java.lang.String getAndroidKtxVersion() {
+    java.lang.Object ref = androidKtxVersion_;
+    if (ref instanceof java.lang.String) {
+      return (java.lang.String) ref;
+    } else {
+      com.google.protobuf.ByteString bs = 
+          (com.google.protobuf.ByteString) ref;
+      java.lang.String s = bs.toStringUtf8();
+      if (bs.isValidUtf8()) {
+        androidKtxVersion_ = s;
+      }
+      return s;
+    }
+  }
+  /**
+   * <code>optional string android_ktx_version = 3;</code>
+   *
+   * <pre>
+   * Android Ktx version used, e.g. "1.0.0".
+   * </pre>
+   */
+  public com.google.protobuf.ByteString
+      getAndroidKtxVersionBytes() {
+    java.lang.Object ref = androidKtxVersion_;
+    if (ref instanceof java.lang.String) {
+      com.google.protobuf.ByteString b = 
+          com.google.protobuf.ByteString.copyFromUtf8(
+              (java.lang.String) ref);
+      androidKtxVersion_ = b;
+      return b;
+    } else {
+      return (com.google.protobuf.ByteString) ref;
+    }
+  }
+
   private void initFields() {
     includeKotlinSupport_ = false;
     kotlinSupportVersion_ = "";
+    androidKtxVersion_ = "";
   }
   private byte memoizedIsInitialized = -1;
   public final boolean isInitialized() {
@@ -211,6 +274,9 @@ public  final class KotlinSupport extends
     if (((bitField0_ & 0x00000002) == 0x00000002)) {
       output.writeBytes(2, getKotlinSupportVersionBytes());
     }
+    if (((bitField0_ & 0x00000004) == 0x00000004)) {
+      output.writeBytes(3, getAndroidKtxVersionBytes());
+    }
     getUnknownFields().writeTo(output);
   }
 
@@ -227,6 +293,10 @@ public  final class KotlinSupport extends
     if (((bitField0_ & 0x00000002) == 0x00000002)) {
       size += com.google.protobuf.CodedOutputStream
         .computeBytesSize(2, getKotlinSupportVersionBytes());
+    }
+    if (((bitField0_ & 0x00000004) == 0x00000004)) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeBytesSize(3, getAndroidKtxVersionBytes());
     }
     size += getUnknownFields().getSerializedSize();
     memoizedSerializedSize = size;
@@ -310,7 +380,7 @@ public  final class KotlinSupport extends
    * Protobuf type {@code android_studio.KotlinSupport}
    *
    * <pre>
-   * Kotlin support information for new Android projects
+   * Kotlin support information
    * </pre>
    */
   public static final class Builder extends
@@ -352,6 +422,8 @@ public  final class KotlinSupport extends
       bitField0_ = (bitField0_ & ~0x00000001);
       kotlinSupportVersion_ = "";
       bitField0_ = (bitField0_ & ~0x00000002);
+      androidKtxVersion_ = "";
+      bitField0_ = (bitField0_ & ~0x00000004);
       return this;
     }
 
@@ -388,6 +460,10 @@ public  final class KotlinSupport extends
         to_bitField0_ |= 0x00000002;
       }
       result.kotlinSupportVersion_ = kotlinSupportVersion_;
+      if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+        to_bitField0_ |= 0x00000004;
+      }
+      result.androidKtxVersion_ = androidKtxVersion_;
       result.bitField0_ = to_bitField0_;
       onBuilt();
       return result;
@@ -410,6 +486,11 @@ public  final class KotlinSupport extends
       if (other.hasKotlinSupportVersion()) {
         bitField0_ |= 0x00000002;
         kotlinSupportVersion_ = other.kotlinSupportVersion_;
+        onChanged();
+      }
+      if (other.hasAndroidKtxVersion()) {
+        bitField0_ |= 0x00000004;
+        androidKtxVersion_ = other.androidKtxVersion_;
         onChanged();
       }
       this.mergeUnknownFields(other.getUnknownFields());
@@ -446,7 +527,8 @@ public  final class KotlinSupport extends
      *
      * <pre>
      * True if "Include Kotlin Support" option checked
-     * when Android project created, False otherwise
+     * when Android project created, False otherwise.
+     * Set when kind = TEMPLATE_RENDER
      * </pre>
      */
     public boolean hasIncludeKotlinSupport() {
@@ -457,7 +539,8 @@ public  final class KotlinSupport extends
      *
      * <pre>
      * True if "Include Kotlin Support" option checked
-     * when Android project created, False otherwise
+     * when Android project created, False otherwise.
+     * Set when kind = TEMPLATE_RENDER
      * </pre>
      */
     public boolean getIncludeKotlinSupport() {
@@ -468,7 +551,8 @@ public  final class KotlinSupport extends
      *
      * <pre>
      * True if "Include Kotlin Support" option checked
-     * when Android project created, False otherwise
+     * when Android project created, False otherwise.
+     * Set when kind = TEMPLATE_RENDER
      * </pre>
      */
     public Builder setIncludeKotlinSupport(boolean value) {
@@ -482,7 +566,8 @@ public  final class KotlinSupport extends
      *
      * <pre>
      * True if "Include Kotlin Support" option checked
-     * when Android project created, False otherwise
+     * when Android project created, False otherwise.
+     * Set when kind = TEMPLATE_RENDER
      * </pre>
      */
     public Builder clearIncludeKotlinSupport() {
@@ -498,7 +583,7 @@ public  final class KotlinSupport extends
      * <code>optional string kotlin_support_version = 2;</code>
      *
      * <pre>
-     * Kotlin version used for Kotlin support; e.g., "1.1.3-2".
+     * Kotlin version used, e.g. "1.1.3-2".
      * </pre>
      */
     public boolean hasKotlinSupportVersion() {
@@ -508,7 +593,7 @@ public  final class KotlinSupport extends
      * <code>optional string kotlin_support_version = 2;</code>
      *
      * <pre>
-     * Kotlin version used for Kotlin support; e.g., "1.1.3-2".
+     * Kotlin version used, e.g. "1.1.3-2".
      * </pre>
      */
     public java.lang.String getKotlinSupportVersion() {
@@ -526,7 +611,7 @@ public  final class KotlinSupport extends
      * <code>optional string kotlin_support_version = 2;</code>
      *
      * <pre>
-     * Kotlin version used for Kotlin support; e.g., "1.1.3-2".
+     * Kotlin version used, e.g. "1.1.3-2".
      * </pre>
      */
     public com.google.protobuf.ByteString
@@ -546,7 +631,7 @@ public  final class KotlinSupport extends
      * <code>optional string kotlin_support_version = 2;</code>
      *
      * <pre>
-     * Kotlin version used for Kotlin support; e.g., "1.1.3-2".
+     * Kotlin version used, e.g. "1.1.3-2".
      * </pre>
      */
     public Builder setKotlinSupportVersion(
@@ -563,7 +648,7 @@ public  final class KotlinSupport extends
      * <code>optional string kotlin_support_version = 2;</code>
      *
      * <pre>
-     * Kotlin version used for Kotlin support; e.g., "1.1.3-2".
+     * Kotlin version used, e.g. "1.1.3-2".
      * </pre>
      */
     public Builder clearKotlinSupportVersion() {
@@ -576,7 +661,7 @@ public  final class KotlinSupport extends
      * <code>optional string kotlin_support_version = 2;</code>
      *
      * <pre>
-     * Kotlin version used for Kotlin support; e.g., "1.1.3-2".
+     * Kotlin version used, e.g. "1.1.3-2".
      * </pre>
      */
     public Builder setKotlinSupportVersionBytes(
@@ -586,6 +671,104 @@ public  final class KotlinSupport extends
   }
   bitField0_ |= 0x00000002;
       kotlinSupportVersion_ = value;
+      onChanged();
+      return this;
+    }
+
+    // optional string android_ktx_version = 3;
+    private java.lang.Object androidKtxVersion_ = "";
+    /**
+     * <code>optional string android_ktx_version = 3;</code>
+     *
+     * <pre>
+     * Android Ktx version used, e.g. "1.0.0".
+     * </pre>
+     */
+    public boolean hasAndroidKtxVersion() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>optional string android_ktx_version = 3;</code>
+     *
+     * <pre>
+     * Android Ktx version used, e.g. "1.0.0".
+     * </pre>
+     */
+    public java.lang.String getAndroidKtxVersion() {
+      java.lang.Object ref = androidKtxVersion_;
+      if (!(ref instanceof java.lang.String)) {
+        java.lang.String s = ((com.google.protobuf.ByteString) ref)
+            .toStringUtf8();
+        androidKtxVersion_ = s;
+        return s;
+      } else {
+        return (java.lang.String) ref;
+      }
+    }
+    /**
+     * <code>optional string android_ktx_version = 3;</code>
+     *
+     * <pre>
+     * Android Ktx version used, e.g. "1.0.0".
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getAndroidKtxVersionBytes() {
+      java.lang.Object ref = androidKtxVersion_;
+      if (ref instanceof String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        androidKtxVersion_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+    /**
+     * <code>optional string android_ktx_version = 3;</code>
+     *
+     * <pre>
+     * Android Ktx version used, e.g. "1.0.0".
+     * </pre>
+     */
+    public Builder setAndroidKtxVersion(
+        java.lang.String value) {
+      if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000004;
+      androidKtxVersion_ = value;
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>optional string android_ktx_version = 3;</code>
+     *
+     * <pre>
+     * Android Ktx version used, e.g. "1.0.0".
+     * </pre>
+     */
+    public Builder clearAndroidKtxVersion() {
+      bitField0_ = (bitField0_ & ~0x00000004);
+      androidKtxVersion_ = getDefaultInstance().getAndroidKtxVersion();
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>optional string android_ktx_version = 3;</code>
+     *
+     * <pre>
+     * Android Ktx version used, e.g. "1.0.0".
+     * </pre>
+     */
+    public Builder setAndroidKtxVersionBytes(
+        com.google.protobuf.ByteString value) {
+      if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000004;
+      androidKtxVersion_ = value;
       onChanged();
       return this;
     }

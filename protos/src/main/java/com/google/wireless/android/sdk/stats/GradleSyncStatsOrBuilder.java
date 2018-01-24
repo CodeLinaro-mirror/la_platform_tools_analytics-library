@@ -77,4 +77,22 @@ public interface GradleSyncStatsOrBuilder
    * </pre>
    */
   long getIdeTimeMs();
+
+  // optional bool embedded_repo_enabled = 5;
+  /**
+   * <code>optional bool embedded_repo_enabled = 5;</code>
+   *
+   * <pre>
+   * Whether the embedded maven repository is enabled
+   * </pre>
+   */
+  boolean hasEmbeddedRepoEnabled();
+  /**
+   * <code>optional bool embedded_repo_enabled = 5;</code>
+   *
+   * <pre>
+   * Whether the embedded maven repository is enabled
+   * </pre>
+   */
+  boolean getEmbeddedRepoEnabled();
 }

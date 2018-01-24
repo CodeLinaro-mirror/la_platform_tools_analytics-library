@@ -28,10 +28,10 @@ message AndroidStudioEvent {
   // to associate events together such as kind = TEST_RUN
   optional string studio_session_id = 3;
 
-  // set when kind = STUDIO_PING
+  // Fully set when kind = STUDIO_PING
   // or kind = EMULATOR_PING
-  // or ANDROID_STUDIO_TEST
-  // or ANDROID_STUDIO_THROUGH_GRADLE
+  // or kind = TEST_RUN.
+  // The version field is set for most messages.
   optional ProductDetails product_details = 4;
 
   // set when kind = MONITOR_ACTIVATED or kind = MONITOR_RUNNING
@@ -149,7 +149,9 @@ message AndroidStudioEvent {
   // set when kind = STUDIO_PING
   optional JvmDetails jvm_details = 36;
 
-  // set when kind = STUDIO_PROCESS_STATS or kind = GRADLE_BUILD_PROFILE
+  // set when kind = STUDIO_PROCESS_STATS
+  // or kind = GRADLE_BUILD_PROFILE
+  // or kind = STUDIO_UI_OOM_DIALOG_EVENT
   optional JavaProcessStats java_process_stats = 37;
 
   // set when kind = STUDIO_PERFORMANCE_STATS
@@ -202,10 +204,14 @@ message AndroidStudioEvent {
   optional AndroidProfilerDbStats android_profiler_db_stats = 53;
 
   // set when kind = TEMPLATE_RENDER
+  // or kind = GRADLE_SYNC_ENDED
   optional KotlinSupport kotlin_support = 54;
 
   // set when kind = CONNECTION_ASSISTANT_EVENT
   optional ConnectionAssistantEvent connection_assistant_event = 55;
+
+  // set when kind = STUDIO_UI_OOM_DIALOG_EVENT
+  optional OomDialogEvent oom_dialog_event = 56;
 
   // Describes a group of event kinds related to each other.
   // This is redundant in the presence of EventKind + event specific message,
@@ -551,6 +557,9 @@ message AndroidStudioEvent {
 
     // Connection Assistant event
     CONNECTION_ASSISTANT_EVENT = 126;
+
+    // Out of Memory Dialog event
+    STUDIO_UI_OOM_DIALOG_EVENT = 127;
   }
 
   // Represents different Performance Monitoring types.
@@ -3547,6 +3556,8 @@ message GradleSyncStats {
   optional int64 gradle_time_ms = 3;
   // Time in ms spent on IDE (can be negative in case of failure)
   optional int64 ide_time_ms = 4;
+  // Whether the embedded maven repository is enabled
+  optional bool embedded_repo_enabled = 5;
 
   // List of triggers for gradle Sync
   enum Trigger {
@@ -3558,6 +3569,8 @@ message GradleSyncStats {
     TRIGGER_PROJECT_MODIFIED = 2;
     // User requests the sync directly (by pressing sync button)
     TRIGGER_USER_REQUEST = 3;
+    // User clicked quickfix to enable embedded Maven repo
+    TRIGGER_EMBEDDED_REPO_ENABLED_BY_QUICKFIX = 4;
   }
 }
 
@@ -3598,14 +3611,18 @@ message LayoutInspectorEvent {
   optional int64 data_size = 3;
 }
 
-// Kotlin support information for new Android projects
+// Kotlin support information
 message KotlinSupport {
   // True if "Include Kotlin Support" option checked
-  // when Android project created, False otherwise
+  // when Android project created, False otherwise.
+  // Set when kind = TEMPLATE_RENDER
   optional bool include_kotlin_support = 1;
 
-  // Kotlin version used for Kotlin support; e.g., "1.1.3-2".
+  // Kotlin version used, e.g. "1.1.3-2".
   optional string kotlin_support_version = 2;
+
+  // Android Ktx version used, e.g. "1.0.0".
+  optional string android_ktx_version = 3;
 }
 
 
@@ -3637,4 +3654,57 @@ message ConnectionAssistantEvent {
 
   // defined if ConnectionAssistantEventType = USB_DEVICES_DETECTED, ADB_DEVICES_DETECTEd
   optional int32 adb_devices_detected = 3;
+}
+
+// Details for Out of Memory Dialog event
+message OomDialogEvent {
+  // Event type describing which memory the process ran out of
+  optional OomDialogEventType event_type = 1;
+
+  // Initial value of heap size (in MB)
+  optional int32 initial_heap_size = 2;
+  // Initial value of metaspace size (in MB)
+  optional int32 initial_metaspace_size = 3;
+  // Initial value of codecache size (in MB)
+  optional int32 initial_codecache_size = 4;
+
+  // New heap size (in MB)
+  optional int32 saved_heap_size = 5;
+  // New metaspace size (in MB)
+  optional int32 saved_metaspace_size = 6;
+  // New codecache size (in MB)
+  optional int32 saved_codecache_size = 7;
+
+  // true if user can modify memory size values
+  optional bool editing_enabled = 8;
+
+  // How user interacted with the dialog
+  optional SelectedAction selected_action = 9;
+
+  // Describes which memory type the process ran out of
+  enum OomDialogEventType {
+    UNKNOWN_EVENT_TYPE = 0;
+    // Out of heap memory
+    OOM_HEAP = 1;
+    // Out of permanent generation heap memory
+    OOM_PERM_GEN = 2;
+    // Out of metaspace memory
+    OOM_METASPACE = 3;
+    // Out of code cache memory
+    OOM_CODE_CACHE = 4;
+    // Not out of memory, but only small amount of heap available
+    // with frequent GC operations.
+    LOW_HEAP = 5;
+  }
+
+  // How user interacted with the dialog
+  enum SelectedAction {
+    UNKNOWN_ACTION = 0;
+    // Save new settings and continue
+    CONTINUE_ACTION = 1;
+    // Save new settings and quit
+    QUIT_ACTION = 2;
+    // Dialog dismissed without saving
+    CANCEL_ACTION = 3;
+  }
 }
