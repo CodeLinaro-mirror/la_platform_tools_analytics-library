@@ -96,4 +96,30 @@ public interface AndroidProfilerEventOrBuilder
    * </pre>
    */
   com.google.wireless.android.sdk.stats.CpuCaptureMetadataOrBuilder getCpuCaptureMetadataOrBuilder();
+
+  // optional .android_studio.FilterMetadata filter_metadata = 5;
+  /**
+   * <code>optional .android_studio.FilterMetadata filter_metadata = 5;</code>
+   *
+   * <pre>
+   * Set if |type| is |FILTER|
+   * </pre>
+   */
+  boolean hasFilterMetadata();
+  /**
+   * <code>optional .android_studio.FilterMetadata filter_metadata = 5;</code>
+   *
+   * <pre>
+   * Set if |type| is |FILTER|
+   * </pre>
+   */
+  com.google.wireless.android.sdk.stats.FilterMetadata getFilterMetadata();
+  /**
+   * <code>optional .android_studio.FilterMetadata filter_metadata = 5;</code>
+   *
+   * <pre>
+   * Set if |type| is |FILTER|
+   * </pre>
+   */
+  com.google.wireless.android.sdk.stats.FilterMetadataOrBuilder getFilterMetadataOrBuilder();
 }
