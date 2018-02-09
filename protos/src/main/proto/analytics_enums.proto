@@ -223,6 +223,8 @@ enum BooleanOption {
     ENABLE_CORE_LAMBDA_STUBS = 42;
     CONVERT_NON_NAMESPACED_DEPENDENCIES = 43;
     USE_AAPT2_FROM_MAVEN = 44;
+    ENABLE_R8 = 45;
+    ENABLE_R8_DESUGARING = 46;
 }
 
 enum OptionalBooleanOption {
