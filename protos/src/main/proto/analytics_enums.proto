@@ -220,6 +220,7 @@ enum BooleanOption {
     ENABLE_AAPT2_WORKER_ACTIONS = 41;
     ENABLE_CORE_LAMBDA_STUBS = 42;
     CONVERT_NON_NAMESPACED_DEPENDENCIES = 43;
+    USE_AAPT2_FROM_MAVEN = 44;
 }
 
 enum OptionalBooleanOption {
