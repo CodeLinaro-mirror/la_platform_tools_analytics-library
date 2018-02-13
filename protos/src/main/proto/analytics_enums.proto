@@ -41,6 +41,7 @@ enum GradleTransformExecutionType {
     EXTERNAL_LIBS_MERGER = 34;
     D8_MAIN_DEX_LIST=35;
     DATA_BINDING_MERGE_GEN_CLASS_LOG = 36;
+    R8 = 37;
 }
 
 enum GradleTaskExecutionType {
