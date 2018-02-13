@@ -175,6 +175,7 @@ enum GradleTaskExecutionType {
     MAIN_APK_LIST_PERSISTENCE = 127;
     BUILD_ARTIFACT_REPORT = 128;
     CHECK_INSTANT_APP_LIBRARIES = 129;
+    STATIC_LIBRARY_MANIFEST = 130;
 }
 
 enum BooleanOption {
