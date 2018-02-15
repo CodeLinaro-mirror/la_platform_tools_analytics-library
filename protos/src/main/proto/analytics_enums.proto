@@ -41,6 +41,7 @@ enum GradleTransformExecutionType {
     EXTERNAL_LIBS_MERGER = 34;
     D8_MAIN_DEX_LIST=35;
     DATA_BINDING_MERGE_GEN_CLASS_LOG = 36;
+    R8 = 37;
 }
 
 enum GradleTaskExecutionType {
@@ -173,6 +174,8 @@ enum GradleTaskExecutionType {
     COMPILE_SOURCE_SET_RESOURCES = 126;
     MAIN_APK_LIST_PERSISTENCE = 127;
     BUILD_ARTIFACT_REPORT = 128;
+    CHECK_INSTANT_APP_LIBRARIES = 129;
+    STATIC_LIBRARY_MANIFEST = 130;
 }
 
 enum BooleanOption {
@@ -220,6 +223,7 @@ enum BooleanOption {
     ENABLE_AAPT2_WORKER_ACTIONS = 41;
     ENABLE_CORE_LAMBDA_STUBS = 42;
     CONVERT_NON_NAMESPACED_DEPENDENCIES = 43;
+    USE_AAPT2_FROM_MAVEN = 44;
 }
 
 enum OptionalBooleanOption {
