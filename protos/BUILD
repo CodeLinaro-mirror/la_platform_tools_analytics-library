@@ -1,5 +1,7 @@
 load("//tools/base/bazel:bazel.bzl", "iml_module")
 
+exports_files(["NOTICE"])
+
 iml_module(
     name = "analytics-protos",
     srcs = ["src/main/java"],

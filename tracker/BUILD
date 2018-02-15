@@ -31,6 +31,7 @@ maven_java_library(
     name = "tools.analytics-tracker",
     srcs = glob(["src/main/java/**"]),
     pom = "analytics-tracker.pom",
+    resource_strip_prefix = "tools/analytics-library/tracker",
     visibility = ["//visibility:public"],
     deps = [
         "//tools/analytics-library/protos/src/main/proto",
