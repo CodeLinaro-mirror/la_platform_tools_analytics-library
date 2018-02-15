@@ -701,6 +701,19 @@ public  final class AndroidStudioEvent extends
             bitField1_ |= 0x00800000;
             break;
           }
+          case 458: {
+            com.google.wireless.android.sdk.stats.CMakeEditingEvent.Builder subBuilder = null;
+            if (((bitField1_ & 0x01000000) == 0x01000000)) {
+              subBuilder = cmakeEditingEvent_.toBuilder();
+            }
+            cmakeEditingEvent_ = input.readMessage(com.google.wireless.android.sdk.stats.CMakeEditingEvent.PARSER, extensionRegistry);
+            if (subBuilder != null) {
+              subBuilder.mergeFrom(cmakeEditingEvent_);
+              cmakeEditingEvent_ = subBuilder.buildPartial();
+            }
+            bitField1_ |= 0x01000000;
+            break;
+          }
         }
       }
     } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -964,6 +977,14 @@ public  final class AndroidStudioEvent extends
      * </pre>
      */
     APK_DEBUG(25, 25),
+    /**
+     * <code>CMAKE_EDITING_EVENT = 26;</code>
+     *
+     * <pre>
+     * The event is related to CMake editing.
+     * </pre>
+     */
+    CMAKE_EDITING_EVENT(26, 26),
     ;
 
     /**
@@ -1179,6 +1200,14 @@ public  final class AndroidStudioEvent extends
      * </pre>
      */
     public static final int APK_DEBUG_VALUE = 25;
+    /**
+     * <code>CMAKE_EDITING_EVENT = 26;</code>
+     *
+     * <pre>
+     * The event is related to CMake editing.
+     * </pre>
+     */
+    public static final int CMAKE_EDITING_EVENT_VALUE = 26;
 
 
     public final int getNumber() { return value; }
@@ -1211,6 +1240,7 @@ public  final class AndroidStudioEvent extends
         case 23: return STUDIO_UI;
         case 24: return LAYOUT_EDITOR;
         case 25: return APK_DEBUG;
+        case 26: return CMAKE_EDITING_EVENT;
         default: return null;
       }
     }
@@ -6681,6 +6711,40 @@ public  final class AndroidStudioEvent extends
     return oomDialogEvent_;
   }
 
+  // optional .android_studio.CMakeEditingEvent cmake_editing_event = 57;
+  public static final int CMAKE_EDITING_EVENT_FIELD_NUMBER = 57;
+  private com.google.wireless.android.sdk.stats.CMakeEditingEvent cmakeEditingEvent_;
+  /**
+   * <code>optional .android_studio.CMakeEditingEvent cmake_editing_event = 57;</code>
+   *
+   * <pre>
+   * set when kind = CMAKE_EDITING_EVENT
+   * </pre>
+   */
+  public boolean hasCmakeEditingEvent() {
+    return ((bitField1_ & 0x01000000) == 0x01000000);
+  }
+  /**
+   * <code>optional .android_studio.CMakeEditingEvent cmake_editing_event = 57;</code>
+   *
+   * <pre>
+   * set when kind = CMAKE_EDITING_EVENT
+   * </pre>
+   */
+  public com.google.wireless.android.sdk.stats.CMakeEditingEvent getCmakeEditingEvent() {
+    return cmakeEditingEvent_;
+  }
+  /**
+   * <code>optional .android_studio.CMakeEditingEvent cmake_editing_event = 57;</code>
+   *
+   * <pre>
+   * set when kind = CMAKE_EDITING_EVENT
+   * </pre>
+   */
+  public com.google.wireless.android.sdk.stats.CMakeEditingEventOrBuilder getCmakeEditingEventOrBuilder() {
+    return cmakeEditingEvent_;
+  }
+
   private void initFields() {
     category_ = com.google.wireless.android.sdk.stats.AndroidStudioEvent.EventCategory.NO_EVENT_CATEGORY;
     kind_ = com.google.wireless.android.sdk.stats.AndroidStudioEvent.EventKind.UNKNOWN_EVENT_KIND;
@@ -6738,6 +6802,7 @@ public  final class AndroidStudioEvent extends
     kotlinSupport_ = com.google.wireless.android.sdk.stats.KotlinSupport.getDefaultInstance();
     connectionAssistantEvent_ = com.google.wireless.android.sdk.stats.ConnectionAssistantEvent.getDefaultInstance();
     oomDialogEvent_ = com.google.wireless.android.sdk.stats.OomDialogEvent.getDefaultInstance();
+    cmakeEditingEvent_ = com.google.wireless.android.sdk.stats.CMakeEditingEvent.getDefaultInstance();
   }
   private byte memoizedIsInitialized = -1;
   public final boolean isInitialized() {
@@ -6918,6 +6983,9 @@ public  final class AndroidStudioEvent extends
     }
     if (((bitField1_ & 0x00800000) == 0x00800000)) {
       output.writeMessage(56, oomDialogEvent_);
+    }
+    if (((bitField1_ & 0x01000000) == 0x01000000)) {
+      output.writeMessage(57, cmakeEditingEvent_);
     }
     getUnknownFields().writeTo(output);
   }
@@ -7152,6 +7220,10 @@ public  final class AndroidStudioEvent extends
       size += com.google.protobuf.CodedOutputStream
         .computeMessageSize(56, oomDialogEvent_);
     }
+    if (((bitField1_ & 0x01000000) == 0x01000000)) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeMessageSize(57, cmakeEditingEvent_);
+    }
     size += getUnknownFields().getSerializedSize();
     memoizedSerializedSize = size;
     return size;
@@ -7299,6 +7371,7 @@ public  final class AndroidStudioEvent extends
         getKotlinSupportFieldBuilder();
         getConnectionAssistantEventFieldBuilder();
         getOomDialogEventFieldBuilder();
+        getCmakeEditingEventFieldBuilder();
       }
     }
     private static Builder create() {
@@ -7575,6 +7648,12 @@ public  final class AndroidStudioEvent extends
         oomDialogEventBuilder_.clear();
       }
       bitField1_ = (bitField1_ & ~0x00800000);
+      if (cmakeEditingEventBuilder_ == null) {
+        cmakeEditingEvent_ = com.google.wireless.android.sdk.stats.CMakeEditingEvent.getDefaultInstance();
+      } else {
+        cmakeEditingEventBuilder_.clear();
+      }
+      bitField1_ = (bitField1_ & ~0x01000000);
       return this;
     }
 
@@ -7985,6 +8064,14 @@ public  final class AndroidStudioEvent extends
       } else {
         result.oomDialogEvent_ = oomDialogEventBuilder_.build();
       }
+      if (((from_bitField1_ & 0x01000000) == 0x01000000)) {
+        to_bitField1_ |= 0x01000000;
+      }
+      if (cmakeEditingEventBuilder_ == null) {
+        result.cmakeEditingEvent_ = cmakeEditingEvent_;
+      } else {
+        result.cmakeEditingEvent_ = cmakeEditingEventBuilder_.build();
+      }
       result.bitField0_ = to_bitField0_;
       result.bitField1_ = to_bitField1_;
       onBuilt();
@@ -8181,6 +8268,9 @@ public  final class AndroidStudioEvent extends
       }
       if (other.hasOomDialogEvent()) {
         mergeOomDialogEvent(other.getOomDialogEvent());
+      }
+      if (other.hasCmakeEditingEvent()) {
+        mergeCmakeEditingEvent(other.getCmakeEditingEvent());
       }
       this.mergeUnknownFields(other.getUnknownFields());
       return this;
@@ -15542,6 +15632,159 @@ public  final class AndroidStudioEvent extends
         oomDialogEvent_ = null;
       }
       return oomDialogEventBuilder_;
+    }
+
+    // optional .android_studio.CMakeEditingEvent cmake_editing_event = 57;
+    private com.google.wireless.android.sdk.stats.CMakeEditingEvent cmakeEditingEvent_ = com.google.wireless.android.sdk.stats.CMakeEditingEvent.getDefaultInstance();
+    private com.google.protobuf.SingleFieldBuilder<
+        com.google.wireless.android.sdk.stats.CMakeEditingEvent, com.google.wireless.android.sdk.stats.CMakeEditingEvent.Builder, com.google.wireless.android.sdk.stats.CMakeEditingEventOrBuilder> cmakeEditingEventBuilder_;
+    /**
+     * <code>optional .android_studio.CMakeEditingEvent cmake_editing_event = 57;</code>
+     *
+     * <pre>
+     * set when kind = CMAKE_EDITING_EVENT
+     * </pre>
+     */
+    public boolean hasCmakeEditingEvent() {
+      return ((bitField1_ & 0x01000000) == 0x01000000);
+    }
+    /**
+     * <code>optional .android_studio.CMakeEditingEvent cmake_editing_event = 57;</code>
+     *
+     * <pre>
+     * set when kind = CMAKE_EDITING_EVENT
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.CMakeEditingEvent getCmakeEditingEvent() {
+      if (cmakeEditingEventBuilder_ == null) {
+        return cmakeEditingEvent_;
+      } else {
+        return cmakeEditingEventBuilder_.getMessage();
+      }
+    }
+    /**
+     * <code>optional .android_studio.CMakeEditingEvent cmake_editing_event = 57;</code>
+     *
+     * <pre>
+     * set when kind = CMAKE_EDITING_EVENT
+     * </pre>
+     */
+    public Builder setCmakeEditingEvent(com.google.wireless.android.sdk.stats.CMakeEditingEvent value) {
+      if (cmakeEditingEventBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        cmakeEditingEvent_ = value;
+        onChanged();
+      } else {
+        cmakeEditingEventBuilder_.setMessage(value);
+      }
+      bitField1_ |= 0x01000000;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.CMakeEditingEvent cmake_editing_event = 57;</code>
+     *
+     * <pre>
+     * set when kind = CMAKE_EDITING_EVENT
+     * </pre>
+     */
+    public Builder setCmakeEditingEvent(
+        com.google.wireless.android.sdk.stats.CMakeEditingEvent.Builder builderForValue) {
+      if (cmakeEditingEventBuilder_ == null) {
+        cmakeEditingEvent_ = builderForValue.build();
+        onChanged();
+      } else {
+        cmakeEditingEventBuilder_.setMessage(builderForValue.build());
+      }
+      bitField1_ |= 0x01000000;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.CMakeEditingEvent cmake_editing_event = 57;</code>
+     *
+     * <pre>
+     * set when kind = CMAKE_EDITING_EVENT
+     * </pre>
+     */
+    public Builder mergeCmakeEditingEvent(com.google.wireless.android.sdk.stats.CMakeEditingEvent value) {
+      if (cmakeEditingEventBuilder_ == null) {
+        if (((bitField1_ & 0x01000000) == 0x01000000) &&
+            cmakeEditingEvent_ != com.google.wireless.android.sdk.stats.CMakeEditingEvent.getDefaultInstance()) {
+          cmakeEditingEvent_ =
+            com.google.wireless.android.sdk.stats.CMakeEditingEvent.newBuilder(cmakeEditingEvent_).mergeFrom(value).buildPartial();
+        } else {
+          cmakeEditingEvent_ = value;
+        }
+        onChanged();
+      } else {
+        cmakeEditingEventBuilder_.mergeFrom(value);
+      }
+      bitField1_ |= 0x01000000;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.CMakeEditingEvent cmake_editing_event = 57;</code>
+     *
+     * <pre>
+     * set when kind = CMAKE_EDITING_EVENT
+     * </pre>
+     */
+    public Builder clearCmakeEditingEvent() {
+      if (cmakeEditingEventBuilder_ == null) {
+        cmakeEditingEvent_ = com.google.wireless.android.sdk.stats.CMakeEditingEvent.getDefaultInstance();
+        onChanged();
+      } else {
+        cmakeEditingEventBuilder_.clear();
+      }
+      bitField1_ = (bitField1_ & ~0x01000000);
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.CMakeEditingEvent cmake_editing_event = 57;</code>
+     *
+     * <pre>
+     * set when kind = CMAKE_EDITING_EVENT
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.CMakeEditingEvent.Builder getCmakeEditingEventBuilder() {
+      bitField1_ |= 0x01000000;
+      onChanged();
+      return getCmakeEditingEventFieldBuilder().getBuilder();
+    }
+    /**
+     * <code>optional .android_studio.CMakeEditingEvent cmake_editing_event = 57;</code>
+     *
+     * <pre>
+     * set when kind = CMAKE_EDITING_EVENT
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.CMakeEditingEventOrBuilder getCmakeEditingEventOrBuilder() {
+      if (cmakeEditingEventBuilder_ != null) {
+        return cmakeEditingEventBuilder_.getMessageOrBuilder();
+      } else {
+        return cmakeEditingEvent_;
+      }
+    }
+    /**
+     * <code>optional .android_studio.CMakeEditingEvent cmake_editing_event = 57;</code>
+     *
+     * <pre>
+     * set when kind = CMAKE_EDITING_EVENT
+     * </pre>
+     */
+    private com.google.protobuf.SingleFieldBuilder<
+        com.google.wireless.android.sdk.stats.CMakeEditingEvent, com.google.wireless.android.sdk.stats.CMakeEditingEvent.Builder, com.google.wireless.android.sdk.stats.CMakeEditingEventOrBuilder> 
+        getCmakeEditingEventFieldBuilder() {
+      if (cmakeEditingEventBuilder_ == null) {
+        cmakeEditingEventBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+            com.google.wireless.android.sdk.stats.CMakeEditingEvent, com.google.wireless.android.sdk.stats.CMakeEditingEvent.Builder, com.google.wireless.android.sdk.stats.CMakeEditingEventOrBuilder>(
+                cmakeEditingEvent_,
+                getParentForChildren(),
+                isClean());
+        cmakeEditingEvent_ = null;
+      }
+      return cmakeEditingEventBuilder_;
     }
 
     // @@protoc_insertion_point(builder_scope:android_studio.AndroidStudioEvent)

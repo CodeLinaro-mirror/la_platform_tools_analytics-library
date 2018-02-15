@@ -1460,4 +1460,30 @@ public interface AndroidStudioEventOrBuilder
    * </pre>
    */
   com.google.wireless.android.sdk.stats.OomDialogEventOrBuilder getOomDialogEventOrBuilder();
+
+  // optional .android_studio.CMakeEditingEvent cmake_editing_event = 57;
+  /**
+   * <code>optional .android_studio.CMakeEditingEvent cmake_editing_event = 57;</code>
+   *
+   * <pre>
+   * set when kind = CMAKE_EDITING_EVENT
+   * </pre>
+   */
+  boolean hasCmakeEditingEvent();
+  /**
+   * <code>optional .android_studio.CMakeEditingEvent cmake_editing_event = 57;</code>
+   *
+   * <pre>
+   * set when kind = CMAKE_EDITING_EVENT
+   * </pre>
+   */
+  com.google.wireless.android.sdk.stats.CMakeEditingEvent getCmakeEditingEvent();
+  /**
+   * <code>optional .android_studio.CMakeEditingEvent cmake_editing_event = 57;</code>
+   *
+   * <pre>
+   * set when kind = CMAKE_EDITING_EVENT
+   * </pre>
+   */
+  com.google.wireless.android.sdk.stats.CMakeEditingEventOrBuilder getCmakeEditingEventOrBuilder();
 }

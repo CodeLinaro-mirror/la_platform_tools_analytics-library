@@ -520,6 +520,14 @@ public  final class GradleBuildVariant extends
      * </pre>
      */
     D8(4, 4),
+    /**
+     * <code>R8_DESUGARING = 5;</code>
+     *
+     * <pre>
+     * R8 compiler
+     * </pre>
+     */
+    R8_DESUGARING(5, 5),
     ;
 
     /**
@@ -562,6 +570,14 @@ public  final class GradleBuildVariant extends
      * </pre>
      */
     public static final int D8_VALUE = 4;
+    /**
+     * <code>R8_DESUGARING = 5;</code>
+     *
+     * <pre>
+     * R8 compiler
+     * </pre>
+     */
+    public static final int R8_DESUGARING_VALUE = 5;
 
 
     public final int getNumber() { return value; }
@@ -573,6 +589,7 @@ public  final class GradleBuildVariant extends
         case 2: return DEXGUARD;
         case 3: return JACK;
         case 4: return D8;
+        case 5: return R8_DESUGARING;
         default: return null;
       }
     }

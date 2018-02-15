@@ -213,6 +213,9 @@ message AndroidStudioEvent {
   // set when kind = STUDIO_UI_OOM_DIALOG_EVENT
   optional OomDialogEvent oom_dialog_event = 56;
 
+  // set when kind = CMAKE_EDITING_EVENT
+  optional CMakeEditingEvent cmake_editing_event = 57;
+
   // Describes a group of event kinds related to each other.
   // This is redundant in the presence of EventKind + event specific message,
   // and is only necessary for events originally sent to GA.
@@ -274,6 +277,8 @@ message AndroidStudioEvent {
     LAYOUT_EDITOR = 24;
     // The event is related to APK_DEBUGGING actions initiated by the user.
     APK_DEBUG = 25;
+    // The event is related to CMake editing.
+    CMAKE_EDITING_EVENT = 26;
   }
 
   // Specific kind of event, primary separation key of all Android Studio
@@ -1628,6 +1633,20 @@ message GradleNativeAndroidModule {
   }
 }
 
+// Metrics related to editing CMake files.
+message CMakeEditingEvent {
+  enum CMakeEditingEventKind {
+    UNKNOWN_CMAKE_EDITING_EVENT = 0;
+    // Set when syntax highlighting for CMake is first used.
+    SYNTAX_HIGHLIGHTING = 1;
+    // Set when code completion is first used.
+    CODE_COMPLETION = 2;
+  }
+  optional CMakeEditingEventKind kind = 1;
+  // The amount of time taken for the event to complete in milliseconds.
+  optional int64 event_duration_ms = 2;
+}
+
 // Metrics on InstantRun usage.
 message InstantRun {
   // What kind of Instant Run deployment was chosen.
@@ -2184,6 +2203,8 @@ message GradleBuildVariant {
     JACK = 3;
     // D8 compiler
     D8 = 4;
+    // R8 compiler
+    R8_DESUGARING = 5;
   }
 
   // Tools that can used to build dex
