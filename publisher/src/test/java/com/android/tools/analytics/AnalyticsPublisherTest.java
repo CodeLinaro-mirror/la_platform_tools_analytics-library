@@ -205,6 +205,7 @@ public class AnalyticsPublisherTest {
     private static AndroidStudioEvent.Builder createAndroidStudioEvent(long marker) {
         return AndroidStudioEvent.newBuilder()
                 .setStudioSessionId(UsageTracker.sSessionId)
+                .setIdeBrand(AndroidStudioEvent.IdeBrand.UNKNOWN_IDE_BRAND)
                 .setCategory(AndroidStudioEvent.EventCategory.PING)
                 .setKind(AndroidStudioEvent.EventKind.STUDIO_PING)
                 .setStudioCrash(StudioCrash.newBuilder().setActions(marker));
@@ -369,7 +370,7 @@ public class AnalyticsPublisherTest {
                                             // ensure that the previous failure is reported in the
                                             // meta metrics.
                                             .setFailedServerReplies(1)
-                                            .setBytesSentInLastUpload(185)
+                                            .setBytesSentInLastUpload(187)
                                             .build())
                             .build(),
                     metaStudioEvent);
@@ -404,7 +405,7 @@ public class AnalyticsPublisherTest {
                                     MetaMetrics.newBuilder()
                                             .setFailedConnections(0)
                                             .setFailedServerReplies(0)
-                                            .setBytesSentInLastUpload(185)
+                                            .setBytesSentInLastUpload(189)
                                             .build())
                             .build(),
                     metaStudioEvent);
