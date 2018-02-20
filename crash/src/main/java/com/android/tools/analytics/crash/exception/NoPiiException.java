@@ -13,11 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.android.tools.idea.diagnostics.exception;
+package com.android.tools.analytics.crash.exception;
 
-import com.android.tools.idea.diagnostics.crash.CrashReport;
-import org.jetbrains.annotations.NotNull;
-
+import com.android.annotations.NonNull;
+import com.android.tools.analytics.crash.CrashReport;
 import java.io.PrintWriter;
 
 /**
@@ -27,10 +26,10 @@ import java.io.PrintWriter;
  */
 public class NoPiiException extends Exception {
 
-  @NotNull
+  @NonNull
   private final Throwable myRootException;
 
-  public NoPiiException(@NotNull Throwable t) {
+  public NoPiiException(@NonNull Throwable t) {
     super(t);
     myRootException = CrashReport.getRootCause(t);
   }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 The Android Open Source Project
+ * Copyright (C) 2018 The Android Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,16 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.android.tools.idea.diagnostics.crash;
+package com.android.tools.analytics.crash;
 
+import com.android.annotations.NonNull;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;
 import io.netty.channel.oio.OioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.oio.OioServerSocketChannel;
 import io.netty.handler.codec.http.*;
-import org.jetbrains.annotations.NotNull;
-
 import java.util.function.Function;
 
 /**
@@ -39,7 +38,7 @@ public class LocalTestServer {
     myPort = port;
   }
 
-  public void setResponseSupplier(@NotNull Function<FullHttpRequest, FullHttpResponse> responseSupplier) {
+  public void setResponseSupplier(@NonNull Function<FullHttpRequest, FullHttpResponse> responseSupplier) {
     myResponseSupplier = responseSupplier;
   }
 

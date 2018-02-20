@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 The Android Open Source Project
+ * Copyright (C) 2018 The Android Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,20 +13,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.android.tools.idea.diagnostics.crash;
+package com.android.tools.analytics.crash;
 
-import com.android.tools.analytics.Anonymizer;
-import com.android.utils.NullLogger;
+import com.android.annotations.NonNull;
 import com.google.common.annotations.VisibleForTesting;
+import com.google.common.base.StandardSystemProperty;
+import com.google.common.base.Strings;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
-import com.intellij.ide.util.PropertiesComponent;
-import com.intellij.openapi.application.ApplicationInfo;
-import com.intellij.openapi.application.ApplicationManager;
-import com.intellij.openapi.diagnostic.Logger;
-import com.intellij.openapi.updateSettings.impl.UpdateChecker;
-import com.intellij.openapi.util.SystemInfo;
-import com.intellij.openapi.util.text.StringUtil;
-import com.intellij.util.containers.HashMap;
+import java.io.IOException;
+import java.lang.management.ManagementFactory;
+import java.lang.management.MemoryUsage;
+import java.lang.management.RuntimeMXBean;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.LinkedBlockingDeque;
+import java.util.concurrent.RejectedExecutionException;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.logging.Logger;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.StatusLine;
@@ -37,32 +46,17 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
-import java.io.IOException;
-import java.lang.management.ManagementFactory;
-import java.lang.management.MemoryUsage;
-import java.lang.management.RuntimeMXBean;
-import java.util.Locale;
-import java.util.Map;
-import java.util.concurrent.*;
-import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- * {@link GoogleCrash} provides APIs to upload crash reports to Google crash reporting service.
+ * {@link GoogleCrashReporter} provides APIs to upload crash reports to Google crash reporting service.
  * @see <a href="http://go/studio-g3doc/implementation/crash">Crash Backend</a> for more information.
  */
-public class GoogleCrash implements CrashReporter {
-  private static final boolean UNIT_TEST_MODE = ApplicationManager.getApplication() == null;
-  private static final boolean DEBUG_BUILD = !UNIT_TEST_MODE && ApplicationManager.getApplication().isInternal();
+public class GoogleCrashReporter implements CrashReporter {
 
   // Send crashes during development to the staging backend
-  private static final String CRASH_URL =
-    (UNIT_TEST_MODE || DEBUG_BUILD) ? "https://clients2.google.com/cr/staging_report" : "https://clients2.google.com/cr/report";
+  private static final String CRASH_URL = "https://clients2.google.com/cr/report";
+  private static final String STAGING_CRASH_URL = "https://clients2.google.com/cr/staging_report";
 
-  @Nullable
-  private static final String ANONYMIZED_UID = getAnonymizedUid();
   private static final String LOCALE = Locale.getDefault() == null ? "unknown" : Locale.getDefault().toString();
 
   private static final int REJECTED_UPLOAD_TRIGGER_COUNT = 20;
@@ -83,57 +77,57 @@ public class GoogleCrash implements CrashReporter {
                            (r, executor) -> {
                              ourRejectedExecutionCount.incrementAndGet();
                              if (ourRejectedExecutionCount.compareAndSet(REJECTED_UPLOAD_TRIGGER_COUNT, 0)) {
-                               Logger.getInstance(GoogleCrash.class)
+                               Logger.getLogger(
+                                       GoogleCrashReporter.class.getName())
                                  .info("Lost " + REJECTED_UPLOAD_TRIGGER_COUNT + " crash events due to full queue.");
                              }
                            });
 
   // The standard keys expected by crash backend. The product id and version are required, others are optional.
-  static final String KEY_PRODUCT_ID = "productId";
-  static final String KEY_VERSION = "version";
+  protected static final String KEY_PRODUCT_ID = "productId";
+  protected static final String KEY_VERSION = "version";
   static final String KEY_EXCEPTION_INFO = "exception_info";
 
   // We allow reporting a max of 1 crash per minute
   private static final double MAX_CRASHES_PER_SEC = 1.0 / 60.0;
 
-  private final String myCrashUrl;
-  private final UploadRateLimiter myRateLimiter;
 
-  @Nullable
-  private static String getAnonymizedUid() {
-    if (UNIT_TEST_MODE) {
-      return "UnitTest";
-    }
+  private final boolean isUnitTestMode;
+  private final boolean isDebugBuild;
+  @NonNull private final String crashUrl;
+  @NonNull private final UploadRateLimiter rateLimiter;
 
-    try {
-      return Anonymizer.anonymizeUtf8(new NullLogger(), UpdateChecker.getInstallationUID(PropertiesComponent.getInstance()));
-    }
-    catch (IOException e) {
-      return null;
-    }
-  }
-
-  GoogleCrash() {
-    this(CRASH_URL, UploadRateLimiter.create(MAX_CRASHES_PER_SEC));
+  public GoogleCrashReporter(boolean isUnitTestMode, boolean isDebugBuild) {
+    this(
+            (isUnitTestMode || isDebugBuild) ? STAGING_CRASH_URL : CRASH_URL,
+            UploadRateLimiter.create(MAX_CRASHES_PER_SEC),
+            isUnitTestMode,
+            isDebugBuild);
   }
 
   @VisibleForTesting
-  GoogleCrash(@NotNull String crashUrl, @NotNull UploadRateLimiter rateLimiter) {
-    myCrashUrl = crashUrl;
-    myRateLimiter = rateLimiter;
+  GoogleCrashReporter(
+          @NonNull String crashUrl,
+          @NonNull UploadRateLimiter rateLimiter,
+          boolean isUnitTestMode,
+          boolean isDebugBuild) {
+    this.crashUrl = crashUrl;
+    this.rateLimiter = rateLimiter;
+    this.isUnitTestMode = isUnitTestMode;
+    this.isDebugBuild = isDebugBuild;
   }
 
   @Override
-  @NotNull
-  public CompletableFuture<String> submit(@NotNull CrashReport report) {
+  @NonNull
+  public CompletableFuture<String> submit(@NonNull CrashReport report) {
     return submit(report, false);
   }
 
   @Override
-  @NotNull
-  public CompletableFuture<String> submit(@NotNull CrashReport report, boolean userReported) {
+  @NonNull
+  public CompletableFuture<String> submit(@NonNull CrashReport report, boolean userReported) {
     if (!userReported) { // all non user reported crash events are rate limited on the client side
-      if (!myRateLimiter.tryAcquire()) {
+      if (!rateLimiter.tryAcquire()) {
         CompletableFuture<String> f = new CompletableFuture<>();
         f.completeExceptionally(new RuntimeException("Exceeded Quota of crashes that can be reported"));
         return f;
@@ -151,17 +145,17 @@ public class GoogleCrash implements CrashReporter {
     return submit(builder.build());
   }
 
-  @NotNull
+  @NonNull
   @Override
-  public CompletableFuture<String> submit(@NotNull Map<String, String> kv) {
+  public CompletableFuture<String> submit(@NonNull Map<String, String> kv) {
     Map<String, String> parameters = getDefaultParameters();
     kv.forEach(parameters::put);
     return submit(newMultipartEntityBuilderWithKv(parameters).build());
   }
 
-  @NotNull
+  @NonNull
   @Override
-  public CompletableFuture<String> submit(@NotNull final HttpEntity requestEntity) {
+  public CompletableFuture<String> submit(@NonNull final HttpEntity requestEntity) {
     CompletableFuture<String> future = new CompletableFuture<>();
 
     try {
@@ -170,12 +164,12 @@ public class GoogleCrash implements CrashReporter {
           HttpClient client = HttpClients.createDefault();
 
           HttpEntity entity = requestEntity;
-          if (!UNIT_TEST_MODE) {
+          if (!isUnitTestMode) {
             // The test server used in testing doesn't handle gzip compression (netty requires jcraft jzlib for gzip decompression)
             entity = new GzipCompressingEntity(requestEntity);
           }
 
-          HttpPost post = new HttpPost(myCrashUrl);
+          HttpPost post = new HttpPost(crashUrl);
           post.setEntity(entity);
 
           HttpResponse response = client.execute(post);
@@ -192,7 +186,7 @@ public class GoogleCrash implements CrashReporter {
           }
 
           String reportId = EntityUtils.toString(entity);
-          if (DEBUG_BUILD) {
+          if (isDebugBuild) {
             //noinspection UseOfSystemOutOrSystemErr
             System.out.println("Report submitted: http://go/crash-staging/" + reportId);
           }
@@ -209,49 +203,41 @@ public class GoogleCrash implements CrashReporter {
     return future;
   }
 
-  @NotNull
-  private static MultipartEntityBuilder newMultipartEntityBuilderWithKv(@NotNull Map<String, String> kv) {
+  @NonNull
+  private static MultipartEntityBuilder newMultipartEntityBuilderWithKv(@NonNull Map<String, String> kv) {
     MultipartEntityBuilder builder = MultipartEntityBuilder.create();
     kv.forEach(builder::addTextBody);
     return builder;
   }
 
-  @NotNull
-  private static Map<String, String> getDefaultParameters() {
+  @NonNull
+  private Map<String, String> getDefaultParameters() {
     Map<String, String> map = new HashMap<>();
-    ApplicationInfo applicationInfo = getApplicationInfo();
 
-    if (ANONYMIZED_UID != null) {
-      map.put("guid", ANONYMIZED_UID);
-    }
     RuntimeMXBean runtimeMXBean = ManagementFactory.getRuntimeMXBean();
     map.put("ptime", Long.toString(runtimeMXBean.getUptime()));
 
-    // product specific key value pairs
-    map.put(KEY_VERSION, applicationInfo == null ? "0.0.0.0" : applicationInfo.getStrictVersion());
-    map.put(KEY_PRODUCT_ID, CrashReport.PRODUCT_ANDROID_STUDIO); // must match registration with Crash
-    map.put("fullVersion", applicationInfo == null ? "0.0.0.0" : applicationInfo.getFullVersion());
+    map.put("osName", Strings.nullToEmpty(StandardSystemProperty.OS_NAME.value()));
+    map.put("osVersion", Strings.nullToEmpty(StandardSystemProperty.OS_VERSION.value()));
+    map.put("osArch", Strings.nullToEmpty(StandardSystemProperty.OS_ARCH.value()));
+    map.put("locale", Strings.nullToEmpty(LOCALE));
 
-    map.put("osName", StringUtil.notNullize(SystemInfo.OS_NAME));
-    map.put("osVersion", StringUtil.notNullize(SystemInfo.OS_VERSION));
-    map.put("osArch", StringUtil.notNullize(SystemInfo.OS_ARCH));
-    map.put("locale", StringUtil.notNullize(LOCALE));
-
-    map.put("vmName", StringUtil.notNullize(runtimeMXBean.getVmName()));
-    map.put("vmVendor", StringUtil.notNullize(runtimeMXBean.getVmVendor()));
-    map.put("vmVersion", StringUtil.notNullize(runtimeMXBean.getVmVersion()));
+    map.put("vmName", Strings.nullToEmpty(runtimeMXBean.getVmName()));
+    map.put("vmVendor", Strings.nullToEmpty(runtimeMXBean.getVmVendor()));
+    map.put("vmVersion", Strings.nullToEmpty(runtimeMXBean.getVmVersion()));
 
     MemoryUsage usage = ManagementFactory.getMemoryMXBean().getHeapMemoryUsage();
     map.put("heapUsed", Long.toString(usage.getUsed()));
     map.put("heapCommitted", Long.toString(usage.getCommitted()));
     map.put("heapMax", Long.toString(usage.getMax()));
 
+    map.putAll(getProductSpecificParams());
+
     return map;
   }
 
-  @Nullable
-  private static ApplicationInfo getApplicationInfo() {
-    // We obtain the ApplicationInfo only if running with an application instance. Otherwise, a call to a ServiceManager never returns..
-    return ApplicationManager.getApplication() == null ? null : ApplicationInfo.getInstance();
+  @NonNull
+  protected Map<String, String> getProductSpecificParams() {
+    return Collections.emptyMap();
   }
 }

@@ -1,6 +1,7 @@
 subprojects { Project project ->
-    // only configure leaf projects.
-    if (!project.getSubprojects().isEmpty()) return
+    // Only configure leaf projects, and avoid applying baseJava to crash project as it is
+    // not used in tools/base for now.
+    if (!project.getSubprojects().isEmpty() || project.name == 'crash') return
 
     apply from: "$rootDir/buildSrc/base/baseJava.gradle"
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 The Android Open Source Project
+ * Copyright (C) 2018 The Android Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,56 +13,56 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.android.tools.idea.diagnostics.crash;
+package com.android.tools.analytics.crash;
 
-import com.android.tools.idea.diagnostics.exception.NoPiiException;
+import static com.android.tools.analytics.crash.GoogleCrashReporter.KEY_EXCEPTION_INFO;
+
+import com.android.annotations.NonNull;
+import com.android.annotations.Nullable;
+import com.android.tools.analytics.crash.exception.NoPiiException;
 import com.google.common.base.Charsets;
 import com.google.common.base.Joiner;
+import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableSet;
-import com.intellij.util.ExceptionUtil;
-import com.intellij.util.containers.HashMap;
-import org.apache.http.entity.ContentType;
-import org.apache.http.entity.mime.MultipartEntityBuilder;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import static com.android.tools.idea.diagnostics.crash.GoogleCrash.KEY_EXCEPTION_INFO;
+import org.apache.http.entity.ContentType;
+import org.apache.http.entity.mime.MultipartEntityBuilder;
 
 public abstract class CrashReport {
   public static final String PRODUCT_ANDROID_STUDIO = "AndroidStudio"; // must stay in sync with backend registration
 
   /** {@link Throwable} classes with messages expected to be useful for debugging and not to contain PII. */
-  private static final ImmutableSet<Class<? extends Throwable>> THROWABLE_CLASSES_TO_TRACK_MESSAGES = ImmutableSet.of(
-    ArrayIndexOutOfBoundsException.class,
-    ClassCastException.class,
-    ClassNotFoundException.class,
-    IndexOutOfBoundsException.class,
-    NoPiiException.class
-  );
+  private static final ImmutableSet<Class<? extends Throwable>> THROWABLE_CLASSES_TO_TRACK_MESSAGES =
+    ImmutableSet
+      .of(
+        ArrayIndexOutOfBoundsException.class,
+        ClassCastException.class,
+        ClassNotFoundException.class,
+        IndexOutOfBoundsException.class,
+        NoPiiException.class);
 
-  public enum Type {
+  private enum Type {
     Crash,
     Exception,
     Performance,
   }
 
-  @NotNull public final String productId;
+  @NonNull public final String productId;
   @Nullable public final String version;
   @Nullable public final Map<String, String> productData;
-  @NotNull private final Type myType;
+  @NonNull private final Type type;
 
-  private CrashReport(@NotNull String productId, @Nullable String version, @Nullable Map<String, String> productData, @NotNull Type type) {
+  private CrashReport(@NonNull String productId, @Nullable String version, @Nullable Map<String, String> productData, @NonNull Type type) {
     this.productId = productId;
     this.version = version;
     this.productData = productData;
-    myType = type;
+    this.type = type;
   }
 
-  public void serialize(@NotNull MultipartEntityBuilder builder) {
-    builder.addTextBody("type", myType.toString());
+  public void serialize(@NonNull MultipartEntityBuilder builder) {
+    builder.addTextBody("type", type.toString());
 
     if (productData != null) {
       productData.forEach(builder::addTextBody);
@@ -71,21 +71,21 @@ public abstract class CrashReport {
     serializeTo(builder);
   }
 
-  protected abstract void serializeTo(@NotNull MultipartEntityBuilder builder);
+  protected abstract void serializeTo(@NonNull MultipartEntityBuilder builder);
 
   private static class ExceptionReport extends CrashReport {
-    @NotNull private final String myExceptionInfo;
+    @NonNull private final String myExceptionInfo;
 
-    private ExceptionReport(@NotNull String productId,
+    private ExceptionReport(@NonNull String productId,
                             @Nullable String version,
-                            @NotNull String exceptionInfo,
+                            @NonNull String exceptionInfo,
                             @Nullable Map<String, String> productData) {
       super(productId, version, productData, Type.Exception);
       myExceptionInfo = exceptionInfo;
     }
 
     @Override
-    protected void serializeTo(@NotNull MultipartEntityBuilder builder) {
+    protected void serializeTo(@NonNull MultipartEntityBuilder builder) {
       builder.addTextBody(KEY_EXCEPTION_INFO, myExceptionInfo);
     }
   }
@@ -93,16 +93,16 @@ public abstract class CrashReport {
   private static class StudioCrashReport extends CrashReport {
     private final List<String> myDescriptions;
 
-    private StudioCrashReport(@NotNull String productId,
+    private StudioCrashReport(@NonNull String productId,
                               @Nullable String version,
-                              @NotNull List<String> descriptions,
+                              @NonNull List<String> descriptions,
                               @Nullable Map<String, String> productData) {
       super(productId, version, productData, Type.Crash);
       myDescriptions = descriptions;
     }
 
     @Override
-    protected void serializeTo(@NotNull MultipartEntityBuilder builder) {
+    protected void serializeTo(@NonNull MultipartEntityBuilder builder) {
       builder.addTextBody("numCrashes", Integer.toString(myDescriptions.size()));
       builder.addTextBody("crashDesc", Joiner.on("\n\n").join(myDescriptions));
     }
@@ -112,10 +112,10 @@ public abstract class CrashReport {
     private final String myFileName;
     private final String myThreadDump;
 
-    private StudioPerformanceWatcherReport(@NotNull String productId,
+    private StudioPerformanceWatcherReport(@NonNull String productId,
                                            @Nullable String version,
-                                           @NotNull String fileName,
-                                           @NotNull String threadDump,
+                                           @NonNull String fileName,
+                                           @NonNull String threadDump,
                                            @Nullable Map<String, String> productData) {
       super(productId, version, productData, Type.Performance);
       myFileName = fileName;
@@ -123,12 +123,7 @@ public abstract class CrashReport {
     }
 
     @Override
-    protected void serializeTo(@NotNull MultipartEntityBuilder builder) {
-      //String edtStack = ThreadDumper.getEdtStackForCrash(myThreadDump);
-      //if (edtStack != null) {
-      //  builder.addTextBody(KEY_EXCEPTION_INFO, edtStack);
-      //}
-
+    protected void serializeTo(@NonNull MultipartEntityBuilder builder) {
       builder.addTextBody(myFileName,
                           myThreadDump,
                           ContentType.create("text/plain", Charsets.UTF_8));
@@ -148,20 +143,20 @@ public abstract class CrashReport {
     private Builder() {
     }
 
-    @NotNull
-    public Builder setProduct(@NotNull String productId) {
+    @NonNull
+    public Builder setProduct(@NonNull String productId) {
       myProductId = productId;
       return this;
     }
 
-    @NotNull
-    public Builder setVersion(@NotNull String version) {
+    @NonNull
+    public Builder setVersion(@NonNull String version) {
       myVersion = version;
       return this;
     }
 
-    @NotNull
-    public Builder addProductData(@NotNull Map<String,String> kv) {
+    @NonNull
+    public Builder addProductData(@NonNull Map<String,String> kv) {
       if (myProductData == null) {
         myProductData = new HashMap<>();
       }
@@ -170,33 +165,33 @@ public abstract class CrashReport {
       return this;
     }
 
-    @NotNull
-    private Builder setType(@NotNull Type type) {
+    @NonNull
+    private Builder setType(@NonNull Type type) {
       myType = type;
       return this;
     }
 
-    @NotNull
-    private Builder setThrowable(@NotNull Throwable t) {
+    @NonNull
+    private Builder setThrowable(@NonNull Throwable t) {
       //noinspection ThrowableResultOfMethodCallIgnored
       myExceptionInfo = getDescription(getRootCause(t));
       return this;
     }
 
-    @NotNull
-    private Builder setDescriptions(@NotNull List<String> descriptions) {
+    @NonNull
+    private Builder setDescriptions(@NonNull List<String> descriptions) {
       myCrashDescriptions = descriptions;
       return this;
     }
 
-    @NotNull
-    private Builder setThreadDump(@NotNull String fileName, @NotNull String threadDump) {
+    @NonNull
+    private Builder setThreadDump(@NonNull String fileName, @NonNull String threadDump) {
       myFileName = fileName;
       myThreadDump = threadDump;
       return this;
     }
 
-    @NotNull
+    @NonNull
     public CrashReport build() {
       switch (myType) {
         case Crash:
@@ -209,22 +204,22 @@ public abstract class CrashReport {
       }
     }
 
-    @NotNull
-    public static Builder createForException(@NotNull Throwable t) {
+    @NonNull
+    public static Builder createForException(@NonNull Throwable t) {
       return new Builder()
         .setType(Type.Exception)
         .setThrowable(t);
     }
 
-    @NotNull
-    public static Builder createForCrashes(@NotNull List<String> descriptions) {
+    @NonNull
+    public static Builder createForCrashes(@NonNull List<String> descriptions) {
       return new Builder()
         .setType(Type.Crash)
         .setDescriptions(descriptions);
     }
 
-    @NotNull
-    public static Builder createForPerfReport(@NotNull String fileName, @NotNull String threadDump) {
+    @NonNull
+    public static Builder createForPerfReport(@NonNull String fileName, @NonNull String threadDump) {
       return new Builder()
         .setType(Type.Performance)
         .setThreadDump(fileName, threadDump);
@@ -232,8 +227,8 @@ public abstract class CrashReport {
   }
 
   // Similar to ExceptionUntil.getRootCause, but attempts to avoid infinite recursion
-  @NotNull
-  public static Throwable getRootCause(@NotNull Throwable t) {
+  @NonNull
+  public static Throwable getRootCause(@NonNull Throwable t) {
     int depth = 0;
     while (depth++ < 20) {
       if (t.getCause() == null) return t;
@@ -243,14 +238,14 @@ public abstract class CrashReport {
   }
 
   /**
-   * Returns an exception description (similar to {@link ExceptionUtil#getThrowableText(Throwable)} with the exception message
+   * Returns an exception description (similar to {@link Throwables#getStackTraceAsString(Throwable)}} with the exception message
    * removed in order to strip off any PII. The exception message is include for some specific exceptions where we know that the
    * message will not have any PII.
    */
-  @NotNull
-  public static String getDescription(@NotNull Throwable t) {
+  @NonNull
+  public static String getDescription(@NonNull Throwable t) {
     if (THROWABLE_CLASSES_TO_TRACK_MESSAGES.contains(t.getClass())) {
-      return ExceptionUtil.getThrowableText(t);
+      return Throwables.getStackTraceAsString(t);
     }
 
     StringBuilder sb = new StringBuilder(256);
