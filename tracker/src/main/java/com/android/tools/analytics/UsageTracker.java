@@ -191,6 +191,7 @@ public abstract class UsageTracker implements AutoCloseable {
             @NonNull AnalyticsSettings analyticsSettings,
             @NonNull ScheduledExecutorService scheduler) {
         synchronized (sGate) {
+            UsageTracker current = sInstance;
             if (analyticsSettings.hasOptedIn()) {
                 sInstance =
                         new JournalingUsageTracker(
@@ -199,6 +200,9 @@ public abstract class UsageTracker implements AutoCloseable {
                                 Paths.get(AnalyticsPaths.getSpoolDirectory()));
             } else {
                 sInstance = new NullUsageTracker(analyticsSettings, scheduler);
+            }
+            if (current != null) {
+                sInstance.setIdeBrand(current.getIdeBrand());
             }
             return sInstance;
         }
