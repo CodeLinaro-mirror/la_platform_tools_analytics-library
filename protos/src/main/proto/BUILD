@@ -5,6 +5,8 @@ java_proto_library(
     name = "proto",
     srcs = glob(["*.proto"]),
     pom = ":analytics-protos.pom",
+    resource_strip_prefix = "tools/analytics-library/protos",
+    resources = ["//tools/analytics-library/protos:NOTICE"],
     visibility = ["//visibility:public"],
 )
 

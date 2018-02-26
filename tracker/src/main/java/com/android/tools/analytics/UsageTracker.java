@@ -50,6 +50,7 @@ public abstract class UsageTracker implements AutoCloseable {
     private int mMaxJournalSize;
     private long mMaxJournalTime;
     private String mVersion;
+    private AndroidStudioEvent.IdeBrand mIdeBrand = AndroidStudioEvent.IdeBrand.UNKNOWN_IDE_BRAND;
 
     @VisibleForTesting protected long mStartTimeMs = sDateProvider.now().getTime();
 
@@ -112,6 +113,20 @@ public abstract class UsageTracker implements AutoCloseable {
         mVersion = version;
     }
 
+    /**
+     * Gets the ide brand specified for this UsageTracker.
+     */
+    @NonNull public AndroidStudioEvent.IdeBrand getIdeBrand() {
+        return mIdeBrand;
+    }
+
+    /**
+     * Set the ide brand specified for this UsageTracker.
+     */
+    public void setIdeBrand(@NonNull AndroidStudioEvent.IdeBrand ideBrand) {
+        mIdeBrand = ideBrand;
+    }
+
     /** Gets the analytics settings used by this tracker. */
     public AnalyticsSettings getAnalyticsSettings() {
         return mAnalyticsSettings;
@@ -130,6 +145,7 @@ public abstract class UsageTracker implements AutoCloseable {
     /** Logs usage data provided in the @{link AndroidStudioEvent} with provided event time. */
     public void log(long eventTimeMs, @NonNull AndroidStudioEvent.Builder studioEvent) {
         studioEvent.setStudioSessionId(sSessionId);
+        studioEvent.setIdeBrand(mIdeBrand);
 
         if (mVersion != null && !studioEvent.hasProductDetails()) {
             studioEvent.setProductDetails(ProductDetails.newBuilder().setVersion(mVersion));
@@ -175,6 +191,7 @@ public abstract class UsageTracker implements AutoCloseable {
             @NonNull AnalyticsSettings analyticsSettings,
             @NonNull ScheduledExecutorService scheduler) {
         synchronized (sGate) {
+            UsageTracker current = sInstance;
             if (analyticsSettings.hasOptedIn()) {
                 sInstance =
                         new JournalingUsageTracker(
@@ -183,6 +200,9 @@ public abstract class UsageTracker implements AutoCloseable {
                                 Paths.get(AnalyticsPaths.getSpoolDirectory()));
             } else {
                 sInstance = new NullUsageTracker(analyticsSettings, scheduler);
+            }
+            if (current != null) {
+                sInstance.setIdeBrand(current.getIdeBrand());
             }
             return sInstance;
         }

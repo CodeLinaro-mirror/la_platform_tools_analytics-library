@@ -31,6 +31,7 @@ maven_java_library(
     name = "tools.analytics-shared",
     srcs = glob(["src/main/java/**"]),
     pom = ":analytics-shared.pom",
+    resource_strip_prefix = "tools/analytics-library/shared",
     visibility = ["//visibility:public"],
     deps = [
         "//tools/analytics-library/protos/src/main/proto",
