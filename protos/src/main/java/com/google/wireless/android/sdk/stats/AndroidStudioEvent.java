@@ -989,13 +989,14 @@ public  final class AndroidStudioEvent extends
      */
     APK_DEBUG(25, 25),
     /**
-     * <code>CMAKE_EDITING_EVENT = 26;</code>
+     * <code>DEPRECATED_CMAKE_EDITING_EVENT = 26;</code>
      *
      * <pre>
      * The event is related to CMake editing.
+     * Do not use this -- use the EventKind below.
      * </pre>
      */
-    CMAKE_EDITING_EVENT(26, 26),
+    DEPRECATED_CMAKE_EDITING_EVENT(26, 26),
     ;
 
     /**
@@ -1212,13 +1213,14 @@ public  final class AndroidStudioEvent extends
      */
     public static final int APK_DEBUG_VALUE = 25;
     /**
-     * <code>CMAKE_EDITING_EVENT = 26;</code>
+     * <code>DEPRECATED_CMAKE_EDITING_EVENT = 26;</code>
      *
      * <pre>
      * The event is related to CMake editing.
+     * Do not use this -- use the EventKind below.
      * </pre>
      */
-    public static final int CMAKE_EDITING_EVENT_VALUE = 26;
+    public static final int DEPRECATED_CMAKE_EDITING_EVENT_VALUE = 26;
 
 
     public final int getNumber() { return value; }
@@ -1251,7 +1253,7 @@ public  final class AndroidStudioEvent extends
         case 23: return STUDIO_UI;
         case 24: return LAYOUT_EDITOR;
         case 25: return APK_DEBUG;
-        case 26: return CMAKE_EDITING_EVENT;
+        case 26: return DEPRECATED_CMAKE_EDITING_EVENT;
         default: return null;
       }
     }
@@ -2294,6 +2296,14 @@ public  final class AndroidStudioEvent extends
      * </pre>
      */
     STUDIO_UI_OOM_DIALOG_EVENT(124, 127),
+    /**
+     * <code>CMAKE_EDITING_EVENT = 128;</code>
+     *
+     * <pre>
+     * The event is related to CMake editing.
+     * </pre>
+     */
+    CMAKE_EDITING_EVENT(125, 128),
     ;
 
     /**
@@ -3277,6 +3287,14 @@ public  final class AndroidStudioEvent extends
      * </pre>
      */
     public static final int STUDIO_UI_OOM_DIALOG_EVENT_VALUE = 127;
+    /**
+     * <code>CMAKE_EDITING_EVENT = 128;</code>
+     *
+     * <pre>
+     * The event is related to CMake editing.
+     * </pre>
+     */
+    public static final int CMAKE_EDITING_EVENT_VALUE = 128;
 
 
     public final int getNumber() { return value; }
@@ -3408,6 +3426,7 @@ public  final class AndroidStudioEvent extends
         case 125: return ANDROID_PROFILER_DB_STATS;
         case 126: return CONNECTION_ASSISTANT_EVENT;
         case 127: return STUDIO_UI_OOM_DIALOG_EVENT;
+        case 128: return CMAKE_EDITING_EVENT;
         default: return null;
       }
     }
