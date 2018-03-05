@@ -2,28 +2,25 @@ load("//tools/base/bazel:bazel.bzl", "iml_module")
 
 iml_module(
     name = "analytics-testing",
-    srcs = ["src/main/java"],
     iml_files = ["analytics-testing.iml"],
     tags = ["managed"],
-    test_srcs = ["src/test/java"],
+    test_srcs = [
+        "src/main/java",
+        "src/test/java",
+    ],
     visibility = ["//visibility:public"],
     # do not sort: must match IML order
-    exports = [
-        "//tools/idea/.idea/libraries:Guava",
-        "//tools/base/annotations:studio.android-annotations",
-    ],
-    # do not sort: must match IML order
     deps = [
-        "//tools/idea/.idea/libraries:Guava",
+        "//tools/idea/.idea/libraries:Guava[test]",
         "//tools/idea/.idea/libraries:JUnit4[test]",
-        "//tools/base/annotations:studio.android-annotations[module]",
+        "//tools/base/annotations:studio.android-annotations[module, test]",
         "//tools/idea/.idea/libraries:truth[test]",
-        "//tools/idea/.idea/libraries:gson",
-        "//tools/analytics-library/protos:analytics-protos[module]",
-        "//tools/base/testutils:studio.testutils[module]",
-        "//tools/base/common:studio.common[module]",
-        "//tools/analytics-library/shared:analytics-shared[module]",
-        "//tools/analytics-library/tracker:analytics-tracker[module]",
+        "//tools/idea/.idea/libraries:gson[test]",
+        "//tools/analytics-library/protos:analytics-protos[module, test]",
+        "//tools/base/testutils:studio.testutils[module, test]",
+        "//tools/base/common:studio.common[module, test]",
+        "//tools/analytics-library/shared:analytics-shared[module, test]",
+        "//tools/analytics-library/tracker:analytics-tracker[module, test]",
     ],
 )
 
