@@ -281,7 +281,8 @@ message AndroidStudioEvent {
     // The event is related to APK_DEBUGGING actions initiated by the user.
     APK_DEBUG = 25;
     // The event is related to CMake editing.
-    CMAKE_EDITING_EVENT = 26;
+    // Do not use this -- use the EventKind below.
+    DEPRECATED_CMAKE_EDITING_EVENT = 26;
   }
 
   // Specific kind of event, primary separation key of all Android Studio
@@ -568,6 +569,9 @@ message AndroidStudioEvent {
 
     // Out of Memory Dialog event
     STUDIO_UI_OOM_DIALOG_EVENT = 127;
+
+    // The event is related to CMake editing.
+    CMAKE_EDITING_EVENT = 128;
   }
 
   // Represents different Performance Monitoring types.
