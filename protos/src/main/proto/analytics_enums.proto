@@ -181,6 +181,7 @@ enum GradleTaskExecutionType {
     AUTO_NAMESPACE_DEPENDENCIES = 133;
     BUNDLE = 134;
 	PER_MODULE_BUNDLE = 135;
+    FEATURE_SET_METADATA_WRITER = 136;
 }
 
 enum BooleanOption {
