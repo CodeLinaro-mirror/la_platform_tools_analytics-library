@@ -180,6 +180,7 @@ enum GradleTaskExecutionType {
     DATA_BINDING_EXPORT_FEATURE_INFO = 132;
     AUTO_NAMESPACE_DEPENDENCIES = 133;
     BUNDLE = 134;
+	PER_MODULE_BUNDLE = 135;
 }
 
 enum BooleanOption {
