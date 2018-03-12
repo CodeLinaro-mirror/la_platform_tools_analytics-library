@@ -122,4 +122,22 @@ public interface AndroidProfilerEventOrBuilder
    * </pre>
    */
   com.google.wireless.android.sdk.stats.FilterMetadataOrBuilder getFilterMetadataOrBuilder();
+
+  // optional .android_studio.AndroidProfilerEvent.MemoryHeap memory_heap = 6;
+  /**
+   * <code>optional .android_studio.AndroidProfilerEvent.MemoryHeap memory_heap = 6;</code>
+   *
+   * <pre>
+   * Set if |type| is |SELECT_MEMORY_HEAP|
+   * </pre>
+   */
+  boolean hasMemoryHeap();
+  /**
+   * <code>optional .android_studio.AndroidProfilerEvent.MemoryHeap memory_heap = 6;</code>
+   *
+   * <pre>
+   * Set if |type| is |SELECT_MEMORY_HEAP|
+   * </pre>
+   */
+  com.google.wireless.android.sdk.stats.AndroidProfilerEvent.MemoryHeap getMemoryHeap();
 }

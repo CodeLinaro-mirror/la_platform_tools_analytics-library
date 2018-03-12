@@ -3471,6 +3471,9 @@ message AndroidProfilerEvent {
   // Set if |type| is |FILTER|
   optional FilterMetadata filter_metadata = 5;
 
+  // Set if |type| is |SELECT_MEMORY_HEAP|
+  optional MemoryHeap memory_heap = 6;
+
   enum Stage {
     UNKNOWN_STAGE = 0;
 
@@ -3481,6 +3484,16 @@ message AndroidProfilerEvent {
     CPU_STAGE = 3;
     MEMORY_STAGE = 4;
     NETWORK_STAGE = 5;
+  }
+
+  enum MemoryHeap {
+    UNKNOWN_HEAP = 0;
+
+    DEFAULT_HEAP = 1;
+    IMAGE_HEAP = 2;
+    ZYGOTE_HEAP = 3;
+    APP_HEAP = 4;
+    JNI_HEAP = 5;
   }
 
   enum Type {
@@ -3538,6 +3551,7 @@ message AndroidProfilerEvent {
     ARRANGE_CLASSES = 307;
     SELECT_MEMORY_STACK = 308;
     SELECT_MEMORY_REFERENCES = 309;
+    SELECT_MEMORY_HEAP = 310; // This event type should have |memory_heap|
 
     /// Network
 
