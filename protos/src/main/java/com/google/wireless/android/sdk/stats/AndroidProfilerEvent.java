@@ -119,6 +119,17 @@ public  final class AndroidProfilerEvent extends
             bitField0_ |= 0x00000010;
             break;
           }
+          case 48: {
+            int rawValue = input.readEnum();
+            com.google.wireless.android.sdk.stats.AndroidProfilerEvent.MemoryHeap value = com.google.wireless.android.sdk.stats.AndroidProfilerEvent.MemoryHeap.valueOf(rawValue);
+            if (value == null) {
+              unknownFields.mergeVarintField(6, rawValue);
+            } else {
+              bitField0_ |= 0x00000020;
+              memoryHeap_ = value;
+            }
+            break;
+          }
         }
       }
     } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -290,6 +301,124 @@ public  final class AndroidProfilerEvent extends
     }
 
     // @@protoc_insertion_point(enum_scope:android_studio.AndroidProfilerEvent.Stage)
+  }
+
+  /**
+   * Protobuf enum {@code android_studio.AndroidProfilerEvent.MemoryHeap}
+   */
+  public enum MemoryHeap
+      implements com.google.protobuf.ProtocolMessageEnum {
+    /**
+     * <code>UNKNOWN_HEAP = 0;</code>
+     */
+    UNKNOWN_HEAP(0, 0),
+    /**
+     * <code>DEFAULT_HEAP = 1;</code>
+     */
+    DEFAULT_HEAP(1, 1),
+    /**
+     * <code>IMAGE_HEAP = 2;</code>
+     */
+    IMAGE_HEAP(2, 2),
+    /**
+     * <code>ZYGOTE_HEAP = 3;</code>
+     */
+    ZYGOTE_HEAP(3, 3),
+    /**
+     * <code>APP_HEAP = 4;</code>
+     */
+    APP_HEAP(4, 4),
+    /**
+     * <code>JNI_HEAP = 5;</code>
+     */
+    JNI_HEAP(5, 5),
+    ;
+
+    /**
+     * <code>UNKNOWN_HEAP = 0;</code>
+     */
+    public static final int UNKNOWN_HEAP_VALUE = 0;
+    /**
+     * <code>DEFAULT_HEAP = 1;</code>
+     */
+    public static final int DEFAULT_HEAP_VALUE = 1;
+    /**
+     * <code>IMAGE_HEAP = 2;</code>
+     */
+    public static final int IMAGE_HEAP_VALUE = 2;
+    /**
+     * <code>ZYGOTE_HEAP = 3;</code>
+     */
+    public static final int ZYGOTE_HEAP_VALUE = 3;
+    /**
+     * <code>APP_HEAP = 4;</code>
+     */
+    public static final int APP_HEAP_VALUE = 4;
+    /**
+     * <code>JNI_HEAP = 5;</code>
+     */
+    public static final int JNI_HEAP_VALUE = 5;
+
+
+    public final int getNumber() { return value; }
+
+    public static MemoryHeap valueOf(int value) {
+      switch (value) {
+        case 0: return UNKNOWN_HEAP;
+        case 1: return DEFAULT_HEAP;
+        case 2: return IMAGE_HEAP;
+        case 3: return ZYGOTE_HEAP;
+        case 4: return APP_HEAP;
+        case 5: return JNI_HEAP;
+        default: return null;
+      }
+    }
+
+    public static com.google.protobuf.Internal.EnumLiteMap<MemoryHeap>
+        internalGetValueMap() {
+      return internalValueMap;
+    }
+    private static com.google.protobuf.Internal.EnumLiteMap<MemoryHeap>
+        internalValueMap =
+          new com.google.protobuf.Internal.EnumLiteMap<MemoryHeap>() {
+            public MemoryHeap findValueByNumber(int number) {
+              return MemoryHeap.valueOf(number);
+            }
+          };
+
+    public final com.google.protobuf.Descriptors.EnumValueDescriptor
+        getValueDescriptor() {
+      return getDescriptor().getValues().get(index);
+    }
+    public final com.google.protobuf.Descriptors.EnumDescriptor
+        getDescriptorForType() {
+      return getDescriptor();
+    }
+    public static final com.google.protobuf.Descriptors.EnumDescriptor
+        getDescriptor() {
+      return com.google.wireless.android.sdk.stats.AndroidProfilerEvent.getDescriptor().getEnumTypes().get(1);
+    }
+
+    private static final MemoryHeap[] VALUES = values();
+
+    public static MemoryHeap valueOf(
+        com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
+      if (desc.getType() != getDescriptor()) {
+        throw new java.lang.IllegalArgumentException(
+          "EnumValueDescriptor is not for this type.");
+      }
+      return VALUES[desc.getIndex()];
+    }
+
+    private final int index;
+    private final int value;
+
+    private MemoryHeap(int index, int value) {
+      this.index = index;
+      this.value = value;
+    }
+
+    // @@protoc_insertion_point(enum_scope:android_studio.AndroidProfilerEvent.MemoryHeap)
   }
 
   /**
@@ -479,41 +608,49 @@ public  final class AndroidProfilerEvent extends
      */
     SELECT_MEMORY_REFERENCES(35, 309),
     /**
+     * <code>SELECT_MEMORY_HEAP = 310;</code>
+     *
+     * <pre>
+     * This event type should have |memory_heap|
+     * </pre>
+     */
+    SELECT_MEMORY_HEAP(36, 310),
+    /**
      * <code>SELECT_CONNECTION = 402;</code>
      */
-    SELECT_CONNECTION(36, 402),
+    SELECT_CONNECTION(37, 402),
     /**
      * <code>SELECT_DETAILS_RESPONSE = 403;</code>
      */
-    SELECT_DETAILS_RESPONSE(37, 403),
+    SELECT_DETAILS_RESPONSE(38, 403),
     /**
      * <code>SELECT_DETAILS_HEADERS = 404;</code>
      */
-    SELECT_DETAILS_HEADERS(38, 404),
+    SELECT_DETAILS_HEADERS(39, 404),
     /**
      * <code>SELECT_DETAILS_STACK = 405;</code>
      */
-    SELECT_DETAILS_STACK(39, 405),
+    SELECT_DETAILS_STACK(40, 405),
     /**
      * <code>SELECT_DETAILS_OVERVIEW = 406;</code>
      */
-    SELECT_DETAILS_OVERVIEW(40, 406),
+    SELECT_DETAILS_OVERVIEW(41, 406),
     /**
      * <code>SELECT_DETAILS_REQUEST = 407;</code>
      */
-    SELECT_DETAILS_REQUEST(41, 407),
+    SELECT_DETAILS_REQUEST(42, 407),
     /**
      * <code>SELECT_DETAILS_ERROR = 408;</code>
      */
-    SELECT_DETAILS_ERROR(42, 408),
+    SELECT_DETAILS_ERROR(43, 408),
     /**
      * <code>SELECT_CONNECTIONS_CONNECTION_VIEW = 409;</code>
      */
-    SELECT_CONNECTIONS_CONNECTION_VIEW(43, 409),
+    SELECT_CONNECTIONS_CONNECTION_VIEW(44, 409),
     /**
      * <code>SELECT_CONNECTIONS_THREADS_VIEW = 410;</code>
      */
-    SELECT_CONNECTIONS_THREADS_VIEW(44, 410),
+    SELECT_CONNECTIONS_THREADS_VIEW(45, 410),
     ;
 
     /**
@@ -698,6 +835,14 @@ public  final class AndroidProfilerEvent extends
      */
     public static final int SELECT_MEMORY_REFERENCES_VALUE = 309;
     /**
+     * <code>SELECT_MEMORY_HEAP = 310;</code>
+     *
+     * <pre>
+     * This event type should have |memory_heap|
+     * </pre>
+     */
+    public static final int SELECT_MEMORY_HEAP_VALUE = 310;
+    /**
      * <code>SELECT_CONNECTION = 402;</code>
      */
     public static final int SELECT_CONNECTION_VALUE = 402;
@@ -775,6 +920,7 @@ public  final class AndroidProfilerEvent extends
         case 307: return ARRANGE_CLASSES;
         case 308: return SELECT_MEMORY_STACK;
         case 309: return SELECT_MEMORY_REFERENCES;
+        case 310: return SELECT_MEMORY_HEAP;
         case 402: return SELECT_CONNECTION;
         case 403: return SELECT_DETAILS_RESPONSE;
         case 404: return SELECT_DETAILS_HEADERS;
@@ -810,7 +956,7 @@ public  final class AndroidProfilerEvent extends
     }
     public static final com.google.protobuf.Descriptors.EnumDescriptor
         getDescriptor() {
-      return com.google.wireless.android.sdk.stats.AndroidProfilerEvent.getDescriptor().getEnumTypes().get(1);
+      return com.google.wireless.android.sdk.stats.AndroidProfilerEvent.getDescriptor().getEnumTypes().get(2);
     }
 
     private static final Type[] VALUES = values();
@@ -989,12 +1135,37 @@ public  final class AndroidProfilerEvent extends
     return filterMetadata_;
   }
 
+  // optional .android_studio.AndroidProfilerEvent.MemoryHeap memory_heap = 6;
+  public static final int MEMORY_HEAP_FIELD_NUMBER = 6;
+  private com.google.wireless.android.sdk.stats.AndroidProfilerEvent.MemoryHeap memoryHeap_;
+  /**
+   * <code>optional .android_studio.AndroidProfilerEvent.MemoryHeap memory_heap = 6;</code>
+   *
+   * <pre>
+   * Set if |type| is |SELECT_MEMORY_HEAP|
+   * </pre>
+   */
+  public boolean hasMemoryHeap() {
+    return ((bitField0_ & 0x00000020) == 0x00000020);
+  }
+  /**
+   * <code>optional .android_studio.AndroidProfilerEvent.MemoryHeap memory_heap = 6;</code>
+   *
+   * <pre>
+   * Set if |type| is |SELECT_MEMORY_HEAP|
+   * </pre>
+   */
+  public com.google.wireless.android.sdk.stats.AndroidProfilerEvent.MemoryHeap getMemoryHeap() {
+    return memoryHeap_;
+  }
+
   private void initFields() {
     stage_ = com.google.wireless.android.sdk.stats.AndroidProfilerEvent.Stage.UNKNOWN_STAGE;
     type_ = com.google.wireless.android.sdk.stats.AndroidProfilerEvent.Type.UNKNOWN_TYPE;
     cpuConfig_ = com.google.wireless.android.sdk.stats.CpuProfilingConfig.getDefaultInstance();
     cpuCaptureMetadata_ = com.google.wireless.android.sdk.stats.CpuCaptureMetadata.getDefaultInstance();
     filterMetadata_ = com.google.wireless.android.sdk.stats.FilterMetadata.getDefaultInstance();
+    memoryHeap_ = com.google.wireless.android.sdk.stats.AndroidProfilerEvent.MemoryHeap.UNKNOWN_HEAP;
   }
   private byte memoizedIsInitialized = -1;
   public final boolean isInitialized() {
@@ -1022,6 +1193,9 @@ public  final class AndroidProfilerEvent extends
     }
     if (((bitField0_ & 0x00000010) == 0x00000010)) {
       output.writeMessage(5, filterMetadata_);
+    }
+    if (((bitField0_ & 0x00000020) == 0x00000020)) {
+      output.writeEnum(6, memoryHeap_.getNumber());
     }
     getUnknownFields().writeTo(output);
   }
@@ -1051,6 +1225,10 @@ public  final class AndroidProfilerEvent extends
     if (((bitField0_ & 0x00000010) == 0x00000010)) {
       size += com.google.protobuf.CodedOutputStream
         .computeMessageSize(5, filterMetadata_);
+    }
+    if (((bitField0_ & 0x00000020) == 0x00000020)) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeEnumSize(6, memoryHeap_.getNumber());
     }
     size += getUnknownFields().getSerializedSize();
     memoizedSerializedSize = size;
@@ -1197,6 +1375,8 @@ public  final class AndroidProfilerEvent extends
         filterMetadataBuilder_.clear();
       }
       bitField0_ = (bitField0_ & ~0x00000010);
+      memoryHeap_ = com.google.wireless.android.sdk.stats.AndroidProfilerEvent.MemoryHeap.UNKNOWN_HEAP;
+      bitField0_ = (bitField0_ & ~0x00000020);
       return this;
     }
 
@@ -1257,6 +1437,10 @@ public  final class AndroidProfilerEvent extends
       } else {
         result.filterMetadata_ = filterMetadataBuilder_.build();
       }
+      if (((from_bitField0_ & 0x00000020) == 0x00000020)) {
+        to_bitField0_ |= 0x00000020;
+      }
+      result.memoryHeap_ = memoryHeap_;
       result.bitField0_ = to_bitField0_;
       onBuilt();
       return result;
@@ -1287,6 +1471,9 @@ public  final class AndroidProfilerEvent extends
       }
       if (other.hasFilterMetadata()) {
         mergeFilterMetadata(other.getFilterMetadata());
+      }
+      if (other.hasMemoryHeap()) {
+        setMemoryHeap(other.getMemoryHeap());
       }
       this.mergeUnknownFields(other.getUnknownFields());
       return this;
@@ -1885,6 +2072,58 @@ public  final class AndroidProfilerEvent extends
         filterMetadata_ = null;
       }
       return filterMetadataBuilder_;
+    }
+
+    // optional .android_studio.AndroidProfilerEvent.MemoryHeap memory_heap = 6;
+    private com.google.wireless.android.sdk.stats.AndroidProfilerEvent.MemoryHeap memoryHeap_ = com.google.wireless.android.sdk.stats.AndroidProfilerEvent.MemoryHeap.UNKNOWN_HEAP;
+    /**
+     * <code>optional .android_studio.AndroidProfilerEvent.MemoryHeap memory_heap = 6;</code>
+     *
+     * <pre>
+     * Set if |type| is |SELECT_MEMORY_HEAP|
+     * </pre>
+     */
+    public boolean hasMemoryHeap() {
+      return ((bitField0_ & 0x00000020) == 0x00000020);
+    }
+    /**
+     * <code>optional .android_studio.AndroidProfilerEvent.MemoryHeap memory_heap = 6;</code>
+     *
+     * <pre>
+     * Set if |type| is |SELECT_MEMORY_HEAP|
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.AndroidProfilerEvent.MemoryHeap getMemoryHeap() {
+      return memoryHeap_;
+    }
+    /**
+     * <code>optional .android_studio.AndroidProfilerEvent.MemoryHeap memory_heap = 6;</code>
+     *
+     * <pre>
+     * Set if |type| is |SELECT_MEMORY_HEAP|
+     * </pre>
+     */
+    public Builder setMemoryHeap(com.google.wireless.android.sdk.stats.AndroidProfilerEvent.MemoryHeap value) {
+      if (value == null) {
+        throw new NullPointerException();
+      }
+      bitField0_ |= 0x00000020;
+      memoryHeap_ = value;
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.AndroidProfilerEvent.MemoryHeap memory_heap = 6;</code>
+     *
+     * <pre>
+     * Set if |type| is |SELECT_MEMORY_HEAP|
+     * </pre>
+     */
+    public Builder clearMemoryHeap() {
+      bitField0_ = (bitField0_ & ~0x00000020);
+      memoryHeap_ = com.google.wireless.android.sdk.stats.AndroidProfilerEvent.MemoryHeap.UNKNOWN_HEAP;
+      onChanged();
+      return this;
     }
 
     // @@protoc_insertion_point(builder_scope:android_studio.AndroidProfilerEvent)
