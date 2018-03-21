@@ -3480,6 +3480,44 @@ message FilterMetadata {
   optional uint32 search_length = 5;
 }
 
+// Metadata associated with how users are starting sessions in the profilers
+message ProfilerSessionCreationMetaData {
+  enum SessionType {
+    UNKNOWN_SESSION = 0;
+    FULL_SESSION = 1;
+    MEMORY_CAPTURE = 2;
+    CPU_CAPTURE = 3;
+  }
+
+  enum CreationSource {
+    UNKNOWN_SOURCE = 0;
+    // The user manually selects a process or imports an existing capture file.
+    MANUAL = 1;
+  }
+
+  // The type of session created
+  optional SessionType created_type = 1;
+
+  // How the session is created.
+  optional CreationSource creation_source = 2;
+}
+
+// Metadata associated with how users are selecting sessions in the profilers.
+message ProfilerSessionSelectionMetaData {
+  enum ArtifactType {
+    UNKNOWN_ARTIFACT_TYPE = 0;
+    ARTIFACT_SESSION = 1;
+    ARTIFACT_HPROF = 2;
+    ARTIFACT_CPU_CAPTURE = 3;
+  }
+
+  // The type of the artifact selected
+  optional ArtifactType selected_type = 1;
+
+  // Whether the session is live when the artifact was selected
+  optional bool is_session_alive = 2;
+}
+
 // Android Profiler metrics
 message AndroidProfilerEvent {
   // The current stage we're on when this event was generated
@@ -3500,6 +3538,12 @@ message AndroidProfilerEvent {
 
   // Set if |type| is |SELECT_MEMORY_HEAP|
   optional MemoryHeap memory_heap = 6;
+
+  // Set if |type| is |SESSION_CREATED|
+  optional ProfilerSessionCreationMetaData session_start_metadata = 7;
+
+  // Set if |type| is |SESSION_ARTIFACT_SELECTED|
+  optional ProfilerSessionSelectionMetaData session_artifact_metadata = 8;
 
   enum Stage {
     UNKNOWN_STAGE = 0;
@@ -3591,6 +3635,15 @@ message AndroidProfilerEvent {
     SELECT_DETAILS_ERROR = 408;
     SELECT_CONNECTIONS_CONNECTION_VIEW = 409;
     SELECT_CONNECTIONS_THREADS_VIEW = 410;
+
+    /// Session
+
+    SESSION_CREATED = 501;
+    SESSION_STOPPED = 502;
+    SESSION_UI_EXPANDED = 503;
+    SESSION_UI_COLLAPSED = 504;
+    SESSION_UI_RESIZED = 505;
+    SESSION_ARTIFACT_SELECTED = 506;
   }
 }
 
