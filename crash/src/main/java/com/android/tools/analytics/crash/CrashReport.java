@@ -19,14 +19,17 @@ import static com.android.tools.analytics.crash.GoogleCrashReporter.KEY_EXCEPTIO
 
 import com.android.annotations.NonNull;
 import com.android.annotations.Nullable;
+import com.android.tools.analytics.crash.exception.JvmCrashException;
 import com.android.tools.analytics.crash.exception.NoPiiException;
+import com.android.tools.analytics.crash.exception.NonGracefulExitException;
 import com.google.common.base.Charsets;
 import com.google.common.base.Joiner;
 import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableSet;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+
+import java.util.*;
+import java.util.stream.Collectors;
+
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 
@@ -73,6 +76,12 @@ public abstract class CrashReport {
 
   protected abstract void serializeTo(@NonNull MultipartEntityBuilder builder);
 
+  /**
+   * Report can alter default parameters before they are sent out.
+   */
+  protected void overrideDefaultParameters(Map<String, String> parameters) {
+  }
+
   private static class ExceptionReport extends CrashReport {
     @NonNull private final String myExceptionInfo;
 
@@ -92,19 +101,38 @@ public abstract class CrashReport {
 
   private static class StudioCrashReport extends CrashReport {
     private final List<String> myDescriptions;
+    private final boolean myIsJvmCrash;
+    private final long myUptimeInMs;
 
     private StudioCrashReport(@NonNull String productId,
                               @Nullable String version,
                               @NonNull List<String> descriptions,
+                              boolean isJvmCrash,
+                              long uptimeInMs,
                               @Nullable Map<String, String> productData) {
       super(productId, version, productData, Type.Crash);
       myDescriptions = descriptions;
+      myIsJvmCrash = isJvmCrash;
+      myUptimeInMs = uptimeInMs;
     }
 
     @Override
     protected void serializeTo(@NonNull MultipartEntityBuilder builder) {
       builder.addTextBody("numCrashes", Integer.toString(myDescriptions.size()));
       builder.addTextBody("crashDesc", Joiner.on("\n\n").join(myDescriptions));
+      Exception exception = myIsJvmCrash ? new JvmCrashException() : new NonGracefulExitException();
+
+      // Cut stacktrace to necessary minimum (only first two lines: Exception name and first stack frame)
+      String[] exceptionInfoAllLines = Throwables.getStackTraceAsString(exception).split("[\\r\\n]+");
+      String exceptionInfo = Arrays.stream(exceptionInfoAllLines).limit(2).collect(Collectors.joining("\n"));
+      builder.addTextBody(KEY_EXCEPTION_INFO, exceptionInfo);
+    }
+
+    @Override
+    protected void overrideDefaultParameters(Map<String, String> parameters) {
+      if (myUptimeInMs >= 0) {
+        parameters.put("ptime", Long.toString(myUptimeInMs));
+      }
     }
   }
 
@@ -136,6 +164,8 @@ public abstract class CrashReport {
     private Type myType = Type.Exception;
     private String myExceptionInfo = "<unknown>";
     private List<String> myCrashDescriptions;
+    private boolean myIsJvmCrash;
+    private long myUptimeInMs = -1;
     private String myThreadDump;
     private String myFileName;
     private Map<String,String> myProductData;
@@ -152,6 +182,18 @@ public abstract class CrashReport {
     @NonNull
     public Builder setVersion(@NonNull String version) {
       myVersion = version;
+      return this;
+    }
+
+    @NonNull
+    public Builder setIsJvmCrash(@NonNull boolean flag) {
+      myIsJvmCrash = flag;
+      return this;
+    }
+
+    @NonNull
+    public Builder setUptimeInMs(long uptimeInMs) {
+      myUptimeInMs = uptimeInMs;
       return this;
     }
 
@@ -195,7 +237,7 @@ public abstract class CrashReport {
     public CrashReport build() {
       switch (myType) {
         case Crash:
-          return new StudioCrashReport(myProductId, myVersion, myCrashDescriptions, myProductData);
+          return new StudioCrashReport(myProductId, myVersion, myCrashDescriptions, myIsJvmCrash, myUptimeInMs, myProductData);
         case Performance:
           return new StudioPerformanceWatcherReport(myProductId, myVersion, myFileName, myThreadDump, myProductData);
         default:
@@ -212,10 +254,12 @@ public abstract class CrashReport {
     }
 
     @NonNull
-    public static Builder createForCrashes(@NonNull List<String> descriptions) {
+    public static Builder createForCrashes(@NonNull List<String> descriptions, boolean isJvmCrash, long uptimeInMs) {
       return new Builder()
         .setType(Type.Crash)
-        .setDescriptions(descriptions);
+        .setDescriptions(descriptions)
+        .setIsJvmCrash(isJvmCrash)
+        .setUptimeInMs(uptimeInMs);
     }
 
     @NonNull

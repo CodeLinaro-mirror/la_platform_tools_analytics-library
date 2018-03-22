@@ -139,6 +139,7 @@ public class GoogleCrashReporter implements CrashReporter {
       parameters.put(KEY_VERSION, report.version);
     }
     parameters.put(KEY_PRODUCT_ID, report.productId);
+    report.overrideDefaultParameters(parameters);
 
     MultipartEntityBuilder builder = newMultipartEntityBuilderWithKv(parameters);
     report.serialize(builder);
