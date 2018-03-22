@@ -43,6 +43,7 @@ public abstract class UsageTracker implements AutoCloseable {
     @VisibleForTesting static String sSessionId = UUID.randomUUID().toString();
     @VisibleForTesting public static DateProvider sDateProvider = DateProvider.SYSTEM;
     private static UsageTracker sInstance = new NullUsageTracker(new AnalyticsSettings(), null);
+    private static boolean sIsTesting;
 
     private final AnalyticsSettings mAnalyticsSettings;
     private final ScheduledExecutorService mScheduler;
@@ -214,6 +215,7 @@ public abstract class UsageTracker implements AutoCloseable {
      */
     @VisibleForTesting
     public static UsageTracker setInstanceForTest(UsageTracker tracker) {
+        sIsTesting = true;
         return sInstance = tracker;
     }
 
@@ -223,6 +225,7 @@ public abstract class UsageTracker implements AutoCloseable {
      */
     @VisibleForTesting
     public static void cleanAfterTesting() {
+        sIsTesting = false;
         sInstance = new NullUsageTracker(new AnalyticsSettings(), null);
     }
 
@@ -230,6 +233,11 @@ public abstract class UsageTracker implements AutoCloseable {
             boolean optIn, @NonNull ILogger logger, @NonNull ScheduledExecutorService scheduler) {
         UsageTracker current = getInstance();
         AnalyticsSettings settings = AnalyticsSettings.getInstance(logger);
+
+        if (sIsTesting) {
+            // Don't persist test settings or close tracker
+            return settings;
+        }
 
         if (optIn != settings.hasOptedIn()) {
             settings.setHasOptedIn(optIn);
