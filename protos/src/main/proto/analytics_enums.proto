@@ -232,7 +232,6 @@ enum BooleanOption {
     USE_AAPT2_FROM_MAVEN = 44;
     ENABLE_R8 = 45;
     ENABLE_R8_DESUGARING = 46;
-    ENABLE_JETIFIER = 47;
 }
 
 enum OptionalBooleanOption {
