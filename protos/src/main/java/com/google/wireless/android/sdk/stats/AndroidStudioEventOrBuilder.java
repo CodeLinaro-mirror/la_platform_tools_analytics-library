@@ -1504,4 +1504,30 @@ public interface AndroidStudioEventOrBuilder
    * </pre>
    */
   com.google.wireless.android.sdk.stats.AndroidStudioEvent.IdeBrand getIdeBrand();
+
+  // optional .android_studio.CppHeadersViewEvent cpp_headers_view_event = 59;
+  /**
+   * <code>optional .android_studio.CppHeadersViewEvent cpp_headers_view_event = 59;</code>
+   *
+   * <pre>
+   * set when kind = CPP_HEADERS_VIEW_EVENT
+   * </pre>
+   */
+  boolean hasCppHeadersViewEvent();
+  /**
+   * <code>optional .android_studio.CppHeadersViewEvent cpp_headers_view_event = 59;</code>
+   *
+   * <pre>
+   * set when kind = CPP_HEADERS_VIEW_EVENT
+   * </pre>
+   */
+  com.google.wireless.android.sdk.stats.CppHeadersViewEvent getCppHeadersViewEvent();
+  /**
+   * <code>optional .android_studio.CppHeadersViewEvent cpp_headers_view_event = 59;</code>
+   *
+   * <pre>
+   * set when kind = CPP_HEADERS_VIEW_EVENT
+   * </pre>
+   */
+  com.google.wireless.android.sdk.stats.CppHeadersViewEventOrBuilder getCppHeadersViewEventOrBuilder();
 }

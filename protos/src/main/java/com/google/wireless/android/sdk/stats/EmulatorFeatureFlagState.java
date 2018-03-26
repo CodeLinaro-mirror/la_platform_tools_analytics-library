@@ -334,12 +334,28 @@ public  final class EmulatorFeatureFlagState extends
     VIRTUAL_SCENE(19, 19),
     /**
      * <code>SYSTEM_AS_ROOT = 20;</code>
-     *
-     * <pre>
-     * Next tag: 21
-     * </pre>
      */
     SYSTEM_AS_ROOT(20, 20),
+    /**
+     * <code>IGNORE_HOST_OPENGL_ERRORS = 21;</code>
+     */
+    IGNORE_HOST_OPENGL_ERRORS(21, 21),
+    /**
+     * <code>GENERIC_SNAPSHOTS_UI = 22;</code>
+     */
+    GENERIC_SNAPSHOTS_UI(22, 22),
+    /**
+     * <code>ALLOW_SNAPSHOT_MIGRATION = 23;</code>
+     */
+    ALLOW_SNAPSHOT_MIGRATION(23, 23),
+    /**
+     * <code>GENERIC_INCREMENTAL_SNAPSHOT = 24;</code>
+     *
+     * <pre>
+     * Next tag: 25
+     * </pre>
+     */
+    GENERIC_INCREMENTAL_SNAPSHOT(24, 24),
     ;
 
     /**
@@ -428,12 +444,28 @@ public  final class EmulatorFeatureFlagState extends
     public static final int VIRTUAL_SCENE_VALUE = 19;
     /**
      * <code>SYSTEM_AS_ROOT = 20;</code>
-     *
-     * <pre>
-     * Next tag: 21
-     * </pre>
      */
     public static final int SYSTEM_AS_ROOT_VALUE = 20;
+    /**
+     * <code>IGNORE_HOST_OPENGL_ERRORS = 21;</code>
+     */
+    public static final int IGNORE_HOST_OPENGL_ERRORS_VALUE = 21;
+    /**
+     * <code>GENERIC_SNAPSHOTS_UI = 22;</code>
+     */
+    public static final int GENERIC_SNAPSHOTS_UI_VALUE = 22;
+    /**
+     * <code>ALLOW_SNAPSHOT_MIGRATION = 23;</code>
+     */
+    public static final int ALLOW_SNAPSHOT_MIGRATION_VALUE = 23;
+    /**
+     * <code>GENERIC_INCREMENTAL_SNAPSHOT = 24;</code>
+     *
+     * <pre>
+     * Next tag: 25
+     * </pre>
+     */
+    public static final int GENERIC_INCREMENTAL_SNAPSHOT_VALUE = 24;
 
 
     public final int getNumber() { return value; }
@@ -461,6 +493,10 @@ public  final class EmulatorFeatureFlagState extends
         case 18: return SCREEN_RECORDING;
         case 19: return VIRTUAL_SCENE;
         case 20: return SYSTEM_AS_ROOT;
+        case 21: return IGNORE_HOST_OPENGL_ERRORS;
+        case 22: return GENERIC_SNAPSHOTS_UI;
+        case 23: return ALLOW_SNAPSHOT_MIGRATION;
+        case 24: return GENERIC_INCREMENTAL_SNAPSHOT;
         default: return null;
       }
     }

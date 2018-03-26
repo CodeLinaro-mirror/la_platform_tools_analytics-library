@@ -725,6 +725,19 @@ public  final class AndroidStudioEvent extends
             }
             break;
           }
+          case 474: {
+            com.google.wireless.android.sdk.stats.CppHeadersViewEvent.Builder subBuilder = null;
+            if (((bitField1_ & 0x04000000) == 0x04000000)) {
+              subBuilder = cppHeadersViewEvent_.toBuilder();
+            }
+            cppHeadersViewEvent_ = input.readMessage(com.google.wireless.android.sdk.stats.CppHeadersViewEvent.PARSER, extensionRegistry);
+            if (subBuilder != null) {
+              subBuilder.mergeFrom(cppHeadersViewEvent_);
+              cppHeadersViewEvent_ = subBuilder.buildPartial();
+            }
+            bitField1_ |= 0x04000000;
+            break;
+          }
         }
       }
     } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -2304,6 +2317,14 @@ public  final class AndroidStudioEvent extends
      * </pre>
      */
     CMAKE_EDITING_EVENT(125, 128),
+    /**
+     * <code>CPP_HEADERS_VIEW_EVENT = 129;</code>
+     *
+     * <pre>
+     * The event is related to C++ header file view in Android Project
+     * </pre>
+     */
+    CPP_HEADERS_VIEW_EVENT(126, 129),
     ;
 
     /**
@@ -3295,6 +3316,14 @@ public  final class AndroidStudioEvent extends
      * </pre>
      */
     public static final int CMAKE_EDITING_EVENT_VALUE = 128;
+    /**
+     * <code>CPP_HEADERS_VIEW_EVENT = 129;</code>
+     *
+     * <pre>
+     * The event is related to C++ header file view in Android Project
+     * </pre>
+     */
+    public static final int CPP_HEADERS_VIEW_EVENT_VALUE = 129;
 
 
     public final int getNumber() { return value; }
@@ -3427,6 +3456,7 @@ public  final class AndroidStudioEvent extends
         case 126: return CONNECTION_ASSISTANT_EVENT;
         case 127: return STUDIO_UI_OOM_DIALOG_EVENT;
         case 128: return CMAKE_EDITING_EVENT;
+        case 129: return CPP_HEADERS_VIEW_EVENT;
         default: return null;
       }
     }
@@ -6903,6 +6933,40 @@ public  final class AndroidStudioEvent extends
     return ideBrand_;
   }
 
+  // optional .android_studio.CppHeadersViewEvent cpp_headers_view_event = 59;
+  public static final int CPP_HEADERS_VIEW_EVENT_FIELD_NUMBER = 59;
+  private com.google.wireless.android.sdk.stats.CppHeadersViewEvent cppHeadersViewEvent_;
+  /**
+   * <code>optional .android_studio.CppHeadersViewEvent cpp_headers_view_event = 59;</code>
+   *
+   * <pre>
+   * set when kind = CPP_HEADERS_VIEW_EVENT
+   * </pre>
+   */
+  public boolean hasCppHeadersViewEvent() {
+    return ((bitField1_ & 0x04000000) == 0x04000000);
+  }
+  /**
+   * <code>optional .android_studio.CppHeadersViewEvent cpp_headers_view_event = 59;</code>
+   *
+   * <pre>
+   * set when kind = CPP_HEADERS_VIEW_EVENT
+   * </pre>
+   */
+  public com.google.wireless.android.sdk.stats.CppHeadersViewEvent getCppHeadersViewEvent() {
+    return cppHeadersViewEvent_;
+  }
+  /**
+   * <code>optional .android_studio.CppHeadersViewEvent cpp_headers_view_event = 59;</code>
+   *
+   * <pre>
+   * set when kind = CPP_HEADERS_VIEW_EVENT
+   * </pre>
+   */
+  public com.google.wireless.android.sdk.stats.CppHeadersViewEventOrBuilder getCppHeadersViewEventOrBuilder() {
+    return cppHeadersViewEvent_;
+  }
+
   private void initFields() {
     category_ = com.google.wireless.android.sdk.stats.AndroidStudioEvent.EventCategory.NO_EVENT_CATEGORY;
     kind_ = com.google.wireless.android.sdk.stats.AndroidStudioEvent.EventKind.UNKNOWN_EVENT_KIND;
@@ -6962,6 +7026,7 @@ public  final class AndroidStudioEvent extends
     oomDialogEvent_ = com.google.wireless.android.sdk.stats.OomDialogEvent.getDefaultInstance();
     cmakeEditingEvent_ = com.google.wireless.android.sdk.stats.CMakeEditingEvent.getDefaultInstance();
     ideBrand_ = com.google.wireless.android.sdk.stats.AndroidStudioEvent.IdeBrand.UNKNOWN_IDE_BRAND;
+    cppHeadersViewEvent_ = com.google.wireless.android.sdk.stats.CppHeadersViewEvent.getDefaultInstance();
   }
   private byte memoizedIsInitialized = -1;
   public final boolean isInitialized() {
@@ -7148,6 +7213,9 @@ public  final class AndroidStudioEvent extends
     }
     if (((bitField1_ & 0x02000000) == 0x02000000)) {
       output.writeEnum(58, ideBrand_.getNumber());
+    }
+    if (((bitField1_ & 0x04000000) == 0x04000000)) {
+      output.writeMessage(59, cppHeadersViewEvent_);
     }
     getUnknownFields().writeTo(output);
   }
@@ -7390,6 +7458,10 @@ public  final class AndroidStudioEvent extends
       size += com.google.protobuf.CodedOutputStream
         .computeEnumSize(58, ideBrand_.getNumber());
     }
+    if (((bitField1_ & 0x04000000) == 0x04000000)) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeMessageSize(59, cppHeadersViewEvent_);
+    }
     size += getUnknownFields().getSerializedSize();
     memoizedSerializedSize = size;
     return size;
@@ -7538,6 +7610,7 @@ public  final class AndroidStudioEvent extends
         getConnectionAssistantEventFieldBuilder();
         getOomDialogEventFieldBuilder();
         getCmakeEditingEventFieldBuilder();
+        getCppHeadersViewEventFieldBuilder();
       }
     }
     private static Builder create() {
@@ -7822,6 +7895,12 @@ public  final class AndroidStudioEvent extends
       bitField1_ = (bitField1_ & ~0x01000000);
       ideBrand_ = com.google.wireless.android.sdk.stats.AndroidStudioEvent.IdeBrand.UNKNOWN_IDE_BRAND;
       bitField1_ = (bitField1_ & ~0x02000000);
+      if (cppHeadersViewEventBuilder_ == null) {
+        cppHeadersViewEvent_ = com.google.wireless.android.sdk.stats.CppHeadersViewEvent.getDefaultInstance();
+      } else {
+        cppHeadersViewEventBuilder_.clear();
+      }
+      bitField1_ = (bitField1_ & ~0x04000000);
       return this;
     }
 
@@ -8244,6 +8323,14 @@ public  final class AndroidStudioEvent extends
         to_bitField1_ |= 0x02000000;
       }
       result.ideBrand_ = ideBrand_;
+      if (((from_bitField1_ & 0x04000000) == 0x04000000)) {
+        to_bitField1_ |= 0x04000000;
+      }
+      if (cppHeadersViewEventBuilder_ == null) {
+        result.cppHeadersViewEvent_ = cppHeadersViewEvent_;
+      } else {
+        result.cppHeadersViewEvent_ = cppHeadersViewEventBuilder_.build();
+      }
       result.bitField0_ = to_bitField0_;
       result.bitField1_ = to_bitField1_;
       onBuilt();
@@ -8446,6 +8533,9 @@ public  final class AndroidStudioEvent extends
       }
       if (other.hasIdeBrand()) {
         setIdeBrand(other.getIdeBrand());
+      }
+      if (other.hasCppHeadersViewEvent()) {
+        mergeCppHeadersViewEvent(other.getCppHeadersViewEvent());
       }
       this.mergeUnknownFields(other.getUnknownFields());
       return this;
@@ -16012,6 +16102,159 @@ public  final class AndroidStudioEvent extends
       ideBrand_ = com.google.wireless.android.sdk.stats.AndroidStudioEvent.IdeBrand.UNKNOWN_IDE_BRAND;
       onChanged();
       return this;
+    }
+
+    // optional .android_studio.CppHeadersViewEvent cpp_headers_view_event = 59;
+    private com.google.wireless.android.sdk.stats.CppHeadersViewEvent cppHeadersViewEvent_ = com.google.wireless.android.sdk.stats.CppHeadersViewEvent.getDefaultInstance();
+    private com.google.protobuf.SingleFieldBuilder<
+        com.google.wireless.android.sdk.stats.CppHeadersViewEvent, com.google.wireless.android.sdk.stats.CppHeadersViewEvent.Builder, com.google.wireless.android.sdk.stats.CppHeadersViewEventOrBuilder> cppHeadersViewEventBuilder_;
+    /**
+     * <code>optional .android_studio.CppHeadersViewEvent cpp_headers_view_event = 59;</code>
+     *
+     * <pre>
+     * set when kind = CPP_HEADERS_VIEW_EVENT
+     * </pre>
+     */
+    public boolean hasCppHeadersViewEvent() {
+      return ((bitField1_ & 0x04000000) == 0x04000000);
+    }
+    /**
+     * <code>optional .android_studio.CppHeadersViewEvent cpp_headers_view_event = 59;</code>
+     *
+     * <pre>
+     * set when kind = CPP_HEADERS_VIEW_EVENT
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.CppHeadersViewEvent getCppHeadersViewEvent() {
+      if (cppHeadersViewEventBuilder_ == null) {
+        return cppHeadersViewEvent_;
+      } else {
+        return cppHeadersViewEventBuilder_.getMessage();
+      }
+    }
+    /**
+     * <code>optional .android_studio.CppHeadersViewEvent cpp_headers_view_event = 59;</code>
+     *
+     * <pre>
+     * set when kind = CPP_HEADERS_VIEW_EVENT
+     * </pre>
+     */
+    public Builder setCppHeadersViewEvent(com.google.wireless.android.sdk.stats.CppHeadersViewEvent value) {
+      if (cppHeadersViewEventBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        cppHeadersViewEvent_ = value;
+        onChanged();
+      } else {
+        cppHeadersViewEventBuilder_.setMessage(value);
+      }
+      bitField1_ |= 0x04000000;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.CppHeadersViewEvent cpp_headers_view_event = 59;</code>
+     *
+     * <pre>
+     * set when kind = CPP_HEADERS_VIEW_EVENT
+     * </pre>
+     */
+    public Builder setCppHeadersViewEvent(
+        com.google.wireless.android.sdk.stats.CppHeadersViewEvent.Builder builderForValue) {
+      if (cppHeadersViewEventBuilder_ == null) {
+        cppHeadersViewEvent_ = builderForValue.build();
+        onChanged();
+      } else {
+        cppHeadersViewEventBuilder_.setMessage(builderForValue.build());
+      }
+      bitField1_ |= 0x04000000;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.CppHeadersViewEvent cpp_headers_view_event = 59;</code>
+     *
+     * <pre>
+     * set when kind = CPP_HEADERS_VIEW_EVENT
+     * </pre>
+     */
+    public Builder mergeCppHeadersViewEvent(com.google.wireless.android.sdk.stats.CppHeadersViewEvent value) {
+      if (cppHeadersViewEventBuilder_ == null) {
+        if (((bitField1_ & 0x04000000) == 0x04000000) &&
+            cppHeadersViewEvent_ != com.google.wireless.android.sdk.stats.CppHeadersViewEvent.getDefaultInstance()) {
+          cppHeadersViewEvent_ =
+            com.google.wireless.android.sdk.stats.CppHeadersViewEvent.newBuilder(cppHeadersViewEvent_).mergeFrom(value).buildPartial();
+        } else {
+          cppHeadersViewEvent_ = value;
+        }
+        onChanged();
+      } else {
+        cppHeadersViewEventBuilder_.mergeFrom(value);
+      }
+      bitField1_ |= 0x04000000;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.CppHeadersViewEvent cpp_headers_view_event = 59;</code>
+     *
+     * <pre>
+     * set when kind = CPP_HEADERS_VIEW_EVENT
+     * </pre>
+     */
+    public Builder clearCppHeadersViewEvent() {
+      if (cppHeadersViewEventBuilder_ == null) {
+        cppHeadersViewEvent_ = com.google.wireless.android.sdk.stats.CppHeadersViewEvent.getDefaultInstance();
+        onChanged();
+      } else {
+        cppHeadersViewEventBuilder_.clear();
+      }
+      bitField1_ = (bitField1_ & ~0x04000000);
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.CppHeadersViewEvent cpp_headers_view_event = 59;</code>
+     *
+     * <pre>
+     * set when kind = CPP_HEADERS_VIEW_EVENT
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.CppHeadersViewEvent.Builder getCppHeadersViewEventBuilder() {
+      bitField1_ |= 0x04000000;
+      onChanged();
+      return getCppHeadersViewEventFieldBuilder().getBuilder();
+    }
+    /**
+     * <code>optional .android_studio.CppHeadersViewEvent cpp_headers_view_event = 59;</code>
+     *
+     * <pre>
+     * set when kind = CPP_HEADERS_VIEW_EVENT
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.CppHeadersViewEventOrBuilder getCppHeadersViewEventOrBuilder() {
+      if (cppHeadersViewEventBuilder_ != null) {
+        return cppHeadersViewEventBuilder_.getMessageOrBuilder();
+      } else {
+        return cppHeadersViewEvent_;
+      }
+    }
+    /**
+     * <code>optional .android_studio.CppHeadersViewEvent cpp_headers_view_event = 59;</code>
+     *
+     * <pre>
+     * set when kind = CPP_HEADERS_VIEW_EVENT
+     * </pre>
+     */
+    private com.google.protobuf.SingleFieldBuilder<
+        com.google.wireless.android.sdk.stats.CppHeadersViewEvent, com.google.wireless.android.sdk.stats.CppHeadersViewEvent.Builder, com.google.wireless.android.sdk.stats.CppHeadersViewEventOrBuilder> 
+        getCppHeadersViewEventFieldBuilder() {
+      if (cppHeadersViewEventBuilder_ == null) {
+        cppHeadersViewEventBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+            com.google.wireless.android.sdk.stats.CppHeadersViewEvent, com.google.wireless.android.sdk.stats.CppHeadersViewEvent.Builder, com.google.wireless.android.sdk.stats.CppHeadersViewEventOrBuilder>(
+                cppHeadersViewEvent_,
+                getParentForChildren(),
+                isClean());
+        cppHeadersViewEvent_ = null;
+      }
+      return cppHeadersViewEventBuilder_;
     }
 
     // @@protoc_insertion_point(builder_scope:android_studio.AndroidStudioEvent)
