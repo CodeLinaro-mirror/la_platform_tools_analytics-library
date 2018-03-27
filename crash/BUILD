@@ -65,6 +65,7 @@ kotlin_test(
         "//tools/base/third_party:com.google.truth_truth",
         "//tools/base/third_party:io.netty_netty-all",
         "//tools/base/third_party:junit_junit",
+        "//tools/base/third_party:org.apache.httpcomponents_httpmime",
         "//tools/base/third_party:org.mockito_mockito-core",
     ],
 )

@@ -15,9 +15,6 @@
  */
 package com.android.tools.analytics.crash;
 
-import com.android.annotations.NonNull;
-import com.android.annotations.Nullable;
-import com.google.common.collect.Lists;
 import com.google.common.truth.Truth;
 import io.netty.handler.codec.http.DefaultFullHttpResponse;
 import io.netty.handler.codec.http.HttpResponseStatus;
@@ -30,39 +27,18 @@ import org.junit.rules.TestRule;
 import org.junit.rules.Timeout;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.lang.reflect.Constructor;
 import java.net.ServerSocket;
-import java.nio.charset.Charset;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionException;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 import static org.mockito.Mockito.mock;
 
 public class GoogleCrashReporterTest {
-  public static final String STACK_TRACE =
-    "\tat com.android.tools.analytics.crash.GoogleCrashReporter.submit(GoogleCrashReporter.java:161)\n" +
-    "\tat com.android.tools.analytics.crash.GoogleCrashReporter.submit(GoogleCrashReporter.java:145)\n" +
-    "\tat com.android.tools.analytics.crash.GoogleCrashReporter.submit(GoogleCrashReporter.java:123)\n" +
-    "\tat com.android.tools.analytics.crash.GoogleCrashReporterTest.main(GoogleCrashReporterTest.java:131)\n";
-
-  private static final String SAMPLE_EXCEPTION =
-    "java.lang.RuntimeException: This is a test exception message\n" +
-    STACK_TRACE;
-
-  @SuppressWarnings("ThrowableResultOfMethodCallIgnored")
-  private static final Throwable ourException = createExceptionFromDesc(SAMPLE_EXCEPTION, new RuntimeException("This is a test exception message"));
-
   // Most of the tests do a future.get(), but since they are uploaded to a local server, they should complete relatively quickly.
   // This rule enforces a shorter timeout for the tests. If you are debugging, you probably want to comment this out.
   @Rule
@@ -90,22 +66,36 @@ public class GoogleCrashReporterTest {
   @Test(expected = ExecutionException.class)
   public void checkServerErrorCaptured() throws Exception {
     myTestServer.setResponseSupplier(httpRequest -> new DefaultFullHttpResponse(HttpVersion.HTTP_1_1, HttpResponseStatus.BAD_REQUEST));
-    CrashReport report = CrashReport.Builder.createForException(ourException)
-      .setProduct("AndroidStudioTestProduct")
-      .setVersion("1.2.3.4")
-      .build();
-    myReporter.submit(report).get();
+    myReporter.submit(new TestReport()).get();
     fail("The above get call should have failed");
+  }
+
+  @Test
+  public void checkParameterOverriding() throws Exception {
+    myTestServer.setResponseSupplier(
+      httpRequest -> new DefaultFullHttpResponse(HttpVersion.HTTP_1_1, HttpResponseStatus.OK, httpRequest.content()));
+    final String overriddenOsName = "overriddenOsName";
+    String response = myReporter.submit(new TestReport() {
+      @Override
+      protected void overrideDefaultParameters(Map<String, String> parameters) {
+        parameters.put("osName", overriddenOsName);
+      }
+    }).get();
+
+    assertTrue("Request should contain overridden osName. Full request body: " + response,
+               response.contains("Content-Disposition: form-data; name=\"osName\"\r\n" +
+                                 "Content-Type: text/plain; charset=ISO-8859-1\r\n" +
+                                 "Content-Transfer-Encoding: 8bit\r\n" +
+                                 "\r\n" +
+                                 overriddenOsName));
   }
 
   @Test
   public void checkRateLimiting() {
     UploadRateLimiter mockLimiter = mock(UploadRateLimiter.class); // defaults to a rate limiter that denies all requests
-    myReporter = new GoogleCrashReporter("http://404", mockLimiter, true, true); // the actual address doesn't matter since we should've stopped long before..
-    CrashReport report = CrashReport.Builder.createForException(ourException)
-      .setProduct("AndroidStudioTestProduct")
-      .setVersion("1.2.3.4")
-      .build();
+    // the actual address doesn't matter since we should've stopped long before..
+    myReporter = new GoogleCrashReporter("http://404", mockLimiter, true, true);
+    CrashReport report = new TestReport();
     try {
       myReporter.submit(report).getNow("123");
       fail("Should not be able to submit a report when the rate of crash upload exceeds the limit");
@@ -113,53 +103,6 @@ public class GoogleCrashReporterTest {
     catch (CompletionException e) {
       Truth.assertThat(e.getCause().getMessage()).isEqualTo("Exceeded Quota of crashes that can be reported");
     }
-  }
-
-  @Test
-  public void checkUploadNonGracefulExit() throws Exception {
-    CrashReport report = CrashReport.Builder.createForCrashes(
-      Lists.newArrayList("1.2.3.4\n1.8.0_152-release-1136-b01"), false, -1)
-      .build();
-    final String[] requestBody = new String[]{""};
-    myTestServer.setResponseSupplier(req -> {
-      requestBody[0] = req.content().toString(Charset.defaultCharset());
-      return new DefaultFullHttpResponse(HttpVersion.HTTP_1_1, HttpResponseStatus.OK);
-    });
-
-    myReporter.submit(report).get();
-    assertTrue("Request should report NonGracefulExitException in excetion_info. Full request body: " + requestBody[0],
-               requestBody[0].contains("Content-Disposition: form-data; name=\"exception_info\"\r\n" +
-                                       "Content-Type: text/plain; charset=ISO-8859-1\r\n" +
-                                       "Content-Transfer-Encoding: 8bit\r\n" +
-                                       "\r\n" +
-                                       "com.android.tools.analytics.crash.exception.NonGracefulExitException"));
-  }
-
-  @Test
-  public void checkUploadJvmCrash() throws Exception {
-    CrashReport report = CrashReport.Builder.createForCrashes(
-      Lists.newArrayList("1.2.3.4\n1.8.0_152-release-1136-b01"), true, 123456789)
-      .build();
-    final String[] requestBody = new String[]{""};
-    myTestServer.setResponseSupplier(req -> {
-      requestBody[0] = req.content().toString(Charset.defaultCharset());
-      return new DefaultFullHttpResponse(HttpVersion.HTTP_1_1, HttpResponseStatus.OK);
-    });
-
-    myReporter.submit(report).get();
-    assertTrue("Request should report JvmCrashException in excetion_info. Full request body: " + requestBody[0],
-               requestBody[0].contains("Content-Disposition: form-data; name=\"exception_info\"\r\n" +
-                                       "Content-Type: text/plain; charset=ISO-8859-1\r\n" +
-                                       "Content-Transfer-Encoding: 8bit\r\n" +
-                                       "\r\n" +
-                                       "com.android.tools.analytics.crash.exception.JvmCrashException"));
-    // ptime should contain uptime until crash, not uptime of freshly booted app
-    assertTrue("Request should contain uptime until crash. Full request body: " + requestBody[0],
-               requestBody[0].contains("Content-Disposition: form-data; name=\"ptime\"\r\n" +
-                                       "Content-Type: text/plain; charset=ISO-8859-1\r\n" +
-                                       "Content-Transfer-Encoding: 8bit\r\n" +
-                                       "\r\n" +
-                                       "123456789"));
   }
 
   private static int getFreePort() {
@@ -175,8 +118,7 @@ public class GoogleCrashReporterTest {
   public static void main(String[] args) {
     GoogleCrashReporter crash = new GoogleCrashReporter(true, false);
 
-    CompletableFuture<String> response = crash.submit(
-            CrashReport.Builder.createForException(ourException).setProduct(CrashReport.PRODUCT_ANDROID_STUDIO).setVersion("0.0.0.0").build());
+    CompletableFuture<String> response = crash.submit(new TestReport());
     try {
       String reportId = response.get(20, TimeUnit.SECONDS);
       System.out.println("View report at http://go/crash-staging/" + reportId);
@@ -184,102 +126,5 @@ public class GoogleCrashReporterTest {
     catch (Exception e) {
       e.printStackTrace();
     }
-  }
-
-  // Copied from RenderErrorPanelTest
-  @SuppressWarnings("ThrowableInstanceNeverThrown")
-  private static Throwable createExceptionFromDesc(String desc, @Nullable Throwable throwable) {
-    // First line: description and type
-    Iterator<String> iterator = Arrays.asList(desc.split("\n")).iterator(); // Splitter.on('\n').split(desc).iterator();
-    assertTrue(iterator.hasNext());
-    final String first = iterator.next();
-    assertTrue(iterator.hasNext());
-    String message = null;
-    String exceptionClass;
-    int index = first.indexOf(':');
-    if (index != -1) {
-      exceptionClass = first.substring(0, index).trim();
-      message = first.substring(index + 1).trim();
-    } else {
-      exceptionClass = first.trim();
-    }
-
-    if (throwable == null) {
-      try {
-        @SuppressWarnings("unchecked")
-        Class<Throwable> clz = (Class<Throwable>)Class.forName(exceptionClass);
-        if (message == null) {
-          throwable = clz.newInstance();
-        } else {
-          Constructor<Throwable> constructor = clz.getConstructor(String.class);
-          throwable = constructor.newInstance(message);
-        }
-      } catch (Throwable t) {
-        if (message == null) {
-          throwable = new Throwable() {
-            @Override
-            public String getMessage() {
-              return first;
-            }
-
-            @Override
-            public String toString() {
-              return first;
-            }
-          };
-        } else {
-          throwable = new Throwable(message);
-        }
-      }
-    }
-
-    List<StackTraceElement> frames = new ArrayList<StackTraceElement>();
-    Pattern outerPattern = Pattern.compile("\tat (.*)\\.([^.]*)\\((.*)\\)");
-    Pattern innerPattern = Pattern.compile("(.*):(\\d*)");
-    while (iterator.hasNext()) {
-      String line = iterator.next();
-      if (line.isEmpty()) {
-        break;
-      }
-      Matcher outerMatcher = outerPattern.matcher(line);
-      if (!outerMatcher.matches()) {
-        fail("Line " + line + " does not match expected stactrace pattern");
-      } else {
-        String clz = outerMatcher.group(1);
-        String method = outerMatcher.group(2);
-        String inner = outerMatcher.group(3);
-        if (inner.equals("Native Method")) {
-          frames.add(new StackTraceElement(clz, method, null, -2));
-        } else if (inner.equals("Unknown Source")) {
-          frames.add(new StackTraceElement(clz, method, null, -1));
-        } else {
-          Matcher innerMatcher = innerPattern.matcher(inner);
-          if (!innerMatcher.matches()) {
-            fail("Trace parameter list " + inner + " does not match expected pattern");
-          } else {
-            String file = innerMatcher.group(1);
-            int lineNum = Integer.parseInt(innerMatcher.group(2));
-            frames.add(new StackTraceElement(clz, method, file, lineNum));
-          }
-        }
-      }
-    }
-
-    throwable.setStackTrace(frames.toArray(new StackTraceElement[frames.size()]));
-
-    // Dump stack back to string to make sure we have the same exception
-    assertEquals(desc, getStackTrace(throwable));
-
-    return throwable;
-  }
-
-  @NonNull
-  private static String getStackTrace(@NonNull Throwable t) {
-    final StringWriter stringWriter = new StringWriter();
-    try (PrintWriter writer = new PrintWriter(stringWriter)) {
-      t.printStackTrace(writer);
-    }
-
-    return stringWriter.toString().replace("\r", "");
   }
 }

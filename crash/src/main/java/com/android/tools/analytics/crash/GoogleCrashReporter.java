@@ -86,7 +86,6 @@ public class GoogleCrashReporter implements CrashReporter {
   // The standard keys expected by crash backend. The product id and version are required, others are optional.
   protected static final String KEY_PRODUCT_ID = "productId";
   protected static final String KEY_VERSION = "version";
-  static final String KEY_EXCEPTION_INFO = "exception_info";
 
   // We allow reporting a max of 1 crash per minute
   private static final double MAX_CRASHES_PER_SEC = 1.0 / 60.0;
@@ -135,10 +134,10 @@ public class GoogleCrashReporter implements CrashReporter {
     }
 
     Map<String, String> parameters = getDefaultParameters();
-    if (report.version != null) {
-      parameters.put(KEY_VERSION, report.version);
+    if (report.getVersion() != null) {
+      parameters.put(KEY_VERSION, report.getVersion());
     }
-    parameters.put(KEY_PRODUCT_ID, report.productId);
+    parameters.put(KEY_PRODUCT_ID, report.getProductId());
     report.overrideDefaultParameters(parameters);
 
     MultipartEntityBuilder builder = newMultipartEntityBuilderWithKv(parameters);

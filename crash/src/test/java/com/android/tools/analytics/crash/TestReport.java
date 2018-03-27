@@ -13,7 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.android.tools.analytics.crash.exception;
 
-public class JvmCrashException extends Exception {
+package com.android.tools.analytics.crash;
+
+import com.android.annotations.NonNull;
+import com.google.common.collect.Maps;
+import org.apache.http.entity.mime.MultipartEntityBuilder;
+
+class TestReport extends CrashReport {
+
+  public TestReport() {
+    super("TestGoogleCrashReporter", "1.2.3.4", Maps.newHashMap(), "TestReport");
+  }
+
+  @Override
+  protected void serializeTo(@NonNull MultipartEntityBuilder builder) {
+  }
 }
