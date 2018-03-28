@@ -2018,6 +2018,8 @@ message GradleBuildProject {
     INSTANTAPP = 5;
     // The 'com.android.feature' plugin.
     FEATURE = 6;
+    // The 'com.android.dynamic-feature' plugin.
+    DYNAMIC_FEATURE = 7;
   }
 
   enum PluginGeneration {
@@ -2221,7 +2223,7 @@ message GradleBuildVariant {
     APPLICATION = 0;
     // For building an AAR.
     LIBRARY = 1;
-    // For building a test APK.
+    // For building an android test APK.
     ANDROID_TEST = 2;
     // For building unit tests to run locally.
     UNIT_TEST = 3;
@@ -2231,6 +2233,10 @@ message GradleBuildVariant {
     INSTANTAPP = 5;
     // For building a split APK.
     FEATURE = 6;
+    // For building an optional APK.
+    OPTIONAL_APK = 7;
+    // For building a test APK
+    TEST_APK = 8;
   }
 
   // Different tools that provide Java 8 language usage.
