@@ -313,7 +313,7 @@ public  final class GradleBuildVariant extends
      * <code>ANDROID_TEST = 2;</code>
      *
      * <pre>
-     * For building a test APK.
+     * For building an android test APK.
      * </pre>
      */
     ANDROID_TEST(2, 2),
@@ -349,6 +349,22 @@ public  final class GradleBuildVariant extends
      * </pre>
      */
     FEATURE(6, 6),
+    /**
+     * <code>OPTIONAL_APK = 7;</code>
+     *
+     * <pre>
+     * For building an optional APK.
+     * </pre>
+     */
+    OPTIONAL_APK(7, 7),
+    /**
+     * <code>TEST_APK = 8;</code>
+     *
+     * <pre>
+     * For building a test APK
+     * </pre>
+     */
+    TEST_APK(8, 8),
     ;
 
     /**
@@ -371,7 +387,7 @@ public  final class GradleBuildVariant extends
      * <code>ANDROID_TEST = 2;</code>
      *
      * <pre>
-     * For building a test APK.
+     * For building an android test APK.
      * </pre>
      */
     public static final int ANDROID_TEST_VALUE = 2;
@@ -407,6 +423,22 @@ public  final class GradleBuildVariant extends
      * </pre>
      */
     public static final int FEATURE_VALUE = 6;
+    /**
+     * <code>OPTIONAL_APK = 7;</code>
+     *
+     * <pre>
+     * For building an optional APK.
+     * </pre>
+     */
+    public static final int OPTIONAL_APK_VALUE = 7;
+    /**
+     * <code>TEST_APK = 8;</code>
+     *
+     * <pre>
+     * For building a test APK
+     * </pre>
+     */
+    public static final int TEST_APK_VALUE = 8;
 
 
     public final int getNumber() { return value; }
@@ -420,6 +452,8 @@ public  final class GradleBuildVariant extends
         case 4: return ATOM;
         case 5: return INSTANTAPP;
         case 6: return FEATURE;
+        case 7: return OPTIONAL_APK;
+        case 8: return TEST_APK;
         default: return null;
       }
     }
