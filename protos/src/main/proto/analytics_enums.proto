@@ -184,6 +184,7 @@ enum GradleTaskExecutionType {
     FEATURE_SET_METADATA_WRITER = 136;
     BUNDLE_TO_APK = 137;
     SELECT_APKS = 138;
+    PREPARE_LINT_JAR_FOR_PUBLISH = 139;
 }
 
 enum BooleanOption {
