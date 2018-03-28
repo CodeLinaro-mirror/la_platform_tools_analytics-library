@@ -4335,6 +4335,14 @@ public  final class AndroidStudioEvent extends
      * <code>APP_WIDGET = 35;</code>
      */
     APP_WIDGET(35, 35),
+    /**
+     * <code>ANDROID_INSTANT_APP_PROJECT = 36;</code>
+     */
+    ANDROID_INSTANT_APP_PROJECT(36, 36),
+    /**
+     * <code>ANDROID_INSTANT_APP_MODULE = 37;</code>
+     */
+    ANDROID_INSTANT_APP_MODULE(37, 37),
     ;
 
     /**
@@ -4481,6 +4489,14 @@ public  final class AndroidStudioEvent extends
      * <code>APP_WIDGET = 35;</code>
      */
     public static final int APP_WIDGET_VALUE = 35;
+    /**
+     * <code>ANDROID_INSTANT_APP_PROJECT = 36;</code>
+     */
+    public static final int ANDROID_INSTANT_APP_PROJECT_VALUE = 36;
+    /**
+     * <code>ANDROID_INSTANT_APP_MODULE = 37;</code>
+     */
+    public static final int ANDROID_INSTANT_APP_MODULE_VALUE = 37;
 
 
     public final int getNumber() { return value; }
@@ -4523,6 +4539,8 @@ public  final class AndroidStudioEvent extends
         case 33: return BLANK_WEAR_ACTIVITY;
         case 34: return BASIC_ACTIVITIY;
         case 35: return APP_WIDGET;
+        case 36: return ANDROID_INSTANT_APP_PROJECT;
+        case 37: return ANDROID_INSTANT_APP_MODULE;
         default: return null;
       }
     }
