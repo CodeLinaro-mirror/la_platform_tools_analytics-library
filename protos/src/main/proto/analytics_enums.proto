@@ -236,6 +236,7 @@ enum BooleanOption {
     ENABLE_R8 = 45;
     ENABLE_R8_DESUGARING = 46;
     ENABLE_DYNAMIC_APPS = 47;
+    ENABLE_JETIFIER = 48;
 }
 
 enum OptionalBooleanOption {
