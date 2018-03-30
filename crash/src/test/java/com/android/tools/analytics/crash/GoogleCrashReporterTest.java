@@ -15,22 +15,26 @@
  */
 package com.android.tools.analytics.crash;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-import static org.mockito.Mockito.mock;
-
 import com.android.annotations.NonNull;
 import com.android.annotations.Nullable;
+import com.google.common.collect.Lists;
 import com.google.common.truth.Truth;
 import io.netty.handler.codec.http.DefaultFullHttpResponse;
 import io.netty.handler.codec.http.HttpResponseStatus;
 import io.netty.handler.codec.http.HttpVersion;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.rules.TestRule;
+import org.junit.rules.Timeout;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.lang.reflect.Constructor;
 import java.net.ServerSocket;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -41,12 +45,9 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.TestRule;
-import org.junit.rules.Timeout;
+
+import static org.junit.Assert.*;
+import static org.mockito.Mockito.mock;
 
 public class GoogleCrashReporterTest {
   public static final String STACK_TRACE =
@@ -112,6 +113,53 @@ public class GoogleCrashReporterTest {
     catch (CompletionException e) {
       Truth.assertThat(e.getCause().getMessage()).isEqualTo("Exceeded Quota of crashes that can be reported");
     }
+  }
+
+  @Test
+  public void checkUploadNonGracefulExit() throws Exception {
+    CrashReport report = CrashReport.Builder.createForCrashes(
+      Lists.newArrayList("1.2.3.4\n1.8.0_152-release-1136-b01"), false, -1)
+      .build();
+    final String[] requestBody = new String[]{""};
+    myTestServer.setResponseSupplier(req -> {
+      requestBody[0] = req.content().toString(Charset.defaultCharset());
+      return new DefaultFullHttpResponse(HttpVersion.HTTP_1_1, HttpResponseStatus.OK);
+    });
+
+    myReporter.submit(report).get();
+    assertTrue("Request should report NonGracefulExitException in excetion_info. Full request body: " + requestBody[0],
+               requestBody[0].contains("Content-Disposition: form-data; name=\"exception_info\"\r\n" +
+                                       "Content-Type: text/plain; charset=ISO-8859-1\r\n" +
+                                       "Content-Transfer-Encoding: 8bit\r\n" +
+                                       "\r\n" +
+                                       "com.android.tools.analytics.crash.exception.NonGracefulExitException"));
+  }
+
+  @Test
+  public void checkUploadJvmCrash() throws Exception {
+    CrashReport report = CrashReport.Builder.createForCrashes(
+      Lists.newArrayList("1.2.3.4\n1.8.0_152-release-1136-b01"), true, 123456789)
+      .build();
+    final String[] requestBody = new String[]{""};
+    myTestServer.setResponseSupplier(req -> {
+      requestBody[0] = req.content().toString(Charset.defaultCharset());
+      return new DefaultFullHttpResponse(HttpVersion.HTTP_1_1, HttpResponseStatus.OK);
+    });
+
+    myReporter.submit(report).get();
+    assertTrue("Request should report JvmCrashException in excetion_info. Full request body: " + requestBody[0],
+               requestBody[0].contains("Content-Disposition: form-data; name=\"exception_info\"\r\n" +
+                                       "Content-Type: text/plain; charset=ISO-8859-1\r\n" +
+                                       "Content-Transfer-Encoding: 8bit\r\n" +
+                                       "\r\n" +
+                                       "com.android.tools.analytics.crash.exception.JvmCrashException"));
+    // ptime should contain uptime until crash, not uptime of freshly booted app
+    assertTrue("Request should contain uptime until crash. Full request body: " + requestBody[0],
+               requestBody[0].contains("Content-Disposition: form-data; name=\"ptime\"\r\n" +
+                                       "Content-Type: text/plain; charset=ISO-8859-1\r\n" +
+                                       "Content-Transfer-Encoding: 8bit\r\n" +
+                                       "\r\n" +
+                                       "123456789"));
   }
 
   private static int getFreePort() {
