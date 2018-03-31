@@ -130,6 +130,32 @@ public  final class AndroidProfilerEvent extends
             }
             break;
           }
+          case 58: {
+            com.google.wireless.android.sdk.stats.ProfilerSessionCreationMetaData.Builder subBuilder = null;
+            if (((bitField0_ & 0x00000040) == 0x00000040)) {
+              subBuilder = sessionStartMetadata_.toBuilder();
+            }
+            sessionStartMetadata_ = input.readMessage(com.google.wireless.android.sdk.stats.ProfilerSessionCreationMetaData.PARSER, extensionRegistry);
+            if (subBuilder != null) {
+              subBuilder.mergeFrom(sessionStartMetadata_);
+              sessionStartMetadata_ = subBuilder.buildPartial();
+            }
+            bitField0_ |= 0x00000040;
+            break;
+          }
+          case 66: {
+            com.google.wireless.android.sdk.stats.ProfilerSessionSelectionMetaData.Builder subBuilder = null;
+            if (((bitField0_ & 0x00000080) == 0x00000080)) {
+              subBuilder = sessionArtifactMetadata_.toBuilder();
+            }
+            sessionArtifactMetadata_ = input.readMessage(com.google.wireless.android.sdk.stats.ProfilerSessionSelectionMetaData.PARSER, extensionRegistry);
+            if (subBuilder != null) {
+              subBuilder.mergeFrom(sessionArtifactMetadata_);
+              sessionArtifactMetadata_ = subBuilder.buildPartial();
+            }
+            bitField0_ |= 0x00000080;
+            break;
+          }
         }
       }
     } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -651,6 +677,30 @@ public  final class AndroidProfilerEvent extends
      * <code>SELECT_CONNECTIONS_THREADS_VIEW = 410;</code>
      */
     SELECT_CONNECTIONS_THREADS_VIEW(45, 410),
+    /**
+     * <code>SESSION_CREATED = 501;</code>
+     */
+    SESSION_CREATED(46, 501),
+    /**
+     * <code>SESSION_STOPPED = 502;</code>
+     */
+    SESSION_STOPPED(47, 502),
+    /**
+     * <code>SESSION_UI_EXPANDED = 503;</code>
+     */
+    SESSION_UI_EXPANDED(48, 503),
+    /**
+     * <code>SESSION_UI_COLLAPSED = 504;</code>
+     */
+    SESSION_UI_COLLAPSED(49, 504),
+    /**
+     * <code>SESSION_UI_RESIZED = 505;</code>
+     */
+    SESSION_UI_RESIZED(50, 505),
+    /**
+     * <code>SESSION_ARTIFACT_SELECTED = 506;</code>
+     */
+    SESSION_ARTIFACT_SELECTED(51, 506),
     ;
 
     /**
@@ -878,6 +928,30 @@ public  final class AndroidProfilerEvent extends
      * <code>SELECT_CONNECTIONS_THREADS_VIEW = 410;</code>
      */
     public static final int SELECT_CONNECTIONS_THREADS_VIEW_VALUE = 410;
+    /**
+     * <code>SESSION_CREATED = 501;</code>
+     */
+    public static final int SESSION_CREATED_VALUE = 501;
+    /**
+     * <code>SESSION_STOPPED = 502;</code>
+     */
+    public static final int SESSION_STOPPED_VALUE = 502;
+    /**
+     * <code>SESSION_UI_EXPANDED = 503;</code>
+     */
+    public static final int SESSION_UI_EXPANDED_VALUE = 503;
+    /**
+     * <code>SESSION_UI_COLLAPSED = 504;</code>
+     */
+    public static final int SESSION_UI_COLLAPSED_VALUE = 504;
+    /**
+     * <code>SESSION_UI_RESIZED = 505;</code>
+     */
+    public static final int SESSION_UI_RESIZED_VALUE = 505;
+    /**
+     * <code>SESSION_ARTIFACT_SELECTED = 506;</code>
+     */
+    public static final int SESSION_ARTIFACT_SELECTED_VALUE = 506;
 
 
     public final int getNumber() { return value; }
@@ -930,6 +1004,12 @@ public  final class AndroidProfilerEvent extends
         case 408: return SELECT_DETAILS_ERROR;
         case 409: return SELECT_CONNECTIONS_CONNECTION_VIEW;
         case 410: return SELECT_CONNECTIONS_THREADS_VIEW;
+        case 501: return SESSION_CREATED;
+        case 502: return SESSION_STOPPED;
+        case 503: return SESSION_UI_EXPANDED;
+        case 504: return SESSION_UI_COLLAPSED;
+        case 505: return SESSION_UI_RESIZED;
+        case 506: return SESSION_ARTIFACT_SELECTED;
         default: return null;
       }
     }
@@ -1159,6 +1239,74 @@ public  final class AndroidProfilerEvent extends
     return memoryHeap_;
   }
 
+  // optional .android_studio.ProfilerSessionCreationMetaData session_start_metadata = 7;
+  public static final int SESSION_START_METADATA_FIELD_NUMBER = 7;
+  private com.google.wireless.android.sdk.stats.ProfilerSessionCreationMetaData sessionStartMetadata_;
+  /**
+   * <code>optional .android_studio.ProfilerSessionCreationMetaData session_start_metadata = 7;</code>
+   *
+   * <pre>
+   * Set if |type| is |SESSION_CREATED|
+   * </pre>
+   */
+  public boolean hasSessionStartMetadata() {
+    return ((bitField0_ & 0x00000040) == 0x00000040);
+  }
+  /**
+   * <code>optional .android_studio.ProfilerSessionCreationMetaData session_start_metadata = 7;</code>
+   *
+   * <pre>
+   * Set if |type| is |SESSION_CREATED|
+   * </pre>
+   */
+  public com.google.wireless.android.sdk.stats.ProfilerSessionCreationMetaData getSessionStartMetadata() {
+    return sessionStartMetadata_;
+  }
+  /**
+   * <code>optional .android_studio.ProfilerSessionCreationMetaData session_start_metadata = 7;</code>
+   *
+   * <pre>
+   * Set if |type| is |SESSION_CREATED|
+   * </pre>
+   */
+  public com.google.wireless.android.sdk.stats.ProfilerSessionCreationMetaDataOrBuilder getSessionStartMetadataOrBuilder() {
+    return sessionStartMetadata_;
+  }
+
+  // optional .android_studio.ProfilerSessionSelectionMetaData session_artifact_metadata = 8;
+  public static final int SESSION_ARTIFACT_METADATA_FIELD_NUMBER = 8;
+  private com.google.wireless.android.sdk.stats.ProfilerSessionSelectionMetaData sessionArtifactMetadata_;
+  /**
+   * <code>optional .android_studio.ProfilerSessionSelectionMetaData session_artifact_metadata = 8;</code>
+   *
+   * <pre>
+   * Set if |type| is |SESSION_ARTIFACT_SELECTED|
+   * </pre>
+   */
+  public boolean hasSessionArtifactMetadata() {
+    return ((bitField0_ & 0x00000080) == 0x00000080);
+  }
+  /**
+   * <code>optional .android_studio.ProfilerSessionSelectionMetaData session_artifact_metadata = 8;</code>
+   *
+   * <pre>
+   * Set if |type| is |SESSION_ARTIFACT_SELECTED|
+   * </pre>
+   */
+  public com.google.wireless.android.sdk.stats.ProfilerSessionSelectionMetaData getSessionArtifactMetadata() {
+    return sessionArtifactMetadata_;
+  }
+  /**
+   * <code>optional .android_studio.ProfilerSessionSelectionMetaData session_artifact_metadata = 8;</code>
+   *
+   * <pre>
+   * Set if |type| is |SESSION_ARTIFACT_SELECTED|
+   * </pre>
+   */
+  public com.google.wireless.android.sdk.stats.ProfilerSessionSelectionMetaDataOrBuilder getSessionArtifactMetadataOrBuilder() {
+    return sessionArtifactMetadata_;
+  }
+
   private void initFields() {
     stage_ = com.google.wireless.android.sdk.stats.AndroidProfilerEvent.Stage.UNKNOWN_STAGE;
     type_ = com.google.wireless.android.sdk.stats.AndroidProfilerEvent.Type.UNKNOWN_TYPE;
@@ -1166,6 +1314,8 @@ public  final class AndroidProfilerEvent extends
     cpuCaptureMetadata_ = com.google.wireless.android.sdk.stats.CpuCaptureMetadata.getDefaultInstance();
     filterMetadata_ = com.google.wireless.android.sdk.stats.FilterMetadata.getDefaultInstance();
     memoryHeap_ = com.google.wireless.android.sdk.stats.AndroidProfilerEvent.MemoryHeap.UNKNOWN_HEAP;
+    sessionStartMetadata_ = com.google.wireless.android.sdk.stats.ProfilerSessionCreationMetaData.getDefaultInstance();
+    sessionArtifactMetadata_ = com.google.wireless.android.sdk.stats.ProfilerSessionSelectionMetaData.getDefaultInstance();
   }
   private byte memoizedIsInitialized = -1;
   public final boolean isInitialized() {
@@ -1196,6 +1346,12 @@ public  final class AndroidProfilerEvent extends
     }
     if (((bitField0_ & 0x00000020) == 0x00000020)) {
       output.writeEnum(6, memoryHeap_.getNumber());
+    }
+    if (((bitField0_ & 0x00000040) == 0x00000040)) {
+      output.writeMessage(7, sessionStartMetadata_);
+    }
+    if (((bitField0_ & 0x00000080) == 0x00000080)) {
+      output.writeMessage(8, sessionArtifactMetadata_);
     }
     getUnknownFields().writeTo(output);
   }
@@ -1229,6 +1385,14 @@ public  final class AndroidProfilerEvent extends
     if (((bitField0_ & 0x00000020) == 0x00000020)) {
       size += com.google.protobuf.CodedOutputStream
         .computeEnumSize(6, memoryHeap_.getNumber());
+    }
+    if (((bitField0_ & 0x00000040) == 0x00000040)) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeMessageSize(7, sessionStartMetadata_);
+    }
+    if (((bitField0_ & 0x00000080) == 0x00000080)) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeMessageSize(8, sessionArtifactMetadata_);
     }
     size += getUnknownFields().getSerializedSize();
     memoizedSerializedSize = size;
@@ -1345,6 +1509,8 @@ public  final class AndroidProfilerEvent extends
         getCpuConfigFieldBuilder();
         getCpuCaptureMetadataFieldBuilder();
         getFilterMetadataFieldBuilder();
+        getSessionStartMetadataFieldBuilder();
+        getSessionArtifactMetadataFieldBuilder();
       }
     }
     private static Builder create() {
@@ -1377,6 +1543,18 @@ public  final class AndroidProfilerEvent extends
       bitField0_ = (bitField0_ & ~0x00000010);
       memoryHeap_ = com.google.wireless.android.sdk.stats.AndroidProfilerEvent.MemoryHeap.UNKNOWN_HEAP;
       bitField0_ = (bitField0_ & ~0x00000020);
+      if (sessionStartMetadataBuilder_ == null) {
+        sessionStartMetadata_ = com.google.wireless.android.sdk.stats.ProfilerSessionCreationMetaData.getDefaultInstance();
+      } else {
+        sessionStartMetadataBuilder_.clear();
+      }
+      bitField0_ = (bitField0_ & ~0x00000040);
+      if (sessionArtifactMetadataBuilder_ == null) {
+        sessionArtifactMetadata_ = com.google.wireless.android.sdk.stats.ProfilerSessionSelectionMetaData.getDefaultInstance();
+      } else {
+        sessionArtifactMetadataBuilder_.clear();
+      }
+      bitField0_ = (bitField0_ & ~0x00000080);
       return this;
     }
 
@@ -1441,6 +1619,22 @@ public  final class AndroidProfilerEvent extends
         to_bitField0_ |= 0x00000020;
       }
       result.memoryHeap_ = memoryHeap_;
+      if (((from_bitField0_ & 0x00000040) == 0x00000040)) {
+        to_bitField0_ |= 0x00000040;
+      }
+      if (sessionStartMetadataBuilder_ == null) {
+        result.sessionStartMetadata_ = sessionStartMetadata_;
+      } else {
+        result.sessionStartMetadata_ = sessionStartMetadataBuilder_.build();
+      }
+      if (((from_bitField0_ & 0x00000080) == 0x00000080)) {
+        to_bitField0_ |= 0x00000080;
+      }
+      if (sessionArtifactMetadataBuilder_ == null) {
+        result.sessionArtifactMetadata_ = sessionArtifactMetadata_;
+      } else {
+        result.sessionArtifactMetadata_ = sessionArtifactMetadataBuilder_.build();
+      }
       result.bitField0_ = to_bitField0_;
       onBuilt();
       return result;
@@ -1474,6 +1668,12 @@ public  final class AndroidProfilerEvent extends
       }
       if (other.hasMemoryHeap()) {
         setMemoryHeap(other.getMemoryHeap());
+      }
+      if (other.hasSessionStartMetadata()) {
+        mergeSessionStartMetadata(other.getSessionStartMetadata());
+      }
+      if (other.hasSessionArtifactMetadata()) {
+        mergeSessionArtifactMetadata(other.getSessionArtifactMetadata());
       }
       this.mergeUnknownFields(other.getUnknownFields());
       return this;
@@ -2124,6 +2324,312 @@ public  final class AndroidProfilerEvent extends
       memoryHeap_ = com.google.wireless.android.sdk.stats.AndroidProfilerEvent.MemoryHeap.UNKNOWN_HEAP;
       onChanged();
       return this;
+    }
+
+    // optional .android_studio.ProfilerSessionCreationMetaData session_start_metadata = 7;
+    private com.google.wireless.android.sdk.stats.ProfilerSessionCreationMetaData sessionStartMetadata_ = com.google.wireless.android.sdk.stats.ProfilerSessionCreationMetaData.getDefaultInstance();
+    private com.google.protobuf.SingleFieldBuilder<
+        com.google.wireless.android.sdk.stats.ProfilerSessionCreationMetaData, com.google.wireless.android.sdk.stats.ProfilerSessionCreationMetaData.Builder, com.google.wireless.android.sdk.stats.ProfilerSessionCreationMetaDataOrBuilder> sessionStartMetadataBuilder_;
+    /**
+     * <code>optional .android_studio.ProfilerSessionCreationMetaData session_start_metadata = 7;</code>
+     *
+     * <pre>
+     * Set if |type| is |SESSION_CREATED|
+     * </pre>
+     */
+    public boolean hasSessionStartMetadata() {
+      return ((bitField0_ & 0x00000040) == 0x00000040);
+    }
+    /**
+     * <code>optional .android_studio.ProfilerSessionCreationMetaData session_start_metadata = 7;</code>
+     *
+     * <pre>
+     * Set if |type| is |SESSION_CREATED|
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.ProfilerSessionCreationMetaData getSessionStartMetadata() {
+      if (sessionStartMetadataBuilder_ == null) {
+        return sessionStartMetadata_;
+      } else {
+        return sessionStartMetadataBuilder_.getMessage();
+      }
+    }
+    /**
+     * <code>optional .android_studio.ProfilerSessionCreationMetaData session_start_metadata = 7;</code>
+     *
+     * <pre>
+     * Set if |type| is |SESSION_CREATED|
+     * </pre>
+     */
+    public Builder setSessionStartMetadata(com.google.wireless.android.sdk.stats.ProfilerSessionCreationMetaData value) {
+      if (sessionStartMetadataBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        sessionStartMetadata_ = value;
+        onChanged();
+      } else {
+        sessionStartMetadataBuilder_.setMessage(value);
+      }
+      bitField0_ |= 0x00000040;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.ProfilerSessionCreationMetaData session_start_metadata = 7;</code>
+     *
+     * <pre>
+     * Set if |type| is |SESSION_CREATED|
+     * </pre>
+     */
+    public Builder setSessionStartMetadata(
+        com.google.wireless.android.sdk.stats.ProfilerSessionCreationMetaData.Builder builderForValue) {
+      if (sessionStartMetadataBuilder_ == null) {
+        sessionStartMetadata_ = builderForValue.build();
+        onChanged();
+      } else {
+        sessionStartMetadataBuilder_.setMessage(builderForValue.build());
+      }
+      bitField0_ |= 0x00000040;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.ProfilerSessionCreationMetaData session_start_metadata = 7;</code>
+     *
+     * <pre>
+     * Set if |type| is |SESSION_CREATED|
+     * </pre>
+     */
+    public Builder mergeSessionStartMetadata(com.google.wireless.android.sdk.stats.ProfilerSessionCreationMetaData value) {
+      if (sessionStartMetadataBuilder_ == null) {
+        if (((bitField0_ & 0x00000040) == 0x00000040) &&
+            sessionStartMetadata_ != com.google.wireless.android.sdk.stats.ProfilerSessionCreationMetaData.getDefaultInstance()) {
+          sessionStartMetadata_ =
+            com.google.wireless.android.sdk.stats.ProfilerSessionCreationMetaData.newBuilder(sessionStartMetadata_).mergeFrom(value).buildPartial();
+        } else {
+          sessionStartMetadata_ = value;
+        }
+        onChanged();
+      } else {
+        sessionStartMetadataBuilder_.mergeFrom(value);
+      }
+      bitField0_ |= 0x00000040;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.ProfilerSessionCreationMetaData session_start_metadata = 7;</code>
+     *
+     * <pre>
+     * Set if |type| is |SESSION_CREATED|
+     * </pre>
+     */
+    public Builder clearSessionStartMetadata() {
+      if (sessionStartMetadataBuilder_ == null) {
+        sessionStartMetadata_ = com.google.wireless.android.sdk.stats.ProfilerSessionCreationMetaData.getDefaultInstance();
+        onChanged();
+      } else {
+        sessionStartMetadataBuilder_.clear();
+      }
+      bitField0_ = (bitField0_ & ~0x00000040);
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.ProfilerSessionCreationMetaData session_start_metadata = 7;</code>
+     *
+     * <pre>
+     * Set if |type| is |SESSION_CREATED|
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.ProfilerSessionCreationMetaData.Builder getSessionStartMetadataBuilder() {
+      bitField0_ |= 0x00000040;
+      onChanged();
+      return getSessionStartMetadataFieldBuilder().getBuilder();
+    }
+    /**
+     * <code>optional .android_studio.ProfilerSessionCreationMetaData session_start_metadata = 7;</code>
+     *
+     * <pre>
+     * Set if |type| is |SESSION_CREATED|
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.ProfilerSessionCreationMetaDataOrBuilder getSessionStartMetadataOrBuilder() {
+      if (sessionStartMetadataBuilder_ != null) {
+        return sessionStartMetadataBuilder_.getMessageOrBuilder();
+      } else {
+        return sessionStartMetadata_;
+      }
+    }
+    /**
+     * <code>optional .android_studio.ProfilerSessionCreationMetaData session_start_metadata = 7;</code>
+     *
+     * <pre>
+     * Set if |type| is |SESSION_CREATED|
+     * </pre>
+     */
+    private com.google.protobuf.SingleFieldBuilder<
+        com.google.wireless.android.sdk.stats.ProfilerSessionCreationMetaData, com.google.wireless.android.sdk.stats.ProfilerSessionCreationMetaData.Builder, com.google.wireless.android.sdk.stats.ProfilerSessionCreationMetaDataOrBuilder> 
+        getSessionStartMetadataFieldBuilder() {
+      if (sessionStartMetadataBuilder_ == null) {
+        sessionStartMetadataBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+            com.google.wireless.android.sdk.stats.ProfilerSessionCreationMetaData, com.google.wireless.android.sdk.stats.ProfilerSessionCreationMetaData.Builder, com.google.wireless.android.sdk.stats.ProfilerSessionCreationMetaDataOrBuilder>(
+                sessionStartMetadata_,
+                getParentForChildren(),
+                isClean());
+        sessionStartMetadata_ = null;
+      }
+      return sessionStartMetadataBuilder_;
+    }
+
+    // optional .android_studio.ProfilerSessionSelectionMetaData session_artifact_metadata = 8;
+    private com.google.wireless.android.sdk.stats.ProfilerSessionSelectionMetaData sessionArtifactMetadata_ = com.google.wireless.android.sdk.stats.ProfilerSessionSelectionMetaData.getDefaultInstance();
+    private com.google.protobuf.SingleFieldBuilder<
+        com.google.wireless.android.sdk.stats.ProfilerSessionSelectionMetaData, com.google.wireless.android.sdk.stats.ProfilerSessionSelectionMetaData.Builder, com.google.wireless.android.sdk.stats.ProfilerSessionSelectionMetaDataOrBuilder> sessionArtifactMetadataBuilder_;
+    /**
+     * <code>optional .android_studio.ProfilerSessionSelectionMetaData session_artifact_metadata = 8;</code>
+     *
+     * <pre>
+     * Set if |type| is |SESSION_ARTIFACT_SELECTED|
+     * </pre>
+     */
+    public boolean hasSessionArtifactMetadata() {
+      return ((bitField0_ & 0x00000080) == 0x00000080);
+    }
+    /**
+     * <code>optional .android_studio.ProfilerSessionSelectionMetaData session_artifact_metadata = 8;</code>
+     *
+     * <pre>
+     * Set if |type| is |SESSION_ARTIFACT_SELECTED|
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.ProfilerSessionSelectionMetaData getSessionArtifactMetadata() {
+      if (sessionArtifactMetadataBuilder_ == null) {
+        return sessionArtifactMetadata_;
+      } else {
+        return sessionArtifactMetadataBuilder_.getMessage();
+      }
+    }
+    /**
+     * <code>optional .android_studio.ProfilerSessionSelectionMetaData session_artifact_metadata = 8;</code>
+     *
+     * <pre>
+     * Set if |type| is |SESSION_ARTIFACT_SELECTED|
+     * </pre>
+     */
+    public Builder setSessionArtifactMetadata(com.google.wireless.android.sdk.stats.ProfilerSessionSelectionMetaData value) {
+      if (sessionArtifactMetadataBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        sessionArtifactMetadata_ = value;
+        onChanged();
+      } else {
+        sessionArtifactMetadataBuilder_.setMessage(value);
+      }
+      bitField0_ |= 0x00000080;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.ProfilerSessionSelectionMetaData session_artifact_metadata = 8;</code>
+     *
+     * <pre>
+     * Set if |type| is |SESSION_ARTIFACT_SELECTED|
+     * </pre>
+     */
+    public Builder setSessionArtifactMetadata(
+        com.google.wireless.android.sdk.stats.ProfilerSessionSelectionMetaData.Builder builderForValue) {
+      if (sessionArtifactMetadataBuilder_ == null) {
+        sessionArtifactMetadata_ = builderForValue.build();
+        onChanged();
+      } else {
+        sessionArtifactMetadataBuilder_.setMessage(builderForValue.build());
+      }
+      bitField0_ |= 0x00000080;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.ProfilerSessionSelectionMetaData session_artifact_metadata = 8;</code>
+     *
+     * <pre>
+     * Set if |type| is |SESSION_ARTIFACT_SELECTED|
+     * </pre>
+     */
+    public Builder mergeSessionArtifactMetadata(com.google.wireless.android.sdk.stats.ProfilerSessionSelectionMetaData value) {
+      if (sessionArtifactMetadataBuilder_ == null) {
+        if (((bitField0_ & 0x00000080) == 0x00000080) &&
+            sessionArtifactMetadata_ != com.google.wireless.android.sdk.stats.ProfilerSessionSelectionMetaData.getDefaultInstance()) {
+          sessionArtifactMetadata_ =
+            com.google.wireless.android.sdk.stats.ProfilerSessionSelectionMetaData.newBuilder(sessionArtifactMetadata_).mergeFrom(value).buildPartial();
+        } else {
+          sessionArtifactMetadata_ = value;
+        }
+        onChanged();
+      } else {
+        sessionArtifactMetadataBuilder_.mergeFrom(value);
+      }
+      bitField0_ |= 0x00000080;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.ProfilerSessionSelectionMetaData session_artifact_metadata = 8;</code>
+     *
+     * <pre>
+     * Set if |type| is |SESSION_ARTIFACT_SELECTED|
+     * </pre>
+     */
+    public Builder clearSessionArtifactMetadata() {
+      if (sessionArtifactMetadataBuilder_ == null) {
+        sessionArtifactMetadata_ = com.google.wireless.android.sdk.stats.ProfilerSessionSelectionMetaData.getDefaultInstance();
+        onChanged();
+      } else {
+        sessionArtifactMetadataBuilder_.clear();
+      }
+      bitField0_ = (bitField0_ & ~0x00000080);
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.ProfilerSessionSelectionMetaData session_artifact_metadata = 8;</code>
+     *
+     * <pre>
+     * Set if |type| is |SESSION_ARTIFACT_SELECTED|
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.ProfilerSessionSelectionMetaData.Builder getSessionArtifactMetadataBuilder() {
+      bitField0_ |= 0x00000080;
+      onChanged();
+      return getSessionArtifactMetadataFieldBuilder().getBuilder();
+    }
+    /**
+     * <code>optional .android_studio.ProfilerSessionSelectionMetaData session_artifact_metadata = 8;</code>
+     *
+     * <pre>
+     * Set if |type| is |SESSION_ARTIFACT_SELECTED|
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.ProfilerSessionSelectionMetaDataOrBuilder getSessionArtifactMetadataOrBuilder() {
+      if (sessionArtifactMetadataBuilder_ != null) {
+        return sessionArtifactMetadataBuilder_.getMessageOrBuilder();
+      } else {
+        return sessionArtifactMetadata_;
+      }
+    }
+    /**
+     * <code>optional .android_studio.ProfilerSessionSelectionMetaData session_artifact_metadata = 8;</code>
+     *
+     * <pre>
+     * Set if |type| is |SESSION_ARTIFACT_SELECTED|
+     * </pre>
+     */
+    private com.google.protobuf.SingleFieldBuilder<
+        com.google.wireless.android.sdk.stats.ProfilerSessionSelectionMetaData, com.google.wireless.android.sdk.stats.ProfilerSessionSelectionMetaData.Builder, com.google.wireless.android.sdk.stats.ProfilerSessionSelectionMetaDataOrBuilder> 
+        getSessionArtifactMetadataFieldBuilder() {
+      if (sessionArtifactMetadataBuilder_ == null) {
+        sessionArtifactMetadataBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+            com.google.wireless.android.sdk.stats.ProfilerSessionSelectionMetaData, com.google.wireless.android.sdk.stats.ProfilerSessionSelectionMetaData.Builder, com.google.wireless.android.sdk.stats.ProfilerSessionSelectionMetaDataOrBuilder>(
+                sessionArtifactMetadata_,
+                getParentForChildren(),
+                isClean());
+        sessionArtifactMetadata_ = null;
+      }
+      return sessionArtifactMetadataBuilder_;
     }
 
     // @@protoc_insertion_point(builder_scope:android_studio.AndroidProfilerEvent)

@@ -252,6 +252,14 @@ public  final class GradleBuildProject extends
      * </pre>
      */
     FEATURE(6, 6),
+    /**
+     * <code>DYNAMIC_FEATURE = 7;</code>
+     *
+     * <pre>
+     * The 'com.android.dynamic-feature' plugin.
+     * </pre>
+     */
+    DYNAMIC_FEATURE(7, 7),
     ;
 
     /**
@@ -306,6 +314,14 @@ public  final class GradleBuildProject extends
      * </pre>
      */
     public static final int FEATURE_VALUE = 6;
+    /**
+     * <code>DYNAMIC_FEATURE = 7;</code>
+     *
+     * <pre>
+     * The 'com.android.dynamic-feature' plugin.
+     * </pre>
+     */
+    public static final int DYNAMIC_FEATURE_VALUE = 7;
 
 
     public final int getNumber() { return value; }
@@ -319,6 +335,7 @@ public  final class GradleBuildProject extends
         case 4: return ATOM;
         case 5: return INSTANTAPP;
         case 6: return FEATURE;
+        case 7: return DYNAMIC_FEATURE;
         default: return null;
       }
     }

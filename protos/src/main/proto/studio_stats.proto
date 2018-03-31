@@ -2018,6 +2018,8 @@ message GradleBuildProject {
     INSTANTAPP = 5;
     // The 'com.android.feature' plugin.
     FEATURE = 6;
+    // The 'com.android.dynamic-feature' plugin.
+    DYNAMIC_FEATURE = 7;
   }
 
   enum PluginGeneration {
@@ -2221,7 +2223,7 @@ message GradleBuildVariant {
     APPLICATION = 0;
     // For building an AAR.
     LIBRARY = 1;
-    // For building a test APK.
+    // For building an android test APK.
     ANDROID_TEST = 2;
     // For building unit tests to run locally.
     UNIT_TEST = 3;
@@ -2231,6 +2233,10 @@ message GradleBuildVariant {
     INSTANTAPP = 5;
     // For building a split APK.
     FEATURE = 6;
+    // For building an optional APK.
+    OPTIONAL_APK = 7;
+    // For building a test APK
+    TEST_APK = 8;
   }
 
   // Different tools that provide Java 8 language usage.
@@ -3480,6 +3486,44 @@ message FilterMetadata {
   optional uint32 search_length = 5;
 }
 
+// Metadata associated with how users are starting sessions in the profilers
+message ProfilerSessionCreationMetaData {
+  enum SessionType {
+    UNKNOWN_SESSION = 0;
+    FULL_SESSION = 1;
+    MEMORY_CAPTURE = 2;
+    CPU_CAPTURE = 3;
+  }
+
+  enum CreationSource {
+    UNKNOWN_SOURCE = 0;
+    // The user manually selects a process or imports an existing capture file.
+    MANUAL = 1;
+  }
+
+  // The type of session created
+  optional SessionType created_type = 1;
+
+  // How the session is created.
+  optional CreationSource creation_source = 2;
+}
+
+// Metadata associated with how users are selecting sessions in the profilers.
+message ProfilerSessionSelectionMetaData {
+  enum ArtifactType {
+    UNKNOWN_ARTIFACT_TYPE = 0;
+    ARTIFACT_SESSION = 1;
+    ARTIFACT_HPROF = 2;
+    ARTIFACT_CPU_CAPTURE = 3;
+  }
+
+  // The type of the artifact selected
+  optional ArtifactType selected_type = 1;
+
+  // Whether the session is live when the artifact was selected
+  optional bool is_session_alive = 2;
+}
+
 // Android Profiler metrics
 message AndroidProfilerEvent {
   // The current stage we're on when this event was generated
@@ -3500,6 +3544,12 @@ message AndroidProfilerEvent {
 
   // Set if |type| is |SELECT_MEMORY_HEAP|
   optional MemoryHeap memory_heap = 6;
+
+  // Set if |type| is |SESSION_CREATED|
+  optional ProfilerSessionCreationMetaData session_start_metadata = 7;
+
+  // Set if |type| is |SESSION_ARTIFACT_SELECTED|
+  optional ProfilerSessionSelectionMetaData session_artifact_metadata = 8;
 
   enum Stage {
     UNKNOWN_STAGE = 0;
@@ -3591,6 +3641,15 @@ message AndroidProfilerEvent {
     SELECT_DETAILS_ERROR = 408;
     SELECT_CONNECTIONS_CONNECTION_VIEW = 409;
     SELECT_CONNECTIONS_THREADS_VIEW = 410;
+
+    /// Session
+
+    SESSION_CREATED = 501;
+    SESSION_STOPPED = 502;
+    SESSION_UI_EXPANDED = 503;
+    SESSION_UI_COLLAPSED = 504;
+    SESSION_UI_RESIZED = 505;
+    SESSION_ARTIFACT_SELECTED = 506;
   }
 }
 

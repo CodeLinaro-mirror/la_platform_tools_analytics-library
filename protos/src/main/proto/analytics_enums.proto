@@ -182,6 +182,8 @@ enum GradleTaskExecutionType {
     BUNDLE = 134;
 	PER_MODULE_BUNDLE = 135;
     FEATURE_SET_METADATA_WRITER = 136;
+    BUNDLE_TO_APK = 137;
+    SELECT_APKS = 138;
 }
 
 enum BooleanOption {
@@ -232,6 +234,7 @@ enum BooleanOption {
     USE_AAPT2_FROM_MAVEN = 44;
     ENABLE_R8 = 45;
     ENABLE_R8_DESUGARING = 46;
+    ENABLE_DYNAMIC_APPS = 47;
 }
 
 enum OptionalBooleanOption {
@@ -252,6 +255,7 @@ enum IntegerOption {
     IDE_VERSION_CODE_OVERRIDE = 6;
     DEXING_READ_BUFFER_SIZE = 7;
     DEXING_WRITE_BUFFER_SIZE = 8;
+    DEXING_NUMBER_OF_BUCKETS = 9;
 
 }
 
@@ -282,4 +286,5 @@ enum StringOption {
     PROFILE_OUTPUT_DIR = 18;
     BUILD_ARTIFACT_REPORT_FILE = 19;
     AAPT2_FROM_MAVEN_OVERRIDE = 20;
+    IDE_APK_SELECT_CONFIG = 21;
 }

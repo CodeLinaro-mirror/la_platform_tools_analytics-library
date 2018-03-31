@@ -140,4 +140,56 @@ public interface AndroidProfilerEventOrBuilder
    * </pre>
    */
   com.google.wireless.android.sdk.stats.AndroidProfilerEvent.MemoryHeap getMemoryHeap();
+
+  // optional .android_studio.ProfilerSessionCreationMetaData session_start_metadata = 7;
+  /**
+   * <code>optional .android_studio.ProfilerSessionCreationMetaData session_start_metadata = 7;</code>
+   *
+   * <pre>
+   * Set if |type| is |SESSION_CREATED|
+   * </pre>
+   */
+  boolean hasSessionStartMetadata();
+  /**
+   * <code>optional .android_studio.ProfilerSessionCreationMetaData session_start_metadata = 7;</code>
+   *
+   * <pre>
+   * Set if |type| is |SESSION_CREATED|
+   * </pre>
+   */
+  com.google.wireless.android.sdk.stats.ProfilerSessionCreationMetaData getSessionStartMetadata();
+  /**
+   * <code>optional .android_studio.ProfilerSessionCreationMetaData session_start_metadata = 7;</code>
+   *
+   * <pre>
+   * Set if |type| is |SESSION_CREATED|
+   * </pre>
+   */
+  com.google.wireless.android.sdk.stats.ProfilerSessionCreationMetaDataOrBuilder getSessionStartMetadataOrBuilder();
+
+  // optional .android_studio.ProfilerSessionSelectionMetaData session_artifact_metadata = 8;
+  /**
+   * <code>optional .android_studio.ProfilerSessionSelectionMetaData session_artifact_metadata = 8;</code>
+   *
+   * <pre>
+   * Set if |type| is |SESSION_ARTIFACT_SELECTED|
+   * </pre>
+   */
+  boolean hasSessionArtifactMetadata();
+  /**
+   * <code>optional .android_studio.ProfilerSessionSelectionMetaData session_artifact_metadata = 8;</code>
+   *
+   * <pre>
+   * Set if |type| is |SESSION_ARTIFACT_SELECTED|
+   * </pre>
+   */
+  com.google.wireless.android.sdk.stats.ProfilerSessionSelectionMetaData getSessionArtifactMetadata();
+  /**
+   * <code>optional .android_studio.ProfilerSessionSelectionMetaData session_artifact_metadata = 8;</code>
+   *
+   * <pre>
+   * Set if |type| is |SESSION_ARTIFACT_SELECTED|
+   * </pre>
+   */
+  com.google.wireless.android.sdk.stats.ProfilerSessionSelectionMetaDataOrBuilder getSessionArtifactMetadataOrBuilder();
 }

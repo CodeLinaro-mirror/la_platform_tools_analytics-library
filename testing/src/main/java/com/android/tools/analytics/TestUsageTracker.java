@@ -11,6 +11,8 @@ import com.google.wireless.android.play.playlog.proto.ClientAnalytics;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * An implementation of {@link UsageTracker} for use in tests. Allows introspection of the logged
@@ -21,6 +23,7 @@ public class TestUsageTracker extends UsageTracker {
     private final VirtualTimeScheduler scheduler;
     private final List<LoggedUsage> usages = new ArrayList<>();
     private final File androidSdkHomeEnvironment;
+    private RuntimeException closeException;
 
     public TestUsageTracker(
             @NonNull AnalyticsSettings settings, @NonNull VirtualTimeScheduler scheduler) {
@@ -46,6 +49,12 @@ public class TestUsageTracker extends UsageTracker {
 
     @Override
     public void close() throws Exception {
+        if (closeException != null) {
+            getLogger().log(Level.SEVERE, "Re-closing TestUsageTracker. Last closed by:", closeException);
+            throw closeException;
+        }
+        closeException = new RuntimeException("Last TestUsageTracker close");
+
         // Clean up the virtual time data provider after the test is done.
         UsageTracker.sDateProvider = AnalyticsSettings.sDateProvider = DateProvider.SYSTEM;
         FileUtils.deleteDirectoryContents(androidSdkHomeEnvironment);
@@ -55,5 +64,9 @@ public class TestUsageTracker extends UsageTracker {
     @NonNull
     public List<LoggedUsage> getUsages() {
         return usages;
+    }
+
+    private static Logger getLogger() {
+        return Logger.getLogger("#TestUsageTracker");
     }
 }
