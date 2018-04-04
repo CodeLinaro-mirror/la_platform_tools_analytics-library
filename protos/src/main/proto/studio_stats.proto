@@ -676,6 +676,8 @@ message AndroidStudioEvent {
     BLANK_WEAR_ACTIVITY = 33;
     BASIC_ACTIVITIY = 34;
     APP_WIDGET = 35;
+    ANDROID_INSTANT_APP_PROJECT = 36;
+    ANDROID_INSTANT_APP_MODULE = 37;
   }
 
   // Reasons Gradle sync failed.
