@@ -598,41 +598,57 @@ public  final class AndroidProfilerEvent extends
      */
     CAPTURE_TRACE(26, 212),
     /**
+     * <code>THREADS_REORDERED = 213;</code>
+     */
+    THREADS_REORDERED(27, 213),
+    /**
+     * <code>KERNEL_VIEW_CLICKED = 214;</code>
+     */
+    KERNEL_VIEW_CLICKED(28, 214),
+    /**
+     * <code>KERNEL_VIEW_TOGGLED = 215;</code>
+     */
+    KERNEL_VIEW_TOGGLED(29, 215),
+    /**
+     * <code>THREADS_VIEW_TOGGLED = 216;</code>
+     */
+    THREADS_VIEW_TOGGLED(30, 216),
+    /**
      * <code>FORCE_GC = 301;</code>
      */
-    FORCE_GC(27, 301),
+    FORCE_GC(31, 301),
     /**
      * <code>SNAPSHOT_HPROF = 302;</code>
      */
-    SNAPSHOT_HPROF(28, 302),
+    SNAPSHOT_HPROF(32, 302),
     /**
      * <code>CAPTURE_ALLOCATIONS = 303;</code>
      */
-    CAPTURE_ALLOCATIONS(29, 303),
+    CAPTURE_ALLOCATIONS(33, 303),
     /**
      * <code>SELECT_MEMORY_CHART = 304;</code>
      */
-    SELECT_MEMORY_CHART(30, 304),
+    SELECT_MEMORY_CHART(34, 304),
     /**
      * <code>EXPORT_HPROF = 305;</code>
      */
-    EXPORT_HPROF(31, 305),
+    EXPORT_HPROF(35, 305),
     /**
      * <code>EXPORT_ALLOCATION = 306;</code>
      */
-    EXPORT_ALLOCATION(32, 306),
+    EXPORT_ALLOCATION(36, 306),
     /**
      * <code>ARRANGE_CLASSES = 307;</code>
      */
-    ARRANGE_CLASSES(33, 307),
+    ARRANGE_CLASSES(37, 307),
     /**
      * <code>SELECT_MEMORY_STACK = 308;</code>
      */
-    SELECT_MEMORY_STACK(34, 308),
+    SELECT_MEMORY_STACK(38, 308),
     /**
      * <code>SELECT_MEMORY_REFERENCES = 309;</code>
      */
-    SELECT_MEMORY_REFERENCES(35, 309),
+    SELECT_MEMORY_REFERENCES(39, 309),
     /**
      * <code>SELECT_MEMORY_HEAP = 310;</code>
      *
@@ -640,67 +656,67 @@ public  final class AndroidProfilerEvent extends
      * This event type should have |memory_heap|
      * </pre>
      */
-    SELECT_MEMORY_HEAP(36, 310),
+    SELECT_MEMORY_HEAP(40, 310),
     /**
      * <code>SELECT_CONNECTION = 402;</code>
      */
-    SELECT_CONNECTION(37, 402),
+    SELECT_CONNECTION(41, 402),
     /**
      * <code>SELECT_DETAILS_RESPONSE = 403;</code>
      */
-    SELECT_DETAILS_RESPONSE(38, 403),
+    SELECT_DETAILS_RESPONSE(42, 403),
     /**
      * <code>SELECT_DETAILS_HEADERS = 404;</code>
      */
-    SELECT_DETAILS_HEADERS(39, 404),
+    SELECT_DETAILS_HEADERS(43, 404),
     /**
      * <code>SELECT_DETAILS_STACK = 405;</code>
      */
-    SELECT_DETAILS_STACK(40, 405),
+    SELECT_DETAILS_STACK(44, 405),
     /**
      * <code>SELECT_DETAILS_OVERVIEW = 406;</code>
      */
-    SELECT_DETAILS_OVERVIEW(41, 406),
+    SELECT_DETAILS_OVERVIEW(45, 406),
     /**
      * <code>SELECT_DETAILS_REQUEST = 407;</code>
      */
-    SELECT_DETAILS_REQUEST(42, 407),
+    SELECT_DETAILS_REQUEST(46, 407),
     /**
      * <code>SELECT_DETAILS_ERROR = 408;</code>
      */
-    SELECT_DETAILS_ERROR(43, 408),
+    SELECT_DETAILS_ERROR(47, 408),
     /**
      * <code>SELECT_CONNECTIONS_CONNECTION_VIEW = 409;</code>
      */
-    SELECT_CONNECTIONS_CONNECTION_VIEW(44, 409),
+    SELECT_CONNECTIONS_CONNECTION_VIEW(48, 409),
     /**
      * <code>SELECT_CONNECTIONS_THREADS_VIEW = 410;</code>
      */
-    SELECT_CONNECTIONS_THREADS_VIEW(45, 410),
+    SELECT_CONNECTIONS_THREADS_VIEW(49, 410),
     /**
      * <code>SESSION_CREATED = 501;</code>
      */
-    SESSION_CREATED(46, 501),
+    SESSION_CREATED(50, 501),
     /**
      * <code>SESSION_STOPPED = 502;</code>
      */
-    SESSION_STOPPED(47, 502),
+    SESSION_STOPPED(51, 502),
     /**
      * <code>SESSION_UI_EXPANDED = 503;</code>
      */
-    SESSION_UI_EXPANDED(48, 503),
+    SESSION_UI_EXPANDED(52, 503),
     /**
      * <code>SESSION_UI_COLLAPSED = 504;</code>
      */
-    SESSION_UI_COLLAPSED(49, 504),
+    SESSION_UI_COLLAPSED(53, 504),
     /**
      * <code>SESSION_UI_RESIZED = 505;</code>
      */
-    SESSION_UI_RESIZED(50, 505),
+    SESSION_UI_RESIZED(54, 505),
     /**
      * <code>SESSION_ARTIFACT_SELECTED = 506;</code>
      */
-    SESSION_ARTIFACT_SELECTED(51, 506),
+    SESSION_ARTIFACT_SELECTED(55, 506),
     ;
 
     /**
@@ -849,6 +865,22 @@ public  final class AndroidProfilerEvent extends
      */
     public static final int CAPTURE_TRACE_VALUE = 212;
     /**
+     * <code>THREADS_REORDERED = 213;</code>
+     */
+    public static final int THREADS_REORDERED_VALUE = 213;
+    /**
+     * <code>KERNEL_VIEW_CLICKED = 214;</code>
+     */
+    public static final int KERNEL_VIEW_CLICKED_VALUE = 214;
+    /**
+     * <code>KERNEL_VIEW_TOGGLED = 215;</code>
+     */
+    public static final int KERNEL_VIEW_TOGGLED_VALUE = 215;
+    /**
+     * <code>THREADS_VIEW_TOGGLED = 216;</code>
+     */
+    public static final int THREADS_VIEW_TOGGLED_VALUE = 216;
+    /**
      * <code>FORCE_GC = 301;</code>
      */
     public static final int FORCE_GC_VALUE = 301;
@@ -985,6 +1017,10 @@ public  final class AndroidProfilerEvent extends
         case 209: return CREATE_CPU_CONFIG;
         case 211: return TRACE_CPU;
         case 212: return CAPTURE_TRACE;
+        case 213: return THREADS_REORDERED;
+        case 214: return KERNEL_VIEW_CLICKED;
+        case 215: return KERNEL_VIEW_TOGGLED;
+        case 216: return THREADS_VIEW_TOGGLED;
         case 301: return FORCE_GC;
         case 302: return SNAPSHOT_HPROF;
         case 303: return CAPTURE_ALLOCATIONS;
