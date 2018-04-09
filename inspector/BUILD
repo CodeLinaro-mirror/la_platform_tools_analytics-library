@@ -9,18 +9,18 @@ iml_module(
     # do not sort: must match IML order
     exports = [
         "//tools/idea/.idea/libraries:Guava",
-        "//tools/base/annotations:studio.android-annotations",
+        "//tools/base/annotations:studio.android.sdktools.android-annotations",
     ],
     # do not sort: must match IML order
     deps = [
         "//tools/idea/.idea/libraries:Guava",
         "//tools/idea/.idea/libraries:JUnit4[test]",
-        "//tools/base/annotations:studio.android-annotations[module]",
+        "//tools/base/annotations:studio.android.sdktools.android-annotations[module]",
         "//tools/idea/.idea/libraries:truth[test]",
         "//tools/analytics-library/protos:analytics-protos[module]",
         "//tools/analytics-library/shared:analytics-shared[module]",
-        "//tools/base/testutils:studio.testutils[module, test]",
-        "//tools/base/common:studio.common[module]",
+        "//tools/base/testutils:studio.android.sdktools.testutils[module, test]",
+        "//tools/base/common:studio.android.sdktools.common[module]",
         "//tools/idea/.idea/libraries:gson",
     ],
 )

@@ -1,8 +1,8 @@
 load("//tools/base/bazel:bazel.bzl", "iml_module")
 
 iml_module(
-    name = "analytics-testing",
-    iml_files = ["analytics-testing.iml"],
+    name = "android.sdktools.analytics-testing",
+    iml_files = ["android.sdktools.analytics-testing.iml"],
     tags = ["managed"],
     test_srcs = [
         "src/main/java",
@@ -13,12 +13,12 @@ iml_module(
     deps = [
         "//tools/idea/.idea/libraries:Guava[test]",
         "//tools/idea/.idea/libraries:JUnit4[test]",
-        "//tools/base/annotations:studio.android-annotations[module, test]",
+        "//tools/base/annotations:studio.android.sdktools.android-annotations[module, test]",
         "//tools/idea/.idea/libraries:truth[test]",
         "//tools/idea/.idea/libraries:gson[test]",
         "//tools/analytics-library/protos:analytics-protos[module, test]",
-        "//tools/base/testutils:studio.testutils[module, test]",
-        "//tools/base/common:studio.common[module, test]",
+        "//tools/base/testutils:studio.android.sdktools.testutils[module, test]",
+        "//tools/base/common:studio.android.sdktools.common[module, test]",
         "//tools/analytics-library/shared:analytics-shared[module, test]",
         "//tools/analytics-library/tracker:analytics-tracker[module, test]",
     ],

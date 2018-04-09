@@ -11,12 +11,12 @@ iml_module(
     # do not sort: must match IML order
     exports = [
         "//tools/idea/.idea/libraries:Guava",
-        "//tools/base/annotations:studio.android-annotations",
+        "//tools/base/annotations:studio.android.sdktools.android-annotations",
     ],
     # do not sort: must match IML order
     deps = [
         "//tools/idea/.idea/libraries:Guava",
-        "//tools/base/annotations:studio.android-annotations[module]",
+        "//tools/base/annotations:studio.android.sdktools.android-annotations[module]",
         "//tools/idea/.idea/libraries:commons-logging",
         "//tools/idea/.idea/libraries:http-client",
         "//tools/idea/.idea/libraries:truth[test]",
@@ -65,6 +65,7 @@ kotlin_test(
         "//tools/base/third_party:com.google.truth_truth",
         "//tools/base/third_party:io.netty_netty-all",
         "//tools/base/third_party:junit_junit",
+        "//tools/base/third_party:org.apache.httpcomponents_httpmime",
         "//tools/base/third_party:org.mockito_mockito-core",
     ],
 )
