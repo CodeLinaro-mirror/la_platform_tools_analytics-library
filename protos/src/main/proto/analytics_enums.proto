@@ -189,6 +189,7 @@ enum GradleTaskExecutionType {
     GATHER_ANDROID_MODULE_INFO = 141;
     GATHER_JAVA_MODULE_INFO = 142;
     LINT_FIX = 143;
+    INSTALL_VARIANT_VIA_BUNDLE = 144;
 }
 
 enum BooleanOption {
