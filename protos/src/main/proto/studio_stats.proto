@@ -3618,6 +3618,10 @@ message AndroidProfilerEvent {
     CREATE_CPU_CONFIG = 209;
     TRACE_CPU = 211; // Deprecated since 3.0.0.8. Use CAPTURE_TRACE.
     CAPTURE_TRACE = 212; // Correlate with |cpu_capture_metadata|
+    THREADS_REORDERED = 213;
+    KERNEL_VIEW_CLICKED = 214;
+    KERNEL_VIEW_TOGGLED = 215;
+    THREADS_VIEW_TOGGLED = 216;
 
     /// Memory
 
