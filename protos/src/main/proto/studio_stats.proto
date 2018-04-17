@@ -3563,6 +3563,7 @@ message AndroidProfilerEvent {
     CPU_STAGE = 3;
     MEMORY_STAGE = 4;
     NETWORK_STAGE = 5;
+    ENERGY_STAGE = 6;
   }
 
   enum MemoryHeap {
