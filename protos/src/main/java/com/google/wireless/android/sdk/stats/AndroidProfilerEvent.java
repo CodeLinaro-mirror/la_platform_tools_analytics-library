@@ -232,6 +232,10 @@ public  final class AndroidProfilerEvent extends
      * <code>NETWORK_STAGE = 5;</code>
      */
     NETWORK_STAGE(5, 5),
+    /**
+     * <code>ENERGY_STAGE = 6;</code>
+     */
+    ENERGY_STAGE(6, 6),
     ;
 
     /**
@@ -266,6 +270,10 @@ public  final class AndroidProfilerEvent extends
      * <code>NETWORK_STAGE = 5;</code>
      */
     public static final int NETWORK_STAGE_VALUE = 5;
+    /**
+     * <code>ENERGY_STAGE = 6;</code>
+     */
+    public static final int ENERGY_STAGE_VALUE = 6;
 
 
     public final int getNumber() { return value; }
@@ -278,6 +286,7 @@ public  final class AndroidProfilerEvent extends
         case 3: return CPU_STAGE;
         case 4: return MEMORY_STAGE;
         case 5: return NETWORK_STAGE;
+        case 6: return ENERGY_STAGE;
         default: return null;
       }
     }
