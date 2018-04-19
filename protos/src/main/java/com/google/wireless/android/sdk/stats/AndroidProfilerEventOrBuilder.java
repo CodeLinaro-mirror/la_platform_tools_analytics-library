@@ -192,4 +192,30 @@ public interface AndroidProfilerEventOrBuilder
    * </pre>
    */
   com.google.wireless.android.sdk.stats.ProfilerSessionSelectionMetaDataOrBuilder getSessionArtifactMetadataOrBuilder();
+
+  // optional .android_studio.CpuStartupProfilingMetadata cpu_startup_profiling_metadata = 9;
+  /**
+   * <code>optional .android_studio.CpuStartupProfilingMetadata cpu_startup_profiling_metadata = 9;</code>
+   *
+   * <pre>
+   * Set if |type| is |CPU_STARTUP_PROFILING|
+   * </pre>
+   */
+  boolean hasCpuStartupProfilingMetadata();
+  /**
+   * <code>optional .android_studio.CpuStartupProfilingMetadata cpu_startup_profiling_metadata = 9;</code>
+   *
+   * <pre>
+   * Set if |type| is |CPU_STARTUP_PROFILING|
+   * </pre>
+   */
+  com.google.wireless.android.sdk.stats.CpuStartupProfilingMetadata getCpuStartupProfilingMetadata();
+  /**
+   * <code>optional .android_studio.CpuStartupProfilingMetadata cpu_startup_profiling_metadata = 9;</code>
+   *
+   * <pre>
+   * Set if |type| is |CPU_STARTUP_PROFILING|
+   * </pre>
+   */
+  com.google.wireless.android.sdk.stats.CpuStartupProfilingMetadataOrBuilder getCpuStartupProfilingMetadataOrBuilder();
 }
