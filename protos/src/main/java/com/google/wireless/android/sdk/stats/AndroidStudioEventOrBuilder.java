@@ -1530,4 +1530,30 @@ public interface AndroidStudioEventOrBuilder
    * </pre>
    */
   com.google.wireless.android.sdk.stats.CppHeadersViewEventOrBuilder getCppHeadersViewEventOrBuilder();
+
+  // optional .android_studio.WhatsNewAssistantEvent whats_new_assistant_event = 60;
+  /**
+   * <code>optional .android_studio.WhatsNewAssistantEvent whats_new_assistant_event = 60;</code>
+   *
+   * <pre>
+   * set when kind = WHATS_NEW_ASSISTANT_EVENT
+   * </pre>
+   */
+  boolean hasWhatsNewAssistantEvent();
+  /**
+   * <code>optional .android_studio.WhatsNewAssistantEvent whats_new_assistant_event = 60;</code>
+   *
+   * <pre>
+   * set when kind = WHATS_NEW_ASSISTANT_EVENT
+   * </pre>
+   */
+  com.google.wireless.android.sdk.stats.WhatsNewAssistantEvent getWhatsNewAssistantEvent();
+  /**
+   * <code>optional .android_studio.WhatsNewAssistantEvent whats_new_assistant_event = 60;</code>
+   *
+   * <pre>
+   * set when kind = WHATS_NEW_ASSISTANT_EVENT
+   * </pre>
+   */
+  com.google.wireless.android.sdk.stats.WhatsNewAssistantEventOrBuilder getWhatsNewAssistantEventOrBuilder();
 }

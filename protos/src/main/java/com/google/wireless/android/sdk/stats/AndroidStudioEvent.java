@@ -738,6 +738,19 @@ public  final class AndroidStudioEvent extends
             bitField1_ |= 0x04000000;
             break;
           }
+          case 482: {
+            com.google.wireless.android.sdk.stats.WhatsNewAssistantEvent.Builder subBuilder = null;
+            if (((bitField1_ & 0x08000000) == 0x08000000)) {
+              subBuilder = whatsNewAssistantEvent_.toBuilder();
+            }
+            whatsNewAssistantEvent_ = input.readMessage(com.google.wireless.android.sdk.stats.WhatsNewAssistantEvent.PARSER, extensionRegistry);
+            if (subBuilder != null) {
+              subBuilder.mergeFrom(whatsNewAssistantEvent_);
+              whatsNewAssistantEvent_ = subBuilder.buildPartial();
+            }
+            bitField1_ |= 0x08000000;
+            break;
+          }
         }
       }
     } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -2325,6 +2338,14 @@ public  final class AndroidStudioEvent extends
      * </pre>
      */
     CPP_HEADERS_VIEW_EVENT(126, 129),
+    /**
+     * <code>WHATS_NEW_ASSISTANT_EVENT = 130;</code>
+     *
+     * <pre>
+     * The event is related to What's New Assistant
+     * </pre>
+     */
+    WHATS_NEW_ASSISTANT_EVENT(127, 130),
     ;
 
     /**
@@ -3324,6 +3345,14 @@ public  final class AndroidStudioEvent extends
      * </pre>
      */
     public static final int CPP_HEADERS_VIEW_EVENT_VALUE = 129;
+    /**
+     * <code>WHATS_NEW_ASSISTANT_EVENT = 130;</code>
+     *
+     * <pre>
+     * The event is related to What's New Assistant
+     * </pre>
+     */
+    public static final int WHATS_NEW_ASSISTANT_EVENT_VALUE = 130;
 
 
     public final int getNumber() { return value; }
@@ -3457,6 +3486,7 @@ public  final class AndroidStudioEvent extends
         case 127: return STUDIO_UI_OOM_DIALOG_EVENT;
         case 128: return CMAKE_EDITING_EVENT;
         case 129: return CPP_HEADERS_VIEW_EVENT;
+        case 130: return WHATS_NEW_ASSISTANT_EVENT;
         default: return null;
       }
     }
@@ -6985,6 +7015,40 @@ public  final class AndroidStudioEvent extends
     return cppHeadersViewEvent_;
   }
 
+  // optional .android_studio.WhatsNewAssistantEvent whats_new_assistant_event = 60;
+  public static final int WHATS_NEW_ASSISTANT_EVENT_FIELD_NUMBER = 60;
+  private com.google.wireless.android.sdk.stats.WhatsNewAssistantEvent whatsNewAssistantEvent_;
+  /**
+   * <code>optional .android_studio.WhatsNewAssistantEvent whats_new_assistant_event = 60;</code>
+   *
+   * <pre>
+   * set when kind = WHATS_NEW_ASSISTANT_EVENT
+   * </pre>
+   */
+  public boolean hasWhatsNewAssistantEvent() {
+    return ((bitField1_ & 0x08000000) == 0x08000000);
+  }
+  /**
+   * <code>optional .android_studio.WhatsNewAssistantEvent whats_new_assistant_event = 60;</code>
+   *
+   * <pre>
+   * set when kind = WHATS_NEW_ASSISTANT_EVENT
+   * </pre>
+   */
+  public com.google.wireless.android.sdk.stats.WhatsNewAssistantEvent getWhatsNewAssistantEvent() {
+    return whatsNewAssistantEvent_;
+  }
+  /**
+   * <code>optional .android_studio.WhatsNewAssistantEvent whats_new_assistant_event = 60;</code>
+   *
+   * <pre>
+   * set when kind = WHATS_NEW_ASSISTANT_EVENT
+   * </pre>
+   */
+  public com.google.wireless.android.sdk.stats.WhatsNewAssistantEventOrBuilder getWhatsNewAssistantEventOrBuilder() {
+    return whatsNewAssistantEvent_;
+  }
+
   private void initFields() {
     category_ = com.google.wireless.android.sdk.stats.AndroidStudioEvent.EventCategory.NO_EVENT_CATEGORY;
     kind_ = com.google.wireless.android.sdk.stats.AndroidStudioEvent.EventKind.UNKNOWN_EVENT_KIND;
@@ -7045,6 +7109,7 @@ public  final class AndroidStudioEvent extends
     cmakeEditingEvent_ = com.google.wireless.android.sdk.stats.CMakeEditingEvent.getDefaultInstance();
     ideBrand_ = com.google.wireless.android.sdk.stats.AndroidStudioEvent.IdeBrand.UNKNOWN_IDE_BRAND;
     cppHeadersViewEvent_ = com.google.wireless.android.sdk.stats.CppHeadersViewEvent.getDefaultInstance();
+    whatsNewAssistantEvent_ = com.google.wireless.android.sdk.stats.WhatsNewAssistantEvent.getDefaultInstance();
   }
   private byte memoizedIsInitialized = -1;
   public final boolean isInitialized() {
@@ -7234,6 +7299,9 @@ public  final class AndroidStudioEvent extends
     }
     if (((bitField1_ & 0x04000000) == 0x04000000)) {
       output.writeMessage(59, cppHeadersViewEvent_);
+    }
+    if (((bitField1_ & 0x08000000) == 0x08000000)) {
+      output.writeMessage(60, whatsNewAssistantEvent_);
     }
     getUnknownFields().writeTo(output);
   }
@@ -7480,6 +7548,10 @@ public  final class AndroidStudioEvent extends
       size += com.google.protobuf.CodedOutputStream
         .computeMessageSize(59, cppHeadersViewEvent_);
     }
+    if (((bitField1_ & 0x08000000) == 0x08000000)) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeMessageSize(60, whatsNewAssistantEvent_);
+    }
     size += getUnknownFields().getSerializedSize();
     memoizedSerializedSize = size;
     return size;
@@ -7629,6 +7701,7 @@ public  final class AndroidStudioEvent extends
         getOomDialogEventFieldBuilder();
         getCmakeEditingEventFieldBuilder();
         getCppHeadersViewEventFieldBuilder();
+        getWhatsNewAssistantEventFieldBuilder();
       }
     }
     private static Builder create() {
@@ -7919,6 +7992,12 @@ public  final class AndroidStudioEvent extends
         cppHeadersViewEventBuilder_.clear();
       }
       bitField1_ = (bitField1_ & ~0x04000000);
+      if (whatsNewAssistantEventBuilder_ == null) {
+        whatsNewAssistantEvent_ = com.google.wireless.android.sdk.stats.WhatsNewAssistantEvent.getDefaultInstance();
+      } else {
+        whatsNewAssistantEventBuilder_.clear();
+      }
+      bitField1_ = (bitField1_ & ~0x08000000);
       return this;
     }
 
@@ -8349,6 +8428,14 @@ public  final class AndroidStudioEvent extends
       } else {
         result.cppHeadersViewEvent_ = cppHeadersViewEventBuilder_.build();
       }
+      if (((from_bitField1_ & 0x08000000) == 0x08000000)) {
+        to_bitField1_ |= 0x08000000;
+      }
+      if (whatsNewAssistantEventBuilder_ == null) {
+        result.whatsNewAssistantEvent_ = whatsNewAssistantEvent_;
+      } else {
+        result.whatsNewAssistantEvent_ = whatsNewAssistantEventBuilder_.build();
+      }
       result.bitField0_ = to_bitField0_;
       result.bitField1_ = to_bitField1_;
       onBuilt();
@@ -8554,6 +8641,9 @@ public  final class AndroidStudioEvent extends
       }
       if (other.hasCppHeadersViewEvent()) {
         mergeCppHeadersViewEvent(other.getCppHeadersViewEvent());
+      }
+      if (other.hasWhatsNewAssistantEvent()) {
+        mergeWhatsNewAssistantEvent(other.getWhatsNewAssistantEvent());
       }
       this.mergeUnknownFields(other.getUnknownFields());
       return this;
@@ -16273,6 +16363,159 @@ public  final class AndroidStudioEvent extends
         cppHeadersViewEvent_ = null;
       }
       return cppHeadersViewEventBuilder_;
+    }
+
+    // optional .android_studio.WhatsNewAssistantEvent whats_new_assistant_event = 60;
+    private com.google.wireless.android.sdk.stats.WhatsNewAssistantEvent whatsNewAssistantEvent_ = com.google.wireless.android.sdk.stats.WhatsNewAssistantEvent.getDefaultInstance();
+    private com.google.protobuf.SingleFieldBuilder<
+        com.google.wireless.android.sdk.stats.WhatsNewAssistantEvent, com.google.wireless.android.sdk.stats.WhatsNewAssistantEvent.Builder, com.google.wireless.android.sdk.stats.WhatsNewAssistantEventOrBuilder> whatsNewAssistantEventBuilder_;
+    /**
+     * <code>optional .android_studio.WhatsNewAssistantEvent whats_new_assistant_event = 60;</code>
+     *
+     * <pre>
+     * set when kind = WHATS_NEW_ASSISTANT_EVENT
+     * </pre>
+     */
+    public boolean hasWhatsNewAssistantEvent() {
+      return ((bitField1_ & 0x08000000) == 0x08000000);
+    }
+    /**
+     * <code>optional .android_studio.WhatsNewAssistantEvent whats_new_assistant_event = 60;</code>
+     *
+     * <pre>
+     * set when kind = WHATS_NEW_ASSISTANT_EVENT
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.WhatsNewAssistantEvent getWhatsNewAssistantEvent() {
+      if (whatsNewAssistantEventBuilder_ == null) {
+        return whatsNewAssistantEvent_;
+      } else {
+        return whatsNewAssistantEventBuilder_.getMessage();
+      }
+    }
+    /**
+     * <code>optional .android_studio.WhatsNewAssistantEvent whats_new_assistant_event = 60;</code>
+     *
+     * <pre>
+     * set when kind = WHATS_NEW_ASSISTANT_EVENT
+     * </pre>
+     */
+    public Builder setWhatsNewAssistantEvent(com.google.wireless.android.sdk.stats.WhatsNewAssistantEvent value) {
+      if (whatsNewAssistantEventBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        whatsNewAssistantEvent_ = value;
+        onChanged();
+      } else {
+        whatsNewAssistantEventBuilder_.setMessage(value);
+      }
+      bitField1_ |= 0x08000000;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.WhatsNewAssistantEvent whats_new_assistant_event = 60;</code>
+     *
+     * <pre>
+     * set when kind = WHATS_NEW_ASSISTANT_EVENT
+     * </pre>
+     */
+    public Builder setWhatsNewAssistantEvent(
+        com.google.wireless.android.sdk.stats.WhatsNewAssistantEvent.Builder builderForValue) {
+      if (whatsNewAssistantEventBuilder_ == null) {
+        whatsNewAssistantEvent_ = builderForValue.build();
+        onChanged();
+      } else {
+        whatsNewAssistantEventBuilder_.setMessage(builderForValue.build());
+      }
+      bitField1_ |= 0x08000000;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.WhatsNewAssistantEvent whats_new_assistant_event = 60;</code>
+     *
+     * <pre>
+     * set when kind = WHATS_NEW_ASSISTANT_EVENT
+     * </pre>
+     */
+    public Builder mergeWhatsNewAssistantEvent(com.google.wireless.android.sdk.stats.WhatsNewAssistantEvent value) {
+      if (whatsNewAssistantEventBuilder_ == null) {
+        if (((bitField1_ & 0x08000000) == 0x08000000) &&
+            whatsNewAssistantEvent_ != com.google.wireless.android.sdk.stats.WhatsNewAssistantEvent.getDefaultInstance()) {
+          whatsNewAssistantEvent_ =
+            com.google.wireless.android.sdk.stats.WhatsNewAssistantEvent.newBuilder(whatsNewAssistantEvent_).mergeFrom(value).buildPartial();
+        } else {
+          whatsNewAssistantEvent_ = value;
+        }
+        onChanged();
+      } else {
+        whatsNewAssistantEventBuilder_.mergeFrom(value);
+      }
+      bitField1_ |= 0x08000000;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.WhatsNewAssistantEvent whats_new_assistant_event = 60;</code>
+     *
+     * <pre>
+     * set when kind = WHATS_NEW_ASSISTANT_EVENT
+     * </pre>
+     */
+    public Builder clearWhatsNewAssistantEvent() {
+      if (whatsNewAssistantEventBuilder_ == null) {
+        whatsNewAssistantEvent_ = com.google.wireless.android.sdk.stats.WhatsNewAssistantEvent.getDefaultInstance();
+        onChanged();
+      } else {
+        whatsNewAssistantEventBuilder_.clear();
+      }
+      bitField1_ = (bitField1_ & ~0x08000000);
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.WhatsNewAssistantEvent whats_new_assistant_event = 60;</code>
+     *
+     * <pre>
+     * set when kind = WHATS_NEW_ASSISTANT_EVENT
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.WhatsNewAssistantEvent.Builder getWhatsNewAssistantEventBuilder() {
+      bitField1_ |= 0x08000000;
+      onChanged();
+      return getWhatsNewAssistantEventFieldBuilder().getBuilder();
+    }
+    /**
+     * <code>optional .android_studio.WhatsNewAssistantEvent whats_new_assistant_event = 60;</code>
+     *
+     * <pre>
+     * set when kind = WHATS_NEW_ASSISTANT_EVENT
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.WhatsNewAssistantEventOrBuilder getWhatsNewAssistantEventOrBuilder() {
+      if (whatsNewAssistantEventBuilder_ != null) {
+        return whatsNewAssistantEventBuilder_.getMessageOrBuilder();
+      } else {
+        return whatsNewAssistantEvent_;
+      }
+    }
+    /**
+     * <code>optional .android_studio.WhatsNewAssistantEvent whats_new_assistant_event = 60;</code>
+     *
+     * <pre>
+     * set when kind = WHATS_NEW_ASSISTANT_EVENT
+     * </pre>
+     */
+    private com.google.protobuf.SingleFieldBuilder<
+        com.google.wireless.android.sdk.stats.WhatsNewAssistantEvent, com.google.wireless.android.sdk.stats.WhatsNewAssistantEvent.Builder, com.google.wireless.android.sdk.stats.WhatsNewAssistantEventOrBuilder> 
+        getWhatsNewAssistantEventFieldBuilder() {
+      if (whatsNewAssistantEventBuilder_ == null) {
+        whatsNewAssistantEventBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+            com.google.wireless.android.sdk.stats.WhatsNewAssistantEvent, com.google.wireless.android.sdk.stats.WhatsNewAssistantEvent.Builder, com.google.wireless.android.sdk.stats.WhatsNewAssistantEventOrBuilder>(
+                whatsNewAssistantEvent_,
+                getParentForChildren(),
+                isClean());
+        whatsNewAssistantEvent_ = null;
+      }
+      return whatsNewAssistantEventBuilder_;
     }
 
     // @@protoc_insertion_point(builder_scope:android_studio.AndroidStudioEvent)

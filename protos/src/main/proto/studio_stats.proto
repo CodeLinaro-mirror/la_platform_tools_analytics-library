@@ -222,6 +222,9 @@ message AndroidStudioEvent {
   // set when kind = CPP_HEADERS_VIEW_EVENT
   optional CppHeadersViewEvent cpp_headers_view_event = 59;
 
+  // set when kind = WHATS_NEW_ASSISTANT_EVENT
+  optional WhatsNewAssistantEvent whats_new_assistant_event = 60;
+
   // Describes a group of event kinds related to each other.
   // This is redundant in the presence of EventKind + event specific message,
   // and is only necessary for events originally sent to GA.
@@ -578,6 +581,9 @@ message AndroidStudioEvent {
 
     // The event is related to C++ header file view in Android Project
     CPP_HEADERS_VIEW_EVENT = 129;
+
+    // The event is related to What's New Assistant
+    WHATS_NEW_ASSISTANT_EVENT = 130;
   }
 
   // Represents different Performance Monitoring types.
@@ -3859,4 +3865,24 @@ message OomDialogEvent {
     // Dialog dismissed without saving
     CANCEL_ACTION = 3;
   }
+}
+
+// Details for whats new assistant event
+message WhatsNewAssistantEvent {
+  enum WhatsNewAssistantEventType {
+    UNKNOWN_EVENT_TYPE = 0;
+    // Assistant is opened
+    OPEN = 1;
+    // Auto Open on first load of a new AS version
+    AUTO_OPEN = 2;
+    // First interaction after opening
+    FIRST_INTERACTION = 3;
+    // Assistant is closed
+    CLOSED = 4;
+    // Button clicked
+    BUTTON_CLICKED = 5;
+  }
+
+  // Type of event
+  optional WhatsNewAssistantEventType type = 1;
 }
