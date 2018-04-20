@@ -192,6 +192,7 @@ enum GradleTaskExecutionType {
     GATHER_JAVA_MODULE_INFO = 142;
     LINT_FIX = 143;
     INSTALL_VARIANT_VIA_BUNDLE = 144;
+    PACKAGE_FOR_UNIT_TEST = 145;
 }
 
 enum BooleanOption {
@@ -245,6 +246,7 @@ enum BooleanOption {
     ENABLE_DYNAMIC_APPS = 47;
     ENABLE_JETIFIER = 48;
     USE_ANDROID_X = 49;
+    ENABLE_UNIT_TEST_BINARY_RESOURCES = 50;
 }
 
 enum OptionalBooleanOption {
