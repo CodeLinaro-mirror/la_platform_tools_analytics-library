@@ -3409,6 +3409,11 @@ message CpuProfilingConfig {
   }
 }
 
+// Data associated with startup CPU profiling
+message CpuStartupProfilingMetadata {
+  optional CpuProfilingConfig profiling_config = 1;
+}
+
 // Data associated with capturing a CPU method trace
 message CpuCaptureMetadata {
   enum CaptureStatus {
@@ -3553,6 +3558,9 @@ message AndroidProfilerEvent {
   // Set if |type| is |SESSION_ARTIFACT_SELECTED|
   optional ProfilerSessionSelectionMetaData session_artifact_metadata = 8;
 
+  // Set if |type| is |CPU_STARTUP_PROFILING|
+  optional CpuStartupProfilingMetadata  cpu_startup_profiling_metadata = 9;
+
   enum Stage {
     UNKNOWN_STAGE = 0;
 
@@ -3623,6 +3631,7 @@ message AndroidProfilerEvent {
     KERNEL_VIEW_CLICKED = 214;
     KERNEL_VIEW_TOGGLED = 215;
     THREADS_VIEW_TOGGLED = 216;
+    CPU_STARTUP_PROFILING = 217;
 
     /// Memory
 

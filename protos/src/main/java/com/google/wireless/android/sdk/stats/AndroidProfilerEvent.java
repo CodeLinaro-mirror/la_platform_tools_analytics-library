@@ -156,6 +156,19 @@ public  final class AndroidProfilerEvent extends
             bitField0_ |= 0x00000080;
             break;
           }
+          case 74: {
+            com.google.wireless.android.sdk.stats.CpuStartupProfilingMetadata.Builder subBuilder = null;
+            if (((bitField0_ & 0x00000100) == 0x00000100)) {
+              subBuilder = cpuStartupProfilingMetadata_.toBuilder();
+            }
+            cpuStartupProfilingMetadata_ = input.readMessage(com.google.wireless.android.sdk.stats.CpuStartupProfilingMetadata.PARSER, extensionRegistry);
+            if (subBuilder != null) {
+              subBuilder.mergeFrom(cpuStartupProfilingMetadata_);
+              cpuStartupProfilingMetadata_ = subBuilder.buildPartial();
+            }
+            bitField0_ |= 0x00000100;
+            break;
+          }
         }
       }
     } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -623,41 +636,45 @@ public  final class AndroidProfilerEvent extends
      */
     THREADS_VIEW_TOGGLED(30, 216),
     /**
+     * <code>CPU_STARTUP_PROFILING = 217;</code>
+     */
+    CPU_STARTUP_PROFILING(31, 217),
+    /**
      * <code>FORCE_GC = 301;</code>
      */
-    FORCE_GC(31, 301),
+    FORCE_GC(32, 301),
     /**
      * <code>SNAPSHOT_HPROF = 302;</code>
      */
-    SNAPSHOT_HPROF(32, 302),
+    SNAPSHOT_HPROF(33, 302),
     /**
      * <code>CAPTURE_ALLOCATIONS = 303;</code>
      */
-    CAPTURE_ALLOCATIONS(33, 303),
+    CAPTURE_ALLOCATIONS(34, 303),
     /**
      * <code>SELECT_MEMORY_CHART = 304;</code>
      */
-    SELECT_MEMORY_CHART(34, 304),
+    SELECT_MEMORY_CHART(35, 304),
     /**
      * <code>EXPORT_HPROF = 305;</code>
      */
-    EXPORT_HPROF(35, 305),
+    EXPORT_HPROF(36, 305),
     /**
      * <code>EXPORT_ALLOCATION = 306;</code>
      */
-    EXPORT_ALLOCATION(36, 306),
+    EXPORT_ALLOCATION(37, 306),
     /**
      * <code>ARRANGE_CLASSES = 307;</code>
      */
-    ARRANGE_CLASSES(37, 307),
+    ARRANGE_CLASSES(38, 307),
     /**
      * <code>SELECT_MEMORY_STACK = 308;</code>
      */
-    SELECT_MEMORY_STACK(38, 308),
+    SELECT_MEMORY_STACK(39, 308),
     /**
      * <code>SELECT_MEMORY_REFERENCES = 309;</code>
      */
-    SELECT_MEMORY_REFERENCES(39, 309),
+    SELECT_MEMORY_REFERENCES(40, 309),
     /**
      * <code>SELECT_MEMORY_HEAP = 310;</code>
      *
@@ -665,67 +682,67 @@ public  final class AndroidProfilerEvent extends
      * This event type should have |memory_heap|
      * </pre>
      */
-    SELECT_MEMORY_HEAP(40, 310),
+    SELECT_MEMORY_HEAP(41, 310),
     /**
      * <code>SELECT_CONNECTION = 402;</code>
      */
-    SELECT_CONNECTION(41, 402),
+    SELECT_CONNECTION(42, 402),
     /**
      * <code>SELECT_DETAILS_RESPONSE = 403;</code>
      */
-    SELECT_DETAILS_RESPONSE(42, 403),
+    SELECT_DETAILS_RESPONSE(43, 403),
     /**
      * <code>SELECT_DETAILS_HEADERS = 404;</code>
      */
-    SELECT_DETAILS_HEADERS(43, 404),
+    SELECT_DETAILS_HEADERS(44, 404),
     /**
      * <code>SELECT_DETAILS_STACK = 405;</code>
      */
-    SELECT_DETAILS_STACK(44, 405),
+    SELECT_DETAILS_STACK(45, 405),
     /**
      * <code>SELECT_DETAILS_OVERVIEW = 406;</code>
      */
-    SELECT_DETAILS_OVERVIEW(45, 406),
+    SELECT_DETAILS_OVERVIEW(46, 406),
     /**
      * <code>SELECT_DETAILS_REQUEST = 407;</code>
      */
-    SELECT_DETAILS_REQUEST(46, 407),
+    SELECT_DETAILS_REQUEST(47, 407),
     /**
      * <code>SELECT_DETAILS_ERROR = 408;</code>
      */
-    SELECT_DETAILS_ERROR(47, 408),
+    SELECT_DETAILS_ERROR(48, 408),
     /**
      * <code>SELECT_CONNECTIONS_CONNECTION_VIEW = 409;</code>
      */
-    SELECT_CONNECTIONS_CONNECTION_VIEW(48, 409),
+    SELECT_CONNECTIONS_CONNECTION_VIEW(49, 409),
     /**
      * <code>SELECT_CONNECTIONS_THREADS_VIEW = 410;</code>
      */
-    SELECT_CONNECTIONS_THREADS_VIEW(49, 410),
+    SELECT_CONNECTIONS_THREADS_VIEW(50, 410),
     /**
      * <code>SESSION_CREATED = 501;</code>
      */
-    SESSION_CREATED(50, 501),
+    SESSION_CREATED(51, 501),
     /**
      * <code>SESSION_STOPPED = 502;</code>
      */
-    SESSION_STOPPED(51, 502),
+    SESSION_STOPPED(52, 502),
     /**
      * <code>SESSION_UI_EXPANDED = 503;</code>
      */
-    SESSION_UI_EXPANDED(52, 503),
+    SESSION_UI_EXPANDED(53, 503),
     /**
      * <code>SESSION_UI_COLLAPSED = 504;</code>
      */
-    SESSION_UI_COLLAPSED(53, 504),
+    SESSION_UI_COLLAPSED(54, 504),
     /**
      * <code>SESSION_UI_RESIZED = 505;</code>
      */
-    SESSION_UI_RESIZED(54, 505),
+    SESSION_UI_RESIZED(55, 505),
     /**
      * <code>SESSION_ARTIFACT_SELECTED = 506;</code>
      */
-    SESSION_ARTIFACT_SELECTED(55, 506),
+    SESSION_ARTIFACT_SELECTED(56, 506),
     ;
 
     /**
@@ -890,6 +907,10 @@ public  final class AndroidProfilerEvent extends
      */
     public static final int THREADS_VIEW_TOGGLED_VALUE = 216;
     /**
+     * <code>CPU_STARTUP_PROFILING = 217;</code>
+     */
+    public static final int CPU_STARTUP_PROFILING_VALUE = 217;
+    /**
      * <code>FORCE_GC = 301;</code>
      */
     public static final int FORCE_GC_VALUE = 301;
@@ -1030,6 +1051,7 @@ public  final class AndroidProfilerEvent extends
         case 214: return KERNEL_VIEW_CLICKED;
         case 215: return KERNEL_VIEW_TOGGLED;
         case 216: return THREADS_VIEW_TOGGLED;
+        case 217: return CPU_STARTUP_PROFILING;
         case 301: return FORCE_GC;
         case 302: return SNAPSHOT_HPROF;
         case 303: return CAPTURE_ALLOCATIONS;
@@ -1352,6 +1374,40 @@ public  final class AndroidProfilerEvent extends
     return sessionArtifactMetadata_;
   }
 
+  // optional .android_studio.CpuStartupProfilingMetadata cpu_startup_profiling_metadata = 9;
+  public static final int CPU_STARTUP_PROFILING_METADATA_FIELD_NUMBER = 9;
+  private com.google.wireless.android.sdk.stats.CpuStartupProfilingMetadata cpuStartupProfilingMetadata_;
+  /**
+   * <code>optional .android_studio.CpuStartupProfilingMetadata cpu_startup_profiling_metadata = 9;</code>
+   *
+   * <pre>
+   * Set if |type| is |CPU_STARTUP_PROFILING|
+   * </pre>
+   */
+  public boolean hasCpuStartupProfilingMetadata() {
+    return ((bitField0_ & 0x00000100) == 0x00000100);
+  }
+  /**
+   * <code>optional .android_studio.CpuStartupProfilingMetadata cpu_startup_profiling_metadata = 9;</code>
+   *
+   * <pre>
+   * Set if |type| is |CPU_STARTUP_PROFILING|
+   * </pre>
+   */
+  public com.google.wireless.android.sdk.stats.CpuStartupProfilingMetadata getCpuStartupProfilingMetadata() {
+    return cpuStartupProfilingMetadata_;
+  }
+  /**
+   * <code>optional .android_studio.CpuStartupProfilingMetadata cpu_startup_profiling_metadata = 9;</code>
+   *
+   * <pre>
+   * Set if |type| is |CPU_STARTUP_PROFILING|
+   * </pre>
+   */
+  public com.google.wireless.android.sdk.stats.CpuStartupProfilingMetadataOrBuilder getCpuStartupProfilingMetadataOrBuilder() {
+    return cpuStartupProfilingMetadata_;
+  }
+
   private void initFields() {
     stage_ = com.google.wireless.android.sdk.stats.AndroidProfilerEvent.Stage.UNKNOWN_STAGE;
     type_ = com.google.wireless.android.sdk.stats.AndroidProfilerEvent.Type.UNKNOWN_TYPE;
@@ -1361,6 +1417,7 @@ public  final class AndroidProfilerEvent extends
     memoryHeap_ = com.google.wireless.android.sdk.stats.AndroidProfilerEvent.MemoryHeap.UNKNOWN_HEAP;
     sessionStartMetadata_ = com.google.wireless.android.sdk.stats.ProfilerSessionCreationMetaData.getDefaultInstance();
     sessionArtifactMetadata_ = com.google.wireless.android.sdk.stats.ProfilerSessionSelectionMetaData.getDefaultInstance();
+    cpuStartupProfilingMetadata_ = com.google.wireless.android.sdk.stats.CpuStartupProfilingMetadata.getDefaultInstance();
   }
   private byte memoizedIsInitialized = -1;
   public final boolean isInitialized() {
@@ -1397,6 +1454,9 @@ public  final class AndroidProfilerEvent extends
     }
     if (((bitField0_ & 0x00000080) == 0x00000080)) {
       output.writeMessage(8, sessionArtifactMetadata_);
+    }
+    if (((bitField0_ & 0x00000100) == 0x00000100)) {
+      output.writeMessage(9, cpuStartupProfilingMetadata_);
     }
     getUnknownFields().writeTo(output);
   }
@@ -1438,6 +1498,10 @@ public  final class AndroidProfilerEvent extends
     if (((bitField0_ & 0x00000080) == 0x00000080)) {
       size += com.google.protobuf.CodedOutputStream
         .computeMessageSize(8, sessionArtifactMetadata_);
+    }
+    if (((bitField0_ & 0x00000100) == 0x00000100)) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeMessageSize(9, cpuStartupProfilingMetadata_);
     }
     size += getUnknownFields().getSerializedSize();
     memoizedSerializedSize = size;
@@ -1556,6 +1620,7 @@ public  final class AndroidProfilerEvent extends
         getFilterMetadataFieldBuilder();
         getSessionStartMetadataFieldBuilder();
         getSessionArtifactMetadataFieldBuilder();
+        getCpuStartupProfilingMetadataFieldBuilder();
       }
     }
     private static Builder create() {
@@ -1600,6 +1665,12 @@ public  final class AndroidProfilerEvent extends
         sessionArtifactMetadataBuilder_.clear();
       }
       bitField0_ = (bitField0_ & ~0x00000080);
+      if (cpuStartupProfilingMetadataBuilder_ == null) {
+        cpuStartupProfilingMetadata_ = com.google.wireless.android.sdk.stats.CpuStartupProfilingMetadata.getDefaultInstance();
+      } else {
+        cpuStartupProfilingMetadataBuilder_.clear();
+      }
+      bitField0_ = (bitField0_ & ~0x00000100);
       return this;
     }
 
@@ -1680,6 +1751,14 @@ public  final class AndroidProfilerEvent extends
       } else {
         result.sessionArtifactMetadata_ = sessionArtifactMetadataBuilder_.build();
       }
+      if (((from_bitField0_ & 0x00000100) == 0x00000100)) {
+        to_bitField0_ |= 0x00000100;
+      }
+      if (cpuStartupProfilingMetadataBuilder_ == null) {
+        result.cpuStartupProfilingMetadata_ = cpuStartupProfilingMetadata_;
+      } else {
+        result.cpuStartupProfilingMetadata_ = cpuStartupProfilingMetadataBuilder_.build();
+      }
       result.bitField0_ = to_bitField0_;
       onBuilt();
       return result;
@@ -1719,6 +1798,9 @@ public  final class AndroidProfilerEvent extends
       }
       if (other.hasSessionArtifactMetadata()) {
         mergeSessionArtifactMetadata(other.getSessionArtifactMetadata());
+      }
+      if (other.hasCpuStartupProfilingMetadata()) {
+        mergeCpuStartupProfilingMetadata(other.getCpuStartupProfilingMetadata());
       }
       this.mergeUnknownFields(other.getUnknownFields());
       return this;
@@ -2675,6 +2757,159 @@ public  final class AndroidProfilerEvent extends
         sessionArtifactMetadata_ = null;
       }
       return sessionArtifactMetadataBuilder_;
+    }
+
+    // optional .android_studio.CpuStartupProfilingMetadata cpu_startup_profiling_metadata = 9;
+    private com.google.wireless.android.sdk.stats.CpuStartupProfilingMetadata cpuStartupProfilingMetadata_ = com.google.wireless.android.sdk.stats.CpuStartupProfilingMetadata.getDefaultInstance();
+    private com.google.protobuf.SingleFieldBuilder<
+        com.google.wireless.android.sdk.stats.CpuStartupProfilingMetadata, com.google.wireless.android.sdk.stats.CpuStartupProfilingMetadata.Builder, com.google.wireless.android.sdk.stats.CpuStartupProfilingMetadataOrBuilder> cpuStartupProfilingMetadataBuilder_;
+    /**
+     * <code>optional .android_studio.CpuStartupProfilingMetadata cpu_startup_profiling_metadata = 9;</code>
+     *
+     * <pre>
+     * Set if |type| is |CPU_STARTUP_PROFILING|
+     * </pre>
+     */
+    public boolean hasCpuStartupProfilingMetadata() {
+      return ((bitField0_ & 0x00000100) == 0x00000100);
+    }
+    /**
+     * <code>optional .android_studio.CpuStartupProfilingMetadata cpu_startup_profiling_metadata = 9;</code>
+     *
+     * <pre>
+     * Set if |type| is |CPU_STARTUP_PROFILING|
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.CpuStartupProfilingMetadata getCpuStartupProfilingMetadata() {
+      if (cpuStartupProfilingMetadataBuilder_ == null) {
+        return cpuStartupProfilingMetadata_;
+      } else {
+        return cpuStartupProfilingMetadataBuilder_.getMessage();
+      }
+    }
+    /**
+     * <code>optional .android_studio.CpuStartupProfilingMetadata cpu_startup_profiling_metadata = 9;</code>
+     *
+     * <pre>
+     * Set if |type| is |CPU_STARTUP_PROFILING|
+     * </pre>
+     */
+    public Builder setCpuStartupProfilingMetadata(com.google.wireless.android.sdk.stats.CpuStartupProfilingMetadata value) {
+      if (cpuStartupProfilingMetadataBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        cpuStartupProfilingMetadata_ = value;
+        onChanged();
+      } else {
+        cpuStartupProfilingMetadataBuilder_.setMessage(value);
+      }
+      bitField0_ |= 0x00000100;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.CpuStartupProfilingMetadata cpu_startup_profiling_metadata = 9;</code>
+     *
+     * <pre>
+     * Set if |type| is |CPU_STARTUP_PROFILING|
+     * </pre>
+     */
+    public Builder setCpuStartupProfilingMetadata(
+        com.google.wireless.android.sdk.stats.CpuStartupProfilingMetadata.Builder builderForValue) {
+      if (cpuStartupProfilingMetadataBuilder_ == null) {
+        cpuStartupProfilingMetadata_ = builderForValue.build();
+        onChanged();
+      } else {
+        cpuStartupProfilingMetadataBuilder_.setMessage(builderForValue.build());
+      }
+      bitField0_ |= 0x00000100;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.CpuStartupProfilingMetadata cpu_startup_profiling_metadata = 9;</code>
+     *
+     * <pre>
+     * Set if |type| is |CPU_STARTUP_PROFILING|
+     * </pre>
+     */
+    public Builder mergeCpuStartupProfilingMetadata(com.google.wireless.android.sdk.stats.CpuStartupProfilingMetadata value) {
+      if (cpuStartupProfilingMetadataBuilder_ == null) {
+        if (((bitField0_ & 0x00000100) == 0x00000100) &&
+            cpuStartupProfilingMetadata_ != com.google.wireless.android.sdk.stats.CpuStartupProfilingMetadata.getDefaultInstance()) {
+          cpuStartupProfilingMetadata_ =
+            com.google.wireless.android.sdk.stats.CpuStartupProfilingMetadata.newBuilder(cpuStartupProfilingMetadata_).mergeFrom(value).buildPartial();
+        } else {
+          cpuStartupProfilingMetadata_ = value;
+        }
+        onChanged();
+      } else {
+        cpuStartupProfilingMetadataBuilder_.mergeFrom(value);
+      }
+      bitField0_ |= 0x00000100;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.CpuStartupProfilingMetadata cpu_startup_profiling_metadata = 9;</code>
+     *
+     * <pre>
+     * Set if |type| is |CPU_STARTUP_PROFILING|
+     * </pre>
+     */
+    public Builder clearCpuStartupProfilingMetadata() {
+      if (cpuStartupProfilingMetadataBuilder_ == null) {
+        cpuStartupProfilingMetadata_ = com.google.wireless.android.sdk.stats.CpuStartupProfilingMetadata.getDefaultInstance();
+        onChanged();
+      } else {
+        cpuStartupProfilingMetadataBuilder_.clear();
+      }
+      bitField0_ = (bitField0_ & ~0x00000100);
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.CpuStartupProfilingMetadata cpu_startup_profiling_metadata = 9;</code>
+     *
+     * <pre>
+     * Set if |type| is |CPU_STARTUP_PROFILING|
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.CpuStartupProfilingMetadata.Builder getCpuStartupProfilingMetadataBuilder() {
+      bitField0_ |= 0x00000100;
+      onChanged();
+      return getCpuStartupProfilingMetadataFieldBuilder().getBuilder();
+    }
+    /**
+     * <code>optional .android_studio.CpuStartupProfilingMetadata cpu_startup_profiling_metadata = 9;</code>
+     *
+     * <pre>
+     * Set if |type| is |CPU_STARTUP_PROFILING|
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.CpuStartupProfilingMetadataOrBuilder getCpuStartupProfilingMetadataOrBuilder() {
+      if (cpuStartupProfilingMetadataBuilder_ != null) {
+        return cpuStartupProfilingMetadataBuilder_.getMessageOrBuilder();
+      } else {
+        return cpuStartupProfilingMetadata_;
+      }
+    }
+    /**
+     * <code>optional .android_studio.CpuStartupProfilingMetadata cpu_startup_profiling_metadata = 9;</code>
+     *
+     * <pre>
+     * Set if |type| is |CPU_STARTUP_PROFILING|
+     * </pre>
+     */
+    private com.google.protobuf.SingleFieldBuilder<
+        com.google.wireless.android.sdk.stats.CpuStartupProfilingMetadata, com.google.wireless.android.sdk.stats.CpuStartupProfilingMetadata.Builder, com.google.wireless.android.sdk.stats.CpuStartupProfilingMetadataOrBuilder> 
+        getCpuStartupProfilingMetadataFieldBuilder() {
+      if (cpuStartupProfilingMetadataBuilder_ == null) {
+        cpuStartupProfilingMetadataBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+            com.google.wireless.android.sdk.stats.CpuStartupProfilingMetadata, com.google.wireless.android.sdk.stats.CpuStartupProfilingMetadata.Builder, com.google.wireless.android.sdk.stats.CpuStartupProfilingMetadataOrBuilder>(
+                cpuStartupProfilingMetadata_,
+                getParentForChildren(),
+                isClean());
+        cpuStartupProfilingMetadata_ = null;
+      }
+      return cpuStartupProfilingMetadataBuilder_;
     }
 
     // @@protoc_insertion_point(builder_scope:android_studio.AndroidProfilerEvent)
