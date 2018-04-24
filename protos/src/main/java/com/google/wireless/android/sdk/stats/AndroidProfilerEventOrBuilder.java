@@ -218,4 +218,30 @@ public interface AndroidProfilerEventOrBuilder
    * </pre>
    */
   com.google.wireless.android.sdk.stats.CpuStartupProfilingMetadataOrBuilder getCpuStartupProfilingMetadataOrBuilder();
+
+  // optional .android_studio.CpuImportTraceMetadata cpu_import_trace_metadata = 10;
+  /**
+   * <code>optional .android_studio.CpuImportTraceMetadata cpu_import_trace_metadata = 10;</code>
+   *
+   * <pre>
+   * Set if |type| is |CPU_IMPORT_TRACE|
+   * </pre>
+   */
+  boolean hasCpuImportTraceMetadata();
+  /**
+   * <code>optional .android_studio.CpuImportTraceMetadata cpu_import_trace_metadata = 10;</code>
+   *
+   * <pre>
+   * Set if |type| is |CPU_IMPORT_TRACE|
+   * </pre>
+   */
+  com.google.wireless.android.sdk.stats.CpuImportTraceMetadata getCpuImportTraceMetadata();
+  /**
+   * <code>optional .android_studio.CpuImportTraceMetadata cpu_import_trace_metadata = 10;</code>
+   *
+   * <pre>
+   * Set if |type| is |CPU_IMPORT_TRACE|
+   * </pre>
+   */
+  com.google.wireless.android.sdk.stats.CpuImportTraceMetadataOrBuilder getCpuImportTraceMetadataOrBuilder();
 }

@@ -3457,6 +3457,32 @@ message CpuCaptureMetadata {
   optional CpuProfilingConfig profiling_config = 6;
 }
 
+// Data associated with importing CPU traces.
+message CpuImportTraceMetadata {
+  enum ImportStatus {
+    // Default status
+    UNDEFINED_IMPORT_TRACE_STATUS = 0;
+    // The trace was imported successfully.
+    IMPORT_TRACE_SUCCESS = 1;
+    // There was a failure when trying to import the trace.
+    IMPORT_TRACE_FAILURE = 2;
+  }
+
+  enum Technology {
+    UNKNOWN_TECHNOLOGY = 0;
+    ART_TECHNOLOGY = 1;
+    SIMPLEPERF_TECHNOLOGY = 2;
+    ATRACE_TECHNOLOGY = 3;
+  }
+
+  // Status of the import trace action.
+  optional ImportStatus import_status = 1;
+
+  // Technology used to generate the trace imported.
+  // Technologies supported are ART, simpleperf and atrace.
+  optional Technology technology = 2;
+}
+
 // Metadata associated with how users are using the profilers filter.
 message FilterMetadata {
   enum View {
@@ -3567,6 +3593,9 @@ message AndroidProfilerEvent {
   // Set if |type| is |CPU_STARTUP_PROFILING|
   optional CpuStartupProfilingMetadata  cpu_startup_profiling_metadata = 9;
 
+  // Set if |type| is |CPU_IMPORT_TRACE|
+  optional CpuImportTraceMetadata cpu_import_trace_metadata = 10;
+
   enum Stage {
     UNKNOWN_STAGE = 0;
 
@@ -3638,6 +3667,7 @@ message AndroidProfilerEvent {
     KERNEL_VIEW_TOGGLED = 215;
     THREADS_VIEW_TOGGLED = 216;
     CPU_STARTUP_PROFILING = 217;
+    CPU_IMPORT_TRACE = 218;
 
     /// Memory
 
