@@ -3420,6 +3420,21 @@ message CpuStartupProfilingMetadata {
   optional CpuProfilingConfig profiling_config = 1;
 }
 
+// Data associated with API-initiated tracing
+message CpuApiTracingMetadata {
+  // True if using sampling; false if using instrumentation.
+  optional bool use_sampling = 1;
+  // A trace path is given and not null (we don't log the path as it might
+  // contain PII).
+  optional bool arg_trace_path = 2;
+  // Buffer size as a given API argument (-1 if unavailable).
+  optional int32 arg_buffer_size = 3;
+  // Flags as a given API argument (-1 if unavailable).
+  optional int32 arg_flags = 4;
+  // Sampling interval as a given API argument (-1 if unavailable).
+  optional int32 arg_interval_us = 5;
+}
+
 // Data associated with capturing a CPU method trace
 message CpuCaptureMetadata {
   enum CaptureStatus {
@@ -3596,6 +3611,9 @@ message AndroidProfilerEvent {
   // Set if |type| is |CPU_IMPORT_TRACE|
   optional CpuImportTraceMetadata cpu_import_trace_metadata = 10;
 
+  // Set if |type| is |CPU_API_TRACING|
+  optional CpuApiTracingMetadata cpu_api_tracing_metadata = 11;
+
   enum Stage {
     UNKNOWN_STAGE = 0;
 
@@ -3668,6 +3686,7 @@ message AndroidProfilerEvent {
     THREADS_VIEW_TOGGLED = 216;
     CPU_STARTUP_PROFILING = 217;
     CPU_IMPORT_TRACE = 218;
+    CPU_API_TRACING = 219;
 
     /// Memory
 
