@@ -43,6 +43,7 @@ enum GradleTransformExecutionType {
     DATA_BINDING_MERGE_GEN_CLASS_LOG = 36;
     R8 = 37;
     DEX_SPLITTER = 38;
+    MERGE_CLASSES = 39;
 }
 
 enum GradleTaskExecutionType {
