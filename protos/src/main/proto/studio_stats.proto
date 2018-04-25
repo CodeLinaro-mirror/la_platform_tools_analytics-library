@@ -3579,6 +3579,67 @@ message ProfilerSessionSelectionMetaData {
   optional bool is_session_alive = 2;
 }
 
+// Shared enum values for energy event messages
+message EnergyEvent {
+  enum Type {
+    UNKNOWN_EVENT_TYPE = 0;
+    WAKE_LOCK = 1;
+    ALARM = 2;
+    JOB = 3;
+    LOCATION = 4;
+  }
+
+  enum Subtype {
+    UNKNOWN_SUBEVENT_TYPE = 0;
+
+    WAKE_LOCK_PARTIAL = 1;
+    WAKE_LOCK_SCREEN_DIM = 2;
+    WAKE_LOCK_SCREEN_BRIGHT = 3;
+    WAKE_LOCK_FULL = 4;
+    WAKE_LOCK_PROXIMITY_SCREEN_OFF = 5;
+
+    ALARM_RTC = 101;
+    ALARM_RTC_WAKEUP = 102;
+    ALARM_ELAPSED_REALTIME = 103;
+    ALARM_ELAPSED_REALTIME_WAKEUP = 104;
+  }
+
+  enum Subevent {
+    UNKNOWN_ENERGY_SUBEVENT = 0;
+
+    WAKE_LOCK_ACQUIRED = 1;
+    WAKE_LOCK_RELEASED = 2;
+
+    ALARM_SET = 101;
+    ALARM_CANCELLED = 102;
+    ALARM_FIRED = 103;
+
+    JOB_SCHEDULED = 201;
+    JOB_STARTED = 202;
+    JOB_STOPPED = 203;
+    JOB_FINISHED = 204;
+
+    LOCATION_UPDATE_REQUESTED = 301;
+    LOCATION_UPDATE_REMOVED = 302;
+    LOCATION_CHANGED = 303;
+  }
+}
+
+message EnergyEventCount {
+  optional EnergyEvent.Type type = 1;
+  optional uint32 count = 2;
+}
+
+message EnergyRangeMetadata {
+  repeated EnergyEventCount event_counts = 1;
+}
+
+message EnergyEventMetadata {
+  optional EnergyEvent.Type type = 1;
+  optional EnergyEvent.Subtype subtype = 2;
+  repeated EnergyEvent.Subevent subevents = 3;
+}
+
 // Android Profiler metrics
 message AndroidProfilerEvent {
   // The current stage we're on when this event was generated
@@ -3614,6 +3675,12 @@ message AndroidProfilerEvent {
 
   // Set if |type| is |CPU_API_TRACING|
   optional CpuApiTracingMetadata cpu_api_tracing_metadata = 11;
+
+  // Set if |type| is |SELECT_ENERGY_RANGE|
+  optional EnergyRangeMetadata energy_range_metadata = 12;
+
+  // Set if |type| is |SELECT_ENERGY_EVENT|
+  optional EnergyEventMetadata energy_event_metadata = 13;
 
   enum Stage {
     UNKNOWN_STAGE = 0;
@@ -3713,6 +3780,12 @@ message AndroidProfilerEvent {
     SELECT_DETAILS_ERROR = 408;
     SELECT_CONNECTIONS_CONNECTION_VIEW = 409;
     SELECT_CONNECTIONS_THREADS_VIEW = 410;
+
+    /// Energy
+
+    // Sent in addition to |SELECT_RANGE| but including extra data
+    SELECT_ENERGY_RANGE = 601;
+    SELECT_ENERGY_EVENT = 602;
 
     /// Session
 
