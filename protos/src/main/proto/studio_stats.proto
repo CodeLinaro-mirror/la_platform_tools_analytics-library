@@ -3590,7 +3590,7 @@ message EnergyEvent {
   }
 
   enum Subtype {
-    UNKNOWN_SUBEVENT_TYPE = 0;
+    UNKNOWN_EVENT_SUBTYPE = 0;
 
     WAKE_LOCK_PARTIAL = 1;
     WAKE_LOCK_SCREEN_DIM = 2;
