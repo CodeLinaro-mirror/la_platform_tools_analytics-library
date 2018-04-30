@@ -192,4 +192,134 @@ public interface AndroidProfilerEventOrBuilder
    * </pre>
    */
   com.google.wireless.android.sdk.stats.ProfilerSessionSelectionMetaDataOrBuilder getSessionArtifactMetadataOrBuilder();
+
+  // optional .android_studio.CpuStartupProfilingMetadata cpu_startup_profiling_metadata = 9;
+  /**
+   * <code>optional .android_studio.CpuStartupProfilingMetadata cpu_startup_profiling_metadata = 9;</code>
+   *
+   * <pre>
+   * Set if |type| is |CPU_STARTUP_PROFILING|
+   * </pre>
+   */
+  boolean hasCpuStartupProfilingMetadata();
+  /**
+   * <code>optional .android_studio.CpuStartupProfilingMetadata cpu_startup_profiling_metadata = 9;</code>
+   *
+   * <pre>
+   * Set if |type| is |CPU_STARTUP_PROFILING|
+   * </pre>
+   */
+  com.google.wireless.android.sdk.stats.CpuStartupProfilingMetadata getCpuStartupProfilingMetadata();
+  /**
+   * <code>optional .android_studio.CpuStartupProfilingMetadata cpu_startup_profiling_metadata = 9;</code>
+   *
+   * <pre>
+   * Set if |type| is |CPU_STARTUP_PROFILING|
+   * </pre>
+   */
+  com.google.wireless.android.sdk.stats.CpuStartupProfilingMetadataOrBuilder getCpuStartupProfilingMetadataOrBuilder();
+
+  // optional .android_studio.CpuImportTraceMetadata cpu_import_trace_metadata = 10;
+  /**
+   * <code>optional .android_studio.CpuImportTraceMetadata cpu_import_trace_metadata = 10;</code>
+   *
+   * <pre>
+   * Set if |type| is |CPU_IMPORT_TRACE|
+   * </pre>
+   */
+  boolean hasCpuImportTraceMetadata();
+  /**
+   * <code>optional .android_studio.CpuImportTraceMetadata cpu_import_trace_metadata = 10;</code>
+   *
+   * <pre>
+   * Set if |type| is |CPU_IMPORT_TRACE|
+   * </pre>
+   */
+  com.google.wireless.android.sdk.stats.CpuImportTraceMetadata getCpuImportTraceMetadata();
+  /**
+   * <code>optional .android_studio.CpuImportTraceMetadata cpu_import_trace_metadata = 10;</code>
+   *
+   * <pre>
+   * Set if |type| is |CPU_IMPORT_TRACE|
+   * </pre>
+   */
+  com.google.wireless.android.sdk.stats.CpuImportTraceMetadataOrBuilder getCpuImportTraceMetadataOrBuilder();
+
+  // optional .android_studio.CpuApiTracingMetadata cpu_api_tracing_metadata = 11;
+  /**
+   * <code>optional .android_studio.CpuApiTracingMetadata cpu_api_tracing_metadata = 11;</code>
+   *
+   * <pre>
+   * Set if |type| is |CPU_API_TRACING|
+   * </pre>
+   */
+  boolean hasCpuApiTracingMetadata();
+  /**
+   * <code>optional .android_studio.CpuApiTracingMetadata cpu_api_tracing_metadata = 11;</code>
+   *
+   * <pre>
+   * Set if |type| is |CPU_API_TRACING|
+   * </pre>
+   */
+  com.google.wireless.android.sdk.stats.CpuApiTracingMetadata getCpuApiTracingMetadata();
+  /**
+   * <code>optional .android_studio.CpuApiTracingMetadata cpu_api_tracing_metadata = 11;</code>
+   *
+   * <pre>
+   * Set if |type| is |CPU_API_TRACING|
+   * </pre>
+   */
+  com.google.wireless.android.sdk.stats.CpuApiTracingMetadataOrBuilder getCpuApiTracingMetadataOrBuilder();
+
+  // optional .android_studio.EnergyRangeMetadata energy_range_metadata = 12;
+  /**
+   * <code>optional .android_studio.EnergyRangeMetadata energy_range_metadata = 12;</code>
+   *
+   * <pre>
+   * Set if |type| is |SELECT_ENERGY_RANGE|
+   * </pre>
+   */
+  boolean hasEnergyRangeMetadata();
+  /**
+   * <code>optional .android_studio.EnergyRangeMetadata energy_range_metadata = 12;</code>
+   *
+   * <pre>
+   * Set if |type| is |SELECT_ENERGY_RANGE|
+   * </pre>
+   */
+  com.google.wireless.android.sdk.stats.EnergyRangeMetadata getEnergyRangeMetadata();
+  /**
+   * <code>optional .android_studio.EnergyRangeMetadata energy_range_metadata = 12;</code>
+   *
+   * <pre>
+   * Set if |type| is |SELECT_ENERGY_RANGE|
+   * </pre>
+   */
+  com.google.wireless.android.sdk.stats.EnergyRangeMetadataOrBuilder getEnergyRangeMetadataOrBuilder();
+
+  // optional .android_studio.EnergyEventMetadata energy_event_metadata = 13;
+  /**
+   * <code>optional .android_studio.EnergyEventMetadata energy_event_metadata = 13;</code>
+   *
+   * <pre>
+   * Set if |type| is |SELECT_ENERGY_EVENT|
+   * </pre>
+   */
+  boolean hasEnergyEventMetadata();
+  /**
+   * <code>optional .android_studio.EnergyEventMetadata energy_event_metadata = 13;</code>
+   *
+   * <pre>
+   * Set if |type| is |SELECT_ENERGY_EVENT|
+   * </pre>
+   */
+  com.google.wireless.android.sdk.stats.EnergyEventMetadata getEnergyEventMetadata();
+  /**
+   * <code>optional .android_studio.EnergyEventMetadata energy_event_metadata = 13;</code>
+   *
+   * <pre>
+   * Set if |type| is |SELECT_ENERGY_EVENT|
+   * </pre>
+   */
+  com.google.wireless.android.sdk.stats.EnergyEventMetadataOrBuilder getEnergyEventMetadataOrBuilder();
 }

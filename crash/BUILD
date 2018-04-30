@@ -1,11 +1,11 @@
 load("//tools/base/bazel:bazel.bzl", "iml_module")
 load("//tools/base/bazel:kotlin.bzl", "kotlin_test")
 
+# managed by go/iml_to_build
 iml_module(
     name = "analytics-crash",
     srcs = ["src/main/java"],
     iml_files = ["analytics-crash.iml"],
-    tags = ["managed"],
     test_srcs = ["src/test/java"],
     visibility = ["//visibility:public"],
     # do not sort: must match IML order

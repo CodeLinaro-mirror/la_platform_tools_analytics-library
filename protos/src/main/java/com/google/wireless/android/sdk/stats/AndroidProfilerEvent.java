@@ -156,6 +156,71 @@ public  final class AndroidProfilerEvent extends
             bitField0_ |= 0x00000080;
             break;
           }
+          case 74: {
+            com.google.wireless.android.sdk.stats.CpuStartupProfilingMetadata.Builder subBuilder = null;
+            if (((bitField0_ & 0x00000100) == 0x00000100)) {
+              subBuilder = cpuStartupProfilingMetadata_.toBuilder();
+            }
+            cpuStartupProfilingMetadata_ = input.readMessage(com.google.wireless.android.sdk.stats.CpuStartupProfilingMetadata.PARSER, extensionRegistry);
+            if (subBuilder != null) {
+              subBuilder.mergeFrom(cpuStartupProfilingMetadata_);
+              cpuStartupProfilingMetadata_ = subBuilder.buildPartial();
+            }
+            bitField0_ |= 0x00000100;
+            break;
+          }
+          case 82: {
+            com.google.wireless.android.sdk.stats.CpuImportTraceMetadata.Builder subBuilder = null;
+            if (((bitField0_ & 0x00000200) == 0x00000200)) {
+              subBuilder = cpuImportTraceMetadata_.toBuilder();
+            }
+            cpuImportTraceMetadata_ = input.readMessage(com.google.wireless.android.sdk.stats.CpuImportTraceMetadata.PARSER, extensionRegistry);
+            if (subBuilder != null) {
+              subBuilder.mergeFrom(cpuImportTraceMetadata_);
+              cpuImportTraceMetadata_ = subBuilder.buildPartial();
+            }
+            bitField0_ |= 0x00000200;
+            break;
+          }
+          case 90: {
+            com.google.wireless.android.sdk.stats.CpuApiTracingMetadata.Builder subBuilder = null;
+            if (((bitField0_ & 0x00000400) == 0x00000400)) {
+              subBuilder = cpuApiTracingMetadata_.toBuilder();
+            }
+            cpuApiTracingMetadata_ = input.readMessage(com.google.wireless.android.sdk.stats.CpuApiTracingMetadata.PARSER, extensionRegistry);
+            if (subBuilder != null) {
+              subBuilder.mergeFrom(cpuApiTracingMetadata_);
+              cpuApiTracingMetadata_ = subBuilder.buildPartial();
+            }
+            bitField0_ |= 0x00000400;
+            break;
+          }
+          case 98: {
+            com.google.wireless.android.sdk.stats.EnergyRangeMetadata.Builder subBuilder = null;
+            if (((bitField0_ & 0x00000800) == 0x00000800)) {
+              subBuilder = energyRangeMetadata_.toBuilder();
+            }
+            energyRangeMetadata_ = input.readMessage(com.google.wireless.android.sdk.stats.EnergyRangeMetadata.PARSER, extensionRegistry);
+            if (subBuilder != null) {
+              subBuilder.mergeFrom(energyRangeMetadata_);
+              energyRangeMetadata_ = subBuilder.buildPartial();
+            }
+            bitField0_ |= 0x00000800;
+            break;
+          }
+          case 106: {
+            com.google.wireless.android.sdk.stats.EnergyEventMetadata.Builder subBuilder = null;
+            if (((bitField0_ & 0x00001000) == 0x00001000)) {
+              subBuilder = energyEventMetadata_.toBuilder();
+            }
+            energyEventMetadata_ = input.readMessage(com.google.wireless.android.sdk.stats.EnergyEventMetadata.PARSER, extensionRegistry);
+            if (subBuilder != null) {
+              subBuilder.mergeFrom(energyEventMetadata_);
+              energyEventMetadata_ = subBuilder.buildPartial();
+            }
+            bitField0_ |= 0x00001000;
+            break;
+          }
         }
       }
     } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -623,41 +688,53 @@ public  final class AndroidProfilerEvent extends
      */
     THREADS_VIEW_TOGGLED(30, 216),
     /**
+     * <code>CPU_STARTUP_PROFILING = 217;</code>
+     */
+    CPU_STARTUP_PROFILING(31, 217),
+    /**
+     * <code>CPU_IMPORT_TRACE = 218;</code>
+     */
+    CPU_IMPORT_TRACE(32, 218),
+    /**
+     * <code>CPU_API_TRACING = 219;</code>
+     */
+    CPU_API_TRACING(33, 219),
+    /**
      * <code>FORCE_GC = 301;</code>
      */
-    FORCE_GC(31, 301),
+    FORCE_GC(34, 301),
     /**
      * <code>SNAPSHOT_HPROF = 302;</code>
      */
-    SNAPSHOT_HPROF(32, 302),
+    SNAPSHOT_HPROF(35, 302),
     /**
      * <code>CAPTURE_ALLOCATIONS = 303;</code>
      */
-    CAPTURE_ALLOCATIONS(33, 303),
+    CAPTURE_ALLOCATIONS(36, 303),
     /**
      * <code>SELECT_MEMORY_CHART = 304;</code>
      */
-    SELECT_MEMORY_CHART(34, 304),
+    SELECT_MEMORY_CHART(37, 304),
     /**
      * <code>EXPORT_HPROF = 305;</code>
      */
-    EXPORT_HPROF(35, 305),
+    EXPORT_HPROF(38, 305),
     /**
      * <code>EXPORT_ALLOCATION = 306;</code>
      */
-    EXPORT_ALLOCATION(36, 306),
+    EXPORT_ALLOCATION(39, 306),
     /**
      * <code>ARRANGE_CLASSES = 307;</code>
      */
-    ARRANGE_CLASSES(37, 307),
+    ARRANGE_CLASSES(40, 307),
     /**
      * <code>SELECT_MEMORY_STACK = 308;</code>
      */
-    SELECT_MEMORY_STACK(38, 308),
+    SELECT_MEMORY_STACK(41, 308),
     /**
      * <code>SELECT_MEMORY_REFERENCES = 309;</code>
      */
-    SELECT_MEMORY_REFERENCES(39, 309),
+    SELECT_MEMORY_REFERENCES(42, 309),
     /**
      * <code>SELECT_MEMORY_HEAP = 310;</code>
      *
@@ -665,67 +742,79 @@ public  final class AndroidProfilerEvent extends
      * This event type should have |memory_heap|
      * </pre>
      */
-    SELECT_MEMORY_HEAP(40, 310),
+    SELECT_MEMORY_HEAP(43, 310),
     /**
      * <code>SELECT_CONNECTION = 402;</code>
      */
-    SELECT_CONNECTION(41, 402),
+    SELECT_CONNECTION(44, 402),
     /**
      * <code>SELECT_DETAILS_RESPONSE = 403;</code>
      */
-    SELECT_DETAILS_RESPONSE(42, 403),
+    SELECT_DETAILS_RESPONSE(45, 403),
     /**
      * <code>SELECT_DETAILS_HEADERS = 404;</code>
      */
-    SELECT_DETAILS_HEADERS(43, 404),
+    SELECT_DETAILS_HEADERS(46, 404),
     /**
      * <code>SELECT_DETAILS_STACK = 405;</code>
      */
-    SELECT_DETAILS_STACK(44, 405),
+    SELECT_DETAILS_STACK(47, 405),
     /**
      * <code>SELECT_DETAILS_OVERVIEW = 406;</code>
      */
-    SELECT_DETAILS_OVERVIEW(45, 406),
+    SELECT_DETAILS_OVERVIEW(48, 406),
     /**
      * <code>SELECT_DETAILS_REQUEST = 407;</code>
      */
-    SELECT_DETAILS_REQUEST(46, 407),
+    SELECT_DETAILS_REQUEST(49, 407),
     /**
      * <code>SELECT_DETAILS_ERROR = 408;</code>
      */
-    SELECT_DETAILS_ERROR(47, 408),
+    SELECT_DETAILS_ERROR(50, 408),
     /**
      * <code>SELECT_CONNECTIONS_CONNECTION_VIEW = 409;</code>
      */
-    SELECT_CONNECTIONS_CONNECTION_VIEW(48, 409),
+    SELECT_CONNECTIONS_CONNECTION_VIEW(51, 409),
     /**
      * <code>SELECT_CONNECTIONS_THREADS_VIEW = 410;</code>
      */
-    SELECT_CONNECTIONS_THREADS_VIEW(49, 410),
+    SELECT_CONNECTIONS_THREADS_VIEW(52, 410),
+    /**
+     * <code>SELECT_ENERGY_RANGE = 601;</code>
+     *
+     * <pre>
+     * Sent in addition to |SELECT_RANGE| but including extra data
+     * </pre>
+     */
+    SELECT_ENERGY_RANGE(53, 601),
+    /**
+     * <code>SELECT_ENERGY_EVENT = 602;</code>
+     */
+    SELECT_ENERGY_EVENT(54, 602),
     /**
      * <code>SESSION_CREATED = 501;</code>
      */
-    SESSION_CREATED(50, 501),
+    SESSION_CREATED(55, 501),
     /**
      * <code>SESSION_STOPPED = 502;</code>
      */
-    SESSION_STOPPED(51, 502),
+    SESSION_STOPPED(56, 502),
     /**
      * <code>SESSION_UI_EXPANDED = 503;</code>
      */
-    SESSION_UI_EXPANDED(52, 503),
+    SESSION_UI_EXPANDED(57, 503),
     /**
      * <code>SESSION_UI_COLLAPSED = 504;</code>
      */
-    SESSION_UI_COLLAPSED(53, 504),
+    SESSION_UI_COLLAPSED(58, 504),
     /**
      * <code>SESSION_UI_RESIZED = 505;</code>
      */
-    SESSION_UI_RESIZED(54, 505),
+    SESSION_UI_RESIZED(59, 505),
     /**
      * <code>SESSION_ARTIFACT_SELECTED = 506;</code>
      */
-    SESSION_ARTIFACT_SELECTED(55, 506),
+    SESSION_ARTIFACT_SELECTED(60, 506),
     ;
 
     /**
@@ -890,6 +979,18 @@ public  final class AndroidProfilerEvent extends
      */
     public static final int THREADS_VIEW_TOGGLED_VALUE = 216;
     /**
+     * <code>CPU_STARTUP_PROFILING = 217;</code>
+     */
+    public static final int CPU_STARTUP_PROFILING_VALUE = 217;
+    /**
+     * <code>CPU_IMPORT_TRACE = 218;</code>
+     */
+    public static final int CPU_IMPORT_TRACE_VALUE = 218;
+    /**
+     * <code>CPU_API_TRACING = 219;</code>
+     */
+    public static final int CPU_API_TRACING_VALUE = 219;
+    /**
      * <code>FORCE_GC = 301;</code>
      */
     public static final int FORCE_GC_VALUE = 301;
@@ -970,6 +1071,18 @@ public  final class AndroidProfilerEvent extends
      */
     public static final int SELECT_CONNECTIONS_THREADS_VIEW_VALUE = 410;
     /**
+     * <code>SELECT_ENERGY_RANGE = 601;</code>
+     *
+     * <pre>
+     * Sent in addition to |SELECT_RANGE| but including extra data
+     * </pre>
+     */
+    public static final int SELECT_ENERGY_RANGE_VALUE = 601;
+    /**
+     * <code>SELECT_ENERGY_EVENT = 602;</code>
+     */
+    public static final int SELECT_ENERGY_EVENT_VALUE = 602;
+    /**
      * <code>SESSION_CREATED = 501;</code>
      */
     public static final int SESSION_CREATED_VALUE = 501;
@@ -1030,6 +1143,9 @@ public  final class AndroidProfilerEvent extends
         case 214: return KERNEL_VIEW_CLICKED;
         case 215: return KERNEL_VIEW_TOGGLED;
         case 216: return THREADS_VIEW_TOGGLED;
+        case 217: return CPU_STARTUP_PROFILING;
+        case 218: return CPU_IMPORT_TRACE;
+        case 219: return CPU_API_TRACING;
         case 301: return FORCE_GC;
         case 302: return SNAPSHOT_HPROF;
         case 303: return CAPTURE_ALLOCATIONS;
@@ -1049,6 +1165,8 @@ public  final class AndroidProfilerEvent extends
         case 408: return SELECT_DETAILS_ERROR;
         case 409: return SELECT_CONNECTIONS_CONNECTION_VIEW;
         case 410: return SELECT_CONNECTIONS_THREADS_VIEW;
+        case 601: return SELECT_ENERGY_RANGE;
+        case 602: return SELECT_ENERGY_EVENT;
         case 501: return SESSION_CREATED;
         case 502: return SESSION_STOPPED;
         case 503: return SESSION_UI_EXPANDED;
@@ -1352,6 +1470,176 @@ public  final class AndroidProfilerEvent extends
     return sessionArtifactMetadata_;
   }
 
+  // optional .android_studio.CpuStartupProfilingMetadata cpu_startup_profiling_metadata = 9;
+  public static final int CPU_STARTUP_PROFILING_METADATA_FIELD_NUMBER = 9;
+  private com.google.wireless.android.sdk.stats.CpuStartupProfilingMetadata cpuStartupProfilingMetadata_;
+  /**
+   * <code>optional .android_studio.CpuStartupProfilingMetadata cpu_startup_profiling_metadata = 9;</code>
+   *
+   * <pre>
+   * Set if |type| is |CPU_STARTUP_PROFILING|
+   * </pre>
+   */
+  public boolean hasCpuStartupProfilingMetadata() {
+    return ((bitField0_ & 0x00000100) == 0x00000100);
+  }
+  /**
+   * <code>optional .android_studio.CpuStartupProfilingMetadata cpu_startup_profiling_metadata = 9;</code>
+   *
+   * <pre>
+   * Set if |type| is |CPU_STARTUP_PROFILING|
+   * </pre>
+   */
+  public com.google.wireless.android.sdk.stats.CpuStartupProfilingMetadata getCpuStartupProfilingMetadata() {
+    return cpuStartupProfilingMetadata_;
+  }
+  /**
+   * <code>optional .android_studio.CpuStartupProfilingMetadata cpu_startup_profiling_metadata = 9;</code>
+   *
+   * <pre>
+   * Set if |type| is |CPU_STARTUP_PROFILING|
+   * </pre>
+   */
+  public com.google.wireless.android.sdk.stats.CpuStartupProfilingMetadataOrBuilder getCpuStartupProfilingMetadataOrBuilder() {
+    return cpuStartupProfilingMetadata_;
+  }
+
+  // optional .android_studio.CpuImportTraceMetadata cpu_import_trace_metadata = 10;
+  public static final int CPU_IMPORT_TRACE_METADATA_FIELD_NUMBER = 10;
+  private com.google.wireless.android.sdk.stats.CpuImportTraceMetadata cpuImportTraceMetadata_;
+  /**
+   * <code>optional .android_studio.CpuImportTraceMetadata cpu_import_trace_metadata = 10;</code>
+   *
+   * <pre>
+   * Set if |type| is |CPU_IMPORT_TRACE|
+   * </pre>
+   */
+  public boolean hasCpuImportTraceMetadata() {
+    return ((bitField0_ & 0x00000200) == 0x00000200);
+  }
+  /**
+   * <code>optional .android_studio.CpuImportTraceMetadata cpu_import_trace_metadata = 10;</code>
+   *
+   * <pre>
+   * Set if |type| is |CPU_IMPORT_TRACE|
+   * </pre>
+   */
+  public com.google.wireless.android.sdk.stats.CpuImportTraceMetadata getCpuImportTraceMetadata() {
+    return cpuImportTraceMetadata_;
+  }
+  /**
+   * <code>optional .android_studio.CpuImportTraceMetadata cpu_import_trace_metadata = 10;</code>
+   *
+   * <pre>
+   * Set if |type| is |CPU_IMPORT_TRACE|
+   * </pre>
+   */
+  public com.google.wireless.android.sdk.stats.CpuImportTraceMetadataOrBuilder getCpuImportTraceMetadataOrBuilder() {
+    return cpuImportTraceMetadata_;
+  }
+
+  // optional .android_studio.CpuApiTracingMetadata cpu_api_tracing_metadata = 11;
+  public static final int CPU_API_TRACING_METADATA_FIELD_NUMBER = 11;
+  private com.google.wireless.android.sdk.stats.CpuApiTracingMetadata cpuApiTracingMetadata_;
+  /**
+   * <code>optional .android_studio.CpuApiTracingMetadata cpu_api_tracing_metadata = 11;</code>
+   *
+   * <pre>
+   * Set if |type| is |CPU_API_TRACING|
+   * </pre>
+   */
+  public boolean hasCpuApiTracingMetadata() {
+    return ((bitField0_ & 0x00000400) == 0x00000400);
+  }
+  /**
+   * <code>optional .android_studio.CpuApiTracingMetadata cpu_api_tracing_metadata = 11;</code>
+   *
+   * <pre>
+   * Set if |type| is |CPU_API_TRACING|
+   * </pre>
+   */
+  public com.google.wireless.android.sdk.stats.CpuApiTracingMetadata getCpuApiTracingMetadata() {
+    return cpuApiTracingMetadata_;
+  }
+  /**
+   * <code>optional .android_studio.CpuApiTracingMetadata cpu_api_tracing_metadata = 11;</code>
+   *
+   * <pre>
+   * Set if |type| is |CPU_API_TRACING|
+   * </pre>
+   */
+  public com.google.wireless.android.sdk.stats.CpuApiTracingMetadataOrBuilder getCpuApiTracingMetadataOrBuilder() {
+    return cpuApiTracingMetadata_;
+  }
+
+  // optional .android_studio.EnergyRangeMetadata energy_range_metadata = 12;
+  public static final int ENERGY_RANGE_METADATA_FIELD_NUMBER = 12;
+  private com.google.wireless.android.sdk.stats.EnergyRangeMetadata energyRangeMetadata_;
+  /**
+   * <code>optional .android_studio.EnergyRangeMetadata energy_range_metadata = 12;</code>
+   *
+   * <pre>
+   * Set if |type| is |SELECT_ENERGY_RANGE|
+   * </pre>
+   */
+  public boolean hasEnergyRangeMetadata() {
+    return ((bitField0_ & 0x00000800) == 0x00000800);
+  }
+  /**
+   * <code>optional .android_studio.EnergyRangeMetadata energy_range_metadata = 12;</code>
+   *
+   * <pre>
+   * Set if |type| is |SELECT_ENERGY_RANGE|
+   * </pre>
+   */
+  public com.google.wireless.android.sdk.stats.EnergyRangeMetadata getEnergyRangeMetadata() {
+    return energyRangeMetadata_;
+  }
+  /**
+   * <code>optional .android_studio.EnergyRangeMetadata energy_range_metadata = 12;</code>
+   *
+   * <pre>
+   * Set if |type| is |SELECT_ENERGY_RANGE|
+   * </pre>
+   */
+  public com.google.wireless.android.sdk.stats.EnergyRangeMetadataOrBuilder getEnergyRangeMetadataOrBuilder() {
+    return energyRangeMetadata_;
+  }
+
+  // optional .android_studio.EnergyEventMetadata energy_event_metadata = 13;
+  public static final int ENERGY_EVENT_METADATA_FIELD_NUMBER = 13;
+  private com.google.wireless.android.sdk.stats.EnergyEventMetadata energyEventMetadata_;
+  /**
+   * <code>optional .android_studio.EnergyEventMetadata energy_event_metadata = 13;</code>
+   *
+   * <pre>
+   * Set if |type| is |SELECT_ENERGY_EVENT|
+   * </pre>
+   */
+  public boolean hasEnergyEventMetadata() {
+    return ((bitField0_ & 0x00001000) == 0x00001000);
+  }
+  /**
+   * <code>optional .android_studio.EnergyEventMetadata energy_event_metadata = 13;</code>
+   *
+   * <pre>
+   * Set if |type| is |SELECT_ENERGY_EVENT|
+   * </pre>
+   */
+  public com.google.wireless.android.sdk.stats.EnergyEventMetadata getEnergyEventMetadata() {
+    return energyEventMetadata_;
+  }
+  /**
+   * <code>optional .android_studio.EnergyEventMetadata energy_event_metadata = 13;</code>
+   *
+   * <pre>
+   * Set if |type| is |SELECT_ENERGY_EVENT|
+   * </pre>
+   */
+  public com.google.wireless.android.sdk.stats.EnergyEventMetadataOrBuilder getEnergyEventMetadataOrBuilder() {
+    return energyEventMetadata_;
+  }
+
   private void initFields() {
     stage_ = com.google.wireless.android.sdk.stats.AndroidProfilerEvent.Stage.UNKNOWN_STAGE;
     type_ = com.google.wireless.android.sdk.stats.AndroidProfilerEvent.Type.UNKNOWN_TYPE;
@@ -1361,6 +1649,11 @@ public  final class AndroidProfilerEvent extends
     memoryHeap_ = com.google.wireless.android.sdk.stats.AndroidProfilerEvent.MemoryHeap.UNKNOWN_HEAP;
     sessionStartMetadata_ = com.google.wireless.android.sdk.stats.ProfilerSessionCreationMetaData.getDefaultInstance();
     sessionArtifactMetadata_ = com.google.wireless.android.sdk.stats.ProfilerSessionSelectionMetaData.getDefaultInstance();
+    cpuStartupProfilingMetadata_ = com.google.wireless.android.sdk.stats.CpuStartupProfilingMetadata.getDefaultInstance();
+    cpuImportTraceMetadata_ = com.google.wireless.android.sdk.stats.CpuImportTraceMetadata.getDefaultInstance();
+    cpuApiTracingMetadata_ = com.google.wireless.android.sdk.stats.CpuApiTracingMetadata.getDefaultInstance();
+    energyRangeMetadata_ = com.google.wireless.android.sdk.stats.EnergyRangeMetadata.getDefaultInstance();
+    energyEventMetadata_ = com.google.wireless.android.sdk.stats.EnergyEventMetadata.getDefaultInstance();
   }
   private byte memoizedIsInitialized = -1;
   public final boolean isInitialized() {
@@ -1397,6 +1690,21 @@ public  final class AndroidProfilerEvent extends
     }
     if (((bitField0_ & 0x00000080) == 0x00000080)) {
       output.writeMessage(8, sessionArtifactMetadata_);
+    }
+    if (((bitField0_ & 0x00000100) == 0x00000100)) {
+      output.writeMessage(9, cpuStartupProfilingMetadata_);
+    }
+    if (((bitField0_ & 0x00000200) == 0x00000200)) {
+      output.writeMessage(10, cpuImportTraceMetadata_);
+    }
+    if (((bitField0_ & 0x00000400) == 0x00000400)) {
+      output.writeMessage(11, cpuApiTracingMetadata_);
+    }
+    if (((bitField0_ & 0x00000800) == 0x00000800)) {
+      output.writeMessage(12, energyRangeMetadata_);
+    }
+    if (((bitField0_ & 0x00001000) == 0x00001000)) {
+      output.writeMessage(13, energyEventMetadata_);
     }
     getUnknownFields().writeTo(output);
   }
@@ -1438,6 +1746,26 @@ public  final class AndroidProfilerEvent extends
     if (((bitField0_ & 0x00000080) == 0x00000080)) {
       size += com.google.protobuf.CodedOutputStream
         .computeMessageSize(8, sessionArtifactMetadata_);
+    }
+    if (((bitField0_ & 0x00000100) == 0x00000100)) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeMessageSize(9, cpuStartupProfilingMetadata_);
+    }
+    if (((bitField0_ & 0x00000200) == 0x00000200)) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeMessageSize(10, cpuImportTraceMetadata_);
+    }
+    if (((bitField0_ & 0x00000400) == 0x00000400)) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeMessageSize(11, cpuApiTracingMetadata_);
+    }
+    if (((bitField0_ & 0x00000800) == 0x00000800)) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeMessageSize(12, energyRangeMetadata_);
+    }
+    if (((bitField0_ & 0x00001000) == 0x00001000)) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeMessageSize(13, energyEventMetadata_);
     }
     size += getUnknownFields().getSerializedSize();
     memoizedSerializedSize = size;
@@ -1556,6 +1884,11 @@ public  final class AndroidProfilerEvent extends
         getFilterMetadataFieldBuilder();
         getSessionStartMetadataFieldBuilder();
         getSessionArtifactMetadataFieldBuilder();
+        getCpuStartupProfilingMetadataFieldBuilder();
+        getCpuImportTraceMetadataFieldBuilder();
+        getCpuApiTracingMetadataFieldBuilder();
+        getEnergyRangeMetadataFieldBuilder();
+        getEnergyEventMetadataFieldBuilder();
       }
     }
     private static Builder create() {
@@ -1600,6 +1933,36 @@ public  final class AndroidProfilerEvent extends
         sessionArtifactMetadataBuilder_.clear();
       }
       bitField0_ = (bitField0_ & ~0x00000080);
+      if (cpuStartupProfilingMetadataBuilder_ == null) {
+        cpuStartupProfilingMetadata_ = com.google.wireless.android.sdk.stats.CpuStartupProfilingMetadata.getDefaultInstance();
+      } else {
+        cpuStartupProfilingMetadataBuilder_.clear();
+      }
+      bitField0_ = (bitField0_ & ~0x00000100);
+      if (cpuImportTraceMetadataBuilder_ == null) {
+        cpuImportTraceMetadata_ = com.google.wireless.android.sdk.stats.CpuImportTraceMetadata.getDefaultInstance();
+      } else {
+        cpuImportTraceMetadataBuilder_.clear();
+      }
+      bitField0_ = (bitField0_ & ~0x00000200);
+      if (cpuApiTracingMetadataBuilder_ == null) {
+        cpuApiTracingMetadata_ = com.google.wireless.android.sdk.stats.CpuApiTracingMetadata.getDefaultInstance();
+      } else {
+        cpuApiTracingMetadataBuilder_.clear();
+      }
+      bitField0_ = (bitField0_ & ~0x00000400);
+      if (energyRangeMetadataBuilder_ == null) {
+        energyRangeMetadata_ = com.google.wireless.android.sdk.stats.EnergyRangeMetadata.getDefaultInstance();
+      } else {
+        energyRangeMetadataBuilder_.clear();
+      }
+      bitField0_ = (bitField0_ & ~0x00000800);
+      if (energyEventMetadataBuilder_ == null) {
+        energyEventMetadata_ = com.google.wireless.android.sdk.stats.EnergyEventMetadata.getDefaultInstance();
+      } else {
+        energyEventMetadataBuilder_.clear();
+      }
+      bitField0_ = (bitField0_ & ~0x00001000);
       return this;
     }
 
@@ -1680,6 +2043,46 @@ public  final class AndroidProfilerEvent extends
       } else {
         result.sessionArtifactMetadata_ = sessionArtifactMetadataBuilder_.build();
       }
+      if (((from_bitField0_ & 0x00000100) == 0x00000100)) {
+        to_bitField0_ |= 0x00000100;
+      }
+      if (cpuStartupProfilingMetadataBuilder_ == null) {
+        result.cpuStartupProfilingMetadata_ = cpuStartupProfilingMetadata_;
+      } else {
+        result.cpuStartupProfilingMetadata_ = cpuStartupProfilingMetadataBuilder_.build();
+      }
+      if (((from_bitField0_ & 0x00000200) == 0x00000200)) {
+        to_bitField0_ |= 0x00000200;
+      }
+      if (cpuImportTraceMetadataBuilder_ == null) {
+        result.cpuImportTraceMetadata_ = cpuImportTraceMetadata_;
+      } else {
+        result.cpuImportTraceMetadata_ = cpuImportTraceMetadataBuilder_.build();
+      }
+      if (((from_bitField0_ & 0x00000400) == 0x00000400)) {
+        to_bitField0_ |= 0x00000400;
+      }
+      if (cpuApiTracingMetadataBuilder_ == null) {
+        result.cpuApiTracingMetadata_ = cpuApiTracingMetadata_;
+      } else {
+        result.cpuApiTracingMetadata_ = cpuApiTracingMetadataBuilder_.build();
+      }
+      if (((from_bitField0_ & 0x00000800) == 0x00000800)) {
+        to_bitField0_ |= 0x00000800;
+      }
+      if (energyRangeMetadataBuilder_ == null) {
+        result.energyRangeMetadata_ = energyRangeMetadata_;
+      } else {
+        result.energyRangeMetadata_ = energyRangeMetadataBuilder_.build();
+      }
+      if (((from_bitField0_ & 0x00001000) == 0x00001000)) {
+        to_bitField0_ |= 0x00001000;
+      }
+      if (energyEventMetadataBuilder_ == null) {
+        result.energyEventMetadata_ = energyEventMetadata_;
+      } else {
+        result.energyEventMetadata_ = energyEventMetadataBuilder_.build();
+      }
       result.bitField0_ = to_bitField0_;
       onBuilt();
       return result;
@@ -1719,6 +2122,21 @@ public  final class AndroidProfilerEvent extends
       }
       if (other.hasSessionArtifactMetadata()) {
         mergeSessionArtifactMetadata(other.getSessionArtifactMetadata());
+      }
+      if (other.hasCpuStartupProfilingMetadata()) {
+        mergeCpuStartupProfilingMetadata(other.getCpuStartupProfilingMetadata());
+      }
+      if (other.hasCpuImportTraceMetadata()) {
+        mergeCpuImportTraceMetadata(other.getCpuImportTraceMetadata());
+      }
+      if (other.hasCpuApiTracingMetadata()) {
+        mergeCpuApiTracingMetadata(other.getCpuApiTracingMetadata());
+      }
+      if (other.hasEnergyRangeMetadata()) {
+        mergeEnergyRangeMetadata(other.getEnergyRangeMetadata());
+      }
+      if (other.hasEnergyEventMetadata()) {
+        mergeEnergyEventMetadata(other.getEnergyEventMetadata());
       }
       this.mergeUnknownFields(other.getUnknownFields());
       return this;
@@ -2675,6 +3093,771 @@ public  final class AndroidProfilerEvent extends
         sessionArtifactMetadata_ = null;
       }
       return sessionArtifactMetadataBuilder_;
+    }
+
+    // optional .android_studio.CpuStartupProfilingMetadata cpu_startup_profiling_metadata = 9;
+    private com.google.wireless.android.sdk.stats.CpuStartupProfilingMetadata cpuStartupProfilingMetadata_ = com.google.wireless.android.sdk.stats.CpuStartupProfilingMetadata.getDefaultInstance();
+    private com.google.protobuf.SingleFieldBuilder<
+        com.google.wireless.android.sdk.stats.CpuStartupProfilingMetadata, com.google.wireless.android.sdk.stats.CpuStartupProfilingMetadata.Builder, com.google.wireless.android.sdk.stats.CpuStartupProfilingMetadataOrBuilder> cpuStartupProfilingMetadataBuilder_;
+    /**
+     * <code>optional .android_studio.CpuStartupProfilingMetadata cpu_startup_profiling_metadata = 9;</code>
+     *
+     * <pre>
+     * Set if |type| is |CPU_STARTUP_PROFILING|
+     * </pre>
+     */
+    public boolean hasCpuStartupProfilingMetadata() {
+      return ((bitField0_ & 0x00000100) == 0x00000100);
+    }
+    /**
+     * <code>optional .android_studio.CpuStartupProfilingMetadata cpu_startup_profiling_metadata = 9;</code>
+     *
+     * <pre>
+     * Set if |type| is |CPU_STARTUP_PROFILING|
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.CpuStartupProfilingMetadata getCpuStartupProfilingMetadata() {
+      if (cpuStartupProfilingMetadataBuilder_ == null) {
+        return cpuStartupProfilingMetadata_;
+      } else {
+        return cpuStartupProfilingMetadataBuilder_.getMessage();
+      }
+    }
+    /**
+     * <code>optional .android_studio.CpuStartupProfilingMetadata cpu_startup_profiling_metadata = 9;</code>
+     *
+     * <pre>
+     * Set if |type| is |CPU_STARTUP_PROFILING|
+     * </pre>
+     */
+    public Builder setCpuStartupProfilingMetadata(com.google.wireless.android.sdk.stats.CpuStartupProfilingMetadata value) {
+      if (cpuStartupProfilingMetadataBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        cpuStartupProfilingMetadata_ = value;
+        onChanged();
+      } else {
+        cpuStartupProfilingMetadataBuilder_.setMessage(value);
+      }
+      bitField0_ |= 0x00000100;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.CpuStartupProfilingMetadata cpu_startup_profiling_metadata = 9;</code>
+     *
+     * <pre>
+     * Set if |type| is |CPU_STARTUP_PROFILING|
+     * </pre>
+     */
+    public Builder setCpuStartupProfilingMetadata(
+        com.google.wireless.android.sdk.stats.CpuStartupProfilingMetadata.Builder builderForValue) {
+      if (cpuStartupProfilingMetadataBuilder_ == null) {
+        cpuStartupProfilingMetadata_ = builderForValue.build();
+        onChanged();
+      } else {
+        cpuStartupProfilingMetadataBuilder_.setMessage(builderForValue.build());
+      }
+      bitField0_ |= 0x00000100;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.CpuStartupProfilingMetadata cpu_startup_profiling_metadata = 9;</code>
+     *
+     * <pre>
+     * Set if |type| is |CPU_STARTUP_PROFILING|
+     * </pre>
+     */
+    public Builder mergeCpuStartupProfilingMetadata(com.google.wireless.android.sdk.stats.CpuStartupProfilingMetadata value) {
+      if (cpuStartupProfilingMetadataBuilder_ == null) {
+        if (((bitField0_ & 0x00000100) == 0x00000100) &&
+            cpuStartupProfilingMetadata_ != com.google.wireless.android.sdk.stats.CpuStartupProfilingMetadata.getDefaultInstance()) {
+          cpuStartupProfilingMetadata_ =
+            com.google.wireless.android.sdk.stats.CpuStartupProfilingMetadata.newBuilder(cpuStartupProfilingMetadata_).mergeFrom(value).buildPartial();
+        } else {
+          cpuStartupProfilingMetadata_ = value;
+        }
+        onChanged();
+      } else {
+        cpuStartupProfilingMetadataBuilder_.mergeFrom(value);
+      }
+      bitField0_ |= 0x00000100;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.CpuStartupProfilingMetadata cpu_startup_profiling_metadata = 9;</code>
+     *
+     * <pre>
+     * Set if |type| is |CPU_STARTUP_PROFILING|
+     * </pre>
+     */
+    public Builder clearCpuStartupProfilingMetadata() {
+      if (cpuStartupProfilingMetadataBuilder_ == null) {
+        cpuStartupProfilingMetadata_ = com.google.wireless.android.sdk.stats.CpuStartupProfilingMetadata.getDefaultInstance();
+        onChanged();
+      } else {
+        cpuStartupProfilingMetadataBuilder_.clear();
+      }
+      bitField0_ = (bitField0_ & ~0x00000100);
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.CpuStartupProfilingMetadata cpu_startup_profiling_metadata = 9;</code>
+     *
+     * <pre>
+     * Set if |type| is |CPU_STARTUP_PROFILING|
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.CpuStartupProfilingMetadata.Builder getCpuStartupProfilingMetadataBuilder() {
+      bitField0_ |= 0x00000100;
+      onChanged();
+      return getCpuStartupProfilingMetadataFieldBuilder().getBuilder();
+    }
+    /**
+     * <code>optional .android_studio.CpuStartupProfilingMetadata cpu_startup_profiling_metadata = 9;</code>
+     *
+     * <pre>
+     * Set if |type| is |CPU_STARTUP_PROFILING|
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.CpuStartupProfilingMetadataOrBuilder getCpuStartupProfilingMetadataOrBuilder() {
+      if (cpuStartupProfilingMetadataBuilder_ != null) {
+        return cpuStartupProfilingMetadataBuilder_.getMessageOrBuilder();
+      } else {
+        return cpuStartupProfilingMetadata_;
+      }
+    }
+    /**
+     * <code>optional .android_studio.CpuStartupProfilingMetadata cpu_startup_profiling_metadata = 9;</code>
+     *
+     * <pre>
+     * Set if |type| is |CPU_STARTUP_PROFILING|
+     * </pre>
+     */
+    private com.google.protobuf.SingleFieldBuilder<
+        com.google.wireless.android.sdk.stats.CpuStartupProfilingMetadata, com.google.wireless.android.sdk.stats.CpuStartupProfilingMetadata.Builder, com.google.wireless.android.sdk.stats.CpuStartupProfilingMetadataOrBuilder> 
+        getCpuStartupProfilingMetadataFieldBuilder() {
+      if (cpuStartupProfilingMetadataBuilder_ == null) {
+        cpuStartupProfilingMetadataBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+            com.google.wireless.android.sdk.stats.CpuStartupProfilingMetadata, com.google.wireless.android.sdk.stats.CpuStartupProfilingMetadata.Builder, com.google.wireless.android.sdk.stats.CpuStartupProfilingMetadataOrBuilder>(
+                cpuStartupProfilingMetadata_,
+                getParentForChildren(),
+                isClean());
+        cpuStartupProfilingMetadata_ = null;
+      }
+      return cpuStartupProfilingMetadataBuilder_;
+    }
+
+    // optional .android_studio.CpuImportTraceMetadata cpu_import_trace_metadata = 10;
+    private com.google.wireless.android.sdk.stats.CpuImportTraceMetadata cpuImportTraceMetadata_ = com.google.wireless.android.sdk.stats.CpuImportTraceMetadata.getDefaultInstance();
+    private com.google.protobuf.SingleFieldBuilder<
+        com.google.wireless.android.sdk.stats.CpuImportTraceMetadata, com.google.wireless.android.sdk.stats.CpuImportTraceMetadata.Builder, com.google.wireless.android.sdk.stats.CpuImportTraceMetadataOrBuilder> cpuImportTraceMetadataBuilder_;
+    /**
+     * <code>optional .android_studio.CpuImportTraceMetadata cpu_import_trace_metadata = 10;</code>
+     *
+     * <pre>
+     * Set if |type| is |CPU_IMPORT_TRACE|
+     * </pre>
+     */
+    public boolean hasCpuImportTraceMetadata() {
+      return ((bitField0_ & 0x00000200) == 0x00000200);
+    }
+    /**
+     * <code>optional .android_studio.CpuImportTraceMetadata cpu_import_trace_metadata = 10;</code>
+     *
+     * <pre>
+     * Set if |type| is |CPU_IMPORT_TRACE|
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.CpuImportTraceMetadata getCpuImportTraceMetadata() {
+      if (cpuImportTraceMetadataBuilder_ == null) {
+        return cpuImportTraceMetadata_;
+      } else {
+        return cpuImportTraceMetadataBuilder_.getMessage();
+      }
+    }
+    /**
+     * <code>optional .android_studio.CpuImportTraceMetadata cpu_import_trace_metadata = 10;</code>
+     *
+     * <pre>
+     * Set if |type| is |CPU_IMPORT_TRACE|
+     * </pre>
+     */
+    public Builder setCpuImportTraceMetadata(com.google.wireless.android.sdk.stats.CpuImportTraceMetadata value) {
+      if (cpuImportTraceMetadataBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        cpuImportTraceMetadata_ = value;
+        onChanged();
+      } else {
+        cpuImportTraceMetadataBuilder_.setMessage(value);
+      }
+      bitField0_ |= 0x00000200;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.CpuImportTraceMetadata cpu_import_trace_metadata = 10;</code>
+     *
+     * <pre>
+     * Set if |type| is |CPU_IMPORT_TRACE|
+     * </pre>
+     */
+    public Builder setCpuImportTraceMetadata(
+        com.google.wireless.android.sdk.stats.CpuImportTraceMetadata.Builder builderForValue) {
+      if (cpuImportTraceMetadataBuilder_ == null) {
+        cpuImportTraceMetadata_ = builderForValue.build();
+        onChanged();
+      } else {
+        cpuImportTraceMetadataBuilder_.setMessage(builderForValue.build());
+      }
+      bitField0_ |= 0x00000200;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.CpuImportTraceMetadata cpu_import_trace_metadata = 10;</code>
+     *
+     * <pre>
+     * Set if |type| is |CPU_IMPORT_TRACE|
+     * </pre>
+     */
+    public Builder mergeCpuImportTraceMetadata(com.google.wireless.android.sdk.stats.CpuImportTraceMetadata value) {
+      if (cpuImportTraceMetadataBuilder_ == null) {
+        if (((bitField0_ & 0x00000200) == 0x00000200) &&
+            cpuImportTraceMetadata_ != com.google.wireless.android.sdk.stats.CpuImportTraceMetadata.getDefaultInstance()) {
+          cpuImportTraceMetadata_ =
+            com.google.wireless.android.sdk.stats.CpuImportTraceMetadata.newBuilder(cpuImportTraceMetadata_).mergeFrom(value).buildPartial();
+        } else {
+          cpuImportTraceMetadata_ = value;
+        }
+        onChanged();
+      } else {
+        cpuImportTraceMetadataBuilder_.mergeFrom(value);
+      }
+      bitField0_ |= 0x00000200;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.CpuImportTraceMetadata cpu_import_trace_metadata = 10;</code>
+     *
+     * <pre>
+     * Set if |type| is |CPU_IMPORT_TRACE|
+     * </pre>
+     */
+    public Builder clearCpuImportTraceMetadata() {
+      if (cpuImportTraceMetadataBuilder_ == null) {
+        cpuImportTraceMetadata_ = com.google.wireless.android.sdk.stats.CpuImportTraceMetadata.getDefaultInstance();
+        onChanged();
+      } else {
+        cpuImportTraceMetadataBuilder_.clear();
+      }
+      bitField0_ = (bitField0_ & ~0x00000200);
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.CpuImportTraceMetadata cpu_import_trace_metadata = 10;</code>
+     *
+     * <pre>
+     * Set if |type| is |CPU_IMPORT_TRACE|
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.CpuImportTraceMetadata.Builder getCpuImportTraceMetadataBuilder() {
+      bitField0_ |= 0x00000200;
+      onChanged();
+      return getCpuImportTraceMetadataFieldBuilder().getBuilder();
+    }
+    /**
+     * <code>optional .android_studio.CpuImportTraceMetadata cpu_import_trace_metadata = 10;</code>
+     *
+     * <pre>
+     * Set if |type| is |CPU_IMPORT_TRACE|
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.CpuImportTraceMetadataOrBuilder getCpuImportTraceMetadataOrBuilder() {
+      if (cpuImportTraceMetadataBuilder_ != null) {
+        return cpuImportTraceMetadataBuilder_.getMessageOrBuilder();
+      } else {
+        return cpuImportTraceMetadata_;
+      }
+    }
+    /**
+     * <code>optional .android_studio.CpuImportTraceMetadata cpu_import_trace_metadata = 10;</code>
+     *
+     * <pre>
+     * Set if |type| is |CPU_IMPORT_TRACE|
+     * </pre>
+     */
+    private com.google.protobuf.SingleFieldBuilder<
+        com.google.wireless.android.sdk.stats.CpuImportTraceMetadata, com.google.wireless.android.sdk.stats.CpuImportTraceMetadata.Builder, com.google.wireless.android.sdk.stats.CpuImportTraceMetadataOrBuilder> 
+        getCpuImportTraceMetadataFieldBuilder() {
+      if (cpuImportTraceMetadataBuilder_ == null) {
+        cpuImportTraceMetadataBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+            com.google.wireless.android.sdk.stats.CpuImportTraceMetadata, com.google.wireless.android.sdk.stats.CpuImportTraceMetadata.Builder, com.google.wireless.android.sdk.stats.CpuImportTraceMetadataOrBuilder>(
+                cpuImportTraceMetadata_,
+                getParentForChildren(),
+                isClean());
+        cpuImportTraceMetadata_ = null;
+      }
+      return cpuImportTraceMetadataBuilder_;
+    }
+
+    // optional .android_studio.CpuApiTracingMetadata cpu_api_tracing_metadata = 11;
+    private com.google.wireless.android.sdk.stats.CpuApiTracingMetadata cpuApiTracingMetadata_ = com.google.wireless.android.sdk.stats.CpuApiTracingMetadata.getDefaultInstance();
+    private com.google.protobuf.SingleFieldBuilder<
+        com.google.wireless.android.sdk.stats.CpuApiTracingMetadata, com.google.wireless.android.sdk.stats.CpuApiTracingMetadata.Builder, com.google.wireless.android.sdk.stats.CpuApiTracingMetadataOrBuilder> cpuApiTracingMetadataBuilder_;
+    /**
+     * <code>optional .android_studio.CpuApiTracingMetadata cpu_api_tracing_metadata = 11;</code>
+     *
+     * <pre>
+     * Set if |type| is |CPU_API_TRACING|
+     * </pre>
+     */
+    public boolean hasCpuApiTracingMetadata() {
+      return ((bitField0_ & 0x00000400) == 0x00000400);
+    }
+    /**
+     * <code>optional .android_studio.CpuApiTracingMetadata cpu_api_tracing_metadata = 11;</code>
+     *
+     * <pre>
+     * Set if |type| is |CPU_API_TRACING|
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.CpuApiTracingMetadata getCpuApiTracingMetadata() {
+      if (cpuApiTracingMetadataBuilder_ == null) {
+        return cpuApiTracingMetadata_;
+      } else {
+        return cpuApiTracingMetadataBuilder_.getMessage();
+      }
+    }
+    /**
+     * <code>optional .android_studio.CpuApiTracingMetadata cpu_api_tracing_metadata = 11;</code>
+     *
+     * <pre>
+     * Set if |type| is |CPU_API_TRACING|
+     * </pre>
+     */
+    public Builder setCpuApiTracingMetadata(com.google.wireless.android.sdk.stats.CpuApiTracingMetadata value) {
+      if (cpuApiTracingMetadataBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        cpuApiTracingMetadata_ = value;
+        onChanged();
+      } else {
+        cpuApiTracingMetadataBuilder_.setMessage(value);
+      }
+      bitField0_ |= 0x00000400;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.CpuApiTracingMetadata cpu_api_tracing_metadata = 11;</code>
+     *
+     * <pre>
+     * Set if |type| is |CPU_API_TRACING|
+     * </pre>
+     */
+    public Builder setCpuApiTracingMetadata(
+        com.google.wireless.android.sdk.stats.CpuApiTracingMetadata.Builder builderForValue) {
+      if (cpuApiTracingMetadataBuilder_ == null) {
+        cpuApiTracingMetadata_ = builderForValue.build();
+        onChanged();
+      } else {
+        cpuApiTracingMetadataBuilder_.setMessage(builderForValue.build());
+      }
+      bitField0_ |= 0x00000400;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.CpuApiTracingMetadata cpu_api_tracing_metadata = 11;</code>
+     *
+     * <pre>
+     * Set if |type| is |CPU_API_TRACING|
+     * </pre>
+     */
+    public Builder mergeCpuApiTracingMetadata(com.google.wireless.android.sdk.stats.CpuApiTracingMetadata value) {
+      if (cpuApiTracingMetadataBuilder_ == null) {
+        if (((bitField0_ & 0x00000400) == 0x00000400) &&
+            cpuApiTracingMetadata_ != com.google.wireless.android.sdk.stats.CpuApiTracingMetadata.getDefaultInstance()) {
+          cpuApiTracingMetadata_ =
+            com.google.wireless.android.sdk.stats.CpuApiTracingMetadata.newBuilder(cpuApiTracingMetadata_).mergeFrom(value).buildPartial();
+        } else {
+          cpuApiTracingMetadata_ = value;
+        }
+        onChanged();
+      } else {
+        cpuApiTracingMetadataBuilder_.mergeFrom(value);
+      }
+      bitField0_ |= 0x00000400;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.CpuApiTracingMetadata cpu_api_tracing_metadata = 11;</code>
+     *
+     * <pre>
+     * Set if |type| is |CPU_API_TRACING|
+     * </pre>
+     */
+    public Builder clearCpuApiTracingMetadata() {
+      if (cpuApiTracingMetadataBuilder_ == null) {
+        cpuApiTracingMetadata_ = com.google.wireless.android.sdk.stats.CpuApiTracingMetadata.getDefaultInstance();
+        onChanged();
+      } else {
+        cpuApiTracingMetadataBuilder_.clear();
+      }
+      bitField0_ = (bitField0_ & ~0x00000400);
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.CpuApiTracingMetadata cpu_api_tracing_metadata = 11;</code>
+     *
+     * <pre>
+     * Set if |type| is |CPU_API_TRACING|
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.CpuApiTracingMetadata.Builder getCpuApiTracingMetadataBuilder() {
+      bitField0_ |= 0x00000400;
+      onChanged();
+      return getCpuApiTracingMetadataFieldBuilder().getBuilder();
+    }
+    /**
+     * <code>optional .android_studio.CpuApiTracingMetadata cpu_api_tracing_metadata = 11;</code>
+     *
+     * <pre>
+     * Set if |type| is |CPU_API_TRACING|
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.CpuApiTracingMetadataOrBuilder getCpuApiTracingMetadataOrBuilder() {
+      if (cpuApiTracingMetadataBuilder_ != null) {
+        return cpuApiTracingMetadataBuilder_.getMessageOrBuilder();
+      } else {
+        return cpuApiTracingMetadata_;
+      }
+    }
+    /**
+     * <code>optional .android_studio.CpuApiTracingMetadata cpu_api_tracing_metadata = 11;</code>
+     *
+     * <pre>
+     * Set if |type| is |CPU_API_TRACING|
+     * </pre>
+     */
+    private com.google.protobuf.SingleFieldBuilder<
+        com.google.wireless.android.sdk.stats.CpuApiTracingMetadata, com.google.wireless.android.sdk.stats.CpuApiTracingMetadata.Builder, com.google.wireless.android.sdk.stats.CpuApiTracingMetadataOrBuilder> 
+        getCpuApiTracingMetadataFieldBuilder() {
+      if (cpuApiTracingMetadataBuilder_ == null) {
+        cpuApiTracingMetadataBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+            com.google.wireless.android.sdk.stats.CpuApiTracingMetadata, com.google.wireless.android.sdk.stats.CpuApiTracingMetadata.Builder, com.google.wireless.android.sdk.stats.CpuApiTracingMetadataOrBuilder>(
+                cpuApiTracingMetadata_,
+                getParentForChildren(),
+                isClean());
+        cpuApiTracingMetadata_ = null;
+      }
+      return cpuApiTracingMetadataBuilder_;
+    }
+
+    // optional .android_studio.EnergyRangeMetadata energy_range_metadata = 12;
+    private com.google.wireless.android.sdk.stats.EnergyRangeMetadata energyRangeMetadata_ = com.google.wireless.android.sdk.stats.EnergyRangeMetadata.getDefaultInstance();
+    private com.google.protobuf.SingleFieldBuilder<
+        com.google.wireless.android.sdk.stats.EnergyRangeMetadata, com.google.wireless.android.sdk.stats.EnergyRangeMetadata.Builder, com.google.wireless.android.sdk.stats.EnergyRangeMetadataOrBuilder> energyRangeMetadataBuilder_;
+    /**
+     * <code>optional .android_studio.EnergyRangeMetadata energy_range_metadata = 12;</code>
+     *
+     * <pre>
+     * Set if |type| is |SELECT_ENERGY_RANGE|
+     * </pre>
+     */
+    public boolean hasEnergyRangeMetadata() {
+      return ((bitField0_ & 0x00000800) == 0x00000800);
+    }
+    /**
+     * <code>optional .android_studio.EnergyRangeMetadata energy_range_metadata = 12;</code>
+     *
+     * <pre>
+     * Set if |type| is |SELECT_ENERGY_RANGE|
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.EnergyRangeMetadata getEnergyRangeMetadata() {
+      if (energyRangeMetadataBuilder_ == null) {
+        return energyRangeMetadata_;
+      } else {
+        return energyRangeMetadataBuilder_.getMessage();
+      }
+    }
+    /**
+     * <code>optional .android_studio.EnergyRangeMetadata energy_range_metadata = 12;</code>
+     *
+     * <pre>
+     * Set if |type| is |SELECT_ENERGY_RANGE|
+     * </pre>
+     */
+    public Builder setEnergyRangeMetadata(com.google.wireless.android.sdk.stats.EnergyRangeMetadata value) {
+      if (energyRangeMetadataBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        energyRangeMetadata_ = value;
+        onChanged();
+      } else {
+        energyRangeMetadataBuilder_.setMessage(value);
+      }
+      bitField0_ |= 0x00000800;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.EnergyRangeMetadata energy_range_metadata = 12;</code>
+     *
+     * <pre>
+     * Set if |type| is |SELECT_ENERGY_RANGE|
+     * </pre>
+     */
+    public Builder setEnergyRangeMetadata(
+        com.google.wireless.android.sdk.stats.EnergyRangeMetadata.Builder builderForValue) {
+      if (energyRangeMetadataBuilder_ == null) {
+        energyRangeMetadata_ = builderForValue.build();
+        onChanged();
+      } else {
+        energyRangeMetadataBuilder_.setMessage(builderForValue.build());
+      }
+      bitField0_ |= 0x00000800;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.EnergyRangeMetadata energy_range_metadata = 12;</code>
+     *
+     * <pre>
+     * Set if |type| is |SELECT_ENERGY_RANGE|
+     * </pre>
+     */
+    public Builder mergeEnergyRangeMetadata(com.google.wireless.android.sdk.stats.EnergyRangeMetadata value) {
+      if (energyRangeMetadataBuilder_ == null) {
+        if (((bitField0_ & 0x00000800) == 0x00000800) &&
+            energyRangeMetadata_ != com.google.wireless.android.sdk.stats.EnergyRangeMetadata.getDefaultInstance()) {
+          energyRangeMetadata_ =
+            com.google.wireless.android.sdk.stats.EnergyRangeMetadata.newBuilder(energyRangeMetadata_).mergeFrom(value).buildPartial();
+        } else {
+          energyRangeMetadata_ = value;
+        }
+        onChanged();
+      } else {
+        energyRangeMetadataBuilder_.mergeFrom(value);
+      }
+      bitField0_ |= 0x00000800;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.EnergyRangeMetadata energy_range_metadata = 12;</code>
+     *
+     * <pre>
+     * Set if |type| is |SELECT_ENERGY_RANGE|
+     * </pre>
+     */
+    public Builder clearEnergyRangeMetadata() {
+      if (energyRangeMetadataBuilder_ == null) {
+        energyRangeMetadata_ = com.google.wireless.android.sdk.stats.EnergyRangeMetadata.getDefaultInstance();
+        onChanged();
+      } else {
+        energyRangeMetadataBuilder_.clear();
+      }
+      bitField0_ = (bitField0_ & ~0x00000800);
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.EnergyRangeMetadata energy_range_metadata = 12;</code>
+     *
+     * <pre>
+     * Set if |type| is |SELECT_ENERGY_RANGE|
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.EnergyRangeMetadata.Builder getEnergyRangeMetadataBuilder() {
+      bitField0_ |= 0x00000800;
+      onChanged();
+      return getEnergyRangeMetadataFieldBuilder().getBuilder();
+    }
+    /**
+     * <code>optional .android_studio.EnergyRangeMetadata energy_range_metadata = 12;</code>
+     *
+     * <pre>
+     * Set if |type| is |SELECT_ENERGY_RANGE|
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.EnergyRangeMetadataOrBuilder getEnergyRangeMetadataOrBuilder() {
+      if (energyRangeMetadataBuilder_ != null) {
+        return energyRangeMetadataBuilder_.getMessageOrBuilder();
+      } else {
+        return energyRangeMetadata_;
+      }
+    }
+    /**
+     * <code>optional .android_studio.EnergyRangeMetadata energy_range_metadata = 12;</code>
+     *
+     * <pre>
+     * Set if |type| is |SELECT_ENERGY_RANGE|
+     * </pre>
+     */
+    private com.google.protobuf.SingleFieldBuilder<
+        com.google.wireless.android.sdk.stats.EnergyRangeMetadata, com.google.wireless.android.sdk.stats.EnergyRangeMetadata.Builder, com.google.wireless.android.sdk.stats.EnergyRangeMetadataOrBuilder> 
+        getEnergyRangeMetadataFieldBuilder() {
+      if (energyRangeMetadataBuilder_ == null) {
+        energyRangeMetadataBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+            com.google.wireless.android.sdk.stats.EnergyRangeMetadata, com.google.wireless.android.sdk.stats.EnergyRangeMetadata.Builder, com.google.wireless.android.sdk.stats.EnergyRangeMetadataOrBuilder>(
+                energyRangeMetadata_,
+                getParentForChildren(),
+                isClean());
+        energyRangeMetadata_ = null;
+      }
+      return energyRangeMetadataBuilder_;
+    }
+
+    // optional .android_studio.EnergyEventMetadata energy_event_metadata = 13;
+    private com.google.wireless.android.sdk.stats.EnergyEventMetadata energyEventMetadata_ = com.google.wireless.android.sdk.stats.EnergyEventMetadata.getDefaultInstance();
+    private com.google.protobuf.SingleFieldBuilder<
+        com.google.wireless.android.sdk.stats.EnergyEventMetadata, com.google.wireless.android.sdk.stats.EnergyEventMetadata.Builder, com.google.wireless.android.sdk.stats.EnergyEventMetadataOrBuilder> energyEventMetadataBuilder_;
+    /**
+     * <code>optional .android_studio.EnergyEventMetadata energy_event_metadata = 13;</code>
+     *
+     * <pre>
+     * Set if |type| is |SELECT_ENERGY_EVENT|
+     * </pre>
+     */
+    public boolean hasEnergyEventMetadata() {
+      return ((bitField0_ & 0x00001000) == 0x00001000);
+    }
+    /**
+     * <code>optional .android_studio.EnergyEventMetadata energy_event_metadata = 13;</code>
+     *
+     * <pre>
+     * Set if |type| is |SELECT_ENERGY_EVENT|
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.EnergyEventMetadata getEnergyEventMetadata() {
+      if (energyEventMetadataBuilder_ == null) {
+        return energyEventMetadata_;
+      } else {
+        return energyEventMetadataBuilder_.getMessage();
+      }
+    }
+    /**
+     * <code>optional .android_studio.EnergyEventMetadata energy_event_metadata = 13;</code>
+     *
+     * <pre>
+     * Set if |type| is |SELECT_ENERGY_EVENT|
+     * </pre>
+     */
+    public Builder setEnergyEventMetadata(com.google.wireless.android.sdk.stats.EnergyEventMetadata value) {
+      if (energyEventMetadataBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        energyEventMetadata_ = value;
+        onChanged();
+      } else {
+        energyEventMetadataBuilder_.setMessage(value);
+      }
+      bitField0_ |= 0x00001000;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.EnergyEventMetadata energy_event_metadata = 13;</code>
+     *
+     * <pre>
+     * Set if |type| is |SELECT_ENERGY_EVENT|
+     * </pre>
+     */
+    public Builder setEnergyEventMetadata(
+        com.google.wireless.android.sdk.stats.EnergyEventMetadata.Builder builderForValue) {
+      if (energyEventMetadataBuilder_ == null) {
+        energyEventMetadata_ = builderForValue.build();
+        onChanged();
+      } else {
+        energyEventMetadataBuilder_.setMessage(builderForValue.build());
+      }
+      bitField0_ |= 0x00001000;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.EnergyEventMetadata energy_event_metadata = 13;</code>
+     *
+     * <pre>
+     * Set if |type| is |SELECT_ENERGY_EVENT|
+     * </pre>
+     */
+    public Builder mergeEnergyEventMetadata(com.google.wireless.android.sdk.stats.EnergyEventMetadata value) {
+      if (energyEventMetadataBuilder_ == null) {
+        if (((bitField0_ & 0x00001000) == 0x00001000) &&
+            energyEventMetadata_ != com.google.wireless.android.sdk.stats.EnergyEventMetadata.getDefaultInstance()) {
+          energyEventMetadata_ =
+            com.google.wireless.android.sdk.stats.EnergyEventMetadata.newBuilder(energyEventMetadata_).mergeFrom(value).buildPartial();
+        } else {
+          energyEventMetadata_ = value;
+        }
+        onChanged();
+      } else {
+        energyEventMetadataBuilder_.mergeFrom(value);
+      }
+      bitField0_ |= 0x00001000;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.EnergyEventMetadata energy_event_metadata = 13;</code>
+     *
+     * <pre>
+     * Set if |type| is |SELECT_ENERGY_EVENT|
+     * </pre>
+     */
+    public Builder clearEnergyEventMetadata() {
+      if (energyEventMetadataBuilder_ == null) {
+        energyEventMetadata_ = com.google.wireless.android.sdk.stats.EnergyEventMetadata.getDefaultInstance();
+        onChanged();
+      } else {
+        energyEventMetadataBuilder_.clear();
+      }
+      bitField0_ = (bitField0_ & ~0x00001000);
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.EnergyEventMetadata energy_event_metadata = 13;</code>
+     *
+     * <pre>
+     * Set if |type| is |SELECT_ENERGY_EVENT|
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.EnergyEventMetadata.Builder getEnergyEventMetadataBuilder() {
+      bitField0_ |= 0x00001000;
+      onChanged();
+      return getEnergyEventMetadataFieldBuilder().getBuilder();
+    }
+    /**
+     * <code>optional .android_studio.EnergyEventMetadata energy_event_metadata = 13;</code>
+     *
+     * <pre>
+     * Set if |type| is |SELECT_ENERGY_EVENT|
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.EnergyEventMetadataOrBuilder getEnergyEventMetadataOrBuilder() {
+      if (energyEventMetadataBuilder_ != null) {
+        return energyEventMetadataBuilder_.getMessageOrBuilder();
+      } else {
+        return energyEventMetadata_;
+      }
+    }
+    /**
+     * <code>optional .android_studio.EnergyEventMetadata energy_event_metadata = 13;</code>
+     *
+     * <pre>
+     * Set if |type| is |SELECT_ENERGY_EVENT|
+     * </pre>
+     */
+    private com.google.protobuf.SingleFieldBuilder<
+        com.google.wireless.android.sdk.stats.EnergyEventMetadata, com.google.wireless.android.sdk.stats.EnergyEventMetadata.Builder, com.google.wireless.android.sdk.stats.EnergyEventMetadataOrBuilder> 
+        getEnergyEventMetadataFieldBuilder() {
+      if (energyEventMetadataBuilder_ == null) {
+        energyEventMetadataBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+            com.google.wireless.android.sdk.stats.EnergyEventMetadata, com.google.wireless.android.sdk.stats.EnergyEventMetadata.Builder, com.google.wireless.android.sdk.stats.EnergyEventMetadataOrBuilder>(
+                energyEventMetadata_,
+                getParentForChildren(),
+                isClean());
+        energyEventMetadata_ = null;
+      }
+      return energyEventMetadataBuilder_;
     }
 
     // @@protoc_insertion_point(builder_scope:android_studio.AndroidProfilerEvent)

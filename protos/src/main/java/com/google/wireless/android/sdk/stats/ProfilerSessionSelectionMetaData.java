@@ -134,6 +134,10 @@ public  final class ProfilerSessionSelectionMetaData extends
      * <code>ARTIFACT_CPU_CAPTURE = 3;</code>
      */
     ARTIFACT_CPU_CAPTURE(3, 3),
+    /**
+     * <code>ARTIFACT_LEGACY_ALLOCATIONS = 4;</code>
+     */
+    ARTIFACT_LEGACY_ALLOCATIONS(4, 4),
     ;
 
     /**
@@ -152,6 +156,10 @@ public  final class ProfilerSessionSelectionMetaData extends
      * <code>ARTIFACT_CPU_CAPTURE = 3;</code>
      */
     public static final int ARTIFACT_CPU_CAPTURE_VALUE = 3;
+    /**
+     * <code>ARTIFACT_LEGACY_ALLOCATIONS = 4;</code>
+     */
+    public static final int ARTIFACT_LEGACY_ALLOCATIONS_VALUE = 4;
 
 
     public final int getNumber() { return value; }
@@ -162,6 +170,7 @@ public  final class ProfilerSessionSelectionMetaData extends
         case 1: return ARTIFACT_SESSION;
         case 2: return ARTIFACT_HPROF;
         case 3: return ARTIFACT_CPU_CAPTURE;
+        case 4: return ARTIFACT_LEGACY_ALLOCATIONS;
         default: return null;
       }
     }

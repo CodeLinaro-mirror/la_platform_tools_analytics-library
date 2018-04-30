@@ -1,9 +1,9 @@
 load("//tools/base/bazel:bazel.bzl", "iml_module")
 
+# managed by go/iml_to_build
 iml_module(
     name = "android.sdktools.analytics-testing",
     iml_files = ["android.sdktools.analytics-testing.iml"],
-    tags = ["managed"],
     test_srcs = [
         "src/main/java",
         "src/test/java",

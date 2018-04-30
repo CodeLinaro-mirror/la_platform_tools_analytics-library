@@ -222,6 +222,9 @@ message AndroidStudioEvent {
   // set when kind = CPP_HEADERS_VIEW_EVENT
   optional CppHeadersViewEvent cpp_headers_view_event = 59;
 
+  // set when kind = WHATS_NEW_ASSISTANT_EVENT
+  optional WhatsNewAssistantEvent whats_new_assistant_event = 60;
+
   // Describes a group of event kinds related to each other.
   // This is redundant in the presence of EventKind + event specific message,
   // and is only necessary for events originally sent to GA.
@@ -578,6 +581,9 @@ message AndroidStudioEvent {
 
     // The event is related to C++ header file view in Android Project
     CPP_HEADERS_VIEW_EVENT = 129;
+
+    // The event is related to What's New Assistant
+    WHATS_NEW_ASSISTANT_EVENT = 130;
   }
 
   // Represents different Performance Monitoring types.
@@ -3409,6 +3415,26 @@ message CpuProfilingConfig {
   }
 }
 
+// Data associated with startup CPU profiling
+message CpuStartupProfilingMetadata {
+  optional CpuProfilingConfig profiling_config = 1;
+}
+
+// Data associated with API-initiated tracing
+message CpuApiTracingMetadata {
+  // True if using sampling; false if using instrumentation.
+  optional bool use_sampling = 1;
+  // A trace path is given and not null (we don't log the path as it might
+  // contain PII).
+  optional bool arg_trace_path = 2;
+  // Buffer size as a given API argument (-1 if unavailable).
+  optional int32 arg_buffer_size = 3;
+  // Flags as a given API argument (-1 if unavailable).
+  optional int32 arg_flags = 4;
+  // Sampling interval as a given API argument (-1 if unavailable).
+  optional int32 arg_interval_us = 5;
+}
+
 // Data associated with capturing a CPU method trace
 message CpuCaptureMetadata {
   enum CaptureStatus {
@@ -3444,6 +3470,32 @@ message CpuCaptureMetadata {
 
   // The user's configuration used to generate this capture
   optional CpuProfilingConfig profiling_config = 6;
+}
+
+// Data associated with importing CPU traces.
+message CpuImportTraceMetadata {
+  enum ImportStatus {
+    // Default status
+    UNDEFINED_IMPORT_TRACE_STATUS = 0;
+    // The trace was imported successfully.
+    IMPORT_TRACE_SUCCESS = 1;
+    // There was a failure when trying to import the trace.
+    IMPORT_TRACE_FAILURE = 2;
+  }
+
+  enum Technology {
+    UNKNOWN_TECHNOLOGY = 0;
+    ART_TECHNOLOGY = 1;
+    SIMPLEPERF_TECHNOLOGY = 2;
+    ATRACE_TECHNOLOGY = 3;
+  }
+
+  // Status of the import trace action.
+  optional ImportStatus import_status = 1;
+
+  // Technology used to generate the trace imported.
+  // Technologies supported are ART, simpleperf and atrace.
+  optional Technology technology = 2;
 }
 
 // Metadata associated with how users are using the profilers filter.
@@ -3517,6 +3569,7 @@ message ProfilerSessionSelectionMetaData {
     ARTIFACT_SESSION = 1;
     ARTIFACT_HPROF = 2;
     ARTIFACT_CPU_CAPTURE = 3;
+    ARTIFACT_LEGACY_ALLOCATIONS = 4;
   }
 
   // The type of the artifact selected
@@ -3524,6 +3577,67 @@ message ProfilerSessionSelectionMetaData {
 
   // Whether the session is live when the artifact was selected
   optional bool is_session_alive = 2;
+}
+
+// Shared enum values for energy event messages
+message EnergyEvent {
+  enum Type {
+    UNKNOWN_EVENT_TYPE = 0;
+    WAKE_LOCK = 1;
+    ALARM = 2;
+    JOB = 3;
+    LOCATION = 4;
+  }
+
+  enum Subtype {
+    UNKNOWN_SUBEVENT_TYPE = 0;
+
+    WAKE_LOCK_PARTIAL = 1;
+    WAKE_LOCK_SCREEN_DIM = 2;
+    WAKE_LOCK_SCREEN_BRIGHT = 3;
+    WAKE_LOCK_FULL = 4;
+    WAKE_LOCK_PROXIMITY_SCREEN_OFF = 5;
+
+    ALARM_RTC = 101;
+    ALARM_RTC_WAKEUP = 102;
+    ALARM_ELAPSED_REALTIME = 103;
+    ALARM_ELAPSED_REALTIME_WAKEUP = 104;
+  }
+
+  enum Subevent {
+    UNKNOWN_ENERGY_SUBEVENT = 0;
+
+    WAKE_LOCK_ACQUIRED = 1;
+    WAKE_LOCK_RELEASED = 2;
+
+    ALARM_SET = 101;
+    ALARM_CANCELLED = 102;
+    ALARM_FIRED = 103;
+
+    JOB_SCHEDULED = 201;
+    JOB_STARTED = 202;
+    JOB_STOPPED = 203;
+    JOB_FINISHED = 204;
+
+    LOCATION_UPDATE_REQUESTED = 301;
+    LOCATION_UPDATE_REMOVED = 302;
+    LOCATION_CHANGED = 303;
+  }
+}
+
+message EnergyEventCount {
+  optional EnergyEvent.Type type = 1;
+  optional uint32 count = 2;
+}
+
+message EnergyRangeMetadata {
+  repeated EnergyEventCount event_counts = 1;
+}
+
+message EnergyEventMetadata {
+  optional EnergyEvent.Type type = 1;
+  optional EnergyEvent.Subtype subtype = 2;
+  repeated EnergyEvent.Subevent subevents = 3;
 }
 
 // Android Profiler metrics
@@ -3552,6 +3666,21 @@ message AndroidProfilerEvent {
 
   // Set if |type| is |SESSION_ARTIFACT_SELECTED|
   optional ProfilerSessionSelectionMetaData session_artifact_metadata = 8;
+
+  // Set if |type| is |CPU_STARTUP_PROFILING|
+  optional CpuStartupProfilingMetadata  cpu_startup_profiling_metadata = 9;
+
+  // Set if |type| is |CPU_IMPORT_TRACE|
+  optional CpuImportTraceMetadata cpu_import_trace_metadata = 10;
+
+  // Set if |type| is |CPU_API_TRACING|
+  optional CpuApiTracingMetadata cpu_api_tracing_metadata = 11;
+
+  // Set if |type| is |SELECT_ENERGY_RANGE|
+  optional EnergyRangeMetadata energy_range_metadata = 12;
+
+  // Set if |type| is |SELECT_ENERGY_EVENT|
+  optional EnergyEventMetadata energy_event_metadata = 13;
 
   enum Stage {
     UNKNOWN_STAGE = 0;
@@ -3623,6 +3752,9 @@ message AndroidProfilerEvent {
     KERNEL_VIEW_CLICKED = 214;
     KERNEL_VIEW_TOGGLED = 215;
     THREADS_VIEW_TOGGLED = 216;
+    CPU_STARTUP_PROFILING = 217;
+    CPU_IMPORT_TRACE = 218;
+    CPU_API_TRACING = 219;
 
     /// Memory
 
@@ -3648,6 +3780,12 @@ message AndroidProfilerEvent {
     SELECT_DETAILS_ERROR = 408;
     SELECT_CONNECTIONS_CONNECTION_VIEW = 409;
     SELECT_CONNECTIONS_THREADS_VIEW = 410;
+
+    /// Energy
+
+    // Sent in addition to |SELECT_RANGE| but including extra data
+    SELECT_ENERGY_RANGE = 601;
+    SELECT_ENERGY_EVENT = 602;
 
     /// Session
 
@@ -3850,4 +3988,24 @@ message OomDialogEvent {
     // Dialog dismissed without saving
     CANCEL_ACTION = 3;
   }
+}
+
+// Details for whats new assistant event
+message WhatsNewAssistantEvent {
+  enum WhatsNewAssistantEventType {
+    UNKNOWN_EVENT_TYPE = 0;
+    // Assistant is opened
+    OPEN = 1;
+    // Auto Open on first load of a new AS version
+    AUTO_OPEN = 2;
+    // First interaction after opening
+    FIRST_INTERACTION = 3;
+    // Assistant is closed
+    CLOSED = 4;
+    // Button clicked
+    BUTTON_CLICKED = 5;
+  }
+
+  // Type of event
+  optional WhatsNewAssistantEventType type = 1;
 }
