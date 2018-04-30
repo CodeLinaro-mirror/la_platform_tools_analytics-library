@@ -248,6 +248,7 @@ enum BooleanOption {
     USE_ANDROID_X = 49;
     ENABLE_UNIT_TEST_BINARY_RESOURCES = 50;
     DISABLE_EARLY_MANIFEST_PARSING = 51;
+    ENABLE_PARALLEL_NATIVE_JSON_GEN = 52;
 }
 
 enum OptionalBooleanOption {
