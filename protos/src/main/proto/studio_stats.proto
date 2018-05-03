@@ -225,6 +225,12 @@ message AndroidStudioEvent {
   // set when kind = WHATS_NEW_ASSISTANT_EVENT
   optional WhatsNewAssistantEvent whats_new_assistant_event = 60;
 
+  // the project id as used in the playstore, e.g.
+  // 'com.google.android.apps.maps'. This is sensitive information and
+  // thus considered 'IDENTIFIYING'. This data is only available in and for PWG
+  // approved scenarios.
+  optional string raw_project_id = 61;
+
   // Describes a group of event kinds related to each other.
   // This is redundant in the presence of EventKind + event specific message,
   // and is only necessary for events originally sent to GA.
@@ -1964,6 +1970,11 @@ message GradleBuildProfile {
   // relation.
   optional string project_id = 18;
 
+  // the project id as used in the playstore, e.g.
+  // 'com.google.android.apps.maps'. This is sensitive information and
+  // thus considered 'IDENTIFIYING'. This data is only available in and for PWG
+  // approved scenarios.
+  optional string raw_project_id = 19;
 }
 
 message GradleBuildProject {
@@ -3310,6 +3321,12 @@ message AppLinksAssistantEvent {
   optional bool new_activity_linked = 8;
   // Whether a new host is linked by app link.
   optional bool new_host_linked = 9;
+
+  // the project id as used in the playstore, e.g.
+  // 'com.google.android.apps.maps'. This is sensitive information and
+  // thus considered 'IDENTIFIYING'. This data is only available in and for PWG
+  // approved scenarios.
+  optional string raw_project_id = 10;
 
   // UI event source.
   enum EventSource {
