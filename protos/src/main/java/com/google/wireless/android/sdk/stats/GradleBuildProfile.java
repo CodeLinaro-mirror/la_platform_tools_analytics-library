@@ -145,6 +145,11 @@ public  final class GradleBuildProfile extends
             projectId_ = input.readBytes();
             break;
           }
+          case 154: {
+            bitField0_ |= 0x00000800;
+            rawProjectId_ = input.readBytes();
+            break;
+          }
         }
       }
     } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -863,6 +868,70 @@ public  final class GradleBuildProfile extends
     }
   }
 
+  // optional string raw_project_id = 19;
+  public static final int RAW_PROJECT_ID_FIELD_NUMBER = 19;
+  private java.lang.Object rawProjectId_;
+  /**
+   * <code>optional string raw_project_id = 19;</code>
+   *
+   * <pre>
+   * the project id as used in the playstore, e.g.
+   * 'com.google.android.apps.maps'. This is sensitive information and
+   * thus considered 'IDENTIFIYING'. This data is only available in and for PWG
+   * approved scenarios.
+   * </pre>
+   */
+  public boolean hasRawProjectId() {
+    return ((bitField0_ & 0x00000800) == 0x00000800);
+  }
+  /**
+   * <code>optional string raw_project_id = 19;</code>
+   *
+   * <pre>
+   * the project id as used in the playstore, e.g.
+   * 'com.google.android.apps.maps'. This is sensitive information and
+   * thus considered 'IDENTIFIYING'. This data is only available in and for PWG
+   * approved scenarios.
+   * </pre>
+   */
+  public java.lang.String getRawProjectId() {
+    java.lang.Object ref = rawProjectId_;
+    if (ref instanceof java.lang.String) {
+      return (java.lang.String) ref;
+    } else {
+      com.google.protobuf.ByteString bs = 
+          (com.google.protobuf.ByteString) ref;
+      java.lang.String s = bs.toStringUtf8();
+      if (bs.isValidUtf8()) {
+        rawProjectId_ = s;
+      }
+      return s;
+    }
+  }
+  /**
+   * <code>optional string raw_project_id = 19;</code>
+   *
+   * <pre>
+   * the project id as used in the playstore, e.g.
+   * 'com.google.android.apps.maps'. This is sensitive information and
+   * thus considered 'IDENTIFIYING'. This data is only available in and for PWG
+   * approved scenarios.
+   * </pre>
+   */
+  public com.google.protobuf.ByteString
+      getRawProjectIdBytes() {
+    java.lang.Object ref = rawProjectId_;
+    if (ref instanceof java.lang.String) {
+      com.google.protobuf.ByteString b = 
+          com.google.protobuf.ByteString.copyFromUtf8(
+              (java.lang.String) ref);
+      rawProjectId_ = b;
+      return b;
+    } else {
+      return (com.google.protobuf.ByteString) ref;
+    }
+  }
+
   private void initFields() {
     gradleVersion_ = "";
     osName_ = "";
@@ -878,6 +947,7 @@ public  final class GradleBuildProfile extends
     span_ = java.util.Collections.emptyList();
     instantRunStatus_ = com.google.wireless.android.sdk.stats.InstantRunStatus.getDefaultInstance();
     projectId_ = "";
+    rawProjectId_ = "";
   }
   private byte memoizedIsInitialized = -1;
   public final boolean isInitialized() {
@@ -932,6 +1002,9 @@ public  final class GradleBuildProfile extends
     }
     if (((bitField0_ & 0x00000400) == 0x00000400)) {
       output.writeBytes(18, getProjectIdBytes());
+    }
+    if (((bitField0_ & 0x00000800) == 0x00000800)) {
+      output.writeBytes(19, getRawProjectIdBytes());
     }
     getUnknownFields().writeTo(output);
   }
@@ -997,6 +1070,10 @@ public  final class GradleBuildProfile extends
     if (((bitField0_ & 0x00000400) == 0x00000400)) {
       size += com.google.protobuf.CodedOutputStream
         .computeBytesSize(18, getProjectIdBytes());
+    }
+    if (((bitField0_ & 0x00000800) == 0x00000800)) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeBytesSize(19, getRawProjectIdBytes());
     }
     size += getUnknownFields().getSerializedSize();
     memoizedSerializedSize = size;
@@ -1166,6 +1243,8 @@ public  final class GradleBuildProfile extends
       bitField0_ = (bitField0_ & ~0x00001000);
       projectId_ = "";
       bitField0_ = (bitField0_ & ~0x00002000);
+      rawProjectId_ = "";
+      bitField0_ = (bitField0_ & ~0x00004000);
       return this;
     }
 
@@ -1269,6 +1348,10 @@ public  final class GradleBuildProfile extends
         to_bitField0_ |= 0x00000400;
       }
       result.projectId_ = projectId_;
+      if (((from_bitField0_ & 0x00004000) == 0x00004000)) {
+        to_bitField0_ |= 0x00000800;
+      }
+      result.rawProjectId_ = rawProjectId_;
       result.bitField0_ = to_bitField0_;
       onBuilt();
       return result;
@@ -1406,6 +1489,11 @@ public  final class GradleBuildProfile extends
       if (other.hasProjectId()) {
         bitField0_ |= 0x00002000;
         projectId_ = other.projectId_;
+        onChanged();
+      }
+      if (other.hasRawProjectId()) {
+        bitField0_ |= 0x00004000;
+        rawProjectId_ = other.rawProjectId_;
         onChanged();
       }
       this.mergeUnknownFields(other.getUnknownFields());
@@ -3386,6 +3474,122 @@ public  final class GradleBuildProfile extends
   }
   bitField0_ |= 0x00002000;
       projectId_ = value;
+      onChanged();
+      return this;
+    }
+
+    // optional string raw_project_id = 19;
+    private java.lang.Object rawProjectId_ = "";
+    /**
+     * <code>optional string raw_project_id = 19;</code>
+     *
+     * <pre>
+     * the project id as used in the playstore, e.g.
+     * 'com.google.android.apps.maps'. This is sensitive information and
+     * thus considered 'IDENTIFIYING'. This data is only available in and for PWG
+     * approved scenarios.
+     * </pre>
+     */
+    public boolean hasRawProjectId() {
+      return ((bitField0_ & 0x00004000) == 0x00004000);
+    }
+    /**
+     * <code>optional string raw_project_id = 19;</code>
+     *
+     * <pre>
+     * the project id as used in the playstore, e.g.
+     * 'com.google.android.apps.maps'. This is sensitive information and
+     * thus considered 'IDENTIFIYING'. This data is only available in and for PWG
+     * approved scenarios.
+     * </pre>
+     */
+    public java.lang.String getRawProjectId() {
+      java.lang.Object ref = rawProjectId_;
+      if (!(ref instanceof java.lang.String)) {
+        java.lang.String s = ((com.google.protobuf.ByteString) ref)
+            .toStringUtf8();
+        rawProjectId_ = s;
+        return s;
+      } else {
+        return (java.lang.String) ref;
+      }
+    }
+    /**
+     * <code>optional string raw_project_id = 19;</code>
+     *
+     * <pre>
+     * the project id as used in the playstore, e.g.
+     * 'com.google.android.apps.maps'. This is sensitive information and
+     * thus considered 'IDENTIFIYING'. This data is only available in and for PWG
+     * approved scenarios.
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getRawProjectIdBytes() {
+      java.lang.Object ref = rawProjectId_;
+      if (ref instanceof String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        rawProjectId_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+    /**
+     * <code>optional string raw_project_id = 19;</code>
+     *
+     * <pre>
+     * the project id as used in the playstore, e.g.
+     * 'com.google.android.apps.maps'. This is sensitive information and
+     * thus considered 'IDENTIFIYING'. This data is only available in and for PWG
+     * approved scenarios.
+     * </pre>
+     */
+    public Builder setRawProjectId(
+        java.lang.String value) {
+      if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00004000;
+      rawProjectId_ = value;
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>optional string raw_project_id = 19;</code>
+     *
+     * <pre>
+     * the project id as used in the playstore, e.g.
+     * 'com.google.android.apps.maps'. This is sensitive information and
+     * thus considered 'IDENTIFIYING'. This data is only available in and for PWG
+     * approved scenarios.
+     * </pre>
+     */
+    public Builder clearRawProjectId() {
+      bitField0_ = (bitField0_ & ~0x00004000);
+      rawProjectId_ = getDefaultInstance().getRawProjectId();
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>optional string raw_project_id = 19;</code>
+     *
+     * <pre>
+     * the project id as used in the playstore, e.g.
+     * 'com.google.android.apps.maps'. This is sensitive information and
+     * thus considered 'IDENTIFIYING'. This data is only available in and for PWG
+     * approved scenarios.
+     * </pre>
+     */
+    public Builder setRawProjectIdBytes(
+        com.google.protobuf.ByteString value) {
+      if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00004000;
+      rawProjectId_ = value;
       onChanged();
       return this;
     }
