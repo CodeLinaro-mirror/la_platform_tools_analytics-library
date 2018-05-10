@@ -1592,4 +1592,30 @@ public interface AndroidStudioEventOrBuilder
    */
   com.google.protobuf.ByteString
       getRawProjectIdBytes();
+
+  // optional .android_studio.IntellijIndexingStats intellij_indexing_stats = 62;
+  /**
+   * <code>optional .android_studio.IntellijIndexingStats intellij_indexing_stats = 62;</code>
+   *
+   * <pre>
+   * set when kind = INDEXING_OPERATION_EVENT
+   * </pre>
+   */
+  boolean hasIntellijIndexingStats();
+  /**
+   * <code>optional .android_studio.IntellijIndexingStats intellij_indexing_stats = 62;</code>
+   *
+   * <pre>
+   * set when kind = INDEXING_OPERATION_EVENT
+   * </pre>
+   */
+  com.google.wireless.android.sdk.stats.IntellijIndexingStats getIntellijIndexingStats();
+  /**
+   * <code>optional .android_studio.IntellijIndexingStats intellij_indexing_stats = 62;</code>
+   *
+   * <pre>
+   * set when kind = INDEXING_OPERATION_EVENT
+   * </pre>
+   */
+  com.google.wireless.android.sdk.stats.IntellijIndexingStatsOrBuilder getIntellijIndexingStatsOrBuilder();
 }

@@ -231,6 +231,9 @@ message AndroidStudioEvent {
   // approved scenarios.
   optional string raw_project_id = 61;
 
+  // set when kind = INDEXING_OPERATION_EVENT
+  optional IntellijIndexingStats intellij_indexing_stats = 62;
+
   // Describes a group of event kinds related to each other.
   // This is redundant in the presence of EventKind + event specific message,
   // and is only necessary for events originally sent to GA.
@@ -590,6 +593,9 @@ message AndroidStudioEvent {
 
     // The event is related to What's New Assistant
     WHATS_NEW_ASSISTANT_EVENT = 130;
+
+    // Indexing operation event.
+    INTELLIJ_INDEXING_STATS = 131;
   }
 
   // Represents different Performance Monitoring types.
@@ -1974,7 +1980,9 @@ message GradleBuildProfile {
   // 'com.google.android.apps.maps'. This is sensitive information and
   // thus considered 'IDENTIFIYING'. This data is only available in and for PWG
   // approved scenarios.
-  optional string raw_project_id = 19;
+  // This is repeated, as a gradle build may include multiple apps, either
+  // by variants or by multiple 'app' subprojects.
+  repeated string raw_project_id = 19;
 }
 
 message GradleBuildProject {
@@ -2938,6 +2946,14 @@ message JvmDetails {
     PARALLEL_OLD_GC = 4;
     SERIAL_GC = 5;
   }
+}
+
+// Details for an indexing operation.
+message IntellijIndexingStats {
+  // How long the indexing operation took in milliseconds.
+  optional int32 duration_ms = 1;
+  // Number of files indexed during this indexing operation.
+  optional int32 file_count = 2;
 }
 
 // Stats on Studio's performance

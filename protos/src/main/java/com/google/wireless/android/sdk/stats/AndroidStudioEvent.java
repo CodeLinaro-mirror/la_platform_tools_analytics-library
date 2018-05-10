@@ -756,6 +756,19 @@ public  final class AndroidStudioEvent extends
             rawProjectId_ = input.readBytes();
             break;
           }
+          case 498: {
+            com.google.wireless.android.sdk.stats.IntellijIndexingStats.Builder subBuilder = null;
+            if (((bitField1_ & 0x20000000) == 0x20000000)) {
+              subBuilder = intellijIndexingStats_.toBuilder();
+            }
+            intellijIndexingStats_ = input.readMessage(com.google.wireless.android.sdk.stats.IntellijIndexingStats.PARSER, extensionRegistry);
+            if (subBuilder != null) {
+              subBuilder.mergeFrom(intellijIndexingStats_);
+              intellijIndexingStats_ = subBuilder.buildPartial();
+            }
+            bitField1_ |= 0x20000000;
+            break;
+          }
         }
       }
     } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -2351,6 +2364,14 @@ public  final class AndroidStudioEvent extends
      * </pre>
      */
     WHATS_NEW_ASSISTANT_EVENT(127, 130),
+    /**
+     * <code>INTELLIJ_INDEXING_STATS = 131;</code>
+     *
+     * <pre>
+     * Indexing operation event.
+     * </pre>
+     */
+    INTELLIJ_INDEXING_STATS(128, 131),
     ;
 
     /**
@@ -3358,6 +3379,14 @@ public  final class AndroidStudioEvent extends
      * </pre>
      */
     public static final int WHATS_NEW_ASSISTANT_EVENT_VALUE = 130;
+    /**
+     * <code>INTELLIJ_INDEXING_STATS = 131;</code>
+     *
+     * <pre>
+     * Indexing operation event.
+     * </pre>
+     */
+    public static final int INTELLIJ_INDEXING_STATS_VALUE = 131;
 
 
     public final int getNumber() { return value; }
@@ -3492,6 +3521,7 @@ public  final class AndroidStudioEvent extends
         case 128: return CMAKE_EDITING_EVENT;
         case 129: return CPP_HEADERS_VIEW_EVENT;
         case 130: return WHATS_NEW_ASSISTANT_EVENT;
+        case 131: return INTELLIJ_INDEXING_STATS;
         default: return null;
       }
     }
@@ -7118,6 +7148,40 @@ public  final class AndroidStudioEvent extends
     }
   }
 
+  // optional .android_studio.IntellijIndexingStats intellij_indexing_stats = 62;
+  public static final int INTELLIJ_INDEXING_STATS_FIELD_NUMBER = 62;
+  private com.google.wireless.android.sdk.stats.IntellijIndexingStats intellijIndexingStats_;
+  /**
+   * <code>optional .android_studio.IntellijIndexingStats intellij_indexing_stats = 62;</code>
+   *
+   * <pre>
+   * set when kind = INDEXING_OPERATION_EVENT
+   * </pre>
+   */
+  public boolean hasIntellijIndexingStats() {
+    return ((bitField1_ & 0x20000000) == 0x20000000);
+  }
+  /**
+   * <code>optional .android_studio.IntellijIndexingStats intellij_indexing_stats = 62;</code>
+   *
+   * <pre>
+   * set when kind = INDEXING_OPERATION_EVENT
+   * </pre>
+   */
+  public com.google.wireless.android.sdk.stats.IntellijIndexingStats getIntellijIndexingStats() {
+    return intellijIndexingStats_;
+  }
+  /**
+   * <code>optional .android_studio.IntellijIndexingStats intellij_indexing_stats = 62;</code>
+   *
+   * <pre>
+   * set when kind = INDEXING_OPERATION_EVENT
+   * </pre>
+   */
+  public com.google.wireless.android.sdk.stats.IntellijIndexingStatsOrBuilder getIntellijIndexingStatsOrBuilder() {
+    return intellijIndexingStats_;
+  }
+
   private void initFields() {
     category_ = com.google.wireless.android.sdk.stats.AndroidStudioEvent.EventCategory.NO_EVENT_CATEGORY;
     kind_ = com.google.wireless.android.sdk.stats.AndroidStudioEvent.EventKind.UNKNOWN_EVENT_KIND;
@@ -7180,6 +7244,7 @@ public  final class AndroidStudioEvent extends
     cppHeadersViewEvent_ = com.google.wireless.android.sdk.stats.CppHeadersViewEvent.getDefaultInstance();
     whatsNewAssistantEvent_ = com.google.wireless.android.sdk.stats.WhatsNewAssistantEvent.getDefaultInstance();
     rawProjectId_ = "";
+    intellijIndexingStats_ = com.google.wireless.android.sdk.stats.IntellijIndexingStats.getDefaultInstance();
   }
   private byte memoizedIsInitialized = -1;
   public final boolean isInitialized() {
@@ -7375,6 +7440,9 @@ public  final class AndroidStudioEvent extends
     }
     if (((bitField1_ & 0x10000000) == 0x10000000)) {
       output.writeBytes(61, getRawProjectIdBytes());
+    }
+    if (((bitField1_ & 0x20000000) == 0x20000000)) {
+      output.writeMessage(62, intellijIndexingStats_);
     }
     getUnknownFields().writeTo(output);
   }
@@ -7629,6 +7697,10 @@ public  final class AndroidStudioEvent extends
       size += com.google.protobuf.CodedOutputStream
         .computeBytesSize(61, getRawProjectIdBytes());
     }
+    if (((bitField1_ & 0x20000000) == 0x20000000)) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeMessageSize(62, intellijIndexingStats_);
+    }
     size += getUnknownFields().getSerializedSize();
     memoizedSerializedSize = size;
     return size;
@@ -7779,6 +7851,7 @@ public  final class AndroidStudioEvent extends
         getCmakeEditingEventFieldBuilder();
         getCppHeadersViewEventFieldBuilder();
         getWhatsNewAssistantEventFieldBuilder();
+        getIntellijIndexingStatsFieldBuilder();
       }
     }
     private static Builder create() {
@@ -8077,6 +8150,12 @@ public  final class AndroidStudioEvent extends
       bitField1_ = (bitField1_ & ~0x08000000);
       rawProjectId_ = "";
       bitField1_ = (bitField1_ & ~0x10000000);
+      if (intellijIndexingStatsBuilder_ == null) {
+        intellijIndexingStats_ = com.google.wireless.android.sdk.stats.IntellijIndexingStats.getDefaultInstance();
+      } else {
+        intellijIndexingStatsBuilder_.clear();
+      }
+      bitField1_ = (bitField1_ & ~0x20000000);
       return this;
     }
 
@@ -8519,6 +8598,14 @@ public  final class AndroidStudioEvent extends
         to_bitField1_ |= 0x10000000;
       }
       result.rawProjectId_ = rawProjectId_;
+      if (((from_bitField1_ & 0x20000000) == 0x20000000)) {
+        to_bitField1_ |= 0x20000000;
+      }
+      if (intellijIndexingStatsBuilder_ == null) {
+        result.intellijIndexingStats_ = intellijIndexingStats_;
+      } else {
+        result.intellijIndexingStats_ = intellijIndexingStatsBuilder_.build();
+      }
       result.bitField0_ = to_bitField0_;
       result.bitField1_ = to_bitField1_;
       onBuilt();
@@ -8732,6 +8819,9 @@ public  final class AndroidStudioEvent extends
         bitField1_ |= 0x10000000;
         rawProjectId_ = other.rawProjectId_;
         onChanged();
+      }
+      if (other.hasIntellijIndexingStats()) {
+        mergeIntellijIndexingStats(other.getIntellijIndexingStats());
       }
       this.mergeUnknownFields(other.getUnknownFields());
       return this;
@@ -16720,6 +16810,159 @@ public  final class AndroidStudioEvent extends
       rawProjectId_ = value;
       onChanged();
       return this;
+    }
+
+    // optional .android_studio.IntellijIndexingStats intellij_indexing_stats = 62;
+    private com.google.wireless.android.sdk.stats.IntellijIndexingStats intellijIndexingStats_ = com.google.wireless.android.sdk.stats.IntellijIndexingStats.getDefaultInstance();
+    private com.google.protobuf.SingleFieldBuilder<
+        com.google.wireless.android.sdk.stats.IntellijIndexingStats, com.google.wireless.android.sdk.stats.IntellijIndexingStats.Builder, com.google.wireless.android.sdk.stats.IntellijIndexingStatsOrBuilder> intellijIndexingStatsBuilder_;
+    /**
+     * <code>optional .android_studio.IntellijIndexingStats intellij_indexing_stats = 62;</code>
+     *
+     * <pre>
+     * set when kind = INDEXING_OPERATION_EVENT
+     * </pre>
+     */
+    public boolean hasIntellijIndexingStats() {
+      return ((bitField1_ & 0x20000000) == 0x20000000);
+    }
+    /**
+     * <code>optional .android_studio.IntellijIndexingStats intellij_indexing_stats = 62;</code>
+     *
+     * <pre>
+     * set when kind = INDEXING_OPERATION_EVENT
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.IntellijIndexingStats getIntellijIndexingStats() {
+      if (intellijIndexingStatsBuilder_ == null) {
+        return intellijIndexingStats_;
+      } else {
+        return intellijIndexingStatsBuilder_.getMessage();
+      }
+    }
+    /**
+     * <code>optional .android_studio.IntellijIndexingStats intellij_indexing_stats = 62;</code>
+     *
+     * <pre>
+     * set when kind = INDEXING_OPERATION_EVENT
+     * </pre>
+     */
+    public Builder setIntellijIndexingStats(com.google.wireless.android.sdk.stats.IntellijIndexingStats value) {
+      if (intellijIndexingStatsBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        intellijIndexingStats_ = value;
+        onChanged();
+      } else {
+        intellijIndexingStatsBuilder_.setMessage(value);
+      }
+      bitField1_ |= 0x20000000;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.IntellijIndexingStats intellij_indexing_stats = 62;</code>
+     *
+     * <pre>
+     * set when kind = INDEXING_OPERATION_EVENT
+     * </pre>
+     */
+    public Builder setIntellijIndexingStats(
+        com.google.wireless.android.sdk.stats.IntellijIndexingStats.Builder builderForValue) {
+      if (intellijIndexingStatsBuilder_ == null) {
+        intellijIndexingStats_ = builderForValue.build();
+        onChanged();
+      } else {
+        intellijIndexingStatsBuilder_.setMessage(builderForValue.build());
+      }
+      bitField1_ |= 0x20000000;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.IntellijIndexingStats intellij_indexing_stats = 62;</code>
+     *
+     * <pre>
+     * set when kind = INDEXING_OPERATION_EVENT
+     * </pre>
+     */
+    public Builder mergeIntellijIndexingStats(com.google.wireless.android.sdk.stats.IntellijIndexingStats value) {
+      if (intellijIndexingStatsBuilder_ == null) {
+        if (((bitField1_ & 0x20000000) == 0x20000000) &&
+            intellijIndexingStats_ != com.google.wireless.android.sdk.stats.IntellijIndexingStats.getDefaultInstance()) {
+          intellijIndexingStats_ =
+            com.google.wireless.android.sdk.stats.IntellijIndexingStats.newBuilder(intellijIndexingStats_).mergeFrom(value).buildPartial();
+        } else {
+          intellijIndexingStats_ = value;
+        }
+        onChanged();
+      } else {
+        intellijIndexingStatsBuilder_.mergeFrom(value);
+      }
+      bitField1_ |= 0x20000000;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.IntellijIndexingStats intellij_indexing_stats = 62;</code>
+     *
+     * <pre>
+     * set when kind = INDEXING_OPERATION_EVENT
+     * </pre>
+     */
+    public Builder clearIntellijIndexingStats() {
+      if (intellijIndexingStatsBuilder_ == null) {
+        intellijIndexingStats_ = com.google.wireless.android.sdk.stats.IntellijIndexingStats.getDefaultInstance();
+        onChanged();
+      } else {
+        intellijIndexingStatsBuilder_.clear();
+      }
+      bitField1_ = (bitField1_ & ~0x20000000);
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.IntellijIndexingStats intellij_indexing_stats = 62;</code>
+     *
+     * <pre>
+     * set when kind = INDEXING_OPERATION_EVENT
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.IntellijIndexingStats.Builder getIntellijIndexingStatsBuilder() {
+      bitField1_ |= 0x20000000;
+      onChanged();
+      return getIntellijIndexingStatsFieldBuilder().getBuilder();
+    }
+    /**
+     * <code>optional .android_studio.IntellijIndexingStats intellij_indexing_stats = 62;</code>
+     *
+     * <pre>
+     * set when kind = INDEXING_OPERATION_EVENT
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.IntellijIndexingStatsOrBuilder getIntellijIndexingStatsOrBuilder() {
+      if (intellijIndexingStatsBuilder_ != null) {
+        return intellijIndexingStatsBuilder_.getMessageOrBuilder();
+      } else {
+        return intellijIndexingStats_;
+      }
+    }
+    /**
+     * <code>optional .android_studio.IntellijIndexingStats intellij_indexing_stats = 62;</code>
+     *
+     * <pre>
+     * set when kind = INDEXING_OPERATION_EVENT
+     * </pre>
+     */
+    private com.google.protobuf.SingleFieldBuilder<
+        com.google.wireless.android.sdk.stats.IntellijIndexingStats, com.google.wireless.android.sdk.stats.IntellijIndexingStats.Builder, com.google.wireless.android.sdk.stats.IntellijIndexingStatsOrBuilder> 
+        getIntellijIndexingStatsFieldBuilder() {
+      if (intellijIndexingStatsBuilder_ == null) {
+        intellijIndexingStatsBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+            com.google.wireless.android.sdk.stats.IntellijIndexingStats, com.google.wireless.android.sdk.stats.IntellijIndexingStats.Builder, com.google.wireless.android.sdk.stats.IntellijIndexingStatsOrBuilder>(
+                intellijIndexingStats_,
+                getParentForChildren(),
+                isClean());
+        intellijIndexingStats_ = null;
+      }
+      return intellijIndexingStatsBuilder_;
     }
 
     // @@protoc_insertion_point(builder_scope:android_studio.AndroidStudioEvent)
