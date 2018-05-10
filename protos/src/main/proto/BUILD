@@ -16,3 +16,11 @@ maven_pom(
     group = "com.android.tools.analytics-library",
     source = "//tools/buildSrc/base:base_version",
 )
+
+java_proto_library(
+    name = "studio.proto",
+    srcs = glob(["*.proto"]),
+    proto_java_runtime_library = ["//tools/idea/.idea/libraries:protobuf"],
+    protoc_version = "3.0.0",  # Should match the version used in Studio.
+    visibility = ["//visibility:public"],
+)

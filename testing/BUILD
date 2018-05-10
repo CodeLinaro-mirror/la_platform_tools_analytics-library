@@ -16,11 +16,12 @@ iml_module(
         "//tools/base/annotations:studio.android.sdktools.android-annotations[module, test]",
         "//tools/idea/.idea/libraries:truth[test]",
         "//tools/idea/.idea/libraries:gson[test]",
-        "//tools/analytics-library/protos:analytics-protos[module, test]",
         "//tools/base/testutils:studio.android.sdktools.testutils[module, test]",
         "//tools/base/common:studio.android.sdktools.common[module, test]",
         "//tools/analytics-library/shared:analytics-shared[module, test]",
         "//tools/analytics-library/tracker:analytics-tracker[module, test]",
+        "//tools/idea/.idea/libraries:protobuf",
+        "//tools/idea/.idea/libraries:studio-analytics-proto",
     ],
 )
 
