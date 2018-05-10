@@ -751,6 +751,11 @@ public  final class AndroidStudioEvent extends
             bitField1_ |= 0x08000000;
             break;
           }
+          case 490: {
+            bitField1_ |= 0x10000000;
+            rawProjectId_ = input.readBytes();
+            break;
+          }
         }
       }
     } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -7049,6 +7054,70 @@ public  final class AndroidStudioEvent extends
     return whatsNewAssistantEvent_;
   }
 
+  // optional string raw_project_id = 61;
+  public static final int RAW_PROJECT_ID_FIELD_NUMBER = 61;
+  private java.lang.Object rawProjectId_;
+  /**
+   * <code>optional string raw_project_id = 61;</code>
+   *
+   * <pre>
+   * the project id as used in the playstore, e.g.
+   * 'com.google.android.apps.maps'. This is sensitive information and
+   * thus considered 'IDENTIFIYING'. This data is only available in and for PWG
+   * approved scenarios.
+   * </pre>
+   */
+  public boolean hasRawProjectId() {
+    return ((bitField1_ & 0x10000000) == 0x10000000);
+  }
+  /**
+   * <code>optional string raw_project_id = 61;</code>
+   *
+   * <pre>
+   * the project id as used in the playstore, e.g.
+   * 'com.google.android.apps.maps'. This is sensitive information and
+   * thus considered 'IDENTIFIYING'. This data is only available in and for PWG
+   * approved scenarios.
+   * </pre>
+   */
+  public java.lang.String getRawProjectId() {
+    java.lang.Object ref = rawProjectId_;
+    if (ref instanceof java.lang.String) {
+      return (java.lang.String) ref;
+    } else {
+      com.google.protobuf.ByteString bs = 
+          (com.google.protobuf.ByteString) ref;
+      java.lang.String s = bs.toStringUtf8();
+      if (bs.isValidUtf8()) {
+        rawProjectId_ = s;
+      }
+      return s;
+    }
+  }
+  /**
+   * <code>optional string raw_project_id = 61;</code>
+   *
+   * <pre>
+   * the project id as used in the playstore, e.g.
+   * 'com.google.android.apps.maps'. This is sensitive information and
+   * thus considered 'IDENTIFIYING'. This data is only available in and for PWG
+   * approved scenarios.
+   * </pre>
+   */
+  public com.google.protobuf.ByteString
+      getRawProjectIdBytes() {
+    java.lang.Object ref = rawProjectId_;
+    if (ref instanceof java.lang.String) {
+      com.google.protobuf.ByteString b = 
+          com.google.protobuf.ByteString.copyFromUtf8(
+              (java.lang.String) ref);
+      rawProjectId_ = b;
+      return b;
+    } else {
+      return (com.google.protobuf.ByteString) ref;
+    }
+  }
+
   private void initFields() {
     category_ = com.google.wireless.android.sdk.stats.AndroidStudioEvent.EventCategory.NO_EVENT_CATEGORY;
     kind_ = com.google.wireless.android.sdk.stats.AndroidStudioEvent.EventKind.UNKNOWN_EVENT_KIND;
@@ -7110,6 +7179,7 @@ public  final class AndroidStudioEvent extends
     ideBrand_ = com.google.wireless.android.sdk.stats.AndroidStudioEvent.IdeBrand.UNKNOWN_IDE_BRAND;
     cppHeadersViewEvent_ = com.google.wireless.android.sdk.stats.CppHeadersViewEvent.getDefaultInstance();
     whatsNewAssistantEvent_ = com.google.wireless.android.sdk.stats.WhatsNewAssistantEvent.getDefaultInstance();
+    rawProjectId_ = "";
   }
   private byte memoizedIsInitialized = -1;
   public final boolean isInitialized() {
@@ -7302,6 +7372,9 @@ public  final class AndroidStudioEvent extends
     }
     if (((bitField1_ & 0x08000000) == 0x08000000)) {
       output.writeMessage(60, whatsNewAssistantEvent_);
+    }
+    if (((bitField1_ & 0x10000000) == 0x10000000)) {
+      output.writeBytes(61, getRawProjectIdBytes());
     }
     getUnknownFields().writeTo(output);
   }
@@ -7551,6 +7624,10 @@ public  final class AndroidStudioEvent extends
     if (((bitField1_ & 0x08000000) == 0x08000000)) {
       size += com.google.protobuf.CodedOutputStream
         .computeMessageSize(60, whatsNewAssistantEvent_);
+    }
+    if (((bitField1_ & 0x10000000) == 0x10000000)) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeBytesSize(61, getRawProjectIdBytes());
     }
     size += getUnknownFields().getSerializedSize();
     memoizedSerializedSize = size;
@@ -7998,6 +8075,8 @@ public  final class AndroidStudioEvent extends
         whatsNewAssistantEventBuilder_.clear();
       }
       bitField1_ = (bitField1_ & ~0x08000000);
+      rawProjectId_ = "";
+      bitField1_ = (bitField1_ & ~0x10000000);
       return this;
     }
 
@@ -8436,6 +8515,10 @@ public  final class AndroidStudioEvent extends
       } else {
         result.whatsNewAssistantEvent_ = whatsNewAssistantEventBuilder_.build();
       }
+      if (((from_bitField1_ & 0x10000000) == 0x10000000)) {
+        to_bitField1_ |= 0x10000000;
+      }
+      result.rawProjectId_ = rawProjectId_;
       result.bitField0_ = to_bitField0_;
       result.bitField1_ = to_bitField1_;
       onBuilt();
@@ -8644,6 +8727,11 @@ public  final class AndroidStudioEvent extends
       }
       if (other.hasWhatsNewAssistantEvent()) {
         mergeWhatsNewAssistantEvent(other.getWhatsNewAssistantEvent());
+      }
+      if (other.hasRawProjectId()) {
+        bitField1_ |= 0x10000000;
+        rawProjectId_ = other.rawProjectId_;
+        onChanged();
       }
       this.mergeUnknownFields(other.getUnknownFields());
       return this;
@@ -16516,6 +16604,122 @@ public  final class AndroidStudioEvent extends
         whatsNewAssistantEvent_ = null;
       }
       return whatsNewAssistantEventBuilder_;
+    }
+
+    // optional string raw_project_id = 61;
+    private java.lang.Object rawProjectId_ = "";
+    /**
+     * <code>optional string raw_project_id = 61;</code>
+     *
+     * <pre>
+     * the project id as used in the playstore, e.g.
+     * 'com.google.android.apps.maps'. This is sensitive information and
+     * thus considered 'IDENTIFIYING'. This data is only available in and for PWG
+     * approved scenarios.
+     * </pre>
+     */
+    public boolean hasRawProjectId() {
+      return ((bitField1_ & 0x10000000) == 0x10000000);
+    }
+    /**
+     * <code>optional string raw_project_id = 61;</code>
+     *
+     * <pre>
+     * the project id as used in the playstore, e.g.
+     * 'com.google.android.apps.maps'. This is sensitive information and
+     * thus considered 'IDENTIFIYING'. This data is only available in and for PWG
+     * approved scenarios.
+     * </pre>
+     */
+    public java.lang.String getRawProjectId() {
+      java.lang.Object ref = rawProjectId_;
+      if (!(ref instanceof java.lang.String)) {
+        java.lang.String s = ((com.google.protobuf.ByteString) ref)
+            .toStringUtf8();
+        rawProjectId_ = s;
+        return s;
+      } else {
+        return (java.lang.String) ref;
+      }
+    }
+    /**
+     * <code>optional string raw_project_id = 61;</code>
+     *
+     * <pre>
+     * the project id as used in the playstore, e.g.
+     * 'com.google.android.apps.maps'. This is sensitive information and
+     * thus considered 'IDENTIFIYING'. This data is only available in and for PWG
+     * approved scenarios.
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getRawProjectIdBytes() {
+      java.lang.Object ref = rawProjectId_;
+      if (ref instanceof String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        rawProjectId_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+    /**
+     * <code>optional string raw_project_id = 61;</code>
+     *
+     * <pre>
+     * the project id as used in the playstore, e.g.
+     * 'com.google.android.apps.maps'. This is sensitive information and
+     * thus considered 'IDENTIFIYING'. This data is only available in and for PWG
+     * approved scenarios.
+     * </pre>
+     */
+    public Builder setRawProjectId(
+        java.lang.String value) {
+      if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField1_ |= 0x10000000;
+      rawProjectId_ = value;
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>optional string raw_project_id = 61;</code>
+     *
+     * <pre>
+     * the project id as used in the playstore, e.g.
+     * 'com.google.android.apps.maps'. This is sensitive information and
+     * thus considered 'IDENTIFIYING'. This data is only available in and for PWG
+     * approved scenarios.
+     * </pre>
+     */
+    public Builder clearRawProjectId() {
+      bitField1_ = (bitField1_ & ~0x10000000);
+      rawProjectId_ = getDefaultInstance().getRawProjectId();
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>optional string raw_project_id = 61;</code>
+     *
+     * <pre>
+     * the project id as used in the playstore, e.g.
+     * 'com.google.android.apps.maps'. This is sensitive information and
+     * thus considered 'IDENTIFIYING'. This data is only available in and for PWG
+     * approved scenarios.
+     * </pre>
+     */
+    public Builder setRawProjectIdBytes(
+        com.google.protobuf.ByteString value) {
+      if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField1_ |= 0x10000000;
+      rawProjectId_ = value;
+      onChanged();
+      return this;
     }
 
     // @@protoc_insertion_point(builder_scope:android_studio.AndroidStudioEvent)

@@ -48,6 +48,11 @@ import java.util.concurrent.TimeUnit;
  * Only for integration tests that need .trk files to be generated, use the JournalingUsageTracker.
  */
 public class JournalingUsageTracker extends UsageTracker {
+    private enum State {
+      Open,
+      Closed,
+      Broken
+    }
 
     private final Path mSpoolLocation;
     private final Object mGate = new Object();
@@ -57,15 +62,15 @@ public class JournalingUsageTracker extends UsageTracker {
     private int mCurrentLogCount = 0;
     private ScheduledFuture<?> mJournalTimeout;
     private int mScheduleVersion = 0;
-    private boolean mClosed;
+    private State mState = State.Open;
 
     /**
      * Creates an instance of JournalingUsageTracker. Ensures spool location is available and locks
      * the first journaling file.
      *
      * @param spoolLocation location to use for spool files.
-     * @param scheduler used for scheduling writing logs and closing & starting new files on
-     *     timeout/size limits.
+     * @param scheduler     used for scheduling writing logs and closing & starting new files on
+     *                      timeout/size limits.
      */
     public JournalingUsageTracker(
             AnalyticsSettings analyticsSettings,
@@ -85,7 +90,7 @@ public class JournalingUsageTracker extends UsageTracker {
      */
     private void newTrackFile() throws IOException {
         Path spoolFile =
-                Paths.get(mSpoolLocation.toString(), UUID.randomUUID().toString() + ".trk");
+            Paths.get(mSpoolLocation.toString(), UUID.randomUUID().toString() + ".trk");
         Files.createDirectories(spoolFile.getParent());
         FileOutputStream fileOutputStream = new FileOutputStream(spoolFile.toFile());
         mOutputStream = fileOutputStream;
@@ -94,13 +99,11 @@ public class JournalingUsageTracker extends UsageTracker {
         try {
             mLock = mChannel.tryLock();
         } catch (OverlappingFileLockException e) {
-            mChannel.close();
-            mOutputStream.close();
+            closeTrackFile();
             throw new IOException("Unable to lock usage tracking spool file", e);
         }
         if (mLock == null) {
-            mChannel.close();
-            mOutputStream.close();
+            closeTrackFile();
             throw new IOException("Unable to lock usage tracking spool file, file already locked");
         }
         mCurrentLogCount = 0;
@@ -110,71 +113,110 @@ public class JournalingUsageTracker extends UsageTracker {
      * Closes the track file currently open for writing.
      */
     private void closeTrackFile() throws IOException {
-        if (mLock != null) {
-            mLock.release();
-            mLock = null;
-        }
+        IOException ex = null;
 
-        if (mChannel != null) {
-            mChannel.close();
-            mChannel = null;
+        try {
+            if (mLock != null) {
+                mLock.release();
+            }
+        } catch (IOException e) {
+            ex = e;
         }
+        mLock = null;
 
-        if (mOutputStream != null) {
-            mOutputStream.close();
-            mOutputStream = null;
+        try {
+            if (mChannel != null) {
+                mChannel.close();
+            }
+        } catch (IOException e) {
+            if (ex == null) {
+                ex = e;
+            } else {
+                ex.addSuppressed(e);
+            }
+        }
+        mChannel = null;
+
+        try {
+            if (mOutputStream != null) {
+                mOutputStream.close();
+            }
+        } catch (IOException e) {
+            if (ex == null) {
+                ex = e;
+            } else {
+                ex.addSuppressed(e);
+            }
+        }
+        mOutputStream = null;
+
+        // Rethrow first encountered exception, if any.
+        if (ex != null) {
+            throw ex;
         }
     }
 
     @Override
     public void logDetails(@NonNull ClientAnalytics.LogEvent.Builder logEvent) {
-        if (mClosed) {
-            throw new RuntimeException("UsageTracker already closed.");
+        if (mState != State.Open) {
+            return;
         }
         getScheduler()
-                .execute(
-                        new Runnable() {
-                            @Override
-                            public void run() {
-                                synchronized (mGate) {
-                                    try {
-                                        logEvent.build().writeDelimitedTo(mOutputStream);
-                                        mOutputStream.flush();
-                                        mChannel.force(false);
-                                    } catch (IOException e) {
-                                        throw new RuntimeException(
-                                                "Failure writing logDetails to usage tracking spool file",
-                                                e);
-                                    }
-                                    mCurrentLogCount++;
-                                    if (getMaxJournalSize() > 0
-                                            && mCurrentLogCount >= getMaxJournalSize()) {
-                                        switchTrackFile();
-                                        if (mJournalTimeout != null) {
-                                            // Reset the max journal time as we just reset the logs.
-                                            scheduleJournalTimeout(getMaxJournalTime());
-                                        }
-                                    }
-                                }
+            .execute(
+                () -> {
+                    synchronized (mGate) {
+                        if (mState != State.Open) {
+                            return;
+                        }
+                        try {
+                            logEvent.build().writeDelimitedTo(mOutputStream);
+                            mOutputStream.flush();
+                            mChannel.force(false);
+                        } catch (IOException ignored) {
+                            closeAsBroken();
+                            return;
+                        }
+                        mCurrentLogCount++;
+                        if (getMaxJournalSize() > 0
+                                && mCurrentLogCount >= getMaxJournalSize()) {
+                            switchTrackFile();
+                            if (mJournalTimeout != null) {
+                                // Reset the max journal time as we just reset the logs.
+                                scheduleJournalTimeout(getMaxJournalTime());
                             }
-                        });
+                        }
+                    }
+                });
+    }
+
+    private void closeAsBroken() {
+        try {
+            close();
+        }
+        catch (Exception ignored) {
+        }
+        mState = State.Broken;
     }
 
     /**
      * Closes the trackfile currently used for writing and creates a brand new one and opens that
      * one for writing.
+     * <br>
+     * @return {@code true} when succeeds, otherwise {@code false}. If there was an error during the switch,
+     *   JournalingUsageTracker is left in {@code Broken} state and stops logging/reporting any new events.
      */
-    private void switchTrackFile() {
+    private boolean switchTrackFile() {
         try {
             closeTrackFile();
             newTrackFile();
+            return true;
         } catch (IOException e) {
-            throw new RuntimeException("Failure switching to new usage tracking spool file", e);
+            closeAsBroken();
+            return false;
         }
     }
 
     /**
-     *
      * Closes the UsageTracker (closes current tracker file, disables scheduling of timeout &amp;
      * disables new logs from
      * being posted).
@@ -182,11 +224,11 @@ public class JournalingUsageTracker extends UsageTracker {
     @Override
     public void close() throws Exception {
         synchronized (mGate) {
-            mClosed = true;
-            closeTrackFile();
+            mState = State.Closed;
             if (this.mJournalTimeout != null) {
                 this.mJournalTimeout.cancel(false);
             }
+            closeTrackFile();
         }
     }
 
@@ -198,27 +240,32 @@ public class JournalingUsageTracker extends UsageTracker {
         }
     }
 
-    /** Schedules a timeout at which point the journal will be */
+    /**
+     * Schedules a timeout at which point the journal will be
+     */
     private void scheduleJournalTimeout(long maxJournalTime) {
         final int currentScheduleVersion = ++mScheduleVersion;
         if (mJournalTimeout != null) {
             mJournalTimeout.cancel(false);
         }
         mJournalTimeout =
-                getScheduler()
-                        .schedule(
-                                () -> {
-                                    synchronized (mGate) {
-                                        if (mCurrentLogCount > 0) {
-                                            switchTrackFile();
-                                        }
-                                        // only schedule next beat if we're still the authority.
-                                        if (mScheduleVersion == currentScheduleVersion) {
-                                            scheduleJournalTimeout(maxJournalTime);
-                                        }
-                                    }
-                                },
-                                maxJournalTime,
-                                TimeUnit.NANOSECONDS);
+            getScheduler()
+                .schedule(
+                    () -> {
+                        synchronized (mGate) {
+                            if (mState != State.Open) {
+                                return;
+                            }
+                            if (mCurrentLogCount > 0) {
+                                switchTrackFile();
+                            }
+                            // only schedule next beat if we're still the authority.
+                            if (mScheduleVersion == currentScheduleVersion) {
+                                scheduleJournalTimeout(maxJournalTime);
+                            }
+                        }
+                    },
+                    maxJournalTime,
+                    TimeUnit.NANOSECONDS);
     }
 }

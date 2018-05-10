@@ -208,7 +208,7 @@ public  final class EnergyEventMetadata extends
 
   private void initFields() {
     type_ = com.google.wireless.android.sdk.stats.EnergyEvent.Type.UNKNOWN_EVENT_TYPE;
-    subtype_ = com.google.wireless.android.sdk.stats.EnergyEvent.Subtype.UNKNOWN_SUBEVENT_TYPE;
+    subtype_ = com.google.wireless.android.sdk.stats.EnergyEvent.Subtype.UNKNOWN_EVENT_SUBTYPE;
     subevents_ = java.util.Collections.emptyList();
   }
   private byte memoizedIsInitialized = -1;
@@ -376,7 +376,7 @@ public  final class EnergyEventMetadata extends
       super.clear();
       type_ = com.google.wireless.android.sdk.stats.EnergyEvent.Type.UNKNOWN_EVENT_TYPE;
       bitField0_ = (bitField0_ & ~0x00000001);
-      subtype_ = com.google.wireless.android.sdk.stats.EnergyEvent.Subtype.UNKNOWN_SUBEVENT_TYPE;
+      subtype_ = com.google.wireless.android.sdk.stats.EnergyEvent.Subtype.UNKNOWN_EVENT_SUBTYPE;
       bitField0_ = (bitField0_ & ~0x00000002);
       subevents_ = java.util.Collections.emptyList();
       bitField0_ = (bitField0_ & ~0x00000004);
@@ -517,7 +517,7 @@ public  final class EnergyEventMetadata extends
     }
 
     // optional .android_studio.EnergyEvent.Subtype subtype = 2;
-    private com.google.wireless.android.sdk.stats.EnergyEvent.Subtype subtype_ = com.google.wireless.android.sdk.stats.EnergyEvent.Subtype.UNKNOWN_SUBEVENT_TYPE;
+    private com.google.wireless.android.sdk.stats.EnergyEvent.Subtype subtype_ = com.google.wireless.android.sdk.stats.EnergyEvent.Subtype.UNKNOWN_EVENT_SUBTYPE;
     /**
      * <code>optional .android_studio.EnergyEvent.Subtype subtype = 2;</code>
      */
@@ -547,7 +547,7 @@ public  final class EnergyEventMetadata extends
      */
     public Builder clearSubtype() {
       bitField0_ = (bitField0_ & ~0x00000002);
-      subtype_ = com.google.wireless.android.sdk.stats.EnergyEvent.Subtype.UNKNOWN_SUBEVENT_TYPE;
+      subtype_ = com.google.wireless.android.sdk.stats.EnergyEvent.Subtype.UNKNOWN_EVENT_SUBTYPE;
       onChanged();
       return this;
     }

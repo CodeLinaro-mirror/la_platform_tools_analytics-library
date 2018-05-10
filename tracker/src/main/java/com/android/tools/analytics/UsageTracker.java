@@ -192,18 +192,28 @@ public abstract class UsageTracker implements AutoCloseable {
             @NonNull AnalyticsSettings analyticsSettings,
             @NonNull ScheduledExecutorService scheduler) {
         synchronized (sGate) {
-            UsageTracker current = sInstance;
+            UsageTracker oldInstance = sInstance;
             if (analyticsSettings.hasOptedIn()) {
-                sInstance =
-                        new JournalingUsageTracker(
-                                analyticsSettings,
-                                scheduler,
-                                Paths.get(AnalyticsPaths.getSpoolDirectory()));
+                try {
+                   sInstance =
+                       new JournalingUsageTracker(
+                           analyticsSettings,
+                           scheduler,
+                           Paths.get(AnalyticsPaths.getSpoolDirectory()));
+                } catch (RuntimeException ex) {
+                    sInstance = new NullUsageTracker(analyticsSettings, scheduler);
+                    sInstance.setIdeBrand(oldInstance.getIdeBrand());
+                    throw ex;
+                }
             } else {
                 sInstance = new NullUsageTracker(analyticsSettings, scheduler);
             }
-            if (current != null) {
-                sInstance.setIdeBrand(current.getIdeBrand());
+            sInstance.setIdeBrand(oldInstance.getIdeBrand());
+            try {
+                oldInstance.close();
+            }
+            catch (Exception ex) {
+              throw new RuntimeException("Unable to close usage tracker", ex);
             }
             return sInstance;
         }
@@ -214,7 +224,7 @@ public abstract class UsageTracker implements AutoCloseable {
      * implementation. NOTE: Should only be used from tests.
      */
     @VisibleForTesting
-    public static UsageTracker setInstanceForTest(UsageTracker tracker) {
+    public static UsageTracker setInstanceForTest(@NonNull UsageTracker tracker) {
         sIsTesting = true;
         return sInstance = tracker;
     }
@@ -231,7 +241,6 @@ public abstract class UsageTracker implements AutoCloseable {
 
     public static AnalyticsSettings updateSettingsAndTracker(
             boolean optIn, @NonNull ILogger logger, @NonNull ScheduledExecutorService scheduler) {
-        UsageTracker current = getInstance();
         AnalyticsSettings settings = AnalyticsSettings.getInstance(logger);
 
         if (sIsTesting) {
@@ -248,11 +257,10 @@ public abstract class UsageTracker implements AutoCloseable {
             }
         }
         try {
-            current.close();
+          initialize(settings, scheduler);
         } catch (Exception e) {
-            logger.error(e, "Unable to close existing analytics tracker");
+            logger.error(e, "Unable to initialize analytics tracker");
         }
-        initialize(settings, scheduler);
         return settings;
     }
 }

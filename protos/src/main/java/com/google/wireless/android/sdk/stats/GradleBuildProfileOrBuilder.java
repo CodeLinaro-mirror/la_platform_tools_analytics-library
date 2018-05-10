@@ -441,4 +441,40 @@ public interface GradleBuildProfileOrBuilder
    */
   com.google.protobuf.ByteString
       getProjectIdBytes();
+
+  // optional string raw_project_id = 19;
+  /**
+   * <code>optional string raw_project_id = 19;</code>
+   *
+   * <pre>
+   * the project id as used in the playstore, e.g.
+   * 'com.google.android.apps.maps'. This is sensitive information and
+   * thus considered 'IDENTIFIYING'. This data is only available in and for PWG
+   * approved scenarios.
+   * </pre>
+   */
+  boolean hasRawProjectId();
+  /**
+   * <code>optional string raw_project_id = 19;</code>
+   *
+   * <pre>
+   * the project id as used in the playstore, e.g.
+   * 'com.google.android.apps.maps'. This is sensitive information and
+   * thus considered 'IDENTIFIYING'. This data is only available in and for PWG
+   * approved scenarios.
+   * </pre>
+   */
+  java.lang.String getRawProjectId();
+  /**
+   * <code>optional string raw_project_id = 19;</code>
+   *
+   * <pre>
+   * the project id as used in the playstore, e.g.
+   * 'com.google.android.apps.maps'. This is sensitive information and
+   * thus considered 'IDENTIFIYING'. This data is only available in and for PWG
+   * approved scenarios.
+   * </pre>
+   */
+  com.google.protobuf.ByteString
+      getRawProjectIdBytes();
 }

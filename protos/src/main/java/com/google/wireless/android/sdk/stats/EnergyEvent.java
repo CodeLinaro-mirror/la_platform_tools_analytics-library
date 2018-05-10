@@ -211,9 +211,9 @@ public  final class EnergyEvent extends
   public enum Subtype
       implements com.google.protobuf.ProtocolMessageEnum {
     /**
-     * <code>UNKNOWN_SUBEVENT_TYPE = 0;</code>
+     * <code>UNKNOWN_EVENT_SUBTYPE = 0;</code>
      */
-    UNKNOWN_SUBEVENT_TYPE(0, 0),
+    UNKNOWN_EVENT_SUBTYPE(0, 0),
     /**
      * <code>WAKE_LOCK_PARTIAL = 1;</code>
      */
@@ -253,9 +253,9 @@ public  final class EnergyEvent extends
     ;
 
     /**
-     * <code>UNKNOWN_SUBEVENT_TYPE = 0;</code>
+     * <code>UNKNOWN_EVENT_SUBTYPE = 0;</code>
      */
-    public static final int UNKNOWN_SUBEVENT_TYPE_VALUE = 0;
+    public static final int UNKNOWN_EVENT_SUBTYPE_VALUE = 0;
     /**
      * <code>WAKE_LOCK_PARTIAL = 1;</code>
      */
@@ -298,7 +298,7 @@ public  final class EnergyEvent extends
 
     public static Subtype valueOf(int value) {
       switch (value) {
-        case 0: return UNKNOWN_SUBEVENT_TYPE;
+        case 0: return UNKNOWN_EVENT_SUBTYPE;
         case 1: return WAKE_LOCK_PARTIAL;
         case 2: return WAKE_LOCK_SCREEN_DIM;
         case 3: return WAKE_LOCK_SCREEN_BRIGHT;
