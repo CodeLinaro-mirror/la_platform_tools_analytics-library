@@ -63,6 +63,24 @@ public  final class StudioPerformanceStats extends
             uiFreezeTimeMs_ = input.readInt32();
             break;
           }
+          case 18: {
+            com.google.wireless.android.sdk.stats.Histogram.Builder subBuilder = null;
+            if (((bitField0_ & 0x00000002) == 0x00000002)) {
+              subBuilder = eventServiceTimeMs_.toBuilder();
+            }
+            eventServiceTimeMs_ = input.readMessage(com.google.wireless.android.sdk.stats.Histogram.PARSER, extensionRegistry);
+            if (subBuilder != null) {
+              subBuilder.mergeFrom(eventServiceTimeMs_);
+              eventServiceTimeMs_ = subBuilder.buildPartial();
+            }
+            bitField0_ |= 0x00000002;
+            break;
+          }
+          case 24: {
+            bitField0_ |= 0x00000004;
+            eventServiceTimeSamplePeriod_ = input.readInt32();
+            break;
+          }
         }
       }
     } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -127,8 +145,88 @@ public  final class StudioPerformanceStats extends
     return uiFreezeTimeMs_;
   }
 
+  // optional .android_studio.Histogram event_service_time_ms = 2;
+  public static final int EVENT_SERVICE_TIME_MS_FIELD_NUMBER = 2;
+  private com.google.wireless.android.sdk.stats.Histogram eventServiceTimeMs_;
+  /**
+   * <code>optional .android_studio.Histogram event_service_time_ms = 2;</code>
+   *
+   * <pre>
+   * Distribution of times taken to process events in the main event loop,
+   * in milliseconds. The number of samples is approximately equal to the
+   * number of events handled, quantized by event_service_time_sample_period.
+   * For example, if the 10-20ms bin contains 100 samples, it means that
+   * approximately 100 events took between 10 and 20 milliseconds to process.
+   * </pre>
+   */
+  public boolean hasEventServiceTimeMs() {
+    return ((bitField0_ & 0x00000002) == 0x00000002);
+  }
+  /**
+   * <code>optional .android_studio.Histogram event_service_time_ms = 2;</code>
+   *
+   * <pre>
+   * Distribution of times taken to process events in the main event loop,
+   * in milliseconds. The number of samples is approximately equal to the
+   * number of events handled, quantized by event_service_time_sample_period.
+   * For example, if the 10-20ms bin contains 100 samples, it means that
+   * approximately 100 events took between 10 and 20 milliseconds to process.
+   * </pre>
+   */
+  public com.google.wireless.android.sdk.stats.Histogram getEventServiceTimeMs() {
+    return eventServiceTimeMs_;
+  }
+  /**
+   * <code>optional .android_studio.Histogram event_service_time_ms = 2;</code>
+   *
+   * <pre>
+   * Distribution of times taken to process events in the main event loop,
+   * in milliseconds. The number of samples is approximately equal to the
+   * number of events handled, quantized by event_service_time_sample_period.
+   * For example, if the 10-20ms bin contains 100 samples, it means that
+   * approximately 100 events took between 10 and 20 milliseconds to process.
+   * </pre>
+   */
+  public com.google.wireless.android.sdk.stats.HistogramOrBuilder getEventServiceTimeMsOrBuilder() {
+    return eventServiceTimeMs_;
+  }
+
+  // optional int32 event_service_time_sample_period = 3;
+  public static final int EVENT_SERVICE_TIME_SAMPLE_PERIOD_FIELD_NUMBER = 3;
+  private int eventServiceTimeSamplePeriod_;
+  /**
+   * <code>optional int32 event_service_time_sample_period = 3;</code>
+   *
+   * <pre>
+   * Sample period used to compute the event_service_time_ms histogram. For
+   * example, if this is set to 10 then the service time was measured for
+   * every 10th event, and each measurement counted for 10 samples in
+   * the histogram. This is mainly intended for computing error bars
+   * and is not needed for interpreting the histogram itself.
+   * </pre>
+   */
+  public boolean hasEventServiceTimeSamplePeriod() {
+    return ((bitField0_ & 0x00000004) == 0x00000004);
+  }
+  /**
+   * <code>optional int32 event_service_time_sample_period = 3;</code>
+   *
+   * <pre>
+   * Sample period used to compute the event_service_time_ms histogram. For
+   * example, if this is set to 10 then the service time was measured for
+   * every 10th event, and each measurement counted for 10 samples in
+   * the histogram. This is mainly intended for computing error bars
+   * and is not needed for interpreting the histogram itself.
+   * </pre>
+   */
+  public int getEventServiceTimeSamplePeriod() {
+    return eventServiceTimeSamplePeriod_;
+  }
+
   private void initFields() {
     uiFreezeTimeMs_ = 0;
+    eventServiceTimeMs_ = com.google.wireless.android.sdk.stats.Histogram.getDefaultInstance();
+    eventServiceTimeSamplePeriod_ = 0;
   }
   private byte memoizedIsInitialized = -1;
   public final boolean isInitialized() {
@@ -145,6 +243,12 @@ public  final class StudioPerformanceStats extends
     if (((bitField0_ & 0x00000001) == 0x00000001)) {
       output.writeInt32(1, uiFreezeTimeMs_);
     }
+    if (((bitField0_ & 0x00000002) == 0x00000002)) {
+      output.writeMessage(2, eventServiceTimeMs_);
+    }
+    if (((bitField0_ & 0x00000004) == 0x00000004)) {
+      output.writeInt32(3, eventServiceTimeSamplePeriod_);
+    }
     getUnknownFields().writeTo(output);
   }
 
@@ -157,6 +261,14 @@ public  final class StudioPerformanceStats extends
     if (((bitField0_ & 0x00000001) == 0x00000001)) {
       size += com.google.protobuf.CodedOutputStream
         .computeInt32Size(1, uiFreezeTimeMs_);
+    }
+    if (((bitField0_ & 0x00000002) == 0x00000002)) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeMessageSize(2, eventServiceTimeMs_);
+    }
+    if (((bitField0_ & 0x00000004) == 0x00000004)) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeInt32Size(3, eventServiceTimeSamplePeriod_);
     }
     size += getUnknownFields().getSerializedSize();
     memoizedSerializedSize = size;
@@ -270,6 +382,7 @@ public  final class StudioPerformanceStats extends
     }
     private void maybeForceBuilderInitialization() {
       if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        getEventServiceTimeMsFieldBuilder();
       }
     }
     private static Builder create() {
@@ -280,6 +393,14 @@ public  final class StudioPerformanceStats extends
       super.clear();
       uiFreezeTimeMs_ = 0;
       bitField0_ = (bitField0_ & ~0x00000001);
+      if (eventServiceTimeMsBuilder_ == null) {
+        eventServiceTimeMs_ = com.google.wireless.android.sdk.stats.Histogram.getDefaultInstance();
+      } else {
+        eventServiceTimeMsBuilder_.clear();
+      }
+      bitField0_ = (bitField0_ & ~0x00000002);
+      eventServiceTimeSamplePeriod_ = 0;
+      bitField0_ = (bitField0_ & ~0x00000004);
       return this;
     }
 
@@ -312,6 +433,18 @@ public  final class StudioPerformanceStats extends
         to_bitField0_ |= 0x00000001;
       }
       result.uiFreezeTimeMs_ = uiFreezeTimeMs_;
+      if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+        to_bitField0_ |= 0x00000002;
+      }
+      if (eventServiceTimeMsBuilder_ == null) {
+        result.eventServiceTimeMs_ = eventServiceTimeMs_;
+      } else {
+        result.eventServiceTimeMs_ = eventServiceTimeMsBuilder_.build();
+      }
+      if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+        to_bitField0_ |= 0x00000004;
+      }
+      result.eventServiceTimeSamplePeriod_ = eventServiceTimeSamplePeriod_;
       result.bitField0_ = to_bitField0_;
       onBuilt();
       return result;
@@ -330,6 +463,12 @@ public  final class StudioPerformanceStats extends
       if (other == com.google.wireless.android.sdk.stats.StudioPerformanceStats.getDefaultInstance()) return this;
       if (other.hasUiFreezeTimeMs()) {
         setUiFreezeTimeMs(other.getUiFreezeTimeMs());
+      }
+      if (other.hasEventServiceTimeMs()) {
+        mergeEventServiceTimeMs(other.getEventServiceTimeMs());
+      }
+      if (other.hasEventServiceTimeSamplePeriod()) {
+        setEventServiceTimeSamplePeriod(other.getEventServiceTimeSamplePeriod());
       }
       this.mergeUnknownFields(other.getUnknownFields());
       return this;
@@ -403,6 +542,260 @@ public  final class StudioPerformanceStats extends
     public Builder clearUiFreezeTimeMs() {
       bitField0_ = (bitField0_ & ~0x00000001);
       uiFreezeTimeMs_ = 0;
+      onChanged();
+      return this;
+    }
+
+    // optional .android_studio.Histogram event_service_time_ms = 2;
+    private com.google.wireless.android.sdk.stats.Histogram eventServiceTimeMs_ = com.google.wireless.android.sdk.stats.Histogram.getDefaultInstance();
+    private com.google.protobuf.SingleFieldBuilder<
+        com.google.wireless.android.sdk.stats.Histogram, com.google.wireless.android.sdk.stats.Histogram.Builder, com.google.wireless.android.sdk.stats.HistogramOrBuilder> eventServiceTimeMsBuilder_;
+    /**
+     * <code>optional .android_studio.Histogram event_service_time_ms = 2;</code>
+     *
+     * <pre>
+     * Distribution of times taken to process events in the main event loop,
+     * in milliseconds. The number of samples is approximately equal to the
+     * number of events handled, quantized by event_service_time_sample_period.
+     * For example, if the 10-20ms bin contains 100 samples, it means that
+     * approximately 100 events took between 10 and 20 milliseconds to process.
+     * </pre>
+     */
+    public boolean hasEventServiceTimeMs() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>optional .android_studio.Histogram event_service_time_ms = 2;</code>
+     *
+     * <pre>
+     * Distribution of times taken to process events in the main event loop,
+     * in milliseconds. The number of samples is approximately equal to the
+     * number of events handled, quantized by event_service_time_sample_period.
+     * For example, if the 10-20ms bin contains 100 samples, it means that
+     * approximately 100 events took between 10 and 20 milliseconds to process.
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.Histogram getEventServiceTimeMs() {
+      if (eventServiceTimeMsBuilder_ == null) {
+        return eventServiceTimeMs_;
+      } else {
+        return eventServiceTimeMsBuilder_.getMessage();
+      }
+    }
+    /**
+     * <code>optional .android_studio.Histogram event_service_time_ms = 2;</code>
+     *
+     * <pre>
+     * Distribution of times taken to process events in the main event loop,
+     * in milliseconds. The number of samples is approximately equal to the
+     * number of events handled, quantized by event_service_time_sample_period.
+     * For example, if the 10-20ms bin contains 100 samples, it means that
+     * approximately 100 events took between 10 and 20 milliseconds to process.
+     * </pre>
+     */
+    public Builder setEventServiceTimeMs(com.google.wireless.android.sdk.stats.Histogram value) {
+      if (eventServiceTimeMsBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        eventServiceTimeMs_ = value;
+        onChanged();
+      } else {
+        eventServiceTimeMsBuilder_.setMessage(value);
+      }
+      bitField0_ |= 0x00000002;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.Histogram event_service_time_ms = 2;</code>
+     *
+     * <pre>
+     * Distribution of times taken to process events in the main event loop,
+     * in milliseconds. The number of samples is approximately equal to the
+     * number of events handled, quantized by event_service_time_sample_period.
+     * For example, if the 10-20ms bin contains 100 samples, it means that
+     * approximately 100 events took between 10 and 20 milliseconds to process.
+     * </pre>
+     */
+    public Builder setEventServiceTimeMs(
+        com.google.wireless.android.sdk.stats.Histogram.Builder builderForValue) {
+      if (eventServiceTimeMsBuilder_ == null) {
+        eventServiceTimeMs_ = builderForValue.build();
+        onChanged();
+      } else {
+        eventServiceTimeMsBuilder_.setMessage(builderForValue.build());
+      }
+      bitField0_ |= 0x00000002;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.Histogram event_service_time_ms = 2;</code>
+     *
+     * <pre>
+     * Distribution of times taken to process events in the main event loop,
+     * in milliseconds. The number of samples is approximately equal to the
+     * number of events handled, quantized by event_service_time_sample_period.
+     * For example, if the 10-20ms bin contains 100 samples, it means that
+     * approximately 100 events took between 10 and 20 milliseconds to process.
+     * </pre>
+     */
+    public Builder mergeEventServiceTimeMs(com.google.wireless.android.sdk.stats.Histogram value) {
+      if (eventServiceTimeMsBuilder_ == null) {
+        if (((bitField0_ & 0x00000002) == 0x00000002) &&
+            eventServiceTimeMs_ != com.google.wireless.android.sdk.stats.Histogram.getDefaultInstance()) {
+          eventServiceTimeMs_ =
+            com.google.wireless.android.sdk.stats.Histogram.newBuilder(eventServiceTimeMs_).mergeFrom(value).buildPartial();
+        } else {
+          eventServiceTimeMs_ = value;
+        }
+        onChanged();
+      } else {
+        eventServiceTimeMsBuilder_.mergeFrom(value);
+      }
+      bitField0_ |= 0x00000002;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.Histogram event_service_time_ms = 2;</code>
+     *
+     * <pre>
+     * Distribution of times taken to process events in the main event loop,
+     * in milliseconds. The number of samples is approximately equal to the
+     * number of events handled, quantized by event_service_time_sample_period.
+     * For example, if the 10-20ms bin contains 100 samples, it means that
+     * approximately 100 events took between 10 and 20 milliseconds to process.
+     * </pre>
+     */
+    public Builder clearEventServiceTimeMs() {
+      if (eventServiceTimeMsBuilder_ == null) {
+        eventServiceTimeMs_ = com.google.wireless.android.sdk.stats.Histogram.getDefaultInstance();
+        onChanged();
+      } else {
+        eventServiceTimeMsBuilder_.clear();
+      }
+      bitField0_ = (bitField0_ & ~0x00000002);
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.Histogram event_service_time_ms = 2;</code>
+     *
+     * <pre>
+     * Distribution of times taken to process events in the main event loop,
+     * in milliseconds. The number of samples is approximately equal to the
+     * number of events handled, quantized by event_service_time_sample_period.
+     * For example, if the 10-20ms bin contains 100 samples, it means that
+     * approximately 100 events took between 10 and 20 milliseconds to process.
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.Histogram.Builder getEventServiceTimeMsBuilder() {
+      bitField0_ |= 0x00000002;
+      onChanged();
+      return getEventServiceTimeMsFieldBuilder().getBuilder();
+    }
+    /**
+     * <code>optional .android_studio.Histogram event_service_time_ms = 2;</code>
+     *
+     * <pre>
+     * Distribution of times taken to process events in the main event loop,
+     * in milliseconds. The number of samples is approximately equal to the
+     * number of events handled, quantized by event_service_time_sample_period.
+     * For example, if the 10-20ms bin contains 100 samples, it means that
+     * approximately 100 events took between 10 and 20 milliseconds to process.
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.HistogramOrBuilder getEventServiceTimeMsOrBuilder() {
+      if (eventServiceTimeMsBuilder_ != null) {
+        return eventServiceTimeMsBuilder_.getMessageOrBuilder();
+      } else {
+        return eventServiceTimeMs_;
+      }
+    }
+    /**
+     * <code>optional .android_studio.Histogram event_service_time_ms = 2;</code>
+     *
+     * <pre>
+     * Distribution of times taken to process events in the main event loop,
+     * in milliseconds. The number of samples is approximately equal to the
+     * number of events handled, quantized by event_service_time_sample_period.
+     * For example, if the 10-20ms bin contains 100 samples, it means that
+     * approximately 100 events took between 10 and 20 milliseconds to process.
+     * </pre>
+     */
+    private com.google.protobuf.SingleFieldBuilder<
+        com.google.wireless.android.sdk.stats.Histogram, com.google.wireless.android.sdk.stats.Histogram.Builder, com.google.wireless.android.sdk.stats.HistogramOrBuilder> 
+        getEventServiceTimeMsFieldBuilder() {
+      if (eventServiceTimeMsBuilder_ == null) {
+        eventServiceTimeMsBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+            com.google.wireless.android.sdk.stats.Histogram, com.google.wireless.android.sdk.stats.Histogram.Builder, com.google.wireless.android.sdk.stats.HistogramOrBuilder>(
+                eventServiceTimeMs_,
+                getParentForChildren(),
+                isClean());
+        eventServiceTimeMs_ = null;
+      }
+      return eventServiceTimeMsBuilder_;
+    }
+
+    // optional int32 event_service_time_sample_period = 3;
+    private int eventServiceTimeSamplePeriod_ ;
+    /**
+     * <code>optional int32 event_service_time_sample_period = 3;</code>
+     *
+     * <pre>
+     * Sample period used to compute the event_service_time_ms histogram. For
+     * example, if this is set to 10 then the service time was measured for
+     * every 10th event, and each measurement counted for 10 samples in
+     * the histogram. This is mainly intended for computing error bars
+     * and is not needed for interpreting the histogram itself.
+     * </pre>
+     */
+    public boolean hasEventServiceTimeSamplePeriod() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>optional int32 event_service_time_sample_period = 3;</code>
+     *
+     * <pre>
+     * Sample period used to compute the event_service_time_ms histogram. For
+     * example, if this is set to 10 then the service time was measured for
+     * every 10th event, and each measurement counted for 10 samples in
+     * the histogram. This is mainly intended for computing error bars
+     * and is not needed for interpreting the histogram itself.
+     * </pre>
+     */
+    public int getEventServiceTimeSamplePeriod() {
+      return eventServiceTimeSamplePeriod_;
+    }
+    /**
+     * <code>optional int32 event_service_time_sample_period = 3;</code>
+     *
+     * <pre>
+     * Sample period used to compute the event_service_time_ms histogram. For
+     * example, if this is set to 10 then the service time was measured for
+     * every 10th event, and each measurement counted for 10 samples in
+     * the histogram. This is mainly intended for computing error bars
+     * and is not needed for interpreting the histogram itself.
+     * </pre>
+     */
+    public Builder setEventServiceTimeSamplePeriod(int value) {
+      bitField0_ |= 0x00000004;
+      eventServiceTimeSamplePeriod_ = value;
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>optional int32 event_service_time_sample_period = 3;</code>
+     *
+     * <pre>
+     * Sample period used to compute the event_service_time_ms histogram. For
+     * example, if this is set to 10 then the service time was measured for
+     * every 10th event, and each measurement counted for 10 samples in
+     * the histogram. This is mainly intended for computing error bars
+     * and is not needed for interpreting the histogram itself.
+     * </pre>
+     */
+    public Builder clearEventServiceTimeSamplePeriod() {
+      bitField0_ = (bitField0_ & ~0x00000004);
+      eventServiceTimeSamplePeriod_ = 0;
       onChanged();
       return this;
     }

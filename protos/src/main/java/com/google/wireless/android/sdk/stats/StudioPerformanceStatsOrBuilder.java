@@ -23,4 +23,68 @@ public interface StudioPerformanceStatsOrBuilder
    * </pre>
    */
   int getUiFreezeTimeMs();
+
+  // optional .android_studio.Histogram event_service_time_ms = 2;
+  /**
+   * <code>optional .android_studio.Histogram event_service_time_ms = 2;</code>
+   *
+   * <pre>
+   * Distribution of times taken to process events in the main event loop,
+   * in milliseconds. The number of samples is approximately equal to the
+   * number of events handled, quantized by event_service_time_sample_period.
+   * For example, if the 10-20ms bin contains 100 samples, it means that
+   * approximately 100 events took between 10 and 20 milliseconds to process.
+   * </pre>
+   */
+  boolean hasEventServiceTimeMs();
+  /**
+   * <code>optional .android_studio.Histogram event_service_time_ms = 2;</code>
+   *
+   * <pre>
+   * Distribution of times taken to process events in the main event loop,
+   * in milliseconds. The number of samples is approximately equal to the
+   * number of events handled, quantized by event_service_time_sample_period.
+   * For example, if the 10-20ms bin contains 100 samples, it means that
+   * approximately 100 events took between 10 and 20 milliseconds to process.
+   * </pre>
+   */
+  com.google.wireless.android.sdk.stats.Histogram getEventServiceTimeMs();
+  /**
+   * <code>optional .android_studio.Histogram event_service_time_ms = 2;</code>
+   *
+   * <pre>
+   * Distribution of times taken to process events in the main event loop,
+   * in milliseconds. The number of samples is approximately equal to the
+   * number of events handled, quantized by event_service_time_sample_period.
+   * For example, if the 10-20ms bin contains 100 samples, it means that
+   * approximately 100 events took between 10 and 20 milliseconds to process.
+   * </pre>
+   */
+  com.google.wireless.android.sdk.stats.HistogramOrBuilder getEventServiceTimeMsOrBuilder();
+
+  // optional int32 event_service_time_sample_period = 3;
+  /**
+   * <code>optional int32 event_service_time_sample_period = 3;</code>
+   *
+   * <pre>
+   * Sample period used to compute the event_service_time_ms histogram. For
+   * example, if this is set to 10 then the service time was measured for
+   * every 10th event, and each measurement counted for 10 samples in
+   * the histogram. This is mainly intended for computing error bars
+   * and is not needed for interpreting the histogram itself.
+   * </pre>
+   */
+  boolean hasEventServiceTimeSamplePeriod();
+  /**
+   * <code>optional int32 event_service_time_sample_period = 3;</code>
+   *
+   * <pre>
+   * Sample period used to compute the event_service_time_ms histogram. For
+   * example, if this is set to 10 then the service time was measured for
+   * every 10th event, and each measurement counted for 10 samples in
+   * the histogram. This is mainly intended for computing error bars
+   * and is not needed for interpreting the histogram itself.
+   * </pre>
+   */
+  int getEventServiceTimeSamplePeriod();
 }
