@@ -81,6 +81,19 @@ public  final class StudioPerformanceStats extends
             eventServiceTimeSamplePeriod_ = input.readInt32();
             break;
           }
+          case 34: {
+            com.google.wireless.android.sdk.stats.Histogram.Builder subBuilder = null;
+            if (((bitField0_ & 0x00000008) == 0x00000008)) {
+              subBuilder = writeLockWaitTimeMs_.toBuilder();
+            }
+            writeLockWaitTimeMs_ = input.readMessage(com.google.wireless.android.sdk.stats.Histogram.PARSER, extensionRegistry);
+            if (subBuilder != null) {
+              subBuilder.mergeFrom(writeLockWaitTimeMs_);
+              writeLockWaitTimeMs_ = subBuilder.buildPartial();
+            }
+            bitField0_ |= 0x00000008;
+            break;
+          }
         }
       }
     } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -223,10 +236,45 @@ public  final class StudioPerformanceStats extends
     return eventServiceTimeSamplePeriod_;
   }
 
+  // optional .android_studio.Histogram write_lock_wait_time_ms = 4;
+  public static final int WRITE_LOCK_WAIT_TIME_MS_FIELD_NUMBER = 4;
+  private com.google.wireless.android.sdk.stats.Histogram writeLockWaitTimeMs_;
+  /**
+   * <code>optional .android_studio.Histogram write_lock_wait_time_ms = 4;</code>
+   *
+   * <pre>
+   * Histogram of wait times for the global write lock
+   * </pre>
+   */
+  public boolean hasWriteLockWaitTimeMs() {
+    return ((bitField0_ & 0x00000008) == 0x00000008);
+  }
+  /**
+   * <code>optional .android_studio.Histogram write_lock_wait_time_ms = 4;</code>
+   *
+   * <pre>
+   * Histogram of wait times for the global write lock
+   * </pre>
+   */
+  public com.google.wireless.android.sdk.stats.Histogram getWriteLockWaitTimeMs() {
+    return writeLockWaitTimeMs_;
+  }
+  /**
+   * <code>optional .android_studio.Histogram write_lock_wait_time_ms = 4;</code>
+   *
+   * <pre>
+   * Histogram of wait times for the global write lock
+   * </pre>
+   */
+  public com.google.wireless.android.sdk.stats.HistogramOrBuilder getWriteLockWaitTimeMsOrBuilder() {
+    return writeLockWaitTimeMs_;
+  }
+
   private void initFields() {
     uiFreezeTimeMs_ = 0;
     eventServiceTimeMs_ = com.google.wireless.android.sdk.stats.Histogram.getDefaultInstance();
     eventServiceTimeSamplePeriod_ = 0;
+    writeLockWaitTimeMs_ = com.google.wireless.android.sdk.stats.Histogram.getDefaultInstance();
   }
   private byte memoizedIsInitialized = -1;
   public final boolean isInitialized() {
@@ -249,6 +297,9 @@ public  final class StudioPerformanceStats extends
     if (((bitField0_ & 0x00000004) == 0x00000004)) {
       output.writeInt32(3, eventServiceTimeSamplePeriod_);
     }
+    if (((bitField0_ & 0x00000008) == 0x00000008)) {
+      output.writeMessage(4, writeLockWaitTimeMs_);
+    }
     getUnknownFields().writeTo(output);
   }
 
@@ -269,6 +320,10 @@ public  final class StudioPerformanceStats extends
     if (((bitField0_ & 0x00000004) == 0x00000004)) {
       size += com.google.protobuf.CodedOutputStream
         .computeInt32Size(3, eventServiceTimeSamplePeriod_);
+    }
+    if (((bitField0_ & 0x00000008) == 0x00000008)) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeMessageSize(4, writeLockWaitTimeMs_);
     }
     size += getUnknownFields().getSerializedSize();
     memoizedSerializedSize = size;
@@ -383,6 +438,7 @@ public  final class StudioPerformanceStats extends
     private void maybeForceBuilderInitialization() {
       if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
         getEventServiceTimeMsFieldBuilder();
+        getWriteLockWaitTimeMsFieldBuilder();
       }
     }
     private static Builder create() {
@@ -401,6 +457,12 @@ public  final class StudioPerformanceStats extends
       bitField0_ = (bitField0_ & ~0x00000002);
       eventServiceTimeSamplePeriod_ = 0;
       bitField0_ = (bitField0_ & ~0x00000004);
+      if (writeLockWaitTimeMsBuilder_ == null) {
+        writeLockWaitTimeMs_ = com.google.wireless.android.sdk.stats.Histogram.getDefaultInstance();
+      } else {
+        writeLockWaitTimeMsBuilder_.clear();
+      }
+      bitField0_ = (bitField0_ & ~0x00000008);
       return this;
     }
 
@@ -445,6 +507,14 @@ public  final class StudioPerformanceStats extends
         to_bitField0_ |= 0x00000004;
       }
       result.eventServiceTimeSamplePeriod_ = eventServiceTimeSamplePeriod_;
+      if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+        to_bitField0_ |= 0x00000008;
+      }
+      if (writeLockWaitTimeMsBuilder_ == null) {
+        result.writeLockWaitTimeMs_ = writeLockWaitTimeMs_;
+      } else {
+        result.writeLockWaitTimeMs_ = writeLockWaitTimeMsBuilder_.build();
+      }
       result.bitField0_ = to_bitField0_;
       onBuilt();
       return result;
@@ -469,6 +539,9 @@ public  final class StudioPerformanceStats extends
       }
       if (other.hasEventServiceTimeSamplePeriod()) {
         setEventServiceTimeSamplePeriod(other.getEventServiceTimeSamplePeriod());
+      }
+      if (other.hasWriteLockWaitTimeMs()) {
+        mergeWriteLockWaitTimeMs(other.getWriteLockWaitTimeMs());
       }
       this.mergeUnknownFields(other.getUnknownFields());
       return this;
@@ -798,6 +871,159 @@ public  final class StudioPerformanceStats extends
       eventServiceTimeSamplePeriod_ = 0;
       onChanged();
       return this;
+    }
+
+    // optional .android_studio.Histogram write_lock_wait_time_ms = 4;
+    private com.google.wireless.android.sdk.stats.Histogram writeLockWaitTimeMs_ = com.google.wireless.android.sdk.stats.Histogram.getDefaultInstance();
+    private com.google.protobuf.SingleFieldBuilder<
+        com.google.wireless.android.sdk.stats.Histogram, com.google.wireless.android.sdk.stats.Histogram.Builder, com.google.wireless.android.sdk.stats.HistogramOrBuilder> writeLockWaitTimeMsBuilder_;
+    /**
+     * <code>optional .android_studio.Histogram write_lock_wait_time_ms = 4;</code>
+     *
+     * <pre>
+     * Histogram of wait times for the global write lock
+     * </pre>
+     */
+    public boolean hasWriteLockWaitTimeMs() {
+      return ((bitField0_ & 0x00000008) == 0x00000008);
+    }
+    /**
+     * <code>optional .android_studio.Histogram write_lock_wait_time_ms = 4;</code>
+     *
+     * <pre>
+     * Histogram of wait times for the global write lock
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.Histogram getWriteLockWaitTimeMs() {
+      if (writeLockWaitTimeMsBuilder_ == null) {
+        return writeLockWaitTimeMs_;
+      } else {
+        return writeLockWaitTimeMsBuilder_.getMessage();
+      }
+    }
+    /**
+     * <code>optional .android_studio.Histogram write_lock_wait_time_ms = 4;</code>
+     *
+     * <pre>
+     * Histogram of wait times for the global write lock
+     * </pre>
+     */
+    public Builder setWriteLockWaitTimeMs(com.google.wireless.android.sdk.stats.Histogram value) {
+      if (writeLockWaitTimeMsBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        writeLockWaitTimeMs_ = value;
+        onChanged();
+      } else {
+        writeLockWaitTimeMsBuilder_.setMessage(value);
+      }
+      bitField0_ |= 0x00000008;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.Histogram write_lock_wait_time_ms = 4;</code>
+     *
+     * <pre>
+     * Histogram of wait times for the global write lock
+     * </pre>
+     */
+    public Builder setWriteLockWaitTimeMs(
+        com.google.wireless.android.sdk.stats.Histogram.Builder builderForValue) {
+      if (writeLockWaitTimeMsBuilder_ == null) {
+        writeLockWaitTimeMs_ = builderForValue.build();
+        onChanged();
+      } else {
+        writeLockWaitTimeMsBuilder_.setMessage(builderForValue.build());
+      }
+      bitField0_ |= 0x00000008;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.Histogram write_lock_wait_time_ms = 4;</code>
+     *
+     * <pre>
+     * Histogram of wait times for the global write lock
+     * </pre>
+     */
+    public Builder mergeWriteLockWaitTimeMs(com.google.wireless.android.sdk.stats.Histogram value) {
+      if (writeLockWaitTimeMsBuilder_ == null) {
+        if (((bitField0_ & 0x00000008) == 0x00000008) &&
+            writeLockWaitTimeMs_ != com.google.wireless.android.sdk.stats.Histogram.getDefaultInstance()) {
+          writeLockWaitTimeMs_ =
+            com.google.wireless.android.sdk.stats.Histogram.newBuilder(writeLockWaitTimeMs_).mergeFrom(value).buildPartial();
+        } else {
+          writeLockWaitTimeMs_ = value;
+        }
+        onChanged();
+      } else {
+        writeLockWaitTimeMsBuilder_.mergeFrom(value);
+      }
+      bitField0_ |= 0x00000008;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.Histogram write_lock_wait_time_ms = 4;</code>
+     *
+     * <pre>
+     * Histogram of wait times for the global write lock
+     * </pre>
+     */
+    public Builder clearWriteLockWaitTimeMs() {
+      if (writeLockWaitTimeMsBuilder_ == null) {
+        writeLockWaitTimeMs_ = com.google.wireless.android.sdk.stats.Histogram.getDefaultInstance();
+        onChanged();
+      } else {
+        writeLockWaitTimeMsBuilder_.clear();
+      }
+      bitField0_ = (bitField0_ & ~0x00000008);
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.Histogram write_lock_wait_time_ms = 4;</code>
+     *
+     * <pre>
+     * Histogram of wait times for the global write lock
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.Histogram.Builder getWriteLockWaitTimeMsBuilder() {
+      bitField0_ |= 0x00000008;
+      onChanged();
+      return getWriteLockWaitTimeMsFieldBuilder().getBuilder();
+    }
+    /**
+     * <code>optional .android_studio.Histogram write_lock_wait_time_ms = 4;</code>
+     *
+     * <pre>
+     * Histogram of wait times for the global write lock
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.HistogramOrBuilder getWriteLockWaitTimeMsOrBuilder() {
+      if (writeLockWaitTimeMsBuilder_ != null) {
+        return writeLockWaitTimeMsBuilder_.getMessageOrBuilder();
+      } else {
+        return writeLockWaitTimeMs_;
+      }
+    }
+    /**
+     * <code>optional .android_studio.Histogram write_lock_wait_time_ms = 4;</code>
+     *
+     * <pre>
+     * Histogram of wait times for the global write lock
+     * </pre>
+     */
+    private com.google.protobuf.SingleFieldBuilder<
+        com.google.wireless.android.sdk.stats.Histogram, com.google.wireless.android.sdk.stats.Histogram.Builder, com.google.wireless.android.sdk.stats.HistogramOrBuilder> 
+        getWriteLockWaitTimeMsFieldBuilder() {
+      if (writeLockWaitTimeMsBuilder_ == null) {
+        writeLockWaitTimeMsBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+            com.google.wireless.android.sdk.stats.Histogram, com.google.wireless.android.sdk.stats.Histogram.Builder, com.google.wireless.android.sdk.stats.HistogramOrBuilder>(
+                writeLockWaitTimeMs_,
+                getParentForChildren(),
+                isClean());
+        writeLockWaitTimeMs_ = null;
+      }
+      return writeLockWaitTimeMsBuilder_;
     }
 
     // @@protoc_insertion_point(builder_scope:android_studio.StudioPerformanceStats)

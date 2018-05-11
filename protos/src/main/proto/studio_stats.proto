@@ -3001,6 +3001,8 @@ message StudioPerformanceStats {
   // the histogram. This is mainly intended for computing error bars
   // and is not needed for interpreting the histogram itself.
   optional int32 event_service_time_sample_period = 3;
+  // Histogram of wait times for the global write lock
+  optional Histogram write_lock_wait_time_ms = 4;
 }
 
 // One bucket of a PercentileEstimator.

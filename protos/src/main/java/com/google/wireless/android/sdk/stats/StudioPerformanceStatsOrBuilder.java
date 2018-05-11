@@ -87,4 +87,30 @@ public interface StudioPerformanceStatsOrBuilder
    * </pre>
    */
   int getEventServiceTimeSamplePeriod();
+
+  // optional .android_studio.Histogram write_lock_wait_time_ms = 4;
+  /**
+   * <code>optional .android_studio.Histogram write_lock_wait_time_ms = 4;</code>
+   *
+   * <pre>
+   * Histogram of wait times for the global write lock
+   * </pre>
+   */
+  boolean hasWriteLockWaitTimeMs();
+  /**
+   * <code>optional .android_studio.Histogram write_lock_wait_time_ms = 4;</code>
+   *
+   * <pre>
+   * Histogram of wait times for the global write lock
+   * </pre>
+   */
+  com.google.wireless.android.sdk.stats.Histogram getWriteLockWaitTimeMs();
+  /**
+   * <code>optional .android_studio.Histogram write_lock_wait_time_ms = 4;</code>
+   *
+   * <pre>
+   * Histogram of wait times for the global write lock
+   * </pre>
+   */
+  com.google.wireless.android.sdk.stats.HistogramOrBuilder getWriteLockWaitTimeMsOrBuilder();
 }
