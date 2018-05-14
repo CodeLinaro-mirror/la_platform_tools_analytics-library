@@ -193,6 +193,8 @@ enum GradleTaskExecutionType {
     LINT_FIX = 143;
     INSTALL_VARIANT_VIA_BUNDLE = 144;
     PACKAGE_FOR_UNIT_TEST = 145;
+    KAPT = 146;
+    KAPT_GENERATE_STUBS = 147;
 }
 
 enum BooleanOption {
