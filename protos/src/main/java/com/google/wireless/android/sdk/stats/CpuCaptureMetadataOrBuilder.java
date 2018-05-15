@@ -129,4 +129,24 @@ public interface CpuCaptureMetadataOrBuilder
    * </pre>
    */
   com.google.wireless.android.sdk.stats.CpuProfilingConfigOrBuilder getProfilingConfigOrBuilder();
+
+  // optional int32 art_stop_timeout_sec = 7;
+  /**
+   * <code>optional int32 art_stop_timeout_sec = 7;</code>
+   *
+   * <pre>
+   * Timeout set by the user for the system "profiler.cpu.art.stop.timeout.sec"
+   * property. Set if |profiling_config.type| is |ART|.
+   * </pre>
+   */
+  boolean hasArtStopTimeoutSec();
+  /**
+   * <code>optional int32 art_stop_timeout_sec = 7;</code>
+   *
+   * <pre>
+   * Timeout set by the user for the system "profiler.cpu.art.stop.timeout.sec"
+   * property. Set if |profiling_config.type| is |ART|.
+   * </pre>
+   */
+  int getArtStopTimeoutSec();
 }

@@ -102,6 +102,11 @@ public  final class CpuCaptureMetadata extends
             bitField0_ |= 0x00000020;
             break;
           }
+          case 56: {
+            bitField0_ |= 0x00000040;
+            artStopTimeoutSec_ = input.readInt32();
+            break;
+          }
         }
       }
     } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -445,6 +450,32 @@ public  final class CpuCaptureMetadata extends
     return profilingConfig_;
   }
 
+  // optional int32 art_stop_timeout_sec = 7;
+  public static final int ART_STOP_TIMEOUT_SEC_FIELD_NUMBER = 7;
+  private int artStopTimeoutSec_;
+  /**
+   * <code>optional int32 art_stop_timeout_sec = 7;</code>
+   *
+   * <pre>
+   * Timeout set by the user for the system "profiler.cpu.art.stop.timeout.sec"
+   * property. Set if |profiling_config.type| is |ART|.
+   * </pre>
+   */
+  public boolean hasArtStopTimeoutSec() {
+    return ((bitField0_ & 0x00000040) == 0x00000040);
+  }
+  /**
+   * <code>optional int32 art_stop_timeout_sec = 7;</code>
+   *
+   * <pre>
+   * Timeout set by the user for the system "profiler.cpu.art.stop.timeout.sec"
+   * property. Set if |profiling_config.type| is |ART|.
+   * </pre>
+   */
+  public int getArtStopTimeoutSec() {
+    return artStopTimeoutSec_;
+  }
+
   private void initFields() {
     captureStatus_ = com.google.wireless.android.sdk.stats.CpuCaptureMetadata.CaptureStatus.UNKNOWN_STATUS;
     captureDurationMs_ = 0L;
@@ -452,6 +483,7 @@ public  final class CpuCaptureMetadata extends
     traceFileSizeBytes_ = 0;
     parsingTimeMs_ = 0L;
     profilingConfig_ = com.google.wireless.android.sdk.stats.CpuProfilingConfig.getDefaultInstance();
+    artStopTimeoutSec_ = 0;
   }
   private byte memoizedIsInitialized = -1;
   public final boolean isInitialized() {
@@ -482,6 +514,9 @@ public  final class CpuCaptureMetadata extends
     }
     if (((bitField0_ & 0x00000020) == 0x00000020)) {
       output.writeMessage(6, profilingConfig_);
+    }
+    if (((bitField0_ & 0x00000040) == 0x00000040)) {
+      output.writeInt32(7, artStopTimeoutSec_);
     }
     getUnknownFields().writeTo(output);
   }
@@ -515,6 +550,10 @@ public  final class CpuCaptureMetadata extends
     if (((bitField0_ & 0x00000020) == 0x00000020)) {
       size += com.google.protobuf.CodedOutputStream
         .computeMessageSize(6, profilingConfig_);
+    }
+    if (((bitField0_ & 0x00000040) == 0x00000040)) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeInt32Size(7, artStopTimeoutSec_);
     }
     size += getUnknownFields().getSerializedSize();
     memoizedSerializedSize = size;
@@ -653,6 +692,8 @@ public  final class CpuCaptureMetadata extends
         profilingConfigBuilder_.clear();
       }
       bitField0_ = (bitField0_ & ~0x00000020);
+      artStopTimeoutSec_ = 0;
+      bitField0_ = (bitField0_ & ~0x00000040);
       return this;
     }
 
@@ -709,6 +750,10 @@ public  final class CpuCaptureMetadata extends
       } else {
         result.profilingConfig_ = profilingConfigBuilder_.build();
       }
+      if (((from_bitField0_ & 0x00000040) == 0x00000040)) {
+        to_bitField0_ |= 0x00000040;
+      }
+      result.artStopTimeoutSec_ = artStopTimeoutSec_;
       result.bitField0_ = to_bitField0_;
       onBuilt();
       return result;
@@ -742,6 +787,9 @@ public  final class CpuCaptureMetadata extends
       }
       if (other.hasProfilingConfig()) {
         mergeProfilingConfig(other.getProfilingConfig());
+      }
+      if (other.hasArtStopTimeoutSec()) {
+        setArtStopTimeoutSec(other.getArtStopTimeoutSec());
       }
       this.mergeUnknownFields(other.getUnknownFields());
       return this;
@@ -1185,6 +1233,59 @@ public  final class CpuCaptureMetadata extends
         profilingConfig_ = null;
       }
       return profilingConfigBuilder_;
+    }
+
+    // optional int32 art_stop_timeout_sec = 7;
+    private int artStopTimeoutSec_ ;
+    /**
+     * <code>optional int32 art_stop_timeout_sec = 7;</code>
+     *
+     * <pre>
+     * Timeout set by the user for the system "profiler.cpu.art.stop.timeout.sec"
+     * property. Set if |profiling_config.type| is |ART|.
+     * </pre>
+     */
+    public boolean hasArtStopTimeoutSec() {
+      return ((bitField0_ & 0x00000040) == 0x00000040);
+    }
+    /**
+     * <code>optional int32 art_stop_timeout_sec = 7;</code>
+     *
+     * <pre>
+     * Timeout set by the user for the system "profiler.cpu.art.stop.timeout.sec"
+     * property. Set if |profiling_config.type| is |ART|.
+     * </pre>
+     */
+    public int getArtStopTimeoutSec() {
+      return artStopTimeoutSec_;
+    }
+    /**
+     * <code>optional int32 art_stop_timeout_sec = 7;</code>
+     *
+     * <pre>
+     * Timeout set by the user for the system "profiler.cpu.art.stop.timeout.sec"
+     * property. Set if |profiling_config.type| is |ART|.
+     * </pre>
+     */
+    public Builder setArtStopTimeoutSec(int value) {
+      bitField0_ |= 0x00000040;
+      artStopTimeoutSec_ = value;
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>optional int32 art_stop_timeout_sec = 7;</code>
+     *
+     * <pre>
+     * Timeout set by the user for the system "profiler.cpu.art.stop.timeout.sec"
+     * property. Set if |profiling_config.type| is |ART|.
+     * </pre>
+     */
+    public Builder clearArtStopTimeoutSec() {
+      bitField0_ = (bitField0_ & ~0x00000040);
+      artStopTimeoutSec_ = 0;
+      onChanged();
+      return this;
     }
 
     // @@protoc_insertion_point(builder_scope:android_studio.CpuCaptureMetadata)
