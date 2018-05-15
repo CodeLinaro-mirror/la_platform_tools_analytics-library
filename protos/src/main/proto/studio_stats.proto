@@ -3544,6 +3544,10 @@ message CpuCaptureMetadata {
 
   // The user's configuration used to generate this capture
   optional CpuProfilingConfig profiling_config = 6;
+
+  // Timeout set by the user for the system "profiler.cpu.art.stop.timeout.sec"
+  // property. Set if |profiling_config.type| is |ART|.
+  optional int32 art_stop_timeout_sec = 7;
 }
 
 // Data associated with importing CPU traces.
@@ -3926,6 +3930,8 @@ message GradleSyncStats {
     TRIGGER_USER_REQUEST = 3;
     // User clicked quickfix to enable embedded Maven repo
     TRIGGER_EMBEDDED_REPO_ENABLED_BY_QUICKFIX = 4;
+    // User changed variant selection from Build Variants window
+    TRIGGER_VARIANT_SELECTION_CHANGED_BY_USER = 5;
   }
 }
 

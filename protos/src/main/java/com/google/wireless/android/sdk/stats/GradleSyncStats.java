@@ -177,6 +177,14 @@ public  final class GradleSyncStats extends
      * </pre>
      */
     TRIGGER_EMBEDDED_REPO_ENABLED_BY_QUICKFIX(4, 4),
+    /**
+     * <code>TRIGGER_VARIANT_SELECTION_CHANGED_BY_USER = 5;</code>
+     *
+     * <pre>
+     * User changed variant selection from Build Variants window
+     * </pre>
+     */
+    TRIGGER_VARIANT_SELECTION_CHANGED_BY_USER(5, 5),
     ;
 
     /**
@@ -219,6 +227,14 @@ public  final class GradleSyncStats extends
      * </pre>
      */
     public static final int TRIGGER_EMBEDDED_REPO_ENABLED_BY_QUICKFIX_VALUE = 4;
+    /**
+     * <code>TRIGGER_VARIANT_SELECTION_CHANGED_BY_USER = 5;</code>
+     *
+     * <pre>
+     * User changed variant selection from Build Variants window
+     * </pre>
+     */
+    public static final int TRIGGER_VARIANT_SELECTION_CHANGED_BY_USER_VALUE = 5;
 
 
     public final int getNumber() { return value; }
@@ -230,6 +246,7 @@ public  final class GradleSyncStats extends
         case 2: return TRIGGER_PROJECT_MODIFIED;
         case 3: return TRIGGER_USER_REQUEST;
         case 4: return TRIGGER_EMBEDDED_REPO_ENABLED_BY_QUICKFIX;
+        case 5: return TRIGGER_VARIANT_SELECTION_CHANGED_BY_USER;
         default: return null;
       }
     }
