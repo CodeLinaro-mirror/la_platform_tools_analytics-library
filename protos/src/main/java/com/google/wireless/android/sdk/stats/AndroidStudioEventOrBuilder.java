@@ -1618,4 +1618,56 @@ public interface AndroidStudioEventOrBuilder
    * </pre>
    */
   com.google.wireless.android.sdk.stats.IntellijIndexingStatsOrBuilder getIntellijIndexingStatsOrBuilder();
+
+  // optional .android_studio.LintSession lint_session = 63;
+  /**
+   * <code>optional .android_studio.LintSession lint_session = 63;</code>
+   *
+   * <pre>
+   * set when kind == LINT_SESSION
+   * </pre>
+   */
+  boolean hasLintSession();
+  /**
+   * <code>optional .android_studio.LintSession lint_session = 63;</code>
+   *
+   * <pre>
+   * set when kind == LINT_SESSION
+   * </pre>
+   */
+  com.google.wireless.android.sdk.stats.LintSession getLintSession();
+  /**
+   * <code>optional .android_studio.LintSession lint_session = 63;</code>
+   *
+   * <pre>
+   * set when kind == LINT_SESSION
+   * </pre>
+   */
+  com.google.wireless.android.sdk.stats.LintSessionOrBuilder getLintSessionOrBuilder();
+
+  // optional .android_studio.LintAction lint_action = 64;
+  /**
+   * <code>optional .android_studio.LintAction lint_action = 64;</code>
+   *
+   * <pre>
+   * set when kind == LINT_ACTION
+   * </pre>
+   */
+  boolean hasLintAction();
+  /**
+   * <code>optional .android_studio.LintAction lint_action = 64;</code>
+   *
+   * <pre>
+   * set when kind == LINT_ACTION
+   * </pre>
+   */
+  com.google.wireless.android.sdk.stats.LintAction getLintAction();
+  /**
+   * <code>optional .android_studio.LintAction lint_action = 64;</code>
+   *
+   * <pre>
+   * set when kind == LINT_ACTION
+   * </pre>
+   */
+  com.google.wireless.android.sdk.stats.LintActionOrBuilder getLintActionOrBuilder();
 }

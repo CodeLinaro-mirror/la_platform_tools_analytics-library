@@ -769,6 +769,32 @@ public  final class AndroidStudioEvent extends
             bitField1_ |= 0x20000000;
             break;
           }
+          case 506: {
+            com.google.wireless.android.sdk.stats.LintSession.Builder subBuilder = null;
+            if (((bitField1_ & 0x40000000) == 0x40000000)) {
+              subBuilder = lintSession_.toBuilder();
+            }
+            lintSession_ = input.readMessage(com.google.wireless.android.sdk.stats.LintSession.PARSER, extensionRegistry);
+            if (subBuilder != null) {
+              subBuilder.mergeFrom(lintSession_);
+              lintSession_ = subBuilder.buildPartial();
+            }
+            bitField1_ |= 0x40000000;
+            break;
+          }
+          case 514: {
+            com.google.wireless.android.sdk.stats.LintAction.Builder subBuilder = null;
+            if (((bitField1_ & 0x80000000) == 0x80000000)) {
+              subBuilder = lintAction_.toBuilder();
+            }
+            lintAction_ = input.readMessage(com.google.wireless.android.sdk.stats.LintAction.PARSER, extensionRegistry);
+            if (subBuilder != null) {
+              subBuilder.mergeFrom(lintAction_);
+              lintAction_ = subBuilder.buildPartial();
+            }
+            bitField1_ |= 0x80000000;
+            break;
+          }
         }
       }
     } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -2372,6 +2398,22 @@ public  final class AndroidStudioEvent extends
      * </pre>
      */
     INTELLIJ_INDEXING_STATS(128, 131),
+    /**
+     * <code>LINT_SESSION = 132;</code>
+     *
+     * <pre>
+     * The event is related to a lint session
+     * </pre>
+     */
+    LINT_SESSION(129, 132),
+    /**
+     * <code>LINT_ACTION = 133;</code>
+     *
+     * <pre>
+     * The event is related to taking an action on a lint suggestion
+     * </pre>
+     */
+    LINT_ACTION(130, 133),
     ;
 
     /**
@@ -3387,6 +3429,22 @@ public  final class AndroidStudioEvent extends
      * </pre>
      */
     public static final int INTELLIJ_INDEXING_STATS_VALUE = 131;
+    /**
+     * <code>LINT_SESSION = 132;</code>
+     *
+     * <pre>
+     * The event is related to a lint session
+     * </pre>
+     */
+    public static final int LINT_SESSION_VALUE = 132;
+    /**
+     * <code>LINT_ACTION = 133;</code>
+     *
+     * <pre>
+     * The event is related to taking an action on a lint suggestion
+     * </pre>
+     */
+    public static final int LINT_ACTION_VALUE = 133;
 
 
     public final int getNumber() { return value; }
@@ -3522,6 +3580,8 @@ public  final class AndroidStudioEvent extends
         case 129: return CPP_HEADERS_VIEW_EVENT;
         case 130: return WHATS_NEW_ASSISTANT_EVENT;
         case 131: return INTELLIJ_INDEXING_STATS;
+        case 132: return LINT_SESSION;
+        case 133: return LINT_ACTION;
         default: return null;
       }
     }
@@ -7182,6 +7242,74 @@ public  final class AndroidStudioEvent extends
     return intellijIndexingStats_;
   }
 
+  // optional .android_studio.LintSession lint_session = 63;
+  public static final int LINT_SESSION_FIELD_NUMBER = 63;
+  private com.google.wireless.android.sdk.stats.LintSession lintSession_;
+  /**
+   * <code>optional .android_studio.LintSession lint_session = 63;</code>
+   *
+   * <pre>
+   * set when kind == LINT_SESSION
+   * </pre>
+   */
+  public boolean hasLintSession() {
+    return ((bitField1_ & 0x40000000) == 0x40000000);
+  }
+  /**
+   * <code>optional .android_studio.LintSession lint_session = 63;</code>
+   *
+   * <pre>
+   * set when kind == LINT_SESSION
+   * </pre>
+   */
+  public com.google.wireless.android.sdk.stats.LintSession getLintSession() {
+    return lintSession_;
+  }
+  /**
+   * <code>optional .android_studio.LintSession lint_session = 63;</code>
+   *
+   * <pre>
+   * set when kind == LINT_SESSION
+   * </pre>
+   */
+  public com.google.wireless.android.sdk.stats.LintSessionOrBuilder getLintSessionOrBuilder() {
+    return lintSession_;
+  }
+
+  // optional .android_studio.LintAction lint_action = 64;
+  public static final int LINT_ACTION_FIELD_NUMBER = 64;
+  private com.google.wireless.android.sdk.stats.LintAction lintAction_;
+  /**
+   * <code>optional .android_studio.LintAction lint_action = 64;</code>
+   *
+   * <pre>
+   * set when kind == LINT_ACTION
+   * </pre>
+   */
+  public boolean hasLintAction() {
+    return ((bitField1_ & 0x80000000) == 0x80000000);
+  }
+  /**
+   * <code>optional .android_studio.LintAction lint_action = 64;</code>
+   *
+   * <pre>
+   * set when kind == LINT_ACTION
+   * </pre>
+   */
+  public com.google.wireless.android.sdk.stats.LintAction getLintAction() {
+    return lintAction_;
+  }
+  /**
+   * <code>optional .android_studio.LintAction lint_action = 64;</code>
+   *
+   * <pre>
+   * set when kind == LINT_ACTION
+   * </pre>
+   */
+  public com.google.wireless.android.sdk.stats.LintActionOrBuilder getLintActionOrBuilder() {
+    return lintAction_;
+  }
+
   private void initFields() {
     category_ = com.google.wireless.android.sdk.stats.AndroidStudioEvent.EventCategory.NO_EVENT_CATEGORY;
     kind_ = com.google.wireless.android.sdk.stats.AndroidStudioEvent.EventKind.UNKNOWN_EVENT_KIND;
@@ -7245,6 +7373,8 @@ public  final class AndroidStudioEvent extends
     whatsNewAssistantEvent_ = com.google.wireless.android.sdk.stats.WhatsNewAssistantEvent.getDefaultInstance();
     rawProjectId_ = "";
     intellijIndexingStats_ = com.google.wireless.android.sdk.stats.IntellijIndexingStats.getDefaultInstance();
+    lintSession_ = com.google.wireless.android.sdk.stats.LintSession.getDefaultInstance();
+    lintAction_ = com.google.wireless.android.sdk.stats.LintAction.getDefaultInstance();
   }
   private byte memoizedIsInitialized = -1;
   public final boolean isInitialized() {
@@ -7443,6 +7573,12 @@ public  final class AndroidStudioEvent extends
     }
     if (((bitField1_ & 0x20000000) == 0x20000000)) {
       output.writeMessage(62, intellijIndexingStats_);
+    }
+    if (((bitField1_ & 0x40000000) == 0x40000000)) {
+      output.writeMessage(63, lintSession_);
+    }
+    if (((bitField1_ & 0x80000000) == 0x80000000)) {
+      output.writeMessage(64, lintAction_);
     }
     getUnknownFields().writeTo(output);
   }
@@ -7701,6 +7837,14 @@ public  final class AndroidStudioEvent extends
       size += com.google.protobuf.CodedOutputStream
         .computeMessageSize(62, intellijIndexingStats_);
     }
+    if (((bitField1_ & 0x40000000) == 0x40000000)) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeMessageSize(63, lintSession_);
+    }
+    if (((bitField1_ & 0x80000000) == 0x80000000)) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeMessageSize(64, lintAction_);
+    }
     size += getUnknownFields().getSerializedSize();
     memoizedSerializedSize = size;
     return size;
@@ -7852,6 +7996,8 @@ public  final class AndroidStudioEvent extends
         getCppHeadersViewEventFieldBuilder();
         getWhatsNewAssistantEventFieldBuilder();
         getIntellijIndexingStatsFieldBuilder();
+        getLintSessionFieldBuilder();
+        getLintActionFieldBuilder();
       }
     }
     private static Builder create() {
@@ -8156,6 +8302,18 @@ public  final class AndroidStudioEvent extends
         intellijIndexingStatsBuilder_.clear();
       }
       bitField1_ = (bitField1_ & ~0x20000000);
+      if (lintSessionBuilder_ == null) {
+        lintSession_ = com.google.wireless.android.sdk.stats.LintSession.getDefaultInstance();
+      } else {
+        lintSessionBuilder_.clear();
+      }
+      bitField1_ = (bitField1_ & ~0x40000000);
+      if (lintActionBuilder_ == null) {
+        lintAction_ = com.google.wireless.android.sdk.stats.LintAction.getDefaultInstance();
+      } else {
+        lintActionBuilder_.clear();
+      }
+      bitField1_ = (bitField1_ & ~0x80000000);
       return this;
     }
 
@@ -8606,6 +8764,22 @@ public  final class AndroidStudioEvent extends
       } else {
         result.intellijIndexingStats_ = intellijIndexingStatsBuilder_.build();
       }
+      if (((from_bitField1_ & 0x40000000) == 0x40000000)) {
+        to_bitField1_ |= 0x40000000;
+      }
+      if (lintSessionBuilder_ == null) {
+        result.lintSession_ = lintSession_;
+      } else {
+        result.lintSession_ = lintSessionBuilder_.build();
+      }
+      if (((from_bitField1_ & 0x80000000) == 0x80000000)) {
+        to_bitField1_ |= 0x80000000;
+      }
+      if (lintActionBuilder_ == null) {
+        result.lintAction_ = lintAction_;
+      } else {
+        result.lintAction_ = lintActionBuilder_.build();
+      }
       result.bitField0_ = to_bitField0_;
       result.bitField1_ = to_bitField1_;
       onBuilt();
@@ -8822,6 +8996,12 @@ public  final class AndroidStudioEvent extends
       }
       if (other.hasIntellijIndexingStats()) {
         mergeIntellijIndexingStats(other.getIntellijIndexingStats());
+      }
+      if (other.hasLintSession()) {
+        mergeLintSession(other.getLintSession());
+      }
+      if (other.hasLintAction()) {
+        mergeLintAction(other.getLintAction());
       }
       this.mergeUnknownFields(other.getUnknownFields());
       return this;
@@ -16963,6 +17143,312 @@ public  final class AndroidStudioEvent extends
         intellijIndexingStats_ = null;
       }
       return intellijIndexingStatsBuilder_;
+    }
+
+    // optional .android_studio.LintSession lint_session = 63;
+    private com.google.wireless.android.sdk.stats.LintSession lintSession_ = com.google.wireless.android.sdk.stats.LintSession.getDefaultInstance();
+    private com.google.protobuf.SingleFieldBuilder<
+        com.google.wireless.android.sdk.stats.LintSession, com.google.wireless.android.sdk.stats.LintSession.Builder, com.google.wireless.android.sdk.stats.LintSessionOrBuilder> lintSessionBuilder_;
+    /**
+     * <code>optional .android_studio.LintSession lint_session = 63;</code>
+     *
+     * <pre>
+     * set when kind == LINT_SESSION
+     * </pre>
+     */
+    public boolean hasLintSession() {
+      return ((bitField1_ & 0x40000000) == 0x40000000);
+    }
+    /**
+     * <code>optional .android_studio.LintSession lint_session = 63;</code>
+     *
+     * <pre>
+     * set when kind == LINT_SESSION
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.LintSession getLintSession() {
+      if (lintSessionBuilder_ == null) {
+        return lintSession_;
+      } else {
+        return lintSessionBuilder_.getMessage();
+      }
+    }
+    /**
+     * <code>optional .android_studio.LintSession lint_session = 63;</code>
+     *
+     * <pre>
+     * set when kind == LINT_SESSION
+     * </pre>
+     */
+    public Builder setLintSession(com.google.wireless.android.sdk.stats.LintSession value) {
+      if (lintSessionBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        lintSession_ = value;
+        onChanged();
+      } else {
+        lintSessionBuilder_.setMessage(value);
+      }
+      bitField1_ |= 0x40000000;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.LintSession lint_session = 63;</code>
+     *
+     * <pre>
+     * set when kind == LINT_SESSION
+     * </pre>
+     */
+    public Builder setLintSession(
+        com.google.wireless.android.sdk.stats.LintSession.Builder builderForValue) {
+      if (lintSessionBuilder_ == null) {
+        lintSession_ = builderForValue.build();
+        onChanged();
+      } else {
+        lintSessionBuilder_.setMessage(builderForValue.build());
+      }
+      bitField1_ |= 0x40000000;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.LintSession lint_session = 63;</code>
+     *
+     * <pre>
+     * set when kind == LINT_SESSION
+     * </pre>
+     */
+    public Builder mergeLintSession(com.google.wireless.android.sdk.stats.LintSession value) {
+      if (lintSessionBuilder_ == null) {
+        if (((bitField1_ & 0x40000000) == 0x40000000) &&
+            lintSession_ != com.google.wireless.android.sdk.stats.LintSession.getDefaultInstance()) {
+          lintSession_ =
+            com.google.wireless.android.sdk.stats.LintSession.newBuilder(lintSession_).mergeFrom(value).buildPartial();
+        } else {
+          lintSession_ = value;
+        }
+        onChanged();
+      } else {
+        lintSessionBuilder_.mergeFrom(value);
+      }
+      bitField1_ |= 0x40000000;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.LintSession lint_session = 63;</code>
+     *
+     * <pre>
+     * set when kind == LINT_SESSION
+     * </pre>
+     */
+    public Builder clearLintSession() {
+      if (lintSessionBuilder_ == null) {
+        lintSession_ = com.google.wireless.android.sdk.stats.LintSession.getDefaultInstance();
+        onChanged();
+      } else {
+        lintSessionBuilder_.clear();
+      }
+      bitField1_ = (bitField1_ & ~0x40000000);
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.LintSession lint_session = 63;</code>
+     *
+     * <pre>
+     * set when kind == LINT_SESSION
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.LintSession.Builder getLintSessionBuilder() {
+      bitField1_ |= 0x40000000;
+      onChanged();
+      return getLintSessionFieldBuilder().getBuilder();
+    }
+    /**
+     * <code>optional .android_studio.LintSession lint_session = 63;</code>
+     *
+     * <pre>
+     * set when kind == LINT_SESSION
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.LintSessionOrBuilder getLintSessionOrBuilder() {
+      if (lintSessionBuilder_ != null) {
+        return lintSessionBuilder_.getMessageOrBuilder();
+      } else {
+        return lintSession_;
+      }
+    }
+    /**
+     * <code>optional .android_studio.LintSession lint_session = 63;</code>
+     *
+     * <pre>
+     * set when kind == LINT_SESSION
+     * </pre>
+     */
+    private com.google.protobuf.SingleFieldBuilder<
+        com.google.wireless.android.sdk.stats.LintSession, com.google.wireless.android.sdk.stats.LintSession.Builder, com.google.wireless.android.sdk.stats.LintSessionOrBuilder> 
+        getLintSessionFieldBuilder() {
+      if (lintSessionBuilder_ == null) {
+        lintSessionBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+            com.google.wireless.android.sdk.stats.LintSession, com.google.wireless.android.sdk.stats.LintSession.Builder, com.google.wireless.android.sdk.stats.LintSessionOrBuilder>(
+                lintSession_,
+                getParentForChildren(),
+                isClean());
+        lintSession_ = null;
+      }
+      return lintSessionBuilder_;
+    }
+
+    // optional .android_studio.LintAction lint_action = 64;
+    private com.google.wireless.android.sdk.stats.LintAction lintAction_ = com.google.wireless.android.sdk.stats.LintAction.getDefaultInstance();
+    private com.google.protobuf.SingleFieldBuilder<
+        com.google.wireless.android.sdk.stats.LintAction, com.google.wireless.android.sdk.stats.LintAction.Builder, com.google.wireless.android.sdk.stats.LintActionOrBuilder> lintActionBuilder_;
+    /**
+     * <code>optional .android_studio.LintAction lint_action = 64;</code>
+     *
+     * <pre>
+     * set when kind == LINT_ACTION
+     * </pre>
+     */
+    public boolean hasLintAction() {
+      return ((bitField1_ & 0x80000000) == 0x80000000);
+    }
+    /**
+     * <code>optional .android_studio.LintAction lint_action = 64;</code>
+     *
+     * <pre>
+     * set when kind == LINT_ACTION
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.LintAction getLintAction() {
+      if (lintActionBuilder_ == null) {
+        return lintAction_;
+      } else {
+        return lintActionBuilder_.getMessage();
+      }
+    }
+    /**
+     * <code>optional .android_studio.LintAction lint_action = 64;</code>
+     *
+     * <pre>
+     * set when kind == LINT_ACTION
+     * </pre>
+     */
+    public Builder setLintAction(com.google.wireless.android.sdk.stats.LintAction value) {
+      if (lintActionBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        lintAction_ = value;
+        onChanged();
+      } else {
+        lintActionBuilder_.setMessage(value);
+      }
+      bitField1_ |= 0x80000000;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.LintAction lint_action = 64;</code>
+     *
+     * <pre>
+     * set when kind == LINT_ACTION
+     * </pre>
+     */
+    public Builder setLintAction(
+        com.google.wireless.android.sdk.stats.LintAction.Builder builderForValue) {
+      if (lintActionBuilder_ == null) {
+        lintAction_ = builderForValue.build();
+        onChanged();
+      } else {
+        lintActionBuilder_.setMessage(builderForValue.build());
+      }
+      bitField1_ |= 0x80000000;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.LintAction lint_action = 64;</code>
+     *
+     * <pre>
+     * set when kind == LINT_ACTION
+     * </pre>
+     */
+    public Builder mergeLintAction(com.google.wireless.android.sdk.stats.LintAction value) {
+      if (lintActionBuilder_ == null) {
+        if (((bitField1_ & 0x80000000) == 0x80000000) &&
+            lintAction_ != com.google.wireless.android.sdk.stats.LintAction.getDefaultInstance()) {
+          lintAction_ =
+            com.google.wireless.android.sdk.stats.LintAction.newBuilder(lintAction_).mergeFrom(value).buildPartial();
+        } else {
+          lintAction_ = value;
+        }
+        onChanged();
+      } else {
+        lintActionBuilder_.mergeFrom(value);
+      }
+      bitField1_ |= 0x80000000;
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.LintAction lint_action = 64;</code>
+     *
+     * <pre>
+     * set when kind == LINT_ACTION
+     * </pre>
+     */
+    public Builder clearLintAction() {
+      if (lintActionBuilder_ == null) {
+        lintAction_ = com.google.wireless.android.sdk.stats.LintAction.getDefaultInstance();
+        onChanged();
+      } else {
+        lintActionBuilder_.clear();
+      }
+      bitField1_ = (bitField1_ & ~0x80000000);
+      return this;
+    }
+    /**
+     * <code>optional .android_studio.LintAction lint_action = 64;</code>
+     *
+     * <pre>
+     * set when kind == LINT_ACTION
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.LintAction.Builder getLintActionBuilder() {
+      bitField1_ |= 0x80000000;
+      onChanged();
+      return getLintActionFieldBuilder().getBuilder();
+    }
+    /**
+     * <code>optional .android_studio.LintAction lint_action = 64;</code>
+     *
+     * <pre>
+     * set when kind == LINT_ACTION
+     * </pre>
+     */
+    public com.google.wireless.android.sdk.stats.LintActionOrBuilder getLintActionOrBuilder() {
+      if (lintActionBuilder_ != null) {
+        return lintActionBuilder_.getMessageOrBuilder();
+      } else {
+        return lintAction_;
+      }
+    }
+    /**
+     * <code>optional .android_studio.LintAction lint_action = 64;</code>
+     *
+     * <pre>
+     * set when kind == LINT_ACTION
+     * </pre>
+     */
+    private com.google.protobuf.SingleFieldBuilder<
+        com.google.wireless.android.sdk.stats.LintAction, com.google.wireless.android.sdk.stats.LintAction.Builder, com.google.wireless.android.sdk.stats.LintActionOrBuilder> 
+        getLintActionFieldBuilder() {
+      if (lintActionBuilder_ == null) {
+        lintActionBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+            com.google.wireless.android.sdk.stats.LintAction, com.google.wireless.android.sdk.stats.LintAction.Builder, com.google.wireless.android.sdk.stats.LintActionOrBuilder>(
+                lintAction_,
+                getParentForChildren(),
+                isClean());
+        lintAction_ = null;
+      }
+      return lintActionBuilder_;
     }
 
     // @@protoc_insertion_point(builder_scope:android_studio.AndroidStudioEvent)

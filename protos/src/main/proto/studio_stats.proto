@@ -234,6 +234,12 @@ message AndroidStudioEvent {
   // set when kind = INDEXING_OPERATION_EVENT
   optional IntellijIndexingStats intellij_indexing_stats = 62;
 
+  // set when kind == LINT_SESSION
+  optional LintSession lint_session = 63;
+
+  // set when kind == LINT_ACTION
+  optional LintAction lint_action = 64;
+
   // Describes a group of event kinds related to each other.
   // This is redundant in the presence of EventKind + event specific message,
   // and is only necessary for events originally sent to GA.
@@ -596,6 +602,12 @@ message AndroidStudioEvent {
 
     // Indexing operation event.
     INTELLIJ_INDEXING_STATS = 131;
+
+    // The event is related to a lint session
+    LINT_SESSION = 132;
+
+    // The event is related to taking an action on a lint suggestion
+    LINT_ACTION = 133;
   }
 
   // Represents different Performance Monitoring types.
@@ -4090,4 +4102,112 @@ message WhatsNewAssistantEvent {
 
   // Type of event
   optional WhatsNewAssistantEventType type = 1;
+}
+
+// Information about a session running lint -- in build, in IDE, etc
+message LintSession {
+  // analysis type - build, ide batch, ide incremental
+  optional AnalysisType analysis_type = 1;
+
+  // performance metrics regarding this session
+  optional LintPerformance lint_performance = 2;
+
+  // lint issue id's (counts, severity, etc)
+  repeated LintIssueId issue_ids = 3;
+
+  // Client-side salted, sha256 of the root project path.
+  // This exists to allow multiple instant run builds in one project by one
+  // user to be correlated.
+  //
+  // The salt is rotated every 28 days, so it is not a permanent pseudonymous
+  // identifier. It is anonymized and is unique per user, but has a 1-N
+  // relation.
+  optional string project_id = 4;
+
+  // The type of lint run that was performed: in IDE, from build, etc
+  enum AnalysisType {
+    UNKNOWN_ANALYSIS_TYPE = 0;
+    BUILD = 1;
+    VITAL = 2;
+    IDE_BATCH = 3;
+    IDE_FILE = 4;
+  }
+}
+
+// Information about a specific type of issue: frequency, severity, etc
+message LintIssueId {
+  // The issue id is a unique identifier for this type of problem.
+  // Examples of issue id's are "HardcodedText" and "NewApi".
+  optional string issue_id = 1;
+
+  // Number of occurrences of this issue in this session
+  optional int64 count = 2;
+
+  // Severity assigned to issues of this type by the user
+  optional LintSeverity severity = 3;
+
+  // The severity of the issue: fatal, or just a warning, etc
+  enum LintSeverity {
+    // Unknown
+    UNKNOWN_SEVERITY = 0;
+    // User did not change it from whatever lint set it to
+    DEFAULT_SEVERITY = 1;
+    // Fatal
+    FATAL_SEVERITY = 2;
+    // Error
+    ERROR_SEVERITY = 3;
+    // Warning
+    WARNING_SEVERITY = 4;
+    // Informational
+    INFORMATIONAL_SEVERITY = 5;
+    // Ignore (disabled/hidden)
+    IGNORE_SEVERITY = 6;
+  }
+}
+
+// Performance metrics about this lint analysis - duration, project size, etc
+message LintPerformance {
+  // time to run lint in micro seconds
+  optional int64 analysis_time_ms = 1;
+  // number of files in project
+  optional int64 file_count = 2;
+  // number of gradle projects in session
+  optional int64 module_count = 3;
+}
+
+// A quickfix for lint was invoked: data about issue type, fix type, etc
+message LintAction {
+  // The issue id is a unique identifier for this type of problem.
+  // Examples of issue id's are "HardcodedText" and "NewApi".
+  optional string issue_id = 1;
+
+  // Client-side salted, sha256 of the root project path.
+  // This exists to allow multiple instant run builds in one project by one
+  // user to be correlated.
+  //
+  // The salt is rotated every 28 days, so it is not a permanent pseudonymous
+  // identifier. It is anonymized and is unique per user, but has a 1-N
+  // relation.
+  optional string project_id = 2;
+
+  // A unique identifier for this quickfix.
+  optional string fix_id = 3;
+
+  // Feedback about this lint check if available
+  optional LintFeedback lint_feedback = 4;
+
+  // The user has provided feedback about this issue: problems, sentiment, etc
+  enum LintFeedback {
+    // Something else
+    UNKNOWN_FEEDBACK = 0;
+
+    // Lint incorrectly diagnosed the code
+    FALSE_POSITIVE = 1;
+
+    // The message is not clear
+    UNCLEAR_MESSAGE = 2;
+
+    // I liked this check, thanks
+    LOVE_IT = 3;
+  }
 }
