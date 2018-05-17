@@ -19,9 +19,10 @@ iml_module(
         "//tools/base/annotations:studio.android.sdktools.android-annotations[module]",
         "//tools/idea/.idea/libraries:truth[test]",
         "//tools/idea/.idea/libraries:gson",
-        "//tools/analytics-library/protos:analytics-protos[module]",
         "//tools/base/testutils:studio.android.sdktools.testutils[module, test]",
         "//tools/base/common:studio.android.sdktools.common[module]",
+        "//tools/idea/.idea/libraries:protobuf",
+        "//tools/idea/.idea/libraries:studio-analytics-proto",
     ],
 )
 

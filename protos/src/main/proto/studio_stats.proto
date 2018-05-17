@@ -231,6 +231,15 @@ message AndroidStudioEvent {
   // approved scenarios.
   optional string raw_project_id = 61;
 
+  // set when kind = INDEXING_OPERATION_EVENT
+  optional IntellijIndexingStats intellij_indexing_stats = 62;
+
+  // set when kind == LINT_SESSION
+  optional LintSession lint_session = 63;
+
+  // set when kind == LINT_ACTION
+  optional LintAction lint_action = 64;
+
   // Describes a group of event kinds related to each other.
   // This is redundant in the presence of EventKind + event specific message,
   // and is only necessary for events originally sent to GA.
@@ -590,6 +599,15 @@ message AndroidStudioEvent {
 
     // The event is related to What's New Assistant
     WHATS_NEW_ASSISTANT_EVENT = 130;
+
+    // Indexing operation event.
+    INTELLIJ_INDEXING_STATS = 131;
+
+    // The event is related to a lint session
+    LINT_SESSION = 132;
+
+    // The event is related to taking an action on a lint suggestion
+    LINT_ACTION = 133;
   }
 
   // Represents different Performance Monitoring types.
@@ -1974,7 +1992,9 @@ message GradleBuildProfile {
   // 'com.google.android.apps.maps'. This is sensitive information and
   // thus considered 'IDENTIFIYING'. This data is only available in and for PWG
   // approved scenarios.
-  optional string raw_project_id = 19;
+  // This is repeated, as a gradle build may include multiple apps, either
+  // by variants or by multiple 'app' subprojects.
+  repeated string raw_project_id = 19;
 }
 
 message GradleBuildProject {
@@ -2857,6 +2877,35 @@ message UIActionStats {
   }
 }
 
+// Holds a histogram of values.
+message Histogram {
+  // Holds the total number of samples in the histogram
+  optional int64 total_count = 1;
+  // Holds the bins for this histogram, in ascending order
+  repeated HistogramBin bin = 2;
+}
+
+// Represents a range of values and the number of samples that fell within that
+// range. The start and end attributes encode the range, and the samples
+// attribute holds the number of samples. For example, if start=10 end=20,
+// and samples=100, this means that 100 samples were recorded that fell within
+// the range of start <= sample < end.
+message HistogramBin {
+  // Start value for this bin, inclusive. All the samples in this bin are equal
+  // or greater than this value.
+  optional int64 start = 1;
+  // End value for this bin, exclusive. All the samples in this bin are strictly
+  // less than this value.
+  optional int64 end = 2;
+  // Number of samples that fell within this bin (between the start and end
+  // values)
+  optional int64 samples = 3;
+  // Total number of samples that are greater than or equal to the bin's start.
+  // This is equal to the number of samples in this bin plus the number of
+  // samples in all bins greater than this one.
+  optional int64 total_samples = 4;
+}
+
 // Details about the machine this process is running on.
 message MachineDetails {
   // Amount of total memory available in megabytes.
@@ -2940,10 +2989,32 @@ message JvmDetails {
   }
 }
 
+// Details for an indexing operation.
+message IntellijIndexingStats {
+  // How long the indexing operation took in milliseconds.
+  optional int32 duration_ms = 1;
+  // Number of files indexed during this indexing operation.
+  optional int32 file_count = 2;
+}
+
 // Stats on Studio's performance
 message StudioPerformanceStats {
   // Time for which the UI was blocked in milliseconds
   optional int32 ui_freeze_time_ms = 1;
+  // Distribution of times taken to process events in the main event loop,
+  // in milliseconds. The number of samples is approximately equal to the
+  // number of events handled, quantized by event_service_time_sample_period.
+  // For example, if the 10-20ms bin contains 100 samples, it means that
+  // approximately 100 events took between 10 and 20 milliseconds to process.
+  optional Histogram event_service_time_ms = 2;
+  // Sample period used to compute the event_service_time_ms histogram. For
+  // example, if this is set to 10 then the service time was measured for
+  // every 10th event, and each measurement counted for 10 samples in
+  // the histogram. This is mainly intended for computing error bars
+  // and is not needed for interpreting the histogram itself.
+  optional int32 event_service_time_sample_period = 3;
+  // Histogram of wait times for the global write lock
+  optional Histogram write_lock_wait_time_ms = 4;
 }
 
 // One bucket of a PercentileEstimator.
@@ -3487,6 +3558,10 @@ message CpuCaptureMetadata {
 
   // The user's configuration used to generate this capture
   optional CpuProfilingConfig profiling_config = 6;
+
+  // Timeout set by the user for the system "profiler.cpu.art.stop.timeout.sec"
+  // property. Set if |profiling_config.type| is |ART|.
+  optional int32 art_stop_timeout_sec = 7;
 }
 
 // Data associated with importing CPU traces.
@@ -3869,6 +3944,8 @@ message GradleSyncStats {
     TRIGGER_USER_REQUEST = 3;
     // User clicked quickfix to enable embedded Maven repo
     TRIGGER_EMBEDDED_REPO_ENABLED_BY_QUICKFIX = 4;
+    // User changed variant selection from Build Variants window
+    TRIGGER_VARIANT_SELECTION_CHANGED_BY_USER = 5;
   }
 }
 
@@ -4025,4 +4102,112 @@ message WhatsNewAssistantEvent {
 
   // Type of event
   optional WhatsNewAssistantEventType type = 1;
+}
+
+// Information about a session running lint -- in build, in IDE, etc
+message LintSession {
+  // analysis type - build, ide batch, ide incremental
+  optional AnalysisType analysis_type = 1;
+
+  // performance metrics regarding this session
+  optional LintPerformance lint_performance = 2;
+
+  // lint issue id's (counts, severity, etc)
+  repeated LintIssueId issue_ids = 3;
+
+  // Client-side salted, sha256 of the root project path.
+  // This exists to allow multiple instant run builds in one project by one
+  // user to be correlated.
+  //
+  // The salt is rotated every 28 days, so it is not a permanent pseudonymous
+  // identifier. It is anonymized and is unique per user, but has a 1-N
+  // relation.
+  optional string project_id = 4;
+
+  // The type of lint run that was performed: in IDE, from build, etc
+  enum AnalysisType {
+    UNKNOWN_ANALYSIS_TYPE = 0;
+    BUILD = 1;
+    VITAL = 2;
+    IDE_BATCH = 3;
+    IDE_FILE = 4;
+  }
+}
+
+// Information about a specific type of issue: frequency, severity, etc
+message LintIssueId {
+  // The issue id is a unique identifier for this type of problem.
+  // Examples of issue id's are "HardcodedText" and "NewApi".
+  optional string issue_id = 1;
+
+  // Number of occurrences of this issue in this session
+  optional int64 count = 2;
+
+  // Severity assigned to issues of this type by the user
+  optional LintSeverity severity = 3;
+
+  // The severity of the issue: fatal, or just a warning, etc
+  enum LintSeverity {
+    // Unknown
+    UNKNOWN_SEVERITY = 0;
+    // User did not change it from whatever lint set it to
+    DEFAULT_SEVERITY = 1;
+    // Fatal
+    FATAL_SEVERITY = 2;
+    // Error
+    ERROR_SEVERITY = 3;
+    // Warning
+    WARNING_SEVERITY = 4;
+    // Informational
+    INFORMATIONAL_SEVERITY = 5;
+    // Ignore (disabled/hidden)
+    IGNORE_SEVERITY = 6;
+  }
+}
+
+// Performance metrics about this lint analysis - duration, project size, etc
+message LintPerformance {
+  // time to run lint in micro seconds
+  optional int64 analysis_time_ms = 1;
+  // number of files in project
+  optional int64 file_count = 2;
+  // number of gradle projects in session
+  optional int64 module_count = 3;
+}
+
+// A quickfix for lint was invoked: data about issue type, fix type, etc
+message LintAction {
+  // The issue id is a unique identifier for this type of problem.
+  // Examples of issue id's are "HardcodedText" and "NewApi".
+  optional string issue_id = 1;
+
+  // Client-side salted, sha256 of the root project path.
+  // This exists to allow multiple instant run builds in one project by one
+  // user to be correlated.
+  //
+  // The salt is rotated every 28 days, so it is not a permanent pseudonymous
+  // identifier. It is anonymized and is unique per user, but has a 1-N
+  // relation.
+  optional string project_id = 2;
+
+  // A unique identifier for this quickfix.
+  optional string fix_id = 3;
+
+  // Feedback about this lint check if available
+  optional LintFeedback lint_feedback = 4;
+
+  // The user has provided feedback about this issue: problems, sentiment, etc
+  enum LintFeedback {
+    // Something else
+    UNKNOWN_FEEDBACK = 0;
+
+    // Lint incorrectly diagnosed the code
+    FALSE_POSITIVE = 1;
+
+    // The message is not clear
+    UNCLEAR_MESSAGE = 2;
+
+    // I liked this check, thanks
+    LOVE_IT = 3;
+  }
 }
