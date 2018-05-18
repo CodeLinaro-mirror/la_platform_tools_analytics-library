@@ -202,13 +202,13 @@ public abstract class UsageTracker implements AutoCloseable {
                            Paths.get(AnalyticsPaths.getSpoolDirectory()));
                 } catch (RuntimeException ex) {
                     sInstance = new NullUsageTracker(analyticsSettings, scheduler);
-                    sInstance.setIdeBrand(oldInstance.getIdeBrand());
+                    sInstance.copySettingsFrom(oldInstance);
                     throw ex;
                 }
             } else {
                 sInstance = new NullUsageTracker(analyticsSettings, scheduler);
             }
-            sInstance.setIdeBrand(oldInstance.getIdeBrand());
+            sInstance.copySettingsFrom(oldInstance);
             try {
                 oldInstance.close();
             }
@@ -217,6 +217,13 @@ public abstract class UsageTracker implements AutoCloseable {
             }
             return sInstance;
         }
+    }
+
+    private void copySettingsFrom(UsageTracker tracker) {
+        setIdeBrand(tracker.getIdeBrand());
+        setMaxJournalSize(tracker.getMaxJournalSize());
+        setMaxJournalTime(tracker.getMaxJournalTime(), TimeUnit.NANOSECONDS);
+        setVersion(tracker.getVersion());
     }
 
     /**
