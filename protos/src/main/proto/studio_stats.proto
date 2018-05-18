@@ -1983,7 +1983,7 @@ message GradleBuildProfile {
   // This exists to allow multiple instant run builds in one project by one
   // user to be correlated.
   //
-  // The salt is rotated every 28 days, so it is not a permenant pseudonymous
+  // The salt is rotated every 28 days, so it is not a permanent pseudonymous
   // identifier. It is anonymized and is unique per user, but has a 1-N
   // relation.
   optional string project_id = 18;
@@ -4124,13 +4124,46 @@ message LintSession {
   // relation.
   optional string project_id = 4;
 
+  // true if user is using baselines
+  optional bool baseline_enabled = 5;
+
+  // true if user is analyzing test sources
+  optional bool including_test_sources = 6;
+
+  // true if user is analyzing generated sources
+  optional bool including_generated_sources = 7;
+
+  // true if user is analyzing dependencies
+  optional bool including_dependencies = 8;
+
+  // true if the build is configured to abort on error
+  optional bool abort_on_error = 9;
+
+  // true if the build is configured to only check errors, not warnings
+  optional bool ignore_warnings = 10;
+
+  // true if the build is configured to promote all warnings to errors
+  optional bool warnings_as_errors = 11;
+
   // The type of lint run that was performed: in IDE, from build, etc
   enum AnalysisType {
+    // Other
     UNKNOWN_ANALYSIS_TYPE = 0;
+    // Explicit lint (batch) execution, typically for a single variant
+    // If reporting statistics for a complete multi-variant analysis (which
+    // involves running lint repeatedly on each variant and then combining
+    // the results) use BUILD_ALL_VARIANTS instead
     BUILD = 1;
+    // Running lint implicitly as part of a release build, with a small
+    // subset of checks enabled
     VITAL = 2;
+    // Running a full lint analysis from the IDE (Analyze > Inspect Code)
     IDE_BATCH = 3;
+    // Running lint on the fly in the editor for a single file
     IDE_FILE = 4;
+    // Running the "lint" target on a project to compute results for all
+    // variants and product flavors
+    BUILD_ALL_VARIANTS = 5;
   }
 }
 
@@ -4162,6 +4195,9 @@ message LintIssueId {
     INFORMATIONAL_SEVERITY = 5;
     // Ignore (disabled/hidden)
     IGNORE_SEVERITY = 6;
+    // Issue is enabled in general, but was suppressed with a local
+    // annotation or comment
+    SUPPRESSED_LOCALLY = 7;
   }
 }
 
@@ -4173,6 +4209,15 @@ message LintPerformance {
   optional int64 file_count = 2;
   // number of gradle projects in session
   optional int64 module_count = 3;
+  // number of Java source files in session
+  optional int64 java_source_count = 4;
+  // number of Kotlin source files in session
+  optional int64 kotlin_source_count = 5;
+  // number of resource files in session
+  optional int64 resource_file_count = 6;
+  // number of test soursce files in session. Note that test sources
+  // also contribute to the other file counts above.
+  optional int64 test_source_count = 7;
 }
 
 // A quickfix for lint was invoked: data about issue type, fix type, etc
