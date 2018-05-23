@@ -4361,6 +4361,11 @@ message StudioRunEvent {
 
   // Set if EventType = START and SectionType = DEPLOY
   optional DeployTask deploy_task = 9;
+
+  // The number of features disabled by the user
+  // Set if SectionType = DEPLOY and EventType = START and
+  // BuildMode = BUNDLE/APK_FROM_BUNDLE
+  optional uint32 disabled_dynamic_features_count = 11;
 }
 
 // Statistics regarding IntelliJ project sizes
