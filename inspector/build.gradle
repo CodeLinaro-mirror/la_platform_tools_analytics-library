@@ -1,5 +1,6 @@
 apply plugin: 'java'
 apply plugin: 'jacoco-tools-base'
+apply plugin: 'application'
 
 dependencies {
     compile project(':base:annotations')
@@ -17,6 +18,9 @@ dependencies {
 group = 'com.android.tools.analytics-library'
 archivesBaseName = 'inspector'
 version = rootProject.ext.baseVersion
+
+mainClassName = "com.android.tools.analytics.AnalyticsInspector"
+applicationDefaultJvmArgs = ["-ea", "-Xms2g", "-Xmx4g"]
 
 project.ext.pomName = 'Android Tools Analytics Inspector'
 project.ext.pomDesc = 'Tool for debugging usage analytics spool files.'

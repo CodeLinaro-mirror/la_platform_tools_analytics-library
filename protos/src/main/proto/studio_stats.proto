@@ -231,7 +231,7 @@ message AndroidStudioEvent {
   // approved scenarios.
   optional string raw_project_id = 61;
 
-  // set when kind = INDEXING_OPERATION_EVENT
+  // set when kind = INTELLIJ_INDEXING_STATS
   optional IntellijIndexingStats intellij_indexing_stats = 62;
 
   // set when kind == LINT_SESSION
@@ -239,6 +239,12 @@ message AndroidStudioEvent {
 
   // set when kind == LINT_ACTION
   optional LintAction lint_action = 64;
+
+  // set when kind = STUDIO_RUN_STATS
+  optional StudioRunEvent studio_run_event = 65;
+
+  // set when kind = INTELLIJ_PROJECT_SIZE_STATS
+  repeated IntellijProjectSizeStats intellij_project_size_stats = 66;
 
   // Describes a group of event kinds related to each other.
   // This is redundant in the presence of EventKind + event specific message,
@@ -608,6 +614,12 @@ message AndroidStudioEvent {
 
     // The event is related to taking an action on a lint suggestion
     LINT_ACTION = 133;
+
+    // Events related to a “Run” in studio
+    STUDIO_RUN_EVENT = 134;
+
+    // The event is related to count files in a search scope
+    INTELLIJ_PROJECT_SIZE_STATS = 135;
   }
 
   // Represents different Performance Monitoring types.
@@ -1983,7 +1995,7 @@ message GradleBuildProfile {
   // This exists to allow multiple instant run builds in one project by one
   // user to be correlated.
   //
-  // The salt is rotated every 28 days, so it is not a permenant pseudonymous
+  // The salt is rotated every 28 days, so it is not a permanent pseudonymous
   // identifier. It is anonymized and is unique per user, but has a 1-N
   // relation.
   optional string project_id = 18;
@@ -4124,13 +4136,46 @@ message LintSession {
   // relation.
   optional string project_id = 4;
 
+  // true if user is using baselines
+  optional bool baseline_enabled = 5;
+
+  // true if user is analyzing test sources
+  optional bool including_test_sources = 6;
+
+  // true if user is analyzing generated sources
+  optional bool including_generated_sources = 7;
+
+  // true if user is analyzing dependencies
+  optional bool including_dependencies = 8;
+
+  // true if the build is configured to abort on error
+  optional bool abort_on_error = 9;
+
+  // true if the build is configured to only check errors, not warnings
+  optional bool ignore_warnings = 10;
+
+  // true if the build is configured to promote all warnings to errors
+  optional bool warnings_as_errors = 11;
+
   // The type of lint run that was performed: in IDE, from build, etc
   enum AnalysisType {
+    // Other
     UNKNOWN_ANALYSIS_TYPE = 0;
+    // Explicit lint (batch) execution, typically for a single variant
+    // If reporting statistics for a complete multi-variant analysis (which
+    // involves running lint repeatedly on each variant and then combining
+    // the results) use BUILD_ALL_VARIANTS instead
     BUILD = 1;
+    // Running lint implicitly as part of a release build, with a small
+    // subset of checks enabled
     VITAL = 2;
+    // Running a full lint analysis from the IDE (Analyze > Inspect Code)
     IDE_BATCH = 3;
+    // Running lint on the fly in the editor for a single file
     IDE_FILE = 4;
+    // Running the "lint" target on a project to compute results for all
+    // variants and product flavors
+    BUILD_ALL_VARIANTS = 5;
   }
 }
 
@@ -4162,6 +4207,9 @@ message LintIssueId {
     INFORMATIONAL_SEVERITY = 5;
     // Ignore (disabled/hidden)
     IGNORE_SEVERITY = 6;
+    // Issue is enabled in general, but was suppressed with a local
+    // annotation or comment
+    SUPPRESSED_LOCALLY = 7;
   }
 }
 
@@ -4173,6 +4221,15 @@ message LintPerformance {
   optional int64 file_count = 2;
   // number of gradle projects in session
   optional int64 module_count = 3;
+  // number of Java source files in session
+  optional int64 java_source_count = 4;
+  // number of Kotlin source files in session
+  optional int64 kotlin_source_count = 5;
+  // number of resource files in session
+  optional int64 resource_file_count = 6;
+  // number of test soursce files in session. Note that test sources
+  // also contribute to the other file counts above.
+  optional int64 test_source_count = 7;
 }
 
 // A quickfix for lint was invoked: data about issue type, fix type, etc
@@ -4210,4 +4267,120 @@ message LintAction {
     // I liked this check, thanks
     LOVE_IT = 3;
   }
+}
+
+message StudioRunEvent {
+  enum RunType {
+    UNKNOWN = 0;
+    RUN = 1;
+    DEBUG = 2;
+    PROFILE = 3;
+  }
+
+  enum SectionType {
+    UNKNOWN_SECTION = 0;
+    TOTAL = 1;
+    STUDIO = 2;
+    GRADLE = 3;
+    EMULATOR = 4;
+    DEPLOY = 5;
+  }
+
+  enum EventType {
+    NONE = 0;
+    START = 1;
+    FINISH = 2;
+  }
+
+  // mirrors com.android.tools.idea.gradle.util.BuildMode
+  enum BuildMode {
+    UNKNOWN_BUILD_MODE = 0;
+
+    /** Cleans the project.*/
+    CLEAN = 1;
+
+    /** Compiles Java code and invokes Android build tools. */
+    ASSEMBLE = 2;
+
+    /** Clean project and then {@link #ASSEMBLE}. */
+    REBUILD = 3;
+
+    /** Compiles Java code, in selected modules, without invoking Android
+     * build tools. */
+    COMPILE_JAVA = 4;
+
+    /** Generate Java source only (e.g. R.java). */
+    SOURCE_GEN = 5;
+
+    /** Build project with translation support. */
+    ASSEMBLE_TRANSLATE = 6;
+
+    /** Build with the Gradle "bundle" task*/
+    BUNDLE = 7;
+
+    /** Build APKS from the Gradle "bundle" task*/
+    APK_FROM_BUNDLE = 8;
+  }
+
+  enum DeployTask {
+    UNKNOWN_TASK = 0;
+
+    DEPLOY_APK = 1;
+
+    DEPLOY_INSTANT_APP = 2;
+
+    HOTSWAP = 3;
+
+    SPLIT_APK_DEPLOY = 4;
+  }
+
+  // The run id is a UUID within a single run of Android Studio
+  // for tracking a single run through various events
+  optional string run_id = 1;
+
+  // The type of "Run" Studio is performing
+  optional RunType run_type = 2;
+
+  // The section of the run this event is tracking
+  optional SectionType section_type = 3;
+
+  // The type of event: start or end or error
+  optional EventType event_type = 4;
+
+  // How long this section took, set when EventType is Finish or Failed
+  optional uint32 duration_ms = 5;
+
+  // Set if SectionType = Gradle AND EventType = Start
+  optional BuildMode build_mode = 6;
+
+  // Set if EventType = FINISH and SectionType = DEPLOY/TOTAL
+  optional bool is_successful = 7;
+
+  // Set if EventType = START and SectionType = DEPLOY
+  optional uint32 artifact_count = 8;
+
+  // Set if EventType = START and SectionType = DEPLOY
+  optional DeployTask deploy_task = 9;
+}
+
+// Statistics regarding IntelliJ project sizes
+message IntellijProjectSizeStats {
+  enum FileType {
+    UNKNOWN_FILE_TYPE = 0;
+    JAVA = 1;
+    XML = 2;
+    DOT_CLASS = 3;
+    KOTLIN = 4;
+  }
+  // Search scope to decide counted file set
+  enum Scope {
+    UNKNOWN_SCOPE = 0;
+    // Whole project including both user sources and libraries
+    ALL = 1;
+    // All project libraries i.e. all jar files
+    LIBRARY = 2;
+  }
+  optional FileType type = 1;
+  optional Scope scope = 2;
+  optional int32 count = 3;
 }
