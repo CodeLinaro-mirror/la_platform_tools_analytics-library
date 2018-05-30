@@ -274,7 +274,7 @@ message AndroidStudioEvent {
     // The event is related to Theme Editor.
     THEME_EDITOR = 9;
     // The event is related to App Indexing integration.
-    // (http://go/studio-app-indexing)
+
     APP_INDEXING = 10;
     // The event is related to C++ debugging.
     LLDB = 11;
