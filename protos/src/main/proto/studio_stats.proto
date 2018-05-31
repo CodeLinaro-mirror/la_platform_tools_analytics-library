@@ -2055,6 +2055,9 @@ message GradleBuildProject {
   // The project options as set by the user or by studio.
   optional GradleProjectOptionsSettings options = 12;
 
+  // All of the gradle plugins applied to this project
+  repeated GradlePlugin plugin = 13;
+
   enum PluginType {
     UNKNOWN_PLUGIN_TYPE = 0;
     // The 'com.android.application' or 'com.android.model.application' plugins.
@@ -2079,6 +2082,24 @@ message GradleBuildProject {
     FIRST = 1;
     // The 'com.android.model.[application,library]' plugins
     COMPONENT_MODEL = 2;
+  }
+
+  enum GradlePlugin {
+    UNKNOWN_GRADLE_PLUGIN = 0;
+    ORG_GRADLE_API_PLUGINS_HELPTASKSPLUGIN = 1;
+    COM_ANDROID_BUILD_GRADLE_API_ANDROIDBASEPLUGIN = 2;
+    COM_ANDROID_BUILD_API_PLUGIN_ANDROIDBASEPLUGIN = 3;
+    ORG_GRADLE_LANGUAGE_BASE_PLUGINS_LIFECYCLEBASEPLUGIN = 4;
+    ORG_GRADLE_API_PLUGINS_BASEPLUGIN = 5;
+    ORG_GRADLE_API_PLUGINS_REPORTINGBASEPLUGIN = 6;
+    ORG_GRADLE_PLATFORM_BASE_PLUGINS_COMPONENTBASEPLUGIN = 7;
+    ORG_GRADLE_LANGUAGE_BASE_PLUGINS_LANGUAGEBASEPLUGIN = 8;
+    ORG_GRADLE_PLATFORM_BASE_PLUGINS_BINARYBASEPLUGIN = 9;
+    ORG_GRADLE_API_PLUGINS_JAVABASEPLUGIN = 10;
+    COM_ANDROID_BUILD_GRADLE_APPPLUGIN = 11;
+    COM_ANDROID_BUILD_API_PLUGIN_APPPLUGIN = 12;
+    ORG_JETBRAINS_KOTLIN_GRADLE_PLUGIN_KOTLINANDROIDPLUGINWRAPPER = 13;
+    COM_GOOGLE_GMS_GOOGLESERVICES_GOOGLESERVICESPLUGIN = 14;
   }
 }
 
