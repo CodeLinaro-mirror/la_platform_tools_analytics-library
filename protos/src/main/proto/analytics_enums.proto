@@ -44,6 +44,9 @@ enum GradleTransformExecutionType {
     R8 = 37;
     DEX_SPLITTER = 38;
     MERGE_CLASSES = 39;
+    LIBRARY_AAR_JARS = 40;
+    LIBRARY_INTERMEDIATE_JARS = 41;
+    TEST = 42 [deprecated=true];
 }
 
 enum GradleTaskExecutionType {
@@ -197,6 +200,10 @@ enum GradleTaskExecutionType {
     KAPT_GENERATE_STUBS = 147;
     CHECK_MULTI_APK_LIBRARIES = 148;
     INSTANT_RUN_SPLIT_APK_RESOURCES_BUILDER = 149;
+    ANDROID_ZIP = 150;
+    FEATURE_SPLIT_TRANSITIVE_DEPS_WRITER = 151;
+    LINK_ANDROID_RES_FOR_BUNDLE = 152;
+    ZIP_MERGING = 153;
 }
 
 enum BooleanOption {
