@@ -196,6 +196,7 @@ enum GradleTaskExecutionType {
     KAPT = 146;
     KAPT_GENERATE_STUBS = 147;
     CHECK_MULTI_APK_LIBRARIES = 148;
+    INSTANT_RUN_SPLIT_APK_RESOURCES_BUILDER = 149;
 }
 
 enum BooleanOption {
