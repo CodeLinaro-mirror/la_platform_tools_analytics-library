@@ -205,6 +205,7 @@ enum GradleTaskExecutionType {
     LINK_ANDROID_RES_FOR_BUNDLE = 152;
     ZIP_MERGING = 153;
     DATA_BINDING_MERGE_DEPENDENCY_ARTIFACTS = 154;
+    BUNDLE_AAR = 155;
 }
 
 enum BooleanOption {
