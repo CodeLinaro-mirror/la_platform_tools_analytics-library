@@ -26,3 +26,28 @@ iml_module(
         "//tools/idea/.idea/libraries:studio-analytics-proto",
     ],
 )
+
+load("//tools/base/bazel:maven.bzl", "maven_java_library", "maven_pom")
+
+maven_java_library(
+    name = "publisher",
+    srcs = glob(["src/main/java/**"]),
+    pom = ":publisher.pom",
+    resource_strip_prefix = "tools/analytics-library/publisher",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//tools/analytics-library/protos/src/main/proto",
+        "//tools/analytics-library/shared:tools.analytics-shared",
+        "//tools/base/annotations",
+        "//tools/base/common:tools.common",
+        "//tools/base/third_party:com.google.code.gson_gson",
+        "//tools/base/third_party:com.google.guava_guava",
+    ],
+)
+
+maven_pom(
+    name = "publisher.pom",
+    artifact = "publisher",
+    group = "com.android.tools.analytics-library",
+    source = "//tools/buildSrc/base:base_version",
+)
