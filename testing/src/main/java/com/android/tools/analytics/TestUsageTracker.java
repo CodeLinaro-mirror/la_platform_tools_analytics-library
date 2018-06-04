@@ -32,7 +32,7 @@ public class TestUsageTracker extends UsageTracker {
         // in order to ensure reproducible anonymized values & timestamps are reported,
         // set a date provider based on the virtual time scheduler.
         sDateProvider = AnalyticsSettings.sDateProvider = new VirtualTimeDateProvider(scheduler);
-        mStartTimeMs = sDateProvider.now().getTime();
+        sStartTimeMs = sDateProvider.now().getTime();
         androidSdkHomeEnvironment = Files.createTempDir();
         EnvironmentFakes.setCustomAndroidSdkHomeEnvironment(androidSdkHomeEnvironment.getPath());
     }

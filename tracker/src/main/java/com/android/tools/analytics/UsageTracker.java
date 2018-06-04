@@ -48,12 +48,12 @@ public abstract class UsageTracker implements AutoCloseable {
     private final AnalyticsSettings mAnalyticsSettings;
     private final ScheduledExecutorService mScheduler;
 
-    private int mMaxJournalSize;
-    private long mMaxJournalTime;
-    private String mVersion;
-    private AndroidStudioEvent.IdeBrand mIdeBrand = AndroidStudioEvent.IdeBrand.UNKNOWN_IDE_BRAND;
+    private static int sMaxJournalSize;
+    private static long sMaxJournalTime;
+    private static String sVersion;
+    private static AndroidStudioEvent.IdeBrand sIdeBrand = AndroidStudioEvent.IdeBrand.UNKNOWN_IDE_BRAND;
 
-    @VisibleForTesting protected long mStartTimeMs = sDateProvider.now().getTime();
+    @VisibleForTesting protected static long sStartTimeMs = sDateProvider.now().getTime();
 
     protected UsageTracker(
             AnalyticsSettings analyticsSettings, ScheduledExecutorService scheduler) {
@@ -64,34 +64,40 @@ public abstract class UsageTracker implements AutoCloseable {
      * Indicates whether this UsageTracker has a maximum size at which point logs need to be flushed.
      * Zero or less indicates no maximum size at which to flush.
      */
-    public int getMaxJournalSize() {
-        return mMaxJournalSize;
+    public static int getMaxJournalSize() {
+        return sMaxJournalSize;
     }
 
     /*
      * Sets a maximum size at which point logs need to be flushed. Zero or less indicates no
      * flushing until @{link #close()} is called.
      */
-    public void setMaxJournalSize(int maxJournalSize) {
-        this.mMaxJournalSize = maxJournalSize;
+    public static void setMaxJournalSize(int maxJournalSize) {
+            sMaxJournalSize = maxJournalSize;
     }
 
-    /**
-     * Indicates whether this UsageTracker has a timeout at which point logs need to be flushed.
-     * Zero or less indicates no timeout is set.
-     *
-     * @return timeout in nano-seconds.
-     */
-    public long getMaxJournalTime() {
-        return mMaxJournalTime;
+    protected void scheduleJournalTimeout(long maxJournalTime){}
+
+
+        /**
+         * Indicates whether this UsageTracker has a timeout at which point logs need to be flushed.
+         * Zero or less indicates no timeout is set.
+         *
+         * @return timeout in nano-seconds.
+         */
+    public static long getMaxJournalTime() {
+        return sMaxJournalTime;
     }
 
     /**
      * Sets a timeout at which point logs need to be flushed. Zero or less indicates no timeout
      * should be used.
      */
-    public void setMaxJournalTime(long duration, TimeUnit unit) {
-        this.mMaxJournalTime = unit.toNanos(duration);
+    public static void setMaxJournalTime(long duration, TimeUnit unit) {
+        synchronized (sGate) {
+            sMaxJournalTime = unit.toNanos(duration);
+            sInstance.scheduleJournalTimeout(sMaxJournalTime);
+        }
     }
 
     /**
@@ -100,8 +106,8 @@ public abstract class UsageTracker implements AutoCloseable {
      * As the version of the product generating the event can be different of the version uploading
      * the event.
      */
-    @NonNull public String getVersion() {
-        return mVersion;
+    @NonNull public static String getVersion() {
+        return sVersion;
     }
 
     /**
@@ -110,22 +116,22 @@ public abstract class UsageTracker implements AutoCloseable {
      * As the version of the product generating the event can be different of the version uploading
      * the event.
      */
-    public void setVersion(@NonNull String version) {
-        mVersion = version;
+    public static void setVersion(@NonNull String version) {
+        sVersion = version;
     }
 
     /**
      * Gets the ide brand specified for this UsageTracker.
      */
-    @NonNull public AndroidStudioEvent.IdeBrand getIdeBrand() {
-        return mIdeBrand;
+    @NonNull public static AndroidStudioEvent.IdeBrand getIdeBrand() {
+        return sIdeBrand;
     }
 
     /**
      * Set the ide brand specified for this UsageTracker.
      */
-    public void setIdeBrand(@NonNull AndroidStudioEvent.IdeBrand ideBrand) {
-        mIdeBrand = ideBrand;
+    public static void setIdeBrand(@NonNull AndroidStudioEvent.IdeBrand ideBrand) {
+        sIdeBrand = ideBrand;
     }
 
     /** Gets the analytics settings used by this tracker. */
@@ -139,24 +145,24 @@ public abstract class UsageTracker implements AutoCloseable {
     }
 
     /** Logs usage data provided in the @{link AndroidStudioEvent}. */
-    public void log(@NonNull AndroidStudioEvent.Builder studioEvent) {
-      log(sDateProvider.now().getTime(), studioEvent);
+    public void logNow(@NonNull AndroidStudioEvent.Builder studioEvent) {
+      logAt(sDateProvider.now().getTime(), studioEvent);
     }
 
     /** Logs usage data provided in the @{link AndroidStudioEvent} with provided event time. */
-    public void log(long eventTimeMs, @NonNull AndroidStudioEvent.Builder studioEvent) {
+    public void logAt(long eventTimeMs, @NonNull AndroidStudioEvent.Builder studioEvent) {
         studioEvent.setStudioSessionId(sSessionId);
-        studioEvent.setIdeBrand(mIdeBrand);
+        studioEvent.setIdeBrand(sIdeBrand);
 
-        if (mVersion != null && !studioEvent.hasProductDetails()) {
-            studioEvent.setProductDetails(ProductDetails.newBuilder().setVersion(mVersion));
+        if (sVersion != null && !studioEvent.hasProductDetails()) {
+            studioEvent.setProductDetails(ProductDetails.newBuilder().setVersion(sVersion));
         }
 
         try {
             logDetails(
                     ClientAnalytics.LogEvent.newBuilder()
                             .setEventTimeMs(eventTimeMs)
-                            .setEventUptimeMs(eventTimeMs - mStartTimeMs)
+                            .setEventUptimeMs(eventTimeMs - sStartTimeMs)
                             .setSourceExtension(studioEvent.build().toByteString()));
         } catch (NullPointerException exception) {
             // TODO: Temporary fix for http://b.android.com/224994. We should remove this try-catch
@@ -164,7 +170,7 @@ public abstract class UsageTracker implements AutoCloseable {
             logDetails(
                     ClientAnalytics.LogEvent.newBuilder()
                             .setEventTimeMs(eventTimeMs)
-                            .setEventUptimeMs(eventTimeMs - mStartTimeMs));
+                            .setEventUptimeMs(eventTimeMs - sStartTimeMs));
         }
     }
 
@@ -178,11 +184,22 @@ public abstract class UsageTracker implements AutoCloseable {
      * Gets an instance of the {@link UsageTracker} that has been initialized correctly for this process.
      */
     @NonNull
-    public static UsageTracker getInstance() {
+    private static UsageTracker getInstance() {
         synchronized (sGate) {
             return sInstance;
         }
     }
+
+    /** Logs usage data provided in the @{link AndroidStudioEvent}. */
+    public static void log(@NonNull AndroidStudioEvent.Builder studioEvent) {
+        getInstance().logNow(studioEvent);
+    }
+
+    /** Logs usage data provided in the @{link AndroidStudioEvent} with provided event time. */
+    public static void log(long eventTimeMs, @NonNull AndroidStudioEvent.Builder studioEvent) {
+        getInstance().logAt(eventTimeMs, studioEvent);
+    }
+
 
     /**
      * Initializes a {@link UsageTracker} for use throughout this process based on user opt-in and
@@ -202,13 +219,11 @@ public abstract class UsageTracker implements AutoCloseable {
                            Paths.get(AnalyticsPaths.getSpoolDirectory()));
                 } catch (RuntimeException ex) {
                     sInstance = new NullUsageTracker(analyticsSettings, scheduler);
-                    sInstance.copySettingsFrom(oldInstance);
                     throw ex;
                 }
             } else {
                 sInstance = new NullUsageTracker(analyticsSettings, scheduler);
             }
-            sInstance.copySettingsFrom(oldInstance);
             try {
                 oldInstance.close();
             }
@@ -219,11 +234,15 @@ public abstract class UsageTracker implements AutoCloseable {
         }
     }
 
-    private void copySettingsFrom(UsageTracker tracker) {
-        setIdeBrand(tracker.getIdeBrand());
-        setMaxJournalSize(tracker.getMaxJournalSize());
-        setMaxJournalTime(tracker.getMaxJournalTime(), TimeUnit.NANOSECONDS);
-        setVersion(tracker.getVersion());
+
+    /**
+     * Gets an instance of the {@link UsageTracker} that has been initialized correctly for this process.
+     */
+    @NonNull
+    public static UsageTracker getInstanceForTest() {
+        synchronized (sGate) {
+            return sInstance;
+        }
     }
 
     /**
@@ -232,8 +251,13 @@ public abstract class UsageTracker implements AutoCloseable {
      */
     @VisibleForTesting
     public static UsageTracker setInstanceForTest(@NonNull UsageTracker tracker) {
+      synchronized (sGate) {
         sIsTesting = true;
-        return sInstance = tracker;
+        UsageTracker old = sInstance;
+        sInstance = tracker;
+        sStartTimeMs = sDateProvider.now().getTime();
+        return old;
+      }
     }
 
     /**

@@ -116,7 +116,7 @@ public class AnalyticsPublisherTest {
             JournalingUsageTracker journalingUsageTracker =
                     new JournalingUsageTracker(
                             new AnalyticsSettings(), vs, testSpoolDir.getRoot().toPath());
-            journalingUsageTracker.log(logged);
+            journalingUsageTracker.logNow(logged);
             vs.advanceBy(0);
             journalingUsageTracker.close();
 
@@ -228,7 +228,7 @@ public class AnalyticsPublisherTest {
             JournalingUsageTracker journalingUsageTracker =
                     new JournalingUsageTracker(
                             new AnalyticsSettings(), vs, testSpoolDir.getRoot().toPath());
-            journalingUsageTracker.log(logged);
+            journalingUsageTracker.logNow(logged);
             vs.advanceBy(0);
             journalingUsageTracker.close();
 
@@ -318,7 +318,7 @@ public class AnalyticsPublisherTest {
                     new JournalingUsageTracker(
                             analyticsSettings, vs, testSpoolDir.getRoot().toPath());
 
-            journalingUsageTracker.log(logged);
+            journalingUsageTracker.logNow(logged);
             vs.advanceBy(0);
             journalingUsageTracker.close();
 
@@ -370,7 +370,7 @@ public class AnalyticsPublisherTest {
                                             // ensure that the previous failure is reported in the
                                             // meta metrics.
                                             .setFailedServerReplies(1)
-                                            .setBytesSentInLastUpload(187)
+                                            .setBytesSentInLastUpload(202)
                                             .build())
                             .build(),
                     metaStudioEvent);
@@ -379,7 +379,7 @@ public class AnalyticsPublisherTest {
             journalingUsageTracker =
                     new JournalingUsageTracker(
                             new AnalyticsSettings(), vs, testSpoolDir.getRoot().toPath());
-            journalingUsageTracker.log(logged);
+            journalingUsageTracker.logNow(logged);
             vs.advanceBy(0);
             journalingUsageTracker.close();
 
@@ -405,7 +405,7 @@ public class AnalyticsPublisherTest {
                                     MetaMetrics.newBuilder()
                                             .setFailedConnections(0)
                                             .setFailedServerReplies(0)
-                                            .setBytesSentInLastUpload(189)
+                                            .setBytesSentInLastUpload(203)
                                             .build())
                             .build(),
                     metaStudioEvent);
@@ -477,11 +477,11 @@ public class AnalyticsPublisherTest {
                     new JournalingUsageTracker(
                             new AnalyticsSettings(), vs, testSpoolDir.getRoot().toPath());
             journalingUsageTracker.setMaxJournalSize(2);
-            journalingUsageTracker.log(logged1);
-            journalingUsageTracker.log(logged2);
+            journalingUsageTracker.logNow(logged1);
+            journalingUsageTracker.logNow(logged2);
             vs.advanceBy(0);
-            journalingUsageTracker.log(logged3);
-            journalingUsageTracker.log(logged4);
+            journalingUsageTracker.logNow(logged3);
+            journalingUsageTracker.logNow(logged4);
             vs.advanceBy(0);
             journalingUsageTracker.close();
 
@@ -547,7 +547,7 @@ public class AnalyticsPublisherTest {
             JournalingUsageTracker journalingUsageTracker =
                     new JournalingUsageTracker(
                             new AnalyticsSettings(), vs, testSpoolDir.getRoot().toPath());
-            journalingUsageTracker.log(logged);
+            journalingUsageTracker.logNow(logged);
             vs.advanceBy(0);
             journalingUsageTracker.close();
 
@@ -601,7 +601,7 @@ public class AnalyticsPublisherTest {
             JournalingUsageTracker journalingUsageTracker =
                     new JournalingUsageTracker(
                             new AnalyticsSettings(), vs, testSpoolDir.getRoot().toPath());
-            journalingUsageTracker.log(logged);
+            journalingUsageTracker.logNow(logged);
             vs.advanceBy(0);
             journalingUsageTracker.close();
 
