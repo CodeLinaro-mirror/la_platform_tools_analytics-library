@@ -1,4 +1,5 @@
 load("//tools/base/bazel:bazel.bzl", "iml_module")
+load("//tools/base/bazel:kotlin.bzl", "kotlin_library", "kotlin_test")
 
 # managed by go/iml_to_build
 iml_module(
@@ -22,14 +23,15 @@ iml_module(
         "//tools/analytics-library/tracker:analytics-tracker[module, test]",
         "//tools/idea/.idea/libraries:protobuf",
         "//tools/idea/.idea/libraries:studio-analytics-proto",
+        "//tools/idea/.idea/libraries:KotlinJavaRuntime[test]",
     ],
 )
 
 load("//tools/base/bazel:maven.bzl", "maven_java_library", "maven_pom")
 
-java_library(
+kotlin_library(
     name = "tools.analytics-testing",
-    srcs = glob(["src/main/java/**"]),
+    srcs = ["src/main/java"],
     visibility = ["//visibility:public"],
     deps = [
         "//tools/analytics-library/protos/src/main/proto",
@@ -43,9 +45,9 @@ java_library(
     ],
 )
 
-java_test(
+kotlin_test(
     name = "tools.analytics-testing_tests",
-    srcs = glob(["src/test/java/**"]),
+    srcs = ["src/test/java"],
     jvm_flags = ["-Dtest.suite.jar=tools.analytics-testing_tests.jar"],
     test_class = "com.android.testutils.JarTestSuite",
     deps = [

@@ -1,4 +1,5 @@
 load("//tools/base/bazel:bazel.bzl", "iml_module")
+load("//tools/base/bazel:kotlin.bzl", "kotlin_library", "kotlin_test")
 
 # managed by go/iml_to_build
 iml_module(
@@ -23,14 +24,15 @@ iml_module(
         "//tools/base/common:studio.android.sdktools.common[module]",
         "//tools/idea/.idea/libraries:protobuf",
         "//tools/idea/.idea/libraries:studio-analytics-proto",
+        "//tools/idea/.idea/libraries:KotlinJavaRuntime",
     ],
 )
 
 load("//tools/base/bazel:maven.bzl", "maven_java_library", "maven_pom")
 
-maven_java_library(
+kotlin_library(
     name = "tools.analytics-shared",
-    srcs = glob(["src/main/java/**"]),
+    srcs = ["src/main/java"],
     pom = ":analytics-shared.pom",
     resource_strip_prefix = "tools/analytics-library/shared",
     visibility = ["//visibility:public"],
@@ -40,6 +42,9 @@ maven_java_library(
         "//tools/base/common:tools.common",
         "//tools/base/third_party:com.google.code.gson_gson",
         "//tools/base/third_party:com.google.guava_guava",
+        "//tools/base/third_party:org.jetbrains.kotlin_kotlin-stdlib",
+        "//tools/base/third_party:org.jetbrains.kotlin_kotlin-stdlib-jre7",
+        "//tools/base/third_party:org.jetbrains.kotlin_kotlin-stdlib-jre8",
     ],
 )
 
@@ -50,9 +55,9 @@ maven_pom(
     source = "//tools/buildSrc/base:base_version",
 )
 
-java_test(
+kotlin_test(
     name = "tools.analytics-shared_tests",
-    srcs = glob(["src/test/java/**"]),
+    srcs = ["src/test/java"],
     jvm_flags = ["-Dtest.suite.jar=tools.analytics-shared_tests.jar"],
     test_class = "com.android.testutils.JarTestSuite",
     deps = [
@@ -64,5 +69,8 @@ java_test(
         "//tools/base/third_party:com.google.code.gson_gson",
         "//tools/base/third_party:com.google.truth_truth",
         "//tools/base/third_party:junit_junit",
+        "//tools/base/third_party:org.jetbrains.kotlin_kotlin-stdlib",
+        "//tools/base/third_party:org.jetbrains.kotlin_kotlin-stdlib-jre7",
+        "//tools/base/third_party:org.jetbrains.kotlin_kotlin-stdlib-jre8",
     ],
 )

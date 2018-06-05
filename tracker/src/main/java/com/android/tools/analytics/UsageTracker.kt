@@ -1,0 +1,233 @@
+/*
+ * Copyright (C) 2016 The Android Open Source Project
+ *
+ * Licensed under the Eclipse Public License, Version 1.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.eclipse.org/org/documents/epl-v10.php
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package com.android.tools.analytics
+
+import com.android.annotations.VisibleForTesting
+import com.android.utils.DateProvider
+import com.android.utils.ILogger
+import com.google.wireless.android.sdk.stats.AndroidStudioEvent
+import java.io.IOException
+import java.nio.file.Paths
+import java.util.*
+import java.util.concurrent.ScheduledExecutorService
+import java.util.concurrent.TimeUnit
+
+/**
+ * UsageTracker is an api to report usage of features. This data is used to improve
+ * future versions of Android Studio and related tools.
+ *
+ * The tracker has an API to logDetails usage (in the form of protobuf messages).
+ * A separate system called the Analytics Publisher takes the logs and sends them
+ * to Google's servers for analysis.
+ */
+object UsageTracker {
+  private val gate = Any()
+
+  @VisibleForTesting
+  @JvmStatic
+  var sessionId = UUID.randomUUID().toString()
+
+  @VisibleForTesting
+  @JvmStatic
+  var dateProvider: DateProvider = DateProvider.SYSTEM
+
+  @JvmStatic
+  @VisibleForTesting
+  var startTimeMs = dateProvider.now().time
+
+  @JvmStatic
+  private var writer: UsageTrackerWriter = NullUsageTracker
+  private var isTesting: Boolean = false
+  /**
+   * Indicates whether this UsageTracker has a maximum size at which point logs need to be flushed.
+   * Zero or less indicates no maximum size at which to flush.
+   */
+  /*
+   * Sets a maximum size at which point logs need to be flushed. Zero or less indicates no
+   * flushing until @{link #close()} is called.
+   */
+  @JvmStatic
+  var maxJournalSize: Int = 0
+  /**
+   * Indicates whether this UsageTracker has a timeout at which point logs need to be flushed.
+   * Zero or less indicates no timeout is set.
+   *
+   * @return timeout in nano-seconds.
+   */
+  @JvmStatic
+  var maxJournalTime: Long = 0
+    private set
+  /**
+   * Gets the version specified for this UsageTracker. This version when specified is used
+   * to populate the product_details.version field of AndroidStudioEvent at time of logging
+   * As the version of the product generating the event can be different of the version uploading
+   * the event.
+   */
+  /**
+   * Set the version specified for this UsageTracker. This version when specified is used
+   * to populate the product_details.version field of AndroidStudioEvent at time of logging
+   * As the version of the product generating the event can be different of the version uploading
+   * the event.
+   */
+  @JvmStatic
+  var version: String? = null
+  /**
+   * Gets the ide brand specified for this UsageTracker.
+   */
+  /**
+   * Set the ide brand specified for this UsageTracker.
+   */
+  @JvmStatic
+  var ideBrand: AndroidStudioEvent.IdeBrand = AndroidStudioEvent.IdeBrand.UNKNOWN_IDE_BRAND
+
+  /**
+   * Gets the global writer to the provided tracker writer so tests can provide their own UsageTrackerWriter
+   * implementation. NOTE: Should only be used from Usage Tracker tests.
+   */
+  @JvmStatic
+  val writerForTest: UsageTrackerWriter
+    @VisibleForTesting
+    get() {
+      synchronized(gate) {
+        return writer
+      }
+    }
+
+  /**
+   * Sets a timeout at which point logs need to be flushed. Zero or less indicates no timeout
+   * should be used.
+   */
+  @JvmStatic
+  fun setMaxJournalTime(duration: Long, unit: TimeUnit) {
+    synchronized(gate) {
+      maxJournalTime = unit.toNanos(duration)
+      writer.scheduleJournalTimeout(maxJournalTime)
+    }
+  }
+
+  /** Logs usage data provided in the @{link AndroidStudioEvent}.  */
+  @JvmStatic
+  fun log(studioEvent: AndroidStudioEvent.Builder) {
+    synchronized(gate) {
+      writer.logNow(studioEvent)
+    }
+  }
+
+  /** Logs usage data provided in the @{link AndroidStudioEvent} with provided event time.  */
+  @JvmStatic
+  fun log(eventTimeMs: Long, studioEvent: AndroidStudioEvent.Builder) {
+    synchronized(gate) {
+      writer.logAt(eventTimeMs, studioEvent)
+    }
+  }
+
+  /**
+   * Initializes a [UsageTrackerWriter] for use throughout this process based on user opt-in and
+   * other settings.
+   */
+  @JvmStatic
+  fun initialize(
+    logger: ILogger,
+    scheduler: ScheduledExecutorService
+  ): UsageTrackerWriter {
+    val analyticsSettings = AnalyticsSettings.getInstance(logger)
+    synchronized(gate) {
+      val oldInstance = writer
+      if (analyticsSettings.optedIn) {
+        try {
+          writer = JournalingUsageTracker(
+            scheduler,
+            Paths.get(AnalyticsPaths.spoolDirectory)
+          )
+        }
+        catch (ex: RuntimeException) {
+          writer = NullUsageTracker
+          throw ex
+        }
+
+      }
+      else {
+        writer = NullUsageTracker
+      }
+      try {
+        oldInstance.close()
+      }
+      catch (ex: Exception) {
+        throw RuntimeException("Unable to close usage tracker", ex)
+      }
+
+      return writer
+    }
+  }
+
+  /**
+   * Sets the global writer to the provided tracker so tests can provide their own UsageTracker
+   * implementation. NOTE: Should only be used from tests.
+   */
+  @VisibleForTesting
+  @JvmStatic
+  fun setWriterForTest(tracker: UsageTrackerWriter): UsageTrackerWriter {
+    synchronized(gate) {
+      isTesting = true
+      val old = writer
+      writer = tracker
+      startTimeMs = dateProvider.now().time
+      return old
+    }
+  }
+
+  /**
+   * resets the global writer to the null usage tracker, to clean state in tests. NOTE: Should
+   * only be used from tests.
+   */
+  @VisibleForTesting
+  @JvmStatic
+  fun cleanAfterTesting() {
+    isTesting = false
+    writer = NullUsageTracker
+  }
+
+  @JvmStatic
+  fun updateSettingsAndTracker(
+    optIn: Boolean, logger: ILogger, scheduler: ScheduledExecutorService
+  ): AnalyticsSettings {
+    val settings = AnalyticsSettings.getInstance(logger)
+
+    if (isTesting) {
+      // Don't persist test settings or close tracker
+      return settings
+    }
+
+    if (optIn != settings.optedIn) {
+      settings.optedIn = optIn
+      try {
+        settings.saveSettings()
+      }
+      catch (e: IOException) {
+        logger.error(e, "Unable to save analytics settings")
+      }
+
+    }
+    try {
+      initialize(logger, scheduler)
+    }
+    catch (e: Exception) {
+      logger.error(e, "Unable to initialize analytics tracker")
+    }
+    return settings
+  }
+}

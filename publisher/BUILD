@@ -1,4 +1,5 @@
 load("//tools/base/bazel:bazel.bzl", "iml_module")
+load("//tools/base/bazel:kotlin.bzl", "kotlin_library", "kotlin_test")
 
 # managed by go/iml_to_build
 iml_module(
@@ -24,14 +25,13 @@ iml_module(
         "//tools/analytics-library/tracker:analytics-tracker[module, test]",
         "//tools/idea/.idea/libraries:protobuf",
         "//tools/idea/.idea/libraries:studio-analytics-proto",
+        "//tools/idea/.idea/libraries:KotlinJavaRuntime",
     ],
 )
 
-load("//tools/base/bazel:maven.bzl", "maven_java_library", "maven_pom")
-
-maven_java_library(
+kotlin_library(
     name = "publisher",
-    srcs = glob(["src/main/java/**"]),
+    srcs = ["src/main/java"],
     pom = ":publisher.pom",
     resource_strip_prefix = "tools/analytics-library/publisher",
     visibility = ["//visibility:public"],
@@ -44,6 +44,8 @@ maven_java_library(
         "//tools/base/third_party:com.google.guava_guava",
     ],
 )
+
+load("//tools/base/bazel:maven.bzl", "maven_pom")
 
 maven_pom(
     name = "publisher.pom",

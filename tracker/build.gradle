@@ -1,4 +1,5 @@
 apply plugin: 'java'
+apply plugin: 'kotlin'
 apply plugin: 'jacoco-tools-base'
 apply plugin: 'sdk-java-lib'
 
@@ -9,6 +10,7 @@ dependencies {
     compile project(':analytics-library:shared')
     compile libs.protobuf
     compile libs.guava
+    compile libs.kotlin_stdlib
 
     testCompile project(':base:testutils')
     testCompile libs.junit
