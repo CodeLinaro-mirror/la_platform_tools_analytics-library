@@ -21,7 +21,7 @@ iml_module(
         "//tools/idea/.idea/libraries:http-client",
         "//tools/idea/.idea/libraries:truth[test]",
         "//tools/idea/.idea/libraries:JUnit4[test]",
-        "//tools/idea/.idea/libraries:Netty[test]",
+        "//tools/idea/.idea/libraries:netty-codec-http[test]",
         "//tools/idea/.idea/libraries:mockito[test]",
     ],
 )
