@@ -274,7 +274,7 @@ message AndroidStudioEvent {
     // The event is related to Theme Editor.
     THEME_EDITOR = 9;
     // The event is related to App Indexing integration.
-    // (http://go/studio-app-indexing)
+
     APP_INDEXING = 10;
     // The event is related to C++ debugging.
     LLDB = 11;
@@ -4361,6 +4361,29 @@ message StudioRunEvent {
 
   // Set if EventType = START and SectionType = DEPLOY
   optional DeployTask deploy_task = 9;
+
+  // The number of features disabled by the user
+  // Set if SectionType = DEPLOY and EventType = START and
+  // BuildMode = BUNDLE/APK_FROM_BUNDLE
+  optional uint32 disabled_dynamic_features_count = 11;
+
+  // If this Run is using Instant Run, which may use HOTSWAP deploy task
+  // but could also use other deploy tasks.
+  // Set if SectionType = DEPLOY and EventType = FINISH
+  optional bool instant_run = 12;
+
+  // If using SplitApkDeployTask and doing a partial install
+  // Set if SectionType = DEPLOY and DeployTask = SPLIT_APK_DEPLOY
+  optional bool patch_build = 13;
+
+  // If using SplitApkDeployTask and doing a resource only swap that
+  // does not restart the app
+  // Set if SectionType = DEPLOY and DeployTask = SPLIT_APK_DEPLOY
+  optional bool do_not_restart = 14;
+
+  // If the app's debuggable flag is set to true
+  // Set if SectionType = TOTAL and EventType = START
+  optional bool debuggable = 15;
 }
 
 // Statistics regarding IntelliJ project sizes
