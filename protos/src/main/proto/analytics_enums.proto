@@ -208,6 +208,7 @@ enum GradleTaskExecutionType {
     BUNDLE_AAR = 155;
     APP_CLASSPATH_CHECK = 156;
     GATHER_MODULE_INFO = 157;
+    APPLICATION_ID_WRITER = 158;
 }
 
 enum BooleanOption {
