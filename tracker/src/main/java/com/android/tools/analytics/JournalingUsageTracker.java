@@ -19,15 +19,16 @@ package com.android.tools.analytics;
 import com.android.annotations.NonNull;
 import com.google.wireless.android.play.playlog.proto.ClientAnalytics;
 
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.nio.channels.Channels;
 import java.nio.channels.FileChannel;
 import java.nio.channels.FileLock;
 import java.nio.channels.OverlappingFileLockException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.UUID;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
@@ -92,9 +93,9 @@ public class JournalingUsageTracker extends UsageTracker {
         Path spoolFile =
             Paths.get(mSpoolLocation.toString(), UUID.randomUUID().toString() + ".trk");
         Files.createDirectories(spoolFile.getParent());
-        FileOutputStream fileOutputStream = new FileOutputStream(spoolFile.toFile());
-        mOutputStream = fileOutputStream;
-        mChannel = fileOutputStream.getChannel();
+
+        mChannel = FileChannel.open(spoolFile, StandardOpenOption.WRITE, StandardOpenOption.CREATE, StandardOpenOption.DSYNC);
+        mOutputStream = Channels.newOutputStream(mChannel);
 
         try {
             mLock = mChannel.tryLock();
@@ -170,8 +171,6 @@ public class JournalingUsageTracker extends UsageTracker {
                         }
                         try {
                             logEvent.build().writeDelimitedTo(mOutputStream);
-                            mOutputStream.flush();
-                            mChannel.force(false);
                         } catch (IOException ignored) {
                             closeAsBroken();
                             return;
