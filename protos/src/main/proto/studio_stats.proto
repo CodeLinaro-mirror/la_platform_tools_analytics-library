@@ -4049,6 +4049,10 @@ message LayoutInspectorEvent {
   // defined if LayoutInspectorEventType = CAPTURE
   // size of the captured view data in bytes
   optional int64 data_size = 3;
+
+  // defined if LayoutInspectorEventType = CAPTURE or OPEN
+  // which version of the protocol is used to capture layout info
+  optional uint32 version = 4;
 }
 
 // Kotlin support information
@@ -4422,7 +4426,7 @@ message StudioRunEvent {
 
   // If this Run is using Instant Run, which may use HOTSWAP deploy task
   // but could also use other deploy tasks.
-  // Set if SectionType = DEPLOY and EventType = FINISH
+  // Set if SectionType = STUDIO and EventType = FINISH
   optional bool instant_run = 12;
 
   // If using SplitApkDeployTask and doing a partial install
@@ -4437,6 +4441,10 @@ message StudioRunEvent {
   // If the app's debuggable flag is set to true
   // Set if SectionType = TOTAL and EventType = START
   optional bool debuggable = 15;
+
+  // If the deploy target was picked by the user or auto selected by dialog
+  // Set if SectionType = STUDIO and EventType = FINISH
+  optional bool user_selected_target = 16;
 }
 
 // Statistics regarding IntelliJ project sizes
