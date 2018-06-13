@@ -29,5 +29,29 @@ iml_module(
 java_binary(
     name = "tools.analytics-inspector",
     main_class = "com.android.tools.analytics.AnalyticsInspector",
-    runtime_deps = [":analytics-inspector"],
+    runtime_deps = [":inspector"],
+)
+
+load("//tools/base/bazel:maven.bzl", "maven_java_library", "maven_pom")
+
+maven_java_library(
+    name = "inspector",
+    srcs = glob(["src/main/java/**"]),
+    pom = ":inspector.pom",
+    resource_strip_prefix = "tools/analytics-library/inspector",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//tools/analytics-library/protos/src/main/proto",
+        "//tools/base/annotations",
+        "//tools/base/common:tools.common",
+        "//tools/base/third_party:com.google.code.gson_gson",
+        "//tools/base/third_party:com.google.guava_guava",
+    ],
+)
+
+maven_pom(
+    name = "inspector.pom",
+    artifact = "inspector",
+    group = "com.android.tools.analytics-library",
+    source = "//tools/buildSrc/base:base_version",
 )
