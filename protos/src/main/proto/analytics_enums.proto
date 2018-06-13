@@ -207,6 +207,7 @@ enum GradleTaskExecutionType {
     DATA_BINDING_MERGE_DEPENDENCY_ARTIFACTS = 154;
     BUNDLE_AAR = 155;
     APP_CLASSPATH_CHECK = 156;
+    GATHER_MODULE_INFO = 157;
 }
 
 enum BooleanOption {
