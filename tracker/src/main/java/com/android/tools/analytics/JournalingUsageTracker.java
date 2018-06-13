@@ -231,18 +231,12 @@ public class JournalingUsageTracker extends UsageTracker {
         }
     }
 
-    @Override
-    public void setMaxJournalTime(long duration, TimeUnit unit) {
-        synchronized (mGate) {
-            super.setMaxJournalTime(duration, unit);
-            scheduleJournalTimeout(getMaxJournalTime());
-        }
-    }
 
     /**
      * Schedules a timeout at which point the journal will be
      */
-    private void scheduleJournalTimeout(long maxJournalTime) {
+    @Override
+    protected void scheduleJournalTimeout(long maxJournalTime) {
         final int currentScheduleVersion = ++mScheduleVersion;
         if (mJournalTimeout != null) {
             mJournalTimeout.cancel(false);

@@ -74,7 +74,7 @@ public class JournalingUsageTrackerTest {
 
             // Create a log entry and log it.
             AndroidStudioEvent.Builder logEntry = createAndroidStudioEvent(42);
-            journalingUsageTracker.log(logEntry);
+            journalingUsageTracker.logNow(logEntry);
             // Ensure this triggers an action on the scheduler and run the action
             assertEquals(1, virtualTimeScheduler.getActionsQueued());
             virtualTimeScheduler.advanceBy(0);
@@ -130,7 +130,7 @@ public class JournalingUsageTrackerTest {
 
             // Create a log entry and log it.
             AndroidStudioEvent.Builder logEntry = createAndroidStudioEvent(42);
-            journalingUsageTracker.log(logEntry);
+            journalingUsageTracker.logNow(logEntry);
             // Ensure this triggers an action on the scheduler and run the action
             assertEquals(1, virtualTimeScheduler.getActionsQueued());
             virtualTimeScheduler.advanceBy(0);
@@ -180,6 +180,7 @@ public class JournalingUsageTrackerTest {
                             new AnalyticsSettings(),
                             virtualTimeScheduler,
                             testSpoolDir.getRoot().toPath());
+            UsageTracker.setInstanceForTest(journalingUsageTracker);
 
             // Set a timeout of 1 minute for closing the current spool file.
             journalingUsageTracker.setMaxJournalTime(1, TimeUnit.MINUTES);
@@ -187,7 +188,7 @@ public class JournalingUsageTrackerTest {
 
             // Write an event to the usage tracker
             AndroidStudioEvent.Builder logEntry1 = createAndroidStudioEvent(22);
-            journalingUsageTracker.log(logEntry1);
+            journalingUsageTracker.logNow(logEntry1);
             // Run the scheduler to write the log to the journal file
             virtualTimeScheduler.advanceBy(0);
 
@@ -217,7 +218,7 @@ public class JournalingUsageTrackerTest {
 
             // Log another event.
             AndroidStudioEvent.Builder logEntry2 = createAndroidStudioEvent(33);
-            journalingUsageTracker.log(logEntry2);
+            journalingUsageTracker.logNow(logEntry2);
             virtualTimeScheduler.advanceBy(0);
 
             // Close the scheduler for flushing any outstanding spool files.
@@ -252,6 +253,7 @@ public class JournalingUsageTrackerTest {
             journalingUsageTracker.close();
         } finally {
             EnvironmentFakes.setSystemEnvironment();
+            UsageTracker.cleanAfterTesting();
         }
     }
 
@@ -270,6 +272,7 @@ public class JournalingUsageTrackerTest {
                             new AnalyticsSettings(),
                             virtualTimeScheduler,
                             testSpoolDir.getRoot().toPath());
+            UsageTracker.setInstanceForTest(journalingUsageTracker);
 
             // Set a timeout of 1 minute for closing the current spool file.
             journalingUsageTracker.setMaxJournalTime(1, TimeUnit.MINUTES);
@@ -294,6 +297,7 @@ public class JournalingUsageTrackerTest {
             journalingUsageTracker.close();
         } finally {
             EnvironmentFakes.setSystemEnvironment();
+            UsageTracker.cleanAfterTesting();
         }
     }
 
@@ -319,11 +323,11 @@ public class JournalingUsageTrackerTest {
 
             // Write two events.
             AndroidStudioEvent.Builder event1 = createAndroidStudioEvent(1);
-            journalingUsageTracker.log(event1);
+            journalingUsageTracker.logNow(event1);
             virtualTimeScheduler.advanceBy(0);
 
             AndroidStudioEvent.Builder event2 = createAndroidStudioEvent(2);
-            journalingUsageTracker.log(event2);
+            journalingUsageTracker.logNow(event2);
             virtualTimeScheduler.advanceBy(0);
 
             // Ensure that given we haven't reach max, there is only one spool file and it is locked.
@@ -333,7 +337,7 @@ public class JournalingUsageTrackerTest {
 
             // Write another event
             AndroidStudioEvent.Builder event3 = createAndroidStudioEvent(3);
-            journalingUsageTracker.log(event3);
+            journalingUsageTracker.logNow(event3);
             virtualTimeScheduler.advanceBy(0);
 
             // Ensure we hit max that the original spool file has completed and a new one created and
@@ -355,11 +359,11 @@ public class JournalingUsageTrackerTest {
 
             // Write two more events.
             AndroidStudioEvent.Builder event4 = createAndroidStudioEvent(4);
-            journalingUsageTracker.log(event4);
+            journalingUsageTracker.logNow(event4);
             virtualTimeScheduler.advanceBy(0);
 
             AndroidStudioEvent.Builder event5 = createAndroidStudioEvent(5);
-            journalingUsageTracker.log(event5);
+            journalingUsageTracker.logNow(event5);
             virtualTimeScheduler.advanceBy(0);
 
             // Close the usage tracker.
@@ -409,10 +413,11 @@ public class JournalingUsageTrackerTest {
                             new AnalyticsSettings(),
                             virtualTimeScheduler,
                             testSpoolDir.getRoot().toPath());
+            UsageTracker.setInstanceForTest(journalingUsageTracker);
 
             // Write an event to ensure track file switch is triggered.
             AndroidStudioEvent.Builder event = createAndroidStudioEvent(1);
-            journalingUsageTracker.log(event);
+            journalingUsageTracker.logNow(event);
             virtualTimeScheduler.advanceBy(0);
 
             // Set a timeout of 1 minute for closing the current spool file.
@@ -448,12 +453,13 @@ public class JournalingUsageTrackerTest {
             assertEquals(1, afterTimeout.getCompletedLogs().size());
         } finally {
             EnvironmentFakes.setSystemEnvironment();
+            UsageTracker.cleanAfterTesting();
         }
     }
 
     @Test
     public void updateSettingsAndTrackerTest() throws IOException {
-        UsageTracker beforeUpdate = UsageTracker.getInstance();
+        UsageTracker beforeUpdate = UsageTracker.getInstanceForTest();
         assertTrue(beforeUpdate instanceof NullUsageTracker);
         // Configure the paths to use a temp directory for reading from and writing to.
         EnvironmentFakes.setCustomAndroidSdkHomeEnvironment(
@@ -474,34 +480,34 @@ public class JournalingUsageTrackerTest {
                             false, new StdLogger(StdLogger.Level.INFO), virtualTimeScheduler);
             assertNotNull(settings1);
             assertTrue(settingsFile.exists());
-            UsageTracker afterFirstUpdate = UsageTracker.getInstance();
+            UsageTracker afterFirstUpdate = UsageTracker.getInstanceForTest();
             assertTrue(afterFirstUpdate instanceof NullUsageTracker);
             assertNotEquals(beforeUpdate, afterFirstUpdate);
             assertEquals(settings1, afterFirstUpdate.getAnalyticsSettings());
             assertFalse(settings1.hasOptedIn());
-            assertEquals(virtualTimeScheduler, UsageTracker.getInstance().getScheduler());
+            assertEquals(virtualTimeScheduler, UsageTracker.getInstanceForTest().getScheduler());
 
             // updating to opt-in true should update settings and initialize JournalingUsageTracker.
             AnalyticsSettings settings2 =
                     UsageTracker.updateSettingsAndTracker(
                             true, new StdLogger(StdLogger.Level.INFO), virtualTimeScheduler);
             assertNotNull(settings2);
-            UsageTracker afterSecondUpdate = UsageTracker.getInstance();
+            UsageTracker afterSecondUpdate = UsageTracker.getInstanceForTest();
             assertTrue(afterSecondUpdate instanceof JournalingUsageTracker);
             assertEquals(settings2, afterSecondUpdate.getAnalyticsSettings());
             assertTrue(settings2.hasOptedIn());
-            assertEquals(virtualTimeScheduler, UsageTracker.getInstance().getScheduler());
+            assertEquals(virtualTimeScheduler, UsageTracker.getInstanceForTest().getScheduler());
 
             // updating to opt-in false should update settings and initialize NullUsageTracker.
             AnalyticsSettings settings3 =
                     UsageTracker.updateSettingsAndTracker(
                             false, new StdLogger(StdLogger.Level.INFO), virtualTimeScheduler);
             assertNotNull(settings3);
-            UsageTracker afterThirdUpdate = UsageTracker.getInstance();
+            UsageTracker afterThirdUpdate = UsageTracker.getInstanceForTest();
             assertTrue(afterThirdUpdate instanceof NullUsageTracker);
             assertEquals(settings3, afterThirdUpdate.getAnalyticsSettings());
             assertFalse(settings3.hasOptedIn());
-            assertEquals(virtualTimeScheduler, UsageTracker.getInstance().getScheduler());
+            assertEquals(virtualTimeScheduler, UsageTracker.getInstanceForTest().getScheduler());
 
             // now that we have a NullTracker, no spool files should be locked.
             assertTrue(getSpoolDetails(testSpoolDir.getRoot().toPath()).getLockedFiles().isEmpty());
@@ -525,12 +531,13 @@ public class JournalingUsageTrackerTest {
                             virtualTimeScheduler,
                             testSpoolDir.getRoot().toPath());
 
+            UsageTracker.setInstanceForTest(journalingUsageTracker);
             // move time ahead by two minutes after creating the usage tracker to use as current time of event logged.
             virtualTimeScheduler.advanceBy(2, TimeUnit.MINUTES);
 
             // Create a log entry and log it.
             AndroidStudioEvent.Builder event = createAndroidStudioEvent(42);
-            journalingUsageTracker.log(event);
+            journalingUsageTracker.logNow(event);
             // close the tracker so we can read the results from disk
             virtualTimeScheduler.advanceBy(0);
             journalingUsageTracker.close();
@@ -551,6 +558,7 @@ public class JournalingUsageTrackerTest {
             }
         } finally {
             UsageTracker.sDateProvider = DateProvider.SYSTEM;
+            UsageTracker.cleanAfterTesting();
         }
     }
 

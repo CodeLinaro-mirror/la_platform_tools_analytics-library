@@ -36,7 +36,7 @@ public class TestUsageTrackerTest {
     @Before
     public void before() {
         // first ensure our default is the NullUsageTracker.
-        UsageTracker tracker = UsageTracker.getInstance();
+        UsageTracker tracker = UsageTracker.getInstanceForTest();
         assertEquals(NullUsageTracker.class, tracker.getClass());
 
         // create settings & scheduler
@@ -51,7 +51,7 @@ public class TestUsageTrackerTest {
         UsageTracker.setInstanceForTest(testUsageTracker);
 
         // ensure the global instance is the one we just set.
-        tracker = UsageTracker.getInstance();
+        tracker = UsageTracker.getInstanceForTest();
         assertEquals(testUsageTracker, tracker);
     }
 
@@ -59,7 +59,7 @@ public class TestUsageTrackerTest {
     public void after() {
         // ensure that cleaning the instance puts us back in the initial state.
         UsageTracker.cleanAfterTesting();
-        UsageTracker tracker = UsageTracker.getInstance();
+        UsageTracker tracker = UsageTracker.getInstanceForTest();
         assertEquals(NullUsageTracker.class, tracker.getClass());
     }
 
