@@ -1,6 +1,3 @@
-// NOTE: Do not use oneof in this proto as we need to compile it with the
-// open source 2.5 version of the protobuf compiler for Android Studio which
-// does not support the oneof feature.
 syntax = "proto2";
 
 option java_package = "com.google.wireless.android.sdk.stats";
@@ -12,6 +9,7 @@ option java_outer_classname = "AndroidStudioStats";
 option java_multiple_files = true;
 
 package android_studio;
+
 
 
 message AndroidStudioEvent {
@@ -36,15 +34,15 @@ message AndroidStudioEvent {
 
   // set when kind = MONITOR_ACTIVATED or kind = MONITOR_RUNNING
   // Deprecated by AndroidProfilerEvent
-  optional MonitorType monitor_type = 5;
+  optional MonitorType monitor_type = 5 [deprecated = true];
 
   // set when kind = MONITOR_RUNNING
   // Deprecated by AndroidProfilerEvent
-  optional bool monitor_paused = 6;
+  optional bool monitor_paused = 6 [deprecated = true];
 
   // set when kind = PROFILING_OPEN or PROFILING_CAPTURE
   // Deprecated by AndroidProfilerEvent
-  optional ProfilerCaptureType profiler_capture_type = 7;
+  optional ProfilerCaptureType profiler_capture_type = 7 [deprecated = true];
 
   // set when kind = CLOUD_TESTING_BACKEND_ERROR
   optional string cloud_testing_error_message = 8;
@@ -54,11 +52,11 @@ message AndroidStudioEvent {
 
   // Deprecated, use debug_session_start_details instead.
   // set when kind = LLDB_SESSION_STARTED
-  optional RunConfigurationType run_configuration_type = 10;
+  optional RunConfigurationType run_configuration_type = 10 [deprecated=true];
 
   // Deprecated, use debug_session_start_details instead.
   // set when kind = LLDB_SESSION_STARTED
-  optional DebuggerType debugger_type = 11;
+  optional DebuggerType debugger_type = 11 [deprecated=true];
 
   // set when kind = LLDB_LAUNCHED
   // or kind = DEPLOYMENT_APK
@@ -263,10 +261,10 @@ message AndroidStudioEvent {
     GRADLE_SYNC = 4;
     // The event is related to Performance Profiling.
     // Deprecated by AndroidProfilerEvent
-    PROFILING = 5;
+    PROFILING = 5 [deprecated = true];
     // The event is related to Performance Monitoring.
     // Deprecated by AndroidProfilerEvent
-    MONITOR = 6;
+    MONITOR = 6 [deprecated = true];
     // The event is related to the SDK Manager.
     SDK_MANAGER = 7;
     // The event is related to project/file templates.
@@ -298,7 +296,7 @@ message AndroidStudioEvent {
     FIREBASE_ASSISTANT = 20;
     // The event is related to the GPU Profiler.
     // Deprecated by AndroidProfilerEvent
-    GPU_PROFILER = 21;
+    GPU_PROFILER = 21 [deprecated = true];
     // the event is related to the test recorder (Cassette)
     TEST_RECORDER = 22;
     // the event is related to the Android Studio UI.
@@ -309,7 +307,7 @@ message AndroidStudioEvent {
     APK_DEBUG = 25;
     // The event is related to CMake editing.
     // Do not use this -- use the EventKind below.
-    DEPRECATED_CMAKE_EDITING_EVENT = 26;
+    DEPRECATED_CMAKE_EDITING_EVENT = 26 [deprecated = true];
   }
 
   // Specific kind of event, primary separation key of all Android Studio
@@ -344,10 +342,10 @@ message AndroidStudioEvent {
     PROFILING_ANALYSIS_RUN = 13;
     // Performance monitoring has been activated.
     // Deprecated by AndroidProfilerEvent
-    MONITOR_ACTIVATED = 14;
+    MONITOR_ACTIVATED = 14 [deprecated = true];
     // Performance monitoring is running.
     // Deprecated by AndroidProfilerEvent
-    MONITOR_RUNNING = 15;
+    MONITOR_RUNNING = 15 [deprecated = true];
     // The user selected an action from the SDK Manager Toolbar.
     SDK_MANAGER_TOOLBAR_CLICKED = 16;
     // The standalone SDK Manager was launched.
@@ -376,10 +374,10 @@ message AndroidStudioEvent {
     LLDB_SESSION_STARTED = 28;
     // Deprecated, use LLDB_SESSION_ENDED instead.
     // Native debugger session has failed.
-    LLDB_SESSION_FAILED = 29;
+    LLDB_SESSION_FAILED = 29 [deprecated=true];
     // Deprecated, use DEBUG_SESSION_ENDED instead.
     // Native debugger session has completed successfully.
-    LLDB_SESSION_COMPLETED = 30;
+    LLDB_SESSION_COMPLETED = 30 [deprecated=true];
     // SDK Manager QuickFix Wizard is invoked to install LLDB package.
     LLDB_INSTALL_STARTED = 31;
     // SDK Manager QuickFix Wizard invocation to install LLDB package failed.
@@ -758,7 +756,7 @@ message ProductDetails {
   optional string version = 3;  // e.g. 2.0.0.11
   // Historical: never used as it was not providing enough info. Use channel
   // instead as it distinguishes between different kinds of preview releases.
-  optional bool preview = 4;
+  optional bool preview = 4 [deprecated = true];
   // The CPU archtecture the product is running on.
   optional CpuArchitecture os_architecture = 5;
   // The state in the software lifecycle of this product.
@@ -993,7 +991,8 @@ message EmulatorAvdInfo {
     // Next tag: 11
   }
   // Name of the AVD. Deprecated as it could potentially contain PII.
-  optional string name = 1;
+  optional string name = 1
+      [deprecated = true];
   // Api level (23 = M, 24 = N, ...)
   optional int64 api_level = 2;
   // CPU architecture.
@@ -1740,7 +1739,7 @@ message InstantRun {
   // Historical, we had two enums tracking this, this one was never used.
   // what was the reason for chosing that kind of deployment from the gradle
   // side.
-  optional InstantRunBuildCause instant_run_build_cause = 3;
+  optional InstantRunBuildCause instant_run_build_cause = 3 [deprecated = true];
   // time the InstantRun enabled took in milliseconds.
   optional int64 build_time = 4;
   // The session id is a UUID within a single run of Android Studio
@@ -1935,12 +1934,12 @@ message EmulatorHost {
   // after issuing CPUID instruction with EAX=1:
   // 31   27   23   19   15   11   7    3  0
   // 0000 yyyy yyyy xxxx 00tt ffff mmmm ssss
-  optional uint32 cpuid_stepping = 5; // s: stepping (CPU version)
-  optional uint32 cpuid_model = 6; // m: model (CPU model)
-  optional uint32 cpuid_family = 7; // f: family (CPU make)
-  optional uint32 cpuid_type = 8; // t: CPU type
-  optional uint32 cpuid_extmodel = 9; // x: extended model
-  optional uint32 cpuid_extfamily = 10; // y: extended family
+  optional uint32 cpuid_stepping = 5; // s: [3:0] stepping (CPU version)
+  optional uint32 cpuid_model = 6; // m: [7:4] model (CPU model)
+  optional uint32 cpuid_family = 7; // f: [11:8] family (CPU make)
+  optional uint32 cpuid_type = 8; // t: [13:12] CPU type
+  optional uint32 cpuid_extmodel = 9; // x: [19:16] extended model
+  optional uint32 cpuid_extfamily = 10; // y: [27:20] extended family
 }
 
 // Detailed profiling information for the gradle build.
@@ -1973,11 +1972,11 @@ message GradleBuildProfile {
 
   // The number of garbage collections during this build
   // Historical: Used in Android Gradle Plugin 2.2.x, circa 2016-10
-  optional int64 gc_count = 12;
+  optional int64 gc_count = 12 [deprecated = true];
 
   // The time spent garbage collecting during this build.
   // Historical: Used in Android Gradle Plugin 2.2.x, circa 2016-10
-  optional int64 gc_time = 13;
+  optional int64 gc_time = 13 [deprecated = true];
 
   // The projects that make up this multi-project build.
   repeated GradleBuildProject project = 14;
@@ -2445,12 +2444,12 @@ message GradleBuildMemorySample {
    // Garbage collection time since the current daemon started.
    // Historical: Used in Android Gradle Plugin 2.2.x, circa 2016-10
    // Replaced by JavaProcessStats.
-   optional int64 gc_time_ms = 1;
+   optional int64 gc_time_ms = 1 [deprecated = true];
 
    // Garbage collection count since the current daemon started.
    // Historical: Used in Android Gradle Plugin 2.2.x, circa 2016-10.
    // Replaced by JavaProcessStats.
-   optional int64 gc_count = 2;
+   optional int64 gc_count = 2 [deprecated=true];
 
    // Time that the memory stats were collected.
    optional int64 timestamp = 3;
@@ -2525,134 +2524,135 @@ message GradleBuildProfileSpan {
     VARIANT_MANAGER_CREATE_VARIANTS = 12;
     RESOLVE_DEPENDENCIES = 13;
     TASK_EXECUTION = 14;
-    INITIAL_METADATA = 100;
-    FINAL_METADATA = 101;
+    INITIAL_METADATA = 100 [deprecated = true];
+    FINAL_METADATA = 101 [deprecated = true];
     GENERAL_CONFIG = 102;
     VARIANT_CONFIG = 103;
     VARIANT_MANAGER_EXTERNAL_NATIVE_CONFIG_VALUES = 104;
     APK_METRICS = 105;
 
     // ApplicationTaskManager per variant tasks.
-    APP_TASK_MANAGER_CREATE_MERGE_MANIFEST_TASK = 1000;
-    APP_TASK_MANAGER_CREATE_GENERATE_RES_VALUES_TASK = 1001;
-    APP_TASK_MANAGER_CREATE_CREATE_RENDERSCRIPT_TASK = 1002;
-    APP_TASK_MANAGER_CREATE_MERGE_RESOURCES_TASK = 1003;
-    APP_TASK_MANAGER_CREATE_MERGE_ASSETS_TASK = 1004;
-    APP_TASK_MANAGER_CREATE_BUILD_CONFIG_TASK = 1005;
-    APP_TASK_MANAGER_CREATE_PROCESS_RES_TASK = 1006;
-    APP_TASK_MANAGER_CREATE_AIDL_TASK = 1007;
-    APP_TASK_MANAGER_CREATE_COMPILE_TASK = 1008;
-    APP_TASK_MANAGER_CREATE_NDK_TASK = 1009;
-    APP_TASK_MANAGER_CREATE_SPLIT_TASK = 1010;
-    APP_TASK_MANAGER_CREATE_PACKAGING_TASK = 1011;
-    APP_TASK_MANAGER_CREATE_PREPROCESS_RESOURCES_TASK = 1012;
-    APP_TASK_MANAGER_CREATE_BACKPORT_RESOURCES_TASK = 1013;
-    APP_TASK_MANAGER_CREATE_LINT_TASK = 1014;
-    APP_TASK_MANAGER_CREATE_MERGE_JNILIBS_FOLDERS_TASK = 1015;
-    APP_TASK_MANAGER_CREATE_SHADER_TASK = 1016;
-    APP_TASK_MANAGER_CREATE_EXTERNAL_NATIVE_BUILD_TASK = 1017;
-    APP_TASK_MANAGER_CREATE_STRIP_NATIVE_LIBRARY_TASK = 1018;
+    APP_TASK_MANAGER_CREATE_MERGE_MANIFEST_TASK = 1000 [deprecated = true];
+    APP_TASK_MANAGER_CREATE_GENERATE_RES_VALUES_TASK = 1001 [deprecated = true];
+    APP_TASK_MANAGER_CREATE_CREATE_RENDERSCRIPT_TASK = 1002 [deprecated = true];
+    APP_TASK_MANAGER_CREATE_MERGE_RESOURCES_TASK = 1003 [deprecated = true];
+    APP_TASK_MANAGER_CREATE_MERGE_ASSETS_TASK = 1004 [deprecated = true];
+    APP_TASK_MANAGER_CREATE_BUILD_CONFIG_TASK = 1005 [deprecated = true];
+    APP_TASK_MANAGER_CREATE_PROCESS_RES_TASK = 1006 [deprecated = true];
+    APP_TASK_MANAGER_CREATE_AIDL_TASK = 1007 [deprecated = true];
+    APP_TASK_MANAGER_CREATE_COMPILE_TASK = 1008 [deprecated = true];
+    APP_TASK_MANAGER_CREATE_NDK_TASK = 1009 [deprecated = true];
+    APP_TASK_MANAGER_CREATE_SPLIT_TASK = 1010 [deprecated = true];
+    APP_TASK_MANAGER_CREATE_PACKAGING_TASK = 1011 [deprecated = true];
+    APP_TASK_MANAGER_CREATE_PREPROCESS_RESOURCES_TASK = 1012 [deprecated = true];
+    APP_TASK_MANAGER_CREATE_BACKPORT_RESOURCES_TASK = 1013 [deprecated = true];
+    APP_TASK_MANAGER_CREATE_LINT_TASK = 1014 [deprecated = true];
+    APP_TASK_MANAGER_CREATE_MERGE_JNILIBS_FOLDERS_TASK = 1015 [deprecated = true];
+    APP_TASK_MANAGER_CREATE_SHADER_TASK = 1016 [deprecated = true];
+    APP_TASK_MANAGER_CREATE_EXTERNAL_NATIVE_BUILD_TASK = 1017 [deprecated = true];
+    APP_TASK_MANAGER_CREATE_STRIP_NATIVE_LIBRARY_TASK = 1018 [deprecated = true];
 
     // LibraryTaskManager per variant tasks.
-    LIB_TASK_MANAGER_CREATE_MERGE_MANIFEST_TASK = 2000;
-    LIB_TASK_MANAGER_CREATE_GENERATE_RES_VALUES_TASK = 2001;
-    LIB_TASK_MANAGER_CREATE_CREATE_RENDERSCRIPT_TASK = 2002;
-    LIB_TASK_MANAGER_CREATE_MERGE_RESOURCES_TASK = 2003;
-    LIB_TASK_MANAGER_CREATE_MERGE_ASSETS_TASK = 2004;
-    LIB_TASK_MANAGER_CREATE_BUILD_CONFIG_TASK = 2005;
-    LIB_TASK_MANAGER_CREATE_PROCESS_RES_TASK = 2006;
-    LIB_TASK_MANAGER_CREATE_AIDL_TASK = 2007;
-    LIB_TASK_MANAGER_CREATE_COMPILE_TASK = 2008;
-    LIB_TASK_MANAGER_CREATE_NDK_TASK = 2009;
-    LIB_TASK_MANAGER_CREATE_SPLIT_TASK = 2010;
-    LIB_TASK_MANAGER_CREATE_PACKAGING_TASK = 2011;
-    LIB_TASK_MANAGER_CREATE_MERGE_PROGUARD_FILE_TASK = 2012;
-    LIB_TASK_MANAGER_CREATE_POST_COMPILATION_TASK = 2013;
-    LIB_TASK_MANAGER_CREATE_PROGUARD_TASK = 2014;
-    LIB_TASK_MANAGER_CREATE_PACKAGE_LOCAL_JAR = 2015;
-    LIB_TASK_MANAGER_CREATE_BACKPORT_RESOURCES_TASK = 2016;
-    LIB_TASK_MANAGER_CREATE_LINT_TASK = 2017;
-    LIB_TASK_MANAGER_CREATE_SHADER_TASK = 2018;
-    LIB_TASK_MANAGER_CREATE_EXTERNAL_NATIVE_BUILD_TASK = 2019;
+    LIB_TASK_MANAGER_CREATE_MERGE_MANIFEST_TASK = 2000 [deprecated = true];
+    LIB_TASK_MANAGER_CREATE_GENERATE_RES_VALUES_TASK = 2001 [deprecated = true];
+    LIB_TASK_MANAGER_CREATE_CREATE_RENDERSCRIPT_TASK = 2002 [deprecated = true];
+    LIB_TASK_MANAGER_CREATE_MERGE_RESOURCES_TASK = 2003 [deprecated = true];
+    LIB_TASK_MANAGER_CREATE_MERGE_ASSETS_TASK = 2004 [deprecated = true];
+    LIB_TASK_MANAGER_CREATE_BUILD_CONFIG_TASK = 2005 [deprecated = true];
+    LIB_TASK_MANAGER_CREATE_PROCESS_RES_TASK = 2006 [deprecated = true];
+    LIB_TASK_MANAGER_CREATE_AIDL_TASK = 2007 [deprecated = true];
+    LIB_TASK_MANAGER_CREATE_COMPILE_TASK = 2008 [deprecated = true];
+    LIB_TASK_MANAGER_CREATE_NDK_TASK = 2009 [deprecated = true];
+    LIB_TASK_MANAGER_CREATE_SPLIT_TASK = 2010 [deprecated = true];
+    LIB_TASK_MANAGER_CREATE_PACKAGING_TASK = 2011 [deprecated = true];
+    LIB_TASK_MANAGER_CREATE_MERGE_PROGUARD_FILE_TASK = 2012 [deprecated = true];
+    LIB_TASK_MANAGER_CREATE_POST_COMPILATION_TASK = 2013 [deprecated = true];
+    LIB_TASK_MANAGER_CREATE_PROGUARD_TASK = 2014 [deprecated = true];
+    LIB_TASK_MANAGER_CREATE_PACKAGE_LOCAL_JAR = 2015 [deprecated = true];
+    LIB_TASK_MANAGER_CREATE_BACKPORT_RESOURCES_TASK = 2016 [deprecated = true];
+    LIB_TASK_MANAGER_CREATE_LINT_TASK = 2017 [deprecated = true];
+    LIB_TASK_MANAGER_CREATE_SHADER_TASK = 2018 [deprecated = true];
+    LIB_TASK_MANAGER_CREATE_EXTERNAL_NATIVE_BUILD_TASK = 2019 [deprecated = true];
 
     // Task execution: Deprecated, use TASK_EXECUTION and
     // GradleTaskExecution#Type instead.
     // Deprecated July 2016.
-    GENERIC_TASK_EXECUTION = 3000;
-    TASK_AIDL_COMPILE = 3001;
-    TASK_DELETE = 3002;
-    TASK_CHECK_MANIFEST = 3003;
-    TASK_PREPARE_DEPENDENCIES_TASK = 3004;
-    TASK_RENDERSCRIPT_COMPILE = 3005;
-    TASK_GENERATE_BUILD_CONFIG = 3006;
-    TASK_MERGE_ASSETS = 3007;
-    TASK_GENERATE_RES_VALUES = 3008;
-    TASK_MERGE_RESOURCES = 3009;
-    TASK_MERGE_MANIFESTS = 3010;
-    TASK_PROCESS_ANDROID_RESOURCES = 3011;
-    TASK_JAVA_COMPILE = 3012;
-    TASK_NDK_COMPILE = 3013;
-    TASK_PRE_DEX = 3014;
-    TASK_DEX = 3015;
-    TASK_PACKAGE_SPLIT_RES = 3016;
-    TASK_PROCESS_RESOURCES = 3017;
-    TASK_VALIDATE_SIGNING_TASK = 3018;
-    TASK_PACKAGE_APPLICATION = 3019;
-    TASK_SPLIT_ZIP_ALIGN = 3020;
-    TASK_ZIP_ALIGN = 3021;
-    TASK_COPY = 3022;
-    TASK_LINT = 3023;
-    TASK_FILE_VERIFICATION = 3026;
-    TASK_EXTERNAL_NATIVE_BUILD_GENERATE_JSON_PROCESS_PER_ABI = 3027;
-    TASK_EXTERNAL_NATIVE_BUILD_GENERATE_JSON_PROCESS = 3028;
+    GENERIC_TASK_EXECUTION = 3000 [deprecated=true];
+    TASK_AIDL_COMPILE = 3001 [deprecated=true];
+    TASK_DELETE = 3002 [deprecated=true];
+    TASK_CHECK_MANIFEST = 3003 [deprecated=true];
+    TASK_PREPARE_DEPENDENCIES_TASK = 3004 [deprecated=true];
+    TASK_RENDERSCRIPT_COMPILE = 3005 [deprecated=true];
+    TASK_GENERATE_BUILD_CONFIG = 3006 [deprecated=true];
+    TASK_MERGE_ASSETS = 3007 [deprecated=true];
+    TASK_GENERATE_RES_VALUES = 3008 [deprecated=true];
+    TASK_MERGE_RESOURCES = 3009 [deprecated=true];
+    TASK_MERGE_MANIFESTS = 3010 [deprecated=true];
+    TASK_PROCESS_ANDROID_RESOURCES = 3011 [deprecated=true];
+    TASK_JAVA_COMPILE = 3012 [deprecated=true];
+    TASK_NDK_COMPILE = 3013 [deprecated=true];
+    TASK_PRE_DEX = 3014 [deprecated=true];
+    TASK_DEX = 3015 [deprecated=true];
+    TASK_PACKAGE_SPLIT_RES = 3016 [deprecated=true];
+    TASK_PROCESS_RESOURCES = 3017 [deprecated=true];
+    TASK_VALIDATE_SIGNING_TASK = 3018 [deprecated=true];
+    TASK_PACKAGE_APPLICATION = 3019 [deprecated=true];
+    TASK_SPLIT_ZIP_ALIGN = 3020 [deprecated=true];
+    TASK_ZIP_ALIGN = 3021 [deprecated=true];
+    TASK_COPY = 3022 [deprecated=true];
+    TASK_LINT = 3023 [deprecated=true];
+    TASK_FILE_VERIFICATION = 3026 [deprecated=true];
+    TASK_EXTERNAL_NATIVE_BUILD_GENERATE_JSON_PROCESS_PER_ABI = 3027
+      [deprecated=true];
+    TASK_EXTERNAL_NATIVE_BUILD_GENERATE_JSON_PROCESS = 3028 [deprecated=true];
 
     // Transform execution
     TASK_TRANSFORM_PREPARATION = 3024;
     TASK_TRANSFORM = 3025;
 
     // AtomTaskManager per variant tasks.
-    ATOM_TASK_MANAGER_CREATE_MERGE_MANIFEST_TASK = 4000;
-    ATOM_TASK_MANAGER_CREATE_GENERATE_RES_VALUES_TASK = 4001;
-    ATOM_TASK_MANAGER_CREATE_CREATE_RENDERSCRIPT_TASK = 4002;
-    ATOM_TASK_MANAGER_CREATE_MERGE_RESOURCES_TASK = 4003;
-    ATOM_TASK_MANAGER_CREATE_MERGE_ASSETS_TASK = 4004;
-    ATOM_TASK_MANAGER_CREATE_BUILD_CONFIG_TASK = 4005;
-    ATOM_TASK_MANAGER_CREATE_PROCESS_RES_TASK = 4006;
-    ATOM_TASK_MANAGER_CREATE_AIDL_TASK = 4007;
-    ATOM_TASK_MANAGER_CREATE_SHADER_TASK = 4008;
-    ATOM_TASK_MANAGER_CREATE_NDK_TASK = 4009;
-    ATOM_TASK_MANAGER_CREATE_EXTERNAL_NATIVE_BUILD_TASK = 4010;
-    ATOM_TASK_MANAGER_CREATE_MERGE_JNILIBS_FOLDERS_TASK = 4011;
-    ATOM_TASK_MANAGER_CREATE_COMPILE_TASK = 4012;
-    ATOM_TASK_MANAGER_CREATE_BUNDLING_TASK = 4013;
-    ATOM_TASK_MANAGER_CREATE_LINT_TASK = 4014;
+    ATOM_TASK_MANAGER_CREATE_MERGE_MANIFEST_TASK = 4000 [deprecated=true];
+    ATOM_TASK_MANAGER_CREATE_GENERATE_RES_VALUES_TASK = 4001 [deprecated=true];
+    ATOM_TASK_MANAGER_CREATE_CREATE_RENDERSCRIPT_TASK = 4002 [deprecated=true];
+    ATOM_TASK_MANAGER_CREATE_MERGE_RESOURCES_TASK = 4003 [deprecated=true];
+    ATOM_TASK_MANAGER_CREATE_MERGE_ASSETS_TASK = 4004 [deprecated=true];
+    ATOM_TASK_MANAGER_CREATE_BUILD_CONFIG_TASK = 4005 [deprecated=true];
+    ATOM_TASK_MANAGER_CREATE_PROCESS_RES_TASK = 4006 [deprecated=true];
+    ATOM_TASK_MANAGER_CREATE_AIDL_TASK = 4007 [deprecated=true];
+    ATOM_TASK_MANAGER_CREATE_SHADER_TASK = 4008 [deprecated=true];
+    ATOM_TASK_MANAGER_CREATE_NDK_TASK = 4009 [deprecated=true];
+    ATOM_TASK_MANAGER_CREATE_EXTERNAL_NATIVE_BUILD_TASK = 4010 [deprecated=true];
+    ATOM_TASK_MANAGER_CREATE_MERGE_JNILIBS_FOLDERS_TASK = 4011 [deprecated=true];
+    ATOM_TASK_MANAGER_CREATE_COMPILE_TASK = 4012 [deprecated=true];
+    ATOM_TASK_MANAGER_CREATE_BUNDLING_TASK = 4013 [deprecated=true];
+    ATOM_TASK_MANAGER_CREATE_LINT_TASK = 4014 [deprecated=true];
 
     // InstantAppTaskManager per variant tasks.
-    INSTANTAPP_TASK_MANAGER_CREATE_MERGE_MANIFEST_TASK = 5000;
-    INSTANTAPP_TASK_MANAGER_CREATE_ATOM_PACKAGING_TASKS = 5001;
-    INSTANTAPP_TASK_MANAGER_CREATE_PROCESS_RES_TASK = 5002;
-    INSTANTAPP_TASK_MANAGER_CREATE_PACKAGING_TASK = 5003;
+    INSTANTAPP_TASK_MANAGER_CREATE_MERGE_MANIFEST_TASK = 5000 [deprecated=true];
+    INSTANTAPP_TASK_MANAGER_CREATE_ATOM_PACKAGING_TASKS = 5001 [deprecated=true];
+    INSTANTAPP_TASK_MANAGER_CREATE_PROCESS_RES_TASK = 5002 [deprecated=true];
+    INSTANTAPP_TASK_MANAGER_CREATE_PACKAGING_TASK = 5003 [deprecated = true];
 
     // FeatureTaskManager per variant tasks.
-    FEATURE_TASK_MANAGER_CREATE_BASE_TASKS = 6000;
-    FEATURE_TASK_MANAGER_CREATE_NON_BASE_TASKS = 6001;
-    FEATURE_TASK_MANAGER_CREATE_MERGE_MANIFEST_TASK = 6002;
-    FEATURE_TASK_MANAGER_CREATE_GENERATE_RES_VALUES_TASK = 6003;
-    FEATURE_TASK_MANAGER_CREATE_CREATE_RENDERSCRIPT_TASK = 6004;
-    FEATURE_TASK_MANAGER_CREATE_MERGE_RESOURCES_TASK = 6005;
-    FEATURE_TASK_MANAGER_CREATE_MERGE_ASSETS_TASK = 6006;
-    FEATURE_TASK_MANAGER_CREATE_BUILD_CONFIG_TASK = 6007;
-    FEATURE_TASK_MANAGER_CREATE_PROCESS_RES_TASK = 6008;
-    FEATURE_TASK_MANAGER_CREATE_AIDL_TASK = 6009;
-    FEATURE_TASK_MANAGER_CREATE_SHADER_TASK = 6010;
-    FEATURE_TASK_MANAGER_CREATE_NDK_TASK = 6011;
-    FEATURE_TASK_MANAGER_CREATE_EXTERNAL_NATIVE_BUILD_TASK = 6012;
-    FEATURE_TASK_MANAGER_CREATE_MERGE_JNILIBS_FOLDERS_TASK = 6013;
-    FEATURE_TASK_MANAGER_CREATE_COMPILE_TASK = 6014;
-    FEATURE_TASK_MANAGER_CREATE_STRIP_NATIVE_LIBRARY_TASK = 6015;
-    FEATURE_TASK_MANAGER_CREATE_SPLIT_TASK = 6016;
-    FEATURE_TASK_MANAGER_CREATE_PACKAGING_TASK = 6017;
-    FEATURE_TASK_MANAGER_CREATE_LINT_TASK = 6018;
+    FEATURE_TASK_MANAGER_CREATE_BASE_TASKS = 6000 [deprecated = true];
+    FEATURE_TASK_MANAGER_CREATE_NON_BASE_TASKS = 6001 [deprecated = true];
+    FEATURE_TASK_MANAGER_CREATE_MERGE_MANIFEST_TASK = 6002 [deprecated = true];
+    FEATURE_TASK_MANAGER_CREATE_GENERATE_RES_VALUES_TASK = 6003 [deprecated = true];
+    FEATURE_TASK_MANAGER_CREATE_CREATE_RENDERSCRIPT_TASK = 6004 [deprecated = true];
+    FEATURE_TASK_MANAGER_CREATE_MERGE_RESOURCES_TASK = 6005 [deprecated = true];
+    FEATURE_TASK_MANAGER_CREATE_MERGE_ASSETS_TASK = 6006 [deprecated = true];
+    FEATURE_TASK_MANAGER_CREATE_BUILD_CONFIG_TASK = 6007 [deprecated = true];
+    FEATURE_TASK_MANAGER_CREATE_PROCESS_RES_TASK = 6008 [deprecated = true];
+    FEATURE_TASK_MANAGER_CREATE_AIDL_TASK = 6009 [deprecated = true];
+    FEATURE_TASK_MANAGER_CREATE_SHADER_TASK = 6010 [deprecated = true];
+    FEATURE_TASK_MANAGER_CREATE_NDK_TASK = 6011 [deprecated = true];
+    FEATURE_TASK_MANAGER_CREATE_EXTERNAL_NATIVE_BUILD_TASK = 6012 [deprecated = true];
+    FEATURE_TASK_MANAGER_CREATE_MERGE_JNILIBS_FOLDERS_TASK = 6013 [deprecated = true];
+    FEATURE_TASK_MANAGER_CREATE_COMPILE_TASK = 6014 [deprecated = true];
+    FEATURE_TASK_MANAGER_CREATE_STRIP_NATIVE_LIBRARY_TASK = 6015 [deprecated = true];
+    FEATURE_TASK_MANAGER_CREATE_SPLIT_TASK = 6016 [deprecated = true];
+    FEATURE_TASK_MANAGER_CREATE_PACKAGING_TASK = 6017 [deprecated = true];
+    FEATURE_TASK_MANAGER_CREATE_LINT_TASK = 6018 [deprecated = true];
   }
 }
 
@@ -3807,7 +3807,7 @@ message AndroidProfilerEvent {
 
   // Used to be set if |type| was |TRACE_CPU|
   // Deprecated since 3.0.0.8 and superceded by cpu_capture_metadata
-  optional CpuProfilingConfig cpu_config = 3;
+  optional CpuProfilingConfig cpu_config = 3 [deprecated = true];
 
   // Set if |type| is |CAPTURE_TRACE|
   optional CpuCaptureMetadata cpu_capture_metadata = 4;
@@ -4049,6 +4049,10 @@ message LayoutInspectorEvent {
   // defined if LayoutInspectorEventType = CAPTURE
   // size of the captured view data in bytes
   optional int64 data_size = 3;
+
+  // defined if LayoutInspectorEventType = CAPTURE or OPEN
+  // which version of the protocol is used to capture layout info
+  optional uint32 version = 4;
 }
 
 // Kotlin support information
@@ -4422,7 +4426,7 @@ message StudioRunEvent {
 
   // If this Run is using Instant Run, which may use HOTSWAP deploy task
   // but could also use other deploy tasks.
-  // Set if SectionType = DEPLOY and EventType = FINISH
+  // Set if SectionType = STUDIO and EventType = FINISH
   optional bool instant_run = 12;
 
   // If using SplitApkDeployTask and doing a partial install
@@ -4437,6 +4441,10 @@ message StudioRunEvent {
   // If the app's debuggable flag is set to true
   // Set if SectionType = TOTAL and EventType = START
   optional bool debuggable = 15;
+
+  // If the deploy target was picked by the user or auto selected by dialog
+  // Set if SectionType = STUDIO and EventType = FINISH
+  optional bool user_selected_target = 16;
 }
 
 // Statistics regarding IntelliJ project sizes
