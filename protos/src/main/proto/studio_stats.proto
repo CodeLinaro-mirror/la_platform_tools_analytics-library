@@ -244,6 +244,9 @@ message AndroidStudioEvent {
   // set when kind = INTELLIJ_PROJECT_SIZE_STATS
   repeated IntellijProjectSizeStats intellij_project_size_stats = 66;
 
+  // set when kind = STUDIO_TOOL_WINDOW_ACTION_STATS
+  optional StudioToolWindowActionStats studio_tool_window_action_stats = 67;
+
   // Describes a group of event kinds related to each other.
   // This is redundant in the presence of EventKind + event specific message,
   // and is only necessary for events originally sent to GA.
@@ -618,6 +621,9 @@ message AndroidStudioEvent {
 
     // The event is related to count files in a search scope
     INTELLIJ_PROJECT_SIZE_STATS = 135;
+
+    // The event is related to a tool window
+    STUDIO_TOOL_WINDOW_ACTION_STATS = 136;
   }
 
   // Represents different Performance Monitoring types.
@@ -4467,4 +4473,22 @@ message IntellijProjectSizeStats {
   optional FileType type = 1;
   optional Scope scope = 2;
   optional int32 count = 3;
+}
+
+// Statistics regarding tool windows
+message StudioToolWindowActionStats {
+  enum EventType {
+    UNKNOWN_EVENT_TYPE = 0;
+
+    REGISTERED = 1;
+
+    OPEN = 2;
+
+    CLOSED = 3;
+  }
+  // Id of the tool window
+  // e.g. 'Assistant'
+  optional string tool_window_id = 1;
+
+  optional EventType event_type = 2;
 }
