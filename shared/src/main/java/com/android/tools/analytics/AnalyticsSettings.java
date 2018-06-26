@@ -167,6 +167,9 @@ public class AnalyticsSettings {
             Gson gson = new GsonBuilder().create();
             AnalyticsSettings settings =
                     gson.fromJson(new InputStreamReader(inputStream), AnalyticsSettings.class);
+            if (!settings.isValid()) {
+                return null; // Ignore the corrupted settings.
+            }
             sInstance = settings;
             return settings;
         } catch (OverlappingFileLockException e) {
@@ -174,6 +177,11 @@ public class AnalyticsSettings {
         } catch (JsonParseException e) {
             throw new IOException("Unable to parse settings file " + file.toString(), e);
         }
+    }
+
+    /** Checks if the AnalyticsSettings object is in a valid state. */
+    private boolean isValid() {
+        return mUserId != null && (mSaltValue != null || mSaltSkew != currentSaltSkew());
     }
 
     /**
