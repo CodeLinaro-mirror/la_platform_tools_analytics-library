@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.android.tools.analytics;
 
 import static org.junit.Assert.*;
@@ -48,7 +47,6 @@ public class AnalyticsSettingsTest {
         // Configure the paths to use a temp directory for reading from and writing to.
         EnvironmentFakes.setCustomAndroidSdkHomeEnvironment(testConfigDir.getRoot().toString());
         try {
-
             // Write a json settings file.
             String json = "{ userId: \"a4d47d92-8d4c-44bb-a8a4-d2483b6e0c16\", hasOptedIn: true }";
             Files.write(
@@ -84,18 +82,38 @@ public class AnalyticsSettingsTest {
     public void loadBadSettingsTest() throws Exception {
         // Configure the paths to use a temp directory for reading from and writing to.
         EnvironmentFakes.setCustomAndroidSdkHomeEnvironment(
-                testConfigDir.getRoot().toPath().toString());
+          testConfigDir.getRoot().toPath().toString());
         try {
             // Write non-valid json file content.
             String json = "BADFILE";
             Files.write(
-                    testConfigDir.getRoot().toPath().resolve("analytics.settings"),
-                    json.getBytes(Charsets.UTF_8));
+              testConfigDir.getRoot().toPath().resolve("analytics.settings"),
+              json.getBytes(Charsets.UTF_8));
 
             // try reading the settings file and verify that it fails.
             thrown.expect(IOException.class);
             thrown.expectCause(IsInstanceOf.instanceOf(JsonParseException.class));
             AnalyticsSettings.loadSettings();
+        } finally {
+            EnvironmentFakes.setSystemEnvironment();
+        }
+    }
+
+    @Test
+    public void loadCorruptedSettingsTest() throws Exception {
+        // Configure the paths to use a temp directory for reading from and writing to.
+        EnvironmentFakes.setCustomAndroidSdkHomeEnvironment(
+          testConfigDir.getRoot().toPath().toString());
+        try {
+            // Write non-valid json file content.
+            String json =
+              "{\"hasOptedIn\":true,\"saltValue\":746227786052768374406922174584132630757738414714263142088,\"saltSkew\":632}";
+            Files.write(
+              testConfigDir.getRoot().toPath().resolve("analytics.settings"),
+              json.getBytes(Charsets.UTF_8));
+
+            // Try reading the settings file and verify that it fails.
+            assertNull(AnalyticsSettings.loadSettings());
         } finally {
             EnvironmentFakes.setSystemEnvironment();
         }
@@ -249,6 +267,7 @@ public class AnalyticsSettingsTest {
         EnvironmentFakes.setCustomAndroidSdkHomeEnvironment(testConfigDir.getRoot().toString());
         try {
             AnalyticsSettings settings = new AnalyticsSettings();
+            settings.setUserId(UUID.randomUUID().toString());
 
             // Stub dates to be at specific skew
             AnalyticsSettings.sDateProvider = new StubDateProvider(2016, 3, 18);
