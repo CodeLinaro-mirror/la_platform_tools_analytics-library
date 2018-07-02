@@ -38,6 +38,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
@@ -287,6 +288,7 @@ public class AnalyticsPublisherTest {
         }
     }
 
+    @Ignore("b/110330321")
     @Test
     public void testBadServer() throws Exception {
         // Configure the paths to use a temp directory for reading from and writing to.
