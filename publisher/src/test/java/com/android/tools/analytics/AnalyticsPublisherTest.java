@@ -38,12 +38,10 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 import org.junit.rules.Timeout;
-
 
 /**
  * Tests for {@link AnalyticsPublisher} and {@link GoogleAnalyticsPublisher}.
@@ -288,7 +286,6 @@ public class AnalyticsPublisherTest {
         }
     }
 
-    @Ignore("b/110330321")
     @Test
     public void testBadServer() throws Exception {
         // Configure the paths to use a temp directory for reading from and writing to.
@@ -362,6 +359,11 @@ public class AnalyticsPublisherTest {
             ClientAnalytics.LogEvent metaEvent = request.getLogEvent(0);
             AndroidStudioEvent metaStudioEvent =
                     AndroidStudioEvent.parseFrom(metaEvent.getSourceExtension());
+
+            long bytesSentInLastUpload =
+                    metaStudioEvent.getMetaMetrics().getBytesSentInLastUpload();
+            assertTrue("bytes_sent_in_last_upload should be > 0", bytesSentInLastUpload > 0);
+
             assertEquals(
                     AndroidStudioEvent.newBuilder()
                             .setCategory(AndroidStudioEvent.EventCategory.META)
@@ -372,7 +374,7 @@ public class AnalyticsPublisherTest {
                                             // ensure that the previous failure is reported in the
                                             // meta metrics.
                                             .setFailedServerReplies(1)
-                                            .setBytesSentInLastUpload(202)
+                                            .setBytesSentInLastUpload(bytesSentInLastUpload)
                                             .build())
                             .build(),
                     metaStudioEvent);
@@ -399,6 +401,8 @@ public class AnalyticsPublisherTest {
             // Another metric event should be present and it should have no failures counted.
             metaEvent = request.getLogEvent(0);
             metaStudioEvent = AndroidStudioEvent.parseFrom(metaEvent.getSourceExtension());
+            bytesSentInLastUpload = metaStudioEvent.getMetaMetrics().getBytesSentInLastUpload();
+            assertTrue("bytes_sent_in_last_upload should be > 0", bytesSentInLastUpload > 0);
             assertEquals(
                     AndroidStudioEvent.newBuilder()
                             .setCategory(AndroidStudioEvent.EventCategory.META)
@@ -407,7 +411,7 @@ public class AnalyticsPublisherTest {
                                     MetaMetrics.newBuilder()
                                             .setFailedConnections(0)
                                             .setFailedServerReplies(0)
-                                            .setBytesSentInLastUpload(203)
+                                            .setBytesSentInLastUpload(bytesSentInLastUpload)
                                             .build())
                             .build(),
                     metaStudioEvent);
