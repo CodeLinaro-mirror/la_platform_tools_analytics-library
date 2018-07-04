@@ -13,7 +13,7 @@ enum GradleTransformExecutionType {
     INSTANT_RUN_VERIFER = 6;
     JACK_PRE_DEX = 7;
     JACK = 8;
-    JACOCO = 9;
+    DEPRECATED_JACOCO = 9 [deprecated=true];
     JAR_MERGING = 10;
     LIBRARY_JAR = 11;
     LIBRARY_JNI_LIBS = 12;
@@ -211,6 +211,7 @@ enum GradleTaskExecutionType {
     APPLICATION_ID_WRITER = 158;
     KAPT_WITH_KOTLINC = 159;
     KAPT_WITHOUT_KOTLINC = 160;
+    JACOCO=161;
 }
 
 enum BooleanOption {
