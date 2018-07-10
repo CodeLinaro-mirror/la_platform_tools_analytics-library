@@ -167,7 +167,7 @@ public class AnalyticsSettings {
             Gson gson = new GsonBuilder().create();
             AnalyticsSettings settings =
                     gson.fromJson(new InputStreamReader(inputStream), AnalyticsSettings.class);
-            if (!settings.isValid()) {
+            if (settings == null || !settings.isValid()) {
                 return null; // Ignore the corrupted settings.
             }
             sInstance = settings;
