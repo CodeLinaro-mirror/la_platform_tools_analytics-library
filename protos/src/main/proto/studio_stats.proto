@@ -10,8 +10,6 @@ option java_multiple_files = true;
 
 package android_studio;
 
-
-
 message AndroidStudioEvent {
   // Describes a group of event kinds related to each other.
   // Necessary only for events that were originally being reported to Google
@@ -225,8 +223,8 @@ message AndroidStudioEvent {
 
   // the project id as used in the playstore, e.g.
   // 'com.google.android.apps.maps'. This is sensitive information and
-  // thus considered 'IDENTIFIYING'. This data is only available in and for PWG
-  // approved scenarios.
+  // thus restricted to "raw" sawmill access. This data is only available in
+  // and for PWG approved scenarios.
   optional string raw_project_id = 61;
 
   // set when kind = INTELLIJ_INDEXING_STATS
@@ -249,6 +247,14 @@ message AndroidStudioEvent {
 
   // set when kind = PROJECT_STRUCTURE_DIALOG
   optional PSDEvent psd_event = 68;
+
+  // set when Android Studio is launched with the "idea.is.internal=true"
+  // flag, indicating that this is somebody debugging Android Studio rather
+  // than a normal user sending actual usage metrics.
+  optional bool idea_is_internal = 69;
+
+  // set when kind == JNI_INSPECTION
+  optional JniInspectionEvent jni_inspection_event = 70;
 
   // Describes a group of event kinds related to each other.
   // This is redundant in the presence of EventKind + event specific message,
@@ -627,6 +633,9 @@ message AndroidStudioEvent {
 
     // The event is related to a tool window
     STUDIO_TOOL_WINDOW_ACTION_STATS = 136;
+
+    // The event is related to a JNI inspection
+    JNI_INSPECTION = 137;
   }
 
   // Represents different Performance Monitoring types.
@@ -1724,6 +1733,22 @@ message CMakeEditingEvent {
   optional int64 event_duration_ms = 2;
 }
 
+message JniInspectionEvent {
+  enum JniInspectionType {
+    UNKNOWN_JNI_INSPECTION_EVENT = 0;
+    // Set when the "missing function" inspection quickfix is used.
+    MISSING_FUNCTION = 1;
+    // Set when the "extern C" inspection quickfix is used.
+    EXTERN_C = 2;
+    // Set when the "parameters" inspection quickfix is used.
+    PARAMETERS = 3;
+    // Set when the OnLoad / OnUnload inspection quickfix is used.
+    ONLOAD = 4;
+  }
+
+  optional JniInspectionType type = 1;
+}
+
 // Metrics related to C++ header file view in Android Project
 message CppHeadersViewEvent {
   enum CppHeadersViewEventType {
@@ -2010,8 +2035,8 @@ message GradleBuildProfile {
 
   // the project id as used in the playstore, e.g.
   // 'com.google.android.apps.maps'. This is sensitive information and
-  // thus considered 'IDENTIFIYING'. This data is only available in and for PWG
-  // approved scenarios.
+  // thus restricted to "raw" sawmill access. This data is only available in
+  // and for PWG approved scenarios.
   // This is repeated, as a gradle build may include multiple apps, either
   // by variants or by multiple 'app' subprojects.
   repeated string raw_project_id = 19;
@@ -2294,7 +2319,6 @@ message GradleBuildVariant {
   // Is legacy (pre-api 19) multidex enabled for the variant.
   // Only can true if use_multidex is also true.
   optional bool use_legacy_multidex = 6;
-
 
   // The type of variant.
   optional VariantType variant_type = 7;
@@ -2727,7 +2751,6 @@ message InstantRunStatus {
   // not included.
   repeated InstantRunArtifact artifact = 4;
 
-
   enum BuildMode {
     UNKNOWN_BUILD_MODE = 0;
     HOT_WARM = 1;
@@ -2746,7 +2769,6 @@ message InstantRunStatus {
     // Cold swap done by reinstalling APK splits, resources in separate APK.
     MULTI_APK_SEPARATE_RESOURCES = 4;
   }
-
 
   enum VerifierStatus {
     UNKNOWN_VERIFIER_STATUS = 0;
@@ -3477,8 +3499,8 @@ message AppLinksAssistantEvent {
 
   // the project id as used in the playstore, e.g.
   // 'com.google.android.apps.maps'. This is sensitive information and
-  // thus considered 'IDENTIFIYING'. This data is only available in and for PWG
-  // approved scenarios.
+  // thus restricted to "raw" sawmill access. This data is only available in
+  // and for PWG approved scenarios.
   optional string raw_project_id = 10;
 
   // UI event source.
@@ -4088,7 +4110,6 @@ message KotlinSupport {
   optional string android_ktx_version = 3;
 }
 
-
 // Details for connection assistant event
 message ConnectionAssistantEvent {
   enum ConnectionAssistantEventType {
@@ -4306,6 +4327,22 @@ message LintPerformance {
   // number of test soursce files in session. Note that test sources
   // also contribute to the other file counts above.
   optional int64 test_source_count = 7;
+  // time to initialize lint projects
+  optional int64 initialize_time_ms = 8;
+  // time to register custom detectors
+  optional int64 register_custom_detectors_time_ms = 9;
+  // time to compute the applicable detectors
+  optional int64 compute_detectors_time_ms = 10;
+  // time to run the first round of checks
+  optional int64 check_project_time_ms = 11;
+  // time to run any extra phases
+  optional int64 extra_phases_time_ms = 12;
+  // time to report baseline issues
+  optional int64 report_baseline_issues_time_ms = 13;
+  // time to dispose projects
+  optional int64 dispose_projects_time_ms = 14;
+  // time to generate repors
+  optional int64 report_generation_time_ms = 15;
 }
 
 // A quickfix for lint was invoked: data about issue type, fix type, etc
