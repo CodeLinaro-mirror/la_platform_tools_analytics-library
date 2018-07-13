@@ -256,6 +256,8 @@ message AndroidStudioEvent {
   // set when kind == JNI_INSPECTION
   optional JniInspectionEvent jni_inspection_event = 70;
 
+  // set when kind == USER_SENTIMENT
+  optional UserSentiment user_sentiment = 71;
   // Describes a group of event kinds related to each other.
   // This is redundant in the presence of EventKind + event specific message,
   // and is only necessary for events originally sent to GA.
@@ -636,6 +638,9 @@ message AndroidStudioEvent {
 
     // The event is related to a JNI inspection
     JNI_INSPECTION = 137;
+
+    // The event is descibing user sentiment
+    USER_SENTIMENT = 138;
   }
 
   // Represents different Performance Monitoring types.
@@ -4729,4 +4734,16 @@ message PSDEvent {
   optional uint64 duration_ms = 4;
   // List of fields that were modified
   repeated PSDField modified_fields = 5;
+}
+
+// UserSentiment describes how users feel about the product.
+message UserSentiment {
+  // does the user feel positive or negative about the product at this time?
+  optional SentimentState state = 1;
+
+  enum SentimentState {
+    UNKNOWN_SENTIMENT_STATE = 0;
+    POSITIVE = 1;
+    NEGATIVE = 2;
+  }
 }
