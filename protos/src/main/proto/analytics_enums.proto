@@ -213,6 +213,7 @@ enum GradleTaskExecutionType {
     KAPT_WITHOUT_KOTLINC = 160;
     JACOCO=161;
     BUNDLE_TO_STANDALONE_APK = 162;
+    SHRINK_BUNDLE_RESOURCES = 163;
 }
 
 enum BooleanOption {
