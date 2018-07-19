@@ -72,19 +72,20 @@ object UsageTracker {
   var maxJournalTime: Long = 0
     private set
   /**
-   * Gets the version specified for this UsageTracker. This version when specified is used
-   * to populate the product_details.version field of AndroidStudioEvent at time of logging
-   * As the version of the product generating the event can be different of the version uploading
-   * the event.
-   */
-  /**
-   * Set the version specified for this UsageTracker. This version when specified is used
+   * The version specified for this UsageTracker. This version when specified is used
    * to populate the product_details.version field of AndroidStudioEvent at time of logging
    * As the version of the product generating the event can be different of the version uploading
    * the event.
    */
   @JvmStatic
   var version: String? = null
+
+  @JvmStatic
+  /**
+   * Set when Android Studio is running in development mode.
+   */
+  var ideaIsInternal = false
+
   /**
    * Gets the ide brand specified for this UsageTracker.
    */

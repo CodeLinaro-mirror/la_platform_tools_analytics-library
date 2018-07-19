@@ -46,6 +46,10 @@ abstract class UsageTrackerWriter : AutoCloseable {
       studioEvent.setProductDetails(ProductDetails.newBuilder().setVersion(UsageTracker.version!!))
     }
 
+    if (UsageTracker.ideaIsInternal) {
+      studioEvent.ideaIsInternal = true
+    }
+
     logDetails(
       ClientAnalytics.LogEvent.newBuilder()
         .setEventTimeMs(eventTimeMs)
