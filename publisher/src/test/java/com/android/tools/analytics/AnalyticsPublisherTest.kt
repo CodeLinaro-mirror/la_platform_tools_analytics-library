@@ -360,6 +360,10 @@ class AnalyticsPublisherTest {
           assertEquals(2, request.logEventCount.toLong())
           var metaEvent: ClientAnalytics.LogEvent = request.getLogEvent(0)
           var metaStudioEvent = AndroidStudioEvent.parseFrom(metaEvent.sourceExtension)
+
+          var bytesSentInLastUpload = metaStudioEvent.metaMetrics.bytesSentInLastUpload
+          assertTrue("bytes_sent_in_last_upload should be > 0", bytesSentInLastUpload > 0)
+
           assertEquals(
             AndroidStudioEvent.newBuilder()
               .setCategory(AndroidStudioEvent.EventCategory.META)
@@ -370,7 +374,7 @@ class AnalyticsPublisherTest {
                   // ensure that the previous failure is reported in the
                   // meta metrics.
                   .setFailedServerReplies(1)
-                  .setBytesSentInLastUpload(202)
+                  .setBytesSentInLastUpload(bytesSentInLastUpload)
                   .build())
               .build(),
             metaStudioEvent)
@@ -395,6 +399,10 @@ class AnalyticsPublisherTest {
           // Another metric event should be present and it should have no failures counted.
           metaEvent = request.getLogEvent(0)
           metaStudioEvent = AndroidStudioEvent.parseFrom(metaEvent.sourceExtension)
+
+          bytesSentInLastUpload = metaStudioEvent.metaMetrics.bytesSentInLastUpload
+          assertTrue("bytes_sent_in_last_upload should be > 0", bytesSentInLastUpload > 0)
+
           assertEquals(
             AndroidStudioEvent.newBuilder()
               .setCategory(AndroidStudioEvent.EventCategory.META)
@@ -403,7 +411,7 @@ class AnalyticsPublisherTest {
                 MetaMetrics.newBuilder()
                   .setFailedConnections(0)
                   .setFailedServerReplies(0)
-                  .setBytesSentInLastUpload(203)
+                  .setBytesSentInLastUpload(bytesSentInLastUpload)
                   .build())
               .build(),
             metaStudioEvent)
