@@ -26,6 +26,7 @@ import com.google.wireless.android.sdk.stats.AndroidStudioEvent
 import com.google.wireless.android.sdk.stats.MetaMetrics
 import com.google.wireless.android.sdk.stats.StudioCrash
 import org.junit.Assert.*
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TemporaryFolder
@@ -51,15 +52,13 @@ class AnalyticsPublisherTest {
   @get:Rule
   val timeout = Timeout.seconds(10)
 
-  /**
-   * Creates an instance of [AnalyticsSettings] for use in tests.
-   */
-  private val testAnalyticsSettings: AnalyticsSettings
-    get() {
+
+  @Before
+  fun before() {
       val analyticsSettings = AnalyticsSettings()
       analyticsSettings.optedIn = true
       analyticsSettings.userId = "f59e9566-2416-42a9-a159-b91fa484e4d7"
-      return analyticsSettings
+      AnalyticsSettings.setInstanceForTest(analyticsSettings)
     }
 
   @Test
@@ -73,11 +72,10 @@ class AnalyticsPublisherTest {
       ServerStub().use { stub ->
         // Create helpers used to instantiate the publisher.
         val vs = VirtualTimeScheduler()
-        val analyticsSettings = testAnalyticsSettings
 
         // Instantiate the publisher
-        val googleAnalyticsPublisher = GoogleAnalyticsPublisher(
-          analyticsSettings, vs, testSpoolDir.root.toPath(), "1.2.3.4")
+        val googleAnalyticsPublisher = GoogleAnalyticsPublisher(StdLogger(StdLogger.Level.ERROR),
+          vs, testSpoolDir.root.toPath(), "1.2.3.4")
         googleAnalyticsPublisher.setServerUrl(stub.url)
 
         // Ensure the publisher's initial values are as expected.
@@ -121,8 +119,6 @@ class AnalyticsPublisherTest {
           vs.advanceBy(0)
           journalingUsageTracker.close()
 
-          // Create helpers used to instantiate the publisher.
-          val analyticsSettings = testAnalyticsSettings
 
           // Override the date provider to the publisher so we can reliably check if date based
           // properties are set correctly.
@@ -138,7 +134,7 @@ class AnalyticsPublisherTest {
           systemPropertyOverrides.setProperty("os.version", "3.13.0-85-generic")
 
           val googleAnalyticsPublisher = GoogleAnalyticsPublisher(
-            analyticsSettings, vs, testSpoolDir.root.toPath(), "1.2.3.4")
+            StdLogger(StdLogger.Level.ERROR), vs, testSpoolDir.root.toPath(), "1.2.3.4")
           googleAnalyticsPublisher.setServerUrl(stub.url)
 
           // advance time to make the publisher run its first publishing job.
@@ -162,7 +158,7 @@ class AnalyticsPublisherTest {
             ClientAnalytics.ClientInfo.ClientType.DESKTOP,
             request.clientInfo.clientType)
           val cdi = request.clientInfo.desktopClientInfo
-          assertEquals(analyticsSettings.userId, cdi.loggingId)
+          assertEquals(AnalyticsSettings.getInstance(StdLogger(StdLogger.Level.ERROR)).userId, cdi.loggingId)
           assertEquals("linux", cdi.os)
           assertEquals("3.13", cdi.osMajorVersion)
           assertEquals("3.13.0-85-generic", cdi.osFullVersion)
@@ -234,9 +230,8 @@ class AnalyticsPublisherTest {
         journalingUsageTracker.close()
 
         // Create helpers used to instantiate the publisher.
-        val analyticsSettings = testAnalyticsSettings
         val googleAnalyticsPublisher = GoogleAnalyticsPublisher(
-          analyticsSettings, vs, testSpoolDir.root.toPath(), "1.2.3.4")
+          StdLogger(StdLogger.Level.ERROR), vs, testSpoolDir.root.toPath(), "1.2.3.4")
 
         // set the url to publish to to a reserved port which we know the server cannot connect to.
         // https://www.iana.org/assignments/service-names-port-numbers/service-names-port-numbers.txt
@@ -315,9 +310,6 @@ class AnalyticsPublisherTest {
           GoogleAnalyticsPublisher.dateProvider = dateProvider
           UsageTracker.dateProvider = dateProvider
 
-          // Create helpers used to instantiate the publisher.
-          val analyticsSettings = testAnalyticsSettings
-
           var journalingUsageTracker = JournalingUsageTracker(vs, testSpoolDir.root.toPath())
 
           journalingUsageTracker.logNow(logged)
@@ -330,7 +322,7 @@ class AnalyticsPublisherTest {
           systemPropertyOverrides.setProperty("os.version", "3.13.0-85-generic")
 
           val googleAnalyticsPublisher = GoogleAnalyticsPublisher(
-            analyticsSettings, vs, testSpoolDir.root.toPath(), "1.2.3.4")
+            StdLogger(StdLogger.Level.ERROR), vs, testSpoolDir.root.toPath(), "1.2.3.4")
           googleAnalyticsPublisher.setServerUrl(stub.url)
 
           // Instruct to make the server stub fail the http request in the next call.
@@ -440,9 +432,8 @@ class AnalyticsPublisherTest {
         journalingUsageTracker.close()
 
         // Create helpers used to instantiate the publisher.
-        val analyticsSettings = testAnalyticsSettings
         val googleAnalyticsPublisher = GoogleAnalyticsPublisher(
-          analyticsSettings, vs, testSpoolDir.root.toPath(), "1.2.3.4")
+          StdLogger(StdLogger.Level.ERROR), vs, testSpoolDir.root.toPath(), "1.2.3.4")
         googleAnalyticsPublisher.setServerUrl(stub.url)
 
         // Execute the first publish job.
@@ -495,10 +486,9 @@ class AnalyticsPublisherTest {
       journalingUsageTracker.close()
 
       // Create helpers used to instantiate the publisher.
-      val analyticsSettings = testAnalyticsSettings
       ServerStub().use { stub ->
         val googleAnalyticsPublisher = GoogleAnalyticsPublisher(
-          analyticsSettings, vs, testSpoolDir.root.toPath(), "1.2.3.4")
+          StdLogger(StdLogger.Level.ERROR), vs, testSpoolDir.root.toPath(), "1.2.3.4")
         googleAnalyticsPublisher.setServerUrl(stub.url)
 
         // Execute the first publish job.
@@ -557,9 +547,8 @@ class AnalyticsPublisherTest {
         journalingUsageTracker.close()
 
         // Create helpers used to instantiate the publisher.
-        val analyticsSettings = testAnalyticsSettings
         val googleAnalyticsPublisher = GoogleAnalyticsPublisher(
-          analyticsSettings, vs, testSpoolDir.root.toPath(), "1.2.3.4")
+          StdLogger(StdLogger.Level.ERROR), vs, testSpoolDir.root.toPath(), "1.2.3.4")
         googleAnalyticsPublisher.setServerUrl(stub.url)
 
         // Ensure a job is queued to publish analytics.
@@ -611,11 +600,9 @@ class AnalyticsPublisherTest {
         vs.advanceBy(0)
         journalingUsageTracker.close()
 
-        // Create helpers used to instantiate the publisher.
-        val analyticsSettings = testAnalyticsSettings
         // Create an instance of the publisher with a customized connection creation function.
         val googleAnalyticsPublisher = GoogleAnalyticsPublisher(
-          analyticsSettings, vs, testSpoolDir.root.toPath(), "1.2.3.4")
+          StdLogger(StdLogger.Level.ERROR), vs, testSpoolDir.root.toPath(), "1.2.3.4")
         googleAnalyticsPublisher.setCreateConnection(Callable { stub.url.openConnection() as HttpURLConnection })
         // set the url to publish to to a reserved port which we know the server cannot connect
         // to.
@@ -645,11 +632,10 @@ class AnalyticsPublisherTest {
       // Create helpers used to instantiate the publisher.
       val vs = VirtualTimeScheduler()
       assertEquals(AnalyticsPublisher.instance, NullAnalyticsPublisher)
-      val settings = testAnalyticsSettings
 
       // update the publisher, first call will initialize.
       AnalyticsPublisher.updatePublisher(
-        StdLogger(StdLogger.Level.ERROR), settings, vs, "1.2.3.4")
+        StdLogger(StdLogger.Level.ERROR), vs,"1.2.3.4")
       val afterFirstUpdate = AnalyticsPublisher.instance
       assertTrue(afterFirstUpdate is GoogleAnalyticsPublisher)
 
@@ -658,9 +644,9 @@ class AnalyticsPublisherTest {
       assertNotNull(job)
 
       // update again, but now opt-ed out.
-      settings.optedIn = false
+      AnalyticsSettings.getInstance(StdLogger(StdLogger.Level.ERROR)).optedIn = false
       AnalyticsPublisher.updatePublisher(
-        StdLogger(StdLogger.Level.ERROR), settings, vs, "1.2.3.4")
+        StdLogger(StdLogger.Level.ERROR), vs, "1.2.3.4")
       val afterSecondUpdate = AnalyticsPublisher.instance
       assertTrue(afterSecondUpdate is NullAnalyticsPublisher)
 
