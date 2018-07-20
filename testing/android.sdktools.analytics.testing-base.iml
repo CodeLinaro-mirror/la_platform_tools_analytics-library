@@ -19,5 +19,6 @@
     <orderEntry type="module" module-name="android.sdktools.analytics.tracker-base" />
     <orderEntry type="module" module-name="android.sdktools.testutils" />
     <orderEntry type="module" module-name="android.sdktools.common" />
+    <orderEntry type="library" scope="TEST" name="KotlinJavaRuntime" level="project" />
   </component>
 </module>
