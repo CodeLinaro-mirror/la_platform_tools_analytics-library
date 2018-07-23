@@ -2247,7 +2247,8 @@ message GradleBuildSplits {
   optional bool density_enabled = 1;
   // Is automatic discovery based on the merged resources enabled?
   // Only set if density splits are enabled.
-  optional bool density_auto = 2;
+  // Deprecated as of AS3.3 (b/111291762)
+  optional bool density_auto = 2 [deprecated = true];
   // Injected compatible screens manifest values.
   // Only populated if language splits are enabled.
   // e.g. NORMAL, LARGE, XLARGE
@@ -2264,7 +2265,8 @@ message GradleBuildSplits {
   optional bool language_enabled = 5;
   // Is automatic discovery based on the merged resources enabled?
   // Only set if language splits are enabled.
-  optional bool language_auto = 6;
+  // Deprecated as of AS3.3 (b/111291762)
+  optional bool language_auto = 6 [deprecated = true];
   // Language and region codes that the application will be split on.
   // Only populated if language splits are enabled.
   // e.g. 'fr,fr-rBE', 'fr-rCA', 'en'
