@@ -68,8 +68,8 @@ class TestUsageTrackerTest {
       AndroidStudioEvent.newBuilder().setKind(AndroidStudioEvent.EventKind.META_METRICS))
 
     // ensure that that event is what our test usage tracker reports.
-    assertEquals(1, testUsageTracker.getUsages().size.toLong())
-    val usage = testUsageTracker.getUsages()[0]
+    assertEquals(1, testUsageTracker.usages.size.toLong())
+    val usage = testUsageTracker.usages[0]
     assertEquals(AndroidStudioEvent.EventKind.META_METRICS, usage.studioEvent.kind)
 
     // ensure that virtual time has moved as we instructed.
@@ -90,7 +90,7 @@ class TestUsageTrackerTest {
     testUsageTracker.logAt(101, AndroidStudioEvent.newBuilder().setKind(AndroidStudioEvent.EventKind.STUDIO_CRASH))
     scheduler.advanceBy(1000, TimeUnit.MILLISECONDS)
 
-    val usages = testUsageTracker.getUsages()
+    val usages = testUsageTracker.usages
     assertEquals(2, usages.size.toLong())
     assertEquals(1101, usages[0].logEvent.eventTimeMs)
     assertEquals(101, usages[1].logEvent.eventTimeMs)
