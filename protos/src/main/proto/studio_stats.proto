@@ -1772,13 +1772,13 @@ message JniInspectionEvent {
   enum JniInspectionType {
     UNKNOWN_JNI_INSPECTION_EVENT = 0;
     // Set when the "missing function" inspection quickfix is used.
-    MISSING_FUNCTION = 1;
+    MISSING_FUNCTION_INSPECTION_EVENT = 1;
     // Set when the "extern C" inspection quickfix is used.
-    EXTERN_C = 2;
+    EXTERN_C_INSPECTION_EVENT = 2;
     // Set when the "parameters" inspection quickfix is used.
-    PARAMETERS = 3;
+    PARAMETERS_INSPECTION_EVENT = 3;
     // Set when the OnLoad / OnUnload inspection quickfix is used.
-    ONLOAD = 4;
+    ONLOAD_INSPECTION_EVENT = 4;
   }
 
   optional JniInspectionType type = 1;
