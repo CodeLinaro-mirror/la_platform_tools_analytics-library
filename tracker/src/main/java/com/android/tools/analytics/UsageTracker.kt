@@ -141,14 +141,10 @@ object UsageTracker {
    * other settings.
    */
   @JvmStatic
-  fun initialize(
-    logger: ILogger,
-    scheduler: ScheduledExecutorService
-  ): UsageTrackerWriter {
-    val analyticsSettings = AnalyticsSettings.getInstance(logger)
+  fun initialize(scheduler: ScheduledExecutorService): UsageTrackerWriter {
     synchronized(gate) {
       val oldInstance = writer
-      if (analyticsSettings.optedIn) {
+      if (AnalyticsSettings.optedIn) {
         try {
           writer = JournalingUsageTracker(
             scheduler,
@@ -205,18 +201,18 @@ object UsageTracker {
   @JvmStatic
   fun updateSettingsAndTracker(
     optIn: Boolean, logger: ILogger, scheduler: ScheduledExecutorService
-  ): AnalyticsSettings {
-    val settings = AnalyticsSettings.getInstance(logger)
+  ) {
+    AnalyticsSettings.initialize(logger)
 
     if (isTesting) {
       // Don't persist test settings or close tracker
-      return settings
+      return
     }
 
-    if (optIn != settings.optedIn) {
-      settings.optedIn = optIn
+    if (optIn != AnalyticsSettings.optedIn) {
+      AnalyticsSettings.optedIn = optIn
       try {
-        settings.saveSettings()
+        AnalyticsSettings.saveSettings()
       }
       catch (e: IOException) {
         logger.error(e, "Unable to save analytics settings")
@@ -224,11 +220,10 @@ object UsageTracker {
 
     }
     try {
-      initialize(logger, scheduler)
+      initialize(scheduler)
     }
     catch (e: Exception) {
       logger.error(e, "Unable to initialize analytics tracker")
     }
-    return settings
   }
 }

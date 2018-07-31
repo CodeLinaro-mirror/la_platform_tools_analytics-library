@@ -53,14 +53,11 @@ abstract class AnalyticsPublisher protected constructor() : AutoCloseable {
      */
     @JvmStatic
     fun initialize(
-      logger: ILogger,
       scheduler: ScheduledExecutorService,
       applicationBuild: String): AnalyticsPublisher {
       synchronized(gate) {
-        val analyticsSettings  = AnalyticsSettings.getInstance(logger)
-        if (analyticsSettings.optedIn && !analyticsSettings.debugDisablePublishing) {
+        if (AnalyticsSettings.optedIn && !AnalyticsSettings.debugDisablePublishing) {
           instance_ = GoogleAnalyticsPublisher(
-            logger,
             scheduler,
             Paths.get(AnalyticsPaths.spoolDirectory),
             applicationBuild)
@@ -87,6 +84,7 @@ abstract class AnalyticsPublisher protected constructor() : AutoCloseable {
       logger: ILogger,
       scheduler: ScheduledExecutorService,
       applicationBuild: String) {
+      AnalyticsSettings.initialize(logger)
       val current = instance
       try {
         current.close()
@@ -95,7 +93,7 @@ abstract class AnalyticsPublisher protected constructor() : AutoCloseable {
         logger.error(e, "Unable to close existing analytics publisher")
       }
 
-      initialize(logger, scheduler, applicationBuild)
+      initialize(scheduler, applicationBuild)
     }
 
     @VisibleForTesting

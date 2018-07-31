@@ -45,9 +45,7 @@ object Anonymizer {
       return ""
     }
     val hasher = Hashing.sha256().newHasher()
-    val settings = AnalyticsSettings.getInstance(logger)
-    val salt = settings.salt
-    hasher.putBytes(salt)
+    hasher.putBytes(AnalyticsSettings.salt)
     hasher.putString(data, charset)
     return hasher.hash().toString()
   }

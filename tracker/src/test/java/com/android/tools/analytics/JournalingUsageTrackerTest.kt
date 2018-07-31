@@ -452,31 +452,28 @@ class JournalingUsageTrackerTest {
 
       // updating to opt-in false from scratch should set NullUsageTracker
       // and initialize settings.
-      val settings1 = UsageTracker.updateSettingsAndTracker(
+      UsageTracker.updateSettingsAndTracker(
         false, StdLogger(StdLogger.Level.INFO), virtualTimeScheduler)
-      assertNotNull(settings1)
       assertTrue(settingsFile.exists())
       val afterFirstUpdate = UsageTracker.writerForTest
       assertTrue(afterFirstUpdate is NullUsageTracker)
-      assertFalse(settings1.optedIn)
+      assertFalse(AnalyticsSettings.optedIn)
 
       // updating to opt-in true should update settings and initialize JournalingUsageTracker.
       val settings2 = UsageTracker.updateSettingsAndTracker(
         true, StdLogger(StdLogger.Level.INFO), virtualTimeScheduler)
-      assertNotNull(settings2)
       val afterSecondUpdate = UsageTracker.writerForTest
       assertTrue(afterSecondUpdate is JournalingUsageTracker)
-      assertTrue(settings2.optedIn)
+      assertTrue(AnalyticsSettings.optedIn)
       assertEquals(virtualTimeScheduler,
                    (UsageTracker.writerForTest as JournalingUsageTracker).scheduler)
 
       // updating to opt-in false should update settings and initialize NullUsageTracker.
-      val settings3 = UsageTracker.updateSettingsAndTracker(
+      UsageTracker.updateSettingsAndTracker(
         false, StdLogger(StdLogger.Level.INFO), virtualTimeScheduler)
-      assertNotNull(settings3)
       val afterThirdUpdate = UsageTracker.writerForTest
       assertTrue(afterThirdUpdate is NullUsageTracker)
-      assertFalse(settings3.optedIn)
+      assertFalse(AnalyticsSettings.optedIn)
 
       // now that we have a NullTracker, no spool files should be locked.
       assertTrue(getSpoolDetails(testSpoolDir.root.toPath()).lockedFiles.isEmpty())

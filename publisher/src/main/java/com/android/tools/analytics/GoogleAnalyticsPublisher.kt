@@ -57,7 +57,6 @@ class GoogleAnalyticsPublisher
  * @param scheduler used for scheduling periodic checks of the spool location.
  */
 internal constructor(
-  logger: ILogger,
   private val scheduler: ScheduledExecutorService,
   private val spoolLocation: Path,
   applicationBuild: String) : AnalyticsPublisher() {
@@ -69,7 +68,7 @@ internal constructor(
           ClientAnalytics.ClientInfo.ClientType.DESKTOP)
         .setDesktopClientInfo(
           ClientAnalytics.DesktopClientInfo.newBuilder()
-            .setLoggingId(AnalyticsSettings.getInstance(logger).userId!!)
+            .setLoggingId(AnalyticsSettings.userId)
             .setApplicationBuild(applicationBuild)
             .setOs(CommonMetricsData.osName)
             .setOsMajorVersion(

@@ -34,6 +34,48 @@ import java.util.*
  * Tests for [AnalyticsSettings].
  */
 class AnalyticsSettingsTest {
+  object failureLogger : ILogger {
+    override fun error(
+      t: Throwable?, msgFormat: String?, vararg args: Any) {
+      fail()
+    }
+
+    override fun warning(msgFormat: String, vararg args: Any) {
+      fail()
+    }
+
+    override fun info(msgFormat: String, vararg args: Any) {
+      fail()
+    }
+
+    override fun verbose(msgFormat: String, vararg args: Any) {
+      fail()
+    }
+  }
+
+  object countingLogger : ILogger {
+    var errors = 0
+    var warnings = 0
+    var infos = 0
+    var verboses = 0
+    override fun error(
+      t: Throwable?, msgFormat: String?, vararg args: Any) {
+      errors++
+    }
+
+    override fun warning(msgFormat: String, vararg args: Any) {
+      warnings++
+    }
+
+    override fun info(msgFormat: String, vararg args: Any) {
+      infos++
+    }
+
+    override fun verbose(msgFormat: String, vararg args: Any) {
+      verboses++
+    }
+  }
+
   @get:Rule
   var testConfigDir = TemporaryFolder()
 
@@ -53,24 +95,25 @@ class AnalyticsSettingsTest {
         json.toByteArray(Charsets.UTF_8))
 
       // read settings just written.
-      val settings = AnalyticsSettings.loadSettings()
-      assertNotNull(settings)
+      AnalyticsSettings.setInstanceForTest(null)
+      AnalyticsSettings.initialize(failureLogger)
 
       // verify read settings.
-      assertEquals("a4d47d92-8d4c-44bb-a8a4-d2483b6e0c16", settings!!.userId)
-      assertTrue(settings.optedIn)
+      assertEquals("a4d47d92-8d4c-44bb-a8a4-d2483b6e0c16", AnalyticsSettings.userId)
+      assertTrue(AnalyticsSettings.optedIn)
 
       // Write another json settings file
       val json2 = "{ userId: \"06120264-c9e7-492f-a39c-89c3cbee57c5\", optedIn: false }"
       Files.write(
         testConfigDir.root.toPath().resolve("analytics.settings"),
         json2.toByteArray(Charsets.UTF_8))
-      val settings2 = AnalyticsSettings.loadSettings()
-      assertNotNull(settings2)
+      // read settings just written.
+      AnalyticsSettings.setInstanceForTest(null)
+      AnalyticsSettings.initialize(failureLogger)
 
       // verify read settings are updated.
-      assertEquals("06120264-c9e7-492f-a39c-89c3cbee57c5", settings2!!.userId)
-      assertFalse(settings2.optedIn)
+      assertEquals("06120264-c9e7-492f-a39c-89c3cbee57c5", AnalyticsSettings.userId)
+      assertFalse(AnalyticsSettings.optedIn)
     }
     finally {
       EnvironmentFakes.setSystemEnvironment()
@@ -90,10 +133,10 @@ class AnalyticsSettingsTest {
         testConfigDir.root.toPath().resolve("analytics.settings"),
         json.toByteArray(Charsets.UTF_8))
 
-      // try reading the settings file and verify that it fails.
-      thrown.expect(IOException::class.java)
-      thrown.expectCause(IsInstanceOf.instanceOf(JsonParseException::class.java))
-      AnalyticsSettings.loadSettings()
+      AnalyticsSettings.setInstanceForTest(null)
+      AnalyticsSettings.initialize(countingLogger)
+
+      assertEquals(1, countingLogger.errors)
     }
     finally {
       EnvironmentFakes.setSystemEnvironment()
@@ -113,10 +156,10 @@ class AnalyticsSettingsTest {
         testConfigDir.root.toPath().resolve("analytics.settings"),
         json.toByteArray(Charsets.UTF_8))
 
-      val settings = AnalyticsSettings.loadSettings()
+      AnalyticsSettings.setInstanceForTest(null)
+      AnalyticsSettings.initialize(failureLogger)
       // Try reading the settings file and verify that it fails.
-      assertNotNull(settings)
-      assertFalse(settings!!.optedIn)
+      assertFalse(AnalyticsSettings.optedIn)
     }
     finally {
       EnvironmentFakes.setSystemEnvironment()
@@ -129,15 +172,26 @@ class AnalyticsSettingsTest {
     // Configure the paths to use a temp directory for reading from and writing to.
     EnvironmentFakes.setCustomAndroidSdkHomeEnvironment(
       testConfigDir.root.toPath().toString())
+    // The settings file should now be created.
+    assertFalse(
+      testConfigDir
+        .root
+        .toPath()
+        .resolve("analytics.settings")
+        .toFile()
+        .exists())
+
     try {
       // load settings while there is no settings file present.
-      val settings = AnalyticsSettings.loadSettings()
+      AnalyticsSettings.setInstanceForTest(null)
+      AnalyticsSettings.initialize(failureLogger)
+
       // The generated user id should be a valid UUID.
+      UUID.fromString(AnalyticsSettings.userId)
 
-      UUID.fromString(settings!!.userId!!)
-
+      val uid = AnalyticsSettings.userId
       // Default setting should be to not be opted in.
-      assertFalse(settings.optedIn)
+      assertFalse(AnalyticsSettings.optedIn)
 
       // The settings file should now be created.
       assertTrue(
@@ -148,7 +202,7 @@ class AnalyticsSettingsTest {
           .toFile()
           .exists())
 
-      settings.saveSettings()
+      //AnalyticsSettings.saveSettings()
 
       // The settings file should still exist.
       assertTrue(
@@ -160,11 +214,10 @@ class AnalyticsSettingsTest {
           .exists())
 
       // Reading the settings again should lead to the same data being read.
-      val settings2 = AnalyticsSettings.loadSettings()
-      assertNotNull(settings2)
-
-      assertEquals(settings.userId, settings2!!.userId)
-      assertFalse(settings2.optedIn)
+      AnalyticsSettings.setInstanceForTest(null)
+      AnalyticsSettings.initialize(failureLogger)
+      assertFalse(AnalyticsSettings.optedIn)
+      assertEquals(uid, AnalyticsSettings.userId)
     }
     finally {
       EnvironmentFakes.setSystemEnvironment()
@@ -186,14 +239,15 @@ class AnalyticsSettingsTest {
         uid.toByteArray(Charsets.UTF_8))
 
       // create new settings.
-      val settings = AnalyticsSettings.createNewAnalyticsSettings()
+      AnalyticsSettings.setInstanceForTest(null)
+      val settings = AnalyticsSettings.initialize(failureLogger)
       assertNotNull(settings)
 
       // Ensure the settings are using the user id from the 'uid.txt' file.
-      assertEquals(uid, settings.userId)
+      assertEquals(uid, AnalyticsSettings.userId)
 
       // Default setting should be to not be opted in.
-      assertFalse(settings.optedIn)
+      assertFalse(AnalyticsSettings.optedIn)
     }
     finally {
       EnvironmentFakes.setSystemEnvironment()
@@ -214,25 +268,22 @@ class AnalyticsSettingsTest {
         testConfigDir.root.toPath().resolve("analytics.settings"),
         json.toByteArray(Charsets.UTF_8))
 
-      val settings = AnalyticsSettings.loadSettings()
-      assertNotNull(settings)
+      AnalyticsSettings.setInstanceForTest(null)
+      AnalyticsSettings.initialize(failureLogger)
 
-      assertEquals("a4d47d92-8d4c-44bb-a8a4-d2483b6e0c16", settings!!.userId)
-      assertTrue(settings.optedIn)
+      assertEquals("a4d47d92-8d4c-44bb-a8a4-d2483b6e0c16", AnalyticsSettings.userId)
+      assertTrue(AnalyticsSettings.optedIn)
 
-      // Update properties in the settings.
-      val newUserId = "79d30adf-c901-4608-83ca-6dc850068316"
-      settings.userId = newUserId
-      settings.optedIn = false
+      AnalyticsSettings.optedIn = false
 
       // Write updated settings to disk
-      settings.saveSettings()
+      AnalyticsSettings.saveSettings()
 
       // Read settings and verify that changes have persisted.
-      val settings2 = AnalyticsSettings.loadSettings()
-      assertNotNull(settings2)
-      assertEquals(newUserId, settings2!!.userId)
-      assertFalse(settings2.optedIn)
+      AnalyticsSettings.setInstanceForTest(null)
+      AnalyticsSettings.initialize(failureLogger)
+      assertEquals("a4d47d92-8d4c-44bb-a8a4-d2483b6e0c16", AnalyticsSettings.userId)
+      assertFalse(AnalyticsSettings.optedIn)
     }
     finally {
       EnvironmentFakes.setSystemEnvironment()
@@ -275,29 +326,30 @@ class AnalyticsSettingsTest {
   fun saltStickinessTest() {
     EnvironmentFakes.setCustomAndroidSdkHomeEnvironment(testConfigDir.root.toString())
     try {
-      var settings: AnalyticsSettings? = AnalyticsSettings()
-      settings!!.userId = UUID.randomUUID().toString()
+      AnalyticsSettings.setInstanceForTest(null)
+      AnalyticsSettings.initialize(failureLogger)
 
       // Stub dates to be at specific skew
       AnalyticsSettings.dateProvider = StubDateProvider(2016, 3, 18)
       // get the salt and ensure it is initialized.
-      val initialSalt = settings.salt
+      val initialSalt = AnalyticsSettings.salt
       assertNotNull(initialSalt)
       assertEquals(24, initialSalt.size.toLong())
       // Ensure the salt is still the same at the end of the skew date range.
       AnalyticsSettings.dateProvider = StubDateProvider(2016, 4, 15)
-      assertArrayEquals(initialSalt, settings.salt)
+      assertArrayEquals(initialSalt, AnalyticsSettings.salt)
 
       // Ensure the salt is different in the next skew date range.
       AnalyticsSettings.dateProvider = StubDateProvider(2016, 4, 16)
-      val newSalt = settings.salt
+      val newSalt = AnalyticsSettings.salt
       assertNotNull(newSalt)
       assertEquals(24, newSalt.size.toLong())
       assertFalse(Arrays.equals(initialSalt, newSalt))
-      settings.saveSettings()
+      AnalyticsSettings.saveSettings()
 
-      settings = AnalyticsSettings.loadSettings()
-      val loadedSalt = settings!!.salt
+      AnalyticsSettings.setInstanceForTest(null)
+      AnalyticsSettings.initialize(failureLogger)
+      val loadedSalt = AnalyticsSettings.salt
       assertArrayEquals(newSalt, loadedSalt)
     }
     finally {
@@ -312,25 +364,6 @@ class AnalyticsSettingsTest {
     EnvironmentFakes.setCustomAndroidSdkHomeEnvironment(
       testConfigDir.root.toPath().toString())
 
-    val logger = object : ILogger {
-      override fun error(
-        t: Throwable?, msgFormat: String?, vararg args: Any) {
-        fail()
-      }
-
-      override fun warning(msgFormat: String, vararg args: Any) {
-        fail()
-      }
-
-      override fun info(msgFormat: String, vararg args: Any) {
-        fail()
-      }
-
-      override fun verbose(msgFormat: String, vararg args: Any) {
-        fail()
-      }
-    }
-
     try {
       AnalyticsSettings.setInstanceForTest(null)
       // create a 'uid.txt' file, used by previous metrics reporting systems.
@@ -339,19 +372,20 @@ class AnalyticsSettingsTest {
         testConfigDir.root.toPath().resolve("uid.txt"),
         uid.toByteArray(Charsets.UTF_8))
 
-      val settings = AnalyticsSettings.getInstance(logger)
-      assertEquals(uid, settings.userId)
-      assertFalse(settings.optedIn)
+      AnalyticsSettings.setInstanceForTest(null)
+      AnalyticsSettings.initialize(failureLogger)
+      assertEquals(uid, AnalyticsSettings.userId)
+      assertFalse(AnalyticsSettings.optedIn)
 
-      settings.optedIn = true
+      AnalyticsSettings.optedIn = true
       // Write updated settings to disk
-      settings.saveSettings()
+      AnalyticsSettings.saveSettings()
 
       // Read settings and verify that changes have persisted.
-      val settings2 = AnalyticsSettings.loadSettings()
-      assertNotNull(settings2)
-      assertEquals(uid, settings2!!.userId)
-      assertTrue(settings2.optedIn)
+      AnalyticsSettings.setInstanceForTest(null)
+      AnalyticsSettings.initialize(failureLogger)
+      assertEquals(uid, AnalyticsSettings.userId)
+      assertTrue(AnalyticsSettings.optedIn)
     }
     finally {
       EnvironmentFakes.setSystemEnvironment()

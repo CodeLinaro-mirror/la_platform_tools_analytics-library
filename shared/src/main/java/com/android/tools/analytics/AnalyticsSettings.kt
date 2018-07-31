@@ -40,25 +40,172 @@ import java.util.*
  * Settings related to analytics reporting. These settings are stored in
  * ~/.android/analytics.settings as a json file.
  */
-class AnalyticsSettings {
+object AnalyticsSettings {
+  val userId : String
+    get() {
+      synchronized(gate) {
+        return instance?.userId ?: ""
+      }
+    }
+
+  @JvmStatic
+  var optedIn : Boolean
+    get() {
+      synchronized(gate) {
+        return instance?.optedIn ?: false
+      }
+    }
+  set(value) {
+    synchronized(gate) {
+      instance?.apply {
+        optedIn = value
+      }
+    }
+  }
+
+  @JvmStatic
+  val debugDisablePublishing: Boolean
+    get() {
+      synchronized(gate) {
+        return instance?.debugDisablePublishing ?: false
+      }
+    }
+
+  internal const val SALT_SKEW_NOT_INITIALIZED = -1
+
+  @VisibleForTesting
+  @JvmStatic
+  var dateProvider: DateProvider = DateProvider.SYSTEM
+
+  private val EPOCH = LocalDate.ofEpochDay(0)
+  // the gate is used to ensure settings are accessed single-threaded
+  private val gate = Any()
+
+  @JvmStatic
+  private var instance: AnalyticsSettingsData? = null
 
   /**
-   * User id used for reporting analytics. This id is pseudo-anonymous.
+   * Gets the current salt skew, this is used by [.getSalt] to update the salt every 28
+   * days with a consistent window. This window size allows 4 week and 1 week analyses.
    */
-  @field:SerializedName("userId")
-  var userId: String? = null
+  @VisibleForTesting
+  @JvmStatic
+  fun currentSaltSkew(): Int {
+    val now = LocalDate.from(
+      Instant.ofEpochMilli(dateProvider.now().time).atZone(ZoneOffset.UTC))
+    // Unix epoch was on a Thursday, but we want Monday to be the day the salt is refreshed.
+    val days = ChronoUnit.DAYS.between(EPOCH, now) + 3
+    return (days / 28).toInt()
+  }
 
-  @field:SerializedName("optedIn")
-  var optedIn: Boolean = false
+  /**
+   * Loads an existing settings file from disk, or creates a new valid settings object if none
+   * exists. In case of the latter, will try to load uid.txt for maintaining the same uid with
+   * previous metrics reporting.
+   *
+   * @throws IOException if there are any issues reading the settings file.
+   */
+  @VisibleForTesting
+  @Throws(IOException::class)
+  @JvmStatic
+  private fun loadSettingsData(logger: ILogger): AnalyticsSettingsData {
+    val file = settingsFile
+    if (!file.exists()) {
+      return createNewAnalyticsSettingsData()
+    }
+    val channel = RandomAccessFile(file, "rw").channel
+    try {
+      lateinit var settings: AnalyticsSettingsData
+      channel.tryLock().use {
+        val inputStream = Channels.newInputStream(channel)
+        val gson = GsonBuilder().create()
+        settings = gson.fromJson(InputStreamReader(inputStream), AnalyticsSettingsData::class.java)
+      }
+      if (!isValid(settings)) {
+        return createNewAnalyticsSettingsData()
+      }
+      return settings
+    }
+    catch (e: OverlappingFileLockException) {
+      logger.error(e, "Unable to lock settings file %s", file.toString())
+    }
+    catch (e: JsonParseException) {
+      logger.error(e,"Unable to parse settings file %s", file.toString())
+    }
+    var newSettings = AnalyticsSettingsData()
+    newSettings.userId = UUID.randomUUID().toString()
+    return newSettings
+  }
 
-  @field:SerializedName("debugDisablePublishing")
-  val debugDisablePublishing: Boolean = false
+  /**
+   * Creates a new settings object and writes it to disk. Will try to load uid.txt for maintaining
+   * the same uid with previous metrics reporting.
+   *
+   * @throws IOException if there are any issues writing the settings file.
+   */
+  @VisibleForTesting
+  @JvmStatic
+  @Throws(IOException::class)
+  private fun createNewAnalyticsSettingsData(): AnalyticsSettingsData {
+    val settings = AnalyticsSettingsData()
 
-  @field:SerializedName("saltValue")
-  private var saltValue = BigInteger.valueOf(0L)
+    val uidFile = Paths.get(AnalyticsPaths.getAndEnsureAndroidSettingsHome(), "uid.txt").toFile()
+    if (uidFile.exists()) {
+      try {
+        val uid = Files.readFirstLine(uidFile, Charsets.UTF_8)
+        settings.userId = uid
+      }
+      catch (e: IOException) {
+        // Ignore and set new UID.
+      }
 
-  @field:SerializedName("saltSkew")
-  private var saltSkew = SALT_SKEW_NOT_INITIALIZED
+    }
+    if (settings.userId == null) {
+      settings.userId = UUID.randomUUID().toString()
+    }
+    settings.saveSettings()
+    return settings
+  }
+
+  /**
+   * Get or creates an instance of the settings. Uses the following strategies in order:
+   *
+   *
+   *  * Use existing instance
+   *  * Load existing 'analytics.settings' file from disk
+   *  * Create new 'analytics.settings' file
+   *  * Create instance without persistence
+   *
+   *
+   * Any issues reading/writing the config file will be logged to the logger.
+   */
+  @JvmStatic
+  fun initialize(logger: ILogger) {
+    synchronized(gate) {
+      if (instance != null) {
+        return
+      }
+      instance = loadSettingsData(logger)
+    }
+  }
+
+  /**
+   * Allows test to set a custom version of the AnalyticsSettings to test different setting
+   * states.
+   */
+  @VisibleForTesting
+  @JvmStatic
+  fun setInstanceForTest(settings: AnalyticsSettingsData?) {
+    instance = settings
+  }
+
+  /**
+   * Helper to get the file to read/write settings from based on the configured android settings
+   * home.
+   */
+  internal val settingsFile: File
+    get() = Paths.get(AnalyticsPaths.getAndEnsureAndroidSettingsHome(), "analytics.settings").toFile()
+
 
   /**
    * Gets a binary blob to ensure per user anonymization. Gets automatically rotated every 28
@@ -66,17 +213,18 @@ class AnalyticsSettings {
    */
   val salt: ByteArray
     @Throws(IOException::class)
-    get() = synchronized(gate) {
-      val currentSaltSkew = currentSaltSkew()
-      if (saltSkew != currentSaltSkew) {
-        saltSkew = currentSaltSkew
+    get() = synchronized(AnalyticsSettings.gate) {
+      var data: AnalyticsSettingsData = instance ?: return byteArrayOf()
+      val currentSaltSkew = AnalyticsSettings.currentSaltSkew()
+      if (data.saltSkew != currentSaltSkew) {
+        data.saltSkew = currentSaltSkew
         val random = SecureRandom()
-        val data = ByteArray(24)
-        random.nextBytes(data)
-        saltValue = BigInteger(data)
+        val blob = ByteArray(24)
+        random.nextBytes(blob)
+        data.saltValue = BigInteger(blob)
         saveSettings()
       }
-      val blob = saltValue.toByteArray()
+      val blob = data.saltValue.toByteArray()
       var fullBlob = blob
       if (blob.size < 24) {
         fullBlob = ByteArray(24)
@@ -91,7 +239,23 @@ class AnalyticsSettings {
    */
   @Throws(IOException::class)
   fun saveSettings() {
-    val file = settingsFile
+    instance?.saveSettings()
+  }
+
+  /** Checks if the AnalyticsSettings object is in a valid state.  */
+  internal fun isValid(settings : AnalyticsSettingsData): Boolean {
+    return settings.userId != null && (settings.saltSkew == AnalyticsSettings.SALT_SKEW_NOT_INITIALIZED || settings.saltValue != null)
+  }
+
+}
+
+class AnalyticsSettingsData {
+  fun saveSettings() {
+    val file = AnalyticsSettings.settingsFile
+    var dir = file.parentFile
+    if (!dir.exists()) {
+      dir.mkdirs()
+    }
     try {
       RandomAccessFile(file, "rw").use { settingsFile ->
         settingsFile.channel.use { channel ->
@@ -115,165 +279,26 @@ class AnalyticsSettings {
     }
   }
 
-  /** Checks if the AnalyticsSettings object is in a valid state.  */
-  private fun isValid(): Boolean {
-    return userId != null && (saltSkew == SALT_SKEW_NOT_INITIALIZED || saltValue != null)
-  }
+  /**
+   * User id used for reporting analytics. This id is pseudo-anonymous.
+   */
+  @field:SerializedName("userId")
+  public var userId: String? = null
 
-  companion object {
-    private const val SALT_SKEW_NOT_INITIALIZED = -1
+  @field:SerializedName("optedIn")
+  public var optedIn: Boolean = false
 
-    @VisibleForTesting
-    @JvmStatic
-    var dateProvider: DateProvider = DateProvider.SYSTEM
+  @field:SerializedName("debugDisablePublishing")
+  public val debugDisablePublishing: Boolean = false
 
-    private val EPOCH = LocalDate.ofEpochDay(0)
-    // the gate is used to ensure settings are only in process of loading once.
-    @Transient
-    private val gate = Any()
+  @field:SerializedName("saltValue")
+  public var saltValue = BigInteger.valueOf(0L)
 
-    @JvmStatic
-    private var instance: AnalyticsSettings? = null
+  @field:SerializedName("saltSkew")
+  public var saltSkew = AnalyticsSettings.SALT_SKEW_NOT_INITIALIZED
 
-    /**
-     * Gets the current salt skew, this is used by [.getSalt] to update the salt every 28
-     * days with a consistent window. This window size allows 4 week and 1 week analyses.
-     */
-    @VisibleForTesting
-    @JvmStatic
-    fun currentSaltSkew(): Int {
-      val now = LocalDate.from(
-        Instant.ofEpochMilli(dateProvider.now().time).atZone(ZoneOffset.UTC))
-      // Unix epoch was on a Thursday, but we want Monday to be the day the salt is refreshed.
-      val days = ChronoUnit.DAYS.between(EPOCH, now) + 3
-      return (days / 28).toInt()
-    }
 
-    /**
-     * Loads an existing settings file from disk, or creates a new valid settings object if none
-     * exists. In case of the latter, will try to load uid.txt for maintaining the same uid with
-     * previous metrics reporting.
-     *
-     * @throws IOException if there are any issues reading the settings file.
-     */
-    @VisibleForTesting
-    @Throws(IOException::class)
-    @JvmStatic
-    fun loadSettings(): AnalyticsSettings? {
-      val file = settingsFile
-      if (!file.exists()) {
-        return createNewAnalyticsSettings()
-      }
-      val channel = RandomAccessFile(file, "rw").channel
-      try {
-        lateinit var settings: AnalyticsSettings
-        channel.tryLock().use {
-          val inputStream = Channels.newInputStream(channel)
-          val gson = GsonBuilder().create()
-          settings = gson.fromJson(InputStreamReader(inputStream), AnalyticsSettings::class.java)
-          instance = settings
-        }
-        if (!settings.isValid()) {
-          return createNewAnalyticsSettings()
-        }
-        return settings
-      }
-      catch (e: OverlappingFileLockException) {
-        throw IOException("Unable to lock settings file " + file.toString(), e)
-      }
-      catch (e: JsonParseException) {
-        throw IOException("Unable to parse settings file " + file.toString(), e)
-      }
-
-    }
-
-    /**
-     * Creates a new settings object and writes it to disk. Will try to load uid.txt for maintaining
-     * the same uid with previous metrics reporting.
-     *
-     * @throws IOException if there are any issues writing the settings file.
-     */
-    @VisibleForTesting
-    @JvmStatic
-    @Throws(IOException::class)
-    fun createNewAnalyticsSettings(): AnalyticsSettings {
-      val settings = AnalyticsSettings()
-
-      val uidFile = Paths.get(AnalyticsPaths.getAndEnsureAndroidSettingsHome(), "uid.txt").toFile()
-      if (uidFile.exists()) {
-        try {
-          val uid = Files.readFirstLine(uidFile, Charsets.UTF_8)
-          settings.userId = uid
-        }
-        catch (e: IOException) {
-          // Ignore and set new UID.
-        }
-
-      }
-      if (settings.userId == null) {
-        settings.userId = UUID.randomUUID().toString()
-      }
-      settings.saveSettings()
-      return settings
-    }
-
-    /**
-     * Get or creates an instance of the settings. Uses the following strategies in order:
-     *
-     *
-     *  * Use existing instance
-     *  * Load existing 'analytics.settings' file from disk
-     *  * Create new 'analytics.settings' file
-     *  * Create instance without persistence
-     *
-     *
-     * Any issues reading/writing the config file will be logged to the logger.
-     */
-    @JvmStatic
-    fun getInstance(logger: ILogger): AnalyticsSettings {
-      synchronized(gate) {
-        if (instance != null) {
-          return instance!!
-        }
-        var loaded: AnalyticsSettings? = null
-        try {
-          loaded = loadSettings()
-        }
-        catch (e: IOException) {
-          logger.info("Unable to load analytics settings: %s", e.message)
-        }
-
-        if (loaded == null) {
-          try {
-            loaded = createNewAnalyticsSettings()
-          }
-          catch (e: IOException) {
-            logger.info("Unable to create new analytics settings: %s", e.message)
-          }
-        }
-        if (loaded == null) {
-          loaded = AnalyticsSettings()
-          loaded.userId = UUID.randomUUID().toString()
-        }
-        return loaded
-      }
-    }
-
-    /**
-     * Allows test to set a custom version of the AnalyticsSettings to test different setting
-     * states.
-     */
-    @VisibleForTesting
-    @JvmStatic
-    fun setInstanceForTest(settings: AnalyticsSettings?) {
-      instance = settings
-    }
-
-    /**
-     * Helper to get the file to read/write settings from based on the configured android settings
-     * home.
-     */
-    private val settingsFile: File
-      get() = Paths.get(AnalyticsPaths.getAndEnsureAndroidSettingsHome(), "analytics.settings").toFile()
-  }
 }
+
+
+

@@ -39,7 +39,7 @@ class AnonymizerTest {
       testConfigDir.root.toPath().toString())
     try {
       // Prepopulate AnalysisSettings.
-      AnalyticsSettings.setInstanceForTest(AnalyticsSettings())
+      AnalyticsSettings.setInstanceForTest(AnalyticsSettingsData())
 
       // Set date to a specific skew range.
       AnalyticsSettings.dateProvider = StubDateProvider(2016, 3, 18)
