@@ -214,6 +214,7 @@ enum GradleTaskExecutionType {
     JACOCO=161;
     BUNDLE_TO_STANDALONE_APK = 162;
     SHRINK_BUNDLE_RESOURCES = 163;
+    DEX_MERGING = 164;
 }
 
 enum BooleanOption {
@@ -280,6 +281,7 @@ enum BooleanOption {
     ENABLE_PROGUARD_RULES_EXTRACTION = 60;
     INJECT_SDK_MAVEN_REPOS = 61;
     NAMESPACED_R_CLASS = 62;
+    ENABLE_DEXING_ARTIFACT_TRANSFORM = 63;
 }
 
 enum OptionalBooleanOption {
