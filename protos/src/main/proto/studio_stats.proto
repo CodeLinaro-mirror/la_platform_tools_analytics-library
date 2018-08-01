@@ -25,6 +25,8 @@ message AndroidStudioEvent {
   optional string studio_session_id = 3;
 
   // Fully set when kind = STUDIO_PING
+  // or ANDROID_STUDIO_TEST
+  // or ANDROID_STUDIO_THROUGH_GRADLE
   // or kind = EMULATOR_PING
   // or kind = TEST_RUN.
   // The version field is set for most messages.
@@ -497,7 +499,7 @@ message AndroidStudioEvent {
     GFX_TRACE_TRACE_STARTED = 85;
     // The GPU Debugger tracing was stopped.
     GFX_TRACE_TRACE_STOPPED = 86;
-    // A UI command influencing the the GPU Debugger was selected.
+    // A UI command influencing the GPU Debugger was selected.
     GFX_TRACE_COMMAND_SELECTED = 87;
     // A link from  the GPU Debugger tracing results was clicked.
     GFX_TRACE_LINK_CLICKED = 88;
@@ -993,6 +995,7 @@ message EmulatorGpuInfo {
 message EmulatorFeatures {
   optional bool gps = 1;
   optional bool sensors = 2;
+  optional bool virtualscene_config = 3;
 }
 
 // A description of a single file from an AVD.
@@ -1097,8 +1100,14 @@ message EmulatorFeatureFlagState {
     IGNORE_HOST_OPENGL_ERRORS = 21;
     GENERIC_SNAPSHOTS_UI = 22;
     ALLOW_SNAPSHOT_MIGRATION = 23;
-    GENERIC_INCREMENTAL_SNAPSHOT = 24;
-    // Next tag: 25
+    DEPRECATED_GENERIC_INCREMENTAL_SNAPSHOT = 24 [deprecated = true];
+    WINDOWS_ON_DEMAND_SNAPSHOT_LOAD = 25;
+    WINDOWS_HYPERVISOR_PLATFORM = 26;
+    KERNEL_DEVICE_TREE_BLOB_SUPPORT = 27;
+    LOCATION_UI_V2 = 28;
+    GENERIC_INCREMENTAL_SNAPSHOT = 29;
+    SNAPSHOT_ADB = 30;
+    // Next tag: 31
   }
   // Which features were enabled by default or through the server-side config.
   repeated EmulatorFeatureFlag attempted_enabled_feature_flags = 1;
@@ -1129,6 +1138,8 @@ enum EmulatorSnapshotFlags {
   SNAPSHOT_FLAGS_RAM_COMPRESSED_BIT = 1;
   // Textures are compressed in this snapshot.
   SNAPSHOT_FLAGS_TEXTURES_COMPRESSED_BIT = 2;
+  // Hard disk drive was used.
+  SNAPSHOT_FLAGS_HDD_BIT = 3;
 }
 
 // Generic snapshot save states. Distinguished
@@ -3316,7 +3327,7 @@ message AndroidAttribute {
     // a Google library.
     APPLICATION = 2;
     // This attribute is used in the design preview only. It does not affect
-    // the the Android application at runtime.
+    // the Android application at runtime.
     TOOLS = 3;
   }
 
@@ -4584,11 +4595,11 @@ message StudioToolWindowActionStats {
   enum EventType {
     UNKNOWN_EVENT_TYPE = 0;
 
-    REGISTERED = 1;
+    REGISTERED_EVENT_TYPE = 1;
 
-    OPEN = 2;
+    OPEN_EVENT_TYPE = 2;
 
-    CLOSED = 3;
+    CLOSED_EVENT_TYPE = 3;
   }
   // Id of the tool window
   // e.g. 'Assistant'
