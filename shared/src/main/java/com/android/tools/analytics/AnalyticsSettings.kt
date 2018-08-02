@@ -237,6 +237,7 @@ object AnalyticsSettings {
    * Writes this settings object to disk.
    * @throws IOException if there are any issues writing the settings file.
    */
+  @JvmStatic
   @Throws(IOException::class)
   fun saveSettings() {
     instance?.saveSettings()
@@ -246,7 +247,6 @@ object AnalyticsSettings {
   internal fun isValid(settings : AnalyticsSettingsData): Boolean {
     return settings.userId != null && (settings.saltSkew == AnalyticsSettings.SALT_SKEW_NOT_INITIALIZED || settings.saltValue != null)
   }
-
 }
 
 class AnalyticsSettingsData {

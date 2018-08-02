@@ -142,6 +142,9 @@ object UsageTracker {
    */
   @JvmStatic
   fun initialize(scheduler: ScheduledExecutorService): UsageTrackerWriter {
+    if (isTesting) {
+      return writer
+    }
     synchronized(gate) {
       val oldInstance = writer
       if (AnalyticsSettings.optedIn) {
@@ -196,34 +199,5 @@ object UsageTracker {
   fun cleanAfterTesting() {
     isTesting = false
     writer = NullUsageTracker
-  }
-
-  @JvmStatic
-  fun updateSettingsAndTracker(
-    optIn: Boolean, logger: ILogger, scheduler: ScheduledExecutorService
-  ) {
-    AnalyticsSettings.initialize(logger)
-
-    if (isTesting) {
-      // Don't persist test settings or close tracker
-      return
-    }
-
-    if (optIn != AnalyticsSettings.optedIn) {
-      AnalyticsSettings.optedIn = optIn
-      try {
-        AnalyticsSettings.saveSettings()
-      }
-      catch (e: IOException) {
-        logger.error(e, "Unable to save analytics settings")
-      }
-
-    }
-    try {
-      initialize(scheduler)
-    }
-    catch (e: Exception) {
-      logger.error(e, "Unable to initialize analytics tracker")
-    }
   }
 }

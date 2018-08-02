@@ -434,54 +434,6 @@ class JournalingUsageTrackerTest {
     }
   }
 
-  @Test
-  @Throws(IOException::class)
-  fun updateSettingsAndTrackerTest() {
-    val beforeUpdate = UsageTracker.writerForTest
-    assertTrue(beforeUpdate is NullUsageTracker)
-    // Configure the paths to use a temp directory for reading from and writing to.
-    EnvironmentFakes.setCustomAndroidSdkHomeEnvironment(
-      testConfigDir.root.toPath().toString())
-    try {
-      val settingsFile = testConfigDir.root.toPath().resolve("analytics.settings").toFile()
-      assertFalse(settingsFile.exists())
-
-      // Setup up an instance of the JournalingUsageTracker using a temp spool directory and
-      // virtual time scheduler.
-      val virtualTimeScheduler = VirtualTimeScheduler()
-
-      // updating to opt-in false from scratch should set NullUsageTracker
-      // and initialize settings.
-      UsageTracker.updateSettingsAndTracker(
-        false, StdLogger(StdLogger.Level.INFO), virtualTimeScheduler)
-      assertTrue(settingsFile.exists())
-      val afterFirstUpdate = UsageTracker.writerForTest
-      assertTrue(afterFirstUpdate is NullUsageTracker)
-      assertFalse(AnalyticsSettings.optedIn)
-
-      // updating to opt-in true should update settings and initialize JournalingUsageTracker.
-      val settings2 = UsageTracker.updateSettingsAndTracker(
-        true, StdLogger(StdLogger.Level.INFO), virtualTimeScheduler)
-      val afterSecondUpdate = UsageTracker.writerForTest
-      assertTrue(afterSecondUpdate is JournalingUsageTracker)
-      assertTrue(AnalyticsSettings.optedIn)
-      assertEquals(virtualTimeScheduler,
-                   (UsageTracker.writerForTest as JournalingUsageTracker).scheduler)
-
-      // updating to opt-in false should update settings and initialize NullUsageTracker.
-      UsageTracker.updateSettingsAndTracker(
-        false, StdLogger(StdLogger.Level.INFO), virtualTimeScheduler)
-      val afterThirdUpdate = UsageTracker.writerForTest
-      assertTrue(afterThirdUpdate is NullUsageTracker)
-      assertFalse(AnalyticsSettings.optedIn)
-
-      // now that we have a NullTracker, no spool files should be locked.
-      assertTrue(getSpoolDetails(testSpoolDir.root.toPath()).lockedFiles.isEmpty())
-    }
-    finally {
-      EnvironmentFakes.setSystemEnvironment()
-    }
-  }
 
   @Test
   @Throws(Exception::class)
