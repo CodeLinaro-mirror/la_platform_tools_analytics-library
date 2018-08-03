@@ -4116,6 +4116,8 @@ message GradleSyncStats {
     GRADLE_SYNC_TYPE_COMPOUND = 3;
     // Shipped sync
     GRADLE_SYNC_TYPE_SHIPPED = 4;
+    // New sync (without other features)
+    GRADLE_SYNC_TYPE_NEW_SYNC = 5;
   }
 }
 
