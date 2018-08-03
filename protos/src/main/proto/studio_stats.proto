@@ -4083,6 +4083,8 @@ message GradleSyncStats {
   optional int64 ide_time_ms = 4;
   // Whether the embedded maven repository is enabled
   optional bool embedded_repo_enabled = 5;
+  // What type of sync was performed
+  optional GradleSyncType sync_type = 6;
 
   // List of triggers for gradle Sync
   enum Trigger {
@@ -4100,6 +4102,20 @@ message GradleSyncStats {
     TRIGGER_VARIANT_SELECTION_CHANGED_BY_USER = 5;
     // Project modifications done by PSD
     TRIGGER_PSD_CHANGES = 6;
+  }
+
+  // List of sync types
+  enum GradleSyncType {
+    // Default (used to identify sync done before we tracked this)
+    GRADLE_SYNC_TYPE_UNKNOWN = 0;
+    // IDEA sync
+    GRADLE_SYNC_TYPE_IDEA = 1;
+    // Single variant sync
+    GRADLE_SYNC_TYPE_SINGLE_VARIANT = 2;
+    // Compound sync
+    GRADLE_SYNC_TYPE_COMPOUND = 3;
+    // Shipped sync
+    GRADLE_SYNC_TYPE_SHIPPED = 4;
   }
 }
 
