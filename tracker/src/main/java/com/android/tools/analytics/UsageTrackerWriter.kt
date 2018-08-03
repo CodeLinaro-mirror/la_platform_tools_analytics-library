@@ -34,7 +34,7 @@ abstract class UsageTrackerWriter : AutoCloseable {
 
   /** Logs usage data provided in the [AndroidStudioEvent].  */
   fun logNow(studioEvent: AndroidStudioEvent.Builder) {
-    logAt(UsageTracker.dateProvider.now().time, studioEvent)
+    logAt(AnalyticsSettings.dateProvider.now().time, studioEvent)
   }
 
   /** Logs usage data provided in the [AndroidStudioEvent] with provided event time.  */
@@ -53,7 +53,6 @@ abstract class UsageTrackerWriter : AutoCloseable {
     logDetails(
       ClientAnalytics.LogEvent.newBuilder()
         .setEventTimeMs(eventTimeMs)
-        .setEventUptimeMs(eventTimeMs - UsageTracker.startTimeMs)
         .setSourceExtension(studioEvent.build().toByteString()))
   }
 

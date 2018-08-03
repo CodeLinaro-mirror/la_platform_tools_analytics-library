@@ -443,7 +443,7 @@ class JournalingUsageTrackerTest {
     // move time ahead by one minutes to use as the start time of the application/logging framework
     virtualTimeScheduler.advanceBy(1, TimeUnit.MINUTES)
     val dateProvider = VirtualTimeDateProvider(virtualTimeScheduler)
-    UsageTracker.dateProvider = dateProvider
+    AnalyticsSettings.dateProvider = dateProvider
     try {
       val journalingUsageTracker = JournalingUsageTracker(
         virtualTimeScheduler,
@@ -468,14 +468,12 @@ class JournalingUsageTrackerTest {
         // with only one log entry
         assertEquals(1, value.size.toLong())
         val logEntry = value[0]
-        // the application should be running for two minutes
-        assertEquals(TimeUnit.MINUTES.toMillis(2), logEntry.eventUptimeMs)
         // and the event should be recorded at 3 minutes since epoch.
         assertEquals(TimeUnit.MINUTES.toMillis(3), logEntry.eventTimeMs)
       }
     }
     finally {
-      UsageTracker.dateProvider = DateProvider.SYSTEM
+      AnalyticsSettings.dateProvider = DateProvider.SYSTEM
       UsageTracker.cleanAfterTesting()
     }
   }

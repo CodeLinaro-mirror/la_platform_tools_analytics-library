@@ -123,8 +123,8 @@ class AnalyticsPublisherTest {
           // Override the date provider to the publisher so we can reliably check if date based
           // properties are set correctly.
           val dateProvider = VirtualTimeDateProvider(vs)
-          UsageTracker.dateProvider = dateProvider
-          GoogleAnalyticsPublisher.dateProvider = dateProvider
+          AnalyticsSettings.dateProvider = dateProvider
+
           // move the scheduler ahead so we get non zero values for the date provider.
           vs.advanceBy(1, TimeUnit.MINUTES)
 
@@ -149,7 +149,6 @@ class AnalyticsPublisherTest {
 
           // verify the retrieved proto is shaped as expected.
           assertEquals(660000, request.requestTimeMs)
-          assertEquals(600000, request.requestUptimeMs)
 
           assertEquals(
             ClientAnalytics.LogRequest.LogSource.ANDROID_STUDIO, request.logSource)
@@ -186,8 +185,7 @@ class AnalyticsPublisherTest {
       }
     }
     finally {
-      GoogleAnalyticsPublisher.dateProvider = DateProvider.SYSTEM
-      UsageTracker.dateProvider = DateProvider.SYSTEM
+      AnalyticsSettings.dateProvider = DateProvider.SYSTEM
       cleanEnvironment()
     }
     // ensure the spool directory is empty after succesfully publishing the analytics.
@@ -305,8 +303,7 @@ class AnalyticsPublisherTest {
           // As we're checking upload byte sizes and the size varies by the value for
           // time, we need to fix the time in this test.
           val dateProvider = VirtualTimeDateProvider(vs)
-          GoogleAnalyticsPublisher.dateProvider = dateProvider
-          UsageTracker.dateProvider = dateProvider
+          AnalyticsSettings.dateProvider = dateProvider
 
           var journalingUsageTracker = JournalingUsageTracker(vs, testSpoolDir.root.toPath())
 
@@ -409,8 +406,7 @@ class AnalyticsPublisherTest {
       }
     }
     finally {
-      GoogleAnalyticsPublisher.dateProvider = DateProvider.SYSTEM
-      UsageTracker.dateProvider = DateProvider.SYSTEM
+      AnalyticsSettings.dateProvider = DateProvider.SYSTEM
       cleanEnvironment()
     }
   }

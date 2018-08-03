@@ -26,6 +26,7 @@ import com.google.gson.JsonParseException
 import com.google.gson.annotations.SerializedName
 import java.io.*
 import java.math.BigInteger
+import java.net.URL
 import java.nio.channels.Channels
 import java.nio.channels.OverlappingFileLockException
 import java.nio.file.Paths
@@ -35,6 +36,7 @@ import java.time.LocalDate
 import java.time.ZoneOffset
 import java.time.temporal.ChronoUnit
 import java.util.*
+import java.util.concurrent.ScheduledExecutorService
 
 /**
  * Settings related to analytics reporting. These settings are stored in
@@ -167,6 +169,9 @@ object AnalyticsSettings {
     return settings
   }
 
+  @JvmStatic
+  var googlePlayDateProvider: WebServerDateProvider? = null
+
   /**
    * Get or creates an instance of the settings. Uses the following strategies in order:
    *
@@ -180,12 +185,22 @@ object AnalyticsSettings {
    * Any issues reading/writing the config file will be logged to the logger.
    */
   @JvmStatic
-  fun initialize(logger: ILogger) {
+  @JvmOverloads
+  fun initialize(logger: ILogger, scheduler: ScheduledExecutorService? = null) {
     synchronized(gate) {
       if (instance != null) {
         return
       }
       instance = loadSettingsData(logger)
+    }
+    scheduler?.submit {
+      try {
+        val gp = WebServerDateProvider(URL("https://play.google.com/"))
+        dateProvider = gp
+        googlePlayDateProvider = gp
+      } catch(e: IOException) {
+        logger.error(e, "Unable to get current time from Google's servers")
+      }
     }
   }
 

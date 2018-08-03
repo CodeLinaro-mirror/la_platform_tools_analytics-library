@@ -19,8 +19,6 @@ import com.android.tools.analytics.stubs.StubDateProvider
 import com.android.utils.DateProvider
 import com.android.utils.ILogger
 import com.google.common.base.Charsets
-import com.google.gson.JsonParseException
-import org.hamcrest.core.IsInstanceOf
 import org.junit.Assert.*
 import org.junit.Rule
 import org.junit.Test

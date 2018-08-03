@@ -75,7 +75,6 @@ class TestUsageTrackerTest {
     // ensure that virtual time has moved as we instructed.
     assertEquals(TimeUnit.MILLISECONDS.toNanos(2), usage.timestamp)
     assertEquals(2, usage.logEvent.eventTimeMs)
-    assertEquals(1, usage.logEvent.eventUptimeMs)
   }
 
   @Test

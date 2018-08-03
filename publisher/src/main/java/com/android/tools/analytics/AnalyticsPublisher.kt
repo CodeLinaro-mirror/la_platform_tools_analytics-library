@@ -84,7 +84,7 @@ abstract class AnalyticsPublisher protected constructor() : AutoCloseable {
       logger: ILogger,
       scheduler: ScheduledExecutorService,
       applicationBuild: String) {
-      AnalyticsSettings.initialize(logger)
+      AnalyticsSettings.initialize(logger, scheduler)
       val current = instance
       try {
         current.close()

@@ -27,9 +27,7 @@ class TestUsageTracker(val scheduler: VirtualTimeScheduler) : UsageTrackerWriter
     // in order to ensure reproducible anonymized values & timestamps are reported,
     // set a date provider based on the virtual time scheduler.
     val dateProvider = VirtualTimeDateProvider(scheduler)
-    UsageTracker.dateProvider = dateProvider
     AnalyticsSettings.dateProvider = dateProvider
-    UsageTracker.startTimeMs = UsageTracker.dateProvider.now().time
     androidSdkHomeEnvironment = Files.createTempDir()
     EnvironmentFakes.setCustomAndroidSdkHomeEnvironment(androidSdkHomeEnvironment.path)
   }
@@ -55,7 +53,6 @@ class TestUsageTracker(val scheduler: VirtualTimeScheduler) : UsageTrackerWriter
 
     // Clean up the virtual time data provider after the test is done.
     val dateProvider = VirtualTimeDateProvider(scheduler)
-    UsageTracker.dateProvider = dateProvider
     AnalyticsSettings.dateProvider = dateProvider
     FileUtils.deleteDirectoryContents(androidSdkHomeEnvironment)
     Environment.instance = Environment.SYSTEM

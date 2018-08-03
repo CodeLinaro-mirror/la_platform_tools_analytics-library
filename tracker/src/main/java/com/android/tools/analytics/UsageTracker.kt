@@ -41,14 +41,6 @@ object UsageTracker {
   @JvmStatic
   var sessionId = UUID.randomUUID().toString()
 
-  @VisibleForTesting
-  @JvmStatic
-  var dateProvider: DateProvider = DateProvider.SYSTEM
-
-  @JvmStatic
-  @VisibleForTesting
-  var startTimeMs = dateProvider.now().time
-
   @JvmStatic
   private var writer: UsageTrackerWriter = NullUsageTracker
   private var isTesting: Boolean = false
@@ -185,7 +177,6 @@ object UsageTracker {
       isTesting = true
       val old = writer
       writer = tracker
-      startTimeMs = dateProvider.now().time
       return old
     }
   }

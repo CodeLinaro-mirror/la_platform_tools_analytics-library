@@ -16,8 +16,6 @@
 
 package com.android.tools.analytics
 
-import com.android.annotations.VisibleForTesting
-import com.android.utils.DateProvider
 import com.android.utils.ILogger
 import com.android.utils.StdLogger
 import com.google.common.io.CountingOutputStream
@@ -84,7 +82,6 @@ internal constructor(
   private var publishJob: ScheduledFuture<*>? = null
   private var scheduleVersion = 0
   private var serverUrl_ = defaultServerUrl
-  private val startTime = dateProvider.now().time
   private var bytesSentInLastPublish: Long = 0
   private var failedConnections = 0
   private var failedServerReplies = 0
@@ -168,7 +165,7 @@ internal constructor(
           }
           else {
             // Add the meta metric log and build a LogRequest.
-            val now = dateProvider.now().time
+            val now = AnalyticsSettings.dateProvider.now().time
             entries.add(0, getMetaMetric(now))
             val request = buildLogRequest(entries, now)
 
@@ -267,6 +264,11 @@ internal constructor(
 
     connection.connect()
 
+    // Use headers from result to update our dateProvider to avoid clock skew (e.g. from the user changing the clock).
+    if (AnalyticsSettings.googlePlayDateProvider != null) {
+      AnalyticsSettings.googlePlayDateProvider!!.updateServerTimestampFromExistingConnection(connection)
+    }
+
     val responseCode = connection.responseCode
     if (!isSuccess(responseCode)) {
       logger.error(null,
@@ -282,7 +284,6 @@ internal constructor(
     entries: List<ClientAnalytics.LogEvent>, time: Long): ClientAnalytics.LogRequest {
     return ClientAnalytics.LogRequest.newBuilder(baseLogRequest)
       .setRequestTimeMs(time)
-      .setRequestUptimeMs(time - startTime)
       .addAllLogEvent(entries)
       .build()
   }
@@ -360,10 +361,6 @@ internal constructor(
     // methods that operate on various variables at once. We synchronize any method that operates
     // on multiple variables or access members of those variables (e.g. method calls).
     private val gate = Any()
-
-    @VisibleForTesting
-    @JvmField
-    var dateProvider: DateProvider = DateProvider.SYSTEM
 
     /**
      * A helper to set the default server URL in the constructor, removes exception from the
