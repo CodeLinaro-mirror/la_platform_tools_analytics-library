@@ -211,6 +211,8 @@ enum GradleTaskExecutionType {
     APPLICATION_ID_WRITER = 158;
     KAPT_WITH_KOTLINC = 159;
     KAPT_WITHOUT_KOTLINC = 160;
+    BUNDLE_TO_STANDALONE_APK = 162;
+    SHRINK_BUNDLE_RESOURCES = 163;
 }
 
 enum BooleanOption {
