@@ -87,7 +87,7 @@ class AnalyticsSettingsTest {
     EnvironmentFakes.setCustomAndroidSdkHomeEnvironment(testConfigDir.root.toString())
     try {
       // Write a json settings file.
-      val json = "{ userId: \"a4d47d92-8d4c-44bb-a8a4-d2483b6e0c16\", optedIn: true }"
+      val json = "{ userId: \"a4d47d92-8d4c-44bb-a8a4-d2483b6e0c16\", hasOptedIn: true }"
       Files.write(
         testConfigDir.root.toPath().resolve("analytics.settings"),
         json.toByteArray(Charsets.UTF_8))
@@ -101,7 +101,7 @@ class AnalyticsSettingsTest {
       assertTrue(AnalyticsSettings.optedIn)
 
       // Write another json settings file
-      val json2 = "{ userId: \"06120264-c9e7-492f-a39c-89c3cbee57c5\", optedIn: false }"
+      val json2 = "{ userId: \"06120264-c9e7-492f-a39c-89c3cbee57c5\", hasOptedIn: false }"
       Files.write(
         testConfigDir.root.toPath().resolve("analytics.settings"),
         json2.toByteArray(Charsets.UTF_8))
@@ -149,7 +149,7 @@ class AnalyticsSettingsTest {
       testConfigDir.root.toPath().toString())
     try {
       // Write non-valid json file content.
-      val json = "{\"optedIn\":true,\"saltValue\":746227786052768374406922174584132630757738414714263142088,\"saltSkew\":632}"
+      val json = "{\"hasOptedIn\":true,\"saltValue\":746227786052768374406922174584132630757738414714263142088,\"saltSkew\":632}"
       Files.write(
         testConfigDir.root.toPath().resolve("analytics.settings"),
         json.toByteArray(Charsets.UTF_8))
@@ -261,7 +261,7 @@ class AnalyticsSettingsTest {
 
     try {
       // Start with an existing config on disk.
-      val json = "{ userId: \"a4d47d92-8d4c-44bb-a8a4-d2483b6e0c16\", optedIn: true }"
+      val json = "{ userId: \"a4d47d92-8d4c-44bb-a8a4-d2483b6e0c16\", hasOptedIn: true }"
       Files.write(
         testConfigDir.root.toPath().resolve("analytics.settings"),
         json.toByteArray(Charsets.UTF_8))

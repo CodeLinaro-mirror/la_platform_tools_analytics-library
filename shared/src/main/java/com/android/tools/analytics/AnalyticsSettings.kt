@@ -300,7 +300,7 @@ class AnalyticsSettingsData {
   @field:SerializedName("userId")
   public var userId: String? = null
 
-  @field:SerializedName("optedIn")
+  @field:SerializedName("hasOptedIn")
   public var optedIn: Boolean = false
 
   @field:SerializedName("debugDisablePublishing")
