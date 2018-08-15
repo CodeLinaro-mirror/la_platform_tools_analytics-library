@@ -150,6 +150,7 @@ message AndroidStudioEvent {
   // set when kind = STUDIO_PROCESS_STATS
   // or kind = GRADLE_BUILD_PROFILE
   // or kind = STUDIO_UI_OOM_DIALOG_EVENT
+  // or kind = STUDIO_LOW_MEMORY_EVENT
   optional JavaProcessStats java_process_stats = 37;
 
   // set when kind = STUDIO_PERFORMANCE_STATS
@@ -680,6 +681,9 @@ message AndroidStudioEvent {
 
     // Deploying and running apps from studio
     RUN_EVENT = 167;
+
+    // Studio's LowMemoryWatcher triggered
+    STUDIO_LOW_MEMORY_EVENT = 168;
   }
 
   // Represents different Performance Monitoring types.
