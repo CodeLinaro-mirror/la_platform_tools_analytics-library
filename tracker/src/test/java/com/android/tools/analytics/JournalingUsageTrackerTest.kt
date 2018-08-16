@@ -478,6 +478,30 @@ class JournalingUsageTrackerTest {
     }
   }
 
+  @Test
+  fun uninitializedTest() {
+    // without the idea.is.internal property UsageTracker should noop when uninitialized
+    UsageTracker.log(AndroidStudioEvent.newBuilder()
+                     .setKind(AndroidStudioEvent.EventKind.EMULATOR_PING))
+
+    // with the idea.is.internal property, UsageTracker should throw when uninitialized
+    System.setProperty("idea.is.internal", "true")
+    try {
+      // without the idea.is.internal property UsageTracker should noop when uninitialized
+      UsageTracker.log(AndroidStudioEvent.newBuilder()
+                         .setKind(AndroidStudioEvent.EventKind.EMULATOR_PING))
+      fail("should have thrown RuntimeException")
+    }
+    catch (_: RuntimeException) {
+      // expected
+    }
+
+    // with the idea.is.internal property but initialized, calls should be made as normal
+    UsageTracker.setWriterForTest(NullUsageTracker)
+    UsageTracker.log(AndroidStudioEvent.newBuilder()
+                       .setKind(AndroidStudioEvent.EventKind.EMULATOR_PING))
+  }
+
   /**
    * Helper that builds a [AndroidStudioEvent] with a marker to distinguish this message.
    */

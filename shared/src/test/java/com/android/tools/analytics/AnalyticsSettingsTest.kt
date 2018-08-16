@@ -389,4 +389,26 @@ class AnalyticsSettingsTest {
       EnvironmentFakes.setSystemEnvironment()
     }
   }
+
+  @Test
+  fun uninitializedTest() {
+    AnalyticsSettings.setInstanceForTest(null)
+    // without the idea.is.internal property AnalyticsSettings should return false when uninitialized
+    assertFalse(AnalyticsSettings.optedIn)
+
+    // with the idea.is.internal property. AnalyticsSettings should throw when uninitialized
+    System.setProperty("idea.is.internal", "true")
+    try {
+      AnalyticsSettings.optedIn
+      fail("should have thrown RuntimeException")
+    }
+    catch (_: RuntimeException) {
+      // expected
+    }
+    // with the idea.is.internal property but initialized, data should be returned as normal
+    val data = AnalyticsSettingsData()
+    data.optedIn = true
+    AnalyticsSettings.setInstanceForTest(data)
+    assertTrue(AnalyticsSettings.optedIn)
+  }
 }

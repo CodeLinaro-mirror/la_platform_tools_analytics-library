@@ -43,9 +43,12 @@ import java.util.concurrent.ScheduledExecutorService
  * ~/.android/analytics.settings as a json file.
  */
 object AnalyticsSettings {
+  private var initialized = false
+
   val userId : String
     get() {
       synchronized(gate) {
+        ensureInitialized()
         return instance?.userId ?: ""
       }
     }
@@ -54,6 +57,7 @@ object AnalyticsSettings {
   var optedIn : Boolean
     get() {
       synchronized(gate) {
+        ensureInitialized()
         return instance?.optedIn ?: false
       }
     }
@@ -65,10 +69,20 @@ object AnalyticsSettings {
     }
   }
 
+  private fun ensureInitialized() {
+    if (!initialized && java.lang.Boolean.getBoolean("idea.is.internal")) {
+      // Android Studio Developers: If you hit this exception, you're trying to find out the status
+      // of AnalyticsSettings before the system has been initialized. Please reach out the the owners
+      // of this code to figure out how best to do these checks instead of getting null values.
+      throw RuntimeException("call to AnalyticsSettings before initialization")
+    }
+  }
+
   @JvmStatic
   val debugDisablePublishing: Boolean
     get() {
       synchronized(gate) {
+        ensureInitialized()
         return instance?.debugDisablePublishing ?: false
       }
     }
@@ -191,6 +205,7 @@ object AnalyticsSettings {
       if (instance != null) {
         return
       }
+      initialized = true
       instance = loadSettingsData(logger)
     }
     scheduler?.submit {
@@ -211,7 +226,10 @@ object AnalyticsSettings {
   @VisibleForTesting
   @JvmStatic
   fun setInstanceForTest(settings: AnalyticsSettingsData?) {
-    instance = settings
+    synchronized(gate) {
+      instance = settings
+      initialized = instance != null
+    }
   }
 
   /**
@@ -255,6 +273,7 @@ object AnalyticsSettings {
   @JvmStatic
   @Throws(IOException::class)
   fun saveSettings() {
+    ensureInitialized()
     instance?.saveSettings()
   }
 

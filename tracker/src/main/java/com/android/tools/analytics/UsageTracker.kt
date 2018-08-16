@@ -17,10 +17,7 @@
 package com.android.tools.analytics
 
 import com.android.annotations.VisibleForTesting
-import com.android.utils.DateProvider
-import com.android.utils.ILogger
 import com.google.wireless.android.sdk.stats.AndroidStudioEvent
-import java.io.IOException
 import java.nio.file.Paths
 import java.util.*
 import java.util.concurrent.ScheduledExecutorService
@@ -36,6 +33,8 @@ import java.util.concurrent.TimeUnit
  */
 object UsageTracker {
   private val gate = Any()
+
+  private var initialized = false
 
   @VisibleForTesting
   @JvmStatic
@@ -107,6 +106,7 @@ object UsageTracker {
   @JvmStatic
   fun setMaxJournalTime(duration: Long, unit: TimeUnit) {
     synchronized(gate) {
+      ensureInitialized()
       maxJournalTime = unit.toNanos(duration)
       writer.scheduleJournalTimeout(maxJournalTime)
     }
@@ -116,6 +116,7 @@ object UsageTracker {
   @JvmStatic
   fun log(studioEvent: AndroidStudioEvent.Builder) {
     synchronized(gate) {
+      ensureInitialized()
       writer.logNow(studioEvent)
     }
   }
@@ -124,7 +125,17 @@ object UsageTracker {
   @JvmStatic
   fun log(eventTimeMs: Long, studioEvent: AndroidStudioEvent.Builder) {
     synchronized(gate) {
+      ensureInitialized()
       writer.logAt(eventTimeMs, studioEvent)
+    }
+  }
+
+  private fun ensureInitialized() {
+    if (!initialized && java.lang.Boolean.getBoolean("idea.is.internal")) {
+      // Android Studio Developers: If you hit this exception, you're trying to log metrics before
+      // our metrics system has been initialized. Please reach out the the owners of this code
+      // to figure out how best to do your logging instead of sending it into the void.
+      throw RuntimeException("call to UsageTracker before initialization")
     }
   }
 
@@ -162,6 +173,7 @@ object UsageTracker {
         throw RuntimeException("Unable to close usage tracker", ex)
       }
 
+      initialized = true
       return writer
     }
   }
@@ -175,6 +187,7 @@ object UsageTracker {
   fun setWriterForTest(tracker: UsageTrackerWriter): UsageTrackerWriter {
     synchronized(gate) {
       isTesting = true
+      initialized = true
       val old = writer
       writer = tracker
       return old
@@ -190,5 +203,6 @@ object UsageTracker {
   fun cleanAfterTesting() {
     isTesting = false
     writer = NullUsageTracker
+    initialized = false
   }
 }
