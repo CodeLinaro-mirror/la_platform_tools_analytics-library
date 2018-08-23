@@ -4889,6 +4889,8 @@ message UserSentiment {
     UNKNOWN_SENTIMENT_STATE = 0;
     POSITIVE = 1;
     NEGATIVE = 2;
+    // The user is feeling strong enough about the issue to start filing a bug.
+    FILE_BUG = 3;
   }
 }
 
