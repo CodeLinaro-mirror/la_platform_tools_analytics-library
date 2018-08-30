@@ -286,6 +286,7 @@ enum BooleanOption {
     NAMESPACED_R_CLASS = 62;
     ENABLE_DEXING_ARTIFACT_TRANSFORM = 63;
     DEPLOY_AS_INSTANT_APP = 64;
+    IDE_EXTRACT_INSTANT = 65;
 }
 
 enum OptionalBooleanOption {
