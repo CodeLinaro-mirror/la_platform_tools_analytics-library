@@ -784,6 +784,8 @@ message AndroidStudioEvent {
     APP_WIDGET = 35;
     ANDROID_INSTANT_APP_PROJECT = 36;
     ANDROID_INSTANT_APP_MODULE = 37;
+    ANDROID_INSTANT_APP_BUNDLE_PROJECT = 38;
+    ANDROID_INSTANT_APP_DYNAMIC_MODULE = 39;
   }
 
   // Reasons Gradle sync failed.
