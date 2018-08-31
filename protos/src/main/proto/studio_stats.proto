@@ -4511,6 +4511,11 @@ message RunEvent {
   optional int64 end_launch_tasks_timestamp_ms = 17;
   // The run cycle finished
   optional int64 end_timestamp_ms = 18;
+
+  // Whether the run configuration was set to deploy as instant
+  optional bool deployed_as_instant = 19;
+  // Whether the run configuration was set to deploy from app bundle
+  optional bool deployed_from_bundle = 20;
 }
 
 message LaunchTaskDetail {
