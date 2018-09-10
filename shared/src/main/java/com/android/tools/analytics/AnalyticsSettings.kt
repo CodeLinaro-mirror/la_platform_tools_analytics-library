@@ -45,6 +45,7 @@ import java.util.concurrent.ScheduledExecutorService
 object AnalyticsSettings {
   private var initialized = false
 
+  @JvmStatic
   val userId : String
     get() {
       synchronized(gate) {
