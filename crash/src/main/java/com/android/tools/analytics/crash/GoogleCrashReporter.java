@@ -66,13 +66,13 @@ public class GoogleCrashReporter implements CrashReporter {
    * Executor to use when uploading crash events. Earlier versions relied on the ForkJoin pool, but this causes
    * issues if we generate lots of exceptions within a short time - See https://code.google.com/p/android/issues/detail?id=230109.
    * This executor is configured such that it only allows a maximum of 5 threads to ever be alive for the purpose of uploading events,
-   * with a backlog of 5 more in the queue. If the queue is full, then subsequent submissions to the queue are rejected.
+   * with a backlog of 30 more in the queue. If the queue is full, then subsequent submissions to the queue are rejected.
    */
   private static final ExecutorService ourExecutor =
     new ThreadPoolExecutor(1,
                            5,
                            1, TimeUnit.MINUTES,
-                           new LinkedBlockingDeque<>(5),
+                           new LinkedBlockingDeque<>(30),
                            new ThreadFactoryBuilder().setDaemon(true).setNameFormat("google-crash-pool-%d").build(),
                            (r, executor) -> {
                              ourRejectedExecutionCount.incrementAndGet();
