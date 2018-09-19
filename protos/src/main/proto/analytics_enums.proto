@@ -220,6 +220,7 @@ enum GradleTaskExecutionType {
     MERGE_CONSUMER_PROGUARD_FILES = 167;
     PROCESS_ANNOTATIONS = 168;
     SIGNING_CONFIG_WRITER = 169;
+    LIBRARY_DEXING = 170;
 }
 
 enum BooleanOption {
