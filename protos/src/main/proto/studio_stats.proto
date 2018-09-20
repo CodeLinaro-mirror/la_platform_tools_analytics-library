@@ -829,6 +829,8 @@ message ProductDetails {
   optional CpuArchitecture os_architecture = 5;
   // The state in the software lifecycle of this product.
   optional SoftwareLifeCycleChannel channel = 6;
+  // Set when ProductKind = STUDIO, the look and feel of the product.
+  optional IdeTheme theme = 7;
 
   // Various states in the software life cycle this software could be in.
   enum SoftwareLifeCycleChannel {
@@ -853,6 +855,16 @@ message ProductDetails {
     UNKNOWN_CPU_ARCHITECTURE = 0;
     X86 = 1;
     X86_64 = 2;
+  }
+
+  // The current theme set for Android Studio
+  enum IdeTheme {
+    UNKNOWN_THEME = 0;
+    DARCULA = 1;
+    LIGHT = 2;
+    LIGHT_MAC_NATIVE = 3;
+    LIGHT_WIN_NATIVE = 4;
+    GTK = 5;
   }
 }
 
@@ -1120,7 +1132,10 @@ message EmulatorFeatureFlagState {
     LOCATION_UI_V2 = 28;
     GENERIC_INCREMENTAL_SNAPSHOT = 29;
     SNAPSHOT_ADB = 30;
-    // Next tag: 31
+    OFFWORLD = 31;
+    OFFWORLD_DISABLE_SECURITY = 32;
+    QUICKBOOT_FILE_BACKED = 33;
+    // Next tag: 34
   }
   // Which features were enabled by default or through the server-side config.
   repeated EmulatorFeatureFlag attempted_enabled_feature_flags = 1;
@@ -1805,6 +1820,8 @@ message JniInspectionEvent {
     PARAMETERS_INSPECTION_EVENT = 3;
     // Set when the OnLoad / OnUnload inspection quickfix is used.
     ONLOAD_INSPECTION_EVENT = 4;
+    // Set when the FindMethod inspection quickfix is used.
+    FIND_METHOD_INSPECTION_EVENT = 5;
   }
 
   optional JniInspectionType type = 1;
