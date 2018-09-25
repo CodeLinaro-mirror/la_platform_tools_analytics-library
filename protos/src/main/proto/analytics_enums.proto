@@ -69,7 +69,7 @@ enum GradleTransformExecutionType {
     DEX_SPLITTER = 38;
     MERGE_CLASSES = 39;
     LIBRARY_AAR_JARS = 40;
-    LIBRARY_INTERMEDIATE_JARS = 41;
+    LIBRARY_INTERMEDIATE_JARS = 41 [deprecated=true];
     TEST = 42 [deprecated=true];
 }
 
@@ -246,6 +246,8 @@ enum GradleTaskExecutionType {
     SIGNING_CONFIG_WRITER = 169;
     LIBRARY_DEXING = 170;
     DATA_BINDING_MERGE_BASE_CLASS_LOG = 171;
+    BUNDLE_LIBRARY_CLASSES = 172;
+    BUNDLE_LIBRARY_JAVA_RES = 173;
 }
 
 enum BooleanOption {
