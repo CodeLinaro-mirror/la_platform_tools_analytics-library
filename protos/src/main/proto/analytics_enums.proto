@@ -221,7 +221,6 @@ enum GradleTaskExecutionType {
     PROCESS_ANNOTATIONS = 168;
     SIGNING_CONFIG_WRITER = 169;
     LIBRARY_DEXING = 170;
-    COPY_NAVIGATION_FILES = 171;
 }
 
 enum BooleanOption {
