@@ -1183,7 +1183,9 @@ enum EmulatorSnapshotSaveState {
   EMULATOR_SNAPSHOT_SAVE_SKIPPED_NOT_BOOTED = 3;
   // Saving skipped: No snapshot name given.
   EMULATOR_SNAPSHOT_SAVE_SKIPPED_NO_SNAPSHOT = 4;
-  // Next tag: 5
+  // Saving skipped: Disk under pressure.
+  EMULATOR_SNAPSHOT_SAVE_SKIPPED_DISK_PRESSURE = 5;
+  // Next tag: 6
 }
 
 // Generic snapshot load states. Distinguished
@@ -2251,6 +2253,8 @@ message GradleBuildProject {
     COM_ANDROID_BUILD_GRADLE_LINTPLUGIN = 52;
     COM_ANDROID_BUILD_GRADLE_REPORTINGPLUGIN = 53;
     COM_ANDROID_BUILD_GRADLE_TESTPLUGIN = 54;
+    ORG_GRADLE_BUILDINIT_PLUGINS_BUILDINITPLUGIN = 55;
+    ORG_GRADLE_BUILDINIT_PLUGINS_WRAPPERPLUGIN = 56;
   }
 }
 
@@ -4115,8 +4119,10 @@ message GradleSyncStats {
   optional int64 ide_time_ms = 4;
   // Whether the embedded maven repository is enabled
   optional bool embedded_repo_enabled = 5;
-  // What type of sync was performed
+  // What type of sync was requested
   optional GradleSyncType sync_type = 6;
+  // What type of sync was actually performed
+  optional GradleSyncType actual_sync_type = 7;
 
   // List of triggers for gradle Sync
   enum Trigger {
@@ -4134,6 +4140,8 @@ message GradleSyncStats {
     TRIGGER_VARIANT_SELECTION_CHANGED_BY_USER = 5;
     // Project modifications done by PSD
     TRIGGER_PSD_CHANGES = 6;
+    // Sync done while running tests
+    TRIGGER_TEST_REQUESTED = 7;
   }
 
   // List of sync types
