@@ -43,6 +43,7 @@ import java.util.concurrent.ScheduledExecutorService
  * ~/.android/analytics.settings as a json file.
  */
 object AnalyticsSettings {
+  @JvmStatic
   var initialized = false
       private set
 
