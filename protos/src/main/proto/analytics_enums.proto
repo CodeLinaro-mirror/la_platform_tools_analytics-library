@@ -296,6 +296,7 @@ enum BooleanOption {
     ENABLE_SEPARATE_ANNOTATION_PROCESSING = 68;
     DEBUG_OBSOLETE_API = 69;
     FULL_R8 = 70;
+    ENABLE_NATIVE_COMPILER_SETTINGS_CACHE = 71;
 }
 
 enum OptionalBooleanOption {
