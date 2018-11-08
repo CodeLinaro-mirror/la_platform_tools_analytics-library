@@ -268,6 +268,9 @@ message AndroidStudioEvent {
   // set when kind = RUN_EVENT
   optional RunEvent run_event = 72;
 
+  // set when kind = NAV_EDITOR_EVENT
+  optional NavEditorEvent nav_editor_event = 73;
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -687,6 +690,9 @@ message AndroidStudioEvent {
 
     // Project Structure Dialog repository search events.
     PROJECT_STRUCTURE_DIALOG_REPOSITORIES_SEARCH = 169;
+
+    // Navigation Editor event
+    NAV_EDITOR_EVENT = 170;
   }
 
   // Represents different Performance Monitoring types.
@@ -3370,9 +3376,11 @@ message AndroidAttribute {
     TOOLS = 3;
   }
 
-  // Specifies an attribute name of an Android View class.
-  // Only properties defined on Google View classes will be specified by name.
-  // Properties defined on custom views will be left unspecified.
+  // Specifies an attribute name of an Android View class or Navigation element.
+  // Only properties defined on Google View classes or Google-provided
+  // Navigation destinations will be specified by name.
+  // Properties defined on custom views or destinations, or custom properties on
+  // Google-provided destinations will be left unspecified.
   optional string attribute_name = 1;
   // The namespace of this attribute
   optional AttributeNamespace attribute_namespace = 2;
@@ -3547,6 +3555,205 @@ message LayoutEditorEvent {
   optional LayoutAttributeChangeEvent attribute_change_event = 5;
   // Details related to favorite attribute changes (type = FAVORITE_CHANGE)
   optional LayoutFavoriteAttributeChangeEvent favorite_change_event = 6;
+}
+
+// Details for navigation editor events
+message NavEditorEvent {
+  enum NavEditorEventType {
+    UNKNOWN_EVENT_TYPE = 0;
+
+    OPEN_FILE = 1;
+
+    SELECT_DESIGN_TAB = 2;
+    SELECT_XML_TAB = 3;
+
+    CREATE_ACTION = 4;
+    EDIT_ACTION = 5;
+    CREATE_ARGUMENT = 6;
+    CREATE_DEEP_LINK = 7;
+    CHANGE_PROPERTY = 8;
+    ADD_DESTINATION = 9;
+    CREATE_FRAGMENT = 10;
+    ADD_INCLUDE = 11;
+    CREATE_NESTED_GRAPH = 12;
+
+    ACTIVATE_LAYOUT = 13;
+    ACTIVATE_CLASS = 14;
+    ACTIVATE_NESTED = 15;
+    ACTIVATE_INCLUDE = 16;
+
+    EXIT_NESTED_GRAPH = 17;
+
+    SET_START_DESTINATION = 18;
+
+    AUTO_ARRANGE = 19;
+    POSITION_DESTINATION = 20;
+
+    RESTORE_ERROR_PANEL = 21;
+    MINIMIZE_ERROR_PANEL = 22;
+
+    DELETE_DESTINATION = 23;
+    DELETE_INCLUDE = 24;
+    DELETE_NESTED = 25;
+    DELETE_ACTION = 26;
+    DELETE_DEEPLINK = 27;
+    DELETE_ARGUMENT = 28;
+
+    SCHEMA_CREATED = 29;
+
+    ZOOM_IN = 30;
+    ZOOM_OUT = 31;
+    ZOOM_FIT = 32;
+
+    CUT = 33;
+    COPY = 34;
+    PASTE = 35;
+  }
+
+  enum Source {
+    UNKNOWN = 0;
+    TOOLBAR = 1;
+    DESIGN_SURFACE = 2;
+    PROPERTY_INSPECTOR = 3;
+    SHORTCUT = 4;
+  }
+
+  // Type of event
+  optional NavEditorEventType type = 1;
+  // Where the event was triggered
+  optional Source source = 2;
+  // If the event is property-related, information about the affected property
+  optional NavPropertyInfo property_info = 3;
+  // If the event is action-related, information about the relevant action
+  optional NavActionInfo action_info = 4;
+  // If the event is destination-related, information about the relevant
+  // destination
+  optional NavDestinationInfo destination_info = 5;
+  // Information about the current NavigationSchema
+  optional NavSchemaInfo schema_info = 6;
+  // Information on the current contents of the navigation file
+  optional NavigationContents contents = 7;
+}
+
+message NavPropertyInfo {
+  enum Property {
+    UNKNOWN = 0;
+    CUSTOM = 1;
+
+    ACTION = 2;
+    ARG_TYPE = 3;
+    AUTO_VERIFY = 4;
+    CLEAR_TASK = 5;
+    DATA = 6;
+    DATA_PATTERN = 7;
+    DEFAULT_NAV_HOST = 8;
+    DEFAULT_VALUE = 9;
+    DESTINATION = 10;
+    ENTER_ANIM = 11;
+    EXIT_ANIM = 12;
+    GRAPH = 13;
+    ID = 14;
+    LABEL = 15;
+    LAUNCH_DOCUMENT = 16;
+    LAUNCH_SINGLE_TOP = 17;
+    NAME = 18;
+    NAV_GRAPH = 19;
+    NULLABLE = 20;
+    POP_ENTER_ANIM = 21;
+    POP_EXIT_ANIM = 22;
+    POP_UP_TO = 23;
+    POP_UP_TO_INCLUSIVE = 24;
+    START_DESTINATION = 25;
+    URI = 26;
+  }
+  enum TagType {
+    UNKNOWN_TAG = 0;
+    CUSTOM_TAG = 1;
+    ACTION_TAG = 2;
+    DEEPLINK_TAG = 3;
+    FRAGMENT_TAG = 4;
+    ACTIVITY_TAG = 5;
+    NAVIGATION_TAG = 6;
+    INCLUDE_TAG = 7;
+    ARGUMENT_TAG = 8;
+  }
+  // The property affected.
+  optional Property property = 1;
+  // Type of the containing tag.
+  optional TagType containing_tag = 2;
+  // Whether the property was empty prior to being set just now.
+  optional bool was_empty = 3;
+}
+
+message NavActionInfo {
+  enum ActionType {
+    UNKNOWN = 0;
+    REGULAR = 1;
+    EXIT = 2;
+    GLOBAL = 3;
+  }
+
+  // Type of the action affected
+  optional ActionType type = 1;
+  // Whether the action has popTo set
+  optional bool has_pop = 2;
+  // Whether the action has popToInclusive set
+  optional bool inclusive = 3;
+  // The number of actions originating from the same destination as this one
+  optional uint32 count_from_source = 4;
+  // The number of actions targeting the same destination as this one
+  optional uint32 count_to_destination = 5;
+  // The number of actions with the same source and destination as this one
+  optional uint32 count_same = 6;
+}
+
+message NavDestinationInfo {
+  enum DestinationType {
+    UNKNOWN = 0;
+    FRAGMENT = 1;
+    ACTIVITY = 2;
+    OTHER = 3;
+  }
+
+  // The type of the destination
+  optional DestinationType type = 1;
+  // Whether the destination has a class (android:name) specified
+  optional bool has_class = 2;
+  // Whether the destination has a layout (tools:layout) specified
+  optional bool has_layout = 3;
+}
+
+message NavSchemaInfo {
+  // The number of custom navigators in the current schema
+  optional uint32 custom_navigators = 1;
+  // The number of custom tags in the current schema
+  optional uint32 custom_tags = 2;
+  // The number of custom destination classes in the current schema
+  optional uint32 custom_destinations = 3;
+  // The number of custom attributes in the current schema
+  optional uint32 custom_attributes = 4;
+}
+
+message NavigationContents {
+  // The number of fragments in the current file
+  optional uint32 fragments = 1;
+  // The number of activities in the current file
+  optional uint32 activities = 2;
+  // The number of custom destinations in the current file
+  optional uint32 custom_destinations = 3;
+  // The number of regular actions in the current file
+  optional uint32 regular_actions = 4;
+  // The number of exit actions in the current file
+  optional uint32 exit_actions = 5;
+  // The number of global actions in the current file
+  optional uint32 global_actions = 6;
+  // The number of includes in the current file
+  optional uint32 includes = 7;
+  // The number of nested graphs in the current file
+  optional uint32 nested_graphs = 8;
+  // The number of placeholders (destinations with android:name not set) in the
+  // current file
+  optional uint32 placeholders = 9;
 }
 
 // App links assistant user event detail.
