@@ -684,6 +684,9 @@ message AndroidStudioEvent {
 
     // Studio's LowMemoryWatcher triggered
     STUDIO_LOW_MEMORY_EVENT = 168;
+
+    // Project Structure Dialog repository search events.
+    PROJECT_STRUCTURE_DIALOG_REPOSITORIES_SEARCH = 169;
   }
 
   // Represents different Performance Monitoring types.
@@ -4900,6 +4903,25 @@ message PSDEvent {
     // From Suggestions
   }
 
+  // Repository usage statistics in PSD.
+  message PSDRepositoryUsage {
+    // Types of repositories that can be searched.
+    enum PSDRepository {
+      PROJECT_STRUCTURE_DIALOG_REPOSITORY_UNKNOWN = 0;
+      PROJECT_STRUCTURE_DIALOG_REPOSITORY_GOOGLE = 1;
+      PROJECT_STRUCTURE_DIALOG_REPOSITORY_MAVEN_CENTRAL = 2;
+      PROJECT_STRUCTURE_DIALOG_REPOSITORY_JCENTER = 3;
+      PROJECT_STRUCTURE_DIALOG_REPOSITORY_LOCAL = 4;
+      PROJECT_STRUCTURE_DIALOG_REPOSITORY_OTHER = 5;
+    }
+    // The repository being accessed.
+    optional PSDRepository repository = 1;
+    // How long did it take to search the repository for a specific library
+    // from the user's perspective. Some repositories like Google's one
+    // requires multiple files to be fetched to complete the search.
+    optional uint64 duration_ms = 2;
+  }
+
   // What PSD generation is used?
   optional PSDGeneration generation = 1;
   // Left Configurable from which the event was created
@@ -4910,6 +4932,8 @@ message PSDEvent {
   optional uint64 duration_ms = 4;
   // List of fields that were modified
   repeated PSDField modified_fields = 5;
+  // Repositories searched.
+  repeated PSDRepositoryUsage repositories_searched = 6;
 }
 
 // UserSentiment describes how users feel about the product.
