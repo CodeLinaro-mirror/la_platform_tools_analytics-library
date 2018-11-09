@@ -1,4 +1,28 @@
-// This is the golden copy (under platform/tools/analytics-library), all edits should be done here.
+// This file (analytics_enums.proto) should be directly
+// edited in Android Git (platform/tools/analytics-library)
+//
+//
+// This file is separate from the main studio_stats.proto to
+// allow tasks or project options to be added without having
+// to go through the usual analytics change process to record
+// them in the analytics.
+//
+// The uploaded GradleBuildProfile (see studio_stats.proto)
+// will just contain the integer value, which means that
+// values must be consistent and never reused.
+//
+// For example, ANDROID_JAVA_COMPILE will be encoded as '3'
+// in the GradleTaskExecution message. To find out what the
+// task class name was, this file should be consulted.
+//
+// Take care when cherry-picking changes that you preserve the
+// numeric value across branches, even if that means leaving
+// gaps.
+//
+// Unlike the main analytics, it is OK to rename an enum entry
+// e.g. when BundleFeatureClasses was renamed to
+// BundleAllClasses the enum constant was also renamed.
+
 syntax = "proto3";
 option java_package = "com.android.tools.build.gradle.internal.profile";
 option java_multiple_files = true;
