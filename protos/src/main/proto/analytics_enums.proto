@@ -323,6 +323,7 @@ enum BooleanOption {
     DEBUG_OBSOLETE_API = 69;
     FULL_R8 = 70;
     ENABLE_NATIVE_COMPILER_SETTINGS_CACHE = 71;
+    CONDITIONAL_KEEP_RULES = 72;
 }
 
 enum OptionalBooleanOption {
