@@ -61,10 +61,10 @@ enum GradleTransformExecutionType {
     DEX_MERGER = 30;
     MAIN_DEX_LIST = 31;
     DESUGAR = 32;
-    FIX_STACK_FRAMES = 33;
+    FIX_STACK_FRAMES = 33 [deprecated=true];
     EXTERNAL_LIBS_MERGER = 34;
     D8_MAIN_DEX_LIST=35;
-    DATA_BINDING_MERGE_GEN_CLASS_LOG = 36;
+    DATA_BINDING_MERGE_GEN_CLASS_LOG = 36 [deprecated=true];
     R8 = 37;
     DEX_SPLITTER = 38;
     MERGE_CLASSES = 39;
@@ -249,6 +249,7 @@ enum GradleTaskExecutionType {
     DATA_BINDING_MERGE_BASE_CLASS_LOG = 171;
     BUNDLE_LIBRARY_CLASSES = 172;
     BUNDLE_LIBRARY_JAVA_RES = 173;
+    RECALCULATE_STACK_FRAMES = 174;
 }
 
 enum BooleanOption {
