@@ -1,4 +1,28 @@
-// This is the golden copy (under platform/tools/analytics-library), all edits should be done here.
+// This file (analytics_enums.proto) should be directly
+// edited in Android Git (platform/tools/analytics-library)
+//
+//
+// This file is separate from the main studio_stats.proto to
+// allow tasks or project options to be added without having
+// to go through the usual analytics change process to record
+// them in the analytics.
+//
+// The uploaded GradleBuildProfile (see studio_stats.proto)
+// will just contain the integer value, which means that
+// values must be consistent and never reused.
+//
+// For example, ANDROID_JAVA_COMPILE will be encoded as '3'
+// in the GradleTaskExecution message. To find out what the
+// task class name was, this file should be consulted.
+//
+// Take care when cherry-picking changes that you preserve the
+// numeric value across branches, even if that means leaving
+// gaps.
+//
+// Unlike the main analytics, it is OK to rename an enum entry
+// e.g. when BundleFeatureClasses was renamed to
+// BundleAllClasses the enum constant was also renamed.
+
 syntax = "proto3";
 option java_package = "com.android.tools.build.gradle.internal.profile";
 option java_multiple_files = true;
@@ -45,7 +69,7 @@ enum GradleTransformExecutionType {
     DEX_SPLITTER = 38;
     MERGE_CLASSES = 39;
     LIBRARY_AAR_JARS = 40;
-    LIBRARY_INTERMEDIATE_JARS = 41;
+    LIBRARY_INTERMEDIATE_JARS = 41 [deprecated=true];
     TEST = 42 [deprecated=true];
 }
 
@@ -222,6 +246,8 @@ enum GradleTaskExecutionType {
     SIGNING_CONFIG_WRITER = 169;
     LIBRARY_DEXING = 170;
     DATA_BINDING_MERGE_BASE_CLASS_LOG = 171;
+    BUNDLE_LIBRARY_CLASSES = 172;
+    BUNDLE_LIBRARY_JAVA_RES = 173;
 }
 
 enum BooleanOption {
@@ -289,7 +315,7 @@ enum BooleanOption {
     INJECT_SDK_MAVEN_REPOS = 61;
     NAMESPACED_R_CLASS = 62;
     ENABLE_DEXING_ARTIFACT_TRANSFORM = 63;
-    DEPLOY_AS_INSTANT_APP = 64;
+    IDE_DEPLOY_AS_INSTANT_APP = 64;
     IDE_EXTRACT_INSTANT = 65;
     ENABLE_UNCOMPRESSED_NATIVE_LIBS_IN_BUNDLE = 66;
     USE_DEPENDENCY_CONSTRAINTS = 67;
@@ -297,6 +323,7 @@ enum BooleanOption {
     DEBUG_OBSOLETE_API = 69;
     FULL_R8 = 70;
     ENABLE_NATIVE_COMPILER_SETTINGS_CACHE = 71;
+    CONDITIONAL_KEEP_RULES = 72;
 }
 
 enum OptionalBooleanOption {

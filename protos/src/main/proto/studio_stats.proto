@@ -3726,6 +3726,8 @@ message CpuCaptureMetadata {
     PARSING_FAILURE = 3;
     // User aborted parsing the trace after being notified it was too large
     USER_ABORTED_PARSING = 4;
+    // There was an error while preprocessing the trace file
+    PREPROCESS_FAILURE = 5;
   }
 
   // The result of a CPU capture
