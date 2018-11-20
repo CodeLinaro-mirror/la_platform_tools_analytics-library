@@ -271,6 +271,9 @@ message AndroidStudioEvent {
   // set when kind = NAV_EDITOR_EVENT
   optional NavEditorEvent nav_editor_event = 73;
 
+  // set when kind = DIALOG_STATS
+  optional DialogStats dialog_stats = 74;
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -693,6 +696,9 @@ message AndroidStudioEvent {
 
     // Navigation Editor event
     NAV_EDITOR_EVENT = 170;
+
+    // User took an action on a dialog (open or close)
+    DIALOG_STATS = 171;
   }
 
   // Represents different Performance Monitoring types.
@@ -3616,6 +3622,7 @@ message NavEditorEvent {
     DESIGN_SURFACE = 2;
     PROPERTY_INSPECTOR = 3;
     SHORTCUT = 4;
+    CONTEXT_MENU = 5;
   }
 
   // Type of event
@@ -3643,7 +3650,7 @@ message NavPropertyInfo {
     ACTION = 2;
     ARG_TYPE = 3;
     AUTO_VERIFY = 4;
-    CLEAR_TASK = 5;
+    UNUSED_1 = 5;
     DATA = 6;
     DATA_PATTERN = 7;
     DEFAULT_NAV_HOST = 8;
@@ -3654,7 +3661,7 @@ message NavPropertyInfo {
     GRAPH = 13;
     ID = 14;
     LABEL = 15;
-    LAUNCH_DOCUMENT = 16;
+    UNUSED_2 = 16;
     LAUNCH_SINGLE_TOP = 17;
     NAME = 18;
     NAV_GRAPH = 19;
@@ -3691,6 +3698,7 @@ message NavActionInfo {
     REGULAR = 1;
     EXIT = 2;
     GLOBAL = 3;
+    SELF = 4;
   }
 
   // Type of the action affected
@@ -3747,6 +3755,8 @@ message NavigationContents {
   optional uint32 exit_actions = 5;
   // The number of global actions in the current file
   optional uint32 global_actions = 6;
+  // The number of self actions in the current file
+  optional uint32 self_actions = 10;
   // The number of includes in the current file
   optional uint32 includes = 7;
   // The number of nested graphs in the current file
@@ -5170,4 +5180,21 @@ message EmulatorBootInfo {
   optional BootStatus boot_status = 1;
   // How long it took to boot, either successfully or not.
   optional uint64 duration_ms = 2;
+}
+
+// Reports information about how users invoke available dialogs.
+message DialogStats {
+  enum DialogState {
+    UNKNOWN_DIALOG_STATE = 0;
+    SHOW = 1;
+    SELECT = 2;
+    APPLY = 3;
+    RESET = 4;
+    CLOSE = 5;
+  }
+  // java class name (our code, not customer) of the Dialog reported on
+  // e.g. ' com.intellij.openapi.options.newEditor.SettingsDialog'
+  optional string dialog_class_name = 1;
+  // State the dialog is transitioning to.
+  optional DialogState state = 2;
 }
