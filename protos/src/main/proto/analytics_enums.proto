@@ -71,6 +71,7 @@ enum GradleTransformExecutionType {
     LIBRARY_AAR_JARS = 40;
     LIBRARY_INTERMEDIATE_JARS = 41 [deprecated=true];
     TEST = 42 [deprecated=true];
+    FIREBASE = 43;
 }
 
 enum GradleTaskExecutionType {
