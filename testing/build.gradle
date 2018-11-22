@@ -14,3 +14,14 @@ dependencies {
     testCompile libs.junit
     testCompile libs.truth
 }
+
+group = 'com.android.tools.analytics-library'
+archivesBaseName = 'testing'
+version = rootProject.ext.baseVersion
+
+project.ext.pomName = 'Android Tools Analytics Testing Library'
+project.ext.pomDesc = 'Library for tracking usage analytics.'
+
+apply from: "$rootDir/buildSrc/base/publish.gradle"
+apply from: "$rootDir/buildSrc/base/bintray.gradle"
+apply from: "$rootDir/buildSrc/base/javadoc.gradle"
