@@ -326,6 +326,7 @@ enum BooleanOption {
     FULL_R8 = 70;
     ENABLE_NATIVE_COMPILER_SETTINGS_CACHE = 71;
     CONDITIONAL_KEEP_RULES = 72;
+    ENABLE_R8_LIBRARIES = 73;
 }
 
 enum OptionalBooleanOption {
