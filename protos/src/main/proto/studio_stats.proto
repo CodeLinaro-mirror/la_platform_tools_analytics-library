@@ -3579,11 +3579,15 @@ message NavEditorEvent {
     EDIT_ARGUMENT = 36;
     CREATE_DEEP_LINK = 7;
     EDIT_DEEP_LINK = 37;
+
     CHANGE_PROPERTY = 8;
+
     ADD_DESTINATION = 9;
     CREATE_FRAGMENT = 10;
     ADD_INCLUDE = 11;
+
     CREATE_NESTED_GRAPH = 12;
+    MOVE_TO_GRAPH = 38;
 
     ACTIVATE_LAYOUT = 13;
     ACTIVATE_CLASS = 14;
@@ -3617,7 +3621,7 @@ message NavEditorEvent {
     COPY = 34;
     PASTE = 35;
 
-    // next index: 38
+    // next index: 39
   }
 
   enum Source {
