@@ -3194,10 +3194,57 @@ message JvmDetails {
 
 // Details for an indexing operation.
 message IntellijIndexingStats {
+  // Major operations on indexes.
+  enum Operation {
+    UNKNOWN_OPERATION = 0;
+    MAP_INPUT = 1;
+    WRITE_LOCK = 2;
+    UPDATE_DATA = 3;
+    GET_DATA = 4;
+  }
+
+  // Details for a specific indexing operation.
+  message OperationStats {
+    // Operation described by this message.
+    optional Operation operation = 1;
+    // Total CPU time.
+    optional int64 total_cpu_nanos = 2;
+    // Total wall time.
+    optional int64 total_wall_nanos = 3;
+    // Maximum observed CPU time.
+    optional int32 max_cpu_nanos = 4;
+    // Maximum observed wall time.
+    optional int32 max_wall_nanos = 5;
+    // Total number of operations aggregated in this record.
+    optional int32 total_count = 6;
+  }
+
+  // IDE's major indexes.
+  enum Index {
+    UNKNOWN_INDEX = 0;
+    ID_INDEX = 1;
+    STUB_INDEX = 2;
+    TRIGRAM_INDEX = 3;
+    OTHER = 4;
+  }
+
+  // Details for indexing operations of a specific specific index.
+  message IndexStats {
+    // Index described by this message.
+    optional Index index = 1;
+    // Details for specific operations.
+    repeated OperationStats operation_stats = 2;
+  }
+
   // How long the indexing operation took in milliseconds.
   optional int32 duration_ms = 1;
   // Number of files indexed during this indexing operation.
   optional int32 file_count = 2;
+  // Number of threads configured to run indexing tasks.
+  optional int32 indexer_threads = 3;
+
+  // Indexing operation details for specific indexes.
+  repeated IndexStats index_stats = 4;
 }
 
 // Stats on Studio's performance
