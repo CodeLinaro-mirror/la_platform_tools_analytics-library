@@ -250,6 +250,7 @@ enum GradleTaskExecutionType {
     BUNDLE_LIBRARY_CLASSES = 172;
     BUNDLE_LIBRARY_JAVA_RES = 173;
     RECALCULATE_STACK_FRAMES = 174;
+    FINALIZE_BUNDLE = 175;
 }
 
 enum BooleanOption {
