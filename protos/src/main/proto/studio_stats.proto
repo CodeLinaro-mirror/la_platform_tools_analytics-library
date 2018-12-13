@@ -4818,10 +4818,13 @@ message RunEvent {
   optional bool deployed_as_instant = 19;
   // Whether the run configuration was set to deploy from app bundle
   optional bool deployed_from_bundle = 20;
+
+  // Enum name representing deploy failure reason
+  optional string deploy_failure_id = 21;
 }
 
 message LaunchTaskDetail {
-  // The id of the task from LaunchTask::getId()
+  // The id of the task
   optional string id = 1;
   // This task starts
   optional int64 start_timestamp_ms = 2;
@@ -4829,6 +4832,8 @@ message LaunchTaskDetail {
   optional int64 end_timestamp_ms = 3;
   // For the tasks that deploy artifacts, their details.
   repeated ArtifactDetail artifact = 4;
+  // Thread ID this task is running on
+  optional int32 tid = 5;
 }
 
 message StudioRunEvent {
