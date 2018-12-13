@@ -5219,6 +5219,8 @@ message PSDEvent {
 message UserSentiment {
   // does the user feel positive or negative about the product at this time?
   optional SentimentState state = 1;
+  // in our popup question the user can indicate a satisfaction level.
+  optional SatisfactionLevel level = 2;
 
   enum SentimentState {
     UNKNOWN_SENTIMENT_STATE = 0;
@@ -5226,6 +5228,18 @@ message UserSentiment {
     NEGATIVE = 2;
     // The user is feeling strong enough about the issue to start filing a bug.
     FILE_BUG = 3;
+    // We popped up a question dialog on what the user's sentiment is instead of
+    // them chosing to submit feedback themselves
+    POPUP_QUESTION = 4;
+  }
+
+  enum SatisfactionLevel {
+    UNKNOWN_SATISFACTION_LEVEL = 0;
+    VERY_DISSATISFIED = 1;
+    DISSATISFIED = 2;
+    NEUTRAL = 3;
+    SATISFIED = 4;
+    VERY_SATISFIED = 5;
   }
 }
 
