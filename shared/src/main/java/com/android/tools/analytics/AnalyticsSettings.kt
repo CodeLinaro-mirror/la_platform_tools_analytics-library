@@ -20,11 +20,16 @@ import com.android.annotations.VisibleForTesting
 import com.android.utils.DateProvider
 import com.android.utils.ILogger
 import com.google.common.base.Charsets
+import com.google.common.hash.Hashing
 import com.google.common.io.Files
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonParseException
 import com.google.gson.annotations.SerializedName
-import java.io.*
+import java.io.File
+import java.io.IOException
+import java.io.InputStreamReader
+import java.io.OutputStreamWriter
+import java.io.RandomAccessFile
 import java.math.BigInteger
 import java.net.URL
 import java.nio.channels.Channels
@@ -35,7 +40,11 @@ import java.time.Instant
 import java.time.LocalDate
 import java.time.ZoneOffset
 import java.time.temporal.ChronoUnit
-import java.util.*
+import java.util.Calendar
+import java.util.Date
+import java.util.GregorianCalendar
+import java.util.TimeZone
+import java.util.UUID
 import java.util.concurrent.ScheduledExecutorService
 
 /**
@@ -43,12 +52,16 @@ import java.util.concurrent.ScheduledExecutorService
  * ~/.android/analytics.settings as a json file.
  */
 object AnalyticsSettings {
-  @JvmStatic
-  var initialized = false
-      private set
+  private const val DAYS_IN_LEAP_YEAR = 366
+  private const val DAYS_IN_NON_LEAP_YEAR = 365
+  private const val DAYS_TO_WAIT_FOR_REQUESTING_SENTIMENT_AGAIN = 7
 
   @JvmStatic
-  val userId : String
+  var initialized = false
+    private set
+
+  @JvmStatic
+  val userId: String
     get() {
       synchronized(gate) {
         ensureInitialized()
@@ -57,20 +70,20 @@ object AnalyticsSettings {
     }
 
   @JvmStatic
-  var optedIn : Boolean
+  var optedIn: Boolean
     get() {
       synchronized(gate) {
         ensureInitialized()
         return instance?.optedIn ?: false
       }
     }
-  set(value) {
-    synchronized(gate) {
-      instance?.apply {
-        optedIn = value
+    set(value) {
+      synchronized(gate) {
+        instance?.apply {
+          optedIn = value
+        }
       }
     }
-  }
 
   private fun ensureInitialized() {
     if (!initialized && java.lang.Boolean.getBoolean("idea.is.internal")) {
@@ -87,6 +100,34 @@ object AnalyticsSettings {
       synchronized(gate) {
         ensureInitialized()
         return instance?.debugDisablePublishing ?: false
+      }
+    }
+
+  @JvmStatic
+  var lastSentimentQuestionDate: Date?
+    get() {
+      synchronized(gate) {
+        ensureInitialized()
+        return instance?.lastSentimentQuestionDate
+      }
+    }
+    set(value) {
+      synchronized(gate) {
+        instance?.lastSentimentQuestionDate = value
+      }
+    }
+
+  @JvmStatic
+  var lastSentimentAnswerDate: Date?
+    get() {
+      synchronized(gate) {
+        ensureInitialized()
+        return instance?.lastSentimentAnswerDate
+      }
+    }
+    set(value) {
+      synchronized(gate) {
+        instance?.lastSentimentAnswerDate = value
       }
     }
 
@@ -149,7 +190,7 @@ object AnalyticsSettings {
       logger.error(e, "Unable to lock settings file %s", file.toString())
     }
     catch (e: JsonParseException) {
-      logger.error(e,"Unable to parse settings file %s", file.toString())
+      logger.error(e, "Unable to parse settings file %s", file.toString())
     }
     var newSettings = AnalyticsSettingsData()
     newSettings.userId = UUID.randomUUID().toString()
@@ -216,7 +257,8 @@ object AnalyticsSettings {
         val gp = WebServerDateProvider(URL("https://play.google.com/"))
         dateProvider = gp
         googlePlayDateProvider = gp
-      } catch(e: IOException) {
+      }
+      catch (e: IOException) {
         logger.error(e, "Unable to get current time from Google's servers")
       }
     }
@@ -281,8 +323,53 @@ object AnalyticsSettings {
   }
 
   /** Checks if the AnalyticsSettings object is in a valid state.  */
-  internal fun isValid(settings : AnalyticsSettingsData): Boolean {
+  internal fun isValid(settings: AnalyticsSettingsData): Boolean {
     return settings.userId != null && (settings.saltSkew == AnalyticsSettings.SALT_SKEW_NOT_INITIALIZED || settings.saltValue != null)
+  }
+
+  fun shouldRequestUserSentiment(): Boolean {
+    if (!optedIn) {
+      return false
+    }
+
+    val lastSentimentAnswerDate = AnalyticsSettings.lastSentimentAnswerDate
+    val lastSentimentQuestionDate = AnalyticsSettings.lastSentimentQuestionDate
+    val now = dateProvider.now()
+
+    var daysInYear = DAYS_IN_NON_LEAP_YEAR
+    if (GregorianCalendar().isLeapYear(now.year + 1900)) {
+      daysInYear = DAYS_IN_LEAP_YEAR
+    }
+
+    if (lastSentimentAnswerDate != null) {
+      val calendar = Calendar.getInstance()
+      calendar.time = now
+      calendar.add(Calendar.DATE, -daysInYear)
+      val lastYear = calendar.time
+      if (lastSentimentAnswerDate.after(lastYear)) {
+        return false
+      }
+    }
+
+    // If we should ask the question based on dates, and asked but not answered then we should always prompt, even if this is
+    // not the magic date for that user.
+    if (lastSentimentQuestionDate != null) {
+      val calendar = Calendar.getInstance()
+      calendar.time = now
+      calendar.add(Calendar.DATE, -DAYS_TO_WAIT_FOR_REQUESTING_SENTIMENT_AGAIN)
+      val startOfWaitForRequest = calendar.time
+      if (!lastSentimentQuestionDate.after(startOfWaitForRequest)) {
+        return true
+      }
+    }
+
+    val startOfYear = GregorianCalendar(now.year + 1900 ,0, 1)
+    startOfYear.timeZone = TimeZone.getTimeZone(ZoneOffset.UTC)
+
+    // Otherwise, only request on the magic date for the user, to spread user sentiment data throughout the year.
+    var daysSinceJanFirst = ChronoUnit.DAYS.between(startOfYear.toInstant(), now.toInstant())
+    var offset = Math.abs(Hashing.farmHashFingerprint64().hashString(AnalyticsSettings.userId, Charsets.UTF_8).asLong()) % daysInYear
+    return daysSinceJanFirst == offset
   }
 }
 
@@ -320,21 +407,25 @@ class AnalyticsSettingsData {
    * User id used for reporting analytics. This id is pseudo-anonymous.
    */
   @field:SerializedName("userId")
-  public var userId: String? = null
+  var userId: String? = null
 
   @field:SerializedName("hasOptedIn")
-  public var optedIn: Boolean = false
+  var optedIn: Boolean = false
 
   @field:SerializedName("debugDisablePublishing")
-  public val debugDisablePublishing: Boolean = false
+  val debugDisablePublishing: Boolean = false
 
   @field:SerializedName("saltValue")
-  public var saltValue = BigInteger.valueOf(0L)
+  var saltValue = BigInteger.valueOf(0L)
 
   @field:SerializedName("saltSkew")
-  public var saltSkew = AnalyticsSettings.SALT_SKEW_NOT_INITIALIZED
+  var saltSkew = AnalyticsSettings.SALT_SKEW_NOT_INITIALIZED
 
+  @field:SerializedName("lastSentimentQuestionDate")
+  var lastSentimentQuestionDate : Date? = null
 
+  @field:SerializedName("lastSentimentAnswerDate")
+  var lastSentimentAnswerDate : Date? = null
 }
 
 
