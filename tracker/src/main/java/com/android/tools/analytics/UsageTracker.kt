@@ -178,6 +178,20 @@ object UsageTracker {
     }
   }
 
+  @JvmStatic
+  fun deinitialize() {
+    synchronized(gate) {
+      initialized = false
+      try {
+        writer.close()
+      } catch (ex: Exception) {
+        throw RuntimeException("Unable to close usage tracker", ex)
+      } finally {
+        writer = NullUsageTracker
+      }
+    }
+  }
+
   /**
    * Sets the global writer to the provided tracker so tests can provide their own UsageTracker
    * implementation. NOTE: Should only be used from tests.
