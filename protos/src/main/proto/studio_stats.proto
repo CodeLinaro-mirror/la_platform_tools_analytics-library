@@ -335,6 +335,8 @@ message AndroidStudioEvent {
     // The event is related to CMake editing.
     // Do not use this -- use the EventKind below.
     DEPRECATED_CMAKE_EDITING_EVENT = 26 [deprecated = true];
+    // The event is related to Android Studio Projects
+    PROJECT_SYSTEM = 27;
   }
 
   // Specific kind of event, primary separation key of all Android Studio
@@ -699,6 +701,9 @@ message AndroidStudioEvent {
 
     // User took an action on a dialog (open or close)
     DIALOG_STATS = 171;
+
+    // User took an action to invalidate caches
+    PROJECT_SYSTEM_INVALIDATE_CACHES = 172;
   }
 
   // Represents different Performance Monitoring types.
@@ -4514,202 +4519,226 @@ message GradleSyncStats {
 
   // List of triggers for gradle Sync
   enum Trigger {
-    //Default, should not be explicitly set
+    // Default, should not be explicitly set
     TRIGGER_UNKNOWN = 0;
-    //Used only when a project is opened
+    // Used only when a project is opened
     TRIGGER_PROJECT_LOADED = 1;
-    //Project modifications caused a sync. This is too generic, prefer a more specific value
+    // Project modifications caused a sync. This is too generic, prefer a more specific value
     TRIGGER_PROJECT_MODIFIED = 2;
-    //User has explicitly requested a sync using the sync button
+    // User has explicitly requested a sync using the sync button
     TRIGGER_USER_REQUEST = 3;
-    //User clicked quickfix to enable embedded Maven repo
+    // User clicked quickfix to enable embedded Maven repo
     TRIGGER_EMBEDDED_REPO_ENABLED_BY_QUICKFIX = 4;
-    //User changed variant selection from Build Variants window
+    // User changed variant selection from Build Variants window
     TRIGGER_VARIANT_SELECTION_CHANGED_BY_USER = 5;
-    //User made changes in PSD that require a sync
+    // User made changes in PSD that require a sync
     TRIGGER_PSD_CHANGES = 6;
-    //Sync was done as part of Android Studio testing (should not be used since logs from testing are stored in a different place)
+    // Sync was done as part of Android Studio testing (should not be used since logs from testing are stored in a different place)
     TRIGGER_TEST_REQUESTED = 7;
 
-    //First marker for user initiated syncs
+    // First marker for user initiated syncs
     TRIGGER_USER_FIRST_MARKER = 100;
-    //Sterted by ""Sync now"" banner when there are pending changes
+    // Started by ""Sync now"" banner when there are pending changes
     TRIGGER_USER_STALE_CHANGES = 101;
-    //User clicked on the try again hyperlink from a banner
+    // User clicked on the try again hyperlink from a banner
     TRIGGER_USER_TRY_AGAIN = 102;
-    //Started by user from sync action
+    // Started by user from sync action
     TRIGGER_USER_SYNC_ACTION = 103;
-    //Syncing with additional arguments for c++ projects
+    // Syncing with additional arguments for c++ projects
     TRIGGER_USER_REFRESH_LINKED_CPP_PROJECTS = 104;
-    //Sync was requested by user while the project was building
+    // Sync was requested by user while the project was building
     TRIGGER_USER_REQUEST_WHILE_BUILDING = 105;
-    //Last marker for user initiated syncs
+    // Last marker for user initiated syncs
     TRIGGER_USER_LAST_MARKER = 199;
 
-    //First marker for syncs caused by quickfixes
+    // First marker for syncs caused by quickfixes
     TRIGGER_QF_FIRST_MARKER = 400;
-    //Upgrade appengine version using a quickfix
+    // Upgrade appengine version using a quickfix
     TRIGGER_QF_APPENGINE_VERSION_UPGRADED = 401;
-    //Install an artifact using a quickfix
+    // Install an artifact using a quickfix
     TRIGGER_QF_ARTIFACT_INSTALLED = 402;
-    //Install build tools using a quickfix
+    // Install build tools using a quickfix
     TRIGGER_QF_BUILD_TOOLS_INSTALLED = 403;
-    //Build tools version removed using a quickfix
+    // Build tools version removed using a quickfix
     TRIGGER_QF_BUILD_TOOLS_VERISON_REMOVED = 404;
-    //Build tools version changed using a quickfix
+    // Build tools version changed using a quickfix
     TRIGGER_QF_BUILD_TOOLS_VERSION_CHANGED = 405;
-    //Install CMake using a quickfix
+    // Install CMake using a quickfix
     TRIGGER_QF_CMAKE_INSTALLED = 406;
-    //Change JDK to the one used by Android Studio itself from a quickfix
+    // Change JDK to the one used by Android Studio itself from a quickfix
     TRIGGER_QF_JDK_CHANGED_TO_CURRENT = 407;
-    //Change JDK to use the one embedded with Android Studio from a quickfix
+    // Change JDK to use the one embedded with Android Studio from a quickfix
     TRIGGER_QF_JDK_CHANGED_TO_EMBEDDED = 408;
-    //Install NDK using a quickfix
+    // Install NDK using a quickfix
     TRIGGER_QF_NDK_INSTALLED = 409;
-    //Property android.useDeprecatedNdk was set to true using a quickfix
+    // Property android.useDeprecatedNdk was set to true using a quickfix
     TRIGGER_QF_NDK_INTEGRATION_DEPRECATED_SET = 410;
-    //Offline mode was disabled using a quickfix
+    // Offline mode was disabled using a quickfix
     TRIGGER_QF_OFFLINE_MODE_DISABLED = 411;
-    //Offline mode was enabled using a quickfix
+    // Offline mode was enabled using a quickfix
     TRIGGER_QF_OFFLINE_MODE_ENABLED = 412;
-    //Install one or more platforms using a quickfix
+    // Install one or more platforms using a quickfix
     TRIGGER_QF_PLATFORM_INSTALLED = 413;
-    //Sync passing --refresh-dependencies option from an hyperlink
+    // Sync passing --refresh-dependencies option from an hyperlink
     TRIGGER_QF_REFRESH_DEPENDENCIES = 414;
-    //Repository added from a quickfix
+    // Repository added from a quickfix
     TRIGGER_QF_REPOSITORY_ADDED = 415;
-    //Install repository from a quickfix
+    // Install repository from a quickfix
     TRIGGER_QF_REPOSITORY_INSTALLED = 416;
-    //Install missing SDK packages from a quickfix
+    // Install missing SDK packages from a quickfix
     TRIGGER_QF_SDK_PACKAGE_INSTALLED = 417;
-    //SDK path was changed from a quickfix
+    // SDK path was changed from a quickfix
     TRIGGER_QF_SDK_PATH_CHANGED = 418;
-    //Install a missing SDK version from a quickfix
+    // Install a missing SDK version from a quickfix
     TRIGGER_QF_SDK_VERSION_INSTALLED = 419;
-    //Gradle wrapper was created using a quickfix
+    // Gradle wrapper was created using a quickfix
     TRIGGER_QF_WRAPPER_CREATED = 420;
-    //Gradle version was changed in wrapper using a quickfix
+    // Gradle version was changed in wrapper using a quickfix
     TRIGGER_QF_WRAPPER_GRADLE_VERSION_FIXED = 421;
-    //Last marker for syncs caused by quickfixes
+    // SDK has been removed from manifest files
+    TRIGGER_QF_SDK_REMOVED_FROM_MANIFEST = 422;
+    // Last marker for syncs caused by quickfixes
     TRIGGER_QF_LAST_MARKER = 999;
 
-    //First marker for syncs caused by a refactor
+    // First marker for syncs caused by a refactor
     TRIGGER_REFACTOR_FIRST_MARKER = 1200;
-    //Migrate project to use Androidx
+    // Migrate project to use Androidx
     TRIGGER_REFACTOR_MIGRATE_TO_ANDROIDX = 1201;
-    //Migrate project to use resource namespaces
+    // Migrate project to use resource namespaces
     TRIGGER_REFACTOR_MIGRATE_TO_RESOURCE_NAMESPACES = 1202;
-    //A module was renamed using refactoring
+    // A module was renamed using refactoring
     TRIGGER_REFACTOR_MODULE_RENAMED = 1203;
-    //Last marker for syncs caused by a refactor
+    // Last marker for syncs caused by a refactor
     TRIGGER_REFACTOR_LAST_MARKER = 1299;
 
-    //First marker for syncs due to chanes from PSD
-    TRIGGER_PSD_FRIST_MARKER = 1500;
-    //A dependency was removed using PSD (using GradleOperations#removeDependencies)
+    // First marker for syncs due to changes from PSD
+    TRIGGER_PSD_FIRST_MARKER = 1500;
+    // A dependency was removed using PSD (using GradleOperations#removeDependencies)
     TRIGGER_PSD_DEPENDENCY_REMOVED = 1501;
-    //A module was removed from the PSD (using AndroidProjectStructureConfigurable.DeleteModuleAction)
+    // A module was removed from the PSD (using AndroidProjectStructureConfigurable.DeleteModuleAction)
     TRIGGER_PSD_MODULE_REMOVED = 1502;
-    //Last marker for syncs due to chanes from PSD
+    // Last marker for syncs due to changes from PSD
     TRIGGER_PSD_LAST_MARKER = 1599;
 
-    //First marker for changes in SDK
+    // First marker for changes in SDK
     TRIGGER_SDK_FIRST_MARKER = 1800;
-    //Android SDK path in local.properties was changed
+    // Android SDK path in local.properties was changed
     TRIGGER_SDK_PATH_CHANGED = 1801;
-    //Last marker for changes in SDK
+    // Last marker for changes in SDK
     TRIGGER_SDK_LAST_MARKER = 1899;
 
-    //First marker for sync due to changes done by AndroidGradleJavaProjectModelModifier
+    // First marker for sync due to changes done by AndroidGradleJavaProjectModelModifier
     TRIGGER_MODIFIER_FIRST_MARKER = 2100;
-    //An action was redone (from AndroidGradleJavaProjectModelModifier#registerUndoAction)
+    // An action was redone (from AndroidGradleJavaProjectModelModifier#registerUndoAction)
     TRIGGER_MODIFIER_ACTION_REDONE = 2101;
-    //An action was undone (from AndroidGradleJavaProjectModelModifier#registerUndoAction)
+    // An action was undone (from AndroidGradleJavaProjectModelModifier#registerUndoAction)
     TRIGGER_MODIFIER_ACTION_UNDONE = 2102;
-    //Last marker for sync due to changes done by AndroidGradleJavaProjectModelModifier
+    // A dependency to a module was added
+    TRIGGER_MODIFIER_ADD_MODULE_DEPENDENCY = 2103;
+    // A dependency to an external library was added
+    TRIGGER_MODIFIER_ADD_LIBRARY_DEPENDENCY = 2104;
+    // Language level was changed
+    TRIGGER_MODIFIER_LANGUAGE_LEVEL_CHANGED = 2105;
+    // Last marker for sync due to changes done by AndroidGradleJavaProjectModelModifier
     TRIGGER_MODIFIER_LAST_MARKER = 2199;
 
-    //First marker for changes in languages
+    // First marker for changes in languages
     TRIGGER_LANGUAGE_FIRST_MARKER = 2400;
-    //Java language level was changed
+    // Java language level was changed
     TRIGGER_LANGUAGE_JAVA_LEVEL_CHANGED = 2401;
-    //Kotlin was configured for current project
+    // Kotlin was configured for current project
     TRIGGER_LANGUAGE_KOTLIN_CONFIGURED = 2402;
-    //Last marker for changes in languages
+    // Last marker for changes in languages
     TRIGGER_LANGUAGE_LAST_MARKER = 2499;
 
-    //First marker for syncs related to Single Variant Sync
+    // First marker for syncs related to Single Variant Sync
     TRIGGER_SVS_FIRST_MARKER = 2700;
-    //SVS is not supported. SVS was disabled and a new sync started
+    // SVS is not supported. SVS was disabled and a new sync started
     TRIGGER_SVS_NOT_SUPPORTED = 2701;
-    //Last marker for syncs related to Single Variant Sync
+    // Last marker for syncs related to Single Variant Sync
     TRIGGER_SVS_LAST_MARKER = 2799;
 
-    //First marker for sync due to C++ changes
+    // First marker for sync due to C++ changes
     TRIGGER_CPP_FIRST_MARKER = 3000;
-    //Link an external C++ project with Gradle
+    // Link an external C++ project with Gradle
     TRIGGER_CPP_EXTERNAL_PROJECT_LINKED = 3001;
-    //Last marker for sync due to C++ changes
+    // Last marker for sync due to C++ changes
     TRIGGER_CPP_LAST_MARKER = 3099;
 
-    //First marker for AddDependencyAction syncs
+    // First marker for AddDependencyAction syncs
     TRIGGER_ADDDEPENDENCYACTION_FIRST_MARKER = 3300;
-    //A dependency was added by Add dependency action
+    // A dependency was added by Add dependency action
     TRIGGER_ADDDEPENDENCYACTION_CALLED = 3301;
-    //Last marker for AddDependencyAction syncs
+    // Last marker for AddDependencyAction syncs
     TRIGGER_ADDDEPENDENCYACTION_LAST_MARKER = 3399;
 
-    //First marker for syncs related to Espresso
+    // First marker for syncs related to Espresso
     TRIGGER_ESPRESSO_FIRST_MARKER = 3600;
-    //Espresso is enabled by RecordingDialog
+    // Espresso is enabled by RecordingDialog
     TRIGGER_ESPRESSO_SETUP = 3601;
-    //Last marker for syncs related to Espresso
+    // Last marker for syncs related to Espresso
     TRIGGER_ESPRESSO_LAST_MARKER = 3699;
 
-    //First marker for syncs caused by a build
+    // First marker for syncs caused by a build
     TRIGGER_BUILD_FIRST_MARKER = 3900;
-    //Sync is needed before building an APK
+    // Sync is needed before building an APK
     TRIGGER_BUILD_BEFORE_BUILDING_APK = 3901;
-    //There was an error in the previous sync (before building) or there were changes after build was done that require a sync
+    // There was an error in the previous sync (before building) or there were changes after build was done that require a sync
     TRIGGER_BUILD_SYNC_NEEDED_AFTER_BUILD = 3902;
-    //Last marker for syncs caused by a build
+    // Last marker for syncs caused by a build
     TRIGGER_BUILD_LAST_MARKER = 3999;
 
-    //First marker for sync started due to a run
+    // First marker for sync started due to a run
     TRIGGER_RUN_FIRST_MARKER = 4200;
-    //There are native unsynced variants before running
+    // There are native unsynced variants before running
     TRIGGER_RUN_NATIVE_UNSYNCED = 4201;
-    //Sync was not performed before running and there are changes that require a sync
+    // Sync was not performed before running and there are changes that require a sync
     TRIGGER_RUN_SYNC_NEEDED_BEFORE_RUNNING = 4202;
-    //Last marker for sync started due to a run
+    // Last marker for sync started due to a run
     TRIGGER_RUN_LAST_MARKER = 4299;
 
-    //First marker for changes in Android Gradle Plugin
+    // First marker for changes in Android Gradle Plugin
     TRIGGER_AGP_FIRST_MARKER = 4500;
-    //Android Gradle plugin was updated
+    // Android Gradle plugin was updated
     TRIGGER_AGP_VERSION_UPDATED = 4501;
-    //Last marker for changes in Android Gradle Plugin
+    // Last marker for changes in Android Gradle Plugin
     TRIGGER_AGP_LAST_MARKER = 4599;
 
-    //First marker for project loading triggers
+    // First marker for project loading triggers
     TRIGGER_PROJECT_LOADED_FIRST_MARKER = 4800;
-    //First sync after project was created from NPW
+    // First sync after project was created from NPW
     TRIGGER_PROJECT_NEW = 4801;
-    //Project was reopen from recent projects or after IDE restart
+    // Project was reopen from recent projects or after IDE restart
     TRIGGER_PROJECT_REOPEN = 4802;
-    //There was a failure while trying to setup module from cache
+    // There was a failure while trying to setup module from cache
     TRIGGER_PROJECT_CACHED_SETUP_FAILED = 4803;
-    //Last marker for project loading triggers
+    // Last marker for project loading triggers
     TRIGGER_PROJECT_LOADED_LAST_MARKER = 4899;
 
-    //First marker for sync required while importing
+    // First marker for sync required while importing
     TRIGGER_IMPORT_FIRST_MARKER = 5100;
-    //An ADT module was imported to the current project
+    // An ADT module was imported to the current project
     TRIGGER_IMPORT_ADT_MODULE = 5101;
-    //One or more modules were copied and registered to current project
+    // One or more modules were copied and registered to current project
     TRIGGER_IMPORT_MODULES_COPIED = 5102;
-    //Last marker for sync required while importing
+    // Last marker for sync required while importing
     TRIGGER_IMPORT_LAST_MARKER = 5199;
+
+    // First marker for sync after changes in variants
+    TRIGGER_VARIANT_FIRST_MARKER = 5400;
+    // Variant changed by user but a full sync is required
+    TRIGGER_VARIANT_SELECTION_FULL_SYNC = 5401;
+    // Last marker for sync after changes in variants
+    TRIGGER_VARIANT_LAST_MARKER = 5499;
+
+    // First marker for changes done by GradleDependencyManager
+    TRIGGER_GRADLEDEPENDENCY_FIRST_MARKER = 5700;
+    // A dependency was added
+    TRIGGER_GRADLEDEPENDENCY_ADDED = 5701;
+    // A dependency was updated
+    TRIGGER_GRADLEDEPENDENCY_UPDATED = 5702;
+    // Last marker for changes done by GradleDependencyManager
+    TRIGGER_GRADLEDEPENDENCY_LAST_MARKER = 5799;
   }
 
   // List of sync types
