@@ -15,7 +15,7 @@
  */
 package com.android.tools.analytics
 
-import com.android.annotations.VisibleForTesting
+import com.google.common.annotations.VisibleForTesting
 import com.sun.management.OperatingSystemMXBean
 import java.awt.GraphicsEnvironment
 import java.lang.management.*

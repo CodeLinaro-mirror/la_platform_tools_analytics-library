@@ -16,7 +16,7 @@
 
 package com.android.tools.analytics
 
-import com.android.annotations.VisibleForTesting
+import com.google.common.annotations.VisibleForTesting
 
 /**
  * Used in tests to fake out the Environment code used in production to allow injecting custom

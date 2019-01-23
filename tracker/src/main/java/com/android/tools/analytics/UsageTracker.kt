@@ -16,7 +16,7 @@
 
 package com.android.tools.analytics
 
-import com.android.annotations.VisibleForTesting
+import com.google.common.annotations.VisibleForTesting
 import com.google.wireless.android.sdk.stats.AndroidStudioEvent
 import java.nio.file.Paths
 import java.util.*

@@ -15,7 +15,7 @@
  */
 package com.android.tools.analytics
 
-import com.android.annotations.VisibleForTesting
+import com.google.common.annotations.VisibleForTesting
 import com.android.utils.DateProvider
 import java.io.IOException
 import java.net.HttpURLConnection
