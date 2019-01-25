@@ -57,4 +57,6 @@ class TestUsageTracker(val scheduler: VirtualTimeScheduler) : UsageTrackerWriter
     FileUtils.deleteDirectoryContents(androidSdkHomeEnvironment)
     Environment.instance = Environment.SYSTEM
   }
+
+  override fun flush() {}
 }

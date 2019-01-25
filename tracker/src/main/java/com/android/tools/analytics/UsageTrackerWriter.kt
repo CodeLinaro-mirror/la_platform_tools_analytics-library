@@ -19,6 +19,7 @@ package com.android.tools.analytics
 import com.google.wireless.android.play.playlog.proto.ClientAnalytics
 import com.google.wireless.android.sdk.stats.AndroidStudioEvent
 import com.google.wireless.android.sdk.stats.ProductDetails
+import java.io.Flushable
 
 /**
  * UsageTrackerWriter is an api to report usage of features. This data is used to improve
@@ -28,7 +29,7 @@ import com.google.wireless.android.sdk.stats.ProductDetails
  * A separate system called the Analytics Publisher takes the logs and sends them
  * to Google's servers for analysis.
  */
-abstract class UsageTrackerWriter : AutoCloseable {
+abstract class UsageTrackerWriter : AutoCloseable, Flushable {
   open fun scheduleJournalTimeout(maxJournalTime: Long) {}
 
 
