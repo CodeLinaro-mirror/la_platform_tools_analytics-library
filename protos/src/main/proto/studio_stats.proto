@@ -274,6 +274,9 @@ message AndroidStudioEvent {
   // set when kind = DIALOG_STATS
   optional DialogStats dialog_stats = 74;
 
+  // set when kind = GRADLE_PLUGIN_UPGRADE_DIALOG
+  optional GradlePluginUpgradeDialogStats gradle_plugin_upgrade_dialog = 75;
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -704,6 +707,9 @@ message AndroidStudioEvent {
 
     // User took an action to invalidate caches
     PROJECT_SYSTEM_INVALIDATE_CACHES = 172;
+
+    // Performed an action with the Gradle Plugin Upgrade dialog
+    GRADLE_PLUGIN_UPGRADE_DIALOG = 173;
   }
 
   // Represents different Performance Monitoring types.
@@ -4498,6 +4504,35 @@ message ApkAnalyzerStats {
 
   // size of the APK after compression
   optional uint64 compressed_size = 2;
+}
+
+// Gradle Plugin Upgrade Dialog Stats
+message GradlePluginUpgradeDialogStats {
+  // The current Gradle Version used by the project e.g "4.10.3"
+  optional string current_gradle_version = 1;
+  // The current Android Gradle Plugin version used by the project e.g
+  // "3.4-alpha01"
+  optional string current_android_gradle_plugin_version = 2;
+  // The Gradle version that the update prompt recommended e.g "5.1"
+  optional string recommended_gradle_version = 3;
+  // The Android Gradle Plugin version that the upgrade prompt recommended e.g
+  // "3.5-beta02"
+  optional string recommended_android_gradle_plugin_version = 4;
+  // The action the user took
+  optional UserAction user_action = 5;
+
+  enum UserAction {
+    // We don't know
+    UNKNOWN_USER_ACTION = 0;
+    // The user closed the dialog
+    CANCEL = 1;
+    // Do not show the prompt again
+    DO_NOT_ASK_AGAIN = 2;
+    // Do not show the prompt again until tomorrow
+    REMIND_ME_TOMORROW = 3;
+    // Upgrade the Gradle and Plugin version
+    OK = 4;
+  }
 }
 
 // Gradle Sync details
