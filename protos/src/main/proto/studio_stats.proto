@@ -292,6 +292,9 @@ message AndroidStudioEvent {
   // gradle_sync_issues). set when kind = GRADLE_SYNC_FAILURE_DETAILS.
   repeated GradleSyncQuickFix offered_quick_fixes = 79;
 
+  // set when kind = STUDIO_PATCH_UPDATER
+  optional StudioPatchUpdaterEvent studio_patch_updater_event = 80;
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -738,6 +741,9 @@ message AndroidStudioEvent {
 
     // Sync issues reported to the user (after sync completed).
     GRADLE_SYNC_ISSUES = 177;
+
+    // Android Studio Patch Updater events
+    STUDIO_PATCH_UPDATER = 178;
   }
 
   // Represents different Performance Monitoring types.
@@ -1062,6 +1068,7 @@ message ProductDetails {
     EMULATOR = 2;
     GRADLE = 3;
     DDMS = 4;
+    STUDIO_PATCH_UPDATER = 5;
   }
 
   // Chip the software is running on.
@@ -5978,4 +5985,113 @@ message TypingLatencyStats {
   }
   // Per-file-type latency stats.
   repeated LatencyRecord latency_records = 1;
+}
+
+// Details of events relating to the Android Studio Patch Updater
+message StudioPatchUpdaterEvent {
+  optional Kind kind = 1;
+
+  // Information about the patch itself
+  optional Patch patch = 2;
+
+  // Details about patch updater issues presented to the user.
+  optional IssueDialog issue_dialog = 3;
+
+  // Options chosen by the user from the
+  optional IssueDialogChoices issue_dialog_choices = 4;
+
+  // The kind of event reported
+  enum Kind {
+    UNKNOWN_EVENT_KIND = 0;
+    // Android Studio Patch Updater: Startup
+    START = 1;
+    // Android Studio Patch Updater: Display Patch details
+    PATCH_DETAILS_SHOW = 2;
+    // Android Studio Patch Updater: Show generic retry-able error dialog
+    RETRYABLE_ERROR_DIALOG_SHOW = 3;
+    // Android Studio Patch Updater: Show generic fatal error dialog
+    FATAL_ERROR_DIALOG_SHOW = 4;
+    // Android Studio Patch Updater: Show (potentially recoverable) validation
+    // issue dialog
+    VALIDATION_PROBLEMS_DIALOG_SHOW = 5;
+    // Android Studio Patch Updater: Validation issue dialog was closed.
+    VALIDATION_PROBLEMS_DIALOG_CLOSE = 6;
+    // Android Studio Patch Updater: Enter phase of the update process
+    PHASE_UNKNOWN = 7;
+    PHASE_EXTRACTING_PATCH_FILES = 8;
+    PHASE_VALIDATING_INSTALLATION = 9;
+    PHASE_BACKING_UP_FILES = 10;
+    PHASE_PREPARING_UPDATE = 11;
+    PHASE_APPLYING_PATCH = 12;
+    PHASE_REVERTING = 13;
+    PHASE_CLEANING_UP = 14;
+    // Android Studio Patch Updater: Successful exit
+    EXIT_OK = 15;
+    // Android Studio Patch Updater: Exit with controlled abort
+    EXIT_ABORT = 16;
+    // Android Studio Patch Updater: Exit with unexpected exception
+    EXIT_EXCEPTION = 17;
+  }
+
+  // Information about the patch itself
+  message Patch {
+    // The version of studio patching from, e.g. '183.5153.38.35.5240547'
+    optional string studio_version_from = 1;
+    // The version of studio patching to, e.g. '183.5153.38.35.5256920'
+    optional string studio_version_to = 2;
+  }
+
+  // The options available for the user to address the
+  // patch updater errors.
+  enum ValidationOption {
+    UNKNOWN_VALIDATION_OPTION = 0;
+    NONE = 1;
+    IGNORE = 2;
+    KEEP = 3;
+    REPLACE = 4;
+    DELETE = 5;
+    KILL_PROCESS = 6;
+  }
+
+  // Details about patch updater issues presented to the user.
+  message IssueDialog {
+    // The issues presented in the table to the user,
+    // which may or may not be actionable.
+    repeated Issue issue = 1;
+
+    message Issue {
+      // The type of issue presented
+      enum Kind {
+        UNKNOWN_KIND = 0;
+        INFO = 1;
+        CONFLICT = 2;
+        ERROR = 3;
+      }
+      // The action the updater was attempting to perform
+      enum Action {
+        UNKNOWN_ACTION = 0;
+        CREATE = 1;
+        UPDATE = 2;
+        DELETE = 3;
+        NO_ACTION = 4;
+        VALIDATE = 5;
+      }
+
+      // The type of issue presented
+      optional Kind kind = 1;
+      // The action that the patcher was attempting to perform
+      optional Action action = 2;
+      // The options available to the user
+      repeated ValidationOption presented_option = 3;
+    }
+  }
+
+  // The resolution choices chosen by the user from the issue dialog
+  message IssueDialogChoices {
+    repeated Choice choice = 1;
+    // A single choice made by the user
+    message Choice {
+      optional ValidationOption chosen_option = 1;
+    }
+  }
 }
