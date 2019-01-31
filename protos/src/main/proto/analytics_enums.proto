@@ -333,6 +333,7 @@ enum BooleanOption {
     CONDITIONAL_KEEP_RULES = 72;
     ENABLE_R8_LIBRARIES = 73;
     ENABLE_DUPLICATE_CLASSES_CHECK = 74;
+    ENFORCE_UNIQUE_PACKAGE_NAMES = 75;
 }
 
 enum OptionalBooleanOption {

@@ -502,6 +502,110 @@ class JournalingUsageTrackerTest {
                        .setKind(AndroidStudioEvent.EventKind.EMULATOR_PING))
   }
 
+  @Test
+  @Throws(Exception::class)
+  fun trackerNoFlushBasicTest() {
+    // Configure the paths to use a temp directory for reading from and writing to.
+    EnvironmentFakes.setCustomAndroidSdkHomeEnvironment(
+      testConfigDir.root.toPath().toString())
+
+    try {
+      // Setup up an instance of the JournalingUsageTracker using a temp spool directory and
+      //  virtual time scheduler.
+      val virtualTimeScheduler = VirtualTimeScheduler()
+      val journalingUsageTracker = JournalingUsageTracker(virtualTimeScheduler,
+        testSpoolDir.root.toPath())
+
+      // Create a log entry and log it, but don't allow the scheduler to run the write action.
+      val logEntry = createAndroidStudioEvent(42)
+      journalingUsageTracker.logNow(logEntry)
+      assertEquals(1, virtualTimeScheduler.actionsQueued)
+
+      // There should be only one spool file.
+      val beforeClose = getSpoolDetails(testSpoolDir.root.toPath())
+      assertEquals(1, beforeClose.lockedFiles.size.toLong())
+      assertEquals(0, beforeClose.completedLogs.size.toLong())
+
+      // Close the usage tracker
+      journalingUsageTracker.close()
+
+      // Allow the action to run, it should not error, but drop the log silently.
+      val queue = virtualTimeScheduler.queue
+      virtualTimeScheduler.advanceBy(0)
+      assertEquals(0, virtualTimeScheduler.actionsQueued)
+      queue.forEach { it.get() }
+
+      // Ensure that closing the usage tracker released the spool file, and doesn't open a new
+      // one.
+      val afterClose = getSpoolDetails(testSpoolDir.root.toPath())
+      assertEquals(0, afterClose.lockedFiles.size.toLong())
+      assertEquals(1, afterClose.completedLogs.size.toLong())
+
+      // Check that there is exactly one spool file and our event was dropped.
+      for ((_, value) in afterClose.completedLogs) {
+        assertEquals(0, value.size.toLong())
+      }
+    }
+    finally {
+      EnvironmentFakes.setSystemEnvironment()
+    }
+  }
+
+  @Test
+  @Throws(Exception::class)
+  fun trackerWithFlushBasicTest() {
+    // Configure the paths to use a temp directory for reading from and writing to.
+    EnvironmentFakes.setCustomAndroidSdkHomeEnvironment(
+      testConfigDir.root.toPath().toString())
+
+    try {
+      // Setup up an instance of the JournalingUsageTracker using a temp spool directory and
+      //  virtual time scheduler.
+      val virtualTimeScheduler = VirtualTimeScheduler()
+      val journalingUsageTracker = JournalingUsageTracker(virtualTimeScheduler,
+        testSpoolDir.root.toPath())
+
+      // Create a log entry and log it, but don't allow the scheduler to run the write action.
+      val logEntry = createAndroidStudioEvent(42)
+      journalingUsageTracker.logNow(logEntry)
+      assertEquals(1, virtualTimeScheduler.actionsQueued)
+
+      // There should be only one spool file.
+      val beforeClose = getSpoolDetails(testSpoolDir.root.toPath())
+      assertEquals(1, beforeClose.lockedFiles.size.toLong())
+      assertEquals(0, beforeClose.completedLogs.size.toLong())
+
+      // Flush the event to the file before closing
+      journalingUsageTracker.flush()
+      journalingUsageTracker.close()
+
+      // Allow the action to run. As flush was called explicitly there will be no action to run,
+      // so it should complete trivially.
+      val queue = virtualTimeScheduler.queue
+      virtualTimeScheduler.advanceBy(0)
+      assertEquals(0, virtualTimeScheduler.actionsQueued)
+      queue.forEach { it.get() }
+
+      // Ensure that closing the usage tracker released the spool file, and doesn't open a new
+      // one.
+      val afterClose = getSpoolDetails(testSpoolDir.root.toPath())
+      assertEquals(0, afterClose.lockedFiles.size.toLong())
+      assertEquals(1, afterClose.completedLogs.size.toLong())
+
+      // Check that there is exactly one spool file with one event logged that equals the event
+      // we logged.
+      for ((_, value) in afterClose.completedLogs) {
+        assertEquals(1, value.size.toLong())
+        val logEvent = value[0]
+        val actualEvent = studioEventFromLogEvent(logEvent)
+        assertEquals(logEntry.build(), actualEvent)
+      }
+    }
+    finally {
+      EnvironmentFakes.setSystemEnvironment()
+    }
+  }
+
   /**
    * Helper that builds a [AndroidStudioEvent] with a marker to distinguish this message.
    */

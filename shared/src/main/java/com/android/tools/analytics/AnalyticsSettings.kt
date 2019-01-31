@@ -258,8 +258,8 @@ object AnalyticsSettings {
         dateProvider = gp
         googlePlayDateProvider = gp
       }
-      catch (e: IOException) {
-        logger.error(e, "Unable to get current time from Google's servers")
+      catch (_: IOException) {
+        logger.warning("Unable to get current time from Google's servers, using local system time instead.")
       }
     }
   }
