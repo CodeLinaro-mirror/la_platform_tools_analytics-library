@@ -284,6 +284,14 @@ message AndroidStudioEvent {
   // set when kind = TYPING_LATENCY_STATS
   optional TypingLatencyStats typing_latency_stats = 77;
 
+  // set when kind = GRADLE_SYNC_ISSUES.
+  repeated GradleSyncIssue gradle_sync_issues = 78;
+
+  // The list of quick-fixes offered to resolve a sync failure. (Quick fixes
+  // offered to resolve specific sync issues are reported in
+  // gradle_sync_issues). set when kind = GRADLE_SYNC_FAILURE_DETAILS.
+  repeated GradleSyncQuickFix offered_quick_fixes = 79;
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -727,6 +735,9 @@ message AndroidStudioEvent {
     // Sync failure details reported to the user (previously reported as a
     // GRADLE_SYNC_FAILURE).
     GRADLE_SYNC_FAILURE_DETAILS = 176;
+
+    // Sync issues reported to the user (after sync completed).
+    GRADLE_SYNC_ISSUES = 177;
   }
 
   // Represents different Performance Monitoring types.
@@ -856,7 +867,167 @@ message AndroidStudioEvent {
     ANDROID_STUDIO_WITH_BLAZE = 2;
     INTELLIJ = 3;
   }
+
+  // Gradle sync issue type.
+  enum GradleSyncIssueType {
+    UNKNOWN_GRADLE_SYNC_ISSUE_TYPE = 0;
+
+    TYPE_PLUGIN_OBSOLETE = 1;
+    TYPE_UNRESOLVED_DEPENDENCY = 2;
+    TYPE_DEPENDENCY_IS_APK = 3;
+    TYPE_DEPENDENCY_IS_APKLIB = 4;
+    TYPE_NON_JAR_LOCAL_DEP = 5;
+    TYPE_NON_JAR_PACKAGE_DEP = 6;
+    TYPE_NON_JAR_PROVIDED_DEP = 7;
+    TYPE_JAR_DEPEND_ON_AAR = 8;
+
+    // Mismatch dependency version between tested and test app. Data is dep
+    // coordinate without the version (groupId:artifactId)
+    TYPE_MISMATCH_DEP = 9;
+
+    TYPE_OPTIONAL_LIB_NOT_FOUND = 10;
+
+    TYPE_JACK_IS_NOT_SUPPORTED = 11;
+
+    TYPE_GRADLE_TOO_OLD = 12;
+
+    TYPE_BUILD_TOOLS_TOO_LOW = 13;
+
+    // Found dependency that's the maven published android.jar. Data is the
+    // maven artifact coordinates.
+    TYPE_DEPENDENCY_MAVEN_ANDROID = 14;
+
+    // Found dependency that is known to be inside android.jar. Data is maven
+    // artifact coordinates.
+    TYPE_DEPENDENCY_INTERNAL_CONFLICT = 15;
+
+    // Errors configuring NativeConfigValues for individual individual variants
+    TYPE_EXTERNAL_NATIVE_BUILD_CONFIGURATION = 16;
+
+    // Errors configuring NativeConfigValues. There was a process exception.
+    // Data contains STDERR which should be interpreted by Android Studio.
+    TYPE_EXTERNAL_NATIVE_BUILD_PROCESS_EXCEPTION = 17;
+
+    // Cannot use Java 8 Language features without Jack.
+    TYPE_JACK_REQUIRED_FOR_JAVA_8_LANGUAGE_FEATURES = 18;
+
+    // A wearApp configuration was resolved and found more than one apk. Data is
+    // the configuration name.
+    TYPE_DEPENDENCY_WEAR_APK_TOO_MANY = 19;
+
+    // A wearApp configuration was resolved and found an apk even though
+    // unbundled mode is on.
+    TYPE_DEPENDENCY_WEAR_APK_WITH_UNBUNDLED = 20;
+
+    TYPE_JAR_DEPEND_ON_ATOM = 21;
+
+    TYPE_AAR_DEPEND_ON_ATOM = 22;
+
+    TYPE_ATOM_DEPENDENCY_PROVIDED = 23;
+
+    // Indicates that a required SDK package was not installed. The data field
+    // contains the sdklib package ID of the missing package that the user
+    // should install.
+    TYPE_MISSING_SDK_PACKAGE = 24;
+
+    // Indicates that the plugin requires a newer version of studio. Minimum
+    // version is passed in the data.
+    TYPE_STUDIO_TOO_OLD = 25;
+
+    // Indicates that the module contains flavors but that no dimensions have
+    // been named. data is empty.
+    TYPE_UNNAMED_FLAVOR_DIMENSION = 26;
+
+    // An incompatible plugin is used.
+    TYPE_INCOMPATIBLE_PLUGIN = 27;
+
+    // Indicates that the project uses a deprecated DSL.
+    TYPE_DEPRECATED_DSL = 28;
+
+    TYPE_DEPRECATED_CONFIGURATION = 29;
+
+    // Indicates that the project uses a deprecated DSL.
+    TYPE_DEPRECATED_DSLVALUE = 30;
+
+    // Indicates that the project contains the min sdk in the android manifest
+    // file.
+    TYPE_MIN_SDK_VERSION_IN_MANIFEST = 31;
+
+    // Indicates that the project contains the target sdk in the android
+    // manifest file.
+    TYPE_TARGET_SDK_VERSION_IN_MANIFEST = 32;
+
+    // Indicated that an experimental gradle project option is used.
+    TYPE_UNSUPPORTED_PROJECT_OPTION_USE = 33;
+
+    // Indicates that building the configuration rules for this project requires
+    // parsing the manifest file.
+    TYPE_MANIFEST_PARSED_DURING_CONFIGURATION = 34;
+
+    // Indicates that the version of a third-party Gradle plugin (not the
+    // Android Gradle plugin) is not supported and needs to be updated.
+    TYPE_THIRD_PARTY_GRADLE_PLUGIN_TOO_OLD = 35;
+
+    // Indicates that the signing configuration is declared in the
+    // dynamic-feature gradle file. This should only be declared in the
+    // application module, as dynamic-features use the base module's signing
+    // configuration, and this will be ignored.
+    TYPE_SIGNING_CONFIG_DECLARED_IN_DYNAMIC_FEATURE = 36;
+
+    // Indicates that the SDK is missing or invalid, this can either be set in
+    // the ANDROID_SDK_ROOT environment variable or the projects
+    // local.properties files.
+    TYPE_SDK_NOT_SET = 37;
+  }
+
+  // Various quick-fixes that are offered to resolve sync issues.
+  enum GradleSyncQuickFix {
+    UNKNOWN_GRADLE_SYNC_QUICK_FIX = 0;
+    ADD_GOOGLE_MAVEN_REPOSITORY_HYPERLINK = 1;
+    BUILD_PROJECT_HYPERLINK = 2;
+    CREATE_GRADLE_WRAPPER_HYPERLINK = 3;
+    DISABLE_OFFLINE_MODE_HYPERLINK = 4;
+    DOWNLOAD_ANDROID_STUDIO_HYPERLINK = 5;
+    DOWNLOAD_JDK8_HYPERLINK = 6;
+    ENABLE_EMBEDDED_REPO_HYPERLINK = 7;
+    FILE_BUG_HYPERLINK = 8;
+    FIX_ANDROID_GRADLE_PLUGIN_VERSION_HYPERLINK = 9;
+    FIX_BUILD_TOOLS_VERSION_HYPERLINK = 10;
+    FIX_GRADLE_VERSION_IN_WRAPPER_HYPERLINK = 11;
+    INSTALL_ARTIFACT_HYPERLINK = 12;
+    INSTALL_BUILD_TOOLS_HYPERLINK = 13;
+    INSTALL_C_MAKE_HYPERLINK = 14;
+    INSTALL_NDK_HYPERLINK = 15;
+    INSTALL_PLATFORM_HYPERLINK = 16;
+    INSTALL_REPOSITORY_HYPERLINK = 17;
+    INSTALL_SDK_PACKAGE_HYPERLINK = 18;
+    INSTALL_SDK_TOOLS_HYPERLINK = 19;
+    OPEN_ANDROID_SDK_MANAGER_HYPERLINK = 20;
+    OPEN_BUILD_FILE_HYPERLINK = 21;
+    OPEN_FILE_HYPERLINK = 22;
+    OPEN_GRADLE_SETTINGS_HYPERLINK = 23;
+    OPEN_HTTP_SETTINGS_HYPERLINK = 24;
+    OPEN_PLUGIN_BUILD_FILE_HYPERLINK = 25;
+    OPEN_PROJECT_STRUCTURE_HYPERLINK = 26;
+    OPEN_URL_HYPERLINK = 27;
+    REMOVE_SDK_FROM_MANIFEST_HYPERLINK = 28;
+    SEARCH_IN_BUILD_FILES_HYPERLINK = 29;
+    SELECT_JDK_FROM_FILE_SYSTEM_HYPERLINK = 30;
+    SET_SDK_DIR_HYPERLINK = 31;
+    SET_USE_DEPRECATED_NDK_HYPERLINK = 32;
+    SHOW_DEPENDENCY_IN_PROJECT_STRUCTURE_HYPERLINK = 33;
+    SHOW_LOG_HYPERLINK = 34;
+    SHOW_SYNC_ISSUES_DETAILS_HYPERLINK = 35;
+    STOP_GRADLE_DAEMONS_HYPERLINK = 36;
+    SYNC_PROJECT_WITH_EXTRA_COMMAND_LINE_OPTIONS_HYPERLINK = 37;
+    TOGGLE_OFFLINE_MODE_HYPERLINK = 38;
+    UPDATE_PLUGIN_HYPERLINK = 39;
+    UPGRADE_APPENGINE_PLUGIN_VERSION_HYPERLINK = 40;
+    USE_CURRENTLY_RUNNING_JDK_HYPERLINK = 41;
+    USE_EMBEDDED_JDK_HYPERLINK = 42;
+  }
 }
+
 // Describes a product, e.g. Android Studio or Emulator.
 message ProductDetails {
   // The product this event relates to.
@@ -4813,6 +4984,14 @@ message GradleSyncStats {
     // New sync (without other features)
     GRADLE_SYNC_TYPE_NEW_SYNC = 5;
   }
+}
+
+// Gradle sync issue details.
+message GradleSyncIssue {
+  // The type of the sync issue.
+  optional AndroidStudioEvent.GradleSyncIssueType type = 1;
+  // The list of quick-fixes offered to resolve the issue.
+  repeated AndroidStudioEvent.GradleSyncQuickFix offered_quick_fixes = 2;
 }
 
 // APK Debugging project information
