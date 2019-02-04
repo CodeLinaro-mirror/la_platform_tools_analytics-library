@@ -256,6 +256,7 @@ enum GradleTaskExecutionType {
     CHECK_DUPLICATE_CLASSES = 178;
     CREATE_NON_NAMESPACED_LIBRARY_MANIFEST = 179;
     MERGE_JAVA_RESOURCE = 180;
+    MERGE_NATIVE_LIBS = 181;
 }
 
 enum BooleanOption {
