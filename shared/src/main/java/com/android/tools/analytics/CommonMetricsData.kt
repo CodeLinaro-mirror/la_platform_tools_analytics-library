@@ -19,7 +19,6 @@ import com.google.common.annotations.VisibleForTesting
 import com.google.common.base.Strings
 import com.google.wireless.android.sdk.stats.*
 import com.google.wireless.android.sdk.stats.DeviceInfo.ApplicationBinaryInterface
-import java.io.File
 import java.util.*
 import java.util.regex.Pattern
 
@@ -126,25 +125,6 @@ object CommonMetricsData {
         }
       }
       return null
-    }
-
-  /** Gets information about all the displays connected to this machine.  */
-  private val displayDetails: Iterable<DisplayDetails>
-    get() {
-      val displays = ArrayList<DisplayDetails>()
-
-      val graphics = HostData.graphicsEnvironment!!
-      if (!graphics.isHeadlessInstance) {
-        for (device in graphics.screenDevices) {
-          val bounds = device.defaultConfiguration.bounds
-          displays.add(
-            DisplayDetails.newBuilder()
-              .setHeight(bounds.height.toLong())
-              .setWidth(bounds.width.toLong())
-              .build())
-        }
-      }
-      return displays
     }
 
   /** Gets information about the jvm this code is running in.  */
@@ -269,23 +249,6 @@ object CommonMetricsData {
       "x86_64" -> ApplicationBinaryInterface.X86_64_ABI
       else -> ApplicationBinaryInterface.UNKNOWN_ABI
     }
-  }
-
-  /**
-   * Gets details about the machine this code is running on.
-   *
-   * @param homePath path to use to track total disk space.
-   */
-  @JvmStatic
-  fun getMachineDetails(homePath: File): MachineDetails {
-    val osBean = HostData.osBean!!
-
-    return MachineDetails.newBuilder()
-      .setAvailableProcessors(osBean.availableProcessors)
-      .setTotalRam(osBean.totalPhysicalMemorySize)
-      .setTotalDisk(homePath.totalSpace)
-      .addAllDisplay(displayDetails)
-      .build()
   }
 
   /** Parses known VM options into a [JvmDetails.Builder]  */

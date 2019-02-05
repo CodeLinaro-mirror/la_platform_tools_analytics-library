@@ -25,10 +25,6 @@ import com.google.wireless.android.sdk.stats.ProductDetails.CpuArchitecture
 import junit.framework.TestCase.assertEquals
 import org.junit.Assert
 import org.junit.Test
-import java.awt.GraphicsDevice
-import java.awt.HeadlessException
-import java.io.File
-import java.lang.management.GarbageCollectorMXBean
 import java.lang.management.MemoryUsage
 import java.util.*
 
@@ -308,53 +304,6 @@ class CommonMetricsDataTest {
     finally {
       // undo the stubbing of Runtime MX Bean.
       HostData.runtimeBean = null
-    }
-  }
-
-  @Test
-  fun getMachineDetailsTest() {
-    // Use the file root to get a consistent disk size
-    // (we normally use the studio install path).
-    val root = File(File.separator)
-    // Stub out the Operating System MX Bean to get consistent system info in the test.
-    HostData.osBean = object : StubOperatingSystemMXBean() {
-      override fun getAvailableProcessors(): Int {
-        return 16
-      }
-
-      override fun getTotalPhysicalMemorySize(): Long {
-        return 16L * 1024 * 1024 * 1024
-      }
-    }
-
-    // Stub out the Graphics Environment to get consistent screen sizes in the test.
-    HostData.graphicsEnvironment = object : StubGraphicsEnvironment() {
-      @Throws(HeadlessException::class)
-      override fun getScreenDevices(): Array<GraphicsDevice> {
-        return arrayOf(StubGraphicsDevice.withBounds(640, 480), StubGraphicsDevice.withBounds(1024, 768))
-      }
-
-      override fun isHeadlessInstance(): Boolean {
-        return false
-      }
-    }
-
-    try {
-      val expected = MachineDetails.newBuilder()
-        .setAvailableProcessors(16)
-        .setTotalRam(16L * 1024 * 1024 * 1024)
-        .setTotalDisk(root.totalSpace)
-        .addDisplay(DisplayDetails.newBuilder().setWidth(640).setHeight(480))
-        .addDisplay(DisplayDetails.newBuilder().setWidth(1024).setHeight(768))
-        .build()
-      val result = CommonMetricsData.getMachineDetails(root)
-      Assert.assertEquals(expected, result)
-    }
-    finally {
-      // undo the stubbing of Operating System MX Bean.
-      HostData.osBean = null
-      // undo the stubbing of Graphics Environment.
-      HostData.graphicsEnvironment = null
     }
   }
 
