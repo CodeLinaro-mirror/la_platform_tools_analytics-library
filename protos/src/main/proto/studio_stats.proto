@@ -3448,6 +3448,8 @@ message DisplayDetails {
   optional int32 dots_per_inch_horizontal = 3;
   // Densitiy of the pixels on the screen vertically.
   optional int32 dots_per_inch_vertical = 4;
+  // System scale factor for the screen resolution.
+  optional float system_scale = 5;
 }
 
 // Stats on the current running java process.
