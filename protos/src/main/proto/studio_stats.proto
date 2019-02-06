@@ -6006,6 +6006,8 @@ message TypingLatencyStats {
     optional int64 total_latency_ms = 3;
     // Max latency recorded for a single key typed.
     optional int64 max_latency_ms = 4;
+    // Full latency histogram.
+    optional Histogram histogram = 5;
   }
   // Per-file-type latency stats.
   repeated LatencyRecord latency_records = 1;
