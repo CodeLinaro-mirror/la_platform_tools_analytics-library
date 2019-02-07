@@ -4744,6 +4744,10 @@ message GradleSyncStats {
   optional string last_known_android_gradle_plugin_version = 8;
   // The version of AGP used for this sync, if known. (e.g. 3.5.0)
   optional string android_gradle_plugin_version = 9;
+  // Whether or not the project uses Groovy build files ("build.gradle")
+  optional bool uses_build_gradle = 10;
+  // Whether or not the project uses Kotlin build files ("build.gradle.kts")
+  optional bool uses_build_gradle_kts = 11;
 
   // List of triggers for gradle Sync
   enum Trigger {
@@ -5975,6 +5979,8 @@ message TypingLatencyStats {
     optional int64 total_latency_ms = 3;
     // Max latency recorded for a single key typed.
     optional int64 max_latency_ms = 4;
+    // Full latency histogram.
+    optional Histogram histogram = 5;
   }
   // Per-file-type latency stats.
   repeated LatencyRecord latency_records = 1;
