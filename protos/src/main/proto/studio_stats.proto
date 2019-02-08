@@ -6001,6 +6001,8 @@ message TypingLatencyStats {
     GROOVY = 4;
     PROPERTIES = 5;
     JSON = 6;
+    KOTLIN_SCRIPT = 7;  // .kts
+    NATIVE = 8;         // .c, .cpp, .h, etc.
   }
   message LatencyRecord {
     optional FileType file_type = 1;
