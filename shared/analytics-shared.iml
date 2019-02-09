@@ -17,7 +17,7 @@
     <orderEntry type="module" module-name="android.sdktools.common" />
     <orderEntry type="library" name="protobuf" level="project" />
     <orderEntry type="library" name="studio-analytics-proto" level="project" />
-    <orderEntry type="library" name="KotlinJavaRuntime" level="project" />
+    <orderEntry type="library" name="kotlin-stdlib-jdk8" level="project" />
     <orderEntry type="library" name="kotlin-stdlib-jre8" level="project" />
   </component>
 </module>
