@@ -1362,7 +1362,10 @@ message EmulatorFeatureFlagState {
     ON_DEMAND_SNAPSHOT_LOAD = 37;
     WIFI_CONFIGURABLE = 38;
     GL_DIRECT_MEM = 39;
-    // Next tag: 40
+    VIDEO_PLAYBACK = 40;
+    VULKAN = 41;
+    MACRO_UI = 42;
+    // Next tag: 43
   }
   // Which features were enabled by default or through the server-side config.
   repeated EmulatorFeatureFlag attempted_enabled_feature_flags = 1;
@@ -1661,6 +1664,8 @@ message EmulatorCameraSession {
     EMULATOR_CAMERA_TYPE_WEBCAM = 1;
     // Camera source is the virtual scene camera.
     EMULATOR_CAMERA_TYPE_VIRTUAL_SCENE = 2;
+    // Camera source is the video playback camera.
+    EMULATOR_CAMERA_TYPE_VIDEO_PLAYBACK = 3;
   }
 
   // List of possible camera directions.
@@ -2966,6 +2971,7 @@ message GradleBuildProfileSpan {
     VARIANT_MANAGER_CREATE_VARIANTS = 12;
     RESOLVE_DEPENDENCIES = 13;
     TASK_EXECUTION = 14;
+    WORKER_EXECUTION = 15;
     INITIAL_METADATA = 100 [deprecated = true];
     FINAL_METADATA = 101 [deprecated = true];
     GENERAL_CONFIG = 102;
@@ -5427,6 +5433,12 @@ message LaunchTaskDetail {
   repeated ArtifactDetail artifact = 4;
   // Thread ID this task is running on
   optional int32 tid = 5;
+  // The completion status of the task. This value
+  // is populated from several enums in code (using enum.code())
+  // interface, each LaunchTask has its own set of error codes with
+  // some of them coming from device and being populated here. This is similar
+  // to the RunEvent.deploy_failure_id
+  optional string status = 6;
 }
 
 message StudioRunEvent {
