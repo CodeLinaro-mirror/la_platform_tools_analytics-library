@@ -3575,6 +3575,28 @@ message StudioPerformanceStats {
   optional int32 event_service_time_sample_period = 3;
   // Histogram of wait times for the global write lock
   optional Histogram write_lock_wait_time_ms = 4;
+  // Information about GC pause time distributions, one for each collector that
+  // is active.
+  repeated GcPauseInfo gc_pause_info = 5;
+}
+
+// Information about GC pause times for a particular collector.
+message GcPauseInfo {
+  enum GcType {
+    UNKNOWN = 0;
+    SERIAL_YOUNG = 1;
+    SERIAL_OLD = 2;
+    PARALLEL_YOUNG = 3;
+    PARALLEL_OLD = 4;
+    CMS_YOUNG = 5;
+    CMS_OLD = 6;
+    G1_YOUNG = 7;
+    G1_OLD = 8;
+  }
+  // The type of the garbage collector
+  optional GcType collector_type = 1;
+  // Distribution of pause times for this collector
+  optional Histogram pause_times_ms = 2;
 }
 
 // One bucket of a PercentileEstimator.
@@ -5970,6 +5992,8 @@ message TypingLatencyStats {
     GROOVY = 4;
     PROPERTIES = 5;
     JSON = 6;
+    KOTLIN_SCRIPT = 7;  // .kts
+    NATIVE = 8;         // .c, .cpp, .h, etc.
   }
   message LatencyRecord {
     optional FileType file_type = 1;
