@@ -51,9 +51,7 @@ class Counter internal constructor(val name: String) {
   private val maxWall = AtomicLong()
   private val count = AtomicInteger()
 
-  val totalCpuNanos: Long get() = totalCpu.get()
   val totalWallNanos: Long get() = totalWall.get()
-  val maxCpuNanos: Long get() = maxCpu.get()
   val maxWallNanos: Long get() = maxWall.get()
   val totalCount: Int get() = count.get()
 
@@ -67,26 +65,20 @@ class Counter internal constructor(val name: String) {
   // Note, the counters are reset individually, so that if a call to this method coincides with a call to [time] method
   // it may result in partially recorded results.
   fun reset() {
-    totalCpu.set(0)
     totalWall.set(0)
-    maxCpu.set(0)
     maxWall.set(0)
     count.set(0)
   }
 
   private inline fun <R> time(block: () -> R): R {
-    val startCpu = currentCpuTimeNano
     val startWall = currentTimeNano
 
     return try {
       block()
     }
     finally {
-      val deltaCpu = currentCpuTimeNano - startCpu
       val deltaWall = currentTimeNano - startWall
-      totalCpu.addAndGet(deltaCpu)
       totalWall.addAndGet(deltaWall)
-      maxCpu.updateAndGet { max(it, deltaCpu) }
       maxWall.updateAndGet { max(it, deltaWall) }
       count.incrementAndGet()
     }
@@ -95,19 +87,13 @@ class Counter internal constructor(val name: String) {
   override fun toString(): String = buildString {
     val totalCount = count.get()
     if (totalCount > 0) {
-      val avgCpuMicros = (totalCpuNanos / totalCount) / 100 / 10.0
       val avgWallMicros = (totalWallNanos / totalCount) / 100 / 10.0
-      val maxCpuMicros = maxCpuNanos / 100 / 10.0
       val maxWallMicros = maxWallNanos / 100 / 10.0
-      val totalCpuMillis = totalCpuNanos / 100_000 / 10.0
       val totalWallMillis = totalWallNanos / 100_000 / 10.0
       append("Counter: ", name, " ")
       append("Count: ", totalCount, " ")
-      append("AvgCpu: ", avgCpuMicros, "μs ")
       append("AvgWall: ", avgWallMicros, "μs ")
-      append("TotalCpu: ", totalCpuMillis, "ms ")
       append("TotalWall: ", totalWallMillis, "ms ")
-      append("MaxCpu: ", maxCpuMicros, "μs ")
       append("MaxWall: ", maxWallMicros, "μs ")
       appendln()
     }
@@ -116,4 +102,3 @@ class Counter internal constructor(val name: String) {
 
 private val threadMx = ManagementFactory.getThreadMXBean()
 private val currentTimeNano: Long get() = System.nanoTime()
-private val currentCpuTimeNano: Long get() = threadMx.currentThreadCpuTime
