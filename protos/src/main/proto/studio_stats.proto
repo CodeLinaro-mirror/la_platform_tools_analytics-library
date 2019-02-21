@@ -5945,6 +5945,9 @@ message DataBindingEvent {
 
     // Data binding expression of the format @{obj::func}
     DATA_BINDING_CONTEXT_METHOD_REFERENCE = 2;
+
+    // Data binding xml tags. For example <variable> tag.
+    DATA_BINDING_CONTEXT_XML_TAG = 3;
   }
 
   // All of the stats we actively poll for
