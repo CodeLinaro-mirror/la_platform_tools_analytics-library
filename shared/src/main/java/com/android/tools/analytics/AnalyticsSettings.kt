@@ -175,13 +175,12 @@ object AnalyticsSettings {
     }
     val channel = RandomAccessFile(file, "rw").channel
     try {
-      lateinit var settings: AnalyticsSettingsData
-      channel.tryLock().use {
+      val settings: AnalyticsSettingsData? = channel.tryLock().use {
         val inputStream = Channels.newInputStream(channel)
         val gson = GsonBuilder().create()
-        settings = gson.fromJson(InputStreamReader(inputStream), AnalyticsSettingsData::class.java)
+        gson.fromJson(InputStreamReader(inputStream), AnalyticsSettingsData::class.java)
       }
-      if (!isValid(settings)) {
+      if (settings == null || !isValid(settings)) {
         return createNewAnalyticsSettingsData()
       }
       return settings
