@@ -166,6 +166,28 @@ class AnalyticsSettingsTest {
 
   @Test
   @Throws(Exception::class)
+  fun loadCorruptedEmptySettingsTest() {
+    // Configure the paths to use a temp directory for reading from and writing to.
+    EnvironmentFakes.setCustomAndroidSdkHomeEnvironment(
+      testConfigDir.root.toPath().toString())
+    try {
+      // Write empty file.
+      Files.write(
+        testConfigDir.root.toPath().resolve("analytics.settings"),
+        byteArrayOf())
+
+      AnalyticsSettings.setInstanceForTest(null)
+      AnalyticsSettings.initialize(failureLogger)
+      // Try reading the settings file and verify that it fails.
+      assertFalse(AnalyticsSettings.optedIn)
+    }
+    finally {
+      EnvironmentFakes.setSystemEnvironment()
+    }
+  }
+
+  @Test
+  @Throws(Exception::class)
   fun newSettingsTest() {
     // Configure the paths to use a temp directory for reading from and writing to.
     EnvironmentFakes.setCustomAndroidSdkHomeEnvironment(

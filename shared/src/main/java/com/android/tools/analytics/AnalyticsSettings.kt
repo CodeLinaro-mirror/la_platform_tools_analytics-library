@@ -16,9 +16,9 @@
 
 package com.android.tools.analytics
 
-import com.google.common.annotations.VisibleForTesting
 import com.android.utils.DateProvider
 import com.android.utils.ILogger
+import com.google.common.annotations.VisibleForTesting
 import com.google.common.base.Charsets
 import com.google.common.hash.Hashing
 import com.google.common.io.Files
@@ -175,13 +175,12 @@ object AnalyticsSettings {
     }
     val channel = RandomAccessFile(file, "rw").channel
     try {
-      lateinit var settings: AnalyticsSettingsData
-      channel.tryLock().use {
+      val settings: AnalyticsSettingsData? = channel.tryLock().use {
         val inputStream = Channels.newInputStream(channel)
         val gson = GsonBuilder().create()
-        settings = gson.fromJson(InputStreamReader(inputStream), AnalyticsSettingsData::class.java)
+        gson.fromJson(InputStreamReader(inputStream), AnalyticsSettingsData::class.java)
       }
-      if (!isValid(settings)) {
+      if (settings == null || !isValid(settings)) {
         return createNewAnalyticsSettingsData()
       }
       return settings
