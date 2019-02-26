@@ -4544,6 +4544,25 @@ message EnergyEventMetadata {
   repeated EnergyEvent.Subevent subevents = 3;
 }
 
+message PerfdCrashInfo {
+  // Addresses of the backstack of the crash reported by perfd.
+  repeated uint64 backstack_address_list = 1;
+}
+
+message TransportFailureMetadata {
+  enum FailureType {
+    UNKNOWN_FAILURE_TYPE = 0;
+    TIMEOUT = 1;
+    INTERRUPTED = 2;
+    IO = 3;
+    SYNC = 4;
+    SHELL_COMMAND_UNRESPONSIVE = 5;
+    ADB_COMMAND_REJECTED = 6;
+  }
+
+  optional FailureType failure_type = 1;
+}
+
 // Android Profiler metrics
 message AndroidProfilerEvent {
   // The current stage we're on when this event was generated
@@ -4586,6 +4605,12 @@ message AndroidProfilerEvent {
   // Set if |type| is |SELECT_ENERGY_EVENT|
   optional EnergyEventMetadata energy_event_metadata = 13;
 
+  // Set if |type| is |PERFD_CRASHED|
+  optional PerfdCrashInfo perfd_crash_info = 14;
+
+  // Set if |type| is |TRANSPORT_DAEMON_FAILED| OR |TRANSPORT_PROXY_FAILED|
+  optional TransportFailureMetadata transport_failure_metadata = 15;
+
   enum Stage {
     UNKNOWN_STAGE = 0;
 
@@ -4622,6 +4647,16 @@ message AndroidProfilerEvent {
     STAGE_ENTERED = 3;
     // Triggered when the user starts an app in profiling mode.
     RUN_WITH_PROFILING = 4;
+    // Triggered when perfd crashes. The callstack is sent with this metric.
+    PERFD_CRASHED = 5;
+    // Triggered when the transport device manager starts initializing a device.
+    PRE_TRANSPORT_DAEMON_STARTS = 6;
+    // Triggered when the transport daemon failed to launch.
+    TRANSPORT_DAEMON_FAILED = 7;
+    // Triggerd when the transport proxy layer fails to initialize.
+    TRANSPORT_PROXY_FAILED = 8;
+    // Triggered when the profiler service is unavailable.
+    PROFILER_INITIALIZATION_FAILED = 9;
 
     /// General
 
@@ -4638,6 +4673,10 @@ message AndroidProfilerEvent {
     // be correlated with |stage|.
     SELECT_RANGE = 110;
     FILTER = 111;
+    // Triggered when profilers starts finding a process for auto-profiling.
+    AUTO_PROFILING_REQUESTED = 112;
+    // Triggered when profilers found a auto-profiling process successfully.
+    AUTO_PROFILING_SUCCEEDED = 113;
 
     /// CPU
 
@@ -4699,6 +4738,7 @@ message AndroidProfilerEvent {
     SESSION_UI_COLLAPSED = 504;
     SESSION_UI_RESIZED = 505;
     SESSION_ARTIFACT_SELECTED = 506;
+    SESSION_DROPDOWN_CLICKED = 507;
   }
 }
 
