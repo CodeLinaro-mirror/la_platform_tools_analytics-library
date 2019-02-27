@@ -360,6 +360,7 @@ enum IntegerOption {
     DEXING_WRITE_BUFFER_SIZE = 8;
     DEXING_NUMBER_OF_BUCKETS = 9;
     PRE_O_MAX_NUMBER_OF_FEATURES = 10;
+    AAPT2_THREAD_POOL_SIZE = 11;
 }
 
 enum LongOption {
