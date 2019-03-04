@@ -134,7 +134,7 @@ class AnalyticsSettingsTest {
       AnalyticsSettings.setInstanceForTest(null)
       AnalyticsSettings.initialize(countingLogger)
 
-      assertEquals(1, countingLogger.errors)
+      assertEquals(1, countingLogger.warnings)
     }
     finally {
       EnvironmentFakes.setSystemEnvironment()
