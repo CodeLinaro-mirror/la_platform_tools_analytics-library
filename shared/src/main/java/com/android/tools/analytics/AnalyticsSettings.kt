@@ -186,10 +186,13 @@ object AnalyticsSettings {
       return settings
     }
     catch (e: OverlappingFileLockException) {
-      logger.error(e, "Unable to lock settings file %s", file.toString())
+      logger.warning("Unable to lock settings file %s: %s", file.toString(), e)
     }
     catch (e: JsonParseException) {
-      logger.error(e, "Unable to parse settings file %s", file.toString())
+      logger.warning("Unable to parse settings file %s: %s", file.toString(), e)
+    }
+    catch (e: IllegalStateException) {
+      logger.warning("Unable to parse settings file %s: %s", file.toString(), e)
     }
     var newSettings = AnalyticsSettingsData()
     newSettings.userId = UUID.randomUUID().toString()
