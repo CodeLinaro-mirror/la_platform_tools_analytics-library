@@ -6,6 +6,7 @@ iml_module(
     name = "analytics-tracker",
     srcs = ["src/main/java"],
     iml_files = ["analytics-tracker.iml"],
+    test_coverage = True,
     test_srcs = ["src/test/java"],
     visibility = ["//visibility:public"],
     # do not sort: must match IML order
@@ -55,6 +56,7 @@ maven_pom(
 kotlin_test(
     name = "tools.analytics-tracker_tests",
     srcs = ["src/test/java"],
+    coverage = True,
     jvm_flags = ["-Dtest.suite.jar=tools.analytics-tracker_tests.jar"],
     test_class = "com.android.testutils.JarTestSuite",
     deps = [

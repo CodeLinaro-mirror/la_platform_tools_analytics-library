@@ -6,6 +6,7 @@ iml_module(
     name = "analytics-publisher",
     srcs = ["src/main/java"],
     iml_files = ["analytics-publisher.iml"],
+    test_coverage = True,
     test_srcs = ["src/test/java"],
     visibility = ["//visibility:public"],
     # do not sort: must match IML order
