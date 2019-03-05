@@ -477,6 +477,14 @@ class AnalyticsSettingsTest {
       })
       assertFalse(AnalyticsSettings.shouldRequestUserSentiment())
 
+      // opted in user who was asked today but didn't answer, should not be prompted again today
+      AnalyticsSettings.setInstanceForTest(AnalyticsSettingsData().apply {
+        userId = "db3dd15b-053a-4066-ac93-04c50585edc2"
+        optedIn = true
+        lastSentimentQuestionDate = Date(116, 5, 19)
+      })
+      assertFalse(AnalyticsSettings.shouldRequestUserSentiment())
+
       // opted in user who was asked recently but didn't answer, should be prompted again on a later date
       AnalyticsSettings.setInstanceForTest(AnalyticsSettingsData().apply {
         userId = "db3dd15b-053a-4066-ac93-04c50585edc2"
