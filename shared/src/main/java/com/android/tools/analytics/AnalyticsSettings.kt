@@ -368,9 +368,7 @@ object AnalyticsSettings {
       calendar.time = now
       calendar.add(Calendar.DATE, -DAYS_TO_WAIT_FOR_REQUESTING_SENTIMENT_AGAIN)
       val startOfWaitForRequest = calendar.time
-      if (!lastSentimentQuestionDate.after(startOfWaitForRequest)) {
-        return true
-      }
+      return !lastSentimentQuestionDate.after(startOfWaitForRequest)
     }
 
     val startOfYear = GregorianCalendar(now.year + 1900 ,0, 1)
