@@ -292,6 +292,12 @@ message AndroidStudioEvent {
   // gradle_sync_issues). set when kind = GRADLE_SYNC_FAILURE_DETAILS.
   repeated GradleSyncQuickFix offered_quick_fixes = 79;
 
+  // set when kind = STUDIO_PATCH_UPDATER
+  optional StudioPatchUpdaterEvent studio_patch_updater_event = 80;
+
+  // Set when kind = RESOURCE_MANAGER
+  optional ResourceManagerEvent resource_manager_event = 81;
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -738,6 +744,12 @@ message AndroidStudioEvent {
 
     // Sync issues reported to the user (after sync completed).
     GRADLE_SYNC_ISSUES = 177;
+
+    // Android Studio Patch Updater events
+    STUDIO_PATCH_UPDATER = 178;
+
+    // Resource Manager events
+    RESOURCE_MANAGER = 179;
   }
 
   // Represents different Performance Monitoring types.
@@ -1062,6 +1074,7 @@ message ProductDetails {
     EMULATOR = 2;
     GRADLE = 3;
     DDMS = 4;
+    STUDIO_PATCH_UPDATER = 5;
   }
 
   // Chip the software is running on.
@@ -1355,7 +1368,10 @@ message EmulatorFeatureFlagState {
     ON_DEMAND_SNAPSHOT_LOAD = 37;
     WIFI_CONFIGURABLE = 38;
     GL_DIRECT_MEM = 39;
-    // Next tag: 40
+    VIDEO_PLAYBACK = 40;
+    VULKAN = 41;
+    MACRO_UI = 42;
+    // Next tag: 43
   }
   // Which features were enabled by default or through the server-side config.
   repeated EmulatorFeatureFlag attempted_enabled_feature_flags = 1;
@@ -1654,6 +1670,8 @@ message EmulatorCameraSession {
     EMULATOR_CAMERA_TYPE_WEBCAM = 1;
     // Camera source is the virtual scene camera.
     EMULATOR_CAMERA_TYPE_VIRTUAL_SCENE = 2;
+    // Camera source is the video playback camera.
+    EMULATOR_CAMERA_TYPE_VIDEO_PLAYBACK = 3;
   }
 
   // List of possible camera directions.
@@ -2310,9 +2328,12 @@ message TestRun {
 }
 
 // Provides details on commonly used test libraries.
+// Each string field of this message holds the exact version of the given
+// library that the field name represents. The field is populated only if this
+// project uses the given library.
+// Next ID: 20
 message TestLibraries {
-  // The exact version of the given library that this project uses.
-  // Not present if project doesn't use a given library.
+  // "com.android.support.test.runner" or "androidx.test.runner".
   optional string test_support_library_version = 1;  // e.g. '0.5'
   optional string espresso_version = 2;  // e.g. '2.2.2'
   optional string robolectric_version = 3;  // e.g. '3.0'
@@ -2324,6 +2345,21 @@ message TestLibraries {
   optional string espresso_accessibility_version = 9;  // e.g. '2.2.2'
   optional string test_orchestrator_version = 10;  // e.g. '1.0.0'
   optional string test_rules_version = 11;  // e.g. '1.0.0'
+  // "androidx.test.core".
+  optional string test_core_version = 12;  // e.g. '1.0.0'
+  // "androidx.test.core-ktx".
+  optional string test_core_ktx_version = 13;  // e.g. '1.0.0'
+  // "androidx.test.ext.junit".
+  optional string test_ext_junit_version = 14;  // e.g. '1.0.0'
+  // "androidx.test.ext.junit-ktx".
+  optional string test_ext_junit_ktx_version = 15;  // e.g. '1.0.0'
+  // "androidx.test.ext.truth".
+  optional string test_ext_truth_version = 16;  // e.g. '1.0.0'
+  // "androidx.fragment.fragment-testing".
+  optional string fragment_testing_version = 17;  // e.g. '1.0.0'
+  optional string junit_version = 18;  // e.g. '4.2'
+  // "com.google.truth".
+  optional string truth_version = 19;  // e.g. '0.40'
 }
 
 // Describes the status of various Hypervisors
@@ -2959,6 +2995,7 @@ message GradleBuildProfileSpan {
     VARIANT_MANAGER_CREATE_VARIANTS = 12;
     RESOLVE_DEPENDENCIES = 13;
     TASK_EXECUTION = 14;
+    WORKER_EXECUTION = 15;
     INITIAL_METADATA = 100 [deprecated = true];
     FINAL_METADATA = 101 [deprecated = true];
     GENERAL_CONFIG = 102;
@@ -3441,6 +3478,8 @@ message DisplayDetails {
   optional int32 dots_per_inch_horizontal = 3;
   // Densitiy of the pixels on the screen vertically.
   optional int32 dots_per_inch_vertical = 4;
+  // System scale factor for the screen resolution.
+  optional float system_scale = 5;
 }
 
 // Stats on the current running java process.
@@ -4529,6 +4568,25 @@ message EnergyEventMetadata {
   repeated EnergyEvent.Subevent subevents = 3;
 }
 
+message PerfdCrashInfo {
+  // Addresses of the backstack of the crash reported by perfd.
+  repeated uint64 backstack_address_list = 1;
+}
+
+message TransportFailureMetadata {
+  enum FailureType {
+    UNKNOWN_FAILURE_TYPE = 0;
+    TIMEOUT = 1;
+    INTERRUPTED = 2;
+    IO = 3;
+    SYNC = 4;
+    SHELL_COMMAND_UNRESPONSIVE = 5;
+    ADB_COMMAND_REJECTED = 6;
+  }
+
+  optional FailureType failure_type = 1;
+}
+
 // Android Profiler metrics
 message AndroidProfilerEvent {
   // The current stage we're on when this event was generated
@@ -4571,6 +4629,12 @@ message AndroidProfilerEvent {
   // Set if |type| is |SELECT_ENERGY_EVENT|
   optional EnergyEventMetadata energy_event_metadata = 13;
 
+  // Set if |type| is |PERFD_CRASHED|
+  optional PerfdCrashInfo perfd_crash_info = 14;
+
+  // Set if |type| is |TRANSPORT_DAEMON_FAILED| OR |TRANSPORT_PROXY_FAILED|
+  optional TransportFailureMetadata transport_failure_metadata = 15;
+
   enum Stage {
     UNKNOWN_STAGE = 0;
 
@@ -4607,6 +4671,16 @@ message AndroidProfilerEvent {
     STAGE_ENTERED = 3;
     // Triggered when the user starts an app in profiling mode.
     RUN_WITH_PROFILING = 4;
+    // Triggered when perfd crashes. The callstack is sent with this metric.
+    PERFD_CRASHED = 5;
+    // Triggered when the transport device manager starts initializing a device.
+    PRE_TRANSPORT_DAEMON_STARTS = 6;
+    // Triggered when the transport daemon failed to launch.
+    TRANSPORT_DAEMON_FAILED = 7;
+    // Triggerd when the transport proxy layer fails to initialize.
+    TRANSPORT_PROXY_FAILED = 8;
+    // Triggered when the profiler service is unavailable.
+    PROFILER_INITIALIZATION_FAILED = 9;
 
     /// General
 
@@ -4623,6 +4697,10 @@ message AndroidProfilerEvent {
     // be correlated with |stage|.
     SELECT_RANGE = 110;
     FILTER = 111;
+    // Triggered when profilers starts finding a process for auto-profiling.
+    AUTO_PROFILING_REQUESTED = 112;
+    // Triggered when profilers found a auto-profiling process successfully.
+    AUTO_PROFILING_SUCCEEDED = 113;
 
     /// CPU
 
@@ -4684,6 +4762,7 @@ message AndroidProfilerEvent {
     SESSION_UI_COLLAPSED = 504;
     SESSION_UI_RESIZED = 505;
     SESSION_ARTIFACT_SELECTED = 506;
+    SESSION_DROPDOWN_CLICKED = 507;
   }
 }
 
@@ -4777,7 +4856,8 @@ message GradleSyncStats {
     TRIGGER_UNKNOWN = 0;
     // Used only when a project is opened
     TRIGGER_PROJECT_LOADED = 1;
-    // Project modifications caused a sync. This is too generic, prefer a more specific value
+    // Project modifications caused a sync. This is too generic, prefer a more
+    // specific value
     TRIGGER_PROJECT_MODIFIED = 2;
     // User has explicitly requested a sync using the sync button
     TRIGGER_USER_REQUEST = 3;
@@ -4787,7 +4867,8 @@ message GradleSyncStats {
     TRIGGER_VARIANT_SELECTION_CHANGED_BY_USER = 5;
     // User made changes in PSD that require a sync
     TRIGGER_PSD_CHANGES = 6;
-    // Sync was done as part of Android Studio testing (should not be used since logs from testing are stored in a different place)
+    // Sync was done as part of Android Studio testing (should not be used since
+    // logs from testing are stored in a different place)
     TRIGGER_TEST_REQUESTED = 7;
 
     // First marker for user initiated syncs
@@ -4867,9 +4948,11 @@ message GradleSyncStats {
 
     // First marker for syncs due to changes from PSD
     TRIGGER_PSD_FIRST_MARKER = 1500;
-    // A dependency was removed using PSD (using GradleOperations#removeDependencies)
+    // A dependency was removed using PSD (using
+    // GradleOperations#removeDependencies)
     TRIGGER_PSD_DEPENDENCY_REMOVED = 1501;
-    // A module was removed from the PSD (using AndroidProjectStructureConfigurable.DeleteModuleAction)
+    // A module was removed from the PSD (using
+    // AndroidProjectStructureConfigurable.DeleteModuleAction)
     TRIGGER_PSD_MODULE_REMOVED = 1502;
     // Last marker for syncs due to changes from PSD
     TRIGGER_PSD_LAST_MARKER = 1599;
@@ -4881,11 +4964,14 @@ message GradleSyncStats {
     // Last marker for changes in SDK
     TRIGGER_SDK_LAST_MARKER = 1899;
 
-    // First marker for sync due to changes done by AndroidGradleJavaProjectModelModifier
+    // First marker for sync due to changes done by
+    // AndroidGradleJavaProjectModelModifier
     TRIGGER_MODIFIER_FIRST_MARKER = 2100;
-    // An action was redone (from AndroidGradleJavaProjectModelModifier#registerUndoAction)
+    // An action was redone (from
+    // AndroidGradleJavaProjectModelModifier#registerUndoAction)
     TRIGGER_MODIFIER_ACTION_REDONE = 2101;
-    // An action was undone (from AndroidGradleJavaProjectModelModifier#registerUndoAction)
+    // An action was undone (from
+    // AndroidGradleJavaProjectModelModifier#registerUndoAction)
     TRIGGER_MODIFIER_ACTION_UNDONE = 2102;
     // A dependency to a module was added
     TRIGGER_MODIFIER_ADD_MODULE_DEPENDENCY = 2103;
@@ -4893,7 +4979,8 @@ message GradleSyncStats {
     TRIGGER_MODIFIER_ADD_LIBRARY_DEPENDENCY = 2104;
     // Language level was changed
     TRIGGER_MODIFIER_LANGUAGE_LEVEL_CHANGED = 2105;
-    // Last marker for sync due to changes done by AndroidGradleJavaProjectModelModifier
+    // Last marker for sync due to changes done by
+    // AndroidGradleJavaProjectModelModifier
     TRIGGER_MODIFIER_LAST_MARKER = 2199;
 
     // First marker for changes in languages
@@ -4937,7 +5024,8 @@ message GradleSyncStats {
     TRIGGER_BUILD_FIRST_MARKER = 3900;
     // Sync is needed before building an APK
     TRIGGER_BUILD_BEFORE_BUILDING_APK = 3901;
-    // There was an error in the previous sync (before building) or there were changes after build was done that require a sync
+    // There was an error in the previous sync (before building) or there were
+    // changes after build was done that require a sync
     TRIGGER_BUILD_SYNC_NEEDED_AFTER_BUILD = 3902;
     // Last marker for syncs caused by a build
     TRIGGER_BUILD_LAST_MARKER = 3999;
@@ -4946,7 +5034,8 @@ message GradleSyncStats {
     TRIGGER_RUN_FIRST_MARKER = 4200;
     // There are native unsynced variants before running
     TRIGGER_RUN_NATIVE_UNSYNCED = 4201;
-    // Sync was not performed before running and there are changes that require a sync
+    // Sync was not performed before running and there are changes that require
+    // a sync
     TRIGGER_RUN_SYNC_NEEDED_BEFORE_RUNNING = 4202;
     // Last marker for sync started due to a run
     TRIGGER_RUN_LAST_MARKER = 4299;
@@ -5418,6 +5507,12 @@ message LaunchTaskDetail {
   repeated ArtifactDetail artifact = 4;
   // Thread ID this task is running on
   optional int32 tid = 5;
+  // The completion status of the task. This value
+  // is populated from several enums in code (using enum.code())
+  // interface, each LaunchTask has its own set of error codes with
+  // some of them coming from device and being populated here. This is similar
+  // to the RunEvent.deploy_failure_id
+  optional string status = 6;
 }
 
 message StudioRunEvent {
@@ -5924,6 +6019,9 @@ message DataBindingEvent {
 
     // Data binding expression of the format @{obj::func}
     DATA_BINDING_CONTEXT_METHOD_REFERENCE = 2;
+
+    // Data binding xml tags. For example <variable> tag.
+    DATA_BINDING_CONTEXT_XML_TAG = 3;
   }
 
   // All of the stats we actively poll for
@@ -6008,4 +6106,176 @@ message TypingLatencyStats {
   }
   // Per-file-type latency stats.
   repeated LatencyRecord latency_records = 1;
+}
+
+// Details of events relating to the Android Studio Patch Updater
+message StudioPatchUpdaterEvent {
+  optional Kind kind = 1;
+
+  // Information about the patch itself
+  optional Patch patch = 2;
+
+  // Details about patch updater issues presented to the user.
+  optional IssueDialog issue_dialog = 3;
+
+  // Options chosen by the user from the
+  optional IssueDialogChoices issue_dialog_choices = 4;
+
+  // The kind of event reported
+  enum Kind {
+    UNKNOWN_EVENT_KIND = 0;
+    // Android Studio Patch Updater: Startup
+    START = 1;
+    // Android Studio Patch Updater: Display Patch details
+    PATCH_DETAILS_SHOW = 2;
+    // Android Studio Patch Updater: Show generic retry-able error dialog
+    RETRYABLE_ERROR_DIALOG_SHOW = 3;
+    // Android Studio Patch Updater: Show generic fatal error dialog
+    FATAL_ERROR_DIALOG_SHOW = 4;
+    // Android Studio Patch Updater: Show (potentially recoverable) validation
+    // issue dialog
+    VALIDATION_PROBLEMS_DIALOG_SHOW = 5;
+    // Android Studio Patch Updater: Validation issue dialog was closed.
+    VALIDATION_PROBLEMS_DIALOG_CLOSE = 6;
+    // Android Studio Patch Updater: Enter phase of the update process
+    PHASE_UNKNOWN = 7;
+    PHASE_EXTRACTING_PATCH_FILES = 8;
+    PHASE_VALIDATING_INSTALLATION = 9;
+    PHASE_BACKING_UP_FILES = 10;
+    PHASE_PREPARING_UPDATE = 11;
+    PHASE_APPLYING_PATCH = 12;
+    PHASE_REVERTING = 13;
+    PHASE_CLEANING_UP = 14;
+    // Android Studio Patch Updater: Successful exit
+    EXIT_OK = 15;
+    // Android Studio Patch Updater: Exit with controlled abort
+    EXIT_ABORT = 16;
+    // Android Studio Patch Updater: Exit with unexpected exception
+    EXIT_EXCEPTION = 17;
+  }
+
+  // Information about the patch itself
+  message Patch {
+    // The version of studio patching from, e.g. '183.5153.38.35.5240547'
+    optional string studio_version_from = 1;
+    // The version of studio patching to, e.g. '183.5153.38.35.5256920'
+    optional string studio_version_to = 2;
+  }
+
+  // The options available for the user to address the
+  // patch updater errors.
+  enum ValidationOption {
+    UNKNOWN_VALIDATION_OPTION = 0;
+    NONE = 1;
+    IGNORE = 2;
+    KEEP = 3;
+    REPLACE = 4;
+    DELETE = 5;
+    KILL_PROCESS = 6;
+  }
+
+  // Details about patch updater issues presented to the user.
+  message IssueDialog {
+    // The issues presented in the table to the user,
+    // which may or may not be actionable.
+    repeated Issue issue = 1;
+
+    message Issue {
+      // The type of issue presented
+      enum Kind {
+        UNKNOWN_KIND = 0;
+        INFO = 1;
+        CONFLICT = 2;
+        ERROR = 3;
+      }
+      // The action the updater was attempting to perform
+      enum Action {
+        UNKNOWN_ACTION = 0;
+        CREATE = 1;
+        UPDATE = 2;
+        DELETE = 3;
+        NO_ACTION = 4;
+        VALIDATE = 5;
+      }
+
+      // The type of issue presented
+      optional Kind kind = 1;
+      // The action that the patcher was attempting to perform
+      optional Action action = 2;
+      // The options available to the user
+      repeated ValidationOption presented_option = 3;
+    }
+  }
+
+  // The resolution choices chosen by the user from the issue dialog
+  message IssueDialogChoices {
+    repeated Choice choice = 1;
+    // A single choice made by the user
+    message Choice {
+      optional ValidationOption chosen_option = 1;
+    }
+  }
+}
+
+// Event related to the resource manager
+message ResourceManagerEvent {
+  optional Kind kind = 1;
+
+  optional ResourceType resource_type = 2;
+
+  enum Kind {
+    UNKNOWN_EVENT_KIND = 0;
+
+    // Resource Manager tool window is openend
+    TOOL_WINDOW_OPEN = 1;
+
+    // Asset added pressing the "Import Drawable" action
+    ASSET_ADDED_VIA_BUTTON = 2;
+
+    // Asset added using Drag and Drop on the resource manager
+    ASSET_ADDED_VIA_DND = 3;
+
+    // User open the view showing the different version of a resource
+    DETAIL_VIEW_OPENED = 4;
+
+    // A resource has been opened via the resource manager
+    ASSET_OPENED = 5;
+
+    // List mode has been changed to grid or list
+    LIST_MODE_CHANGED = 6;
+
+    // User shows or hide libraries assets
+    LIBRARIES_SHOWN = 7;
+    LIBRARIES_HIDDEN = 8;
+
+    // A density indicator was present in the imported file
+    DENSITY_INFERED = 9;
+
+    // Drop events
+    DROP_ON_XML_BLANK_SPACE = 10;
+    DROP_ON_XML_TAG = 11;
+    DROP_ON_XML_ATTRIBUTE = 12;
+    DROP_ON_LAYOUT_VIEW = 13;
+    DROP_ON_LAYOUT_VIEWGROUP = 14;
+
+    // Default drop type when the target does not recognize the resource url
+    // type
+    DROP_AS_TEXT = 15;
+
+    // When user tries to import more resources than the supported number
+    IMPORT_LIMIT_REACHED = 16;
+  }
+
+  // The type of the resource. It could be an Android type (e.g drawable)
+  // or an external type (e.g SVG, PNG)
+  enum ResourceType {
+    UNKNOWN = 0;
+    DRAWABLE = 1;
+    COLOR = 2;
+    LAYOUT = 3;
+    STRING = 4;
+    FONT = 5;
+    SVG = 6;
+    RASTER = 7;
+  }
 }
