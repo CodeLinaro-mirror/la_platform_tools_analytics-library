@@ -2996,6 +2996,7 @@ message GradleBuildProfileSpan {
     RESOLVE_DEPENDENCIES = 13;
     TASK_EXECUTION = 14;
     WORKER_EXECUTION = 15;
+    THREAD_EXECUTION = 16;
     INITIAL_METADATA = 100 [deprecated = true];
     FINAL_METADATA = 101 [deprecated = true];
     GENERAL_CONFIG = 102;
