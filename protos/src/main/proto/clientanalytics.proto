@@ -1257,6 +1257,8 @@ message LogRequest {
 
     // Instant apps developer tools (e.g. "ia" CLI)
     INSTANT_APPS_DEVELOPER_TOOLS = 943;
+
+    BIT_SIZE_ANALYZER = 1051;  // Size analyzer desktop tools for Android devs
   }
   // Different types schedulers for log upload.
   enum SchedulerType {
