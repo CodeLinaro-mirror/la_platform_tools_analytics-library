@@ -343,6 +343,7 @@ enum BooleanOption {
     ENABLE_STUDIO_VERSION_CHECK = 78;
     KEEP_SERVICES_BETWEEN_BUILDS = 79;
     USE_NON_FINAL_RES_IDS_IN_TESTS = 80;
+    ENABLE_SIDE_BY_SIDE_NDK = 81;
 }
 
 enum OptionalBooleanOption {
