@@ -17,39 +17,43 @@
 @file:JvmName("TestSupportLibraries")
 package com.android.tools.analytics
 
-import com.google.wireless.android.sdk.stats.TestLibraries
+import com.google.common.collect.ImmutableTable
+import com.google.wireless.android.sdk.stats.TestLibraries.Builder
 
-/*
- * Fills in the right field of a [TestLibraries.Builder] based on the maven coordinates.
+private val setters = ImmutableTable.Builder<String, String, (Builder, String) -> Builder>().apply {
+  put("androidx.fragment", "fragment-testing", Builder::setFragmentTestingVersion)
+  put("androidx.test", "core", Builder::setTestCoreVersion)
+  put("androidx.test", "core-ktx", Builder::setTestCoreKtxVersion)
+  put("androidx.test", "orchestrator", Builder::setTestOrchestratorVersion)
+  put("androidx.test", "rules", Builder::setTestRulesVersion)
+  put("androidx.test", "runner", Builder::setTestSupportLibraryVersion)
+  put("androidx.test.espresso", "espresso-accessibility", Builder::setEspressoAccessibilityVersion)
+  put("androidx.test.espresso", "espresso-contrib", Builder::setEspressoContribVersion)
+  put("androidx.test.espresso", "espresso-core", Builder::setEspressoVersion)
+  put("androidx.test.espresso", "espresso-idling-resource", Builder::setEspressoIdlingResourceVersion)
+  put("androidx.test.espresso", "espresso-intents", Builder::setEspressoIntentsVersion)
+  put("androidx.test.espresso", "espresso-web", Builder::setEspressoWebVersion)
+  put("androidx.test.ext", "junit", Builder::setTestExtJunitVersion)
+  put("androidx.test.ext", "junit-ktx", Builder::setTestExtJunitKtxVersion)
+  put("androidx.test.ext", "truth", Builder::setTestExtTruthVersion)
+  put("com.android.support.test", "orchestrator", Builder::setTestOrchestratorVersion)
+  put("com.android.support.test", "rules", Builder::setTestRulesVersion)
+  put("com.android.support.test", "runner", Builder::setTestSupportLibraryVersion)
+  put("com.android.support.test.espresso", "espresso-accessibility", Builder::setEspressoAccessibilityVersion)
+  put("com.android.support.test.espresso", "espresso-contrib", Builder::setEspressoContribVersion)
+  put("com.android.support.test.espresso", "espresso-core", Builder::setEspressoVersion)
+  put("com.android.support.test.espresso", "espresso-idling-resource", Builder::setEspressoIdlingResourceVersion)
+  put("com.android.support.test.espresso", "espresso-intents", Builder::setEspressoIntentsVersion)
+  put("com.android.support.test.espresso", "espresso-web", Builder::setEspressoWebVersion)
+  put("com.google.truth", "truth", Builder::setTruthVersion)
+  put("junit", "junit", Builder::setJunitVersion)
+  put("org.mockito", "mockito-core", Builder::setMockitoVersion)
+  put("org.robolectric", "robolectric", Builder::setRobolectricVersion)
+}.build()
+
+/**
+ * Fills in the right field of a [Builder] based on the maven coordinates.
  */
-fun TestLibraries.Builder.recordTestLibrary(groupId: String, artifactId: String, version: String) {
-    when (groupId) {
-        "com.android.support.test", "androidx.test" -> {
-            when (artifactId) {
-                "orchestrator" -> testOrchestratorVersion = version
-                "rules" -> testRulesVersion = version
-                "runner" -> testSupportLibraryVersion = version
-            }
-        }
-        "com.android.support.test.espresso", "androidx.test.espresso" -> {
-            when (artifactId) {
-                "espresso-accessibility" -> espressoAccessibilityVersion = version
-                "espresso-contrib" -> espressoContribVersion = version
-                "espresso-core" -> espressoVersion = version
-                "espresso-idling-resource" -> espressoIdlingResourceVersion = version
-                "espresso-intents" -> espressoIntentsVersion = version
-                "espresso-web" -> espressoWebVersion = version
-            }
-        }
-        "org.robolectric" -> {
-            when (artifactId) {
-                "robolectric" -> robolectricVersion = version
-            }
-        }
-        "org.mockito" -> {
-            when (artifactId) {
-                "mockito-core" -> mockitoVersion = version
-            }
-        }
-    }
+fun Builder.recordTestLibrary(groupId: String, artifactId: String, version: String) = apply {
+  setters[groupId, artifactId]?.invoke(this, version)
 }
