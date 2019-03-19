@@ -15,7 +15,6 @@
  */
 package com.android.tools.analytics
 
-import com.google.common.annotations.VisibleForTesting
 import com.sun.management.OperatingSystemMXBean
 import java.awt.GraphicsEnvironment
 import java.lang.management.*
@@ -25,7 +24,6 @@ import kotlin.reflect.KProperty
  * Entry point to various host data classes such as MxBeans and GraphicsEnvironment. Used to allow
  * stubbing these out in tests.
  */
-@VisibleForTesting
 object HostData {
 
   @JvmStatic
