@@ -301,6 +301,9 @@ message AndroidStudioEvent {
   // Set when kind = IDE_PLUGIN_INFO
   optional IdePluginInfo ide_plugin_info = 82;
 
+  // Set when kind = EDITOR_HIGHLIGHTING_STATS
+  optional EditorHighlightingStats editor_highlighting_stats = 83;
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -756,6 +759,9 @@ message AndroidStudioEvent {
 
     // Info on which IDE plugins are enabled for the current session.
     IDE_PLUGIN_INFO = 180;
+
+    // Editor syntax highlighting statistics.
+    EDITOR_HIGHLIGHTING_STATS = 181;
   }
 
   // Represents different Performance Monitoring types.
@@ -1043,6 +1049,8 @@ message AndroidStudioEvent {
     UPGRADE_APPENGINE_PLUGIN_VERSION_HYPERLINK = 40;
     USE_CURRENTLY_RUNNING_JDK_HYPERLINK = 41;
     USE_EMBEDDED_JDK_HYPERLINK = 42;
+    SET_NDK_DIR_HYPERLINK = 43;
+    SET_CMAKE_DIR_HYPERLINK = 44;
   }
 }
 
@@ -6088,20 +6096,21 @@ message DataBindingEvent {
   }
 }
 
+enum EditorFileType {
+  UNKNOWN = 0;
+  JAVA = 1;
+  KOTLIN = 2;
+  XML = 3;
+  GROOVY = 4;
+  PROPERTIES = 5;
+  JSON = 6;
+  KOTLIN_SCRIPT = 7;  // .kts
+  NATIVE = 8;         // .c, .cpp, .h, etc.
+}
+
 message TypingLatencyStats {
-  enum FileType {
-    UNKNOWN = 0;
-    JAVA = 1;
-    KOTLIN = 2;
-    XML = 3;
-    GROOVY = 4;
-    PROPERTIES = 5;
-    JSON = 6;
-    KOTLIN_SCRIPT = 7;  // .kts
-    NATIVE = 8;         // .c, .cpp, .h, etc.
-  }
   message LatencyRecord {
-    optional FileType file_type = 1;
+    optional EditorFileType file_type = 1;
     // Total number of keys typed.
     optional int64 total_keys_typed = 2;
     // Sum of latency for all keys typed.
@@ -6113,6 +6122,15 @@ message TypingLatencyStats {
   }
   // Per-file-type latency stats.
   repeated LatencyRecord latency_records = 1;
+}
+
+message EditorHighlightingStats {
+  message Stats {
+    optional EditorFileType file_type = 1;
+    // Highlighting latencies in milliseconds.
+    optional Histogram histogram = 2;
+  }
+  repeated Stats by_file_type = 1;
 }
 
 // Details of events relating to the Android Studio Patch Updater
