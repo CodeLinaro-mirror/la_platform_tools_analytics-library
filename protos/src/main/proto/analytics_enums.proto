@@ -259,6 +259,7 @@ enum GradleTaskExecutionType {
     MERGE_NATIVE_LIBS = 181;
     PARSE_LIBRARY_RESOURCES = 182;
     GENERATE_LIBRARY_PROGUARD_RULES = 183;
+    DEX_FILE_DEPENDENCIES = 184;
 }
 
 enum BooleanOption {
