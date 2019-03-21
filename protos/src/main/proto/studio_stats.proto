@@ -3008,6 +3008,8 @@ message GradleBuildProfileSpan {
     VARIANT_MANAGER_CREATE_TESTS_TASKS = 11;
     VARIANT_MANAGER_CREATE_VARIANTS = 12;
     RESOLVE_DEPENDENCIES = 13;
+    // span for task execution as reported by Gradle, that's including Gradle's
+    // pre and post task activities.
     TASK_EXECUTION = 14;
     WORKER_EXECUTION = 15;
     THREAD_EXECUTION = 16;
@@ -3017,6 +3019,31 @@ message GradleBuildProfileSpan {
     VARIANT_CONFIG = 103;
     VARIANT_MANAGER_EXTERNAL_NATIVE_CONFIG_VALUES = 104;
     APK_METRICS = 105;
+
+    // span for task execution excluding Gradle's pre and post task activities.
+    TASK_EXECUTION_ALL_PHASES = 200;
+    // generic span types for task implementation. Phases are sequential sub
+    // parts of the task implementation that can help determine the performance
+    // of sub parts of the task implementation.
+    // For instance a task spans can look like :
+    //
+    // <---------------------- TASK_EXECUTION ------------------->
+    // <--PRE--><------- TASK_EXECUTION_ALL_PHASES ----><--POST-->
+    //          <---PHASE_1---><-PHASE_2-><--PHASE_3--->
+    //
+    TASK_EXECUTION_PHASE_1 = 201;
+    TASK_EXECUTION_PHASE_2 = 202;
+    TASK_EXECUTION_PHASE_3 = 203;
+    TASK_EXECUTION_PHASE_4 = 204;
+    TASK_EXECUTION_PHASE_5 = 205;
+    TASK_EXECUTION_PHASE_6 = 206;
+    TASK_EXECUTION_PHASE_7 = 207;
+    TASK_EXECUTION_PHASE_8 = 208;
+    TASK_EXECUTION_PHASE_9 = 209;
+    // span for gradle overhead before task execution
+    GRADLE_PRE_TASK_SPAN = 298;
+    // span for gradle overhead after task execution
+    GRADLE_POST_TASK_SPAN = 299;
 
     // ApplicationTaskManager per variant tasks.
     APP_TASK_MANAGER_CREATE_MERGE_MANIFEST_TASK = 1000 [deprecated = true];
