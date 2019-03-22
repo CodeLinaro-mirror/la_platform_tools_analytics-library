@@ -308,7 +308,7 @@ enum BooleanOption {
     ENABLE_CORE_LAMBDA_STUBS = 42;
     CONVERT_NON_NAMESPACED_DEPENDENCIES = 43;
     USE_AAPT2_FROM_MAVEN = 44;
-    ENABLE_R8 = 45;
+    ENABLE_R8_DEPRECATED = 45 [deprecated=true];
     ENABLE_R8_DESUGARING = 46;
     ENABLE_DYNAMIC_APPS = 47;
     ENABLE_JETIFIER = 48;
@@ -354,6 +354,7 @@ enum OptionalBooleanOption {
     SIGNING_V2_ENABLED = 2;
     IDE_TEST_ONLY = 3;
     SERIAL_AAPT2 = 4;
+    ENABLE_R8 = 5;
 }
 
 enum IntegerOption {
