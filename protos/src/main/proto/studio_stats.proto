@@ -304,6 +304,9 @@ message AndroidStudioEvent {
   // Set when kind = EDITOR_HIGHLIGHTING_STATS
   optional EditorHighlightingStats editor_highlighting_stats = 83;
 
+  // Set when kind = WINDOWS_DEFENDER_STATUS
+  optional WindowsDefenderStatus windows_defender_status = 84;
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -762,6 +765,9 @@ message AndroidStudioEvent {
 
     // Editor syntax highlighting statistics.
     EDITOR_HIGHLIGHTING_STATS = 181;
+
+    // Status of Windows Defender
+    WINDOWS_DEFENDER_STATUS = 182;
   }
 
   // Represents different Performance Monitoring types.
@@ -6363,4 +6369,27 @@ message IdePlugin {
   optional string version = 2;
   // Whether this plugin (in its current version) came bundled with Studio.
   optional bool bundled = 3;
+}
+
+// Information about the status of Windows Defender, which can have a
+// significant impact on build speed. We check whether realtime scanning is
+// enabled, and if so, whether several important directories are excluded from
+// scanning. This message is sent once per project, since the project root is
+// one such directory.
+message WindowsDefenderStatus {
+  // Overall status of Windows Defender
+  optional Status status = 1;
+  // Whether the project root directory is excluded from scanning.
+  optional bool project_dir_excluded = 2;
+
+  // Status of Windows Defender - either scanning is disabled, or all, some, or
+  // none of the important directories are excluded, or there was some problem
+  // determining the status.
+  enum Status {
+    UNKNOWN_STATUS = 0;
+    SCANNING_DISABLED = 1;
+    ALL_EXCLUDED = 2;
+    SOME_EXCLUDED = 3;
+    NONE_EXCLUDED = 4;
+  }
 }
