@@ -307,6 +307,9 @@ message AndroidStudioEvent {
   // Set when kind = WINDOWS_DEFENDER_STATUS
   optional WindowsDefenderStatus windows_defender_status = 84;
 
+  // Set when kind = MEMORY_SETTINGS_EVENT
+  optional MemorySettingsEvent memory_settings_event = 85;
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -768,6 +771,9 @@ message AndroidStudioEvent {
 
     // Status of Windows Defender
     WINDOWS_DEFENDER_STATUS = 182;
+
+    // Memory settings configuration statistics
+    MEMORY_SETTINGS_EVENT = 183;
   }
 
   // Represents different Performance Monitoring types.
@@ -6392,4 +6398,46 @@ message WindowsDefenderStatus {
     SOME_EXCLUDED = 3;
     NONE_EXCLUDED = 4;
   }
+}
+
+// Event for memory settings configuration and recommendation
+message MemorySettingsEvent {
+  // Kind of the event.
+  optional EventKind kind = 1;
+  // Current memory settings.
+  optional MemorySettings current = 2;
+  // Recommended memory settings.
+  optional MemorySettings recommended = 3;
+  // New memory settings changed by users (may or may not be saved yet).
+  optional MemorySettings changed = 4;
+
+  enum EventKind {
+    UNKNOWN = 0;
+    // Configuration dialog shown.
+    SHOW_CONFIG_DIALOG = 1;
+    // Users change the settings and save.
+    SETTINGS_CHANGE_SAVED = 2;
+    // Users change the settings but do not save.
+    SETTINGS_CHANGE_CANCELLED = 3;
+    // Session uses the non-default recommended heap size.
+    NON_DEFAULT_RECOMMENDATION_USED = 4;
+    // Users click the "Apply recommendation" button in the memory panel.
+    APPLY_RECOMMENDATION_BUTTON_CLICKED = 5;
+    // Recommendation notification shown.
+    SHOW_RECOMMENDATION = 6;
+    // Users click "Save and Restart" from recommendation notification.
+    SAVE_AND_RESTART = 7;
+    // Users click "Configure" from recommendation notification.
+    CONFIGURE = 8;
+    // Users click "Remind me later" from recommendation notification.
+    REMIND_ME_LATER = 9;
+    // Users click "Do not ask again" from recommendation notification.
+    DO_NOT_ASK = 10;
+  }
+}
+
+message MemorySettings {
+  optional int32 ide_xmx = 1;
+  optional int32 gradle_daemon_xmx = 2;
+  optional int32 kotlin_daemon_xmx = 3;
 }
