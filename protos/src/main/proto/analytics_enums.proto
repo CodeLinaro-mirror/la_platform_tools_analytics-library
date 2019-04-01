@@ -63,7 +63,7 @@ enum GradleTransformExecutionType {
     DESUGAR_TRANSFORM = 32;
     FIX_STACK_FRAMES = 33 [deprecated=true];
     EXTERNAL_LIBS_MERGER_TRANSFORM = 34;
-    D8_MAIN_DEX_LIST_TRANSFORM = 35;
+    D8_MAIN_DEX_LIST_TRANSFORM = 35 [deprecated=true];
     DATA_BINDING_MERGE_GEN_CLASS_LOG = 36 [deprecated=true];
     R8_TRANSFORM = 37;
     DEX_SPLITTER_TRANSFORM = 38;
@@ -260,6 +260,7 @@ enum GradleTaskExecutionType {
     PARSE_LIBRARY_RESOURCES = 182;
     GENERATE_LIBRARY_PROGUARD_RULES = 183;
     DEX_FILE_DEPENDENCIES = 184;
+    D8_MAIN_DEX_LIST = 185;
 }
 
 enum BooleanOption {
