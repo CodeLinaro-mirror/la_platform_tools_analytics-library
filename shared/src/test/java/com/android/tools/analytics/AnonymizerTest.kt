@@ -64,7 +64,7 @@ class AnonymizerTest {
       assertEquals(data1, data3)
 
       // Set date to new skew range
-      AnalyticsSettings.dateProvider = StubDateProvider(2016, 4, 16)
+      AnalyticsSettings.dateProvider = StubDateProvider(2019, 4, 16)
 
       // Ensure that same input is different for different skew range.
       val data4 = Anonymizer.anonymizeUtf8(DO_NOT_LOG, MY_RANDOM_TEXT1)

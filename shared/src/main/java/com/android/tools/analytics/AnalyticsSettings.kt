@@ -303,8 +303,13 @@ object AnalyticsSettings {
     @Throws(IOException::class)
     get() = synchronized(AnalyticsSettings.gate) {
       var data: AnalyticsSettingsData = instance ?: return byteArrayOf()
-      val currentSaltSkew = AnalyticsSettings.currentSaltSkew()
-      if (data.saltSkew != currentSaltSkew) {
+      // Starting with Android Studio 3.5 we switch to 532 day rotation, this logic is to coincide with that change
+      // starting with the rotation on 3/18/2019. 28*19 = 532 days and -15 is to offset with the 28 day rotation cycle starting on
+      // 3/18/2019.
+      var dataSkew532 : Int = ( data.saltSkew - 15 )/ 19
+      var currentSaltSkew  = com.android.tools.analytics.AnalyticsSettings.currentSaltSkew()
+      val currentSaltSkew532  : Int = ( currentSaltSkew - 15)/ 19
+      if (dataSkew532!= currentSaltSkew532) {
         data.saltSkew = currentSaltSkew
         val random = SecureRandom()
         val blob = ByteArray(24)
