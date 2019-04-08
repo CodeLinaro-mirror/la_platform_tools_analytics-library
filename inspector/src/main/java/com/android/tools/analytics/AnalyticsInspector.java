@@ -26,18 +26,16 @@ import java.nio.channels.FileChannel;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Scanner;
 
 /** Tool to inspect the contents of .trk files used for usage analytics reporting. */
 public class AnalyticsInspector {
     public static void main(String[] args) throws IOException {
-        if (args.length != 1) {
-            System.err.println("Usage: AnalyticsInspector <.trk-file>");
-            System.exit(1);
-        }
+        String filePath = readFilePath(args);
 
         // This logic allows specifying wildcards and ~ in paths w/o using the shell
         // (so it can be launched from within the IDE).
-        Path pattern = new File(args[0].replace("~", System.getProperty("user.home"))).toPath();
+        Path pattern = new File(filePath.replace("~", System.getProperty("user.home"))).toPath();
         try (DirectoryStream<Path> stream =
                 Files.newDirectoryStream(pattern.getParent(), pattern.getFileName().toString())) {
             for (Path path : stream) {
@@ -58,5 +56,18 @@ public class AnalyticsInspector {
                 }
             }
         }
+    }
+
+    /**
+     * Returns value from command line argument if provided.
+     * Asks user for file path in other case.
+     */
+    private static String readFilePath(String[] args) {
+        if (args.length == 1) {
+            return args[0];
+        }
+        System.out.println("Enter path to file <.trk-file>:");
+        Scanner input = new Scanner(System.in);
+        return input.nextLine().trim();
     }
 }
