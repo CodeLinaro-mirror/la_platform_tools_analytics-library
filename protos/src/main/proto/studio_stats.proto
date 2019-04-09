@@ -1438,6 +1438,7 @@ message EmulatorMemoryUsage {
   optional uint64 virtual_memory_max = 4;
   optional uint64 total_phys_memory = 5;
   optional uint64 total_page_file = 6;
+  optional uint64 total_guest_memory = 7;
 }
 
 // An enum representing all possible snapshot properties (bit flags).
@@ -1807,6 +1808,29 @@ message EmulatorVirtualSceneSession {
   optional double total_translation_meters = 11;
 }
 
+// Per-session metrics for automation/macros.
+message EmulatorAutomation {
+  // List of possible preset macros played.
+  enum EmulatorAutomationPresetMacro {
+    // Reset position.
+    EMULATOR_AUTOMATION_PRESET_MACRO_RESET = 0;
+    // Track horizontal plane.
+    EMULATOR_AUTOMATION_PRESET_MACRO_TRACK_HORIZONTAL = 1;
+    // Track vertical plane.
+    EMULATOR_AUTOMATION_PRESET_MACRO_TRACK_VERTICAL = 2;
+    // Walk to image room.
+    EMULATOR_AUTOMATION_PRESET_MACRO_IMAGE_ROOM = 3;
+  }
+  // Total sum of time of macros playing -> Sum(Stop-Play).
+  optional uint64 total_duration_ms = 1;
+  // Total amount of times macros played.
+  optional uint64 macro_playback_count = 2;
+  // Total amount of times previews replayed.
+  optional uint64 preview_replay_count = 3;
+  // Played preset-macros.
+  repeated EmulatorAutomationPresetMacro played_preset_macro = 4;
+}
+
 // Metrics related to the Emulator.
 message EmulatorDetails {
   // Cpu architecture of the guest.
@@ -1863,7 +1887,9 @@ message EmulatorDetails {
   optional EmulatorVirtualSceneSession virtual_scene = 28;
   // Metrics for emulator boot status and time.
   optional EmulatorBootInfo boot_info = 29;
-  // Next tag: 30
+  // Metrics for automation/macros.
+  optional EmulatorAutomation automation = 30;
+  // Next tag: 31
 
   // Emulator instance liveness as determined via adb connectivity.
   enum EmulatorAdbLiveness {
@@ -4438,13 +4464,40 @@ message CpuCaptureMetadata {
     // The capture was successful
     SUCCESS = 1;
     // The device responded to our request for a capture with an error
-    STOP_CAPTURING_FAILURE = 2;
+    // Deprecated by STOP_FAILED_* enum constants.
+    STOP_CAPTURING_FAILURE = 2 [deprecated = true];
     // The capture data sent back to us could not be parsed successfully
     PARSING_FAILURE = 3;
     // User aborted parsing the trace after being notified it was too large
     USER_ABORTED_PARSING = 4;
     // There was an error while preprocessing the trace file
     PREPROCESS_FAILURE = 5;
+    // There was no ongoing capture to stop.
+    STOP_FAILED_NO_GOING_PROFILING = 6;
+    // The profiled app process died.
+    STOP_FAILED_APP_PROCESS_DIED = 7;
+    // The PID of the profiled app process changed (it's another process).
+    STOP_FAILED_APP_PID_CHANGED = 8;
+    // The profiler process (e.g., simpleperf process) died.
+    STOP_FAILED_PROFILER_PROCESS_DIED = 9;
+    // The shell/DDMS command to stop capture didn't return successfully.
+    STOP_FAILED_STOP_COMMAND_FAILED = 10;
+    // The capture didn't stop after the stop command.
+    STOP_FAILED_STILL_PROFILING_AFTER_STOP = 11;
+    // The wait for the trace file to complete couldn't be initiated.
+    STOP_FAILED_CANNOT_START_WAITING = 12;
+    // The wait for the trace file to complete timed out.
+    STOP_FAILED_WAIT_TIMEOUT = 13;
+    // The wait for the trace file to complete had unspecified failure.
+    STOP_FAILED_WAIT_FAILED = 14;
+    // Couldn't read events while waiting for the trace file to complete.
+    STOP_FAILED_CANNOT_READ_WAIT_EVENT = 15;
+    // Couldn't copy/move the trace file within the device.
+    STOP_FAILED_CANNOT_COPY_FILE = 16;
+    // Couldn't form the trace file into the format expected by Studio.
+    STOP_FAILED_CANNOT_FORM_FILE = 17;
+    // Couldn't read the content of the trace file.
+    STOP_FAILED_CANNOT_READ_FILE = 18;
   }
 
   // The result of a CPU capture
