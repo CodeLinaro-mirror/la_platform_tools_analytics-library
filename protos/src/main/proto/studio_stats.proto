@@ -313,6 +313,9 @@ message AndroidStudioEvent {
   // Set when kind = STUDIO_UPDATE_FLOW
   optional StudioUpdateFlowEvent studio_update_flow_event = 86;
 
+  // set when kind = BUILD_OUTPUT_WINDOW_STATS
+  optional BuildOutputWindowStats build_output_window_stats = 87;
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -780,6 +783,9 @@ message AndroidStudioEvent {
 
     // Studio update flow events
     STUDIO_UPDATE_FLOW = 184;
+
+    // Build output window statistics when build fails.
+    BUILD_OUTPUT_WINDOW_STATS = 185;
   }
 
   // Represents different Performance Monitoring types.
@@ -6550,4 +6556,45 @@ message StudioUpdateFlowEvent {
     // User clicked on the notification update action to open dialog
     NOTIFICATION = 2;
   }
+}
+
+// Contains information on what we show on the build output window when the
+// build fails.
+message BuildErrorMessage {
+  enum ErrorType {
+    UNKNOWN_ERROR_TYPE = 0;
+    JAVA_COMPILER = 1;
+    KOTLIN_COMPILER = 2;
+    CLANG = 3;
+    CMAKE = 4;
+    DATA_BINDING = 5;
+    XML_PARSER = 6;
+    AAPT = 7;
+    D8 = 8;
+    R8 = 9;
+    RESOURCE_AND_ASSET_MERGER = 10;
+    GENERAL_ANDROID_GRADLE_PLUGIN = 11;
+  }
+
+  enum FileType {
+    UNKNOWN_FILE_TYPE = 0;
+    // The file location is pointing to a build generated file.
+    BUILD_GENERATED_FILE = 1;
+    // The file location is pointing to a project file.
+    PROJECT_FILE = 2;
+  }
+
+  // The tool produced the error.
+  optional ErrorType error_shown_type = 1;
+  // Whether the file location was parsed and shown successfully.
+  optional bool file_location_included = 2;
+  // The included file type.
+  optional FileType file_included_type = 3;
+  // Whether the line location in file was parsed and shown successfully.
+  optional bool line_location_included = 4;
+}
+
+// Statistics for what we show on the build output window.
+message BuildOutputWindowStats {
+  repeated BuildErrorMessage build_error_messages = 1;
 }
