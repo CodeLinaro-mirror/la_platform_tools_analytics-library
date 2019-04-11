@@ -310,6 +310,9 @@ message AndroidStudioEvent {
   // Set when kind = MEMORY_SETTINGS_EVENT
   optional MemorySettingsEvent memory_settings_event = 85;
 
+  // Set when kind = STUDIO_UPDATE_FLOW
+  optional StudioUpdateFlowEvent studio_update_flow_event = 86;
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -774,6 +777,9 @@ message AndroidStudioEvent {
 
     // Memory settings configuration statistics
     MEMORY_SETTINGS_EVENT = 183;
+
+    // Studio update flow events
+    STUDIO_UPDATE_FLOW = 184;
   }
 
   // Represents different Performance Monitoring types.
@@ -6494,4 +6500,54 @@ message MemorySettings {
   optional int32 ide_xmx = 1;
   optional int32 gradle_daemon_xmx = 2;
   optional int32 kotlin_daemon_xmx = 3;
+}
+
+// Event related to studion update flow
+message StudioUpdateFlowEvent {
+
+  optional Kind event_kind = 1;
+
+  // Version we are updating to, e.g. "182.5107.16.33.5314842"
+  optional string studio_new_version = 2;
+
+  // Set when event_kind = DIALOG_OPEN
+  optional DialogTrigger dialog_trigger = 3;
+
+  // Set when event_kind = DIALOG_CLICK_ACTION
+  // Some extra buttons can be added to the update dialog with
+  // the build xml entry. The action is to open provided link in the browser.
+  // Typically it is 'Release notes' button, but since it is not fixed,
+  // seems good to send the name of the action.
+  // This text comes as part of an update information xml from Google
+  // and does not contain any end user information.
+  optional string action_name = 4;
+
+  enum Kind {
+    UNKNOWN_KIND = 0;
+    NOTIFICATION_SHOWN = 1;
+    // User clicked on the notification update action
+    NOTIFICATION_UPDATE_LINK_CLICKED = 2;
+    // Update dialog was opened
+    DIALOG_OPEN = 3;
+
+    // Dialog button clicks
+    DIALOG_CLICK_UPDATE = 4;
+    DIALOG_CLICK_IGNORE = 5;
+    DIALOG_CLICK_LATER = 6;
+    // Other non-fixed actions (typically 'Release notes' link)
+    DIALOG_CLICK_ACTION = 7;
+
+    // Patch download result
+    PATCH_DOWNLOAD_SUCCESS = 8;
+    PATCH_DOWNLOAD_FAILURE = 9;
+  }
+
+  // What triggers update dialog to open
+  enum DialogTrigger {
+    UNKNOWN_DIALOG_TRIGER = 0;
+    // User clicks check for updates action to open dialog
+    MANUAL = 1;
+    // User clicked on the notification update action to open dialog
+    NOTIFICATION = 2;
+  }
 }
