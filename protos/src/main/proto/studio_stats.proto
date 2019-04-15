@@ -5071,6 +5071,8 @@ message GradleSyncStats {
     TRIGGER_QF_WRAPPER_GRADLE_VERSION_FIXED = 421;
     // SDK has been removed from manifest files
     TRIGGER_QF_SDK_REMOVED_FROM_MANIFEST = 422;
+    // Gradle distribution file has been deleted
+    TRIGGER_QF_GRADLE_DISTRIBUTION_DELETED = 423;
     // Last marker for syncs caused by quickfixes
     TRIGGER_QF_LAST_MARKER = 999;
 
