@@ -40,7 +40,7 @@ enum GradleTransformExecutionType {
     DEPRECATED_JACOCO = 9 [deprecated=true];
     JAR_MERGING = 10;
     LIBRARY_JAR = 11;
-    LIBRARY_JNI_LIBS_TRANSFORM = 12;
+    LIBRARY_JNI_LIBS_TRANSFORM = 12 [deprecated=true];
     MERGE_JAVA_RESOURCES_TRANSFORM = 13;
     MULTI_DEX = 14;
     BUILT_IN_SHRINKER = 15;
@@ -268,6 +268,7 @@ enum GradleTaskExecutionType {
     D8_MAIN_DEX_LIST = 185;
     STRIP_DEBUG_SYMBOLS = 186;
     MERGE_CLASSES = 187;
+    LIBRARY_JNI_LIBS = 188;
 }
 
 enum BooleanOption {
