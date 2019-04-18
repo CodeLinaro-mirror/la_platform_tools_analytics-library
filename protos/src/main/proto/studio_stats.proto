@@ -926,6 +926,7 @@ message AndroidStudioEvent {
     DAEMON_CONTEXT_MISMATCH = 30;
     JAVA_HEAP_ERROR = 31;
     JDK8_REQUIRED = 32;
+    GRADLE_DISTRIBUTION_INSTALL_ERROR = 33;
   }
 
   // IDE brand containing the android plugin
@@ -1095,6 +1096,7 @@ message AndroidStudioEvent {
     USE_EMBEDDED_JDK_HYPERLINK = 42;
     SET_NDK_DIR_HYPERLINK = 43;
     SET_CMAKE_DIR_HYPERLINK = 44;
+    DELETE_FILE_HYPERLINK = 45;
   }
 }
 
