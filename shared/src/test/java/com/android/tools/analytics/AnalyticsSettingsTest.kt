@@ -350,24 +350,24 @@ class AnalyticsSettingsTest {
       AnalyticsSettings.initialize(failureLogger)
 
       // Stub dates to be at specific skew
-      AnalyticsSettings.dateProvider = StubDateProvider(2019, 2, 1)
+      AnalyticsSettings.dateProvider = StubDateProvider(2018, 10, 1)
       // get the salt and ensure it is initialized.
       val initialSalt = AnalyticsSettings.salt
       assertNotNull(initialSalt)
       assertEquals(24, initialSalt.size.toLong())
       // Ensure the salt is still the same at the end of the skew date range.
-      AnalyticsSettings.dateProvider = StubDateProvider(2019, 2, 17)
+      AnalyticsSettings.dateProvider = StubDateProvider(2018, 10, 25)
       assertArrayEquals(initialSalt, AnalyticsSettings.salt)
 
       // Ensure the salt is different in the next skew date range.
-      AnalyticsSettings.dateProvider = StubDateProvider(2019, 2, 18)
+      AnalyticsSettings.dateProvider = StubDateProvider(2018, 10, 26)
       val newSalt = AnalyticsSettings.salt
       assertNotNull(newSalt)
       assertEquals(24, newSalt.size.toLong())
       assertFalse(Arrays.equals(initialSalt, newSalt))
 
       // Ensure the salt is  same at the 532 end of this new range
-      AnalyticsSettings.dateProvider = StubDateProvider(2020, 7, 30)
+      AnalyticsSettings.dateProvider = StubDateProvider(2020, 4, 10)
       val endOfNewSalt = AnalyticsSettings.salt
       assertNotNull(endOfNewSalt)
       assertEquals(24, endOfNewSalt.size.toLong())
@@ -375,7 +375,7 @@ class AnalyticsSettingsTest {
 
 
       // Ensure the salt rotates after 532 days
-      AnalyticsSettings.dateProvider = StubDateProvider(2020, 7, 31)
+      AnalyticsSettings.dateProvider = StubDateProvider(2020, 4, 11)
       val startOfEvenNewerSalt = AnalyticsSettings.salt
       assertNotNull(startOfEvenNewerSalt)
       assertEquals(24, startOfEvenNewerSalt.size.toLong())
