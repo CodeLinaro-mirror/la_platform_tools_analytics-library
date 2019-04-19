@@ -75,7 +75,8 @@ enum GradleTransformExecutionType {
 
     // Next IDs are for Artifact Transforms.
     DEX_ARTIFACT_TRANSFORM = 1000;
-
+    EXTRACT_AAR_ARTIFACT_TRANSFORM = 1001;
+    PLATFORM_ATTR_ARTIFACT_TRANSFORM = 1002;
 }
 
 enum GradleTaskExecutionType {
