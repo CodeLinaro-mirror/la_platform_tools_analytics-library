@@ -72,6 +72,10 @@ enum GradleTransformExecutionType {
     LIBRARY_INTERMEDIATE_JARS = 41 [deprecated=true];
     TEST_TRANSFORM = 42 [deprecated=true];
     FIREBASE_TRANSFORM = 43;
+
+    // Next IDs are for Artifact Transforms.
+    DEX_ARTIFACT_TRANSFORM = 1000;
+
 }
 
 enum GradleTaskExecutionType {
