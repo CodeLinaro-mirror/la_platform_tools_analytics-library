@@ -67,7 +67,7 @@ enum GradleTransformExecutionType {
     DATA_BINDING_MERGE_GEN_CLASS_LOG = 36 [deprecated=true];
     R8_TRANSFORM = 37;
     DEX_SPLITTER_TRANSFORM = 38;
-    MERGE_CLASSES_TRANSFORM = 39;
+    MERGE_CLASSES_TRANSFORM = 39 [deprecated=true];
     LIBRARY_AAR_JARS_TRANSFORM = 40;
     LIBRARY_INTERMEDIATE_JARS = 41 [deprecated=true];
     TEST_TRANSFORM = 42 [deprecated=true];
@@ -267,6 +267,7 @@ enum GradleTaskExecutionType {
     DEX_FILE_DEPENDENCIES = 184;
     D8_MAIN_DEX_LIST = 185;
     STRIP_DEBUG_SYMBOLS = 186;
+    MERGE_CLASSES = 187;
 }
 
 enum BooleanOption {
