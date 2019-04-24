@@ -19,6 +19,7 @@ import com.google.common.annotations.VisibleForTesting
 import com.google.common.base.Strings
 import com.google.wireless.android.sdk.stats.*
 import com.google.wireless.android.sdk.stats.DeviceInfo.ApplicationBinaryInterface
+import java.io.File
 import java.util.*
 import java.util.regex.Pattern
 
@@ -104,7 +105,13 @@ object CommonMetricsData {
       when {
         osLower.startsWith("mac") -> os = "macosx"
         osLower.startsWith("win") -> os = "windows"
-        osLower.startsWith("linux") -> os = "linux"
+        osLower.startsWith("linux") -> {
+          if (File("/dev/.cros_milestone").exists()) {
+           os = "chromium"
+          } else {
+            os = "linux"
+          }
+        }
         os.length > 32 -> os = os.substring(0, 32)
       }
       return os
@@ -116,6 +123,10 @@ object CommonMetricsData {
   @JvmStatic
   val majorOsVersion: String?
     get() {
+      if (osName == "chromium") {
+        return File("/dev/.cros_milestone").readText(Charsets.UTF_8)
+      }
+
       val p = Pattern.compile("(\\d+)\\.(\\d+).*")
       val osVers = System.getProperty("os.version")
       if (osVers != null && osVers.isNotEmpty()) {
