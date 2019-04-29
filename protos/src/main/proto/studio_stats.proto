@@ -2876,6 +2876,9 @@ message GradleBuildVariant {
   // Per-ABI native build info.
   repeated NativeBuildConfigInfo native_build_config = 21;
 
+  // Whether annotation processing could be run incrementally
+  optional bool is_annotation_processing_incremental = 22;
+
   // The nature of this variant.
   // The test variants have an associated tested variant.
   // See com.android.builder.core.VariantType
@@ -2979,6 +2982,10 @@ message AnnotationProcessorInfo {
 
   // How the processor was included in the build file.
   optional InclusionType inclusion_type = 2;
+
+  // Whether the annotation processor is
+  // incremental(isolating/aggregating/dynamic)
+  optional bool is_incremental = 3;
 
   enum InclusionType {
     // The old apt way of including them.
@@ -6520,7 +6527,6 @@ message MemorySettings {
 
 // Event related to studion update flow
 message StudioUpdateFlowEvent {
-
   optional Kind event_kind = 1;
 
   // Version we are updating to, e.g. "182.5107.16.33.5314842"
