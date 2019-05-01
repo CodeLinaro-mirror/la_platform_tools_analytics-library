@@ -364,6 +364,7 @@ enum OptionalBooleanOption {
     IDE_TEST_ONLY = 3;
     SERIAL_AAPT2 = 4;
     ENABLE_R8 = 5;
+    FIREBASE_PERF_PLUGIN_ENABLE_FLAG = 6;
 }
 
 enum IntegerOption {
