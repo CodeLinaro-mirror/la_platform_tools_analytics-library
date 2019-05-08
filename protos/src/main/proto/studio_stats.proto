@@ -927,6 +927,7 @@ message AndroidStudioEvent {
     JAVA_HEAP_ERROR = 31;
     JDK8_REQUIRED = 32;
     GRADLE_DISTRIBUTION_INSTALL_ERROR = 33;
+    DISTRIBUTIONSHA256SUM_FOUND_IN_WRAPPER = 34;
   }
 
   // IDE brand containing the android plugin
@@ -935,6 +936,8 @@ message AndroidStudioEvent {
     ANDROID_STUDIO = 1;
     ANDROID_STUDIO_WITH_BLAZE = 2;
     INTELLIJ = 3;
+    // For the Toolkit preview build released at Google IO 2019
+    ANDROID_STUDIO_TOOLKIT_2019_IO_PREVIEW = 4;
   }
 
   // Gradle sync issue type.
@@ -1097,6 +1100,7 @@ message AndroidStudioEvent {
     SET_NDK_DIR_HYPERLINK = 43;
     SET_CMAKE_DIR_HYPERLINK = 44;
     DELETE_FILE_HYPERLINK = 45;
+    REMOVE_DISTRIBUTIONSHA256SUM_FROM_WRAPPER_HYPERLINK = 46;
   }
 }
 
@@ -5083,6 +5087,8 @@ message GradleSyncStats {
     TRIGGER_QF_SDK_REMOVED_FROM_MANIFEST = 422;
     // Gradle distribution file has been deleted
     TRIGGER_QF_GRADLE_DISTRIBUTION_DELETED = 423;
+    // Property distributionSha256Sum was removed from Gradle wrapper
+    TRIGGER_QF_DISTRIBUTIONSHA256SUM_REMOVED_FROM_WRAPPER = 424;
     // Last marker for syncs caused by quickfixes
     TRIGGER_QF_LAST_MARKER = 999;
 
