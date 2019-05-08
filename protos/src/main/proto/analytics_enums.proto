@@ -269,6 +269,7 @@ enum GradleTaskExecutionType {
     STRIP_DEBUG_SYMBOLS = 186;
     MERGE_CLASSES = 187;
     LIBRARY_JNI_LIBS = 188;
+    EXTRACT_DEEP_LINKS = 189;
 }
 
 enum BooleanOption {
