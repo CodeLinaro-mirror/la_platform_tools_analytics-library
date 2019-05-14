@@ -359,6 +359,7 @@ enum BooleanOption {
     PRECOMPILE_REMOTE_RESOURCES = 83;
     ENABLE_VIEW_BINDING = 84;
     GENERATE_R_JAVA = 85;
+    ENABLE_CMAKE_BUILD_COHABITATION = 86;
 }
 
 enum OptionalBooleanOption {
