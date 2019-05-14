@@ -5651,6 +5651,10 @@ message RunEvent {
 
   // Enum name representing deploy failure reason
   optional string deploy_failure_id = 21;
+  // Whether the user configured AC to fall back to Run
+  optional bool apply_changes_fallback_to_run = 22;
+  // Whether the user configured ACC to fall back to Run
+  optional bool apply_code_changes_fallback_to_run = 23;
 }
 
 message LaunchTaskDetail {
