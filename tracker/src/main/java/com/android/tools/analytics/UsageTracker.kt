@@ -178,6 +178,15 @@ object UsageTracker {
     }
   }
 
+  /**
+   * initializes or updates AnalyticsSettings into a disabled state.
+   */
+  @JvmStatic
+  fun disable() {
+    deinitialize()
+    initialized = true
+  }
+
   @JvmStatic
   fun deinitialize() {
     synchronized(gate) {

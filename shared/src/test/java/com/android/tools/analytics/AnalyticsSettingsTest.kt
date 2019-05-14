@@ -541,4 +541,28 @@ class AnalyticsSettingsTest {
     }
   }
 
+  @Test
+  fun analyticsDisabledTest() {
+    // Configure the paths to use a temp directory for reading from and writing to.
+    EnvironmentFakes.setCustomAndroidSdkHomeEnvironment(testConfigDir.root.toString())
+    try {
+      // Write a json settings file.
+      val json = "{ userId: \"a4d47d92-8d4c-44bb-a8a4-d2483b6e0c16\", hasOptedIn: true }"
+      Files.write(
+        testConfigDir.root.toPath().resolve("analytics.settings"),
+        json.toByteArray(Charsets.UTF_8))
+
+      // ensure the settings are not initialized
+      AnalyticsSettings.setInstanceForTest(null)
+      // disable analytics
+      AnalyticsSettings.disable()
+
+      assertTrue(AnalyticsSettings.initialized)
+      assertFalse(AnalyticsSettings.optedIn)
+      assertEquals("", AnalyticsSettings.userId)
+    }
+    finally {
+      EnvironmentFakes.setSystemEnvironment()
+    }
+  }
 }

@@ -275,6 +275,19 @@ object AnalyticsSettings {
   }
 
   /**
+   * initializes or updates AnalyticsSettings into a disabled state.
+   */
+  @JvmStatic
+  fun disable() {
+    synchronized(gate) {
+      initialized = true
+      instance = AnalyticsSettingsData()
+      dateProvider = DateProvider.SYSTEM
+      googlePlayDateProvider = null
+    }
+  }
+
+  /**
    * Allows test to set a custom version of the AnalyticsSettings to test different setting
    * states.
    */

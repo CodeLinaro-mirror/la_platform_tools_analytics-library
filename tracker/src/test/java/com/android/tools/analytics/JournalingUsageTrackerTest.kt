@@ -496,6 +496,11 @@ class JournalingUsageTrackerTest {
       // expected
     }
 
+    // with the idea.is.internal property but usage tracker disabled, calls should be made as normal
+    UsageTracker.disable()
+    UsageTracker.log(AndroidStudioEvent.newBuilder()
+                       .setKind(AndroidStudioEvent.EventKind.EMULATOR_PING))
+
     // with the idea.is.internal property but initialized, calls should be made as normal
     UsageTracker.setWriterForTest(NullUsageTracker)
     UsageTracker.log(AndroidStudioEvent.newBuilder()
