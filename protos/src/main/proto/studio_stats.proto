@@ -2260,6 +2260,18 @@ message JniInspectionEvent {
     ONLOAD_INSPECTION_EVENT = 4;
     // Set when the FindMethod inspection quickfix is used.
     FIND_METHOD_INSPECTION_EVENT = 5;
+    // Set when the FindField inspection quickfix is used.
+    FIND_FIELD_INSPECTION_EVENT = 6;
+    // Set when the FindClass inspection quickfix is used.
+    FIND_CLASS_INSPECTION_EVENT = 7;
+    // Set when the RegisterNatives inspection quickfix is used.
+    REGISTER_NATIVES_INSPECTION_EVENT = 8;
+    // Set when the CallMethod inspection quickfix is used.
+    CALL_METHOD_INSPECTION_EVENT = 9;
+    // Set when the GetField inspection quickfix is used.
+    GET_FIELD_INSPECTION_EVENT = 10;
+    // Set when the SetField inspection quickfix is used.
+    SET_FIELD_INSPECTION_EVENT = 11;
   }
 
   optional JniInspectionType type = 1;
