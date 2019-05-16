@@ -360,6 +360,7 @@ enum BooleanOption {
     ENABLE_VIEW_BINDING = 84;
     GENERATE_R_JAVA = 85;
     ENABLE_CMAKE_BUILD_COHABITATION = 86;
+    FORCE_JACOCO_OUT_OF_PROCESS = 87;
 }
 
 enum OptionalBooleanOption {
