@@ -316,6 +316,9 @@ message AndroidStudioEvent {
   // set when kind = BUILD_OUTPUT_WINDOW_STATS
   optional BuildOutputWindowStats build_output_window_stats = 87;
 
+  // set when kind = GRADLE_PLUGIN_DSL_USAGE_STATS
+  optional GradlePluginDslUsageStats gradle_plugin_dsl_usage_stats = 88;
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -786,6 +789,9 @@ message AndroidStudioEvent {
 
     // Build output window statistics when build fails.
     BUILD_OUTPUT_WINDOW_STATS = 185;
+
+    // Stats about the use of the Android Gradle Plugin DSL
+    GRADLE_PLUGIN_DSL_USAGE_STATS = 186;
   }
 
   // Represents different Performance Monitoring types.
@@ -1050,6 +1056,15 @@ message AndroidStudioEvent {
     // the ANDROID_SDK_ROOT environment variable or the projects
     // local.properties files.
     TYPE_SDK_NOT_SET = 37;
+
+    // Indicates that the user has specified multiple default build types.
+    TYPE_AMBIGUOUS_BUILD_TYPE_DEFAULT = 38;
+
+    // Indicates that the user has specified multiple default product flavors.
+    TYPE_AMBIGUOUS_PRODUCT_FLAVOR_DEFAULT = 39;
+
+    // Indicates that the compileSdkVersion is missing.
+    TYPE_COMPILE_SDK_VERSION_NOT_SET = 40;
   }
 
   // Various quick-fixes that are offered to resolve sync issues.
@@ -2882,6 +2897,10 @@ message GradleBuildVariant {
 
   // Whether annotation processing could be run incrementally
   optional bool is_annotation_processing_incremental = 22;
+
+  // Whether this variant (a base module or dynamic feature) is marked as
+  // instant enabled in its manifest (Google Play Instant / Instant Apps)
+  optional bool is_instant_enabled = 23;
 
   // The nature of this variant.
   // The test variants have an associated tested variant.
@@ -6623,4 +6642,22 @@ message BuildErrorMessage {
 // Statistics for what we show on the build output window.
 message BuildOutputWindowStats {
   repeated BuildErrorMessage build_error_messages = 1;
+}
+
+// Statistics for Android Gradle Plugin DSL methods that are invoked in
+// build scripts or by other Gradle plugins.
+message GradlePluginDslUsageStats {
+  // A data point for each DSL method the user invokes.
+  repeated DslElementUse dsl_element_use = 1;
+
+  // Statistics for an individual Android Gradle Plugin DSL method
+  message DslElementUse {
+    // The DSL method called in the build script or by another Gradle Plugin
+    // This is an enum in android git:
+    // tools/analytics-library/protos/src/main/proto/analytics_enums.proto
+    // DslElementType
+    optional int32 type = 1;
+    // The number of times this method is called within this multi-project build
+    optional int32 count = 2;
+  }
 }
