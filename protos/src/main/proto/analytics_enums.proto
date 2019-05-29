@@ -270,6 +270,7 @@ enum GradleTaskExecutionType {
     MERGE_CLASSES = 187;
     LIBRARY_JNI_LIBS = 188;
     EXTRACT_DEEP_LINKS = 189;
+    ANALYZE_DEPENDENCIES = 190;
 }
 
 enum BooleanOption {
