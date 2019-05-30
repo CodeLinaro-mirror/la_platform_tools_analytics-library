@@ -361,6 +361,7 @@ enum BooleanOption {
     GENERATE_R_JAVA = 85;
     ENABLE_CMAKE_BUILD_COHABITATION = 86;
     FORCE_JACOCO_OUT_OF_PROCESS = 87;
+    USE_ZIPFLINGER_FOR_JAR_MERGING = 88;
 }
 
 enum OptionalBooleanOption {
