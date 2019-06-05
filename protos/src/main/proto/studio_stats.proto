@@ -4572,6 +4572,9 @@ message CpuCaptureMetadata {
   // Timeout set by the user for the system "profiler.cpu.art.stop.timeout.sec"
   // property. Set if |profiling_config.type| is |ART|.
   optional int32 art_stop_timeout_sec = 7;
+
+  // How much time it took to stop CPU recording.
+  optional int32 stopping_time_ms = 8;
 }
 
 // Data associated with importing CPU traces.
