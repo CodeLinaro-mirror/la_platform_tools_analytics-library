@@ -286,6 +286,7 @@ enum GradleTaskExecutionType {
     DEX_ARCHIVE_BUILDER = 203;
     DESUGAR = 204;
     PROGUARD_CONFIGURABLE = 205;
+    COMPILE_LIBRARY_RESOURCES = 206;
 }
 
 enum BooleanOption {
@@ -380,6 +381,7 @@ enum BooleanOption {
     USE_NEW_JAR_CREATOR = 88;
     USE_APK_FLINGER = 89;
     COMPILE_CLASSPATH_LIBRARY_R_CLASSES = 90;
+    PRECOMPILE_LOCAL_RESOURCES = 91;
 }
 
 enum OptionalBooleanOption {
