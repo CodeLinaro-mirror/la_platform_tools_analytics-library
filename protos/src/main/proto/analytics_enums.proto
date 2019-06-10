@@ -362,6 +362,7 @@ enum BooleanOption {
     ENABLE_CMAKE_BUILD_COHABITATION = 86;
     FORCE_JACOCO_OUT_OF_PROCESS = 87;
     USE_ZIPFLINGER_FOR_JAR_MERGING = 88;
+    USE_APK_FLINGER = 89;
 }
 
 enum OptionalBooleanOption {
