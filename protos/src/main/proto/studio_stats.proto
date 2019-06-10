@@ -1171,6 +1171,8 @@ message ProductDetails {
     LIGHT_MAC_NATIVE = 3;
     LIGHT_WIN_NATIVE = 4;
     GTK = 5;
+    HIGH_CONTRAST = 6;
+    CUSTOM = 7;
   }
 }
 
