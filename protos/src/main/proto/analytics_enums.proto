@@ -283,6 +283,7 @@ enum GradleTaskExecutionType {
     PACKAGE_ANDROID_ARTIFACT = 200;
     RESOURCE_AWARE = 201;
     SHRINK_RESOURCES = 202;
+    DEX_ARCHIVE_BUILDER = 203;
 }
 
 enum BooleanOption {
