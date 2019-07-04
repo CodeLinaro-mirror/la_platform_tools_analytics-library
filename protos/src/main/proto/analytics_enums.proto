@@ -60,7 +60,7 @@ enum GradleTransformExecutionType {
     DEX_ARCHIVE_BUILDER_TRANSFORM = 29;
     DEX_MERGER_TRANSFORM = 30;
     MAIN_DEX_LIST = 31;
-    DESUGAR_TRANSFORM = 32;
+    DESUGAR_TRANSFORM = 32 [deprecated=true];
     FIX_STACK_FRAMES = 33 [deprecated=true];
     EXTERNAL_LIBS_MERGER_TRANSFORM = 34;
     D8_MAIN_DEX_LIST_TRANSFORM = 35 [deprecated=true];
@@ -284,6 +284,7 @@ enum GradleTaskExecutionType {
     RESOURCE_AWARE = 201;
     SHRINK_RESOURCES = 202;
     DEX_ARCHIVE_BUILDER = 203;
+    DESUGAR = 204;
 }
 
 enum BooleanOption {
