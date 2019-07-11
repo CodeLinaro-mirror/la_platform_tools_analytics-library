@@ -285,6 +285,7 @@ enum GradleTaskExecutionType {
     SHRINK_RESOURCES = 202;
     DEX_ARCHIVE_BUILDER = 203;
     DESUGAR = 204;
+    PROGUARD_CONFIGURABLE = 205;
 }
 
 enum BooleanOption {
