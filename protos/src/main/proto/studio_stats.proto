@@ -4134,6 +4134,10 @@ message LayoutEditorEvent {
     DROP_VIEW_FROM_PALETTE = 32;
     ATTRIBUTE_CHANGE = 33;
     FAVORITE_CHANGE = 34;
+
+    SELECT_TEXT_MODE = 35;
+    SELECT_SPLIT_MODE = 36;
+    SELECT_VISUAL_MODE = 37;
   }
 
   // Type of event
@@ -4157,8 +4161,10 @@ message NavEditorEvent {
 
     OPEN_FILE = 1;
 
-    SELECT_DESIGN_TAB = 2;
-    SELECT_XML_TAB = 3;
+    // Deprecated by LayoutEditorEventType.SELECT_VISUAL_MODE
+    SELECT_DESIGN_TAB = 2 [deprecated = true];
+    // Deprecated by LayoutEditorEventType.SELECT_TEXT_MODE
+    SELECT_XML_TAB = 3 [deprecated = true];
 
     CREATE_ACTION = 4;
     EDIT_ACTION = 5;
@@ -4200,15 +4206,29 @@ message NavEditorEvent {
 
     SCHEMA_CREATED = 29;
 
-    ZOOM_IN = 30;
-    ZOOM_OUT = 31;
-    ZOOM_FIT = 32;
+    // Deprecated by LayoutEditorEventType.ZOOM_IN
+    ZOOM_IN = 30 [deprecated = true];
+    // Deprecated by LayoutEditorEventType.ZOOM_OUT
+    ZOOM_OUT = 31 [deprecated = true];
+    // Deprecated by LayoutEditorEventType.ZOOM_FIT
+    ZOOM_FIT = 32 [deprecated = true];
 
     CUT = 33;
     COPY = 34;
     PASTE = 35;
 
     // next index: 39
+  }
+
+  // Identifies the mode of the navigation editor
+  enum NavEditorMode {
+    UNKNOWN_MODE = 0;
+    // Single view displaying only the navigation editor itself
+    VISUAL_ONLY_MODE = 1;
+    // Split view with text and design editor side-by-side
+    SPLIT_MODE = 2;
+    // Single view displaying only the text editor
+    TEXT_ONLY_MODE = 3;
   }
 
   enum Source {
@@ -4235,6 +4255,8 @@ message NavEditorEvent {
   optional NavSchemaInfo schema_info = 6;
   // Information on the current contents of the navigation file
   optional NavigationContents contents = 7;
+  // Mode of navigation editor: design-only, text-only, or split view
+  optional NavEditorMode mode = 8;
 }
 
 message NavPropertyInfo {
