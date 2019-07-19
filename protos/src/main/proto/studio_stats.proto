@@ -1065,6 +1065,10 @@ message AndroidStudioEvent {
 
     // Indicates that the compileSdkVersion is missing.
     TYPE_COMPILE_SDK_VERSION_NOT_SET = 40;
+
+    // Indicates that the `android.useAndroidX` property must be enabled but is
+    // currently disabled.
+    TYPE_ANDROID_X_PROPERTY_NOT_ENABLED = 41;
   }
 
   // Various quick-fixes that are offered to resolve sync issues.
@@ -1864,6 +1868,20 @@ message EmulatorAutomation {
   optional uint64 preview_replay_count = 3;
   // Played preset-macros.
   repeated EmulatorAutomationPresetMacro played_preset_macro = 4;
+  // Total amount of macros recorded.
+  optional uint64 record_macro_count = 5;
+  // Total amount of macros deleted.
+  optional uint64 delete_macro_count = 6;
+  // Total amount of macros edited.
+  optional uint64 edit_macro_count = 7;
+}
+
+// Metrics for multi-display details
+message EmulatorMultiDisplay {
+  // Count for add/modify/delete displays
+  optional uint32 apply_count = 1;
+  // Max displays created
+  optional uint32 max_displays = 2;
 }
 
 // Metrics related to the Emulator.
@@ -1924,7 +1942,9 @@ message EmulatorDetails {
   optional EmulatorBootInfo boot_info = 29;
   // Metrics for automation/macros.
   optional EmulatorAutomation automation = 30;
-  // Next tag: 31
+  // Metrics for multi-display
+  optional EmulatorMultiDisplay multi_display = 31;
+  // Next tag: 32
 
   // Emulator instance liveness as determined via adb connectivity.
   enum EmulatorAdbLiveness {
