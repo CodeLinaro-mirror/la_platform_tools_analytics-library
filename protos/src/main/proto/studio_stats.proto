@@ -319,6 +319,9 @@ message AndroidStudioEvent {
   // set when kind = GRADLE_PLUGIN_DSL_USAGE_STATS
   optional GradlePluginDslUsageStats gradle_plugin_dsl_usage_stats = 88;
 
+  // set when kind = WHATS_NEW_ASSISTANT_UPDATE_EVENT
+  optional WhatsNewAssistantUpdateEvent whats_new_assistant_update_event = 89;
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -792,6 +795,9 @@ message AndroidStudioEvent {
 
     // Stats about the use of the Android Gradle Plugin DSL
     GRADLE_PLUGIN_DSL_USAGE_STATS = 186;
+
+    // The event is related to What's New Assistant update flow
+    WHATS_NEW_ASSISTANT_UPDATE_EVENT = 188;
   }
 
   // Represents different Performance Monitoring types.
@@ -1022,10 +1028,17 @@ message AndroidStudioEvent {
     // Indicates that the project uses a deprecated DSL.
     TYPE_DEPRECATED_DSL = 28;
 
-    TYPE_DEPRECATED_CONFIGURATION = 29;
+    // Indicates that the project uses a deprecated configuration.
+    // This type is now replaced with TYPE_USING_DEPRECATED_CONFIGURATION
+    // because of an indexing issue in the past
+    // (see http://issuetracker.google.com/138278313).
+    TYPE_DEPRECATED_CONFIGURATION = 29 [deprecated = true];
 
-    // Indicates that the project uses a deprecated DSL.
-    TYPE_DEPRECATED_DSLVALUE = 30;
+    // Indicates that the project uses a deprecated DSL value.
+    // This type is now replaced with TYPE_USING_DEPRECATED_DSL_VALUE
+    // because of an indexing issue in the past
+    // (see http://issuetracker.google.com/138278313).
+    TYPE_DEPRECATED_DSLVALUE = 30 [deprecated = true];
 
     // Indicates that the project contains the min sdk in the android manifest
     // file.
@@ -1069,6 +1082,17 @@ message AndroidStudioEvent {
     // Indicates that the `android.useAndroidX` property must be enabled but is
     // currently disabled.
     TYPE_ANDROID_X_PROPERTY_NOT_ENABLED = 41;
+
+    // Indicates that the project uses a deprecated configuration.
+    TYPE_USING_DEPRECATED_CONFIGURATION = 42;
+
+    // Indicates that the project uses a deprecated DSL value.
+    TYPE_USING_DEPRECATED_DSL_VALUE = 43;
+
+    // NOTE: When adding a new type here, increment the index by 1. This index
+    // may not be consistent with the corresponding value in the Android Gradle
+    // plugin (e.g., it could be higher by 1), because of an indexing issue in
+    // the past (see http://issuetracker.google.com/138278313).
   }
 
   // Various quick-fixes that are offered to resolve sync issues.
@@ -5512,6 +5536,23 @@ message WhatsNewAssistantEvent {
 
   // Type of event
   optional WhatsNewAssistantEventType type = 1;
+}
+
+// Details for What's New Assistant update flow only
+message WhatsNewAssistantUpdateEvent {
+  // Whether this window was auto opened
+  optional bool auto_opened = 1;
+  // Whether this is the update flow or regular WNA
+  optional bool update_flow = 2;
+  // Whether the user scrolled to the bottom of the pane
+  optional bool scrolled_to_bottom = 3;
+  // Whether the window was closed due to clicking "Dismiss"
+  optional bool dismissed = 4;
+
+  // Time between opening window and clicking update button
+  optional int64 time_to_update_ms = 5;
+  // Time between opening window and closing it
+  optional int64 time_to_close_ms = 6;
 }
 
 // Information about a session running lint -- in build, in IDE, etc
