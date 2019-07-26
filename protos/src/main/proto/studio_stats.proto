@@ -2690,6 +2690,10 @@ message GradleBuildProject {
   // All of the gradle plugins applied to this project
   repeated GradlePlugin plugin = 13;
 
+  // The version of the firebase performance plugin applied to the project
+  // e.g. '1.3.0'
+  optional string firebase_performance_plugin_version = 14;
+
   enum PluginType {
     UNKNOWN_PLUGIN_TYPE = 0;
     // The 'com.android.application' or 'com.android.model.application' plugins.
