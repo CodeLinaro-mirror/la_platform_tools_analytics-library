@@ -292,6 +292,7 @@ enum GradleTaskExecutionType {
     APK_ZIP_PACKAGING = 208;
     R8 = 209;
     PARSE_INTEGRITY_CONFIG = 210;
+    PROGUARD = 211;
 }
 
 enum BooleanOption {
