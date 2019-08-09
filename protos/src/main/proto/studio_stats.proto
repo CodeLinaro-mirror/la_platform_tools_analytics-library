@@ -6287,6 +6287,9 @@ message DataBindingEvent {
   // Set if |type| is |DATA_BINDING_BUILD_EVENT| or |DATA_BINDING_SYNC_EVENT|
   optional DataBindingPollMetadata poll_metadata = 3;
 
+  // Collects view binding layout count when |type| = |DATA_BINDING_BUILD_EVENT|
+  optional ViewBindingPollMetadata view_binding_metadata = 4;
+
   // Type of data binding event
   enum EventType {
     UNKNOWN_TYPE = 0;
@@ -6318,7 +6321,7 @@ message DataBindingEvent {
     DATA_BINDING_CONTEXT_XML_TAG = 3;
   }
 
-  // All of the stats we actively poll for
+  // Data binding stats we actively poll for
   message DataBindingPollMetadata {
     /// These are set when the message is a |DATA_BINDING_SYNC_EVENT|
     // Whether user enabled data binding in gradle file.
@@ -6377,6 +6380,15 @@ message DataBindingEvent {
       // # of live data objects
       optional uint32 live_data_object_count = 1;
     }
+  }
+
+  // View binding stats we poll for
+  message ViewBindingPollMetadata {
+    // Whether user enabled view binding in gradle dsl.
+    optional bool view_binding_enabled = 1;
+
+    // Number of view binding layout xmls.
+    optional uint32 layout_xml_count = 2;
   }
 }
 
