@@ -65,7 +65,7 @@ enum GradleTransformExecutionType {
     EXTERNAL_LIBS_MERGER_TRANSFORM = 34;
     D8_MAIN_DEX_LIST_TRANSFORM = 35 [deprecated=true];
     DATA_BINDING_MERGE_GEN_CLASS_LOG = 36 [deprecated=true];
-    R8_TRANSFORM = 37;
+    R8_TRANSFORM = 37 [deprecated=true];
     DEX_SPLITTER_TRANSFORM = 38;
     MERGE_CLASSES_TRANSFORM = 39 [deprecated=true];
     LIBRARY_AAR_JARS_TRANSFORM = 40;
@@ -290,6 +290,7 @@ enum GradleTaskExecutionType {
     COMPILE_LIBRARY_RESOURCES = 206;
     EXPORT_CONSUMER_PROGUARD_FILES = 207;
     APK_ZIP_PACKAGING = 208;
+    R8 = 209;
 }
 
 enum BooleanOption {
