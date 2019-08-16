@@ -798,6 +798,12 @@ message AndroidStudioEvent {
 
     // The event is related to What's New Assistant update flow
     WHATS_NEW_ASSISTANT_UPDATE_EVENT = 188;
+
+    // APK reload operation started
+    APK_DEBUG_RELOAD_START = 189;
+
+    // APK reload finished without errors
+    APK_DEBUG_RELOAD_SUCCESS = 190;
   }
 
   // Represents different Performance Monitoring types.
