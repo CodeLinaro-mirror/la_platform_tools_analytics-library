@@ -24,6 +24,7 @@ iml_module(
         "//tools/idea/.idea/libraries:JUnit4[test]",
         "//tools/idea/.idea/libraries:netty-codec-http[test]",
         "//tools/idea/.idea/libraries:mockito[test]",
+        "//tools/idea/.idea/libraries:Objenesis[test]",
     ],
 )
 
