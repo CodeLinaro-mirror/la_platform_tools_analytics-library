@@ -322,6 +322,9 @@ message AndroidStudioEvent {
   // set when kind = WHATS_NEW_ASSISTANT_UPDATE_EVENT
   optional WhatsNewAssistantUpdateEvent whats_new_assistant_update_event = 89;
 
+  // set when kind = DEFAULT_ACTIVITY_LOCATOR_STATS
+  optional DefaultActivityLocatorStats default_activity_locator_stats = 90;
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -804,6 +807,10 @@ message AndroidStudioEvent {
 
     // APK reload finished without errors
     APK_DEBUG_RELOAD_SUCCESS = 190;
+
+    // Information about how long DefaultActivityLocator blocked on getting
+    // a list of activities from the merged manifest.
+    DEFAULT_ACTIVITY_LOCATOR_STATS = 191;
   }
 
   // Represents different Performance Monitoring types.
@@ -6798,4 +6805,19 @@ message GradlePluginDslUsageStats {
     // The number of times this method is called within this multi-project build
     optional int32 count = 2;
   }
+}
+
+// Information about how long DefaultActivityLocator blocked on getting
+// a list of activities from the merged manifest.
+message DefaultActivityLocatorStats {
+  // Whether getting information from the merged manifest blocked the UI thread.
+  optional bool blocks_ui_thread = 1;
+  // Whether we're leveraging an index to determine the module's activities.
+  optional bool index_based = 2;
+  // Whether DefaultActivityLocator used a potentially stale manifest (as
+  // opposed to blocking on a fresh view of the merged manifest).
+  optional bool used_potentially_stale_manifest = 3;
+  // How long it took us to obtain the list of activiteis
+  // from the merged manifest.
+  optional uint64 latency_ms = 4;
 }
