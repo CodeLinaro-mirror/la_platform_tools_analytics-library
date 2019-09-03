@@ -325,6 +325,9 @@ message AndroidStudioEvent {
   // set when kind = DEFAULT_ACTIVITY_LOCATOR_STATS
   optional DefaultActivityLocatorStats default_activity_locator_stats = 90;
 
+  // set when kind = MOTION_LAYOUT_EDITOR_EVENT
+  optional MotionLayoutEditorEvent motion_layout_editor_event = 91;
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -811,6 +814,9 @@ message AndroidStudioEvent {
     // Information about how long DefaultActivityLocator blocked on getting
     // a list of activities from the merged manifest.
     DEFAULT_ACTIVITY_LOCATOR_STATS = 191;
+
+    // Motion Layout Editor event
+    MOTION_LAYOUT_EDITOR_EVENT = 192;
   }
 
   // Represents different Performance Monitoring types.
@@ -1921,6 +1927,22 @@ message EmulatorMultiDisplay {
   optional uint32 max_displays = 2;
 }
 
+// Metrics for grpc invocations.
+message EmulatorGrpc {
+  // CRC32 digest of the fully-specified method name.
+  optional uint32 call_id = 1;
+  // Number of requests
+  optional uint32 requests = 2;
+  // Number of requests for which the response was not Status::OK
+  optional uint32 failures = 3;
+  // Sum of received message size, if streaming
+  optional PercentileEstimator rcv_bytes_estimate = 4;
+  // Sum of sent message size, if streaming
+  optional PercentileEstimator snd_bytes_estimate = 5;
+  // Duration of the total request time in milliseconds.
+  optional PercentileEstimator duration = 6;
+}
+
 // Metrics related to the Emulator.
 message EmulatorDetails {
   // Cpu architecture of the guest.
@@ -1981,7 +2003,9 @@ message EmulatorDetails {
   optional EmulatorAutomation automation = 30;
   // Metrics for multi-display
   optional EmulatorMultiDisplay multi_display = 31;
-  // Next tag: 32
+  // Metrics for gRPC invocation
+  optional EmulatorGrpc grpc = 32;
+  // Next tag: 33
 
   // Emulator instance liveness as determined via adb connectivity.
   enum EmulatorAdbLiveness {
@@ -4205,6 +4229,11 @@ message LayoutEditorEvent {
     SELECT_TEXT_MODE = 35;
     SELECT_SPLIT_MODE = 36;
     SELECT_VISUAL_MODE = 37;
+
+    OPEN_MOTION_LAYOUT_EDITOR_MODE = 38;
+
+    SHOW_LAYOUT_VISUALIZATION_TOOL = 39;
+    HIDE_LAYOUT_VISUALIZATION_TOOL = 40;
   }
 
   // Type of event
@@ -5171,6 +5200,9 @@ message GradleSyncStats {
     TRIGGER_USER_REFRESH_LINKED_CPP_PROJECTS = 104;
     // Sync was requested by user while the project was building
     TRIGGER_USER_REQUEST_WHILE_BUILDING = 105;
+    // Re-run was requested by user from command line output console with
+    // additional options
+    TRIGGER_USER_REQUEST_RERUN_WITH_ADDITIONAL_OPTIONS = 106;
     // Last marker for user initiated syncs
     TRIGGER_USER_LAST_MARKER = 199;
 
@@ -6820,4 +6852,37 @@ message DefaultActivityLocatorStats {
   // How long it took us to obtain the list of activiteis
   // from the merged manifest.
   optional uint64 latency_ms = 4;
+}
+
+// Details for motion layout editor events
+message MotionLayoutEditorEvent {
+  // List of event types available in motion layout editor
+  enum MotionLayoutEditorEventType {
+    UNKNOWN_EVENT_TYPE = 0;
+    CREATE_CONSTRAINT = 1;
+    CREATE_TRANSITION = 2;
+    CREATE_ONCLICK = 3;
+    TOGGLE_LAYOUT = 4;
+    CREATE_KEY_POSITION = 5;
+    CREATE_KEY_ATTRIBUTES = 6;
+    CREATE_KEY_CYCLE = 7;
+    CREATE_KEY_TRIGGER = 8;
+    CREATE_KEY_TIME_CYCLE = 9;
+    CONVERT_TO_CONSTRAINT = 10;
+    CONVERT_TO_SECTIONED_CONSTRAINT = 11;
+    CLEAR_CONSTRAINT = 12;
+    SHOW_TIMELINE = 13;
+    SHOW_CONSTRAINTSET = 14;
+    SHOW_LAYOUT = 15;
+    CONSTRAINT_TABLE_SELECT = 16;
+    LAYOUT_TABLE_SELECT = 17;
+    TIMELINE_TABLE_SELECT = 18;
+    MOTION_PLAY = 19;
+    MOTION_SPEED = 20;
+    MOTION_PAUSE = 21;
+    MOTION_DIRETION_TOGGLE = 22;
+  }
+
+  // Type of event
+  optional MotionLayoutEditorEventType type = 1;
 }
