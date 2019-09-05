@@ -1108,6 +1108,26 @@ message AndroidStudioEvent {
     // Indicates that the project uses a deprecated DSL value.
     TYPE_USING_DEPRECATED_DSL_VALUE = 43;
 
+    // Generic build file issues with file/line number information
+    TYPE_BUILD_FILE_ISSUE = 44;
+
+    // dynamic feature declared in base module does not exist
+    TYPE_UNKNOWN_FEATURE = 45;
+
+    // Declared source sets is not actually used by a variant
+    TYPE_UNKNOWN_SOURCE_SET = 46;
+
+    // Retro lambda plugin is present instead of using D8/R8
+    TYPE_RETRO_LAMBDA_PRESENT = 47;
+
+    TYPE_RES_SHRINKER_WITH_APP_BUNDLE = 48;
+
+    TYPE_RES_SHRINKER_WITH_LIBRARY_MODULE = 49;
+
+    TYPE_INVALID_JAVA8_FLAGS = 50;
+
+    TYPE_MISSING_JAVA8_FLAG = 51;
+
     // NOTE: When adding a new type here, increment the index by 1. This index
     // may not be consistent with the corresponding value in the Android Gradle
     // plugin (e.g., it could be higher by 1), because of an indexing issue in
