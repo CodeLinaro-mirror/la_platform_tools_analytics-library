@@ -293,6 +293,7 @@ enum GradleTaskExecutionType {
     R8 = 209;
     PARSE_INTEGRITY_CONFIG = 210;
     PROGUARD = 211;
+    FEATURE_NAME_WRITER = 212;
 }
 
 enum BooleanOption {
