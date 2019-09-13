@@ -4924,6 +4924,16 @@ message TransportFailureMetadata {
   optional FailureType failure_type = 1;
 }
 
+message MemoryInstanceFilterMetadata {
+  enum FilterType {
+    UNKNOWN_FILTER_TYPE = 0;
+    ACTIVITY_FRAGMENT_LEAKS = 1;
+    PROJECT_CLASSES = 2;
+  }
+
+  optional FilterType filter_type = 1;
+}
+
 // Android Profiler metrics
 message AndroidProfilerEvent {
   // The current stage we're on when this event was generated
@@ -4971,6 +4981,9 @@ message AndroidProfilerEvent {
 
   // Set if |type| is |TRANSPORT_DAEMON_FAILED| OR |TRANSPORT_PROXY_FAILED|
   optional TransportFailureMetadata transport_failure_metadata = 15;
+
+  // Set if |type| is |MEMORY_INSTANCE_FILTER|
+  optional MemoryInstanceFilterMetadata memory_instance_filter_metadata = 16;
 
   enum Stage {
     UNKNOWN_STAGE = 0;
@@ -5072,6 +5085,8 @@ message AndroidProfilerEvent {
     SELECT_MEMORY_STACK = 308;
     SELECT_MEMORY_REFERENCES = 309;
     SELECT_MEMORY_HEAP = 310;  // This event type should have |memory_heap|
+    // This type should have |memory_instance_filter_metadata|
+    MEMORY_INSTANCE_FILTER = 311;
 
     /// Network
 
