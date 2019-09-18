@@ -1183,6 +1183,7 @@ message AndroidStudioEvent {
     SET_CMAKE_DIR_HYPERLINK = 44;
     DELETE_FILE_HYPERLINK = 45;
     REMOVE_DISTRIBUTIONSHA256SUM_FROM_WRAPPER_HYPERLINK = 46;
+    CONFIRM_DISTRIBUTIONSHA256SUM_FROM_WRAPPER_HYPERLINK = 47;
   }
 }
 
@@ -1947,6 +1948,14 @@ message EmulatorMultiDisplay {
   optional uint32 max_displays = 2;
 }
 
+// Metrics for LocationV2
+message EmulatorLocationV2 {
+  // Count for "Set Location" button
+  optional uint32 set_loc_count = 1;
+  // Count for "Play route" button
+  optional uint32 play_route_count = 2;
+}
+
 // Metrics for grpc invocations.
 message EmulatorGrpc {
   // CRC32 digest of the fully-specified method name.
@@ -2025,7 +2034,9 @@ message EmulatorDetails {
   optional EmulatorMultiDisplay multi_display = 31;
   // Metrics for gRPC invocation
   optional EmulatorGrpc grpc = 32;
-  // Next tag: 33
+  // Metrics for LocationUiV2
+  optional EmulatorLocationV2 location_v2 = 33;
+  // Next tag: 34
 
   // Emulator instance liveness as determined via adb connectivity.
   enum EmulatorAdbLiveness {
@@ -4254,6 +4265,9 @@ message LayoutEditorEvent {
 
     SHOW_LAYOUT_VISUALIZATION_TOOL = 39;
     HIDE_LAYOUT_VISUALIZATION_TOOL = 40;
+
+    ADD_CONSTRAINT = 41;
+    DELETE_CONSTRAINT = 42;
   }
 
   // Type of event
@@ -5291,6 +5305,8 @@ message GradleSyncStats {
     TRIGGER_QF_GRADLE_DISTRIBUTION_DELETED = 423;
     // Property distributionSha256Sum was removed from Gradle wrapper
     TRIGGER_QF_DISTRIBUTIONSHA256SUM_REMOVED_FROM_WRAPPER = 424;
+    // User confirmed distributionSha256Sum in Gradle wrapper
+    TRIGGER_QF_DISTRIBUTIONSHA256SUM_CONFIRMED_BY_USER = 425;
     // Last marker for syncs caused by quickfixes
     TRIGGER_QF_LAST_MARKER = 999;
 
@@ -6140,7 +6156,7 @@ message PSDEvent {
     PROJECT_STRUCTURE_DIALOG_FIELD_PROJECT_ANDROID_PLUGIN_REPOSITORY = 42;
     PROJECT_STRUCTURE_DIALOG_FIELD_PROJECT_DEFAULT_LIBRARY_REPOSITORY = 43;
     // From Module
-    //   From Information tab (there are no fileds, only a message)
+    //   From Information tab (there are no fields, only a message)
     //   From Propertires tab
     PROJECT_STRUCTURE_DIALOG_FIELD_MODULE_PROPERTIES_COMPILE_SDK_VERSION = 120;
     PROJECT_STRUCTURE_DIALOG_FIELD_MODULE_PROPERTIES_BUILD_TOLS_VERSION = 121;
@@ -6636,6 +6652,9 @@ message ResourceManagerEvent {
     // Resource Manager tool window is openend
     TOOL_WINDOW_OPEN = 1;
 
+    // Resource Manager opened as Resource Picker Dialog
+    RESOURCE_PICKER_DIALOG_OPEN = 17;
+
     // Asset added pressing the "Import Drawable" action
     ASSET_ADDED_VIA_BUTTON = 2;
 
@@ -6651,9 +6670,21 @@ message ResourceManagerEvent {
     // List mode has been changed to grid or list
     LIST_MODE_CHANGED = 6;
 
-    // User shows or hide libraries assets
+    // User shows or hides dependent module assets
+    DEPENDENT_MODULES_SHOWN = 18;
+    DEPENDENT_MODULES_HIDDEN = 19;
+
+    // User shows or hides libraries assets
     LIBRARIES_SHOWN = 7;
     LIBRARIES_HIDDEN = 8;
+
+    // User shows or hides framework assets
+    FRAMEWORK_SHOWN = 20;
+    FRAMEWORK_HIDDEN = 21;
+
+    // User shows or hides theme attributes assets
+    THEME_ATTR_SHOWN = 22;
+    THEME_ATTR_HIDDEN = 23;
 
     // A density indicator was present in the imported file
     DENSITY_INFERED = 9;
@@ -6684,6 +6715,14 @@ message ResourceManagerEvent {
     FONT = 5;
     SVG = 6;
     RASTER = 7;
+    NAVIGATION = 8;
+    MENU = 9;
+    // Animation related resources (animator, interpolator, transition, etc.)
+    ANIMATION = 10;
+    STYLE = 11;
+    // Any other value-like resource (plurals, integers, etc.)
+    VALUE = 12;
+    XML = 13;
   }
 }
 
