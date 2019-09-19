@@ -2565,6 +2565,7 @@ message TestRun {
     UNKNOWN_TEST_EXECUTION = 0;
     HOST = 1;
     ANDROID_TEST_ORCHESTRATOR = 2;
+    NITROGEN = 3;
   }
 }
 
