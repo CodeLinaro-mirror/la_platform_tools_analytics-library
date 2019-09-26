@@ -6060,6 +6060,7 @@ message IntellijProjectSizeStats {
     XML = 2;
     DOT_CLASS = 3;
     KOTLIN = 4;
+    NATIVE = 5;
   }
   // Search scope to decide counted file set
   enum Scope {
