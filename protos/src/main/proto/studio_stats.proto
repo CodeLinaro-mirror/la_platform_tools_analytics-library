@@ -3997,6 +3997,7 @@ message LayoutEditorState {
     DRAWABLE = 2;
     MENU = 3;
     PREFERENCE_SCREEN = 4;
+    COMPOSE = 5;
   }
 
   // Layout orientation
