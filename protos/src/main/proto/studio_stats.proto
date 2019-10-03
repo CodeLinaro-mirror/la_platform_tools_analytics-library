@@ -2582,7 +2582,7 @@ message TestRun {
 // Each string field of this message holds the exact version of the given
 // library that the field name represents. The field is populated only if this
 // project uses the given library.
-// Next ID: 20
+// Next ID: 22
 message TestLibraries {
   // "com.android.support.test.runner" or "androidx.test.runner".
   optional string test_support_library_version = 1;  // e.g. '0.5'
@@ -2611,6 +2611,10 @@ message TestLibraries {
   optional string junit_version = 18;  // e.g. '4.2'
   // "com.google.truth".
   optional string truth_version = 19;  // e.g. '0.40'
+  // "androidx.benchmark.benchmark-common".
+  optional string benchmark_common_version = 21;  // e.g. '1.0.0'
+  // "androidx.benchmark.benchmark-junit4".
+  optional string benchmark_junit4_version = 22;  // e.g. '1.0.0'
 }
 
 // Describes the status of various Hypervisors
