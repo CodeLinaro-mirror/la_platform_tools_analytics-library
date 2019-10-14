@@ -328,6 +328,11 @@ message AndroidStudioEvent {
   // set when kind = MOTION_LAYOUT_EDITOR_EVENT
   optional MotionLayoutEditorEvent motion_layout_editor_event = 91;
 
+  // set when kind = COMPOSE_SAMPLE_EVENT
+  // This is a sample project for Compose published on GitHub that can be
+  // imported through the sample browser UI or cloned and opened manually
+  optional ComposeSampleEvent compose_sample_event = 92;
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -817,6 +822,9 @@ message AndroidStudioEvent {
 
     // Motion Layout Editor event
     MOTION_LAYOUT_EDITOR_EVENT = 192;
+
+    // Opening the Compose sample project
+    COMPOSE_SAMPLE_EVENT = 193;
   }
 
   // Represents different Performance Monitoring types.
@@ -2110,7 +2118,8 @@ message EmulatorDetails {
     HAXM = 3;    // Intel HAXM
     HVF = 4;     // Apple Hypervisor.Framework
     HYPERV = 5;  // Microsoft Hyper-V
-                 // Next tag: 6
+    GVM = 6;     // AMD Hypervisor for Android Emulator
+                 // Next tag: 7
   }
 }
 
@@ -2612,9 +2621,9 @@ message TestLibraries {
   // "com.google.truth".
   optional string truth_version = 19;  // e.g. '0.40'
   // "androidx.benchmark.benchmark-common".
-  optional string benchmark_common_version = 21;  // e.g. '1.0.0'
+  optional string benchmark_common_version = 20;  // e.g. '1.0.0'
   // "androidx.benchmark.benchmark-junit4".
-  optional string benchmark_junit4_version = 22;  // e.g. '1.0.0'
+  optional string benchmark_junit4_version = 21;  // e.g. '1.0.0'
 }
 
 // Describes the status of various Hypervisors
@@ -2721,6 +2730,9 @@ message GradleBuildProfile {
   // This is repeated, as a gradle build may include multiple apps, either
   // by variants or by multiple 'app' subprojects.
   repeated string raw_project_id = 19;
+
+  // If at least one module has enableCompose set to true
+  optional bool compose_enabled = 20;
 }
 
 message GradleBuildProject {
@@ -6978,4 +6990,16 @@ message MotionLayoutEditorEvent {
 
   // Type of event
   optional MotionLayoutEditorEventType type = 1;
+}
+
+// Details for Compose sample event
+message ComposeSampleEvent {
+  enum ComposeSampleEventType {
+    UNKNOWN_EVENT_TYPE = 0;
+    // Sample project is opened (package name matches)
+    OPEN = 1;
+  }
+
+  // Type of event
+  optional ComposeSampleEventType type = 1;
 }
