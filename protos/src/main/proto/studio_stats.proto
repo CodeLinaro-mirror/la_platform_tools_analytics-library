@@ -920,6 +920,15 @@ message AndroidStudioEvent {
     ANDROID_INSTANT_APP_BUNDLE_PROJECT = 38;
     ANDROID_INSTANT_APP_DYNAMIC_MODULE = 39;
     BENCHMARK_LIBRARY_MODULE = 40;
+    FRAGMENT_FULLSCREEN = 41;
+    FRAGMENT_GOOGLE_ADMOB_ADS = 42;
+    FRAGMENT_GOOGLE_MAPS = 43;
+    FRAGMENT_LOGIN = 44;
+    FRAGMENT_MODAL_BOTTOM_SHEET = 45;
+    FRAGMENT_SCROLL = 46;
+    FRAGMENT_SETTINGS = 47;
+    FRAGMENT_VIEWMODEL = 48;
+    COMPOSE_EMPTY_ACTIVITY = 49;
   }
 
   // Reasons Gradle sync failed.
@@ -2573,7 +2582,7 @@ message TestRun {
 // Each string field of this message holds the exact version of the given
 // library that the field name represents. The field is populated only if this
 // project uses the given library.
-// Next ID: 20
+// Next ID: 22
 message TestLibraries {
   // "com.android.support.test.runner" or "androidx.test.runner".
   optional string test_support_library_version = 1;  // e.g. '0.5'
@@ -2602,6 +2611,10 @@ message TestLibraries {
   optional string junit_version = 18;  // e.g. '4.2'
   // "com.google.truth".
   optional string truth_version = 19;  // e.g. '0.40'
+  // "androidx.benchmark.benchmark-common".
+  optional string benchmark_common_version = 21;  // e.g. '1.0.0'
+  // "androidx.benchmark.benchmark-junit4".
+  optional string benchmark_junit4_version = 22;  // e.g. '1.0.0'
 }
 
 // Describes the status of various Hypervisors
@@ -3997,6 +4010,7 @@ message LayoutEditorState {
     DRAWABLE = 2;
     MENU = 3;
     PREFERENCE_SCREEN = 4;
+    COMPOSE = 5;
   }
 
   // Layout orientation
@@ -6060,6 +6074,7 @@ message IntellijProjectSizeStats {
     XML = 2;
     DOT_CLASS = 3;
     KOTLIN = 4;
+    NATIVE = 5;
   }
   // Search scope to decide counted file set
   enum Scope {

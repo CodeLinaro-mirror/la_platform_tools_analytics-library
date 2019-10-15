@@ -82,6 +82,10 @@ class TestSupportLibrariesTest {
       newBuilder().setMockitoVersion("1.0").build())
     assertThat(newBuilder().recordTestLibrary("org.robolectric", "robolectric", "1.0").build()).isEqualTo(
       newBuilder().setRobolectricVersion("1.0").build())
+    assertThat(newBuilder().recordTestLibrary("androidx.benchmark", "benchmark-common", "1.0").build()).isEqualTo(
+            newBuilder().setBenchmarkCommonVersion("1.0").build())
+    assertThat(newBuilder().recordTestLibrary("androidx.benchmark", "benchmark-junit4", "1.0").build()).isEqualTo(
+            newBuilder().setBenchmarkJunit4Version("1.0").build())
     assertThat(newBuilder().recordTestLibrary("invalid", "name", "1.0").build()).isEqualTo(getDefaultInstance())
   }
 }
