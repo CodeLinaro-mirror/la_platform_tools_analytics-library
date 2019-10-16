@@ -78,6 +78,7 @@ enum GradleTransformExecutionType {
     EXTRACT_AAR_ARTIFACT_TRANSFORM = 1001;
     PLATFORM_ATTR_ARTIFACT_TRANSFORM = 1002;
     FILTER_SHRINKER_RULES_ARTIFACT_TRANSFORM = 1003;
+    DEXING_OUTPUT_SPLIT_ARTIFACT_TRANSFORM = 1004;
 }
 
 enum GradleTaskExecutionType {
@@ -294,6 +295,7 @@ enum GradleTaskExecutionType {
     PARSE_INTEGRITY_CONFIG = 210;
     PROGUARD = 211;
     FEATURE_NAME_WRITER = 212;
+    L8_DEX_DESUGAR_LIB = 213;
 }
 
 enum BooleanOption {
