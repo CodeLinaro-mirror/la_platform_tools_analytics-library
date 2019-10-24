@@ -67,6 +67,7 @@ message AndroidStudioEvent {
   // or kind = TEST_RUN
   // or kind = LayoutInspectorEvent and LayoutInspectorEventType = CAPTURE
   // or kind = ANDROID_PROFILER and AndroidProfilerEvent.Type = CHANGE_DEVICE
+  // or kind = DynamicLayoutInspectorEvent
   optional DeviceInfo device_info = 12;
 
   // set when kind = LLDB_INSTALL_FAILED
@@ -337,6 +338,9 @@ message AndroidStudioEvent {
   // Logs the ID of the sample project imported through the sample browser UI,
   // e.g. android/user-interface-samples/TextStyling
   optional ImportSampleEvent import_sample_event = 93;
+
+  // set when kind = DYNAMIC_LAYOUT_INSPECTOR_EVENT
+  optional DynamicLayoutInspectorEvent dynamic_layout_inspector_event = 94;
 
   enum EventCategory {
     // The event was not grouped into any specific category (default).
@@ -833,6 +837,9 @@ message AndroidStudioEvent {
 
     // Importing a sample project from the sample browser UI
     IMPORT_SAMPLE_EVENT = 194;
+
+    // Dynamic layout inspector (layout inspector v2) event
+    DYNAMIC_LAYOUT_INSPECTOR_EVENT = 195;
   }
 
   // Represents different Performance Monitoring types.
@@ -5566,6 +5573,26 @@ message LayoutInspectorEvent {
   // defined if LayoutInspectorEventType = CAPTURE or OPEN
   // which version of the protocol is used to capture layout info
   optional uint32 version = 4;
+}
+
+// Details for dynamic layout inspector (inspector v2) events
+message DynamicLayoutInspectorEvent {
+  enum DynamicLayoutInspectorEventType {
+    UNKNOWN_EVENT_TYPE = 0;
+    // Layout inspector was opened
+    OPEN = 1;
+    // User tried to attach to a device
+    ATTACH_REQUEST = 2;
+    // Device attached successfully
+    ATTACH_SUCCESS = 3;
+    // First render after connection
+    INITIAL_RENDER = 4;
+    // First render after connection without images
+    INITIAL_RENDER_NO_PICTURE = 5;
+  }
+
+  // Type of event
+  optional DynamicLayoutInspectorEventType type = 1;
 }
 
 // Kotlin support information
