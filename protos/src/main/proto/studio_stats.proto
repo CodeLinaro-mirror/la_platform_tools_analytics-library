@@ -4974,6 +4974,14 @@ message PerfdCrashInfo {
   repeated uint64 backstack_address_list = 1;
 }
 
+message TransportDaemonStartedInfo {
+  // Whether it's a restart due to reasons from the device such as a crash or
+  // being killed by the OS (not because IDE or Project is closed and then
+  // reopened, or USB cable is unplugged).
+  optional bool is_restart = 1;
+  optional int64 millisec_since_last_start = 2;  // Set when it's a restart
+}
+
 message TransportFailureMetadata {
   enum FailureType {
     UNKNOWN_FAILURE_TYPE = 0;
@@ -5049,6 +5057,9 @@ message AndroidProfilerEvent {
   // Set if |type| is |MEMORY_INSTANCE_FILTER|
   optional MemoryInstanceFilterMetadata memory_instance_filter_metadata = 16;
 
+  // Set if |type| is |TRANSPORT_DAEMON_STARTED|
+  optional TransportDaemonStartedInfo transport_daemon_started_info = 17;
+
   enum Stage {
     UNKNOWN_STAGE = 0;
 
@@ -5095,6 +5106,8 @@ message AndroidProfilerEvent {
     TRANSPORT_PROXY_FAILED = 8;
     // Triggered when the profiler service is unavailable.
     PROFILER_INITIALIZATION_FAILED = 9;
+    // Triggered when the transport daemon is started.
+    TRANSPORT_DAEMON_STARTED = 10;
 
     /// General
 
