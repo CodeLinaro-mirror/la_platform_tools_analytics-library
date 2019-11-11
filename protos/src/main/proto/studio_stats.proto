@@ -4318,6 +4318,9 @@ message LayoutEditorEvent {
 
     ADD_CONSTRAINT = 41;
     DELETE_CONSTRAINT = 42;
+
+    INFLATE_ONLY = 43;
+    RENDER_ONLY = 44;
   }
 
   // Type of event
@@ -4979,7 +4982,8 @@ message TransportDaemonStartedInfo {
   // being killed by the OS (not because IDE or Project is closed and then
   // reopened, or USB cable is unplugged).
   optional bool is_restart = 1;
-  optional int64 millisec_since_last_start = 2;  // Set when it's a restart
+  // Set only when it's a restart.
+  optional int64 millisec_since_last_start = 2;
 }
 
 message TransportFailureMetadata {
