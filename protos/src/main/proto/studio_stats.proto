@@ -345,6 +345,9 @@ message AndroidStudioEvent {
   // set when kind = BUILD_ATTRIBUTION_STATS
   optional BuildAttributionStats build_attribution_stats = 95;
 
+  // set when kind = EDITOR_COMPLETION_STATS
+  optional EditorCompletionStats editor_completion_stats = 96;
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -846,6 +849,9 @@ message AndroidStudioEvent {
 
     // Information on collected build attribution data and performance
     BUILD_ATTRIBUTION_STATS = 196;
+
+    // Editor code completion stats.
+    EDITOR_COMPLETION_STATS = 197;
   }
 
   // Represents different Performance Monitoring types.
@@ -6622,6 +6628,21 @@ message EditorHighlightingStats {
     // Highlighting latencies in milliseconds.
     optional Histogram histogram = 2;
   }
+  repeated Stats by_file_type = 1;
+}
+
+message EditorCompletionStats {
+  message Stats {
+    // File type (e.g., Java).
+    optional EditorFileType file_type = 1;
+    // Time in milliseconds to show initial completion popup.
+    optional Histogram popup_latency = 2;
+    // Time in milliseconds to fill *all* completion results.
+    optional Histogram full_completion_latency = 3;
+    // Time in milliseconds to insert a selected completion item.
+    optional Histogram insertion_latency = 4;
+  }
+  // Completion stats for each file type.
   repeated Stats by_file_type = 1;
 }
 
