@@ -348,6 +348,9 @@ message AndroidStudioEvent {
   // set when kind = EDITOR_COMPLETION_STATS
   optional EditorCompletionStats editor_completion_stats = 96;
 
+  // set when kind = MULTI_VIEW_EVENT
+  optional MultiViewEvent multi_view_event = 97;
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -852,6 +855,9 @@ message AndroidStudioEvent {
 
     // Editor code completion stats.
     EDITOR_COMPLETION_STATS = 197;
+
+    // Multi View Panel event
+    MULTI_VIEW_EVENT = 198;
   }
 
   // Represents different Performance Monitoring types.
@@ -7074,6 +7080,23 @@ message MotionLayoutEditorEvent {
 
   // Type of event
   optional MotionLayoutEditorEventType type = 1;
+}
+
+// Details for multi view panel events
+message MultiViewEvent {
+  // List of event types available in motion layout editor
+  enum MultiViewEventType {
+    UNKNOWN_EVENT_TYPE = 0;
+    OPEN_PIXEL_DEVICES = 1;
+    OPEN_PROJECT_LOCALES = 2;
+    OPEN_CUSTOM_CONFIGURATION_SETS = 3;
+    OPEN_COLOR_BLIND_MODE = 4;
+    OPEN_LARGE_FONT = 5;
+    OPEN_LARGE_DISPLAY = 6;
+  }
+
+  // Type of event
+  optional MultiViewEventType type = 1;
 }
 
 // Details for Compose sample event
