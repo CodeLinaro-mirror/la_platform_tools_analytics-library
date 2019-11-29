@@ -351,6 +351,9 @@ message AndroidStudioEvent {
   // set when kind = MULTI_VIEW_EVENT
   optional MultiViewEvent multi_view_event = 97;
 
+  // set when kind = BUILD_ATTRIBUTION_UI_EVENT
+  optional BuildAttributionUiEvent build_attribution_ui_event = 98;
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -858,6 +861,9 @@ message AndroidStudioEvent {
 
     // Multi View Panel event
     MULTI_VIEW_EVENT = 198;
+
+    // Build Attribution ui event
+    BUILD_ATTRIBUTION_UI_EVENT = 199;
   }
 
   // Represents different Performance Monitoring types.
@@ -1449,6 +1455,8 @@ message EmulatorFeatures {
   optional bool gps = 1;
   optional bool sensors = 2;
   optional bool virtualscene_config = 3;
+  // True if the emulator is running standalone.
+  optional bool container_launch = 4;
 }
 
 // A description of a single file from an AVD.
@@ -2056,7 +2064,7 @@ message EmulatorDetails {
   optional string core_version = 15;
   // Renderer of the current emulator session.
   optional EmulatorRenderer renderer = 16;
-  // Flags for the used UI featurs.
+  // Flags for the used UI features.
   optional EmulatorFeatures used_features = 17;
   // Information about the currently loaded AVD.
   optional EmulatorAvdInfo avd_info = 18;
@@ -7260,4 +7268,85 @@ message BuildAttributionStats {
   // Stats about the performance of build attribution
   optional BuildAttributionPerformanceStats
       build_attribution_performance_stats = 2;
+  // The session id is a UUID tracking a single build report generated
+  // to associate build attribution events together
+  optional string build_attribution_report_session_id = 3;
+}
+
+// Tracks user interaction with build attribution UI.
+message BuildAttributionUiEvent {
+  enum EventType {
+    UNKNOWN_TYPE = 0;
+    // New build attribution tab created.
+    TAB_CREATED = 1;
+    // Tab was opened by the user.
+    TAB_OPENED_WITH_TAB_CLICK = 2;
+    TAB_OPENED_WITH_BUILD_OUTPUT_LINK = 3;
+    // User closed the tab completely.
+    TAB_CLOSED = 4;
+    // User switched to another tab (e.g. back to build or sync).
+    TAB_HIDDEN = 5;
+    // New content is shown in existing build attribution tab.
+    CONTENT_REPLACED = 6;
+    // User clicked 'more info' link on one of the report pages.
+    HELP_LINK_CLICKED = 7;
+    // User switched to another page of the report.
+    PAGE_CHANGE_TREE_CLICK = 8;
+    PAGE_CHANGE_TREE_KEYBOARD = 9;
+    PAGE_CHANGE_LINK_CLICK = 10;
+    // User clicked on issue report link.
+    GENERATE_REPORT_LINK_CLICKED = 11;
+    // User used copy button from report dialog.
+    REPORT_DIALOG_TEXT_COPY_CLICKED = 12;
+    // User closed report dialog.
+    REPORT_DIALOG_CLOSED = 13;
+    // Sent to mark the moment when current build info becomes inaccessible.
+    // It can be as a result of a new build or closing the project.
+    USAGE_SESSION_OVER = 14;
+  }
+
+  message Page {
+    // All different page types shown in build attribution report.
+    enum PageType {
+      UNKNOWN_PAGE = 0;
+      BUILD_SUMMARY = 1;
+      CRITICAL_PATH_TASKS_ROOT = 2;
+      CRITICAL_PATH_TASK_PAGE = 3;
+      PLUGINS_ROOT = 4;
+      PLUGIN_PAGE = 5;
+      PLUGIN_CRITICAL_PATH_TASKS_ROOT = 6;
+      PLUGIN_CRITICAL_PATH_TASK_PAGE = 7;
+      PLUGIN_TASK_SETUP_ISSUE_ROOT = 8;
+      PLUGIN_TASK_SETUP_ISSUE_PAGE = 9;
+      PLUGIN_ALWAYS_RUN_ISSUE_ROOT = 10;
+      PLUGIN_ALWAYS_RUN_NO_OUTPUTS_PAGE = 11;
+      PLUGIN_ALWAYS_RUN_UP_TO_DATE_OVERRIDE_PAGE = 12;
+      TASK_SETUP_ISSUE_ROOT = 13;
+      TASK_SETUP_ISSUE_PAGE = 14;
+      ALWAYS_RUN_ISSUE_ROOT = 15;
+      ALWAYS_RUN_NO_OUTPUTS_PAGE = 16;
+      ALWAYS_RUN_UP_TO_DATE_OVERRIDE_PAGE = 17;
+      ANNOTATION_PROCESSORS_ROOT = 18;
+      ANNOTATION_PROCESSOR_PAGE = 19;
+      CONFIGURATION_TIME_ROOT = 20;
+      CONFIGURATION_TIME_PROJECT = 21;
+      CONFIGURATION_TIME_PLUGIN = 22;
+    }
+    // Type of current page.
+    optional PageType page_type = 1;
+    // Page number of this type in current report.
+    // Used to distinguish different pages of the same type in the same report.
+    // ex: 1, 2, 3, 4...
+    optional int32 page_entry_index = 2;
+  }
+
+  // Type of this build attribution UI event.
+  optional EventType event_type = 1;
+  // What page was opened when this event happened.
+  optional Page current_page = 2;
+  // What page will be opened because of this event (if page changes).
+  optional Page target_page = 3;
+  // The session id is a UUID tracking a single build report generated
+  // to associate build attribution events together
+  optional string build_attribution_report_session_id = 4;
 }
