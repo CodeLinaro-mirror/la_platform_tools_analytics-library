@@ -19,14 +19,24 @@ import com.android.tools.analytics.stubs.StubDateProvider
 import com.android.utils.DateProvider
 import com.android.utils.ILogger
 import com.google.common.base.Charsets
-import org.junit.Assert.*
+import com.google.protobuf.ByteString
+import org.junit.Assert.assertArrayEquals
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
+import org.junit.Assert.assertNotNull
+import org.junit.Assert.assertTrue
+import org.junit.Assert.fail
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.ExpectedException
 import org.junit.rules.TemporaryFolder
+import java.io.File
 import java.io.IOException
+import java.math.BigInteger
 import java.nio.file.Files
-import java.util.*
+import java.util.Arrays
+import java.util.Date
+import java.util.UUID
 
 /**
  * Tests for [AnalyticsSettings].
@@ -387,6 +397,16 @@ class AnalyticsSettingsTest {
       AnalyticsSettings.initialize(failureLogger)
       val loadedSalt = AnalyticsSettings.salt
       assertArrayEquals(startOfEvenNewerSalt, loadedSalt)
+
+      // Ensure the rotated salt respects the content on the disk
+      AnalyticsSettings.dateProvider = StubDateProvider(2022, 4, 11)
+      File(AnalyticsPaths.getAndEnsureAndroidSettingsHome(), "analytics.settings").writeText("""
+      {"userId":"user-id","hasOptedIn":false,"debugDisablePublishing":false,"saltValue":12345,"saltSkew":683}
+      """.trimIndent())
+      val saltFromDisk = AnalyticsSettings.salt
+      assertNotNull(saltFromDisk)
+      assertEquals(24, saltFromDisk.size.toLong())
+      assertEquals(ByteString.copyFrom(BigInteger("12345").toByteArrayOfLength24()), ByteString.copyFrom(saltFromDisk))
     }
     finally {
       EnvironmentFakes.setSystemEnvironment()
