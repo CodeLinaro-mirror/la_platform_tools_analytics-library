@@ -1178,6 +1178,8 @@ message AndroidStudioEvent {
 
     TYPE_MISSING_JAVA8_FLAG = 51;
 
+    TYPE_EDIT_LOCKED_DSL_VALUE = 52;
+
     // NOTE: When adding a new type here, increment the index by 1. This index
     // may not be consistent with the corresponding value in the Android Gradle
     // plugin (e.g., it could be higher by 1), because of an indexing issue in
@@ -4064,6 +4066,7 @@ message LayoutEditorState {
     MENU = 3;
     PREFERENCE_SCREEN = 4;
     COMPOSE = 5;
+    CUSTOM_VIEWS = 6;
   }
 
   // Layout orientation
