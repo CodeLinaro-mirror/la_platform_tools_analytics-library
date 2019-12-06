@@ -6612,15 +6612,31 @@ message DataBindingEvent {
 }
 
 enum EditorFileType {
-  UNKNOWN = 0;
+  UNKNOWN = 0;  // Anything not explicitly in this list.
   JAVA = 1;
   KOTLIN = 2;
-  XML = 3;
+  XML = 3;  // .xml, unless more specific info is available (see below).
   GROOVY = 4;
   PROPERTIES = 5;
   JSON = 6;
   KOTLIN_SCRIPT = 7;  // .kts
   NATIVE = 8;         // .c, .cpp, .h, etc.
+  XML_MANIFEST = 9;   // AndroidManifest.xml
+  // XML resource types come from com.android.resources.ResourceFolderType.
+  XML_RES_ANIM = 10;
+  XML_RES_ANIMATOR = 11;
+  XML_RES_COLOR = 12;
+  XML_RES_DRAWABLE = 13;
+  XML_RES_FONT = 14;
+  XML_RES_INTERPOLATOR = 15;
+  XML_RES_LAYOUT = 16;
+  XML_RES_MENU = 17;
+  XML_RES_MIPMAP = 18;
+  XML_RES_NAVIGATION = 19;
+  XML_RES_RAW = 20;
+  XML_RES_TRANSITION = 21;
+  XML_RES_VALUES = 22;
+  XML_RES_XML = 23;
 }
 
 message TypingLatencyStats {
@@ -7146,6 +7162,15 @@ message BuildAttributionPluginIdentifier {
   optional string plugin_display_name = 2;
 }
 
+// The task identifier used in build attribution
+message BuildAttribuitionTaskIdentifier {
+  // The class name of the task
+  // ex: MergeResources, JavaPreCompileTask
+  optional string task_class_name = 1;
+  // The plugin that registered this task
+  optional BuildAttributionPluginIdentifier origin_plugin = 2;
+}
+
 // Data about tasks that always run
 message AlwaysRunTasksAnalyzerData {
   message AlwaysRunTask {
@@ -7159,7 +7184,11 @@ message AlwaysRunTasksAnalyzerData {
     // Reason the task is always running
     optional AlwaysRunReason reason = 1;
     // The origin plugin of the always running task
-    optional BuildAttributionPluginIdentifier plugin_identifier = 2;
+    // Deprecated, use task_identifier instead
+    optional BuildAttributionPluginIdentifier plugin_identifier = 2
+        [deprecated = true];
+    // The always running task identifier
+    optional BuildAttribuitionTaskIdentifier task_identifier = 3;
   }
 
   // The always running tasks detected by the analyzer
@@ -7198,6 +7227,8 @@ message CriticalPathAnalyzerData {
   optional int32 number_of_tasks_on_critical_path = 2;
   // The critical path grouped by plugin contribution
   repeated PluginBuildData plugins_critical_path = 3;
+  // The total duration of the tasks determining build duration
+  optional int64 tasks_determining_build_duration_ms = 4;
 }
 
 // Data about project configuration phase
@@ -7210,16 +7241,36 @@ message ProjectConfigurationAnalyzerData {
     optional BuildAttributionPluginIdentifier plugin_identifier = 2;
   }
 
+  message ConfigurationStep {
+    enum StepType {
+      UNKNOWN_STEP = 0;
+      NOTIFYING_BUILD_LISTENERS = 1;
+      RESOLVING_DEPENDENCIES = 2;
+      COMPILING_BUILD_SCRIPTS = 3;
+      EXECUTING_BUILD_SCRIPT_BLOCKS = 4;
+      OTHER = 5;
+    }
+    // The type of the configuration step
+    optional StepType type = 1;
+    // Configuration step duration
+    optional int64 configuration_time_ms = 2;
+  }
+
   // Configuration data for a subproject
   message ProjectConfigurationData {
     // The total configuration time for the subproject
     optional int64 configuration_time_ms = 1;
     // The plugin configuration data for the subproject
     repeated PluginConfigurationData plugins_configuration_data = 2;
+    // Project configuration steps that are not plugins configuration
+    repeated ConfigurationStep configuration_steps = 3;
   }
 
   // The configuration data for all subprojects configured during the build
   repeated ProjectConfigurationData project_configuration_data = 1;
+  // The configuration data summed for all subproject configured during the
+  // build
+  optional ProjectConfigurationData overall_configuration_data = 2;
 }
 
 // Data about misconfigured tasks
@@ -7227,8 +7278,11 @@ message TasksConfigurationIssuesAnalyzerData {
   // Set of tasks that declare the same output
   message TasksSharingOutputData {
     // Plugins that created the tasks declaring the same output
+    // Deprecated, use tasks_sharing_output instead
     repeated BuildAttributionPluginIdentifier
-        plugins_created_sharing_output_tasks = 1;
+        plugins_created_sharing_output_tasks = 1 [deprecated = true];
+    // The tasks that are sharing the same output
+    repeated BuildAttribuitionTaskIdentifier tasks_sharing_output = 2;
   }
 
   // The sets of tasks that declare the same output as detected by the analyzer
@@ -7259,6 +7313,8 @@ message BuildAttributionPerformanceStats {
   // The duration it takes from when the build is finished, until all build
   // attribution analyzers finish
   optional int64 post_build_analysis_duration_ms = 1;
+  // The duration it takes to build the UI
+  optional int64 ui_creation_duration_ms = 2;
 }
 
 // Stats about build attribution
