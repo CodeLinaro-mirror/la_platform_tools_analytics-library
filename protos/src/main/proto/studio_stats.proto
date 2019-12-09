@@ -3783,6 +3783,10 @@ message UIActionStats {
   // true if this message is sent directly, false if sent
   // with aggregated data over time.
   optional bool direct = 4;
+  // The parent window/menu/toolbar that contains this action.
+  // this is a software identifier specified in code in our product and does
+  // not contain user data. Examples: "MainMenu", "Editor", "NavBarToolbar".
+  optional string ui_place = 5;
 
   // The way an UI action was invocated by the user.
   enum InvocationKind {
