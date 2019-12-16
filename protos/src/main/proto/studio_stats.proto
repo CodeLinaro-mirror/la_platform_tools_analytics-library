@@ -351,6 +351,9 @@ message AndroidStudioEvent {
   // set when kind = MULTI_VIEW_EVENT
   optional MultiViewEvent multi_view_event = 97;
 
+  // set when kind = BUILD_ATTRIBUTION_UI_EVENT
+  optional BuildAttributionUiEvent build_attribution_ui_event = 98;
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -858,6 +861,9 @@ message AndroidStudioEvent {
 
     // Multi View Panel event
     MULTI_VIEW_EVENT = 198;
+
+    // Build Attribution ui event
+    BUILD_ATTRIBUTION_UI_EVENT = 199;
   }
 
   // Represents different Performance Monitoring types.
@@ -1449,6 +1455,8 @@ message EmulatorFeatures {
   optional bool gps = 1;
   optional bool sensors = 2;
   optional bool virtualscene_config = 3;
+  // True if the emulator is running standalone.
+  optional bool container_launch = 4;
 }
 
 // A description of a single file from an AVD.
@@ -2056,7 +2064,7 @@ message EmulatorDetails {
   optional string core_version = 15;
   // Renderer of the current emulator session.
   optional EmulatorRenderer renderer = 16;
-  // Flags for the used UI featurs.
+  // Flags for the used UI features.
   optional EmulatorFeatures used_features = 17;
   // Information about the currently loaded AVD.
   optional EmulatorAvdInfo avd_info = 18;
@@ -3775,6 +3783,10 @@ message UIActionStats {
   // true if this message is sent directly, false if sent
   // with aggregated data over time.
   optional bool direct = 4;
+  // The parent window/menu/toolbar that contains this action.
+  // this is a software identifier specified in code in our product and does
+  // not contain user data. Examples: "MainMenu", "Editor", "NavBarToolbar".
+  optional string ui_place = 5;
 
   // The way an UI action was invocated by the user.
   enum InvocationKind {
@@ -6604,15 +6616,31 @@ message DataBindingEvent {
 }
 
 enum EditorFileType {
-  UNKNOWN = 0;
+  UNKNOWN = 0;  // Anything not explicitly in this list.
   JAVA = 1;
   KOTLIN = 2;
-  XML = 3;
+  XML = 3;  // .xml, unless more specific info is available (see below).
   GROOVY = 4;
   PROPERTIES = 5;
   JSON = 6;
   KOTLIN_SCRIPT = 7;  // .kts
   NATIVE = 8;         // .c, .cpp, .h, etc.
+  XML_MANIFEST = 9;   // AndroidManifest.xml
+  // XML resource types come from com.android.resources.ResourceFolderType.
+  XML_RES_ANIM = 10;
+  XML_RES_ANIMATOR = 11;
+  XML_RES_COLOR = 12;
+  XML_RES_DRAWABLE = 13;
+  XML_RES_FONT = 14;
+  XML_RES_INTERPOLATOR = 15;
+  XML_RES_LAYOUT = 16;
+  XML_RES_MENU = 17;
+  XML_RES_MIPMAP = 18;
+  XML_RES_NAVIGATION = 19;
+  XML_RES_RAW = 20;
+  XML_RES_TRANSITION = 21;
+  XML_RES_VALUES = 22;
+  XML_RES_XML = 23;
 }
 
 message TypingLatencyStats {
@@ -7138,6 +7166,15 @@ message BuildAttributionPluginIdentifier {
   optional string plugin_display_name = 2;
 }
 
+// The task identifier used in build attribution
+message BuildAttribuitionTaskIdentifier {
+  // The class name of the task
+  // ex: MergeResources, JavaPreCompileTask
+  optional string task_class_name = 1;
+  // The plugin that registered this task
+  optional BuildAttributionPluginIdentifier origin_plugin = 2;
+}
+
 // Data about tasks that always run
 message AlwaysRunTasksAnalyzerData {
   message AlwaysRunTask {
@@ -7151,7 +7188,11 @@ message AlwaysRunTasksAnalyzerData {
     // Reason the task is always running
     optional AlwaysRunReason reason = 1;
     // The origin plugin of the always running task
-    optional BuildAttributionPluginIdentifier plugin_identifier = 2;
+    // Deprecated, use task_identifier instead
+    optional BuildAttributionPluginIdentifier plugin_identifier = 2
+        [deprecated = true];
+    // The always running task identifier
+    optional BuildAttribuitionTaskIdentifier task_identifier = 3;
   }
 
   // The always running tasks detected by the analyzer
@@ -7190,6 +7231,8 @@ message CriticalPathAnalyzerData {
   optional int32 number_of_tasks_on_critical_path = 2;
   // The critical path grouped by plugin contribution
   repeated PluginBuildData plugins_critical_path = 3;
+  // The total duration of the tasks determining build duration
+  optional int64 tasks_determining_build_duration_ms = 4;
 }
 
 // Data about project configuration phase
@@ -7202,16 +7245,36 @@ message ProjectConfigurationAnalyzerData {
     optional BuildAttributionPluginIdentifier plugin_identifier = 2;
   }
 
+  message ConfigurationStep {
+    enum StepType {
+      UNKNOWN_STEP = 0;
+      NOTIFYING_BUILD_LISTENERS = 1;
+      RESOLVING_DEPENDENCIES = 2;
+      COMPILING_BUILD_SCRIPTS = 3;
+      EXECUTING_BUILD_SCRIPT_BLOCKS = 4;
+      OTHER = 5;
+    }
+    // The type of the configuration step
+    optional StepType type = 1;
+    // Configuration step duration
+    optional int64 configuration_time_ms = 2;
+  }
+
   // Configuration data for a subproject
   message ProjectConfigurationData {
     // The total configuration time for the subproject
     optional int64 configuration_time_ms = 1;
     // The plugin configuration data for the subproject
     repeated PluginConfigurationData plugins_configuration_data = 2;
+    // Project configuration steps that are not plugins configuration
+    repeated ConfigurationStep configuration_steps = 3;
   }
 
   // The configuration data for all subprojects configured during the build
   repeated ProjectConfigurationData project_configuration_data = 1;
+  // The configuration data summed for all subproject configured during the
+  // build
+  optional ProjectConfigurationData overall_configuration_data = 2;
 }
 
 // Data about misconfigured tasks
@@ -7219,8 +7282,11 @@ message TasksConfigurationIssuesAnalyzerData {
   // Set of tasks that declare the same output
   message TasksSharingOutputData {
     // Plugins that created the tasks declaring the same output
+    // Deprecated, use tasks_sharing_output instead
     repeated BuildAttributionPluginIdentifier
-        plugins_created_sharing_output_tasks = 1;
+        plugins_created_sharing_output_tasks = 1 [deprecated = true];
+    // The tasks that are sharing the same output
+    repeated BuildAttribuitionTaskIdentifier tasks_sharing_output = 2;
   }
 
   // The sets of tasks that declare the same output as detected by the analyzer
@@ -7251,6 +7317,8 @@ message BuildAttributionPerformanceStats {
   // The duration it takes from when the build is finished, until all build
   // attribution analyzers finish
   optional int64 post_build_analysis_duration_ms = 1;
+  // The duration it takes to build the UI
+  optional int64 ui_creation_duration_ms = 2;
 }
 
 // Stats about build attribution
@@ -7260,4 +7328,85 @@ message BuildAttributionStats {
   // Stats about the performance of build attribution
   optional BuildAttributionPerformanceStats
       build_attribution_performance_stats = 2;
+  // The session id is a UUID tracking a single build report generated
+  // to associate build attribution events together
+  optional string build_attribution_report_session_id = 3;
+}
+
+// Tracks user interaction with build attribution UI.
+message BuildAttributionUiEvent {
+  enum EventType {
+    UNKNOWN_TYPE = 0;
+    // New build attribution tab created.
+    TAB_CREATED = 1;
+    // Tab was opened by the user.
+    TAB_OPENED_WITH_TAB_CLICK = 2;
+    TAB_OPENED_WITH_BUILD_OUTPUT_LINK = 3;
+    // User closed the tab completely.
+    TAB_CLOSED = 4;
+    // User switched to another tab (e.g. back to build or sync).
+    TAB_HIDDEN = 5;
+    // New content is shown in existing build attribution tab.
+    CONTENT_REPLACED = 6;
+    // User clicked 'more info' link on one of the report pages.
+    HELP_LINK_CLICKED = 7;
+    // User switched to another page of the report.
+    PAGE_CHANGE_TREE_CLICK = 8;
+    PAGE_CHANGE_TREE_KEYBOARD = 9;
+    PAGE_CHANGE_LINK_CLICK = 10;
+    // User clicked on issue report link.
+    GENERATE_REPORT_LINK_CLICKED = 11;
+    // User used copy button from report dialog.
+    REPORT_DIALOG_TEXT_COPY_CLICKED = 12;
+    // User closed report dialog.
+    REPORT_DIALOG_CLOSED = 13;
+    // Sent to mark the moment when current build info becomes inaccessible.
+    // It can be as a result of a new build or closing the project.
+    USAGE_SESSION_OVER = 14;
+  }
+
+  message Page {
+    // All different page types shown in build attribution report.
+    enum PageType {
+      UNKNOWN_PAGE = 0;
+      BUILD_SUMMARY = 1;
+      CRITICAL_PATH_TASKS_ROOT = 2;
+      CRITICAL_PATH_TASK_PAGE = 3;
+      PLUGINS_ROOT = 4;
+      PLUGIN_PAGE = 5;
+      PLUGIN_CRITICAL_PATH_TASKS_ROOT = 6;
+      PLUGIN_CRITICAL_PATH_TASK_PAGE = 7;
+      PLUGIN_TASK_SETUP_ISSUE_ROOT = 8;
+      PLUGIN_TASK_SETUP_ISSUE_PAGE = 9;
+      PLUGIN_ALWAYS_RUN_ISSUE_ROOT = 10;
+      PLUGIN_ALWAYS_RUN_NO_OUTPUTS_PAGE = 11;
+      PLUGIN_ALWAYS_RUN_UP_TO_DATE_OVERRIDE_PAGE = 12;
+      TASK_SETUP_ISSUE_ROOT = 13;
+      TASK_SETUP_ISSUE_PAGE = 14;
+      ALWAYS_RUN_ISSUE_ROOT = 15;
+      ALWAYS_RUN_NO_OUTPUTS_PAGE = 16;
+      ALWAYS_RUN_UP_TO_DATE_OVERRIDE_PAGE = 17;
+      ANNOTATION_PROCESSORS_ROOT = 18;
+      ANNOTATION_PROCESSOR_PAGE = 19;
+      CONFIGURATION_TIME_ROOT = 20;
+      CONFIGURATION_TIME_PROJECT = 21;
+      CONFIGURATION_TIME_PLUGIN = 22;
+    }
+    // Type of current page.
+    optional PageType page_type = 1;
+    // Page number of this type in current report.
+    // Used to distinguish different pages of the same type in the same report.
+    // ex: 1, 2, 3, 4...
+    optional int32 page_entry_index = 2;
+  }
+
+  // Type of this build attribution UI event.
+  optional EventType event_type = 1;
+  // What page was opened when this event happened.
+  optional Page current_page = 2;
+  // What page will be opened because of this event (if page changes).
+  optional Page target_page = 3;
+  // The session id is a UUID tracking a single build report generated
+  // to associate build attribution events together
+  optional string build_attribution_report_session_id = 4;
 }
