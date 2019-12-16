@@ -354,6 +354,8 @@ message AndroidStudioEvent {
   // set when kind = BUILD_ATTRIBUTION_UI_EVENT
   optional BuildAttributionUiEvent build_attribution_ui_event = 98;
 
+  optional AndroidCppExtensionEvent android_cpp_extension_event = 99;
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -864,6 +866,8 @@ message AndroidStudioEvent {
 
     // Build Attribution ui event
     BUILD_ATTRIBUTION_UI_EVENT = 199;
+
+    ANDROID_CPP_EXTENSION = 200;
   }
 
   // Represents different Performance Monitoring types.
@@ -1280,6 +1284,7 @@ message ProductDetails {
     GRADLE = 3;
     DDMS = 4;
     STUDIO_PATCH_UPDATER = 5;
+    ANDROID_CPP_EXTENSION = 6;
   }
 
   // Chip the software is running on.
@@ -7409,4 +7414,158 @@ message BuildAttributionUiEvent {
   // The session id is a UUID tracking a single build report generated
   // to associate build attribution events together
   optional string build_attribution_report_session_id = 4;
+}
+
+// Stats about Android Cpp extension
+message AndroidCppExtensionEvent {
+  enum AndroidCppExtensionEventType {
+    UNSPECIFIED_ANDROID_CPP_EXTENSION_EVENT_TYPE = 0;
+    BUILD = 1;
+    DEBUG = 2;
+  }
+
+  optional AndroidCppExtensionEventType type = 1;
+
+  optional BuildEvent build_event = 2;
+  optional DebugEvent debug_event = 3;
+
+  message BuildEvent {
+    // A GUID for the build session, this session ID is per project and is
+    // intended to correlate build events for a particular project.
+    optional string build_session = 1;
+    optional string build_program_version = 2;
+
+    optional DeviceInfo.ApplicationBinaryInterface platform = 3;
+    optional string ndk_version = 4;
+
+    optional bool is_debug_build = 5;
+    optional int64 duration_ms = 6;
+    optional bool is_using_distributed_build = 7;
+
+    optional BuildEventType type = 8;
+
+    enum BuildEventType {
+      UNSPECIFIED_BUILD_EVENT_TYPE = 0;
+      BUILD_COMPLETE = 1;
+      COMPILE_COMPLETE = 2;
+      LINK_COMPLETE = 3;
+      GRADLE_COMPLETE = 4;
+    }
+
+    optional BuildCompleteInfo build_complete_info = 9;
+
+    // Information about building the whole project. This event is sent when the
+    // build completes.
+    message BuildCompleteInfo {
+      optional bool succeeded = 1;
+      optional int32 c_source_file_count = 3;
+      optional int32 cpp_source_file_count = 4;
+    }
+
+    optional CompileCompleteInfo compile_complete_info = 10;
+
+    // Information about compiling a batch of C/C++ files, e.g. one event per
+    // ClangCompile task run.
+    message CompileCompleteInfo {
+      // The language level.
+      optional LanguageLevel language_level = 1;
+      // The number of source files in this batch.
+      optional int32 source_file_count = 2;
+    }
+
+    optional LinkCompleteInfo link_complete_info = 11;
+
+    // Information about linking.
+    message LinkCompleteInfo {
+      enum WellKnownLibraries {
+        UNSPECIFIED_WELL_KNOWN_LIBRARIES = 0;
+        ANGLE = 1;
+        BORINGSSL = 2;
+        CARTOGRAPHER = 3;
+        COCOS2D = 4;
+        DAYDREAM = 5;
+        FLATBUFFER = 6;
+        FREEGLUT = 7;
+        GAMESDK = 8;
+        GAUSSIANLIB = 9;
+        OGRE = 10;
+        OPENCV = 11;
+        OPENVR = 12;
+        OPEN_GL = 13;
+        OPEN_SSL = 14;
+        QT5 = 15;
+        SDL2 = 16;
+        SDL3 = 17;
+        SHADERC = 18;
+        SQLITE = 19;
+        UNITY = 20;
+        UNREAL = 21;
+        VULKAN = 22;
+      }
+      repeated WellKnownLibraries library_dependencies = 1;
+    }
+
+    enum LanguageLevel {
+      UNSPECIFIED_LANGUAGE_LEVEL = 0;
+      C89 = 1;
+      GNU89 = 2;
+      CPP98 = 3;
+      GNUPP98 = 4;
+      C99 = 5;
+      GNU99 = 6;
+      C11 = 7;
+      GNU11 = 8;
+      CPP11 = 9;
+      GNUPP11 = 10;
+      CPP14 = 11;
+      GNUPP14 = 12;
+      C17 = 13;
+      GNU17 = 14;
+      CPP17 = 15;
+      GNUPP17 = 16;
+    }
+
+    // TODO(tgeng): try adding gradle info like the app_id.
+  }
+
+  message DebugEvent {
+    // A GUID for the debug session
+    optional string session = 1;
+
+    optional string host_version = 2;
+
+    optional DeviceInfo.ApplicationBinaryInterface platform = 3;
+
+    optional bool is_using_emulator = 4;
+
+    optional bool is_debug_build = 5;
+
+    // Time that it takes each debugging event to complete. For example, if the
+    // type is `START_WITHOUT_DEBUGGING`, this duration is how long it takes
+    // to send the intent to launch the main activity after build
+    // finishes.
+    optional int64 duration_ms = 6;
+
+    optional DebugEventType type = 7;
+
+    enum DebugEventType {
+      UNSPECIFIED_DEBUG_EVENT_TYPE = 0;
+      START_WITHOUT_DEBUGGING = 1;
+      START_WITH_DEBUGGING = 2;
+      // User cancels debugging/launching before app starts running or device is
+      // attached.
+      CANCEL = 3;
+      DEVICE_ATTACHED = 4;
+      ADD_BREAKPOINT = 5;
+      REMOVE_BREAKPOINT = 6;
+      HIT_BREAKPOINT = 7;
+      STEP_OVER = 8;
+      STEP_INTO = 9;
+      STEP_OUT = 10;
+      SUSPEND = 11;
+      STOP = 12;
+      CONTINUE = 13;
+      EXECUTE_COMMAND = 14;
+    }
+  }
 }
