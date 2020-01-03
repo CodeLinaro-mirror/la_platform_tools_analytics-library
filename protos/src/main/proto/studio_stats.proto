@@ -3125,6 +3125,9 @@ message GradleBuildVariant {
   // instant enabled in its manifest (Google Play Instant / Instant Apps)
   optional bool is_instant_enabled = 23;
 
+  // Whether coreLibraryDesugaring is enabled for the variant
+  optional bool core_library_desugaring_enabled = 24;
+
   // The nature of this variant.
   // The test variants have an associated tested variant.
   // See com.android.builder.core.VariantType
