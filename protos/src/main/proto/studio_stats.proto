@@ -354,6 +354,7 @@ message AndroidStudioEvent {
   // set when kind = BUILD_ATTRIBUTION_UI_EVENT
   optional BuildAttributionUiEvent build_attribution_ui_event = 98;
 
+  // set when kind = ANDROID_CPP_EXTENSION
   optional AndroidCppExtensionEvent android_cpp_extension_event = 99;
 
   enum EventCategory {
@@ -1334,7 +1335,7 @@ message DeviceInfo {
   optional string build_version_release = 4;
 
   // Historic: doesn't support api levels for code names such as 'N'.
-  optional int32 build_api_level = 5;
+  optional int32 build_api_level = 5 [deprecated = true];
 
   // ABI of the device, e.g. 'armeabi-v7a' or 'x86'
   optional ApplicationBinaryInterface cpu_abi = 6;
@@ -1523,8 +1524,7 @@ message EmulatorAvdInfo {
     // Next tag: 11
   }
   // Name of the AVD. Deprecated as it could potentially contain PII.
-  optional string name = 1
-      [deprecated = true];
+  optional string name = 1 [deprecated = true];
   // Api level (23 = M, 24 = N, ...)
   optional int64 api_level = 2;
   // CPU architecture.
@@ -2652,17 +2652,17 @@ message TestRun {
 // Next ID: 22
 message TestLibraries {
   // "com.android.support.test.runner" or "androidx.test.runner".
-  optional string test_support_library_version = 1;  // e.g. '0.5'
-  optional string espresso_version = 2;  // e.g. '2.2.2'
-  optional string robolectric_version = 3;  // e.g. '3.0'
-  optional string mockito_version = 4;  // e.g. '1.10.19'
-  optional string espresso_contrib_version = 5;  // e.g. '2.2.2'
-  optional string espresso_web_version = 6;  // e.g. '2.2.2'
-  optional string espresso_intents_version = 7;  // e.g. '2.2.2'
+  optional string test_support_library_version = 1;      // e.g. '0.5'
+  optional string espresso_version = 2;                  // e.g. '2.2.2'
+  optional string robolectric_version = 3;               // e.g. '3.0'
+  optional string mockito_version = 4;                   // e.g. '1.10.19'
+  optional string espresso_contrib_version = 5;          // e.g. '2.2.2'
+  optional string espresso_web_version = 6;              // e.g. '2.2.2'
+  optional string espresso_intents_version = 7;          // e.g. '2.2.2'
   optional string espresso_idling_resource_version = 8;  // e.g. '2.2.2'
-  optional string espresso_accessibility_version = 9;  // e.g. '2.2.2'
-  optional string test_orchestrator_version = 10;  // e.g. '1.0.0'
-  optional string test_rules_version = 11;  // e.g. '1.0.0'
+  optional string espresso_accessibility_version = 9;    // e.g. '2.2.2'
+  optional string test_orchestrator_version = 10;        // e.g. '1.0.0'
+  optional string test_rules_version = 11;               // e.g. '1.0.0'
   // "androidx.test.core".
   optional string test_core_version = 12;  // e.g. '1.0.0'
   // "androidx.test.core-ktx".
@@ -2675,7 +2675,7 @@ message TestLibraries {
   optional string test_ext_truth_version = 16;  // e.g. '1.0.0'
   // "androidx.fragment.fragment-testing".
   optional string fragment_testing_version = 17;  // e.g. '1.0.0'
-  optional string junit_version = 18;  // e.g. '4.2'
+  optional string junit_version = 18;             // e.g. '4.2'
   // "com.google.truth".
   optional string truth_version = 19;  // e.g. '0.40'
   // "androidx.benchmark.benchmark-common".
@@ -7429,7 +7429,6 @@ message BuildAttributionUiEvent {
   optional string build_attribution_report_session_id = 4;
 }
 
-// Stats about Android Cpp extension
 message AndroidCppExtensionEvent {
   enum AndroidCppExtensionEventType {
     UNSPECIFIED_ANDROID_CPP_EXTENSION_EVENT_TYPE = 0;
@@ -7538,13 +7537,14 @@ message AndroidCppExtensionEvent {
       GNUPP17 = 16;
     }
 
-    // TODO(tgeng): try adding gradle info like the app_id.
+    // TODO: try adding gradle info like the app_id.
   }
 
   message DebugEvent {
     // A GUID for the debug session
     optional string session = 1;
 
+    // The numerical version of the host, For example, 15.9.
     optional string host_version = 2;
 
     optional DeviceInfo.ApplicationBinaryInterface platform = 3;
@@ -7555,7 +7555,7 @@ message AndroidCppExtensionEvent {
 
     // Time that it takes each debugging event to complete. For example, if the
     // type is `START_WITHOUT_DEBUGGING`, this duration is how long it takes
-    // to send the intent to launch the main activity after build
+    // the host to send the intent to launch the main activity after build
     // finishes.
     optional int64 duration_ms = 6;
 
