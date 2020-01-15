@@ -4372,6 +4372,9 @@ message LayoutEditorEvent {
 
     INFLATE_ONLY = 43;
     RENDER_ONLY = 44;
+
+    ENABLE_LAYOUTLIB_NATIVE = 45;
+    DISABLE_LAYOUTLIB_NATIVE = 46;
   }
 
   // Type of event
