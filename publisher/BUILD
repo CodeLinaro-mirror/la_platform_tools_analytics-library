@@ -32,7 +32,10 @@ iml_module(
 
 kotlin_library(
     name = "publisher",
-    srcs = ["src/main/java"],
+    srcs = glob([
+        "src/main/java/**/*.kt",
+        "src/main/java/**/*.java",
+    ]),
     pom = ":publisher.pom",
     resource_strip_prefix = "tools/analytics-library/publisher",
     visibility = ["//visibility:public"],

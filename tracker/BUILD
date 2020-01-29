@@ -33,7 +33,10 @@ load("//tools/base/bazel:maven.bzl", "maven_java_library", "maven_pom")
 
 kotlin_library(
     name = "tools.analytics-tracker",
-    srcs = ["src/main/java"],
+    srcs = glob([
+        "src/main/java/**/*.kt",
+        "src/main/java/**/*.java",
+    ]),
     pom = "analytics-tracker.pom",
     resource_strip_prefix = "tools/analytics-library/tracker",
     visibility = ["//visibility:public"],
@@ -55,7 +58,10 @@ maven_pom(
 
 kotlin_test(
     name = "tools.analytics-tracker_tests",
-    srcs = ["src/test/java"],
+    srcs = glob([
+        "src/test/java/**/*.kt",
+        "src/test/java/**/*.java",
+    ]),
     coverage = True,
     jvm_flags = ["-Dtest.suite.jar=tools.analytics-tracker_tests.jar"],
     test_class = "com.android.testutils.JarTestSuite",
