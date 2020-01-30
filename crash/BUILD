@@ -52,7 +52,10 @@ maven_pom(
 
 kotlin_test(
     name = "tools.analytics-crash_tests",
-    srcs = ["src/test/java"],
+    srcs = glob([
+        "src/test/java/**/*.kt",
+        "src/test/java/**/*.java",
+    ]),
     coverage = True,
     jvm_flags = ["-Dtest.suite.jar=tools.analytics-crash_tests.jar"],
     test_class = "com.android.testutils.JarTestSuite",

@@ -32,7 +32,10 @@ load("//tools/base/bazel:maven.bzl", "maven_java_library", "maven_pom")
 
 kotlin_library(
     name = "tools.analytics-testing",
-    srcs = ["src/main/java"],
+    srcs = glob([
+        "src/main/java/**/*.kt",
+        "src/main/java/**/*.java",
+    ]),
     visibility = ["//visibility:public"],
     deps = [
         "//tools/analytics-library/protos/src/main/proto",
@@ -48,7 +51,10 @@ kotlin_library(
 
 kotlin_test(
     name = "tools.analytics-testing_tests",
-    srcs = ["src/test/java"],
+    srcs = glob([
+        "src/test/java/**/*.kt",
+        "src/test/java/**/*.java",
+    ]),
     coverage = True,
     jvm_flags = ["-Dtest.suite.jar=tools.analytics-testing_tests.jar"],
     test_class = "com.android.testutils.JarTestSuite",

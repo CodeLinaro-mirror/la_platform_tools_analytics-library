@@ -7340,6 +7340,9 @@ message BuildAttributionPerformanceStats {
   optional int64 post_build_analysis_duration_ms = 1;
   // The duration it takes to build the UI
   optional int64 ui_creation_duration_ms = 2;
+  // The latency introduced by the tooling API events (the duration from
+  // when the build is finished until when the build finished event is received)
+  optional int64 tooling_api_build_finished_event_latency_ms = 3;
 }
 
 // Stats about build attribution
