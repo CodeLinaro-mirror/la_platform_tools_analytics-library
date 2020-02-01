@@ -6,7 +6,6 @@ iml_module(
     name = "analytics-shared",
     srcs = ["src/main/java"],
     iml_files = ["analytics-shared.iml"],
-    test_coverage = True,
     test_srcs = ["src/test/java"],
     visibility = ["//visibility:public"],
     # do not sort: must match IML order
@@ -65,7 +64,6 @@ kotlin_test(
         "src/test/java/**/*.kt",
         "src/test/java/**/*.java",
     ]),
-    coverage = True,
     jvm_flags = ["-Dtest.suite.jar=tools.analytics-shared_tests.jar"],
     test_class = "com.android.testutils.JarTestSuite",
     deps = [
