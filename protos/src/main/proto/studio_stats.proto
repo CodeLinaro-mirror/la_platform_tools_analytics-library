@@ -7460,6 +7460,10 @@ message AndroidCppExtensionEvent {
     optional int64 duration_ms = 6;
     optional bool is_using_distributed_build = 7;
 
+    // The absolute path of the project on user's computer being built. This
+    // value is anonymized before uploaded with salt.
+    optional string msbuild_project_path = 12;
+
     optional BuildEventType type = 8;
 
     enum BuildEventType {
@@ -7485,10 +7489,20 @@ message AndroidCppExtensionEvent {
     // Information about compiling a batch of C/C++ files, e.g. one event per
     // ClangCompile task run.
     message CompileCompleteInfo {
-      // The language level.
+      // The language level of the majority of files.
       optional LanguageLevel language_level = 1;
-      // The number of source files in this batch.
+      // The number of source files of this language level.
       optional int32 source_file_count = 2;
+
+      // All batches of various language level in this project.
+      repeated LanguageLevelBatch all_languge_levels = 3;
+
+      message LanguageLevelBatch {
+        // The language level of this batch.
+        optional LanguageLevel language_level = 1;
+        // The number of source files in this batch.
+        optional int32 source_file_count = 2;
+      }
     }
 
     optional LinkCompleteInfo link_complete_info = 11;
