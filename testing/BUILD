@@ -5,7 +5,6 @@ load("//tools/base/bazel:kotlin.bzl", "kotlin_library", "kotlin_test")
 iml_module(
     name = "android.sdktools.analytics-testing",
     iml_files = ["android.sdktools.analytics-testing.iml"],
-    test_coverage = True,
     test_srcs = [
         "src/main/java",
         "src/test/java",
@@ -55,7 +54,6 @@ kotlin_test(
         "src/test/java/**/*.kt",
         "src/test/java/**/*.java",
     ]),
-    coverage = True,
     jvm_flags = ["-Dtest.suite.jar=tools.analytics-testing_tests.jar"],
     test_class = "com.android.testutils.JarTestSuite",
     deps = [

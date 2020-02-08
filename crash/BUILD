@@ -6,7 +6,6 @@ iml_module(
     name = "analytics-crash",
     srcs = ["src/main/java"],
     iml_files = ["analytics-crash.iml"],
-    test_coverage = True,
     test_srcs = ["src/test/java"],
     visibility = ["//visibility:public"],
     # do not sort: must match IML order
@@ -56,7 +55,6 @@ kotlin_test(
         "src/test/java/**/*.kt",
         "src/test/java/**/*.java",
     ]),
-    coverage = True,
     jvm_flags = ["-Dtest.suite.jar=tools.analytics-crash_tests.jar"],
     test_class = "com.android.testutils.JarTestSuite",
     runtime_deps = [
