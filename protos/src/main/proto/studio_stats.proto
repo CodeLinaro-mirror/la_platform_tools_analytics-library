@@ -357,6 +357,9 @@ message AndroidStudioEvent {
   // set when kind = ANDROID_CPP_EXTENSION
   optional AndroidCppExtensionEvent android_cpp_extension_event = 99;
 
+  // set when kind = DESIGN_EDITOR_HELP_PANEL_EVENT
+  optional DesignEditorHelpPanelEvent design_editor_help_panel_event = 100;
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -869,6 +872,9 @@ message AndroidStudioEvent {
     BUILD_ATTRIBUTION_UI_EVENT = 199;
 
     ANDROID_CPP_EXTENSION = 200;
+
+    // The event related to help panels in design editor
+    DESIGN_EDITOR_HELP_PANEL_EVENT = 201;
   }
 
   // Represents different Performance Monitoring types.
@@ -5802,6 +5808,38 @@ message WhatsNewAssistantUpdateEvent {
   optional int64 time_to_close_ms = 6;
 }
 
+// Details for Design Editor's Help Panel update
+message DesignEditorHelpPanelEvent {
+  // What sort of action was performed
+  optional HelpPanelAction action = 1;
+  // Help panel type
+  optional HelpPanelType help_panel_type = 2;
+
+  // Time between opening window and closing it
+  optional int64 time_to_close_ms = 3;
+
+  enum HelpPanelAction {
+    UNKNOWN_ACTION = 0;
+    OPEN = 1;
+    BUTTON_CLICKED = 2;
+    CLOSE = 3;
+    REACHED_END = 4;
+  }
+  enum HelpPanelType {
+    UNKNOWN_PANEL_TYPE = 0;
+    // Full default option
+    FULL_ALL = 1;
+    // Constraint layout specific panel
+    CONSTRAINT_LAYOUT = 2;
+    // Motion layout specific panel
+    MOTION_LAYOUT = 3;
+    // Nav editor specific panel
+    NAV_EDITOR = 4;
+    // Compose specific panel
+    COMPOSE = 5;
+  }
+}
+
 // Information about a session running lint -- in build, in IDE, etc
 message LintSession {
   // analysis type - build, ide batch, ide incremental
@@ -7415,6 +7453,8 @@ message BuildAttributionUiEvent {
       CONFIGURATION_TIME_ROOT = 20;
       CONFIGURATION_TIME_PROJECT = 21;
       CONFIGURATION_TIME_PLUGIN = 22;
+      PLUGIN_WARNINGS_ROOT = 23;
+      WARNINGS_ROOT = 24;
     }
     // Type of current page.
     optional PageType page_type = 1;
@@ -7462,7 +7502,7 @@ message AndroidCppExtensionEvent {
 
     // The absolute path of the project on user's computer being built. This
     // value is anonymized before uploaded with salt.
-    optional string msbuild_project_path = 12;
+    optional string build_project_path = 12;
 
     optional BuildEventType type = 8;
 
