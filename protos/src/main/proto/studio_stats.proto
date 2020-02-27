@@ -6897,6 +6897,9 @@ message ResourceManagerEvent {
     THEME_ATTR_SHOWN = 22;
     THEME_ATTR_HIDDEN = 23;
 
+    // User enables a filter by resource type (E.g: Filter 'vector' Drawables)
+    ENABLE_FILTER_BY_TYPE = 24;
+
     // A density indicator was present in the imported file
     DENSITY_INFERED = 9;
 
@@ -6913,6 +6916,12 @@ message ResourceManagerEvent {
 
     // When user tries to import more resources than the supported number
     IMPORT_LIMIT_REACHED = 16;
+
+    // When the user manually refreshes the preview of a resource
+    REFRESH_RES_PREVIEW = 25;
+
+    // When the user manually refreshes all previews whithin a ResourceType
+    REFRESH_ALL_RES_TYPE_PREVIEWS = 26;
   }
 
   // The type of the resource. It could be an Android type (e.g drawable)
@@ -7425,6 +7434,8 @@ message BuildAttributionUiEvent {
     // Sent to mark the moment when current build info becomes inaccessible.
     // It can be as a result of a new build or closing the project.
     USAGE_SESSION_OVER = 14;
+    // Tab was opened using button in What's New Assistant.
+    TAB_OPENED_WITH_WNA_BUTTON = 15;
   }
 
   message Page {
