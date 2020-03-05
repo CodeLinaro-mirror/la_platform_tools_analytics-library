@@ -20,7 +20,6 @@ project.ext.pomName = 'Android Tools Analytics Protobufs'
 project.ext.pomDesc = 'Library containing protobufs for usage analytics.'
 
 apply from: "$rootDir/buildSrc/base/publish.gradle"
-apply from: "$rootDir/buildSrc/base/bintray.gradle"
 apply from: "$rootDir/buildSrc/base/javadoc.gradle"
 
 // There are now two versions of the generated java files for the analytics proto,

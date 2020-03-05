@@ -42,5 +42,4 @@ project.ext.pomName = 'Android Tools Analytics Crash Library'
 project.ext.pomDesc = 'Helper Library for uploading crash reports.'
 
 apply from: "$rootDir/buildSrc/base/publish.gradle"
-apply from: "$rootDir/buildSrc/base/bintray.gradle"
 apply from: "$rootDir/buildSrc/base/javadoc.gradle"
