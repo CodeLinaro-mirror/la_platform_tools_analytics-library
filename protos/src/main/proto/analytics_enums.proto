@@ -432,6 +432,7 @@ enum BooleanOption {
     ENABLE_RESOURCE_OPTIMIZATIONS = 116;
     BUILD_FEATURE_MLMODELBINDING = 117;
     NON_TRANSITIVE_R_CLASS = 118;
+    ENABLE_LEGACY_API = 119;
 }
 
 enum OptionalBooleanOption {
