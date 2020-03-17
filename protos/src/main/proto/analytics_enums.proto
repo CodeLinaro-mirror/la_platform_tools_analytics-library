@@ -302,6 +302,7 @@ enum GradleTaskExecutionType {
     LINK_MANIFEST_FOR_ASSET_PACK = 217;
     ASSET_PACK_PRE_BUNDLE = 218;
     SDK_DEPENDENCY_DATA_GENERATOR = 219;
+    UNSAFE_OUTPUTS = 231;
 }
 
 enum BooleanOption {
