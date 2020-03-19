@@ -5793,12 +5793,55 @@ message WhatsNewAssistantEvent {
 
 // Details for What's New Assistant update flow only
 message WhatsNewAssistantUpdateEvent {
+  // Details about action button usage in What's New Assistant.
+  // Track actions created/updated and action button clicks.
+  message ActionButtonEvent {
+    // Type of the action button
+    enum ActionButtonType {
+      UNKNOWN_BUTTON = 0;
+      // Build analyzer action button
+      BUILD_ANALYZER_SHOW = 1;
+    }
+    // State of the action button, tracks what message is shown at the moment.
+    // Each feature can define their own states if there are any.
+    enum ActionButtonState {
+      UNKNOWN_STATE = 0;
+      // Build analyzer can not be used because of old AGP version.
+      BUILD_ANALYZER_AGP_VERSION_LOW = 1;
+      // Build analyzer doesn't have data yet. Build will run on the click.
+      BUILD_ANALYZER_NO_DATA = 2;
+      // Build is running at the moment to gather data.
+      BUILD_ANALYZER_BUILD_RUNNING = 3;
+      // Build failed to finish and no data ready to be shown.
+      BUILD_ANALYZER_BUILD_FAILED = 4;
+      // Build analyzer data exist to be opened right away.
+      BUILD_ANALYZER_DATA_READY = 5;
+    }
+    enum EventType {
+      UNKNOWN_TYPE = 0;
+      BUTTON_CREATED = 1;
+      BUTTON_CLICK = 2;
+      BUTTON_STATE_UPDATED = 3;
+    }
+
+    // Type of the action button
+    optional ActionButtonType action_button_type = 1;
+    // Type of the event
+    optional EventType event_type = 2;
+    // State of the button action at the moment of the event
+    optional ActionButtonState action_button_state = 3;
+    // Time between opening window and clicking state button
+    optional int64 time_from_wna_open = 4;
+  }
+
   // Whether this window was auto opened
   optional bool auto_opened = 1;
   // Whether this is the update flow or regular WNA
   optional bool update_flow = 2;
   // Whether the user scrolled to the bottom of the pane
   optional bool scrolled_to_bottom = 3;
+  // Time between opening window and scrolling to bottom
+  optional int64 time_to_scrolled_to_bottom = 7;
   // Whether the window was closed due to clicking "Dismiss"
   optional bool dismissed = 4;
 
@@ -5806,6 +5849,8 @@ message WhatsNewAssistantUpdateEvent {
   optional int64 time_to_update_ms = 5;
   // Time between opening window and closing it
   optional int64 time_to_close_ms = 6;
+  // Action button events occurred during this session
+  repeated ActionButtonEvent action_button_events = 8;
 }
 
 // Details for Design Editor's Help Panel update
