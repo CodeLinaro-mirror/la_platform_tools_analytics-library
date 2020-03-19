@@ -5678,7 +5678,7 @@ message DynamicLayoutInspectorEvent {
     COMPATIBILITY_SUCCESS = 8;
     // First render after connection in compatibility mode
     COMPATIBILITY_RENDER = 9;
-    // First render after connection in compatibility mode
+    // First render after connection without images in compatibility mode
     COMPATIBILITY_RENDER_NO_PICTURE = 10;
   }
 
