@@ -224,7 +224,9 @@ message AndroidStudioEvent {
   optional CppHeadersViewEvent cpp_headers_view_event = 59;
 
   // set when kind = WHATS_NEW_ASSISTANT_EVENT
-  optional WhatsNewAssistantEvent whats_new_assistant_event = 60;
+  // Deprecated since 3.6.0.8, replaced with WhatsNewAssistantUpdateEvent
+  optional WhatsNewAssistantEvent whats_new_assistant_event = 60
+      [deprecated = true];
 
   // the project id as used in the playstore, e.g.
   // 'com.google.android.apps.maps'. This is sensitive information and
@@ -717,7 +719,8 @@ message AndroidStudioEvent {
     CPP_HEADERS_VIEW_EVENT = 129;
 
     // The event is related to What's New Assistant
-    WHATS_NEW_ASSISTANT_EVENT = 130;
+    // Deprecated since 3.6.0.8, use WHATS_NEW_ASSISTANT_UPDATE_EVENT instead.
+    WHATS_NEW_ASSISTANT_EVENT = 130 [deprecated = true];
 
     // Indexing operation event.
     INTELLIJ_INDEXING_STATS = 131;
@@ -5145,6 +5148,7 @@ message AndroidProfilerEvent {
     ZYGOTE_HEAP = 3;
     APP_HEAP = 4;
     JNI_HEAP = 5;
+    NATIVE_HEAP = 6;
   }
 
   enum Type {
@@ -5666,6 +5670,16 @@ message DynamicLayoutInspectorEvent {
     INITIAL_RENDER = 4;
     // First render after connection without images
     INITIAL_RENDER_NO_PICTURE = 5;
+    // First render after connection with bitmap images
+    INITIAL_RENDER_BITMAPS = 6;
+    // User tried to attach to a device using compatibility mode
+    COMPATIBILITY_REQUEST = 7;
+    // Device attached successfully in compatibility mode
+    COMPATIBILITY_SUCCESS = 8;
+    // First render after connection in compatibility mode
+    COMPATIBILITY_RENDER = 9;
+    // First render after connection without images in compatibility mode
+    COMPATIBILITY_RENDER_NO_PICTURE = 10;
   }
 
   // Type of event
@@ -5772,7 +5786,10 @@ message OomDialogEvent {
 }
 
 // Details for whats new assistant event
+// Deprecated since 3.6.0.8, use WhatsNewAssistantUpdateEvent instead.
 message WhatsNewAssistantEvent {
+  option deprecated = true;
+
   enum WhatsNewAssistantEventType {
     UNKNOWN_EVENT_TYPE = 0;
     // Assistant is opened
@@ -5791,7 +5808,7 @@ message WhatsNewAssistantEvent {
   optional WhatsNewAssistantEventType type = 1;
 }
 
-// Details for What's New Assistant update flow only
+// Details for What's New Assistant and its interactive contents utilisation.
 message WhatsNewAssistantUpdateEvent {
   // Details about action button usage in What's New Assistant.
   // Track actions created/updated and action button clicks.
