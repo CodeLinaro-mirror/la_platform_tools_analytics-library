@@ -440,6 +440,7 @@ enum BooleanOption {
     NON_TRANSITIVE_R_CLASS = 118;
     ENABLE_LEGACY_API = 119;
     ANDROID_TEST_USES_UNIFIED_TEST_PLATFORM = 120;
+    ENABLE_STABLE_IDS = 121;
 }
 
 enum OptionalBooleanOption {
