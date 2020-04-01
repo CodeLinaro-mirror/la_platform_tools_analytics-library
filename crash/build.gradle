@@ -17,6 +17,10 @@
 apply plugin: 'java'
 apply plugin: 'jacoco-tools-base'
 
+repositories {
+    maven { url = uri(rootProject.cloneArtifacts.repository) }
+}
+
 dependencies {
     compile project(':base:annotations')
     compile libs.guava
