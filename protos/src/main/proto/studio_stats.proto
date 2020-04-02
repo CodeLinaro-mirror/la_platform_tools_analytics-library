@@ -1210,6 +1210,8 @@ message AndroidStudioEvent {
 
     TYPE_EDIT_LOCKED_DSL_VALUE = 52;
 
+    TYPE_MISSING_ANDROID_MANIFEST = 53;
+
     // NOTE: When adding a new type here, increment the index by 1. This index
     // may not be consistent with the corresponding value in the Android Gradle
     // plugin (e.g., it could be higher by 1), because of an indexing issue in
@@ -4761,8 +4763,10 @@ message CpuProfilingConfig {
     ART = 1;
     // Use simpleperf for advanced Android profiling, works on Android O+
     SIMPLE_PERF = 2;
-    // Use atrace for advanced Android profiling, works on Android O+
+    // Use atrace for advanced Android profiling, works on Android N+
     ATRACE = 3;
+    // Use Perfetto for advanced Android profiling, works on Android P+
+    PERFETTO = 4;
   }
 
   enum Mode {

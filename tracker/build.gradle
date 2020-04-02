@@ -25,5 +25,4 @@ project.ext.pomName = 'Android Tools Analytics Tracker'
 project.ext.pomDesc = 'Library for tracking usage analytics.'
 
 apply from: "$rootDir/buildSrc/base/publish.gradle"
-apply from: "$rootDir/buildSrc/base/bintray.gradle"
 apply from: "$rootDir/buildSrc/base/javadoc.gradle"

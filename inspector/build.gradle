@@ -26,5 +26,4 @@ project.ext.pomName = 'Android Tools Analytics Inspector'
 project.ext.pomDesc = 'Tool for debugging usage analytics spool files.'
 
 apply from: "$rootDir/buildSrc/base/publish.gradle"
-apply from: "$rootDir/buildSrc/base/bintray.gradle"
 apply from: "$rootDir/buildSrc/base/javadoc.gradle"
