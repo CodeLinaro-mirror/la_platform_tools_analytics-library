@@ -319,6 +319,7 @@ enum GradleTaskExecutionType {
     ENUMERATE_CLASSES = 234 [deprecated=true];
     COMPRESS_ASSETS = 235;
     AAR_METADATA = 236;
+    PREFAB_PACKAGE = 237;
 }
 
 enum BooleanOption {
