@@ -68,6 +68,7 @@ message AndroidStudioEvent {
   // or kind = LayoutInspectorEvent and LayoutInspectorEventType = CAPTURE
   // or kind = ANDROID_PROFILER and AndroidProfilerEvent.Type = CHANGE_DEVICE
   // or kind = DynamicLayoutInspectorEvent
+  // or kind = AppInspectionEvent and AppInspectionEvent.Type = PROCESS_SELECTED
   optional DeviceInfo device_info = 12;
 
   // set when kind = LLDB_INSTALL_FAILED
@@ -361,6 +362,9 @@ message AndroidStudioEvent {
 
   // set when kind = DESIGN_EDITOR_HELP_PANEL_EVENT
   optional DesignEditorHelpPanelEvent design_editor_help_panel_event = 100;
+
+  // set when kind = APP_INSPECTION
+  optional AppInspectionEvent app_inspection_event = 101;
 
   enum EventCategory {
     // The event was not grouped into any specific category (default).
@@ -878,6 +882,10 @@ message AndroidStudioEvent {
 
     // The event related to help panels in design editor
     DESIGN_EDITOR_HELP_PANEL_EVENT = 201;
+
+    // Any event related to the app inspection tool window or any of its child
+    // inspector tabs.
+    APP_INSPECTION = 202;
   }
 
   // Represents different Performance Monitoring types.
@@ -7717,5 +7725,109 @@ message AndroidCppExtensionEvent {
       CONTINUE = 13;
       EXECUTE_COMMAND = 14;
     }
+  }
+}
+
+message AppInspectionEvent {
+  enum Type {
+    UNKNOWN_EVENT_TYPE = 0;
+
+    // This is a wrapped event fired by an inspector. One of the inspector
+    // fields below should be set
+    INSPECTOR_EVENT = 1;
+
+    ERROR_OCCURRED = 2;
+
+    TOOL_WINDOW_OPENED = 3;
+    TOOL_WINDOW_HIDDEN = 4;
+
+    PROCESS_SELECTED = 5;
+
+    // To distinguish between user-initiated stops vs. crash-initiated stops,
+    // compare with |ERROR_OCCURRED| counts.
+    INSPECTION_STOPPED = 6;
+    // Inspection restarted after a crash
+    INSPECTION_RESTARTED = 7;
+  }
+
+  enum ErrorKind {
+    UNKNOWN_ERROR_KIND = 0;
+    INSPECTOR_CRASHED = 1;
+    APP_DISCONNECTED = 2;
+  }
+
+  message EnvironmentMetadata {
+    optional uint32 num_processes = 1;
+    optional uint32 num_devices = 2;
+  }
+
+  // The detailed type of this event
+  optional Type type = 1;
+
+  // Set if |type| is |INSPECTOR_EVENT|
+  oneof inspector_event {
+    DatabaseInspectorEvent database_inspector_event = 2;
+  }
+
+  // Set if |type| is |ERROR_OCCURRED|
+  optional ErrorKind error_kind = 101;
+
+  // Set if |type| is |TOOL_WINDOW_OPENED|, |PROCESS_SELECTED|
+  optional EnvironmentMetadata environment_metadata = 102;
+
+  // App inspection fields above this point
+  // Inspector definitions below this point
+
+  message DatabaseInspectorEvent {
+    enum Type {
+      UNKNOWN_EVENT_TYPE = 0;
+
+      ERROR_OCCURRED = 1;
+
+      // A user modified a cell in a table
+      TABLE_CELL_EDITED = 2;
+      // A user manually requested refreshing some (potentially stale) data
+      TARGET_REFRESHED = 3;
+
+      STATEMENT_EXECUTED = 4;
+      STATEMENT_EXECUTION_CANCELED = 5;
+
+      LIVE_UPDATES_TOGGLED = 8;
+    }
+
+    enum ErrorKind {
+      UNKNOWN_ERROR_KIND = 0;
+      IS_RECOVERABLE_TRUE = 1;
+      IS_RECOVERABLE_FALSE = 2;
+      IS_RECOVERABLE_UNKNOWN = 3;
+    }
+
+    enum TargetType {
+      UNKNOWN_TARGET_TYPE = 0;
+      SCHEMA_TARGET = 1;
+      TABLE_TARGET = 2;
+    }
+
+    enum StatementContext {
+      UNKNOWN_STATEMENT_CONTEXT = 0;
+      SCHEMA_STATEMENT_CONTEXT = 1;
+      GUTTER_STATEMENT_CONTEXT = 2;
+      USER_DEFINED_STATEMENT_CONTEXT = 3;
+    }
+
+    // The detailed type of this event
+    optional Type type = 1;
+
+    // Set if |type| is |ERROR_OCCURRED|
+    optional ErrorKind error_kind = 2;
+
+    // Set if |type| is |TARGET_REFRESHED|
+    optional TargetType target_type = 3;
+
+    // Set if |type| is |STATEMENT_EXECUTED|, |STATEMENT_EXECUTION_CANCELED|
+    optional StatementContext statement_context = 4;
+
+    // Set if |type| is |LIVE_UPDATING_TOGGLED|
+    optional bool live_updating_enabled = 5;
   }
 }
