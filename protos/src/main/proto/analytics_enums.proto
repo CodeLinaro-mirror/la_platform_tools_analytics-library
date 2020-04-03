@@ -442,6 +442,7 @@ enum BooleanOption {
     ENABLE_LEGACY_API = 119;
     ANDROID_TEST_USES_UNIFIED_TEST_PLATFORM = 120;
     ENABLE_STABLE_IDS = 121;
+    ENABLE_BUILD_CONFIG_AS_BYTECODE = 122;
 }
 
 enum OptionalBooleanOption {
