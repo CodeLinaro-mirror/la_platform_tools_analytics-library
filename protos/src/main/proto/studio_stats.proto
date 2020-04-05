@@ -366,6 +366,9 @@ message AndroidStudioEvent {
   // set when kind = APP_INSPECTION
   optional AppInspectionEvent app_inspection_event = 101;
 
+  // set when kind = ML_MODEL_BINDING
+  optional MlModelBindingEvent ml_model_binding_event = 102;
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -886,6 +889,9 @@ message AndroidStudioEvent {
     // Any event related to the app inspection tool window or any of its child
     // inspector tabs.
     APP_INSPECTION = 202;
+
+    // ML model binding feature events
+    ML_MODEL_BINDING = 203;
   }
 
   // Represents different Performance Monitoring types.
@@ -1432,6 +1438,46 @@ message LldbSessionEndDetails {
   // Number of errors encountered during the session.
   // Includes both fatal and non-fatal errors.
   optional uint64 errors = 4;
+}
+
+// ML Model Binding feature metrics.
+message MlModelBindingEvent {
+  // The detailed type of this event.
+  optional EventType event_type = 1;
+  // Related ML models information.
+  repeated ModelMetadata model_metadatas = 2;
+  // Set only when the event contains failure.
+  optional ErrorCode error_code = 3;
+
+  enum EventType {
+    UNKNOWN_EVENT_TYPE = 0;
+    // Import model from the model import wizard.
+    MODEL_IMPORT_FROM_WIZARD = 1;
+    // Move model from non-ml folder to ml folder via the "Move File" button
+    // in the notification banner.
+    MODEL_IMPORT_FROM_MOVE_FILE_BUTTON = 2;
+    // Open the model viewer.
+    MODEL_VIEWER_OPEN = 3;
+    // Generates light classes for model.
+    MODEL_API_GEN = 4;
+  }
+
+  message ModelMetadata {
+    // Model file size in bytes.
+    optional uint64 file_size = 1;
+    // Model content hash that we use to identify popular public models.
+    optional string file_hash = 2;
+    // Whether or not the model has valid model format.
+    optional bool is_valid_model = 3;
+    // Whether or not the model has metadata included.
+    optional bool has_metadata = 4;
+  }
+
+  enum ErrorCode {
+    UNKNOWN_ERROR_CODE = 0;
+    // The module's resource package name could not be determined.
+    MODULE_PACKAGE_NAME_NOT_FOUND = 1;
+  }
 }
 
 message StudioExceptionDetails {
