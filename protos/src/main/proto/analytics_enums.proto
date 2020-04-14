@@ -317,6 +317,7 @@ enum GradleTaskExecutionType {
     PROCESS_PACKAGED_MANIFEST = 232;
     PROCESS_MULTI_APK_APPLICATION_MANIFEST = 233;
     ENUMERATE_CLASSES = 234 [deprecated=true];
+    COMPRESS_ASSETS = 235;
 }
 
 enum BooleanOption {
