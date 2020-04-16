@@ -369,6 +369,9 @@ message AndroidStudioEvent {
   // set when kind = ML_MODEL_BINDING
   optional MlModelBindingEvent ml_model_binding_event = 102;
 
+  // set when kind = AVD_LAUNCH
+  optional AvdLaunchEvent avd_launch_event = 103;
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -892,6 +895,9 @@ message AndroidStudioEvent {
 
     // ML model binding feature events
     ML_MODEL_BINDING = 203;
+
+    // Launch of an AVD from Studio.
+    AVD_LAUNCH = 204;
   }
 
   // Represents different Performance Monitoring types.
@@ -4591,6 +4597,7 @@ message NavPropertyInfo {
     POP_UP_TO_INCLUSIVE = 24;
     START_DESTINATION = 25;
     URI = 26;
+    MIME_TYPE = 27;
   }
   enum TagType {
     UNKNOWN_TAG = 0;
@@ -7875,5 +7882,28 @@ message AppInspectionEvent {
 
     // Set if |type| is |LIVE_UPDATING_TOGGLED|
     optional bool live_updating_enabled = 5;
+  }
+}
+
+message AvdLaunchEvent {
+  // Describes how the AVD was launched. Always present.
+  optional LaunchType launch_type = 1;
+
+  // The class of the launched AVD. Present unless GENERIC.
+  optional AvdClass avd_class = 2;
+
+  enum LaunchType {
+    UNKNOWN_LAUNCH_TYPE = 0;
+    STANDALONE = 1;
+    IN_TOOL_WINDOW = 2;
+  }
+
+  enum AvdClass {
+    UNKNOWN_AVD_CLASS = 0;
+    GENERIC = 1;
+    FOLDABLE = 2;
+    TV = 3;
+    AUTOMOTIVE = 4;
+    WEARABLE = 5;
   }
 }
