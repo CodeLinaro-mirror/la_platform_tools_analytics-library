@@ -1020,6 +1020,8 @@ message AndroidStudioEvent {
     THINGS_ACTIVITY = 57;
     WATCH_GOOGLE_MAPS_ACTIVITY = 58;
     WATCH_FACE = 59;
+    ML_MODEL_BINDING_IMPORT_WIZARD = 60;
+    ML_MODEL_BINDING_FEATURE_OFF_NOTIFICATION = 61;
   }
 
   // Reasons Gradle sync failed.
@@ -2544,6 +2546,33 @@ message JniInspectionEvent {
   }
 
   optional JniInspectionType type = 1;
+
+  // The category of this JNI inspection event. This indicates why the event is
+  // sent from user's Android Studio.
+  enum EventCategory {
+    UNKNOWN_EVENT_CATEGORY = 0;
+    // The user has "used" this inspectoin, e.g., applied a quickfix from an
+    // inspection or accepted the completion suggestion.
+    USAGE_EVENT = 1;
+    // Performance information for a given inspection or completion event. This
+    // is sent when the inspection or completion feature logic has finished
+    // computation.
+    PERFORMANCE_EVENT = 2;
+  }
+
+  // Indicates why this event is reported. If this event is not set (by old
+  // version of Android Studio), it means USAGE_EVENT.
+  optional EventCategory event_category = 2;
+
+  message PerformanceEvent {
+    // The time it takes for the IDE to execute the logic for the JNI inspection
+    // or completion.
+    optional uint32 delay_ms = 1;
+  }
+
+  // Performance metrics for the inspection or completion event. This field
+  // should only be set if `event_category` is `PERFORMANCE_EVENT`.
+  optional PerformanceEvent performance_event = 3;
 }
 
 // Metrics related to C++ header file view in Android Project
