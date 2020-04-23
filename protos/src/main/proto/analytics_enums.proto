@@ -316,7 +316,7 @@ enum GradleTaskExecutionType {
     UNSAFE_OUTPUTS = 231;
     PROCESS_PACKAGED_MANIFEST = 232;
     PROCESS_MULTI_APK_APPLICATION_MANIFEST = 233;
-    ENUMERATE_CLASSES = 234;
+    ENUMERATE_CLASSES = 234 [deprecated=true];
 }
 
 enum BooleanOption {
