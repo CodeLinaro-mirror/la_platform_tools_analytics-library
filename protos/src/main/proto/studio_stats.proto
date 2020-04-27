@@ -4228,6 +4228,14 @@ message LayoutEditorState {
     BLUEPRINT_SURFACE = 3;
   }
 
+  // Layout preview mode
+  enum PreviewMode {
+    UNKNOWN_PREVIEW_MODE = 0;
+
+    STATIC_PREVIEW_MODE = 1;
+    INTERACTIVE_PREVIEW_MODE = 2;
+  }
+
   // layout editor preview or design mode
   optional Mode mode = 1;
   // layout type currently being displayed (layout, menu, drawable...)
@@ -4240,6 +4248,9 @@ message LayoutEditorState {
   optional Orientation config_orientation = 5;
   // surfaces being displyaed
   optional Surfaces surfaces = 6;
+  // Indicates how user previews the layout, whether it is a static (classic)
+  // preview or an interactive (animated) mode
+  optional PreviewMode preview_mode = 7;
 }
 
 // Layout editor render result (when type = RENDER)
