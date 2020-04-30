@@ -372,6 +372,12 @@ message AndroidStudioEvent {
   // set when kind = AVD_LAUNCH
   optional AvdLaunchEvent avd_launch_event = 103;
 
+  // set when kind = NAV_SAFE_ARGS_EVENT
+  optional NavSafeArgsEvent nav_safe_args_event = 104;
+
+  // set when kind = DAGGER_EDITOR
+  optional DaggerEditorEvent dagger_editor_event = 105;
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -898,6 +904,12 @@ message AndroidStudioEvent {
 
     // Launch of an AVD from Studio.
     AVD_LAUNCH = 204;
+
+    // Event related to Navigation Safe Args IDE support
+    NAV_SAFE_ARGS_EVENT = 205;
+
+    // The event related to Dagger editor support.
+    DAGGER_EDITOR = 206;
   }
 
   // Represents different Performance Monitoring types.
@@ -4216,6 +4228,14 @@ message LayoutEditorState {
     BLUEPRINT_SURFACE = 3;
   }
 
+  // Layout preview mode
+  enum PreviewMode {
+    UNKNOWN_PREVIEW_MODE = 0;
+
+    STATIC_PREVIEW_MODE = 1;
+    INTERACTIVE_PREVIEW_MODE = 2;
+  }
+
   // layout editor preview or design mode
   optional Mode mode = 1;
   // layout type currently being displayed (layout, menu, drawable...)
@@ -4228,6 +4248,9 @@ message LayoutEditorState {
   optional Orientation config_orientation = 5;
   // surfaces being displyaed
   optional Surfaces surfaces = 6;
+  // Indicates how user previews the layout, whether it is a static (classic)
+  // preview or an interactive (animated) mode
+  optional PreviewMode preview_mode = 7;
 }
 
 // Layout editor render result (when type = RENDER)
@@ -4719,6 +4742,28 @@ message NavigationContents {
   // The number of placeholders (destinations with android:name not set) in the
   // current file
   optional uint32 placeholders = 9;
+}
+
+message NavSafeArgsEvent {
+  optional EventContext event_context = 1;
+  optional ProjectMetadata project_metadata = 2;
+
+  enum EventContext {
+    UNKNOWN_EVENT_CONTEXT = 0;
+    SYNC_EVENT_CONTEXT = 1;
+    BUILD_EVENT_CONTEXT = 2;
+  }
+
+  message ProjectMetadata {
+    // # of modules in this project
+    optional uint32 module_count = 1;
+
+    // # of modules with the java safe args plugin enabled
+    optional uint32 java_plugin_count = 2;
+
+    // # of modules with the kotlin safe args plugin enabled
+    optional uint32 kotlin_plugin_count = 3;
+  }
 }
 
 // App links assistant user event detail.
@@ -7935,4 +7980,49 @@ message AvdLaunchEvent {
     AUTOMOTIVE = 4;
     WEARABLE = 5;
   }
+}
+
+// Tracks user interaction with tooling support for Dagger
+message DaggerEditorEvent {
+  enum Type {
+    UNKNOWN_EVENT_TYPE = 0;
+    NAVIGATED = 1;
+    OPENED_LINK_FROM_ERROR = 2;
+    FIND_USAGES_NODE_WAS_DISPLAYED = 3;
+    CLICKED_ON_GUTTER = 4;
+  }
+
+  enum ElementType {
+    UNKNOWN_ELEMENT_TYPE = 0;
+    PROVIDER = 1;
+    CONSUMER = 2;
+    COMPONENT = 3;
+    SUBCOMPONENT = 4;
+    MODULE = 5;
+  }
+
+  // Detailed description of naviganion event
+  message NavigationMetadata {
+    enum NavigationContext {
+      UNKNOWN_CONTEXT = 0;
+      CONTEXT_GUTTER = 1;
+      CONTEXT_USAGES = 2;
+    }
+
+    // Context from which a navigation was called
+    optional NavigationContext context = 1;
+    // ElementType that is source of navigation
+    optional ElementType from_element = 2;
+    // ElementType that is target of navigation
+    optional ElementType to_element = 3;
+  }
+
+  // The detailed type of this event
+  optional Type type = 1;
+
+  // Set if |type| is |NAVIGATED|
+  optional NavigationMetadata navigation_metadata = 2;
+
+  // Set if |type| is |FIND_USAGES_NODE_WAS_DISPLAYED|, |CLICKED_ON_GUTTER|
+  optional ElementType owner_element_type = 3;
 }
