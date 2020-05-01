@@ -4367,6 +4367,7 @@ message LayoutPaletteEvent {
     LEGACY = 15;
     COMMON = 16;
     ALL_RESULTS = 17;
+    HELPERS = 18;
   }
 
   // The view parameter options used for the dropped component
