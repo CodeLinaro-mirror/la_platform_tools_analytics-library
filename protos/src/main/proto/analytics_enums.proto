@@ -318,6 +318,7 @@ enum GradleTaskExecutionType {
     PROCESS_MULTI_APK_APPLICATION_MANIFEST = 233;
     ENUMERATE_CLASSES = 234 [deprecated=true];
     COMPRESS_ASSETS = 235;
+    AAR_METADATA = 236;
 }
 
 enum BooleanOption {
@@ -445,6 +446,7 @@ enum BooleanOption {
     ENABLE_STABLE_IDS = 121;
     ENABLE_BUILD_CONFIG_AS_BYTECODE = 122;
     ANDROID_TEST_USES_RETENTION = 123;
+    ENABLE_AAR_METADATA = 124;
 }
 
 enum OptionalBooleanOption {
