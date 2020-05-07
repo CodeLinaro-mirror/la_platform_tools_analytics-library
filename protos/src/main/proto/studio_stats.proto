@@ -4367,6 +4367,7 @@ message LayoutPaletteEvent {
     LEGACY = 15;
     COMMON = 16;
     ALL_RESULTS = 17;
+    HELPERS = 18;
   }
 
   // The view parameter options used for the dropped component
@@ -7637,6 +7638,10 @@ message BuildAttributionUiEvent {
     USAGE_SESSION_OVER = 14;
     // Tab was opened using button in What's New Assistant.
     TAB_OPENED_WITH_WNA_BUTTON = 15;
+    // View changed using data combo box.
+    DATA_VIEW_COMBO_SELECTED = 16;
+    // Data grouping changed using grouping control.
+    GROUPING_CHANGED = 17;
   }
 
   message Page {
@@ -7676,6 +7681,17 @@ message BuildAttributionUiEvent {
     optional int32 page_entry_index = 2;
   }
 
+  // All external links used in the report.
+  enum OutgoingLinkTarget {
+    UNKNOWN_OUTGOING_LINK_TARGET = 0;
+    CRITICAL_PATH_HELP = 1;
+    DUPLICATE_OUTPUT_FOLDER_ISSUE_HELP = 2;
+    NO_OUTPUTS_DECLARED_ISSUE_HELP = 3;
+    UP_TO_DATE_EQUALS_FALSE_ISSUE_HELP = 4;
+    NON_INCREMENTAL_ANNOTATION_PROCESSORS_HELP = 5;
+    OPTIMIZE_CONFIGURATION_PHASE_HELP = 6;
+  }
+
   // Type of this build attribution UI event.
   optional EventType event_type = 1;
   // What page was opened when this event happened.
@@ -7685,6 +7701,8 @@ message BuildAttributionUiEvent {
   // The session id is a UUID tracking a single build report generated
   // to associate build attribution events together
   optional string build_attribution_report_session_id = 4;
+  // Target of the external link clicked. Set when event type HELP_LINK_CLICKED.
+  optional OutgoingLinkTarget link_target = 5;
 }
 
 message AndroidCppExtensionEvent {
