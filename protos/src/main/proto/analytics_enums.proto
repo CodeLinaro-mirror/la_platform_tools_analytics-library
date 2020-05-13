@@ -320,6 +320,7 @@ enum GradleTaskExecutionType {
     COMPRESS_ASSETS = 235;
     AAR_METADATA = 236;
     PREFAB_PACKAGE = 237;
+    CHECK_AAR_METADATA = 238;
 }
 
 enum BooleanOption {
