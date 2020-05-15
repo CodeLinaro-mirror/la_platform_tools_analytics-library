@@ -369,7 +369,7 @@ message AndroidStudioEvent {
   // set when kind = ML_MODEL_BINDING
   optional MlModelBindingEvent ml_model_binding_event = 102;
 
-  // set when kind = AVD_LAUNCH
+  // set when kind = DEPLOYMENT_TO_EMULATOR
   optional AvdLaunchEvent avd_launch_event = 103;
 
   // set when kind = NAV_SAFE_ARGS_EVENT
@@ -901,9 +901,6 @@ message AndroidStudioEvent {
 
     // ML model binding feature events
     ML_MODEL_BINDING = 203;
-
-    // Launch of an AVD from Studio.
-    AVD_LAUNCH = 204;
 
     // Event related to Navigation Safe Args IDE support
     NAV_SAFE_ARGS_EVENT = 205;
@@ -5958,6 +5955,8 @@ message WhatsNewAssistantUpdateEvent {
       UNKNOWN_BUTTON = 0;
       // Build analyzer action button
       BUILD_ANALYZER_SHOW = 1;
+      // App Inspection action button
+      APP_INSPECTION_SHOW = 2;
     }
     // State of the action button, tracks what message is shown at the moment.
     // Each feature can define their own states if there are any.
@@ -7425,7 +7424,10 @@ message BuildAttributionPluginIdentifier {
   enum PluginType {
     UNKNOWN_TYPE = 0;
     BUILD_SCRIPT = 1;
-    BINARY_PLUGIN = 2;
+    // Deprecated, use OTHER_PLUGIN instead
+    BINARY_PLUGIN = 2 [deprecated = true];
+    BUILD_SRC = 3;
+    OTHER_PLUGIN = 4;
   }
 
   // Either a binary plugin or a build script plugin
@@ -7981,7 +7983,7 @@ message AvdLaunchEvent {
   // Describes how the AVD was launched. Always present.
   optional LaunchType launch_type = 1;
 
-  // The class of the launched AVD. Present unless GENERIC.
+  // The class of the launched AVD. Always present.
   optional AvdClass avd_class = 2;
 
   enum LaunchType {
