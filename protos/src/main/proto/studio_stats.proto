@@ -1339,6 +1339,7 @@ message ProductDetails {
     DDMS = 4;
     STUDIO_PATCH_UPDATER = 5;
     ANDROID_CPP_EXTENSION = 6;
+    GAME_TOOLS = 7;
   }
 
   // Chip the software is running on.
