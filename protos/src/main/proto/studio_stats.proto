@@ -1031,6 +1031,7 @@ message AndroidStudioEvent {
     WATCH_FACE = 59;
     ML_MODEL_BINDING_IMPORT_WIZARD = 60;
     ML_MODEL_BINDING_FEATURE_OFF_NOTIFICATION = 61;
+    ANDROID_NATIVE_MODULE = 62;
   }
 
   // Reasons Gradle sync failed.
