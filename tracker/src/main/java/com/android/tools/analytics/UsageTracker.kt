@@ -22,6 +22,8 @@ import java.nio.file.Paths
 import java.util.*
 import java.util.concurrent.ScheduledExecutorService
 import java.util.concurrent.TimeUnit
+import java.util.logging.Level
+import java.util.logging.Logger
 
 /**
  * UsageTracker is an api to report usage of features. This data is used to improve
@@ -33,8 +35,10 @@ import java.util.concurrent.TimeUnit
  */
 object UsageTracker {
   private val gate = Any()
+  private val LOG = Logger.getLogger(UsageTracker.javaClass.name)
 
   private var initialized = false
+  private var exceptionThrown = false
 
   @VisibleForTesting
   @JvmStatic
@@ -78,10 +82,7 @@ object UsageTracker {
   var ideaIsInternal = false
 
   /**
-   * Gets the ide brand specified for this UsageTracker.
-   */
-  /**
-   * Set the ide brand specified for this UsageTracker.
+   * IDE brand specified for this UsageTracker.
    */
   @JvmStatic
   var ideBrand: AndroidStudioEvent.IdeBrand = AndroidStudioEvent.IdeBrand.UNKNOWN_IDE_BRAND
@@ -105,18 +106,36 @@ object UsageTracker {
    */
   @JvmStatic
   fun setMaxJournalTime(duration: Long, unit: TimeUnit) {
-    synchronized(gate) {
-      ensureInitialized()
+    runIfUsageTrackerUsable {
       maxJournalTime = unit.toNanos(duration)
       writer.scheduleJournalTimeout(maxJournalTime)
+    }
+  }
+
+  @JvmStatic
+  private fun runIfUsageTrackerUsable(callback: () -> Unit) {
+    try {
+      synchronized(gate) {
+        if (exceptionThrown) {
+          return
+        }
+        ensureInitialized()
+        callback()
+      }
+    } catch (t: Throwable) {
+      exceptionThrown = true
+      try {
+        LOG.log(Level.SEVERE, t) { "UsageTracker call failed" }
+      } catch (ignored: Throwable) {
+
+      }
     }
   }
 
   /** Logs usage data provided in the @{link AndroidStudioEvent}.  */
   @JvmStatic
   fun log(studioEvent: AndroidStudioEvent.Builder) {
-    synchronized(gate) {
-      ensureInitialized()
+    runIfUsageTrackerUsable {
       writer.logNow(studioEvent)
     }
   }
@@ -124,8 +143,7 @@ object UsageTracker {
   /** Logs usage data provided in the @{link AndroidStudioEvent} with provided event time.  */
   @JvmStatic
   fun log(eventTimeMs: Long, studioEvent: AndroidStudioEvent.Builder) {
-    synchronized(gate) {
-      ensureInitialized()
+    runIfUsageTrackerUsable {
       writer.logAt(eventTimeMs, studioEvent)
     }
   }
