@@ -378,6 +378,10 @@ message AndroidStudioEvent {
   // set when kind = DAGGER_EDITOR
   optional DaggerEditorEvent dagger_editor_event = 105;
 
+  // set when kind = PARALLEL_ANDROID_TEST_REPORT_UI
+  optional ParallelAndroidTestReportUiEvent
+      parallel_android_test_report_ui_event = 106;
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -907,6 +911,9 @@ message AndroidStudioEvent {
 
     // The event related to Dagger editor support.
     DAGGER_EDITOR = 206;
+
+    // The event related to test reporting UI.
+    PARALLEL_ANDROID_TEST_REPORT_UI = 207;
   }
 
   // Represents different Performance Monitoring types.
@@ -2959,6 +2966,10 @@ message GradleBuildProject {
 
   // If enableCompose is set to true
   optional bool compose_enabled = 15;
+
+  // All of the gradle plugin names applied to this project,
+  // these are class names of the plugins, not free form names
+  repeated string plugin_names = 16;
 
   enum PluginType {
     UNKNOWN_PLUGIN_TYPE = 0;
@@ -8047,4 +8058,36 @@ message DaggerEditorEvent {
 
   // Set if |type| is |FIND_USAGES_NODE_WAS_DISPLAYED|, |CLICKED_ON_GUTTER|
   optional ElementType owner_element_type = 3;
+}
+
+// Tracks UI impressions and user interactions in the test report UI.
+message ParallelAndroidTestReportUiEvent {
+  // IDs to identify UI element.
+  enum UiElement {
+    UNKNOWN_UI_ELEMENT = 0;
+    TEST_SUITE_VIEW = 1;
+    TEST_SUITE_VIEW_TABLE_ROW = 2;
+    TEST_SUITE_DETAILS_HORIZONTAL_VIEW = 3;
+    TEST_SUITE_DETAILS_VERTICAL_VIEW = 4;
+    TEST_SUITE_LOG_VIEW = 5;
+    TEST_SUITE_DEVICE_INFO_VIEW = 6;
+  }
+
+  // All IDs of UI element that are displayed to users.
+  repeated UiElement impressions = 1;
+
+  // Tracks details information of a user interaction.
+  message UserInteraction {
+    // Represents type of a user interaction.
+    enum UserInteractionType {
+      UNKNOWN_UI_INTERACTION = 0;
+      CLICK = 1;
+    }
+    optional UserInteractionType type = 1;
+    // The UI element ID of which this user interaction occurred.
+    optional UiElement ui_element = 2;
+  }
+
+  // All interactions occurred.
+  repeated UserInteraction interactions = 2;
 }
