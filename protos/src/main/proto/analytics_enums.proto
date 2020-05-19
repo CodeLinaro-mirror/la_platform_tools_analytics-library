@@ -321,6 +321,7 @@ enum GradleTaskExecutionType {
     AAR_METADATA = 236;
     PREFAB_PACKAGE = 237;
     CHECK_AAR_METADATA = 238;
+    GENERATE_MANIFEST_JAR = 239;
 }
 
 enum BooleanOption {
