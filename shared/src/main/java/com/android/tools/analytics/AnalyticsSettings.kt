@@ -46,12 +46,16 @@ import java.util.GregorianCalendar
 import java.util.TimeZone
 import java.util.UUID
 import java.util.concurrent.ScheduledExecutorService
+import java.util.logging.Level
+import java.util.logging.Logger
 
 /**
  * Settings related to analytics reporting. These settings are stored in
  * ~/.android/analytics.settings as a json file.
  */
 object AnalyticsSettings {
+  private val LOG = Logger.getLogger(AnalyticsSettings.javaClass.name)
+
   private const val DAYS_IN_LEAP_YEAR = 366
   private const val DAYS_IN_NON_LEAP_YEAR = 365
   private const val DAYS_TO_WAIT_FOR_REQUESTING_SENTIMENT_AGAIN = 7
@@ -61,29 +65,55 @@ object AnalyticsSettings {
     private set
 
   @JvmStatic
+  var exceptionThrown = false
+
+  @JvmStatic
   val userId: String
     get() {
-      synchronized(gate) {
-        ensureInitialized()
-        return instance?.userId ?: ""
+      return runIfAnalyticsSettingsUsable("") {
+        instance?.userId ?: ""
       }
     }
 
   @JvmStatic
   var optedIn: Boolean
     get() {
-      synchronized(gate) {
-        ensureInitialized()
-        return instance?.optedIn ?: false
+      return runIfAnalyticsSettingsUsable(false) {
+        instance?.optedIn ?: false
       }
     }
+
     set(value) {
-      synchronized(gate) {
+      runIfAnalyticsSettingsUsable(Unit) {
         instance?.apply {
           optedIn = value
         }
       }
     }
+
+  @JvmStatic
+  private fun<T> runIfAnalyticsSettingsUsable(default: T, callback: () -> T): T {
+    var throwable : Throwable? = null
+    synchronized(gate) {
+      if (exceptionThrown) {
+        return default
+      }
+      ensureInitialized()
+      try {
+        return callback()
+      } catch (t: Throwable) {
+        exceptionThrown = true
+        throwable = t
+      }
+    }
+    if (throwable != null) {
+      try {
+        LOG.log(Level.SEVERE, throwable) { "AnalyticsSettings call failed" }
+      } catch (ignored: Throwable) {
+      }
+    }
+    return default
+  }
 
   private fun ensureInitialized() {
     if (!initialized && java.lang.Boolean.getBoolean("idea.is.internal")) {
@@ -97,22 +127,20 @@ object AnalyticsSettings {
   @JvmStatic
   val debugDisablePublishing: Boolean
     get() {
-      synchronized(gate) {
-        ensureInitialized()
-        return instance?.debugDisablePublishing ?: false
+      return runIfAnalyticsSettingsUsable(false) {
+        instance?.debugDisablePublishing ?: false
       }
     }
 
   @JvmStatic
   var lastSentimentQuestionDate: Date?
     get() {
-      synchronized(gate) {
-        ensureInitialized()
-        return instance?.lastSentimentQuestionDate
+      return runIfAnalyticsSettingsUsable(null) {
+        instance?.lastSentimentQuestionDate
       }
     }
     set(value) {
-      synchronized(gate) {
+      runIfAnalyticsSettingsUsable(Unit) {
         instance?.lastSentimentQuestionDate = value
       }
     }
@@ -120,13 +148,12 @@ object AnalyticsSettings {
   @JvmStatic
   var lastSentimentAnswerDate: Date?
     get() {
-      synchronized(gate) {
-        ensureInitialized()
-        return instance?.lastSentimentAnswerDate
+      return runIfAnalyticsSettingsUsable(null) {
+        instance?.lastSentimentAnswerDate
       }
     }
     set(value) {
-      synchronized(gate) {
+      runIfAnalyticsSettingsUsable(Unit) {
         instance?.lastSentimentAnswerDate = value
       }
     }
@@ -297,6 +324,7 @@ object AnalyticsSettings {
     synchronized(gate) {
       instance = settings
       initialized = instance != null
+      exceptionThrown = false
     }
   }
 
@@ -340,8 +368,9 @@ object AnalyticsSettings {
   @JvmStatic
   @Throws(IOException::class)
   fun saveSettings() {
-    ensureInitialized()
-    instance?.saveSettings()
+    runIfAnalyticsSettingsUsable(Unit) {
+      instance?.saveSettings()
+    }
   }
 
   /** Checks if the AnalyticsSettings object is in a valid state.  */
