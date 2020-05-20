@@ -382,6 +382,9 @@ message AndroidStudioEvent {
   optional ParallelAndroidTestReportUiEvent
       parallel_android_test_report_ui_event = 106;
 
+  // set when kind = APPLY_CHANGES_AGENT_ERROR
+  optional ApplyChangesAgentError apply_changes_agent_error = 107;
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -914,6 +917,9 @@ message AndroidStudioEvent {
 
     // The event related to test reporting UI.
     PARALLEL_ANDROID_TEST_REPORT_UI = 207;
+
+    // Event related to Apply Changes agent error logs.
+    APPLY_CHANGES_AGENT_ERROR = 208;
   }
 
   // Represents different Performance Monitoring types.
@@ -5288,6 +5294,7 @@ message AndroidProfilerEvent {
     MEMORY_STAGE = 4;
     NETWORK_STAGE = 5;
     ENERGY_STAGE = 6;
+    CPU_CAPTURE_STAGE = 7;
   }
 
   enum MemoryHeap {
@@ -8090,4 +8097,39 @@ message ParallelAndroidTestReportUiEvent {
 
   // All interactions occurred.
   repeated UserInteraction interactions = 2;
+}
+
+message ApplyChangesAgentError {
+  enum AgentPurpose {
+    UNKNOWN_PURPOSE = 0;
+    STARTUP_AGENT = 1;
+    APPLY_CHANGES = 2;
+    APPLY_CODE_CHANGES = 3;
+  }
+
+  // Framework & runtime classes that the Apply Changes agent may instrument.
+  enum TargetClass {
+    UNKNOWN_TARGET_CLASS = 0;
+    ACTIVITY_THREAD = 1;
+    DEX_PATH_LIST_ELEMENT = 2;
+    DEX_PATH_LIST = 3;
+    RESOURCES_MANAGER = 4;
+    THREAD = 5;
+  }
+
+  // When the last agent was attached, measured on the device's steady clock.
+  optional int64 agent_attach_time_ms = 1;
+
+  // How many times the AC agent has attached to this VM.
+  optional int32 agent_attach_count = 2;
+
+  // When this crash occurred, measured on the device's steady clock.
+  optional int64 event_time_ms = 3;
+
+  // The operation that caused the most recent agent to attach.
+  optional AgentPurpose agent_purpose = 4;
+
+  // If the failure was related to an instrumentation failure, this contains
+  // a list of classes that could not be instrumented.
+  repeated TargetClass target_classes = 5;
 }
