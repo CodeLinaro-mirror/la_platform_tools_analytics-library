@@ -2567,6 +2567,8 @@ message JniInspectionEvent {
     JNI_FUNCTION_STUB_COMPLETION_EVENT = 15;
     // Set when RegisterNatives completion is accepted.
     REGISTER_NATIVES_COMPLETION_EVENT = 16;
+    // Set when KotlinInternalExternalFunctionInspction is used.
+    KOTLIN_INTERNAL_EXTERNAL_FUNCTION_INSPECTION_EVENT = 17;
   }
 
   optional JniInspectionType type = 1;
