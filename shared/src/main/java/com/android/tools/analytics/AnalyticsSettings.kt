@@ -273,9 +273,10 @@ object AnalyticsSettings {
    */
   @JvmStatic
   @JvmOverloads
-  fun initialize(logger: ILogger, scheduler: ScheduledExecutorService? = null) {
+  fun initialize(logger: ILogger, scheduler: ScheduledExecutorService? = null, environment: Environment? = null) {
     synchronized(gate) {
       try {
+        environment?.let { Environment.instance = environment }
         if (instance != null) {
           return
         }

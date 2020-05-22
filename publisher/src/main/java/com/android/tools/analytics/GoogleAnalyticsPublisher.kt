@@ -73,7 +73,7 @@ internal constructor(
               CommonMetricsData
                 .majorOsVersion!!)
             .setOsFullVersion(
-              System.getProperty("os.version"))))
+              Environment.instance.getSystemProperty("os.version"))))
     // Set the log source for the Clearcut service. This will be always the
     // same no matter what Android devtool we're logging from.
     .setLogSource(ClientAnalytics.LogRequest.LogSource.ANDROID_STUDIO)
