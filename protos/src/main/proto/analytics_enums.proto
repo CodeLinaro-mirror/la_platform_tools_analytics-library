@@ -321,6 +321,7 @@ enum GradleTaskExecutionType {
     AAR_METADATA = 236;
     PREFAB_PACKAGE = 237;
     CHECK_AAR_METADATA = 238;
+    GENERATE_MANIFEST_JAR = 239;
 }
 
 enum BooleanOption {
@@ -452,6 +453,7 @@ enum BooleanOption {
     ENABLE_NEW_RESOURCE_SHRINKER = 125;
     NON_TRANSITIVE_APP_R_CLASS = 126;
     ENABLE_INCREMENTAL_DEXING_TRANSFORM = 127;
+    GENERATE_MANIFEST_CLASS = 128;
 }
 
 enum OptionalBooleanOption {
