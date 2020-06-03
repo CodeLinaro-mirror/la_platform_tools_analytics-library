@@ -327,6 +327,7 @@ enum GradleTaskExecutionType {
     NON_INCREMENTAL_GLOBAL = 242;
     LINT_MODEL_DEPENDENCIES_WRITER = 243;
     LINT_MODEL_MODULE_WRITER = 244;
+    GENERATE_API_PUBLIC_TXT = 245;
 }
 
 enum BooleanOption {
