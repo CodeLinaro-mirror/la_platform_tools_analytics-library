@@ -6,6 +6,7 @@ iml_module(
     name = "analytics-shared",
     srcs = ["src/main/java"],
     iml_files = ["analytics-shared.iml"],
+    lint_baseline = "lint_baseline.xml",
     test_srcs = ["src/test/java"],
     visibility = ["//visibility:public"],
     # do not sort: must match IML order

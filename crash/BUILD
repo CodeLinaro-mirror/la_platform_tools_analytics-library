@@ -6,6 +6,7 @@ iml_module(
     name = "analytics-crash",
     srcs = ["src/main/java"],
     iml_files = ["analytics-crash.iml"],
+    lint_baseline = "lint_baseline.xml",
     test_srcs = ["src/test/java"],
     visibility = ["//visibility:public"],
     # do not sort: must match IML order
