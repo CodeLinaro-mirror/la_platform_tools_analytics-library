@@ -5,6 +5,7 @@ iml_module(
     name = "analytics-inspector",
     srcs = ["src/main/java"],
     iml_files = ["analytics-inspector.iml"],
+    lint_baseline = "//tools/base/lint:studio-checks/empty_baseline.xml",
     visibility = ["//visibility:public"],
     # do not sort: must match IML order
     exports = [
