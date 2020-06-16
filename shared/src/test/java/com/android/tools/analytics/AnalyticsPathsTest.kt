@@ -44,7 +44,7 @@ class AnalyticsPathsTest {
     // Test picking the default path ~/.android/ when no environment variable exists.
     EnvironmentFakes.setNoEnvironmentVariable()
     assertEquals(
-      Paths.get(System.getProperty("user.home"), ".android").toString(),
+      Paths.get(Environment.instance.getSystemProperty("user.home")!!, ".android").toString(),
       AnalyticsPaths.getAndEnsureAndroidSettingsHome())
 
     // Test using the ANDROID_SDK_HOME environment variable.
@@ -54,7 +54,7 @@ class AnalyticsPathsTest {
 
     // Test using the ANDROID_SDK_HOME as a system property.
     val property = "ANDROID_SDK_HOME"
-    val prev = System.getProperty(property)
+    val prev = Environment.instance.getSystemProperty(property)
     System.setProperty(property, customRoot)
     assertEquals(customRoot, AnalyticsPaths.getAndEnsureAndroidSettingsHome())
     if (prev != null) {
@@ -82,7 +82,7 @@ class AnalyticsPathsTest {
     // Test picking the default path under ~/.android/ when no environment variable exists.
     EnvironmentFakes.setNoEnvironmentVariable()
     assertEquals(
-      Paths.get(System.getProperty("user.home"), ".android", "metrics", "spool").toString(),
+      Paths.get(Environment.instance.getSystemProperty("user.home")!!, ".android", "metrics", "spool").toString(),
       AnalyticsPaths.spoolDirectory)
 
     // Test using the ANDROID_SDK_HOME environment variable.
