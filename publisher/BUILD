@@ -57,3 +57,36 @@ maven_pom(
     group = "com.android.tools.analytics-library",
     source = "//tools/buildSrc/base:base_version",
 )
+
+# managed by go/iml_to_build [unb]
+iml_module(
+    name = "unb.analytics-publisher",
+    srcs = ["src/main/java"],
+    iml_files = ["analytics-publisher.iml"],
+    lint_baseline = "//tools/base/lint:studio-checks/empty_baseline.xml",
+    tags = [
+        "manual",
+        "unb",
+    ],
+    test_srcs = ["src/test/java"],
+    visibility = ["//visibility:public"],
+    # do not sort: must match IML order
+    exports = [
+        "//tools/adt/idea/.idea/libraries:unb.Guava",
+        "//tools/base/annotations:unb.studio.android.sdktools.android-annotations",
+    ],
+    # do not sort: must match IML order
+    deps = [
+        "//prebuilts/studio/intellij-sdk:studio-sdk",
+        "//tools/adt/idea/.idea/libraries:unb.Guava",
+        "//tools/base/annotations:unb.studio.android.sdktools.android-annotations[module]",
+        "//tools/adt/idea/.idea/libraries:unb.truth[test]",
+        "//tools/analytics-library/shared:unb.analytics-shared[module]",
+        "//tools/base/testutils:unb.studio.android.sdktools.testutils[module, test]",
+        "//tools/base/common:unb.studio.android.sdktools.common[module]",
+        "//tools/analytics-library/tracker:unb.analytics-tracker[module, test]",
+        "//tools/adt/idea/.idea/libraries:unb.protobuf",
+        "//tools/adt/idea/.idea/libraries:unb.studio-analytics-proto",
+        "//tools/adt/idea/.idea/libraries:unb.kotlin-stdlib-jdk8",
+    ],
+)
