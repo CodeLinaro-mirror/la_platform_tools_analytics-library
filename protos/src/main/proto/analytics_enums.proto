@@ -540,3 +540,9 @@ enum VariantApiArtifactType {
     OBFUSCATION_MAPPING_FILE = 6;
     PUBLIC_ANDROID_RESOURCES_LIST = 7;
 }
+
+enum VariantMethodType {
+    UNKNOWN_METHOD = 0;
+    ENABLED = 1;
+    MIN_SDK_VERSION_VALUE = 2;
+}
