@@ -545,4 +545,5 @@ enum VariantMethodType {
     UNKNOWN_METHOD = 0;
     ENABLED = 1;
     MIN_SDK_VERSION_VALUE = 2;
+    RENDERSCRIPT_TARGET_API = 3;
 }
