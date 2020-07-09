@@ -3277,6 +3277,9 @@ message GradleBuildVariant {
   // Whether coreLibraryDesugaring is enabled for the variant
   optional bool core_library_desugaring_enabled = 24;
 
+  // container for variant api accesses if the variant api was used.
+  optional VariantApiUsage variant_api_access = 25;
+
   // The nature of this variant.
   // The test variants have an associated tested variant.
   // See com.android.builder.core.VariantType
@@ -8198,4 +8201,64 @@ message ApplyChangesAgentError {
   // If the failure was related to an instrumentation failure, this contains
   // a list of classes that could not be instrumented.
   repeated TargetClass target_classes = 5;
+}
+
+// Record of a single variant API use. Each variant API used will be recorded
+// and can either be a Variant API method call, a VariantProperties API method
+// call or an access to the Gradle public artifacts.
+message VariantApiUsage {
+  // this represents a method call on the Variant interface and sub types.
+  repeated VariantAccess variant_access = 1;
+
+  // this represents a method call on the VariantProperties interface and sub
+  // types.
+  repeated VariantPropertiesAccess variant_properties_access = 2;
+
+  // this represents an access to any of the public artifact type we make
+  // available through the [Artifacts] interface. Access can be reading (GET) or
+  // producing (CREATE, APPEND, ...).
+  repeated ArtifactAccess artifact_access = 3;
+}
+
+// Record of a single public artifact access through the public variant API.
+message ArtifactAccess {
+  // Identification of the type of artifact access.
+  optional AccessType type = 1;
+
+  // The artifact type used as an input (read).
+  // This is an enum in android git:
+  // tools/analytics-library/protos/src/main/proto/analytics_enums.proto
+  // will only be set when type == TRANSFORM_MANY
+  optional int32 input_artifact_type = 2;
+
+  // The artifact type used as an output.
+  // This is an enum in android git:
+  // tools/analytics-library/protos/src/main/proto/analytics_enums.proto
+  optional int32 output_artifact_type = 3;
+
+  enum AccessType {
+    UNKNOWN_ACCESS_TYPE = 0;
+    GET = 1;
+    GET_ALL = 2;
+    CREATE = 3;
+    APPEND = 4;
+    TRANSFORM = 5;
+    TRANSFORM_MANY = 6;
+  }
+}
+
+// Record of a single Variant API method call.
+message VariantAccess {
+  // The method enum value that was used.
+  // This is the VariantMethodType enum in android git:
+  // tools/analytics-library/protos/src/main/proto/analytics_enums.proto
+  optional int32 type = 1;
+}
+
+// Record of a single VariantProperties API method call.
+message VariantPropertiesAccess {
+  // The method enum value that was used.
+  // This is the VariantPropertiesMethodType enum in android git:
+  // tools/analytics-library/protos/src/main/proto/analytics_enums.proto
+  optional int32 type = 1;
 }

@@ -74,3 +74,30 @@ kotlin_test(
         "//tools/base/third_party:org.mockito_mockito-core",
     ],
 )
+
+# managed by go/iml_to_build [unb]
+iml_module(
+    name = "unb.analytics-crash",
+    srcs = ["src/main/java"],
+    iml_files = ["analytics-crash.iml"],
+    lint_baseline = "lint_baseline.xml",
+    tags = [
+        "manual",
+        "unb",
+    ],
+    test_srcs = ["src/test/java"],
+    visibility = ["//visibility:public"],
+    # do not sort: must match IML order
+    exports = [
+        "//tools/adt/idea/.idea/libraries:unb.Guava",
+        "//tools/base/annotations:unb.studio.android.sdktools.android-annotations",
+    ],
+    # do not sort: must match IML order
+    deps = [
+        "//prebuilts/studio/intellij-sdk:studio-sdk",
+        "//tools/adt/idea/.idea/libraries:unb.Guava",
+        "//tools/base/annotations:unb.studio.android.sdktools.android-annotations[module]",
+        "//tools/adt/idea/.idea/libraries:unb.truth[test]",
+        "//tools/adt/idea/.idea/libraries:unb.mockito[test]",
+    ],
+)
