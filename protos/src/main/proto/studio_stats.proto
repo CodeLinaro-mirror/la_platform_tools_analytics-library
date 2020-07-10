@@ -390,6 +390,14 @@ message AndroidStudioEvent {
   // set when kind = TEMPLATE_RENDERER
   optional TemplatesUsage template_usage = 108;
 
+  // set when kind = UPGRADE_ASSISTANT_COMPONENT_EVENT
+  optional UpgradeAssistantComponentEvent upgrade_assistant_component_event =
+      109;
+
+  // set when kind = UPGRADE_ASSISTANT_PROCESSOR_EVENT
+  optional UpgradeAssistantProcessorEvent upgrade_assistant_processor_event =
+      110;
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -929,6 +937,10 @@ message AndroidStudioEvent {
     GAME_TOOLS_PING = 209;
 
     AGDE_PING = 210;
+
+    // Events related to Upgrade Assistant processing.
+    UPGRADE_ASSISTANT_COMPONENT_EVENT = 211;
+    UPGRADE_ASSISTANT_PROCESSOR_EVENT = 212;
   }
 
   // Represents different Performance Monitoring types.
@@ -8436,4 +8448,81 @@ message VariantPropertiesAccess {
   // This is the VariantPropertiesMethodType enum in android git:
   // tools/analytics-library/protos/src/main/proto/analytics_enums.proto
   optional int32 type = 1;
+}
+
+message UpgradeAssistantComponentInfo {
+  enum UpgradeAssistantComponentKind {
+    UNKNOWN_ASSISTANT_COMPONENT_KIND = 0;
+    AGP_CLASSPATH_DEPENDENCY = 1;
+    GMAVEN_REPOSITORY = 2;
+    GRADLE_VERSION = 3;
+    JAVA8_DEFAULT = 4;
+    COMPILE_RUNTIME_CONFIGURATION = 5;
+  }
+
+  message Java8DefaultProcessorSettings {
+    enum NoLanguageLevelAction {
+      UNKNOWN_NO_LANGUAGE_LEVEL_ACTION = 0;
+      ACCEPT_NEW_DEFAULT = 1;
+      INSERT_OLD_DEFAULT = 2;
+    }
+    optional NoLanguageLevelAction no_language_level_action = 1;
+  }
+
+  // The kind of processor.
+  optional UpgradeAssistantComponentKind kind = 1;
+  // Whether the processor is enabled.
+  optional bool is_enabled = 2;
+  // Settings of the processor.  Will be set if kind is
+  // JAVA8_DEFAULT.
+  optional Java8DefaultProcessorSettings java8_default_settings = 3;
+}
+
+message UpgradeAssistantEventInfo {
+  enum UpgradeAssistantEventKind {
+    UNKNOWN_UPGRADE_ASSISTANT_EVENT_KIND = 0;
+    FIND_USAGES = 1;
+    PREVIEW_REFACTORING = 2;
+    EXECUTE = 3;
+  }
+
+  // The kind of event.
+  optional UpgradeAssistantEventKind kind = 1;
+  // The number of usages.  Will be set if kind is FIND_USAGES,
+  // PREVIEW_REFACTORING or EXECUTE.
+  optional int32 usages = 2;
+}
+
+message UpgradeAssistantComponentEvent {
+  // The uuid for a session of the upgrade assistant.
+  optional string upgrade_uuid = 1;
+  // The software version of AGP used by the project.
+  optional string current_agp_version = 2;
+  // The software version of AGP after upgrade.
+  optional string new_agp_version = 3;
+  // The software version of Gradle used by the project.
+  optional string current_gradle_version = 4;
+  // The software version of Gradle after upgrade.
+  optional string new_gradle_version = 5;
+  // Information about the component involved in the event.
+  optional UpgradeAssistantComponentInfo component_info = 6;
+  // Information about the event.
+  optional UpgradeAssistantEventInfo event_info = 7;
+}
+
+message UpgradeAssistantProcessorEvent {
+  // The uuid for a session of the upgrade assistant.
+  optional string upgrade_uuid = 1;
+  // The software version of AGP used by the project.
+  optional string current_agp_version = 2;
+  // The software version of AGP after upgrade.
+  optional string new_agp_version = 3;
+  // The software version of Gradle used by the project.
+  optional string current_gradle_version = 4;
+  // The software version of Gradle after upgrade.
+  optional string new_gradle_version = 5;
+  // Information about the components involved in the event.
+  repeated UpgradeAssistantComponentInfo component_info = 6;
+  // Information about the event.
+  optional UpgradeAssistantEventInfo event_info = 7;
 }
