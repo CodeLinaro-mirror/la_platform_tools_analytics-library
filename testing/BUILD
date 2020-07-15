@@ -74,10 +74,6 @@ kotlin_test(
 iml_module(
     name = "unb.android.sdktools.analytics-testing",
     iml_files = ["android.sdktools.analytics-testing.iml"],
-    tags = [
-        "manual",
-        "unb",
-    ],
     test_srcs = [
         "src/main/java",
         "src/test/java",
