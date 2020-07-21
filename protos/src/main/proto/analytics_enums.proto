@@ -334,6 +334,7 @@ enum GradleTaskExecutionType {
     TRANSFORM_CLASSES_WITH_ASM = 248;
     MANAGED_DEVICE_SETUP = 249;
     ANALYTICS_RECORDING = 250;
+    APP_METADATA = 251;
 }
 
 enum BooleanOption {
