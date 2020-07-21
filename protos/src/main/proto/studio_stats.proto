@@ -4322,6 +4322,36 @@ message LayoutEditorRenderResult {
   optional int32 error_count = 7;
   // Fidelity warnings
   optional int32 fidelity_warning_count = 8;
+
+  // Result from accessibility testing framework audit
+  optional AtfAuditResult atf_audit_result = 9;
+}
+
+// Record of Accessibility Testing Framework audit results.
+message AtfAuditResult {
+  // Each count for Accessibility Testing Framework result.
+  message AtfResultCount {
+    // Type of lint issue created by the accessibility testing framework.
+    enum CheckResultType {
+      UNKNOWN = 0;
+      ERROR = 1;
+      WARNING = 2;
+      INFO = 3;
+      NOT_RUN = 4;
+      SUPPRESSED = 5;
+    }
+
+    // Accessibility Testing Framework result's source check name, to uniquely
+    // identify the lint issue created by it.
+    optional string check_name = 1;
+    // Its result type
+    optional CheckResultType result_type = 2;
+  }
+
+  // result count.
+  repeated AtfResultCount counts = 1;
+  // Time it took for audit to run in milliseconds, per render.
+  optional int64 audit_duration_millis = 2;
 }
 
 // Reference to a View used in an Android application.
