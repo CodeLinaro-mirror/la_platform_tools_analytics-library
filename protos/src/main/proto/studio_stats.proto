@@ -207,7 +207,7 @@ message AndroidStudioEvent {
   // set when kind = ANDROID_PROFILER_DB_STATS
   optional AndroidProfilerDbStats android_profiler_db_stats = 53;
 
-  // set when kind = TEMPLATE_RENDER
+  // set when kind = TEMPLATE_RENDERER
   // or kind = GRADLE_SYNC_ENDED
   optional KotlinSupport kotlin_support = 54;
 
@@ -386,6 +386,9 @@ message AndroidStudioEvent {
 
   // set when kind = APPLY_CHANGES_AGENT_ERROR
   optional ApplyChangesAgentError apply_changes_agent_error = 107;
+
+  // set when kind = TEMPLATE_RENDERER
+  optional TemplatesUsage template_usage = 108;
 
   enum EventCategory {
     // The event was not grouped into any specific category (default).
@@ -1051,6 +1054,138 @@ message AndroidStudioEvent {
     ML_MODEL_BINDING_IMPORT_WIZARD = 60;
     ML_MODEL_BINDING_FEATURE_OFF_NOTIFICATION = 61;
     ANDROID_NATIVE_MODULE = 62;
+  }
+
+  // Wizard Templates Usage (New Project, New Module and New Component)
+  message TemplatesUsage {
+    // Rendered template component (eg Activity, Fragment, Service, etc)
+    optional TemplateComponent template_component = 1;
+    // Module used to generate code. Can be an existing or a new one.
+    optional TemplateModule template_module = 2;
+    // Project used to generate code. Can be an existing or a new one.
+    optional TemplateProject template_project = 3;
+    // Kotlin support information
+    optional KotlinSupport kotlin_support = 4;
+
+    // The various template components (eg Activities, Fragments, Services, etc)
+    // the template engine could be asked to render, and what UI context that
+    // was used by the user to make the request (eg menu, New Project Wizard,
+    // etc)
+    message TemplateComponent {
+      // The different template component (eg Activity, Fragment, Service, etc)
+      // the template engine could be asked to render
+      optional TemplateType template_type = 1;
+
+      // The UI context used by the user to make the request (eg menu,
+      // New Project Wizard, etc)
+      optional WizardUiContext wizard_ui_context = 2;
+
+      // The different template components (eg Activities, Fragments, Services,
+      // etc) the template engine could be asked to render
+      enum TemplateType {
+        UNKNOWN_TEMPLATE = 0;
+        CUSTOM_TEMPLATE = 1;
+        NO_ACTIVITY = 2;
+        EMPTY_ACTIVITY = 3;
+        BLANK_ACTIVITY = 4;
+        BASIC_ACTIVITY = 5;
+        NAVIGATION_DRAWER_ACTIVITY = 6;
+        LOGIN_ACTIVITY = 7;
+        TABBED_ACTIVITY = 8;
+        SCROLLING_ACTIVITY = 9;
+        FULLSCREEN_ACTIVITY = 10;
+        SETTINGS_ACTIVITY = 11;
+        FRAGMENT_LIST = 12;
+        MASTER_DETAIL_FLOW = 13;
+        COMPOSE_EMPTY_ACTIVITY = 14;
+        FRAGMENT_BLANK = 15;
+        FRAGMENT_FULLSCREEN = 16;
+        FRAGMENT_GOOGLE_ADMOB_ADS = 17;
+        FRAGMENT_GOOGLE_MAPS = 18;
+        FRAGMENT_LOGIN = 19;
+        FRAGMENT_MODAL_BOTTOM_SHEET = 20;
+        FRAGMENT_SCROLL = 21;
+        FRAGMENT_SETTINGS = 22;
+        FRAGMENT_VIEW_MODEL = 23;
+        WATCH_GOOGLE_MAPS_ACTIVITY = 24;
+        WATCH_FACE = 25;
+        BLANK_WEAR_ACTIVITY = 26;
+        GOOGLE_MAPS_ACTIVITY = 27;
+        GOOGLE_ADMOBS_ADS_ACTIVITY = 28;
+        AUTOMOTIVE_MEDIA_SERVICE = 29;
+        AUTOMOTIVE_MESSAGING_SERVICE = 30;
+        ANDROID_TV_ACTIVITY = 31;
+        THINGS_ACTIVITY = 32;
+        ASSETS_FOLDER = 33;
+        JNI_FOLDER = 34;
+        JAVA_FOLDER = 35;
+        RES_FOLDER = 36;
+        AIDL_FILE = 37;
+        CUSTOM_VIEW = 38;
+        BROADCAST_RECEIVER = 39;
+        INTENT_SERVICE = 40;
+        APP_WIDGET = 41;
+        SERVICE = 42;
+        LAYOUT_XML_FILE = 43;
+        VALUES_XML_FILE = 44;
+      }
+
+      // The UI context used by the user to make the Template render request
+      enum WizardUiContext {
+        UNKNOWN_UI_CONTEXT = 0;
+        NEW_PROJECT = 1;
+        NEW_MODULE = 2;
+        MENU_GALLERY = 3;
+        ACTIVITY_GALLERY = 4;
+        FRAGMENT_GALLERY = 5;
+      }
+    }
+
+    // Module used to generate code. Can be an existing or a new one.
+    message TemplateModule {
+      // The different Module Types that can be created. This information
+      // should be reliable to new Modules, but may not be possible to determine
+      // for existing ones.
+      optional ModuleType module_type = 1;
+      // Android Min SDK.
+      optional uint32 min_sdk = 2;
+      // Java bytecode level - Used for Android libraries
+      optional BytecodeLevel bytecode_level = 3;
+
+      // All different Module Types that can be created.
+      enum ModuleType {
+        UNKNOWN = 0;
+        NOT_APPLICABLE = 1;
+        PHONE_TABLET = 2;
+        ANDROID_LIBRARY = 3;
+        DYNAMIC_FEATURE = 4;
+        INSTANT_DYNAMIC_FEATURE = 5;
+        AUTOMOTIVE = 6;
+        WEAR_OS = 7;
+        ANDROID_TV = 8;
+        ANDROID_THINGS = 9;
+        IMPORT_GRADLE = 10;
+        IMPORT_ECLIPSE = 11;
+        IMPORT_JAR_AAR = 12;
+        JAVA_OR_KOTLIN_LIBRARY = 13;
+        BENCHMARK_LIBRARY = 14;
+      }
+
+      // Java byte code level
+      enum BytecodeLevel {
+        LEVEL_6 = 0;
+        LEVEL_7 = 1;
+        LEVEL_8 = 2;
+      }
+    }
+
+    // Project used to generate code. Can be an existing or a new one.
+    message TemplateProject {
+      // True for old AppCompat projects.
+      optional bool uses_legacy_support = 1;
+      // Whether or not the project uses Kotlin build files ("build.gradle.kts")
+      optional bool uses_build_gradle_kts = 2;
+    }
   }
 
   // Reasons Gradle sync failed.
