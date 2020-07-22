@@ -535,8 +535,8 @@ enum VariantApiArtifactType {
     AAR = 1;
     APK = 2;
     BUNDLE = 3;
-    LIBRARY_MANIFEST = 4;
-    APPLICATION_MANIFEST = 5;
+    LIBRARY_MANIFEST = 4;               // Deprecated
+    MERGED_MANIFEST = 5;
     OBFUSCATION_MAPPING_FILE = 6;
     PUBLIC_ANDROID_RESOURCES_LIST = 7;
 }
