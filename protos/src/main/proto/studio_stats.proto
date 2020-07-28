@@ -3,7 +3,7 @@ syntax = "proto2";
 option java_package = "com.google.wireless.android.sdk.stats";
 option java_outer_classname = "AndroidStudioStats";
 
-// IntelliJ gets realy upset with the large proto files we generate
+// IntelliJ gets really upset with the large proto files we generate
 // and disables auto-complete for the classes.
 // This option will generate multiple files and restore auto-completion.
 option java_multiple_files = true;
@@ -28,7 +28,9 @@ message AndroidStudioEvent {
   // or ANDROID_STUDIO_TEST
   // or ANDROID_STUDIO_THROUGH_GRADLE
   // or kind = EMULATOR_PING
-  // or kind = TEST_RUN.
+  // or kind = TEST_RUN
+  // or kind = GAME_TOOLS_PING
+  // or kind = AGDE_PING.
   // The version field is set for most messages.
   optional ProductDetails product_details = 4;
 
@@ -920,6 +922,10 @@ message AndroidStudioEvent {
 
     // Event related to Apply Changes agent error logs.
     APPLY_CHANGES_AGENT_ERROR = 208;
+
+    GAME_TOOLS_PING = 209;
+
+    AGDE_PING = 210;
   }
 
   // Represents different Performance Monitoring types.
@@ -1094,6 +1100,10 @@ message AndroidStudioEvent {
     INTELLIJ = 3;
     // For the Toolkit preview build released at Google IO 2019
     ANDROID_STUDIO_TOOLKIT_2019_IO_PREVIEW = 4;
+
+    GAME_TOOLS = 5;
+
+    AGDE = 6;
   }
 
   // Gradle sync issue type.
@@ -1443,7 +1453,7 @@ message LldbSessionStartDetails {
   optional string debug_session_id = 1;
   // Debugger type for this session
   optional AndroidStudioEvent.DebuggerType debugger_type = 2;
-  // Run configuration that was used to start this sesssion.
+  // Run configuration that was used to start this session.
   optional AndroidStudioEvent.RunConfigurationType run_configuration_type = 3;
   // True if debugger_type was chosen via the Auto debugger type.
   optional bool auto_debugger = 4;
@@ -3087,11 +3097,11 @@ message GradleBuildProject {
 // These are set by studio when invoking the gradle plugin, or manually by the
 // end user.
 //
-// The Android Gradle Plugin will only report options that are explictly set.
+// The Android Gradle Plugin will only report options that are explicitly set.
 // See tools/analytics-library/protos/src/main/proto/analytics_enums.proto for
 // the enums for these option classes.
 message GradleProjectOptionsSettings {
-  // Boolean options that are explictly set.
+  // Boolean options that are explicitly set.
   // Note that boolean options have defaults. This is not captured here,
   // only what is overridden either manually by the developer or by studio.
   // A reference to the proto enum in android git, see BooleanOption in
@@ -3102,7 +3112,7 @@ message GradleProjectOptionsSettings {
   // (see above description of true_boolean_options)
   repeated int32 false_boolean_options = 2;
 
-  // Optional boolean options that are explictly set.
+  // Optional boolean options that are explicitly set.
   // A reference to the proto enum in android git, see OptionalBooleanOption in
   // tools/analytics-library/protos/src/main/proto/analytics_enums.proto
   // Optional boolean options that are explicitly set to true.
@@ -4312,6 +4322,36 @@ message LayoutEditorRenderResult {
   optional int32 error_count = 7;
   // Fidelity warnings
   optional int32 fidelity_warning_count = 8;
+
+  // Result from accessibility testing framework audit
+  optional AtfAuditResult atf_audit_result = 9;
+}
+
+// Record of Accessibility Testing Framework audit results.
+message AtfAuditResult {
+  // Each count for Accessibility Testing Framework result.
+  message AtfResultCount {
+    // Type of lint issue created by the accessibility testing framework.
+    enum CheckResultType {
+      UNKNOWN = 0;
+      ERROR = 1;
+      WARNING = 2;
+      INFO = 3;
+      NOT_RUN = 4;
+      SUPPRESSED = 5;
+    }
+
+    // Accessibility Testing Framework result's source check name, to uniquely
+    // identify the lint issue created by it.
+    optional string check_name = 1;
+    // Its result type
+    optional CheckResultType result_type = 2;
+  }
+
+  // result count.
+  repeated AtfResultCount counts = 1;
+  // Time it took for audit to run in milliseconds, per render.
+  optional int64 audit_duration_millis = 2;
 }
 
 // Reference to a View used in an Android application.
@@ -4918,7 +4958,7 @@ message CpuProfilingConfig {
   optional Type type = 1;
   // The profiling mode, each of which has different pros / cons.
   optional Mode mode = 2;
-  // The maximum size of the trace recroding, in MB.
+  // The maximum size of the trace recording, in MB.
   optional uint32 size_limit = 3;
   // The sampling interval in μs, only used when |mode| is |SAMPLED|
   optional uint32 sample_interval = 4;
@@ -5285,7 +5325,7 @@ message AndroidProfilerEvent {
   optional Type type = 2;
 
   // Used to be set if |type| was |TRACE_CPU|
-  // Deprecated since 3.0.0.8 and superceded by cpu_capture_metadata
+  // Deprecated since 3.0.0.8 and superseded by cpu_capture_metadata
   optional CpuProfilingConfig cpu_config = 3 [deprecated = true];
 
   // Set if |type| is |CAPTURE_TRACE|
