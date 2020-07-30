@@ -31,6 +31,18 @@ dependencies {
     testCompile project(':base:testutils')
 }
 
+compileKotlin {
+    kotlinOptions {
+        freeCompilerArgs = ["-Xno-optimized-callable-references"]
+    }
+}
+
+compileTestKotlin {
+    kotlinOptions {
+        freeCompilerArgs = ["-Xno-optimized-callable-references"]
+    }
+}
+
 group = 'com.android.tools.analytics-library'
 archivesBaseName = 'shared'
 version = rootProject.ext.baseVersion
