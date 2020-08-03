@@ -25,17 +25,31 @@ package com.android.tools.analytics
  */
 abstract class Environment {
 
-  abstract fun getVariable(name: String): String?
+  enum class EnvironmentVariable(val key: String) {
+    ANDROID_SDK_HOME("ANDROID_SDK_HOME"),
+    PROCESSOR_ARCHITEW6432("PROCESSOR_ARCHITEW6432"),
+    HOSTTYPE("HOSTTYPE"),
+  }
 
-  open fun getSystemProperty(name: String): String? {
-    return System.getProperty(name)
+  enum class SystemProperty(val key: String) {
+    OS_VERSION("os.version"),
+    ANDROID_SDK_HOME("ANDROID_SDK_HOME"),
+    USER_HOME("user.home"),
+    OS_ARCH("os.arch"),
+    OS_NAME("os.name"),
+  }
+
+  abstract fun getVariable(name: EnvironmentVariable): String?
+
+  open fun getSystemProperty(name: SystemProperty): String? {
+    return System.getProperty(name.key)
   }
 
   companion object {
     @JvmStatic
     val SYSTEM: Environment = object : Environment() {
-      override fun getVariable(name: String): String? {
-        return System.getenv(name)
+      override fun getVariable(name: EnvironmentVariable): String? {
+        return System.getenv(name.key)
       }
     }
 

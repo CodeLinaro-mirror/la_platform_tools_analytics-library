@@ -38,12 +38,12 @@ object AnalyticsPaths {
   @JvmStatic
   fun getAndEnsureAndroidSettingsHome(): String {
     // currently can't be shared with AndroidLocation see b/37123089
-    var home = Environment.instance.getVariable("ANDROID_SDK_HOME")
+    var home = Environment.instance.getVariable(Environment.EnvironmentVariable.ANDROID_SDK_HOME)
     if (Strings.isNullOrEmpty(home)) {
-      home = Environment.instance.getSystemProperty("ANDROID_SDK_HOME")
+      home = Environment.instance.getSystemProperty(Environment.SystemProperty.ANDROID_SDK_HOME)
     }
     if (Strings.isNullOrEmpty(home)) {
-      home = Paths.get(Environment.instance.getSystemProperty("user.home")!!, ".android").toString()
+      home = Paths.get(Environment.instance.getSystemProperty(Environment.SystemProperty.USER_HOME)!!, ".android").toString()
     }
     File(home).mkdirs()
     return home!!
