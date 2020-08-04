@@ -19,7 +19,6 @@ package com.android.tools.analytics
 import com.android.testutils.VirtualTimeDateProvider
 import com.android.testutils.VirtualTimeScheduler
 import com.android.utils.DateProvider
-import com.android.utils.StdLogger
 import com.google.protobuf.InvalidProtocolBufferException
 import com.google.wireless.android.play.playlog.proto.ClientAnalytics
 import com.google.wireless.android.sdk.stats.AndroidStudioEvent
@@ -50,7 +49,7 @@ class JournalingUsageTrackerTest {
   @Throws(Exception::class)
   fun trackerBasicTest() {
     // Configure the paths to use a temp directory for reading from and writing to.
-    EnvironmentFakes.setCustomAndroidSdkHomeEnvironment(
+    EnvironmentFakes.setCustomAndroidPrefsRootEnvironment(
       testConfigDir.root.toPath().toString())
 
     try {
@@ -101,7 +100,7 @@ class JournalingUsageTrackerTest {
   @Throws(Exception::class)
   fun trackerVersionTest() {
     // Configure the paths to use a temp directory for reading from and writing to.
-    EnvironmentFakes.setCustomAndroidSdkHomeEnvironment(
+    EnvironmentFakes.setCustomAndroidPrefsRootEnvironment(
       testConfigDir.root.toPath().toString())
 
     try {
@@ -156,7 +155,7 @@ class JournalingUsageTrackerTest {
   @Throws(Exception::class)
   fun trackerTimeoutTest() {
     // Configure the paths to use a temp directory for reading from and writing to.
-    EnvironmentFakes.setCustomAndroidSdkHomeEnvironment(
+    EnvironmentFakes.setCustomAndroidPrefsRootEnvironment(
       testConfigDir.root.toPath().toString())
 
     try {
@@ -244,7 +243,7 @@ class JournalingUsageTrackerTest {
   @Throws(Exception::class)
   fun trackerTimeoutNoLogsTest() {
     // Configure the paths to use a temp directory for reading from and writing to.
-    EnvironmentFakes.setCustomAndroidSdkHomeEnvironment(
+    EnvironmentFakes.setCustomAndroidPrefsRootEnvironment(
       testConfigDir.root.toPath().toString())
 
     try {
@@ -288,7 +287,7 @@ class JournalingUsageTrackerTest {
   @Throws(Exception::class)
   fun trackerMaxLogsTest() {
     // Configure the paths to use a temp directory for reading from and writing to.
-    EnvironmentFakes.setCustomAndroidSdkHomeEnvironment(
+    EnvironmentFakes.setCustomAndroidPrefsRootEnvironment(
       testConfigDir.root.toPath().toString())
 
     try {
@@ -379,7 +378,7 @@ class JournalingUsageTrackerTest {
   @Throws(Exception::class)
   fun trackerUpdateTimeoutTest() {
     // Configure the paths to use a temp directory for reading from and writing to.
-    EnvironmentFakes.setCustomAndroidSdkHomeEnvironment(
+    EnvironmentFakes.setCustomAndroidPrefsRootEnvironment(
       testConfigDir.root.toPath().toString())
 
     try {
@@ -511,7 +510,7 @@ class JournalingUsageTrackerTest {
   @Throws(Exception::class)
   fun trackerNoFlushBasicTest() {
     // Configure the paths to use a temp directory for reading from and writing to.
-    EnvironmentFakes.setCustomAndroidSdkHomeEnvironment(
+    EnvironmentFakes.setCustomAndroidPrefsRootEnvironment(
       testConfigDir.root.toPath().toString())
 
     try {
@@ -560,7 +559,7 @@ class JournalingUsageTrackerTest {
   @Throws(Exception::class)
   fun trackerWithFlushBasicTest() {
     // Configure the paths to use a temp directory for reading from and writing to.
-    EnvironmentFakes.setCustomAndroidSdkHomeEnvironment(
+    EnvironmentFakes.setCustomAndroidPrefsRootEnvironment(
       testConfigDir.root.toPath().toString())
 
     try {
