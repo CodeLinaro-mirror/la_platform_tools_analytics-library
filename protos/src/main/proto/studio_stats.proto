@@ -387,7 +387,7 @@ message AndroidStudioEvent {
   // set when kind = APPLY_CHANGES_AGENT_ERROR
   optional ApplyChangesAgentError apply_changes_agent_error = 107;
 
-  // set when kind = TEMPLATE_RENDERER
+  // set when kind = WIZARD_TEMPLATES_USAGE
   optional TemplatesUsage template_usage = 108;
 
   // set when kind = UPGRADE_ASSISTANT_COMPONENT_EVENT
@@ -941,6 +941,9 @@ message AndroidStudioEvent {
     // Events related to Upgrade Assistant processing.
     UPGRADE_ASSISTANT_COMPONENT_EVENT = 211;
     UPGRADE_ASSISTANT_PROCESSOR_EVENT = 212;
+
+    // A new file/project is created by the wizards based on a template.
+    WIZARD_TEMPLATES_USAGE = 213;
   }
 
   // Represents different Performance Monitoring types.
@@ -1099,47 +1102,63 @@ message AndroidStudioEvent {
         CUSTOM_TEMPLATE = 1;
         NO_ACTIVITY = 2;
         EMPTY_ACTIVITY = 3;
-        BLANK_ACTIVITY = 4;
-        BASIC_ACTIVITY = 5;
-        NAVIGATION_DRAWER_ACTIVITY = 6;
-        LOGIN_ACTIVITY = 7;
-        TABBED_ACTIVITY = 8;
-        SCROLLING_ACTIVITY = 9;
-        FULLSCREEN_ACTIVITY = 10;
-        SETTINGS_ACTIVITY = 11;
-        FRAGMENT_LIST = 12;
-        MASTER_DETAIL_FLOW = 13;
-        COMPOSE_EMPTY_ACTIVITY = 14;
-        FRAGMENT_BLANK = 15;
-        FRAGMENT_FULLSCREEN = 16;
-        FRAGMENT_GOOGLE_ADMOB_ADS = 17;
-        FRAGMENT_GOOGLE_MAPS = 18;
-        FRAGMENT_LOGIN = 19;
-        FRAGMENT_MODAL_BOTTOM_SHEET = 20;
-        FRAGMENT_SCROLL = 21;
-        FRAGMENT_SETTINGS = 22;
-        FRAGMENT_VIEW_MODEL = 23;
-        WATCH_GOOGLE_MAPS_ACTIVITY = 24;
-        WATCH_FACE = 25;
-        BLANK_WEAR_ACTIVITY = 26;
-        GOOGLE_MAPS_ACTIVITY = 27;
-        GOOGLE_ADMOBS_ADS_ACTIVITY = 28;
-        AUTOMOTIVE_MEDIA_SERVICE = 29;
-        AUTOMOTIVE_MESSAGING_SERVICE = 30;
-        ANDROID_TV_ACTIVITY = 31;
-        THINGS_ACTIVITY = 32;
-        ASSETS_FOLDER = 33;
-        JNI_FOLDER = 34;
-        JAVA_FOLDER = 35;
-        RES_FOLDER = 36;
-        AIDL_FILE = 37;
-        CUSTOM_VIEW = 38;
-        BROADCAST_RECEIVER = 39;
-        INTENT_SERVICE = 40;
-        APP_WIDGET = 41;
-        SERVICE = 42;
-        LAYOUT_XML_FILE = 43;
-        VALUES_XML_FILE = 44;
+        BASIC_ACTIVITY = 4;
+        NAVIGATION_DRAWER_ACTIVITY = 5;
+        LOGIN_ACTIVITY = 6;
+        TABBED_ACTIVITY = 7;
+        SCROLLING_ACTIVITY = 8;
+        FULLSCREEN_ACTIVITY = 9;
+        SETTINGS_ACTIVITY = 10;
+        PRIMARY_DETAIL_FLOW_ACTIVITY = 11;
+        COMPOSE_EMPTY_ACTIVITY = 12;
+        WEAR_GOOGLE_MAPS_ACTIVITY = 13;
+        WEAR_FACE_ACTIVITY = 14;
+        BLANK_WEAR_ACTIVITY = 15;
+        GOOGLE_MAPS_ACTIVITY = 16;
+        GOOGLE_ADMOBS_ADS_ACTIVITY = 17;
+        ANDROID_TV_EMPTY_ACTIVITY = 18;
+        THINGS_EMPTY_ACTIVITY = 19;
+        VIEW_MODEL_ACTIVITY = 20;
+        BOTTOM_NAVIGATION_ACTIVITY = 21;
+        CPP_EMPTY_ACTIVITY = 22;
+
+        FRAGMENT_LIST = 23;
+        FRAGMENT_BLANK = 24;
+        FRAGMENT_FULLSCREEN = 25;
+        FRAGMENT_GOOGLE_ADMOB_ADS = 26;
+        FRAGMENT_GOOGLE_MAPS = 27;
+        FRAGMENT_LOGIN = 28;
+        FRAGMENT_MODAL_BOTTOM_SHEET = 29;
+        FRAGMENT_SCROLL = 30;
+        FRAGMENT_SETTINGS = 31;
+        FRAGMENT_VIEW_MODEL = 32;
+        AUTOMOTIVE_MEDIA_SERVICE = 33;
+        AUTOMOTIVE_MESSAGING_SERVICE = 34;
+
+        ASSETS_FOLDER = 35;
+        JNI_FOLDER = 36;
+        JAVA_FOLDER = 37;
+        RES_FOLDER = 38;
+        AIDL_FOLDER = 39;
+        FONT_FOLDER = 40;
+        RAW_RESOURCES_FOLDER = 41;
+        JAVA_RESOURCES_FOLDER = 42;
+        XML_RESOURCES_FOLDER = 43;
+        RENDER_SCRIPT_FOLDER = 44;
+
+        AIDL_FILE = 45;
+        ANDROID_MANIFEST_FILE = 46;
+        APP_ACTIONS_XML_FILE = 47;
+        LAYOUT_XML_FILE = 48;
+        VALUES_XML_FILE = 49;
+
+        CUSTOM_VIEW = 50;
+        BROADCAST_RECEIVER = 51;
+        INTENT_SERVICE = 52;
+        APP_WIDGET = 53;
+        SERVICE = 54;
+        SLICE_PROVIDER = 55;
+        CONTENT_PROVIDER = 56;
       }
 
       // The UI context used by the user to make the Template render request
@@ -1150,6 +1169,7 @@ message AndroidStudioEvent {
         MENU_GALLERY = 3;
         ACTIVITY_GALLERY = 4;
         FRAGMENT_GALLERY = 5;
+        GENERATE_RECYCLER = 6;
       }
     }
 
@@ -1571,6 +1591,9 @@ message DeviceInfo {
   // android api level  e.g. '23' or 'N'
   optional string build_api_level_full = 10;
 
+  // Describes the type of mDNS connection (if any)
+  optional MdnsConnectionType mdns_connection_type = 11;
+
   // Describes tthe ABI of the device/emulator.
   enum ApplicationBinaryInterface {
     UNKNOWN_ABI = 0;
@@ -1592,6 +1615,22 @@ message DeviceInfo {
     LOCAL_EMULATOR = 2;
     CLOUD_EMULATOR = 3;
     CLOUD_PHYSICAL = 4;
+  }
+
+  // Describes the type of mDNS connection (if any)
+  enum MdnsConnectionType {
+    // Default value when the field has not been set.
+    UNKNOWN_MDNS_CONNECTION_TYPE = 0;
+    // The device connected *without* using mDNS. This is most likely USB,
+    // emulator or legacy TCP.
+    MDNS_NONE = 1;
+    // The device connected through mDNS, unencrypted. This should be very rare,
+    // as this is typically a connection from Android TV and WearOS when adb is
+    // started with ADB_MDNS_AUTO_CONNECT=1.
+    MDNS_AUTO_CONNECT_UNENCRYPTED = 2;
+    // The device connected through mDNS, using TLS. This most likely implies a
+    // Wi-Fi connection from a physical device (i.e. phone).
+    MDNS_AUTO_CONNECT_TLS = 3;
   }
 }
 
@@ -3437,6 +3476,9 @@ message GradleBuildVariant {
   // container for variant api accesses if the variant api was used.
   optional VariantApiUsage variant_api_access = 25;
 
+  // Kotlin-specific options in build files
+  optional KotlinOptions kotlin_options = 26;
+
   // The nature of this variant.
   // The test variants have an associated tested variant.
   // See com.android.builder.core.VariantType
@@ -3530,6 +3572,11 @@ message GradleBuildVariant {
 
     // Whether or not the compiler flags contain -glldb
     optional bool has_glldb_flag = 2;
+  }
+
+  message KotlinOptions {
+    // if IR backend is enabled
+    optional bool use_ir = 1;
   }
 }
 
@@ -4469,13 +4516,20 @@ message LayoutEditorRenderResult {
   optional int32 error_count = 7;
   // Fidelity warnings
   optional int32 fidelity_warning_count = 8;
-
-  // Result from accessibility testing framework audit
-  optional AtfAuditResult atf_audit_result = 9;
 }
 
 // Record of Accessibility Testing Framework audit results.
 message AtfAuditResult {
+  enum Trigger {
+    UNKNOWN_TRIGGER = 0;
+    // Through the entry button
+    USER = 1;
+    // Through opening the issue panel
+    ISSUE_PANEL = 2;
+    // Through experimental flag
+    EXPERIMENTAL_FLAG = 3;
+  }
+
   // Each count for Accessibility Testing Framework result.
   message AtfResultCount {
     // Type of lint issue created by the accessibility testing framework.
@@ -4493,12 +4547,24 @@ message AtfAuditResult {
     optional string check_name = 1;
     // Its result type
     optional CheckResultType result_type = 2;
+    // Error expanded for more information by user
+    optional bool error_expanded = 3;
   }
 
+  // What triggered Accessibility testing framework
+  optional Trigger trigger = 1;
   // result count.
-  repeated AtfResultCount counts = 1;
+  repeated AtfResultCount counts = 2;
+  // Render result. True if render was successful. False otherwise.
+  optional bool render_result = 3;
+  // Number of components rendered
+  optional int32 component_count = 4;
   // Time it took for audit to run in milliseconds, per render.
-  optional int64 audit_duration_millis = 2;
+  optional int64 audit_duration_ms = 5;
+  // Full render time in ms
+  optional int64 total_render_time_ms = 6;
+  // Errors displayed in the error panel, including non atf errors.
+  optional int32 error_count = 7;
 }
 
 // Reference to a View used in an Android application.
@@ -4716,6 +4782,8 @@ message LayoutEditorEvent {
 
     ENABLE_LAYOUTLIB_NATIVE = 45;
     DISABLE_LAYOUTLIB_NATIVE = 46;
+
+    ATF_AUDIT_RESULT = 47;
   }
 
   // Type of event
@@ -4730,6 +4798,8 @@ message LayoutEditorEvent {
   optional LayoutAttributeChangeEvent attribute_change_event = 5;
   // Details related to favorite attribute changes (type = FAVORITE_CHANGE)
   optional LayoutFavoriteAttributeChangeEvent favorite_change_event = 6;
+  // Result of the atf audit (type = ATF_AUDIT_RESULT)
+  optional AtfAuditResult atf_audit_result = 7;
 }
 
 // Details for navigation editor events
