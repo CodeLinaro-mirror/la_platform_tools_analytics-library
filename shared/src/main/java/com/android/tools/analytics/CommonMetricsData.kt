@@ -54,9 +54,9 @@ object CommonMetricsData {
       val jvmArchitecture = jvmArchitecture
       if (jvmArchitecture == ProductDetails.CpuArchitecture.X86) {
 
-        val os = Environment.instance.getSystemProperty("os.name")!!.toLowerCase()
+        val os = Environment.instance.getSystemProperty(Environment.SystemProperty.OS_NAME)!!.toLowerCase()
         if (os.startsWith("win")) {
-          val w6432 = Environment.instance.getVariable("PROCESSOR_ARCHITEW6432")
+          val w6432 = Environment.instance.getVariable(Environment.EnvironmentVariable.PROCESSOR_ARCHITEW6432)
           // This is the misleading case: the JVM is 32-bit but the OS
           // might be either 32 or 64. We can't tell just from this
           // property.
@@ -71,7 +71,7 @@ object CommonMetricsData {
           }
         }
         else if (os.startsWith("linux")) {
-          val s = Environment.instance.getVariable("HOSTTYPE")
+          val s = Environment.instance.getVariable(Environment.EnvironmentVariable.HOSTTYPE)
           return cpuArchitectureFromString(s)
         }
       }
@@ -84,7 +84,7 @@ object CommonMetricsData {
   @JvmStatic
   val jvmArchitecture: ProductDetails.CpuArchitecture
     get() {
-      val arch = Environment.instance.getSystemProperty("os.arch")
+      val arch = Environment.instance.getSystemProperty(Environment.SystemProperty.OS_ARCH)
       return cpuArchitectureFromString(arch)
     }
 
@@ -94,7 +94,7 @@ object CommonMetricsData {
   @JvmStatic
   val osName: String
     get() {
-      var os: String? = Environment.instance.getSystemProperty("os.name")
+      var os: String? = Environment.instance.getSystemProperty(Environment.SystemProperty.OS_NAME)
 
       if (os == null || os.isEmpty()) {
         return "unknown"
@@ -128,7 +128,7 @@ object CommonMetricsData {
       }
 
       val p = Pattern.compile("(\\d+)\\.(\\d+).*")
-      val osVers = Environment.instance.getSystemProperty("os.version")
+      val osVers = Environment.instance.getSystemProperty(Environment.SystemProperty.OS_VERSION)
       if (osVers != null && osVers.isNotEmpty()) {
         val m = p.matcher(osVers)
         if (m.matches()) {

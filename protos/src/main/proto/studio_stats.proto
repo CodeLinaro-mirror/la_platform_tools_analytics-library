@@ -207,7 +207,7 @@ message AndroidStudioEvent {
   // set when kind = ANDROID_PROFILER_DB_STATS
   optional AndroidProfilerDbStats android_profiler_db_stats = 53;
 
-  // set when kind = TEMPLATE_RENDER
+  // set when kind = TEMPLATE_RENDERER
   // or kind = GRADLE_SYNC_ENDED
   optional KotlinSupport kotlin_support = 54;
 
@@ -386,6 +386,17 @@ message AndroidStudioEvent {
 
   // set when kind = APPLY_CHANGES_AGENT_ERROR
   optional ApplyChangesAgentError apply_changes_agent_error = 107;
+
+  // set when kind = WIZARD_TEMPLATES_USAGE
+  optional TemplatesUsage template_usage = 108;
+
+  // set when kind = UPGRADE_ASSISTANT_COMPONENT_EVENT
+  optional UpgradeAssistantComponentEvent upgrade_assistant_component_event =
+      109;
+
+  // set when kind = UPGRADE_ASSISTANT_PROCESSOR_EVENT
+  optional UpgradeAssistantProcessorEvent upgrade_assistant_processor_event =
+      110;
 
   enum EventCategory {
     // The event was not grouped into any specific category (default).
@@ -926,6 +937,13 @@ message AndroidStudioEvent {
     GAME_TOOLS_PING = 209;
 
     AGDE_PING = 210;
+
+    // Events related to Upgrade Assistant processing.
+    UPGRADE_ASSISTANT_COMPONENT_EVENT = 211;
+    UPGRADE_ASSISTANT_PROCESSOR_EVENT = 212;
+
+    // A new file/project is created by the wizards based on a template.
+    WIZARD_TEMPLATES_USAGE = 213;
   }
 
   // Represents different Performance Monitoring types.
@@ -1051,6 +1069,155 @@ message AndroidStudioEvent {
     ML_MODEL_BINDING_IMPORT_WIZARD = 60;
     ML_MODEL_BINDING_FEATURE_OFF_NOTIFICATION = 61;
     ANDROID_NATIVE_MODULE = 62;
+  }
+
+  // Wizard Templates Usage (New Project, New Module and New Component)
+  message TemplatesUsage {
+    // Rendered template component (eg Activity, Fragment, Service, etc)
+    optional TemplateComponent template_component = 1;
+    // Module used to generate code. Can be an existing or a new one.
+    optional TemplateModule template_module = 2;
+    // Project used to generate code. Can be an existing or a new one.
+    optional TemplateProject template_project = 3;
+    // Kotlin support information
+    optional KotlinSupport kotlin_support = 4;
+
+    // The various template components (eg Activities, Fragments, Services, etc)
+    // the template engine could be asked to render, and what UI context that
+    // was used by the user to make the request (eg menu, New Project Wizard,
+    // etc)
+    message TemplateComponent {
+      // The different template component (eg Activity, Fragment, Service, etc)
+      // the template engine could be asked to render
+      optional TemplateType template_type = 1;
+
+      // The UI context used by the user to make the request (eg menu,
+      // New Project Wizard, etc)
+      optional WizardUiContext wizard_ui_context = 2;
+
+      // The different template components (eg Activities, Fragments, Services,
+      // etc) the template engine could be asked to render
+      enum TemplateType {
+        UNKNOWN_TEMPLATE = 0;
+        CUSTOM_TEMPLATE = 1;
+        NO_ACTIVITY = 2;
+        EMPTY_ACTIVITY = 3;
+        BASIC_ACTIVITY = 4;
+        NAVIGATION_DRAWER_ACTIVITY = 5;
+        LOGIN_ACTIVITY = 6;
+        TABBED_ACTIVITY = 7;
+        SCROLLING_ACTIVITY = 8;
+        FULLSCREEN_ACTIVITY = 9;
+        SETTINGS_ACTIVITY = 10;
+        PRIMARY_DETAIL_FLOW_ACTIVITY = 11;
+        COMPOSE_EMPTY_ACTIVITY = 12;
+        WEAR_GOOGLE_MAPS_ACTIVITY = 13;
+        WEAR_FACE_ACTIVITY = 14;
+        BLANK_WEAR_ACTIVITY = 15;
+        GOOGLE_MAPS_ACTIVITY = 16;
+        GOOGLE_ADMOBS_ADS_ACTIVITY = 17;
+        ANDROID_TV_EMPTY_ACTIVITY = 18;
+        THINGS_EMPTY_ACTIVITY = 19;
+        VIEW_MODEL_ACTIVITY = 20;
+        BOTTOM_NAVIGATION_ACTIVITY = 21;
+        CPP_EMPTY_ACTIVITY = 22;
+
+        FRAGMENT_LIST = 23;
+        FRAGMENT_BLANK = 24;
+        FRAGMENT_FULLSCREEN = 25;
+        FRAGMENT_GOOGLE_ADMOB_ADS = 26;
+        FRAGMENT_GOOGLE_MAPS = 27;
+        FRAGMENT_LOGIN = 28;
+        FRAGMENT_MODAL_BOTTOM_SHEET = 29;
+        FRAGMENT_SCROLL = 30;
+        FRAGMENT_SETTINGS = 31;
+        FRAGMENT_VIEW_MODEL = 32;
+        AUTOMOTIVE_MEDIA_SERVICE = 33;
+        AUTOMOTIVE_MESSAGING_SERVICE = 34;
+
+        ASSETS_FOLDER = 35;
+        JNI_FOLDER = 36;
+        JAVA_FOLDER = 37;
+        RES_FOLDER = 38;
+        AIDL_FOLDER = 39;
+        FONT_FOLDER = 40;
+        RAW_RESOURCES_FOLDER = 41;
+        JAVA_RESOURCES_FOLDER = 42;
+        XML_RESOURCES_FOLDER = 43;
+        RENDER_SCRIPT_FOLDER = 44;
+
+        AIDL_FILE = 45;
+        ANDROID_MANIFEST_FILE = 46;
+        APP_ACTIONS_XML_FILE = 47;
+        LAYOUT_XML_FILE = 48;
+        VALUES_XML_FILE = 49;
+
+        CUSTOM_VIEW = 50;
+        BROADCAST_RECEIVER = 51;
+        INTENT_SERVICE = 52;
+        APP_WIDGET = 53;
+        SERVICE = 54;
+        SLICE_PROVIDER = 55;
+        CONTENT_PROVIDER = 56;
+      }
+
+      // The UI context used by the user to make the Template render request
+      enum WizardUiContext {
+        UNKNOWN_UI_CONTEXT = 0;
+        NEW_PROJECT = 1;
+        NEW_MODULE = 2;
+        MENU_GALLERY = 3;
+        ACTIVITY_GALLERY = 4;
+        FRAGMENT_GALLERY = 5;
+        GENERATE_RECYCLER = 6;
+      }
+    }
+
+    // Module used to generate code. Can be an existing or a new one.
+    message TemplateModule {
+      // The different Module Types that can be created. This information
+      // should be reliable to new Modules, but may not be possible to determine
+      // for existing ones.
+      optional ModuleType module_type = 1;
+      // Android Min SDK.
+      optional uint32 min_sdk = 2;
+      // Java bytecode level - Used for Android libraries
+      optional BytecodeLevel bytecode_level = 3;
+
+      // All different Module Types that can be created.
+      enum ModuleType {
+        UNKNOWN = 0;
+        NOT_APPLICABLE = 1;
+        PHONE_TABLET = 2;
+        ANDROID_LIBRARY = 3;
+        DYNAMIC_FEATURE = 4;
+        INSTANT_DYNAMIC_FEATURE = 5;
+        AUTOMOTIVE = 6;
+        WEAR_OS = 7;
+        ANDROID_TV = 8;
+        ANDROID_THINGS = 9;
+        IMPORT_GRADLE = 10;
+        IMPORT_ECLIPSE = 11;
+        IMPORT_JAR_AAR = 12;
+        JAVA_OR_KOTLIN_LIBRARY = 13;
+        BENCHMARK_LIBRARY = 14;
+      }
+
+      // Java byte code level
+      enum BytecodeLevel {
+        LEVEL_6 = 0;
+        LEVEL_7 = 1;
+        LEVEL_8 = 2;
+      }
+    }
+
+    // Project used to generate code. Can be an existing or a new one.
+    message TemplateProject {
+      // True for old AppCompat projects.
+      optional bool uses_legacy_support = 1;
+      // Whether or not the project uses Kotlin build files ("build.gradle.kts")
+      optional bool uses_build_gradle_kts = 2;
+    }
   }
 
   // Reasons Gradle sync failed.
@@ -1424,6 +1591,9 @@ message DeviceInfo {
   // android api level  e.g. '23' or 'N'
   optional string build_api_level_full = 10;
 
+  // Describes the type of mDNS connection (if any)
+  optional MdnsConnectionType mdns_connection_type = 11;
+
   // Describes tthe ABI of the device/emulator.
   enum ApplicationBinaryInterface {
     UNKNOWN_ABI = 0;
@@ -1445,6 +1615,22 @@ message DeviceInfo {
     LOCAL_EMULATOR = 2;
     CLOUD_EMULATOR = 3;
     CLOUD_PHYSICAL = 4;
+  }
+
+  // Describes the type of mDNS connection (if any)
+  enum MdnsConnectionType {
+    // Default value when the field has not been set.
+    UNKNOWN_MDNS_CONNECTION_TYPE = 0;
+    // The device connected *without* using mDNS. This is most likely USB,
+    // emulator or legacy TCP.
+    MDNS_NONE = 1;
+    // The device connected through mDNS, unencrypted. This should be very rare,
+    // as this is typically a connection from Android TV and WearOS when adb is
+    // started with ADB_MDNS_AUTO_CONNECT=1.
+    MDNS_AUTO_CONNECT_UNENCRYPTED = 2;
+    // The device connected through mDNS, using TLS. This most likely implies a
+    // Wi-Fi connection from a physical device (i.e. phone).
+    MDNS_AUTO_CONNECT_TLS = 3;
   }
 }
 
@@ -3290,6 +3476,9 @@ message GradleBuildVariant {
   // container for variant api accesses if the variant api was used.
   optional VariantApiUsage variant_api_access = 25;
 
+  // Kotlin-specific options in build files
+  optional KotlinOptions kotlin_options = 26;
+
   // The nature of this variant.
   // The test variants have an associated tested variant.
   // See com.android.builder.core.VariantType
@@ -3383,6 +3572,11 @@ message GradleBuildVariant {
 
     // Whether or not the compiler flags contain -glldb
     optional bool has_glldb_flag = 2;
+  }
+
+  message KotlinOptions {
+    // if IR backend is enabled
+    optional bool use_ir = 1;
   }
 }
 
@@ -4322,13 +4516,20 @@ message LayoutEditorRenderResult {
   optional int32 error_count = 7;
   // Fidelity warnings
   optional int32 fidelity_warning_count = 8;
-
-  // Result from accessibility testing framework audit
-  optional AtfAuditResult atf_audit_result = 9;
 }
 
 // Record of Accessibility Testing Framework audit results.
 message AtfAuditResult {
+  enum Trigger {
+    UNKNOWN_TRIGGER = 0;
+    // Through the entry button
+    USER = 1;
+    // Through opening the issue panel
+    ISSUE_PANEL = 2;
+    // Through experimental flag
+    EXPERIMENTAL_FLAG = 3;
+  }
+
   // Each count for Accessibility Testing Framework result.
   message AtfResultCount {
     // Type of lint issue created by the accessibility testing framework.
@@ -4346,12 +4547,24 @@ message AtfAuditResult {
     optional string check_name = 1;
     // Its result type
     optional CheckResultType result_type = 2;
+    // Error expanded for more information by user
+    optional bool error_expanded = 3;
   }
 
+  // What triggered Accessibility testing framework
+  optional Trigger trigger = 1;
   // result count.
-  repeated AtfResultCount counts = 1;
+  repeated AtfResultCount counts = 2;
+  // Render result. True if render was successful. False otherwise.
+  optional bool render_result = 3;
+  // Number of components rendered
+  optional int32 component_count = 4;
   // Time it took for audit to run in milliseconds, per render.
-  optional int64 audit_duration_millis = 2;
+  optional int64 audit_duration_ms = 5;
+  // Full render time in ms
+  optional int64 total_render_time_ms = 6;
+  // Errors displayed in the error panel, including non atf errors.
+  optional int32 error_count = 7;
 }
 
 // Reference to a View used in an Android application.
@@ -4569,6 +4782,8 @@ message LayoutEditorEvent {
 
     ENABLE_LAYOUTLIB_NATIVE = 45;
     DISABLE_LAYOUTLIB_NATIVE = 46;
+
+    ATF_AUDIT_RESULT = 47;
   }
 
   // Type of event
@@ -4583,6 +4798,8 @@ message LayoutEditorEvent {
   optional LayoutAttributeChangeEvent attribute_change_event = 5;
   // Details related to favorite attribute changes (type = FAVORITE_CHANGE)
   optional LayoutFavoriteAttributeChangeEvent favorite_change_event = 6;
+  // Result of the atf audit (type = ATF_AUDIT_RESULT)
+  optional AtfAuditResult atf_audit_result = 7;
 }
 
 // Details for navigation editor events
@@ -8301,4 +8518,81 @@ message VariantPropertiesAccess {
   // This is the VariantPropertiesMethodType enum in android git:
   // tools/analytics-library/protos/src/main/proto/analytics_enums.proto
   optional int32 type = 1;
+}
+
+message UpgradeAssistantComponentInfo {
+  enum UpgradeAssistantComponentKind {
+    UNKNOWN_ASSISTANT_COMPONENT_KIND = 0;
+    AGP_CLASSPATH_DEPENDENCY = 1;
+    GMAVEN_REPOSITORY = 2;
+    GRADLE_VERSION = 3;
+    JAVA8_DEFAULT = 4;
+    COMPILE_RUNTIME_CONFIGURATION = 5;
+  }
+
+  message Java8DefaultProcessorSettings {
+    enum NoLanguageLevelAction {
+      UNKNOWN_NO_LANGUAGE_LEVEL_ACTION = 0;
+      ACCEPT_NEW_DEFAULT = 1;
+      INSERT_OLD_DEFAULT = 2;
+    }
+    optional NoLanguageLevelAction no_language_level_action = 1;
+  }
+
+  // The kind of processor.
+  optional UpgradeAssistantComponentKind kind = 1;
+  // Whether the processor is enabled.
+  optional bool is_enabled = 2;
+  // Settings of the processor.  Will be set if kind is
+  // JAVA8_DEFAULT.
+  optional Java8DefaultProcessorSettings java8_default_settings = 3;
+}
+
+message UpgradeAssistantEventInfo {
+  enum UpgradeAssistantEventKind {
+    UNKNOWN_UPGRADE_ASSISTANT_EVENT_KIND = 0;
+    FIND_USAGES = 1;
+    PREVIEW_REFACTORING = 2;
+    EXECUTE = 3;
+  }
+
+  // The kind of event.
+  optional UpgradeAssistantEventKind kind = 1;
+  // The number of usages.  Will be set if kind is FIND_USAGES,
+  // PREVIEW_REFACTORING or EXECUTE.
+  optional int32 usages = 2;
+}
+
+message UpgradeAssistantComponentEvent {
+  // The uuid for a session of the upgrade assistant.
+  optional string upgrade_uuid = 1;
+  // The software version of AGP used by the project.
+  optional string current_agp_version = 2;
+  // The software version of AGP after upgrade.
+  optional string new_agp_version = 3;
+  // The software version of Gradle used by the project.
+  optional string current_gradle_version = 4;
+  // The software version of Gradle after upgrade.
+  optional string new_gradle_version = 5;
+  // Information about the component involved in the event.
+  optional UpgradeAssistantComponentInfo component_info = 6;
+  // Information about the event.
+  optional UpgradeAssistantEventInfo event_info = 7;
+}
+
+message UpgradeAssistantProcessorEvent {
+  // The uuid for a session of the upgrade assistant.
+  optional string upgrade_uuid = 1;
+  // The software version of AGP used by the project.
+  optional string current_agp_version = 2;
+  // The software version of AGP after upgrade.
+  optional string new_agp_version = 3;
+  // The software version of Gradle used by the project.
+  optional string current_gradle_version = 4;
+  // The software version of Gradle after upgrade.
+  optional string new_gradle_version = 5;
+  // Information about the components involved in the event.
+  repeated UpgradeAssistantComponentInfo component_info = 6;
+  // Information about the event.
+  optional UpgradeAssistantEventInfo event_info = 7;
 }

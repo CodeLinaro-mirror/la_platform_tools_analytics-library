@@ -33,16 +33,16 @@ object EnvironmentFakes {
 
   fun setMap(map: Map<String, String>) {
     Environment.instance = object : Environment() {
-      override fun getVariable(name: String): String? {
-        return map[name]
+      override fun getVariable(name: EnvironmentVariable): String? {
+        return map[name.key]
       }
     }
   }
 
   fun setSingleProperty(key: String, value: String) {
     Environment.instance = object : Environment() {
-      override fun getVariable(name: String): String? {
-        return if (key == name) {
+      override fun getVariable(name: EnvironmentVariable): String? {
+        return if (key == name.key) {
           value
         }
         else null
@@ -53,7 +53,7 @@ object EnvironmentFakes {
   /** Helper to fake the ANDROID_SDK_HOME environment variable to be unset.  */
   fun setNoEnvironmentVariable() {
     Environment.instance = object : Environment() {
-      override fun getVariable(name: String): String? {
+      override fun getVariable(name: EnvironmentVariable): String? {
         return null
       }
     }

@@ -1,4 +1,5 @@
 apply plugin: 'java'
+apply plugin: 'idea'
 apply plugin: 'com.google.protobuf'
 apply plugin: 'sdk-java-lib'
 
@@ -6,6 +7,10 @@ protobuf {
     protoc {
         artifact = libs.proto_compiler
     }
+}
+
+idea.module {
+    generatedSourceDirs += new File(protobuf.generatedFilesBaseDir)
 }
 
 dependencies {
@@ -21,12 +26,3 @@ project.ext.pomDesc = 'Library containing protobufs for usage analytics.'
 
 apply from: "$rootDir/buildSrc/base/publish.gradle"
 apply from: "$rootDir/buildSrc/base/javadoc.gradle"
-
-// There are now two versions of the generated java files for the analytics proto,
-//
-// -- Studio (adt/idea):          Proto 2.5: Generated as part of the export step
-//                                           and checked in to src/main/java.
-// -- Gradle plugin (tools/base): Proto 3.0: Generated during the gradle build.
-//
-// Therefore don't include the proto 2.5 generated sources, they are consumed by studio only.
-sourceSets.main.java.srcDirs = []
