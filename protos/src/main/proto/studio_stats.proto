@@ -7987,6 +7987,8 @@ message BuildAttributionUiEvent {
     DATA_VIEW_COMBO_SELECTED = 16;
     // Data grouping changed using grouping control.
     GROUPING_CHANGED = 17;
+    // Open memory settings button clicked.
+    OPEN_MEMORY_SETTINGS_BUTTON_CLICKED = 18;
   }
 
   message Page {
