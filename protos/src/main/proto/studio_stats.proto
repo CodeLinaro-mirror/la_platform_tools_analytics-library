@@ -398,6 +398,9 @@ message AndroidStudioEvent {
   optional UpgradeAssistantProcessorEvent upgrade_assistant_processor_event =
       110;
 
+  // set when kind = INTERACTIVE_PREVIEW_EVENT
+  optional InteractivePreviewEvent interactive_preview_event = 111;
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -944,6 +947,9 @@ message AndroidStudioEvent {
 
     // A new file/project is created by the wizards based on a template.
     WIZARD_TEMPLATES_USAGE = 213;
+
+    // Interactive Preview event
+    INTERACTIVE_PREVIEW_EVENT = 214;
   }
 
   // Represents different Performance Monitoring types.
@@ -8633,4 +8639,18 @@ message UpgradeAssistantProcessorEvent {
   repeated UpgradeAssistantComponentInfo component_info = 6;
   // Information about the event.
   optional UpgradeAssistantEventInfo event_info = 7;
+}
+
+// Details for interactive preview event
+message InteractivePreviewEvent {
+  // List of event types available in an interactive preview
+  enum InteractivePreviewEventType {
+    UNKNOWN_EVENT_TYPE = 0;
+    REPORT_FPS = 1;
+  }
+
+  // Type of event
+  optional InteractivePreviewEventType type = 1;
+  // Frame rate (frames per second) in the interactive preview session
+  optional int32 fps = 2;
 }
