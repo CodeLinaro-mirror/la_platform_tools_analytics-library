@@ -5533,6 +5533,31 @@ message TraceProcessorDaemonQueryStats {
   }
 }
 
+// Metadata for when an adt-ui box selection is performed.
+message AdtUiBoxSelectionMetadata {
+  // Selection duration in microseconds, i.e. x-axis.
+  optional uint64 duration_us = 1;
+  // Number of tracks included in the selection, i.e. y-axis.
+  optional uint32 track_count = 2;
+}
+
+// Metadata for an adt-ui track group action.
+message AdtUiTrackGroupMetadata {
+  // Pre-defined track group title in Android Studio, e.g. Display, Threads.
+  // Does not contain user-defined strings.
+  optional string title = 1;
+  // Track group action type, e.g. collapsing a track group.
+  optional TrackGroupActionType action_type = 2;
+
+  enum TrackGroupActionType {
+    UNKNOWN = 0;
+    MOVE_UP = 1;
+    MOVE_DOWN = 2;
+    COLLAPSE = 3;
+    EXPAND = 4;
+  }
+}
+
 // Android Profiler metrics
 message AndroidProfilerEvent {
   // The current stage we're on when this event was generated
@@ -5592,6 +5617,12 @@ message AndroidProfilerEvent {
 
   // Set if |type| is |TPD_QUERY_*|
   optional TraceProcessorDaemonQueryStats tpd_query_stats = 19;
+
+  // Set if |type| is |SELECT_BOX|
+  optional AdtUiBoxSelectionMetadata box_selection_metadata = 20;
+
+  // Set if |type| is |TRACK_GROUP_METADATA|
+  optional AdtUiTrackGroupMetadata track_group_metadata = 21;
 
   enum Stage {
     UNKNOWN_STAGE = 0;
@@ -5653,6 +5684,7 @@ message AndroidProfilerEvent {
     ZOOM_IN = 105;
     ZOOM_OUT = 106;
     ZOOM_RESET = 107;
+    ZOOM_TO_SELECTION = 114;
     GO_LIVE = 108;
     NAVIGATE_TO_CODE = 109;
     // Create a selection on the current monitor's main chart. This event should
@@ -5663,6 +5695,10 @@ message AndroidProfilerEvent {
     AUTO_PROFILING_REQUESTED = 112;
     // Triggered when profilers found a auto-profiling process successfully.
     AUTO_PROFILING_SUCCEEDED = 113;
+    // Create a box selection. Should be correlated with |stage|.
+    SELECT_BOX = 115;
+    // Perform an action on a track group. Should be correlated with |stage|.
+    TRACK_GROUP_ACTION = 116;
 
     /// CPU
 
@@ -7987,6 +8023,8 @@ message BuildAttributionUiEvent {
     DATA_VIEW_COMBO_SELECTED = 16;
     // Data grouping changed using grouping control.
     GROUPING_CHANGED = 17;
+    // Open memory settings button clicked.
+    OPEN_MEMORY_SETTINGS_BUTTON_CLICKED = 18;
   }
 
   message Page {
