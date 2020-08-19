@@ -8670,10 +8670,20 @@ message InteractivePreviewEvent {
   enum InteractivePreviewEventType {
     UNKNOWN_EVENT_TYPE = 0;
     REPORT_FPS = 1;
+    REPORT_STARTUP_TIME = 2;
   }
 
   // Type of event
   optional InteractivePreviewEventType type = 1;
   // Frame rate (frames per second) in the interactive preview session
   optional int32 fps = 2;
+  // Interactive session duration in milliseconds
+  optional int32 duration_ms = 3;
+  // Number of user actions during the interactive session
+  optional int32 actions = 4;
+  // Startup time of the interactive session in milliseconds
+  optional int32 startup_time_ms = 5;
+  // Number of the previews on the surface the preview for this interactive
+  // session belongs to
+  optional int32 peer_previews = 6;
 }
