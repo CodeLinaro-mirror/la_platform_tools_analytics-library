@@ -6204,10 +6204,63 @@ message DynamicLayoutInspectorEvent {
     COMPATIBILITY_RENDER = 9;
     // First render after connection without images in compatibility mode
     COMPATIBILITY_RENDER_NO_PICTURE = 10;
+    // Session Data after a session ended
+    SESSION_DATA = 11;
   }
 
   // Type of event
   optional DynamicLayoutInspectorEventType type = 1;
+  // Data for the layout inspector session
+  optional DynamicLayoutInspectorSession session = 2;
+}
+
+// Session data for dynamic layout inspector (inspector v2)
+message DynamicLayoutInspectorSession {
+  // Session data around live versus refresh mode
+  optional DynamicLayoutInspectorLiveMode live = 1;
+  // Session data around 3D rotation
+  optional DynamicLayoutInspectorRotation rotation = 2;
+  // Session data around memory usage
+  optional DynamicLayoutInspectorMemory memory = 3;
+}
+
+// Session data for dynamic layout inspector (inspector v2) around live mode
+message DynamicLayoutInspectorLiveMode {
+  // Number of times the refresh button was clicked
+  optional uint32 refresh_button_clicks = 1;
+  // Component selection count while in live update mode
+  optional uint32 clicks_with_live_updates = 2;
+  // Component selection count while in manual refresh mode
+  optional uint32 clicks_without_live_updates = 3;
+}
+
+// Session data for dynamic layout inspector (inspector v2) around 3D rotation
+message DynamicLayoutInspectorRotation {
+  // Component selection count in image while showing in 3D
+  optional uint32 image_clicks_in_3d = 1;
+  // Component selection count in image while showing in 2D
+  optional uint32 image_clicks_in_2d = 2;
+  // Component selection count in the component tree while showing in 3D
+  optional uint32 component_tree_clicks_in_3d = 3;
+  // Component selection count in the component tree while showing in 2D
+  optional uint32 component_tree_clicks_in_2d = 4;
+}
+
+// Session data for dynamic layout inspector (inspector v2) around memory usage
+message DynamicLayoutInspectorMemory {
+  // Memory snapshot for the first image rendered
+  optional Snapshot initial_snapshot = 1;
+  // Memory snapshot for the image requiring the most memory in the session
+  optional Snapshot largest_snapshot = 2;
+
+  message Snapshot {
+    // True if the image was based on a skia snapshot, false it was a bitmap
+    optional bool skia_image = 1;
+    // The size used in the capture in mega bytes
+    optional uint64 capture_size_mb = 2;
+    // The time it took to measure the memory used
+    optional uint64 measurement_duration_ms = 3;
+  }
 }
 
 // Kotlin support information
