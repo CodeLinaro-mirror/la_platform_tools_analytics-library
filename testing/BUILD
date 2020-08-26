@@ -72,12 +72,9 @@ kotlin_test(
 
 # managed by go/iml_to_build [unb]
 iml_module(
-    name = "unb.android.sdktools.analytics-testing",
+    name = "android.sdktools.analytics-testing",
     iml_files = ["android.sdktools.analytics-testing.iml"],
-    tags = [
-        "manual",
-        "unb",
-    ],
+    project = "unb",
     test_srcs = [
         "src/main/java",
         "src/test/java",
@@ -87,12 +84,12 @@ iml_module(
     deps = [
         "//prebuilts/studio/intellij-sdk:studio-sdk",
         "//tools/adt/idea/.idea/libraries:unb.Guava[test]",
-        "//tools/base/annotations:unb.studio.android.sdktools.android-annotations[module, test]",
+        "//tools/base/annotations:studio.android.sdktools.android-annotations[module, test]",
         "//tools/adt/idea/.idea/libraries:unb.truth[test]",
-        "//tools/base/testutils:unb.studio.android.sdktools.testutils[module, test]",
-        "//tools/base/common:unb.studio.android.sdktools.common[module, test]",
-        "//tools/analytics-library/shared:unb.analytics-shared[module, test]",
-        "//tools/analytics-library/tracker:unb.analytics-tracker[module, test]",
+        "//tools/base/testutils:studio.android.sdktools.testutils[module, test]",
+        "//tools/base/common:studio.android.sdktools.common[module, test]",
+        "//tools/analytics-library/shared:analytics-shared[module, test]",
+        "//tools/analytics-library/tracker:analytics-tracker[module, test]",
         "//tools/adt/idea/.idea/libraries:unb.protobuf",
         "//tools/adt/idea/.idea/libraries:unb.studio-analytics-proto",
         "//tools/adt/idea/.idea/libraries:unb.kotlin-stdlib-jdk8[test]",
