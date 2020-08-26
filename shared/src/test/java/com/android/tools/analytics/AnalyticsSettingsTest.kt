@@ -19,6 +19,7 @@ import com.android.tools.analytics.stubs.StubDateProvider
 import com.android.utils.DateProvider
 import com.android.utils.ILogger
 import com.google.common.base.Charsets
+import com.google.gson.GsonBuilder
 import com.google.protobuf.ByteString
 import org.junit.Assert.assertArrayEquals
 import org.junit.Assert.assertEquals
@@ -34,6 +35,7 @@ import java.io.File
 import java.io.IOException
 import java.math.BigInteger
 import java.nio.file.Files
+import java.nio.file.Paths
 import java.util.Arrays
 import java.util.Date
 import java.util.UUID
@@ -580,6 +582,27 @@ class AnalyticsSettingsTest {
       assertTrue(AnalyticsSettings.initialized)
       assertFalse(AnalyticsSettings.optedIn)
       assertEquals("", AnalyticsSettings.userId)
+    }
+    finally {
+      EnvironmentFakes.setSystemEnvironment()
+    }
+  }
+
+  @Test
+  fun useJava8DateFormat() {
+    EnvironmentFakes.setCustomAndroidSdkHomeEnvironment(testConfigDir.root.toString())
+    try {
+      AnalyticsSettings.setInstanceForTest(AnalyticsSettingsData().apply {
+        userId = "db3dd15b-053a-4066-ac93-04c50585edc2"
+        optedIn = true
+        lastSentimentAnswerDate = Date(115, 4, 17, 14, 23, 45)
+      })
+      AnalyticsSettings.saveSettings()
+      val analysticsSettingsContents =
+        String(Files.readAllBytes(Paths.get(testConfigDir.root.toString(), "analytics.settings")), Charsets.UTF_8)
+      val lastSentimentAnswerDate =
+        GsonBuilder().create().fromJson(analysticsSettingsContents, Map::class.java)["lastSentimentAnswerDate"]
+      assertEquals("May 17, 2015 2:23:45 PM", lastSentimentAnswerDate)
     }
     finally {
       EnvironmentFakes.setSystemEnvironment()
