@@ -37,6 +37,8 @@ kotlin_library(
         "src/main/java/**/*.kt",
         "src/main/java/**/*.java",
     ]),
+    # http://b/166582569
+    api_version = "1.3",
     pom = ":analytics-shared.pom",
     resource_strip_prefix = "tools/analytics-library/shared",
     visibility = ["//visibility:public"],
