@@ -65,7 +65,7 @@ class AnalyticsPublisherTest {
   @Throws(Exception::class)
   fun testInitialValues() {
     // Configure the paths to use a temp directory for reading from and writing to.
-    EnvironmentFakes.setCustomAndroidSdkHomeEnvironment(
+    EnvironmentFakes.setCustomAndroidPrefsRootEnvironment(
       testConfigDir.root.toPath().toString())
     // Start a stub webserver to publish to.
     try {
@@ -102,7 +102,7 @@ class AnalyticsPublisherTest {
   @Throws(Exception::class)
   fun testBasics() {
     // Configure the paths to use a temp directory for reading from and writing to.
-    EnvironmentFakes.setCustomAndroidSdkHomeEnvironment(
+    EnvironmentFakes.setCustomAndroidPrefsRootEnvironment(
       testConfigDir.root.toPath().toString())
     try {
       ServerStub().use { stub ->
@@ -209,7 +209,7 @@ class AnalyticsPublisherTest {
   @Throws(Exception::class)
   fun testBadConnection() {
     // Configure the paths to use a temp directory for reading from and writing to.
-    EnvironmentFakes.setCustomAndroidSdkHomeEnvironment(
+    EnvironmentFakes.setCustomAndroidPrefsRootEnvironment(
       testConfigDir.root.toPath().toString())
     // Create a server
     try {
@@ -284,7 +284,7 @@ class AnalyticsPublisherTest {
   @Throws(Exception::class)
   fun testBadServer() {
     // Configure the paths to use a temp directory for reading from and writing to.
-    EnvironmentFakes.setCustomAndroidSdkHomeEnvironment(
+    EnvironmentFakes.setCustomAndroidPrefsRootEnvironment(
       testConfigDir.root.toPath().toString())
     try {
       ServerStub().use { stub ->
@@ -415,7 +415,7 @@ class AnalyticsPublisherTest {
   @Throws(Exception::class)
   fun testEmptySpoolFile() {
     // Configure the paths to use a temp directory for reading from and writing to.
-    EnvironmentFakes.setCustomAndroidSdkHomeEnvironment(
+    EnvironmentFakes.setCustomAndroidPrefsRootEnvironment(
       testConfigDir.root.toPath().toString())
     try {
       ServerStub().use { stub ->
@@ -449,7 +449,7 @@ class AnalyticsPublisherTest {
   @Throws(Exception::class)
   fun testMultipleEvents() {
     // Configure the paths to use a temp directory for reading from and writing to.
-    EnvironmentFakes.setCustomAndroidSdkHomeEnvironment(
+    EnvironmentFakes.setCustomAndroidPrefsRootEnvironment(
       testConfigDir.root.toPath().toString())
     try {
       // Create a few events to log.
@@ -522,7 +522,7 @@ class AnalyticsPublisherTest {
   @Throws(Exception::class)
   fun testUpdateInterval() {
     // Configure the paths to use a temp directory for reading from and writing to.
-    EnvironmentFakes.setCustomAndroidSdkHomeEnvironment(
+    EnvironmentFakes.setCustomAndroidPrefsRootEnvironment(
       testConfigDir.root.toPath().toString())
     try {
       ServerStub().use { stub ->
@@ -575,7 +575,7 @@ class AnalyticsPublisherTest {
   @Throws(Exception::class)
   fun testCustomConnection() {
     // Configure the paths to use a temp directory for reading from and writing to.
-    EnvironmentFakes.setCustomAndroidSdkHomeEnvironment(
+    EnvironmentFakes.setCustomAndroidPrefsRootEnvironment(
       testConfigDir.root.toPath().toString())
     try {
       ServerStub().use { stub ->
@@ -615,7 +615,7 @@ class AnalyticsPublisherTest {
   @Test
   fun testUpdatePublisher() {
     // Configure the paths to use a temp directory for reading from and writing to.
-    EnvironmentFakes.setCustomAndroidSdkHomeEnvironment(
+    EnvironmentFakes.setCustomAndroidPrefsRootEnvironment(
       testConfigDir.root.toPath().toString())
     try {
       // Create helpers used to instantiate the publisher.

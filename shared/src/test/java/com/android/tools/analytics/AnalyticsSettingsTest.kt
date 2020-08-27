@@ -96,7 +96,7 @@ class AnalyticsSettingsTest {
   @Throws(Exception::class)
   fun loadExistingSettingsTest() {
     // Configure the paths to use a temp directory for reading from and writing to.
-    EnvironmentFakes.setCustomAndroidSdkHomeEnvironment(testConfigDir.root.toString())
+    EnvironmentFakes.setCustomAndroidPrefsRootEnvironment(testConfigDir.root.toString())
     try {
       // Write a json settings file.
       val json = "{ userId: \"a4d47d92-8d4c-44bb-a8a4-d2483b6e0c16\", hasOptedIn: true }"
@@ -134,7 +134,7 @@ class AnalyticsSettingsTest {
   @Throws(Exception::class)
   fun loadBadSettingsTest() {
     // Configure the paths to use a temp directory for reading from and writing to.
-    EnvironmentFakes.setCustomAndroidSdkHomeEnvironment(
+    EnvironmentFakes.setCustomAndroidPrefsRootEnvironment(
       testConfigDir.root.toPath().toString())
     try {
       // Write non-valid json file content.
@@ -157,7 +157,7 @@ class AnalyticsSettingsTest {
   @Throws(Exception::class)
   fun loadCorruptedSettingsTest() {
     // Configure the paths to use a temp directory for reading from and writing to.
-    EnvironmentFakes.setCustomAndroidSdkHomeEnvironment(
+    EnvironmentFakes.setCustomAndroidPrefsRootEnvironment(
       testConfigDir.root.toPath().toString())
     try {
       // Write non-valid json file content.
@@ -180,7 +180,7 @@ class AnalyticsSettingsTest {
   @Throws(Exception::class)
   fun loadCorruptedEmptySettingsTest() {
     // Configure the paths to use a temp directory for reading from and writing to.
-    EnvironmentFakes.setCustomAndroidSdkHomeEnvironment(
+    EnvironmentFakes.setCustomAndroidPrefsRootEnvironment(
       testConfigDir.root.toPath().toString())
     try {
       // Write empty file.
@@ -202,7 +202,7 @@ class AnalyticsSettingsTest {
   @Throws(Exception::class)
   fun newSettingsTest() {
     // Configure the paths to use a temp directory for reading from and writing to.
-    EnvironmentFakes.setCustomAndroidSdkHomeEnvironment(
+    EnvironmentFakes.setCustomAndroidPrefsRootEnvironment(
       testConfigDir.root.toPath().toString())
     // The settings file should now be created.
     assertFalse(
@@ -260,7 +260,7 @@ class AnalyticsSettingsTest {
   @Throws(Exception::class)
   fun loadNewSettingsWithExistingUserIdTest() {
     // Configure the paths to use a temp directory for reading from and writing to.
-    EnvironmentFakes.setCustomAndroidSdkHomeEnvironment(
+    EnvironmentFakes.setCustomAndroidPrefsRootEnvironment(
       testConfigDir.root.toPath().toString())
 
     try {
@@ -290,7 +290,7 @@ class AnalyticsSettingsTest {
   @Throws(Exception::class)
   fun changeSettingsTest() {
     // Configure the paths to use a temp directory for reading from and writing to.
-    EnvironmentFakes.setCustomAndroidSdkHomeEnvironment(
+    EnvironmentFakes.setCustomAndroidPrefsRootEnvironment(
       testConfigDir.root.toPath().toString())
 
     try {
@@ -325,7 +325,7 @@ class AnalyticsSettingsTest {
   @Test
   fun saltSkewTest() {
     // Configure the paths to use a temp directory for reading from and writing to.
-    EnvironmentFakes.setCustomAndroidSdkHomeEnvironment(
+    EnvironmentFakes.setCustomAndroidPrefsRootEnvironment(
       testConfigDir.root.toPath().toString())
     try {
       // Stub dates to specific dates around boundaries when we expect the salt skew to change.
@@ -356,7 +356,7 @@ class AnalyticsSettingsTest {
   @Test
   @Throws(IOException::class)
   fun saltStickinessTest() {
-    EnvironmentFakes.setCustomAndroidSdkHomeEnvironment(testConfigDir.root.toString())
+    EnvironmentFakes.setCustomAndroidPrefsRootEnvironment(testConfigDir.root.toString())
     try {
       AnalyticsSettings.setInstanceForTest(null)
       AnalyticsSettings.initialize(failureLogger)
@@ -419,7 +419,7 @@ class AnalyticsSettingsTest {
   @Throws(IOException::class)
   fun getInstanceTest() {
     // Configure the paths to use a temp directory for reading from and writing to.
-    EnvironmentFakes.setCustomAndroidSdkHomeEnvironment(
+    EnvironmentFakes.setCustomAndroidPrefsRootEnvironment(
       testConfigDir.root.toPath().toString())
 
     try {
@@ -566,7 +566,7 @@ class AnalyticsSettingsTest {
   @Test
   fun analyticsDisabledTest() {
     // Configure the paths to use a temp directory for reading from and writing to.
-    EnvironmentFakes.setCustomAndroidSdkHomeEnvironment(testConfigDir.root.toString())
+    EnvironmentFakes.setCustomAndroidPrefsRootEnvironment(testConfigDir.root.toString())
     try {
       // Write a json settings file.
       val json = "{ userId: \"a4d47d92-8d4c-44bb-a8a4-d2483b6e0c16\", hasOptedIn: true }"
@@ -590,7 +590,7 @@ class AnalyticsSettingsTest {
 
   @Test
   fun useJava8DateFormat() {
-    EnvironmentFakes.setCustomAndroidSdkHomeEnvironment(testConfigDir.root.toString())
+    EnvironmentFakes.setCustomAndroidPrefsRootEnvironment(testConfigDir.root.toString())
     try {
       AnalyticsSettings.setInstanceForTest(AnalyticsSettingsData().apply {
         userId = "db3dd15b-053a-4066-ac93-04c50585edc2"

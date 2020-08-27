@@ -26,14 +26,20 @@ package com.android.tools.analytics
 abstract class Environment {
 
   enum class EnvironmentVariable(val key: String) {
-    ANDROID_SDK_HOME("ANDROID_SDK_HOME"),
+    ANDROID_PREFS_ROOT("ANDROID_PREFS_ROOT"),
+    // FIXME b/162859043
+    @Deprecated("Use ANDROID_PREFS_ROOT")
+    ANDROID_SDK_HOME("ANDROID_SDK_HOME"), // former name of ANDROID_PREFS_ROOT
     PROCESSOR_ARCHITEW6432("PROCESSOR_ARCHITEW6432"),
     HOSTTYPE("HOSTTYPE"),
   }
 
   enum class SystemProperty(val key: String) {
     OS_VERSION("os.version"),
-    ANDROID_SDK_HOME("ANDROID_SDK_HOME"),
+    ANDROID_PREFS_ROOT("ANDROID_PREFS_ROOT"),
+    // FIXME b/162859043
+    @Deprecated("Use ANDROID_PREFS_ROOT")
+    ANDROID_SDK_HOME("ANDROID_SDK_HOME"),  // former name of ANDROID_PREFS_ROOT
     USER_HOME("user.home"),
     OS_ARCH("os.arch"),
     OS_NAME("os.name"),

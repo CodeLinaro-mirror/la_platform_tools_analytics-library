@@ -47,13 +47,13 @@ class AnalyticsPathsTest {
       Paths.get(Environment.instance.getSystemProperty(Environment.SystemProperty.USER_HOME)!!, ".android").toString(),
       AnalyticsPaths.getAndEnsureAndroidSettingsHome())
 
-    // Test using the ANDROID_SDK_HOME environment variable.
+    // Test using the ANDROID_PREFS_ROOT environment variable.
     val customRoot = "/a/b/c"
-    EnvironmentFakes.setCustomAndroidSdkHomeEnvironment(customRoot)
+    EnvironmentFakes.setCustomAndroidPrefsRootEnvironment(customRoot)
     assertEquals(customRoot, AnalyticsPaths.getAndEnsureAndroidSettingsHome())
 
-    // Test using the ANDROID_SDK_HOME as a system property.
-    val property = Environment.SystemProperty.ANDROID_SDK_HOME
+    // Test using the ANDROID_PREFS_ROOT as a system property.
+    val property = Environment.SystemProperty.ANDROID_PREFS_ROOT
     val prev = Environment.instance.getSystemProperty(property)
     System.setProperty(property.key, customRoot)
     assertEquals(customRoot, AnalyticsPaths.getAndEnsureAndroidSettingsHome())
@@ -69,7 +69,7 @@ class AnalyticsPathsTest {
   @Throws(Exception::class)
   fun getAndroidSettingsHomeCreated() {
     val customPath = testConfigDir.root.toPath().resolve(".android").toString()
-    EnvironmentFakes.setCustomAndroidSdkHomeEnvironment(customPath)
+    EnvironmentFakes.setCustomAndroidPrefsRootEnvironment(customPath)
     assertEquals(customPath, AnalyticsPaths.getAndEnsureAndroidSettingsHome())
     val androidHomeFile = File(customPath)
     assertTrue(androidHomeFile.exists())
@@ -85,9 +85,9 @@ class AnalyticsPathsTest {
       Paths.get(Environment.instance.getSystemProperty(Environment.SystemProperty.USER_HOME)!!, ".android", "metrics", "spool").toString(),
       AnalyticsPaths.spoolDirectory)
 
-    // Test using the ANDROID_SDK_HOME environment variable.
+    // Test using the ANDROID_PREFS_ROOT environment variable.
     val customRoot = "/a/b/c"
-    EnvironmentFakes.setCustomAndroidSdkHomeEnvironment(customRoot)
+    EnvironmentFakes.setCustomAndroidPrefsRootEnvironment(customRoot)
     assertEquals(Paths.get(customRoot, "metrics", "spool").toString(), AnalyticsPaths.spoolDirectory)
   }
 }

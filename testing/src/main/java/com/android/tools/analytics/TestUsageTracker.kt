@@ -41,7 +41,7 @@ class TestUsageTracker(val scheduler: VirtualTimeScheduler) : UsageTrackerWriter
     val dateProvider = VirtualTimeDateProvider(scheduler)
     AnalyticsSettings.dateProvider = dateProvider
     androidSdkHomeEnvironment = Files.createTempDir()
-    EnvironmentFakes.setCustomAndroidSdkHomeEnvironment(androidSdkHomeEnvironment.path)
+    EnvironmentFakes.setCustomAndroidPrefsRootEnvironment(androidSdkHomeEnvironment.path)
   }
 
   override fun logDetails(logEvent: ClientAnalytics.LogEvent.Builder) {
