@@ -3509,6 +3509,9 @@ message GradleBuildVariant {
     OPTIONAL_APK = 7;
     // For building a test APK
     TEST_APK = 8;
+    // For a java library (java or java-library plugin, for the standalone lint
+    // plugin)
+    JAVA_LIBRARY = 9;
   }
 
   // Different tools that provide Java 8 language usage.
