@@ -473,6 +473,7 @@ enum BooleanOption {
     USE_NEW_DSL_INTERFACES = 132;
     ENABLE_V2_NATIVE_MODEL = 133;
     PREFER_CMAKE_FILE_API = 134;
+    USE_NEW_LINT_MODEL = 135;
 }
 
 enum OptionalBooleanOption {
