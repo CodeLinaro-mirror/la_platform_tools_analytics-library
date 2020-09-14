@@ -401,6 +401,9 @@ message AndroidStudioEvent {
   // set when kind = INTERACTIVE_PREVIEW_EVENT
   optional InteractivePreviewEvent interactive_preview_event = 111;
 
+  // set when kind = COMPOSE_ANIMATION_TOOLING
+  optional ComposeAnimationToolingEvent compose_animation_tooling_event = 112;
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -950,6 +953,9 @@ message AndroidStudioEvent {
 
     // Interactive Preview event
     INTERACTIVE_PREVIEW_EVENT = 214;
+
+    // Event related to Compose animation tooling, e.g. animation inspector.
+    COMPOSE_ANIMATION_TOOLING = 215;
   }
 
   // Represents different Performance Monitoring types.
@@ -7840,6 +7846,35 @@ message MultiViewEvent {
 
   // Type of event
   optional MultiViewEventType type = 1;
+}
+
+// Details for Compose animation tooling event
+message ComposeAnimationToolingEvent {
+  enum ComposeAnimationToolingEventType {
+    UNKNOWN_EVENT_TYPE = 0;
+    OPEN_ANIMATION_INSPECTOR = 1;
+    CLOSE_ANIMATION_INSPECTOR = 2;
+    // Track when the animation inspector is available for Compose previews.
+    ANIMATION_INSPECTOR_AVAILABLE = 3;
+    TRIGGER_PLAY_ACTION = 4;
+    TRIGGER_PAUSE_ACTION = 5;
+    ENABLE_LOOP_ACTION = 6;
+    DISABLE_LOOP_ACTION = 7;
+    CHANGE_ANIMATION_SPEED = 8;
+    TRIGGER_JUMP_TO_START_ACTION = 9;
+    TRIGGER_JUMP_TO_END_ACTION = 10;
+    CHANGE_START_STATE = 11;
+    CHANGE_END_STATE = 12;
+    TRIGGER_SWAP_STATES_ACTION = 13;
+    CLICK_ANIMATION_INSPECTOR_TIMELINE = 14;
+    DRAG_ANIMATION_INSPECTOR_TIMELINE = 15;
+  }
+
+  // Type of event.
+  optional ComposeAnimationToolingEventType type = 1;
+  // Multiplier of the animation speed (e.g. 1.5x, 0.25x).
+  // Set when type is CHANGE_ANIMATION_SPEED.
+  optional float animation_speed_multiplier = 2;
 }
 
 // Details for Compose sample event
