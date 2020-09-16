@@ -555,6 +555,7 @@ enum VariantMethodType {
     ENABLED = 1;
     MIN_SDK_VERSION_VALUE = 2;
     RENDERSCRIPT_TARGET_API = 3;
+    DEPENDENCIES_ACTION = 6;
 }
 
 enum VariantPropertiesMethodType {
