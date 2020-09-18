@@ -334,6 +334,7 @@ enum GradleTaskExecutionType {
     TRANSFORM_CLASSES_WITH_ASM = 248;
     MANAGED_DEVICE_SETUP = 249;
     ANALYTICS_RECORDING = 250;
+    APP_METADATA = 251;
 }
 
 enum BooleanOption {
@@ -472,6 +473,7 @@ enum BooleanOption {
     USE_NEW_DSL_INTERFACES = 132;
     ENABLE_V2_NATIVE_MODEL = 133;
     PREFER_CMAKE_FILE_API = 134;
+    USE_NEW_LINT_MODEL = 135;
 }
 
 enum OptionalBooleanOption {
@@ -553,6 +555,8 @@ enum VariantMethodType {
     ENABLED = 1;
     MIN_SDK_VERSION_VALUE = 2;
     RENDERSCRIPT_TARGET_API = 3;
+    MAX_SDK_VERSION_VALUE = 4;
+    DEPENDENCIES_ACTION = 6;
 }
 
 enum VariantPropertiesMethodType {
@@ -604,4 +608,6 @@ enum VariantPropertiesMethodType {
     JNI_LIBS_PACKAGING_OPTIONS_ACTION = 45;
     RESOURCES_PACKAGING_OPTIONS = 46;
     RESOURCES_PACKAGING_OPTIONS_ACTION = 47;
+    DEX_PACKAGING_OPTIONS = 48;
+    DEX_PACKAGING_OPTIONS_ACTION = 49;
 }

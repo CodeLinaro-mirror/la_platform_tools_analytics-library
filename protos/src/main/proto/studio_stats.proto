@@ -401,6 +401,9 @@ message AndroidStudioEvent {
   // set when kind = INTERACTIVE_PREVIEW_EVENT
   optional InteractivePreviewEvent interactive_preview_event = 111;
 
+  // set when kind = COMPOSE_ANIMATION_TOOLING
+  optional ComposeAnimationToolingEvent compose_animation_tooling_event = 112;
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -950,6 +953,9 @@ message AndroidStudioEvent {
 
     // Interactive Preview event
     INTERACTIVE_PREVIEW_EVENT = 214;
+
+    // Event related to Compose animation tooling, e.g. animation inspector.
+    COMPOSE_ANIMATION_TOOLING = 215;
   }
 
   // Represents different Performance Monitoring types.
@@ -7842,6 +7848,35 @@ message MultiViewEvent {
   optional MultiViewEventType type = 1;
 }
 
+// Details for Compose animation tooling event
+message ComposeAnimationToolingEvent {
+  enum ComposeAnimationToolingEventType {
+    UNKNOWN_EVENT_TYPE = 0;
+    OPEN_ANIMATION_INSPECTOR = 1;
+    CLOSE_ANIMATION_INSPECTOR = 2;
+    // Track when the animation inspector is available for Compose previews.
+    ANIMATION_INSPECTOR_AVAILABLE = 3;
+    TRIGGER_PLAY_ACTION = 4;
+    TRIGGER_PAUSE_ACTION = 5;
+    ENABLE_LOOP_ACTION = 6;
+    DISABLE_LOOP_ACTION = 7;
+    CHANGE_ANIMATION_SPEED = 8;
+    TRIGGER_JUMP_TO_START_ACTION = 9;
+    TRIGGER_JUMP_TO_END_ACTION = 10;
+    CHANGE_START_STATE = 11;
+    CHANGE_END_STATE = 12;
+    TRIGGER_SWAP_STATES_ACTION = 13;
+    CLICK_ANIMATION_INSPECTOR_TIMELINE = 14;
+    DRAG_ANIMATION_INSPECTOR_TIMELINE = 15;
+  }
+
+  // Type of event.
+  optional ComposeAnimationToolingEventType type = 1;
+  // Multiplier of the animation speed (e.g. 1.5x, 0.25x).
+  // Set when type is CHANGE_ANIMATION_SPEED.
+  optional float animation_speed_multiplier = 2;
+}
+
 // Details for Compose sample event
 message ComposeSampleEvent {
   enum ComposeSampleEventType {
@@ -8406,6 +8441,13 @@ message AppInspectionEvent {
       STATEMENT_EXECUTION_CANCELED = 5;
 
       LIVE_UPDATES_TOGGLED = 8;
+
+      OFFLINE_MODE_ENTERED = 9;
+      ENTER_OFFLINE_MODE_USER_CANCELED = 10;
+      OFFLINE_DATABASE_DOWNLOAD_FAILED = 11;
+
+      EXPORT_DIALOG_OPENED = 12;
+      EXPORT_OPERATION_COMPLETED = 13;
     }
 
     enum ErrorKind {
@@ -8428,6 +8470,64 @@ message AppInspectionEvent {
       USER_DEFINED_STATEMENT_CONTEXT = 3;
     }
 
+    enum ConnectivityState {
+      UNKNOWN_CONNECTIVITY_STATE = 0;
+      CONNECTIVITY_ONLINE = 1;
+      CONNECTIVITY_OFFLINE = 2;
+    }
+
+    // Information relevant when we switch to offline mode
+    message OfflineModeMetadata {
+      // How long it takes to download database data from the device
+      optional int32 total_download_time_ms = 1;
+      // How many bytes of database data were downloaded
+      optional int64 total_download_size_bytes = 2;
+    }
+
+    // Information related to the opening of an "export data" dialog
+    message ExportDialogOpenedEvent {
+      enum Origin {
+        UNKNOWN_ORIGIN = 0;
+        SCHEMA_TREE_CONTEXT_MENU = 1;
+        SCHEMA_TREE_EXPORT_BUTTON = 2;
+        QUERY_RESULTS_EXPORT_BUTTON = 3;
+      }
+      // What context kicked off the opening of the export dialog?
+      optional Origin origin = 1;
+    }
+
+    // Information about an export that successfully completed.
+    message ExportOperationCompletedEvent {
+      enum Source {
+        UNKNOWN_SOURCE = 0;
+        DATABASE_SOURCE = 1;
+        TABLE_SOURCE = 2;
+        QUERY_SOURCE = 3;
+      }
+
+      enum SourceFormat {
+        UNKNOWN_SOURCE_FORMAT = 0;
+        FILE_FORMAT = 1;
+        IN_MEMORY_FORMAT = 2;
+      }
+
+      enum Destination {
+        UNKNOWN_DESTINATION = 0;
+        DB_DESTINATION = 1;
+        SQL_DESTINATION = 2;
+        CSV_DESTINATION = 3;
+      }
+
+      // What kind of data was being exported
+      optional Source source = 1;
+      // What is the format of the soruce data
+      optional SourceFormat source_format = 2;
+      // What file type was the data exported as
+      optional Destination destination = 3;
+      // How long did the export take in milliseconds?
+      optional int32 export_duration_ms = 4;
+    }
+
     // The detailed type of this event
     optional Type type = 1;
 
@@ -8442,6 +8542,19 @@ message AppInspectionEvent {
 
     // Set if |type| is |LIVE_UPDATING_TOGGLED|
     optional bool live_updating_enabled = 5;
+
+    // Set if |type| is |STATEMENT_EXECUTED|, |STATEMENT_EXECUTION_CANCELED|,
+    // |EXPORT_OPERATION_COMPLETED|
+    optional ConnectivityState connectivity_state = 6;
+
+    // Set if |type| is |OFFLINE_MODE_ENTERED|
+    optional OfflineModeMetadata offline_mode_metadata = 7;
+
+    // Set if |type| is |EXPORT_DIALOG_OPENED|
+    optional ExportDialogOpenedEvent export_dialog_opened_event = 8;
+
+    // Set if |type| is |EXPORT_OPERATION_COMPLETED|
+    optional ExportOperationCompletedEvent export_completed_event = 9;
   }
 }
 
@@ -8527,6 +8640,7 @@ message ParallelAndroidTestReportUiEvent {
     TEST_SUITE_DETAILS_VERTICAL_VIEW = 4;
     TEST_SUITE_LOG_VIEW = 5;
     TEST_SUITE_DEVICE_INFO_VIEW = 6;
+    TEST_SUITE_OPT_IN_BANNER = 7;
   }
 
   // All IDs of UI element that are displayed to users.
@@ -8542,6 +8656,14 @@ message ParallelAndroidTestReportUiEvent {
     optional UserInteractionType type = 1;
     // The UI element ID of which this user interaction occurred.
     optional UiElement ui_element = 2;
+
+    // Represents result type of a user interaction.
+    enum UserInteractionResultType {
+      UNKNOWN_UI_INTERACTION_RESULT = 0;
+      ACCEPT = 1;
+      DISMISS = 2;
+    }
+    optional UserInteractionResultType result = 3;
   }
 
   // All interactions occurred.
@@ -8677,6 +8799,7 @@ message UpgradeAssistantEventInfo {
     FIND_USAGES = 1;
     PREVIEW_REFACTORING = 2;
     EXECUTE = 3;
+    FAILURE_PREDICTED = 4;
   }
 
   // The kind of event.
