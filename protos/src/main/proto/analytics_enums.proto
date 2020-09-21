@@ -335,6 +335,7 @@ enum GradleTaskExecutionType {
     MANAGED_DEVICE_SETUP = 249;
     ANALYTICS_RECORDING = 250;
     APP_METADATA = 251;
+    MANAGED_DEVICE_CLEAN = 252;
 }
 
 enum BooleanOption {
