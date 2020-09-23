@@ -8800,6 +8800,7 @@ message UpgradeAssistantComponentInfo {
     GRADLE_VERSION = 3;
     JAVA8_DEFAULT = 4;
     COMPILE_RUNTIME_CONFIGURATION = 5;
+    FABRIC_CRASHLYTICS = 6;
   }
 
   message Java8DefaultProcessorSettings {
