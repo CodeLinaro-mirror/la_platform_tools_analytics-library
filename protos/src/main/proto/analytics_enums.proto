@@ -483,6 +483,7 @@ enum BooleanOption {
     USE_NEW_LINT_MODEL = 135;
     ENABLE_NATIVE_CONFIGURATION_FOLDING = 136;
     ENABLE_SOURCE_SET_PATHS_MAP = 137;
+    ENABLE_LOCAL_TESTING = 138;
 }
 
 enum OptionalBooleanOption {
