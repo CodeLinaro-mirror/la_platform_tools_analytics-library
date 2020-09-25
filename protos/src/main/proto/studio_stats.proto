@@ -198,6 +198,9 @@ message AndroidStudioEvent {
   // GRADLE_SYNC_SETUP_STARTED
   optional GradleSyncStats gradle_sync_stats = 50;
 
+  // set when kind = GRADLE_CPP_SYNC_COMPLETED
+  optional GradleCppSyncStats gradle_cpp_sync_stats = 113;
+
   // set when category = APK_DEBUG
   optional ApkDebugProject apk_debug_project = 51;
 
@@ -6148,6 +6151,30 @@ message GradleSyncIssue {
   repeated AndroidStudioEvent.GradleSyncQuickFix offered_quick_fixes = 2;
 }
 
+// Metrics for native workspace sync. The data is collected in Android Studio
+// after native workspace sync, which happens after Gradle sync is completed.
+message GradleCppSyncStats {
+  // The time it takes to sync native workspace after Gradle sync is completed.
+  optional int64 native_workspace_sync_time_ms = 1;
+
+  repeated NativeModuleStats synced_native_module_stats = 2;
+
+  message NativeModuleStats {
+    // The total number of C files in this native module
+    optional int32 c_source_file_count = 1;
+    // The total number of C++ files in this native module
+    optional int32 cpp_source_file_count = 2;
+    // The number of distinct compiler flags.
+    optional int32 distinct_compiler_flag_lists_count = 3;
+    // The number of CIDR configurations created for this module.
+    optional int32 cidr_configuration_count = 4;
+  }
+
+  // The estimated memory footprint of the CIDR workspace. This value is
+  // expensive to compute so it's sampled.
+  optional int32 cidr_workspace_size = 3;
+}
+
 // APK Debugging project information
 message ApkDebugProject {
   // Client-side salted hash of the package name for tracking purposes.
@@ -8773,6 +8800,7 @@ message UpgradeAssistantComponentInfo {
     GRADLE_VERSION = 3;
     JAVA8_DEFAULT = 4;
     COMPILE_RUNTIME_CONFIGURATION = 5;
+    FABRIC_CRASHLYTICS = 6;
   }
 
   message Java8DefaultProcessorSettings {
