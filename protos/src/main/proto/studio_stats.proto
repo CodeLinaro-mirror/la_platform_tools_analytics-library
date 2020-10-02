@@ -8836,6 +8836,9 @@ message UpgradeAssistantEventInfo {
     PREVIEW_REFACTORING = 2;
     EXECUTE = 3;
     FAILURE_PREDICTED = 4;
+    SYNC_SKIPPED = 5;
+    SYNC_FAILED = 6;
+    SYNC_SUCCEEDED = 7;
   }
 
   // The kind of event.
