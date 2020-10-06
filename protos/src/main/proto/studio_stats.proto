@@ -8010,6 +8010,8 @@ message CriticalPathAnalyzerData {
   repeated PluginBuildData plugins_critical_path = 3;
   // The total duration of the tasks determining build duration
   optional int64 tasks_determining_build_duration_ms = 4;
+  // The number of tasks determining build duration
+  optional int32 number_of_tasks_determining_build_duration = 5;
 }
 
 // Data about project configuration phase
@@ -8233,6 +8235,12 @@ message BuildAttributionUiEvent {
   optional OutgoingLinkTarget link_target = 5;
   // List of filter items applied now, set when event type FILTER_APPLIED.
   repeated FilterItem applied_filters = 6;
+  // How much time did it take to react on this user action.
+  optional int64 event_processing_time_ms = 7;
+  // Width of the Build Analyzer tool window in pixels.
+  optional int64 width = 8;
+  // Height of the Build Analyzer tool window in pixels.
+  optional int64 height = 9;
 }
 
 message AndroidCppExtensionEvent {
@@ -8828,6 +8836,9 @@ message UpgradeAssistantEventInfo {
     PREVIEW_REFACTORING = 2;
     EXECUTE = 3;
     FAILURE_PREDICTED = 4;
+    SYNC_SKIPPED = 5;
+    SYNC_FAILED = 6;
+    SYNC_SUCCEEDED = 7;
   }
 
   // The kind of event.
