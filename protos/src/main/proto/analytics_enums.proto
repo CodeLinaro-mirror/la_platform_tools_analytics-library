@@ -339,6 +339,7 @@ enum GradleTaskExecutionType {
     SIGNING_CONFIG_VERSIONS_WRITER = 253;
     ANDROID_LINT = 254;
     ANDROID_LINT_GLOBAL = 255;
+    BUNDLE_IDE_MODEL_PRODUCER = 256;
 }
 
 enum BooleanOption {
