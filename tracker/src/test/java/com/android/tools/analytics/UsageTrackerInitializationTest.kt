@@ -17,8 +17,11 @@
 package com.android.tools.analytics
 
 import com.google.common.truth.Truth
+import org.junit.After
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
+import org.junit.rules.TemporaryFolder
 import java.util.concurrent.Executors
 
 class UsageTrackerInitializationTest {
@@ -26,11 +29,23 @@ class UsageTrackerInitializationTest {
     private val analyticsSettingsData = AnalyticsSettingsData()
     private val scheduledExecutorService = Executors.newScheduledThreadPool(1)
 
+    @get:Rule
+    val temporaryFolder = TemporaryFolder()
+
     @Before
     fun setUp() {
         analyticsSettingsData.optedIn = true
         AnalyticsSettings.setInstanceForTest(analyticsSettingsData)
         UsageTracker.deinitialize()
+        EnvironmentFakes.setSingleProperty(
+            Environment.EnvironmentVariable.ANDROID_PREFS_ROOT.key,
+            temporaryFolder.newFolder().absolutePath
+        )
+    }
+
+    @After
+    fun setSystemEnvironment() {
+        EnvironmentFakes.setSystemEnvironment()
     }
 
     @Test
