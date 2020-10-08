@@ -337,6 +337,8 @@ enum GradleTaskExecutionType {
     APP_METADATA = 251;
     MANAGED_DEVICE_CLEAN = 252;
     SIGNING_CONFIG_VERSIONS_WRITER = 253;
+    ANDROID_LINT = 254;
+    ANDROID_LINT_GLOBAL = 255;
 }
 
 enum BooleanOption {
