@@ -1,30 +1,27 @@
 load("//tools/base/bazel:bazel.bzl", "iml_module")
 load("//tools/base/bazel:kotlin.bzl", "kotlin_test")
 
-# managed by go/iml_to_build
+# managed by go/iml_to_build [unb]
 iml_module(
     name = "analytics-crash",
     srcs = ["src/main/java"],
     iml_files = ["analytics-crash.iml"],
     lint_baseline = "lint_baseline.xml",
+    project = "unb",
     test_srcs = ["src/test/java"],
     visibility = ["//visibility:public"],
     # do not sort: must match IML order
     exports = [
-        "//tools/idea/.idea/libraries:Guava",
+        "//tools/adt/idea/.idea/libraries:unb.Guava",
         "//tools/base/annotations:studio.android.sdktools.android-annotations",
     ],
     # do not sort: must match IML order
     deps = [
-        "//tools/idea/.idea/libraries:Guava",
+        "//prebuilts/studio/intellij-sdk:studio-sdk",
+        "//tools/adt/idea/.idea/libraries:unb.Guava",
         "//tools/base/annotations:studio.android.sdktools.android-annotations[module]",
-        "//tools/idea/.idea/libraries:commons-logging",
-        "//tools/idea/.idea/libraries:http-client",
-        "//tools/idea/.idea/libraries:truth[test]",
-        "//tools/idea/.idea/libraries:JUnit4[test]",
-        "//tools/idea/.idea/libraries:netty-codec-http[test]",
-        "//tools/idea/.idea/libraries:mockito[test]",
-        "//tools/idea/.idea/libraries:Objenesis[test]",
+        "//tools/adt/idea/.idea/libraries:unb.truth[test]",
+        "//tools/adt/idea/.idea/libraries:unb.mockito[test]",
     ],
 )
 
@@ -72,29 +69,5 @@ kotlin_test(
         "//tools/base/third_party:junit_junit",
         "//tools/base/third_party:org.apache.httpcomponents_httpmime",
         "//tools/base/third_party:org.mockito_mockito-core",
-    ],
-)
-
-# managed by go/iml_to_build [unb]
-iml_module(
-    name = "analytics-crash",
-    srcs = ["src/main/java"],
-    iml_files = ["analytics-crash.iml"],
-    lint_baseline = "lint_baseline.xml",
-    project = "unb",
-    test_srcs = ["src/test/java"],
-    visibility = ["//visibility:public"],
-    # do not sort: must match IML order
-    exports = [
-        "//tools/adt/idea/.idea/libraries:unb.Guava",
-        "//tools/base/annotations:studio.android.sdktools.android-annotations",
-    ],
-    # do not sort: must match IML order
-    deps = [
-        "//prebuilts/studio/intellij-sdk:studio-sdk",
-        "//tools/adt/idea/.idea/libraries:unb.Guava",
-        "//tools/base/annotations:studio.android.sdktools.android-annotations[module]",
-        "//tools/adt/idea/.idea/libraries:unb.truth[test]",
-        "//tools/adt/idea/.idea/libraries:unb.mockito[test]",
     ],
 )
