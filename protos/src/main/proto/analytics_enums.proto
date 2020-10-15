@@ -479,6 +479,7 @@ enum BooleanOption {
     ENABLE_V2_NATIVE_MODEL = 133;
     PREFER_CMAKE_FILE_API = 134;
     USE_NEW_LINT_MODEL = 135;
+    ENABLE_NATIVE_CONFIGURATION_FOLDING = 136;
 }
 
 enum OptionalBooleanOption {
