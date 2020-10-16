@@ -1,10 +1,11 @@
 load("//tools/base/bazel:bazel.bzl", "iml_module")
 load("//tools/base/bazel:kotlin.bzl", "kotlin_library", "kotlin_test")
 
-# managed by go/iml_to_build
+# managed by go/iml_to_build [unb]
 iml_module(
     name = "android.sdktools.analytics-testing",
     iml_files = ["android.sdktools.analytics-testing.iml"],
+    project = "unb",
     test_srcs = [
         "src/main/java",
         "src/test/java",
@@ -12,18 +13,17 @@ iml_module(
     visibility = ["//visibility:public"],
     # do not sort: must match IML order
     deps = [
-        "//tools/idea/.idea/libraries:Guava[test]",
-        "//tools/idea/.idea/libraries:JUnit4[test]",
+        "//prebuilts/studio/intellij-sdk:studio-sdk",
+        "//tools/adt/idea/.idea/libraries:unb.Guava[test]",
         "//tools/base/annotations:studio.android.sdktools.android-annotations[module, test]",
-        "//tools/idea/.idea/libraries:truth[test]",
-        "//tools/idea/.idea/libraries:gson[test]",
+        "//tools/adt/idea/.idea/libraries:unb.truth[test]",
         "//tools/base/testutils:studio.android.sdktools.testutils[module, test]",
         "//tools/base/common:studio.android.sdktools.common[module, test]",
         "//tools/analytics-library/shared:analytics-shared[module, test]",
         "//tools/analytics-library/tracker:analytics-tracker[module, test]",
-        "//tools/idea/.idea/libraries:protobuf",
-        "//tools/idea/.idea/libraries:studio-analytics-proto",
-        "//tools/idea/.idea/libraries:kotlin-stdlib-jdk8[test]",
+        "//tools/adt/idea/.idea/libraries:unb.protobuf",
+        "//tools/adt/idea/.idea/libraries:unb.studio-analytics-proto",
+        "//tools/adt/idea/.idea/libraries:unb.kotlin-stdlib-jdk8[test]",
     ],
 )
 
@@ -67,31 +67,5 @@ kotlin_test(
         "//tools/base/third_party:com.google.protobuf_protobuf-java",
         "//tools/base/third_party:com.google.truth_truth",
         "//tools/base/third_party:junit_junit",
-    ],
-)
-
-# managed by go/iml_to_build [unb]
-iml_module(
-    name = "android.sdktools.analytics-testing",
-    iml_files = ["android.sdktools.analytics-testing.iml"],
-    project = "unb",
-    test_srcs = [
-        "src/main/java",
-        "src/test/java",
-    ],
-    visibility = ["//visibility:public"],
-    # do not sort: must match IML order
-    deps = [
-        "//prebuilts/studio/intellij-sdk:studio-sdk",
-        "//tools/adt/idea/.idea/libraries:unb.Guava[test]",
-        "//tools/base/annotations:studio.android.sdktools.android-annotations[module, test]",
-        "//tools/adt/idea/.idea/libraries:unb.truth[test]",
-        "//tools/base/testutils:studio.android.sdktools.testutils[module, test]",
-        "//tools/base/common:studio.android.sdktools.common[module, test]",
-        "//tools/analytics-library/shared:analytics-shared[module, test]",
-        "//tools/analytics-library/tracker:analytics-tracker[module, test]",
-        "//tools/adt/idea/.idea/libraries:unb.protobuf",
-        "//tools/adt/idea/.idea/libraries:unb.studio-analytics-proto",
-        "//tools/adt/idea/.idea/libraries:unb.kotlin-stdlib-jdk8[test]",
     ],
 )

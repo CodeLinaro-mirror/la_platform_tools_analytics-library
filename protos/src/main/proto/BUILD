@@ -20,7 +20,7 @@ maven_pom(
 java_proto_library(
     name = "studio.proto",
     srcs = glob(["*.proto"]),
-    proto_java_runtime_library = ["//tools/idea/.idea/libraries:protobuf"],
+    proto_java_runtime_library = ["//prebuilts/tools/common/m2/repository/com/google/protobuf/protobuf-java/3.5.1:jar"],
     protoc_version = "3.0.0",  # Should match the version used in Studio.
     visibility = ["//visibility:public"],
 )
