@@ -493,6 +493,7 @@ enum OptionalBooleanOption {
     ENABLE_R8 = 5;
     FIREBASE_PERF_PLUGIN_ENABLE_FLAG = 6;
     ENABLE_TEST_FAILURE_RETENTION_COMPRESS_SNAPSHOT = 7;
+    INTERNAL_ONLY_ENABLE_R8 = 8;
 }
 
 enum IntegerOption {
