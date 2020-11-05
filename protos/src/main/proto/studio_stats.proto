@@ -2991,41 +2991,79 @@ message TestRun {
 
 // Provides details on commonly used test libraries.
 // Each string field of this message holds the exact version of the given
-// library that the field name represents. The field is populated only if this
-// project uses the given library.
-// Next ID: 22
+// library (e.g. "1.0.0") that the field name represents. The field is populated
+// only if this project uses the given library.
+// Next ID: 31
 message TestLibraries {
-  // "com.android.support.test.runner" or "androidx.test.runner".
-  optional string test_support_library_version = 1;      // e.g. '0.5'
-  optional string espresso_version = 2;                  // e.g. '2.2.2'
-  optional string robolectric_version = 3;               // e.g. '3.0'
-  optional string mockito_version = 4;                   // e.g. '1.10.19'
-  optional string espresso_contrib_version = 5;          // e.g. '2.2.2'
-  optional string espresso_web_version = 6;              // e.g. '2.2.2'
-  optional string espresso_intents_version = 7;          // e.g. '2.2.2'
-  optional string espresso_idling_resource_version = 8;  // e.g. '2.2.2'
-  optional string espresso_accessibility_version = 9;    // e.g. '2.2.2'
-  optional string test_orchestrator_version = 10;        // e.g. '1.0.0'
-  optional string test_rules_version = 11;               // e.g. '1.0.0'
-  // "androidx.test.core".
-  optional string test_core_version = 12;  // e.g. '1.0.0'
-  // "androidx.test.core-ktx".
-  optional string test_core_ktx_version = 13;  // e.g. '1.0.0'
-  // "androidx.test.ext.junit".
-  optional string test_ext_junit_version = 14;  // e.g. '1.0.0'
-  // "androidx.test.ext.junit-ktx".
-  optional string test_ext_junit_ktx_version = 15;  // e.g. '1.0.0'
-  // "androidx.test.ext.truth".
-  optional string test_ext_truth_version = 16;  // e.g. '1.0.0'
-  // "androidx.fragment.fragment-testing".
-  optional string fragment_testing_version = 17;  // e.g. '1.0.0'
-  optional string junit_version = 18;             // e.g. '4.2'
-  // "com.google.truth".
-  optional string truth_version = 19;  // e.g. '0.40'
-  // "androidx.benchmark.benchmark-common".
-  optional string benchmark_common_version = 20;  // e.g. '1.0.0'
-  // "androidx.benchmark.benchmark-junit4".
-  optional string benchmark_junit4_version = 21;  // e.g. '1.0.0'
+    // "com.android.support.test:runner".
+    optional string test_support_library_version = 1;
+    // "com.android.support.test:orchestrator".
+    optional string test_support_orchestrator_version = 22;
+    // "com.android.support.test:rules".
+    optional string test_support_rules_version = 23;
+
+    // "com.android.support.test.espresso:espresso-core".
+    optional string test_support_espresso_version = 25;
+    // "com.android.support.test.espresso:espresso-contrib".
+    optional string test_support_espresso_contrib_version = 26;
+    // "com.android.support.test.espresso:espresso-web".
+    optional string test_support_espresso_web_version = 27;
+    // "com.android.support.test.espresso:espresso-intents".
+    optional string test_support_espresso_intents_version = 28;
+    // "com.android.support.test.espresso:espresso-idling-resource".
+    optional string test_support_espresso_idling_resource_version = 29;
+    // "com.android.support.test.espresso:espresso-accessibility".
+    optional string test_support_espresso_accessibility_version = 30;
+
+    // "androidx.test:core".
+    optional string test_core_version = 12;
+    // "androidx.test:core-ktx".
+    optional string test_core_ktx_version = 13;
+    // "androidx.test:runner".
+    optional string test_runner_version = 24;
+    // "androidx.test:orchestrator".
+    optional string test_orchestrator_version = 10;
+    // "androidx.test:rules".
+    optional string test_rules_version = 11;
+    // "androidx.test.ext:junit".
+    optional string test_ext_junit_version = 14;
+    // "androidx.test.ext:junit-ktx".
+    optional string test_ext_junit_ktx_version = 15;
+    // "androidx.test.ext:truth".
+    optional string test_ext_truth_version = 16;
+
+    // "androidx.test.espresso:espresso-core"
+    optional string espresso_version = 2;
+    // "androidx.test.espresso:espresso-contrib"
+    optional string espresso_contrib_version = 5;
+    // "androidx.test.espresso:espresso-web"
+    optional string espresso_web_version = 6;
+    // "androidx.test.espresso:espresso-intents"
+    optional string espresso_intents_version = 7;
+    // "androidx.test.espresso:espresso-idling-resource"
+    optional string espresso_idling_resource_version = 8;
+    // "androidx.test.espresso:espresso-accessibility"
+    optional string espresso_accessibility_version = 9;
+
+    // "androidx.fragment:fragment-testing".
+    optional string fragment_testing_version = 17;
+
+    // "androidx.benchmark:benchmark-common".
+    optional string benchmark_common_version = 20;
+    // "androidx.benchmark:benchmark-junit4".
+    optional string benchmark_junit4_version = 21;
+
+    // "org.robolectric:robolectric".
+    optional string robolectric_version = 3;
+
+    // "org.mockito:mockito-core".
+    optional string mockito_version = 4;
+
+    // "junit:junit"
+    optional string junit_version = 18;
+
+    // "com.google.truth:truth".
+    optional string truth_version = 19;
 }
 
 // Describes the status of various Hypervisors

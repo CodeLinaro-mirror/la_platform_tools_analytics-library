@@ -38,7 +38,7 @@ class TestSupportLibrariesTest {
     assertThat(newBuilder().recordTestLibrary("androidx.test", "rules", "1.0").build()).isEqualTo(
       newBuilder().setTestRulesVersion("1.0").build())
     assertThat(newBuilder().recordTestLibrary("androidx.test", "runner", "1.0").build()).isEqualTo(
-      newBuilder().setTestSupportLibraryVersion("1.0").build())
+      newBuilder().setTestRunnerVersion("1.0").build())
     assertThat(newBuilder().recordTestLibrary("androidx.test.espresso", "espresso-accessibility", "1.0").build()).isEqualTo(
       newBuilder().setEspressoAccessibilityVersion("1.0").build())
     assertThat(newBuilder().recordTestLibrary("androidx.test.espresso", "espresso-contrib", "1.0").build()).isEqualTo(
@@ -58,23 +58,23 @@ class TestSupportLibrariesTest {
     assertThat(newBuilder().recordTestLibrary("androidx.test.ext", "truth", "1.0").build()).isEqualTo(
       newBuilder().setTestExtTruthVersion("1.0").build())
     assertThat(newBuilder().recordTestLibrary("com.android.support.test", "orchestrator", "1.0").build()).isEqualTo(
-      newBuilder().setTestOrchestratorVersion("1.0").build())
+      newBuilder().setTestSupportOrchestratorVersion("1.0").build())
     assertThat(newBuilder().recordTestLibrary("com.android.support.test", "rules", "1.0").build()).isEqualTo(
-      newBuilder().setTestRulesVersion("1.0").build())
+      newBuilder().setTestSupportRulesVersion("1.0").build())
     assertThat(newBuilder().recordTestLibrary("com.android.support.test", "runner", "1.0").build()).isEqualTo(
       newBuilder().setTestSupportLibraryVersion("1.0").build())
     assertThat(newBuilder().recordTestLibrary("com.android.support.test.espresso", "espresso-accessibility", "1.0").build()).isEqualTo(
-      newBuilder().setEspressoAccessibilityVersion("1.0").build())
+      newBuilder().setTestSupportEspressoAccessibilityVersion("1.0").build())
     assertThat(newBuilder().recordTestLibrary("com.android.support.test.espresso", "espresso-contrib", "1.0").build()).isEqualTo(
-      newBuilder().setEspressoContribVersion("1.0").build())
+      newBuilder().setTestSupportEspressoContribVersion("1.0").build())
     assertThat(newBuilder().recordTestLibrary("com.android.support.test.espresso", "espresso-core", "1.0").build()).isEqualTo(
-      newBuilder().setEspressoVersion("1.0").build())
+      newBuilder().setTestSupportEspressoVersion("1.0").build())
     assertThat(newBuilder().recordTestLibrary("com.android.support.test.espresso", "espresso-idling-resource", "1.0").build()).isEqualTo(
-      newBuilder().setEspressoIdlingResourceVersion("1.0").build())
+      newBuilder().setTestSupportEspressoIdlingResourceVersion("1.0").build())
     assertThat(newBuilder().recordTestLibrary("com.android.support.test.espresso", "espresso-intents", "1.0").build()).isEqualTo(
-      newBuilder().setEspressoIntentsVersion("1.0").build())
+      newBuilder().setTestSupportEspressoIntentsVersion("1.0").build())
     assertThat(newBuilder().recordTestLibrary("com.android.support.test.espresso", "espresso-web", "1.0").build()).isEqualTo(
-      newBuilder().setEspressoWebVersion("1.0").build())
+      newBuilder().setTestSupportEspressoWebVersion("1.0").build())
     assertThat(newBuilder().recordTestLibrary("com.google.truth", "truth", "1.0").build()).isEqualTo(
       newBuilder().setTruthVersion("1.0").build())
     assertThat(newBuilder().recordTestLibrary("junit", "junit", "1.0").build()).isEqualTo(newBuilder().setJunitVersion("1.0").build())
