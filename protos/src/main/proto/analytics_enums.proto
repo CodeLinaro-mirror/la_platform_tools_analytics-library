@@ -342,6 +342,7 @@ enum GradleTaskExecutionType {
     BUNDLE_IDE_MODEL_PRODUCER = 256;
     MAP_SOURCE_SET_PATHS = 257;
     MANAGED_DEVICE_INSTRUMENTATION_TEST = 258;
+    JACOCO_PROPERTIES = 259;
 }
 
 enum BooleanOption {
