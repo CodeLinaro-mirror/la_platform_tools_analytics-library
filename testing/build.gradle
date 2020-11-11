@@ -4,17 +4,17 @@ apply plugin: 'com.android.tools.publish'
 apply plugin: 'jacoco-tools-base'
 
 dependencies {
-    compile project(':analytics-library:protos')
-    compile project(':analytics-library:shared')
-    compile project(':analytics-library:tracker')
-    compile project(':base:annotations')
-    compile project(':base:common')
-    compile project(':base:testutils')
-    compile libs.guava
-    compile libs.gson
+    implementation project(':analytics-library:protos')
+    implementation project(':analytics-library:shared')
+    implementation project(':analytics-library:tracker')
+    implementation project(':base:annotations')
+    implementation project(':base:common')
+    implementation project(':base:testutils')
+    implementation libs.guava
+    implementation libs.gson
 
-    testCompile libs.junit
-    testCompile libs.truth
+    testImplementation libs.junit
+    testImplementation libs.truth
 }
 
 group = 'com.android.tools.analytics-library'

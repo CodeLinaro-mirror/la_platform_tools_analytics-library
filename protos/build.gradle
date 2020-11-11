@@ -15,7 +15,7 @@ idea.module {
 }
 
 dependencies {
-    compile libs.protobuf
+    api libs.protobuf
 }
 
 group = 'com.android.tools.analytics-library'

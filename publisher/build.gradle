@@ -4,17 +4,17 @@ apply plugin: 'com.android.tools.kotlin'
 apply plugin: 'jacoco-tools-base'
 
 dependencies {
-    compile project(':base:annotations')
-    compile project(':base:common')
-    compile project(':analytics-library:protos')
-    compile project(':analytics-library:shared')
-    compile libs.protobuf
-    compile libs.guava
+    implementation project(':base:annotations')
+    implementation project(':base:common')
+    implementation project(':analytics-library:protos')
+    implementation project(':analytics-library:shared')
+    implementation libs.protobuf
+    implementation libs.guava
 
-    testCompile project(':base:testutils')
-    testCompile libs.junit
-    testCompile libs.truth
-    testCompile project(':analytics-library:tracker')
+    testImplementation project(':base:testutils')
+    testImplementation libs.junit
+    testImplementation libs.truth
+    testImplementation project(':analytics-library:tracker')
 }
 
 group = 'com.android.tools.analytics-library'

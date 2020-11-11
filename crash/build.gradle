@@ -23,16 +23,16 @@ repositories {
 }
 
 dependencies {
-    compile project(':base:annotations')
-    compile libs.guava
-    compile libs.apache_httpmime
-    compile libs.apache_httpcore
-    compile libs.apache_httpclient
+    implementation project(':base:annotations')
+    implementation libs.guava
+    implementation libs.apache_httpmime
+    implementation libs.apache_httpcore
+    implementation libs.apache_httpclient
 
-    testCompile libs.junit
-    testCompile libs.netty_all
-    testCompile libs.truth
-    testCompile libs.mockito_core
+    testImplementation libs.junit
+    testImplementation libs.netty_all
+    testImplementation libs.truth
+    testImplementation libs.mockito_core
 }
 
 group = 'com.android.tools.analytics-library'
