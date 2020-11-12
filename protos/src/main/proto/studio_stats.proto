@@ -2995,75 +2995,75 @@ message TestRun {
 // only if this project uses the given library.
 // Next ID: 31
 message TestLibraries {
-    // "com.android.support.test:runner".
-    optional string test_support_library_version = 1;
-    // "com.android.support.test:orchestrator".
-    optional string test_support_orchestrator_version = 22;
-    // "com.android.support.test:rules".
-    optional string test_support_rules_version = 23;
+  // "com.android.support.test:runner".
+  optional string test_support_library_version = 1;
+  // "com.android.support.test:orchestrator".
+  optional string test_support_orchestrator_version = 22;
+  // "com.android.support.test:rules".
+  optional string test_support_rules_version = 23;
 
-    // "com.android.support.test.espresso:espresso-core".
-    optional string test_support_espresso_version = 25;
-    // "com.android.support.test.espresso:espresso-contrib".
-    optional string test_support_espresso_contrib_version = 26;
-    // "com.android.support.test.espresso:espresso-web".
-    optional string test_support_espresso_web_version = 27;
-    // "com.android.support.test.espresso:espresso-intents".
-    optional string test_support_espresso_intents_version = 28;
-    // "com.android.support.test.espresso:espresso-idling-resource".
-    optional string test_support_espresso_idling_resource_version = 29;
-    // "com.android.support.test.espresso:espresso-accessibility".
-    optional string test_support_espresso_accessibility_version = 30;
+  // "com.android.support.test.espresso:espresso-core".
+  optional string test_support_espresso_version = 25;
+  // "com.android.support.test.espresso:espresso-contrib".
+  optional string test_support_espresso_contrib_version = 26;
+  // "com.android.support.test.espresso:espresso-web".
+  optional string test_support_espresso_web_version = 27;
+  // "com.android.support.test.espresso:espresso-intents".
+  optional string test_support_espresso_intents_version = 28;
+  // "com.android.support.test.espresso:espresso-idling-resource".
+  optional string test_support_espresso_idling_resource_version = 29;
+  // "com.android.support.test.espresso:espresso-accessibility".
+  optional string test_support_espresso_accessibility_version = 30;
 
-    // "androidx.test:core".
-    optional string test_core_version = 12;
-    // "androidx.test:core-ktx".
-    optional string test_core_ktx_version = 13;
-    // "androidx.test:runner".
-    optional string test_runner_version = 24;
-    // "androidx.test:orchestrator".
-    optional string test_orchestrator_version = 10;
-    // "androidx.test:rules".
-    optional string test_rules_version = 11;
-    // "androidx.test.ext:junit".
-    optional string test_ext_junit_version = 14;
-    // "androidx.test.ext:junit-ktx".
-    optional string test_ext_junit_ktx_version = 15;
-    // "androidx.test.ext:truth".
-    optional string test_ext_truth_version = 16;
+  // "androidx.test:core".
+  optional string test_core_version = 12;
+  // "androidx.test:core-ktx".
+  optional string test_core_ktx_version = 13;
+  // "androidx.test:runner".
+  optional string test_runner_version = 24;
+  // "androidx.test:orchestrator".
+  optional string test_orchestrator_version = 10;
+  // "androidx.test:rules".
+  optional string test_rules_version = 11;
+  // "androidx.test.ext:junit".
+  optional string test_ext_junit_version = 14;
+  // "androidx.test.ext:junit-ktx".
+  optional string test_ext_junit_ktx_version = 15;
+  // "androidx.test.ext:truth".
+  optional string test_ext_truth_version = 16;
 
-    // "androidx.test.espresso:espresso-core"
-    optional string espresso_version = 2;
-    // "androidx.test.espresso:espresso-contrib"
-    optional string espresso_contrib_version = 5;
-    // "androidx.test.espresso:espresso-web"
-    optional string espresso_web_version = 6;
-    // "androidx.test.espresso:espresso-intents"
-    optional string espresso_intents_version = 7;
-    // "androidx.test.espresso:espresso-idling-resource"
-    optional string espresso_idling_resource_version = 8;
-    // "androidx.test.espresso:espresso-accessibility"
-    optional string espresso_accessibility_version = 9;
+  // "androidx.test.espresso:espresso-core"
+  optional string espresso_version = 2;
+  // "androidx.test.espresso:espresso-contrib"
+  optional string espresso_contrib_version = 5;
+  // "androidx.test.espresso:espresso-web"
+  optional string espresso_web_version = 6;
+  // "androidx.test.espresso:espresso-intents"
+  optional string espresso_intents_version = 7;
+  // "androidx.test.espresso:espresso-idling-resource"
+  optional string espresso_idling_resource_version = 8;
+  // "androidx.test.espresso:espresso-accessibility"
+  optional string espresso_accessibility_version = 9;
 
-    // "androidx.fragment:fragment-testing".
-    optional string fragment_testing_version = 17;
+  // "androidx.fragment:fragment-testing".
+  optional string fragment_testing_version = 17;
 
-    // "androidx.benchmark:benchmark-common".
-    optional string benchmark_common_version = 20;
-    // "androidx.benchmark:benchmark-junit4".
-    optional string benchmark_junit4_version = 21;
+  // "androidx.benchmark:benchmark-common".
+  optional string benchmark_common_version = 20;
+  // "androidx.benchmark:benchmark-junit4".
+  optional string benchmark_junit4_version = 21;
 
-    // "org.robolectric:robolectric".
-    optional string robolectric_version = 3;
+  // "org.robolectric:robolectric".
+  optional string robolectric_version = 3;
 
-    // "org.mockito:mockito-core".
-    optional string mockito_version = 4;
+  // "org.mockito:mockito-core".
+  optional string mockito_version = 4;
 
-    // "junit:junit"
-    optional string junit_version = 18;
+  // "junit:junit"
+  optional string junit_version = 18;
 
-    // "com.google.truth:truth".
-    optional string truth_version = 19;
+  // "com.google.truth:truth".
+  optional string truth_version = 19;
 }
 
 // Describes the status of various Hypervisors
@@ -8487,7 +8487,10 @@ message AppInspectionEvent {
 
   // Set if |type| is |INSPECTOR_EVENT|
   oneof inspector_event {
+    // Event associated with the user interacting with the database inspector
     DatabaseInspectorEvent database_inspector_event = 2;
+    // Event associated with the user interacting with the WorkManager inspector
+    WorkManagerInspectorEvent work_manager_inspector_event = 3;
   }
 
   // Set if |type| is |ERROR_OCCURRED|
@@ -8628,6 +8631,84 @@ message AppInspectionEvent {
 
     // Set if |type| is |EXPORT_OPERATION_COMPLETED|
     optional ExportOperationCompletedEvent export_completed_event = 9;
+  }
+
+  // Event associated with the user interacting with the WorkManager inspector
+  message WorkManagerInspectorEvent {
+    // The detailed type of this event
+    enum Type {
+      UNKNOWN_EVENT_TYPE = 0;
+
+      // Global events
+
+      // Fired when the user requests viewing data in table form
+      TABLE_MODE_SELECTED = 1;
+      // Fired when the user requests viewing data in graph form
+      GRAPH_MODE_SELECTED = 2;
+
+      // Worker-centric events
+
+      // Fired when a worker is actively selected by the user
+      WORK_SELECTED = 101;
+
+      // Fired when the user clicks on a link that jumps into code
+      JUMPED_TO_SOURCE = 102;
+
+      // Fired when the user requests stopping a running worker
+      WORK_CANCELED = 103;
+    }
+
+    // UI context associated with the current event
+    enum Context {
+      UNKNOWN_CONTEXT = 0;
+
+      // The current event is related to the table view
+      TABLE_CONTEXT = 1;
+
+      // The current event is related to the graph view
+      GRAPH_CONTEXT = 2;
+
+      // The current event is related to the details panel
+      DETAILS_CONTEXT = 3;
+
+      // The current event is related to the tool buttons bar
+      TOOL_BUTTON_CONTEXT = 4;
+    }
+
+    // Active UI layout when the current event was sent
+    enum Mode {
+      UNKNOWN_MODE = 0;
+
+      // The table view is currently active
+      TABLE_MODE = 1;
+
+      // The graph view is currently active
+      GRAPH_MODE = 2;
+    }
+
+    // Information about the chain of workers a worker is part of
+    message ChainInfo {
+      // The total number of all workers in this work chain
+      optional int32 worker_count = 1;
+      // The total number of all connections between workers
+      optional int32 dependency_count = 2;
+      // The longest chain of parents / children
+      optional int32 max_depth = 3;
+      // The widest chain of siblings
+      optional int32 max_width = 4;
+    }
+
+    // The detailed type of this event
+    optional Type type = 1;
+    // UI context associated with the current event
+    optional Context context = 2;
+    // Active UI layout when the current event was sent
+    optional Mode mode = 3;
+
+    // Set if event indicates we're going to update the graph view, i.e.
+    // |type| is |GRAPH_MODE_SELECTED|,
+    // |type| is |WORK_SELECTED| when |mode| is |GRAPH_MODE|
+    optional ChainInfo chain_info = 4;
   }
 }
 
