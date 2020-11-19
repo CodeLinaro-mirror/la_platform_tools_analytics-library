@@ -16,20 +16,19 @@
 apply plugin: 'com.android.tools.java-library'
 apply plugin: 'com.android.tools.kotlin'
 apply plugin: 'com.android.tools.publish'
-apply plugin: 'jacoco-tools-base'
 apply plugin: 'sdk-java-lib'
 
 dependencies {
-    compile project(':analytics-library:protos')
-    compile project(':base:annotations')
-    compile project(':base:common')
-    compile libs.guava
-    compile libs.gson
-    compile libs.kotlin_stdlib
+    api project(':analytics-library:protos')
+    implementation project(':base:annotations')
+    implementation project(':base:common')
+    implementation libs.guava
+    implementation libs.gson
+    implementation libs.kotlin_stdlib
 
-    testCompile libs.junit
-    testCompile libs.truth
-    testCompile project(':base:testutils')
+    testImplementation libs.junit
+    testImplementation libs.truth
+    testImplementation project(':base:testutils')
 }
 
 group = 'com.android.tools.analytics-library'
