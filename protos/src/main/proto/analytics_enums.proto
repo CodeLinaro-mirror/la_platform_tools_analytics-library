@@ -487,6 +487,7 @@ enum BooleanOption {
     ENABLE_SOURCE_SET_PATHS_MAP = 137;
     ENABLE_LOCAL_TESTING = 138;
     ENABLE_DATABINDING_KTX = 139;
+    RUN_LINT_IN_PROCESS = 140;
 }
 
 enum OptionalBooleanOption {
