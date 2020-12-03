@@ -8783,6 +8783,7 @@ message DaggerEditorEvent {
     OPENED_LINK_FROM_ERROR = 2;
     FIND_USAGES_NODE_WAS_DISPLAYED = 3;
     CLICKED_ON_GUTTER = 4;
+    GUTTER_WAS_DISPLAYED = 5;
   }
 
   enum ElementType {
@@ -8819,8 +8820,12 @@ message DaggerEditorEvent {
   // Set if |type| is |NAVIGATED|
   optional NavigationMetadata navigation_metadata = 2;
 
-  // Set if |type| is |FIND_USAGES_NODE_WAS_DISPLAYED|, |CLICKED_ON_GUTTER|
+  // Set if |type| is |FIND_USAGES_NODE_WAS_DISPLAYED|, |CLICKED_ON_GUTTER|,
+  // |GUTTER_WAS_DISPLAYED|
   optional ElementType owner_element_type = 3;
+
+  // Set if |type| is |FIND_USAGES_NODE_WAS_DISPLAYED|, |GUTTER_WAS_DISPLAYED|
+  optional int64 calculation_time_ms = 4;
 }
 
 // Tracks UI impressions and user interactions in the test report UI.
