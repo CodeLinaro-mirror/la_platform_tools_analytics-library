@@ -584,7 +584,7 @@ enum VariantPropertiesMethodType {
     PRODUCT_FLAVORS = 5;
     FLAVOR_NAME = 6;
     READ_ONLY_APPLICATION_ID = 7;
-    PACKAGE_NAME = 8;
+    PACKAGE_NAME = 8 [deprecated=true];
     BUILD_CONFIG_FIELDS = 9;
     ADD_BUILD_CONFIG_FIELD = 10;
     RES_VALUE = 11;
@@ -638,4 +638,5 @@ enum VariantPropertiesMethodType {
     NDK_BUILD_OPTIONS_C_FLAGS = 59;
     NDK_BUILD_OPTIONS_CPP_FLAGS = 60;
     NDK_BUILD_OPTIONS_TARGETS = 61;
+    NAMESPACE = 62;
 }
