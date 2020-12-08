@@ -343,6 +343,7 @@ enum GradleTaskExecutionType {
     MAP_SOURCE_SET_PATHS = 257;
     MANAGED_DEVICE_INSTRUMENTATION_TEST = 258;
     JACOCO_PROPERTIES = 259;
+    ANDROID_LINT_COPY_REPORT = 260;
 }
 
 enum BooleanOption {
