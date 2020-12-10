@@ -3580,6 +3580,12 @@ message GradleBuildVariant {
   // Kotlin-specific options in build files
   optional KotlinOptions kotlin_options = 26;
 
+  // List of registered classes transforms
+  repeated AsmClassesTransformRegistration asm_classes_transforms = 27;
+
+  // List of updates to the frames computation mode
+  repeated AsmFramesComputationModeUpdate frames_computation_mode_updates = 28;
+
   // The nature of this variant.
   // The test variants have an associated tested variant.
   // See com.android.builder.core.VariantType
@@ -9110,4 +9116,37 @@ message SurveyResponse {
   optional string name = 1;
   // One or more responses selected by the user
   repeated int32 responses = 2;
+}
+
+// Record of a registered transform
+message AsmClassesTransformRegistration {
+  // List of scopes available for transforming
+  enum Scope {
+    UNKNOWN_SCOPE = 0;
+    PROJECT = 1;
+    ALL = 2;
+  }
+
+  // Name of the factory class supplied in registration.
+  // Example: FireperfClassVisitorFactory
+  optional string class_visitor_factory_class_name = 1;
+
+  // Scope of the classes to be transformed
+  optional Scope scope = 2;
+}
+
+// An action to set the asm frames computation mode for the asm classes
+// transforms
+message AsmFramesComputationModeUpdate {
+  // List of frames computation modes
+  enum Mode {
+    UNKNOWN_MODE = 0;
+    COPY_FRAMES = 1;
+    COMPUTE_FRAMES_FOR_INSTRUMENTED_METHODS = 2;
+    COMPUTE_FRAMES_FOR_INSTRUMENTED_CLASSES = 3;
+    COMPUTE_FRAMES_FOR_ALL_CLASSES = 4;
+  }
+
+  // The requested frames computation mode
+  optional Mode mode = 1;
 }
