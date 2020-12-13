@@ -45,6 +45,8 @@ kotlin_library(
         "//tools/base/common:tools.common",
         "//tools/base/third_party:com.google.code.gson_gson",
         "//tools/base/third_party:com.google.guava_guava",
+        "//tools/base/third_party:net.java.dev.jna_jna",
+        "//tools/base/third_party:net.java.dev.jna_jna-platform",
         "//tools/base/third_party:org.jetbrains.kotlin_kotlin-stdlib",
         "//tools/base/third_party:org.jetbrains.kotlin_kotlin-stdlib-jdk7",
         "//tools/base/third_party:org.jetbrains.kotlin_kotlin-stdlib-jdk8",
