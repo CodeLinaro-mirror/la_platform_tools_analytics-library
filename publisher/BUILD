@@ -6,7 +6,7 @@ iml_module(
     name = "analytics-publisher",
     srcs = ["src/main/java"],
     iml_files = ["analytics-publisher.iml"],
-    lint_baseline = "//tools/base/lint:studio-checks/empty_baseline.xml",
+    lint_baseline = "lint_baseline.xml",
     test_srcs = ["src/test/java"],
     visibility = ["//visibility:public"],
     # do not sort: must match IML order

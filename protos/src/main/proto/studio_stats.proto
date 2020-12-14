@@ -414,6 +414,9 @@ message AndroidStudioEvent {
   // set when kind = SURVEY_RESPONSE
   optional SurveyResponse survey_response = 115;
 
+  // set when kind = COMPOSE_DEPLOY
+  optional ComposeDeployEvent compose_deploy_event = 116;
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -973,6 +976,9 @@ message AndroidStudioEvent {
 
     // Event related to a survey response
     SURVEY_RESPONSE = 217;
+
+    // Event related to deploying Compose previews.
+    COMPOSE_DEPLOY = 218;
   }
 
   // Represents different Performance Monitoring types.
@@ -7980,6 +7986,18 @@ message ComposeAnimationToolingEvent {
   // Multiplier of the animation speed (e.g. 1.5x, 0.25x).
   // Set when type is CHANGE_ANIMATION_SPEED.
   optional float animation_speed_multiplier = 2;
+}
+
+// Details for Compose deploy event
+message ComposeDeployEvent {
+  enum ComposeDeployEventType {
+    UNKNOWN_EVENT_TYPE = 0;
+    DEPLOY_FROM_GUTTER = 1;
+    DEPLOY_FROM_TOOLBAR = 2;
+  }
+
+  // Type of event.
+  optional ComposeDeployEventType type = 1;
 }
 
 // Details for Compose sample event
