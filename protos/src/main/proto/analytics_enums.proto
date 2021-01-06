@@ -556,6 +556,7 @@ enum StringOption {
     PREFAB_VERSION = 27;
     IDE_INSTALL_DYNAMIC_MODULES_LIST = 28;
     JETIFIER_IGNORE_LIST = 29;
+    NATIVE_BUILD_OUTPUT_LEVEL = 30;
 }
 
 enum VariantApiArtifactType {
