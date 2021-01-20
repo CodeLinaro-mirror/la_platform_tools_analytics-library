@@ -12,11 +12,13 @@ iml_module(
     # do not sort: must match IML order
     exports = [
         "//tools/idea/.idea/libraries:Guava",
+        "//tools/idea/.idea/libraries:jna",
         "//tools/base/annotations:studio.android.sdktools.android-annotations",
     ],
     # do not sort: must match IML order
     deps = [
         "//tools/idea/.idea/libraries:Guava",
+        "//tools/idea/.idea/libraries:jna",
         "//tools/idea/.idea/libraries:JUnit4[test]",
         "//tools/base/annotations:studio.android.sdktools.android-annotations[module]",
         "//tools/idea/.idea/libraries:truth[test]",
@@ -46,6 +48,8 @@ kotlin_library(
         "//tools/base/common:tools.common",
         "//tools/base/third_party:com.google.code.gson_gson",
         "//tools/base/third_party:com.google.guava_guava",
+        "//tools/base/third_party:net.java.dev.jna_jna",
+        "//tools/base/third_party:net.java.dev.jna_jna-platform",
         "//tools/base/third_party:org.jetbrains.kotlin_kotlin-stdlib",
         "//tools/base/third_party:org.jetbrains.kotlin_kotlin-stdlib-jdk7",
         "//tools/base/third_party:org.jetbrains.kotlin_kotlin-stdlib-jdk8",

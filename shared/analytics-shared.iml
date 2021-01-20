@@ -10,6 +10,7 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="library" name="studio-sdk" level="project" />
     <orderEntry type="library" exported="" name="Guava" level="project" />
+    <orderEntry type="library" exported="" name="jna" level="project" />
     <orderEntry type="library" scope="TEST" name="JUnit4" level="project" />
     <orderEntry type="module" module-name="android.sdktools.android-annotations" exported="" />
     <orderEntry type="library" scope="TEST" name="truth" level="project" />

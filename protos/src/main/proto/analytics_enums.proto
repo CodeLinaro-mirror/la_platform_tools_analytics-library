@@ -340,6 +340,7 @@ enum GradleTaskExecutionType {
     ANDROID_LINT = 254;
     ANDROID_LINT_GLOBAL = 255;
     BUNDLE_IDE_MODEL_PRODUCER = 256;
+    DESUGAR_LIB_KEEP_RULES_MERGE = 257;
 }
 
 enum BooleanOption {
