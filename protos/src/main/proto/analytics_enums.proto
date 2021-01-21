@@ -346,6 +346,8 @@ enum GradleTaskExecutionType {
     JACOCO_PROPERTIES = 259;
     ANDROID_LINT_COPY_REPORT = 260;
     DESUGAR_LIB_KEEP_RULES_MERGE = 261;
+    D8_BUNDLE_MAIN_DEX_LIST = 262;
+    FEATURE_DEX_MERGE = 263;
 }
 
 enum BooleanOption {
