@@ -580,6 +580,8 @@ enum VariantMethodType {
     MAX_SDK_VERSION_VALUE = 4;
     TARGET_SDK_VERSION_VALUE = 5;
     DEPENDENCIES_ACTION = 6;
+    UNIT_TEST_ENABLED = 7;
+    ANDROID_TEST_ENABLED = 8;
 }
 
 enum VariantPropertiesMethodType {
