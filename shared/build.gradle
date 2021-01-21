@@ -26,6 +26,7 @@ dependencies {
     compile libs.guava
     compile libs.gson
     compile libs.kotlin_stdlib
+    compile libs.jna_platform
 
     testCompile libs.junit
     testCompile libs.truth
