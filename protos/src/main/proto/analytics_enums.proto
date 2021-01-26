@@ -581,8 +581,9 @@ enum VariantMethodType {
     MAX_SDK_VERSION_VALUE = 4;
     TARGET_SDK_VERSION_VALUE = 5;
     DEPENDENCIES_ACTION = 6;
-    UNIT_TEST_ENABLED = 7;
-    ANDROID_TEST_ENABLED = 8;
+    REGISTER_EXTENSION = 7;
+    UNIT_TEST_ENABLED = 8;
+    ANDROID_TEST_ENABLED = 9;
 }
 
 enum VariantPropertiesMethodType {
@@ -649,4 +650,5 @@ enum VariantPropertiesMethodType {
     NDK_BUILD_OPTIONS_CPP_FLAGS = 60;
     NDK_BUILD_OPTIONS_TARGETS = 61;
     NAMESPACE = 62;
+    GET_EXTENSION = 63;
 }
