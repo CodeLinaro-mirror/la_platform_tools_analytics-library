@@ -494,6 +494,7 @@ enum BooleanOption {
     ENABLE_DATABINDING_KTX = 139;
     RUN_LINT_IN_PROCESS = 140;
     USE_LINT_PARTIAL_ANALYSIS = 141;
+    RELATIVE_COMPILE_LIB_RESOURCES = 142;
 }
 
 enum OptionalBooleanOption {
