@@ -1107,10 +1107,10 @@ message AndroidStudioEvent {
     DYNAMIC_FEATURE_MODULE = 51;
     INSTANT_DYNAMIC_FEATURE_MODULE = 52;
     AUTOMOTIVE_MODULE = 53;
-    THINGS_MODULE = 54;
+    THINGS_MODULE = 54 [deprecated = true];
     AUTOMOTIVE_MEDIA_SERVICE = 55;
     AUTOMOTIVE_MESSAGING_SERVICE = 56;
-    THINGS_ACTIVITY = 57;
+    THINGS_ACTIVITY = 57 [deprecated = true];
     WATCH_GOOGLE_MAPS_ACTIVITY = 58;
     WATCH_FACE = 59;
     ML_MODEL_BINDING_IMPORT_WIZARD = 60;
@@ -1164,7 +1164,7 @@ message AndroidStudioEvent {
         GOOGLE_MAPS_ACTIVITY = 16;
         GOOGLE_ADMOBS_ADS_ACTIVITY = 17;
         ANDROID_TV_EMPTY_ACTIVITY = 18;
-        THINGS_EMPTY_ACTIVITY = 19;
+        THINGS_EMPTY_ACTIVITY = 19 [deprecated = true];
         VIEW_MODEL_ACTIVITY = 20;
         BOTTOM_NAVIGATION_ACTIVITY = 21;
         CPP_EMPTY_ACTIVITY = 22;
@@ -1242,7 +1242,7 @@ message AndroidStudioEvent {
         AUTOMOTIVE = 6;
         WEAR_OS = 7;
         ANDROID_TV = 8;
-        ANDROID_THINGS = 9;
+        ANDROID_THINGS = 9 [deprecated = true];
         IMPORT_GRADLE = 10;
         IMPORT_ECLIPSE = 11;
         IMPORT_JAR_AAR = 12;
@@ -3599,6 +3599,11 @@ message GradleBuildVariant {
 
   // List of updates to the frames computation mode
   repeated AsmFramesComputationModeUpdate frames_computation_mode_updates = 28;
+
+  // Native diagnostic codes logged while processing this variant. For a list
+  // of possible values, see
+  // /tools/base/common/src/main/java/com/android/utils/cxx/CxxDiagnosticCode.kt
+  repeated int32 cxx_diagnostic_codes = 29 [packed = true];
 
   // The nature of this variant.
   // The test variants have an associated tested variant.
@@ -9180,4 +9185,3 @@ message FileUsage {
   // Plugin type
   optional string plugin_type = 3;
 }
-
