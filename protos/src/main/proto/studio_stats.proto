@@ -1817,11 +1817,17 @@ message EmulatorGpuInfo {
 
 // Set of emulator feature flags to report ones used during current session.
 message EmulatorFeatures {
+  enum EmulatorLaunchType {
+    UNKNOWN_EMULATOR_LAUNCH_TYPE = 0;
+    CONTAINER = 1;
+    FUCHSIA = 2;
+  }
   optional bool gps = 1;
   optional bool sensors = 2;
   optional bool virtualscene_config = 3;
-  // True if the emulator is running standalone.
-  optional bool container_launch = 4;
+  // Use launch_type with "CONTAINER" instead.
+  optional bool container_launch = 4 [deprecated = true];
+  optional EmulatorLaunchType launch_type = 5;
 }
 
 // A description of a single file from an AVD.
@@ -9030,6 +9036,7 @@ message UpgradeAssistantComponentInfo {
     COMPILE_RUNTIME_CONFIGURATION = 5;
     FABRIC_CRASHLYTICS = 6;
     MIGRATE_TO_BUILD_FEATURES = 7;
+    REMOVE_SOURCE_SET_JNI = 8;
   }
 
   message Java8DefaultProcessorSettings {
