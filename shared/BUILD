@@ -10,14 +10,10 @@ iml_module(
     test_srcs = ["src/test/java"],
     visibility = ["//visibility:public"],
     # do not sort: must match IML order
-    exports = [
-        "//tools/adt/idea/.idea/libraries:Guava",
-        "//tools/base/annotations:studio.android.sdktools.android-annotations",
-    ],
+    exports = ["//tools/base/annotations:studio.android.sdktools.android-annotations"],
     # do not sort: must match IML order
     deps = [
         "//prebuilts/studio/intellij-sdk:studio-sdk",
-        "//tools/adt/idea/.idea/libraries:Guava",
         "//tools/base/annotations:studio.android.sdktools.android-annotations[module]",
         "//tools/adt/idea/.idea/libraries:truth[test]",
         "//tools/base/testutils:studio.android.sdktools.testutils[module, test]",
