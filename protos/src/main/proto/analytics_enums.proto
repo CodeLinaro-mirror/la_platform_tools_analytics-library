@@ -348,6 +348,7 @@ enum GradleTaskExecutionType {
     DESUGAR_LIB_KEEP_RULES_MERGE = 261;
     D8_BUNDLE_MAIN_DEX_LIST = 262;
     FEATURE_DEX_MERGE = 263;
+    ANDROID_LINT_ANALYSIS = 264;
 }
 
 enum BooleanOption {
@@ -492,6 +493,7 @@ enum BooleanOption {
     ENABLE_LOCAL_TESTING = 138;
     ENABLE_DATABINDING_KTX = 139;
     RUN_LINT_IN_PROCESS = 140;
+    USE_LINT_PARTIAL_ANALYSIS = 141;
 }
 
 enum OptionalBooleanOption {
