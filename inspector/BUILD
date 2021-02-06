@@ -17,7 +17,6 @@ iml_module(
         "//tools/analytics-library/shared:analytics-shared[module]",
         "//tools/base/testutils:studio.android.sdktools.testutils[module, test]",
         "//tools/base/common:studio.android.sdktools.common[module]",
-        "//tools/adt/idea/.idea/libraries:protobuf",
         "//tools/adt/idea/.idea/libraries:studio-analytics-proto",
     ],
 )

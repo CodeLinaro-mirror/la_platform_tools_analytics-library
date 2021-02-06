@@ -19,7 +19,6 @@ iml_module(
         "//tools/base/common:studio.android.sdktools.common[module, test]",
         "//tools/analytics-library/shared:analytics-shared[module, test]",
         "//tools/analytics-library/tracker:analytics-tracker[module, test]",
-        "//tools/adt/idea/.idea/libraries:protobuf",
         "//tools/adt/idea/.idea/libraries:studio-analytics-proto",
         "//tools/adt/idea/.idea/libraries:kotlin-stdlib-jdk8[test]",
     ],
