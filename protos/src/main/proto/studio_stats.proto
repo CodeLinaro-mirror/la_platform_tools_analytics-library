@@ -1481,6 +1481,9 @@ message AndroidStudioEvent {
 
     TYPE_MISSING_ANDROID_MANIFEST = 53;
 
+    // JCenter Maven is deprecated and it should not be used in build scripts.
+    TYPE_JCENTER_IS_DEPRECATED = 54;
+
     // NOTE: When adding a new type here, increment the index by 1. This index
     // may not be consistent with the corresponding value in the Android Gradle
     // plugin (e.g., it could be higher by 1), because of an indexing issue in
@@ -6386,6 +6389,10 @@ message DynamicLayoutInspectorSession {
   optional DynamicLayoutInspectorRotation rotation = 2;
   // Session data around memory usage
   optional DynamicLayoutInspectorMemory memory = 3;
+  // Session data around compose
+  optional DynamicLayoutInspectorCompose compose = 4;
+  // Session data around the system view toggle
+  optional DynamicLayoutInspectorSystemNode system = 5;
 }
 
 // Session data for dynamic layout inspector (inspector v2) around live mode
@@ -6408,6 +6415,24 @@ message DynamicLayoutInspectorRotation {
   optional uint32 component_tree_clicks_in_3d = 3;
   // Component selection count in the component tree while showing in 2D
   optional uint32 component_tree_clicks_in_2d = 4;
+}
+
+message DynamicLayoutInspectorCompose {
+  // Is the kotlin reflection library included in the project
+  optional bool kotlin_reflection_available = 1;
+  // Number of times a compose node was selected in image
+  optional uint32 image_clicks = 2;
+  // Number of times a compose node was selected in the component tree
+  optional uint32 component_tree_clicks = 3;
+  // Number of times a link in the property value section was clicked
+  optional uint32 go_to_source_from_property_value_clicks = 4;
+}
+
+message DynamicLayoutInspectorSystemNode {
+  // Number of selections while the system views are hidden
+  optional uint32 clicks_with_hidden_system_views = 1;
+  // Number of selections while the system views are visible
+  optional uint32 clicks_with_visible_system_views = 2;
 }
 
 // Session data for dynamic layout inspector (inspector v2) around memory usage
