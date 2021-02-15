@@ -560,6 +560,7 @@ enum StringOption {
     JETIFIER_IGNORE_LIST = 29;
     NATIVE_BUILD_OUTPUT_LEVEL = 30;
     AAPT2_FROM_MAVEN_VERSION_OVERRIDE = 31;
+    LINT_HEAP_SIZE = 32;
 }
 
 enum VariantApiArtifactType {
