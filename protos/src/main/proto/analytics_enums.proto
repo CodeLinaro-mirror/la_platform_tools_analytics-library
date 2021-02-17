@@ -655,7 +655,7 @@ enum VariantPropertiesMethodType {
     NAMESPACE = 62;
     GET_EXTENSION = 63;
     DEXING = 64;
-    DEXING_ACTION = 65;
+    DEXING_ACTION = 65;                                 // deprecated
     MULTI_DEX_KEEP_FILE = 66;
     MULTI_DEX_KEEP_PROGUARD = 67;
     RENDERSCRIPT = 68;
