@@ -5985,6 +5985,8 @@ message GradleSyncStats {
     TRIGGER_QF_DISTRIBUTIONSHA256SUM_CONFIRMED_BY_USER = 425;
     // gradleJvm set to USE_PROJECT_JDK in gradle.xml
     TRIGGER_QF_GRADLEJVM_TO_USE_PROJECT_JDK = 426;
+    // Remove JCenter from repositories
+    TRIGGER_QF_REMOVE_JCENTER_FROM_REPOSITORIES = 427;
     // Last marker for syncs caused by quickfixes
     TRIGGER_QF_LAST_MARKER = 999;
 
