@@ -449,7 +449,7 @@ message AndroidStudioEvent {
     // The event is related to project/file templates.
     TEMPLATE = 8;
     // The event is related to Theme Editor.
-    THEME_EDITOR = 9;
+    THEME_EDITOR = 9 [deprecated = true];
     // The event is related to App Indexing integration.
 
     APP_INDEXING = 10;
@@ -536,7 +536,7 @@ message AndroidStudioEvent {
     // A new file/project is created based on a template.
     TEMPLATE_RENDER = 19;
     // User opened the Theme Editor.
-    THEME_EDITOR_OPEN = 20;
+    THEME_EDITOR_OPEN = 20 [deprecated = true];
     // A deep link was created for app indexing.
     APP_INDEXING_DEEP_LINK_CREATED = 21;
     // An api code was created for app indexing.
@@ -3251,6 +3251,9 @@ message GradleBuildProfile {
 
   // If Gradle configuration caching is enabled.
   optional bool configuration_caching_enabled = 21;
+
+  // If Gradle parallel task execution is enabled.
+  optional bool parallel_task_execution = 22;
 }
 
 message GradleBuildProject {
