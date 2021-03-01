@@ -426,6 +426,10 @@ message AndroidStudioEvent {
   // set when kind = LIVE_LITERALS_EVENT
   optional LiveLiteralsEvent live_literals_event = 119;
 
+  // set when kind = MIGRATE_TO_NON_TRANSITIVE_R_CLASS
+  optional NonTransitiveRClassMigrationEvent
+      non_transitive_r_class_migration_event = 120;
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -997,6 +1001,9 @@ message AndroidStudioEvent {
 
     // Event related to live literals.
     LIVE_LITERALS_EVENT = 221;
+
+    // Event related to Non-Transitive R class migration.
+    MIGRATE_TO_NON_TRANSITIVE_R_CLASS = 222;
   }
 
   // Represents different Performance Monitoring types.
@@ -6127,6 +6134,8 @@ message GradleSyncStats {
     TRIGGER_REFACTOR_MIGRATE_TO_RESOURCE_NAMESPACES = 1202;
     // A module was renamed using refactoring
     TRIGGER_REFACTOR_MODULE_RENAMED = 1203;
+    // Migrate project to use non-transitive R classes
+    TRIGGER_REFACTOR_MIGRATE_TO_NON_TRANSITIVE_R_CLASSES = 1204;
     // Last marker for syncs caused by a refactor
     TRIGGER_REFACTOR_LAST_MARKER = 1299;
 
@@ -9278,4 +9287,27 @@ message LiveLiteralsEvent {
     // Stats for deployment type.
     optional PercentileEstimator deployment_time_ms = 6;
   }
+}
+
+// Data collected when running Migrate to Non-Transitive R class action.
+message NonTransitiveRClassMigrationEvent {
+  // The uuid for a session of the migration.
+  optional string migration_uuid = 1;
+
+  enum NonTransitiveRClassMigrationEventKind {
+    UNKNOWN_MIGRATION_EVENT_KIND = 0;
+    FIND_USAGES = 1;
+    PREVIEW_REFACTORING = 2;
+    EXECUTE = 3;
+    SYNC_SKIPPED = 4;
+    SYNC_FAILED = 5;
+    SYNC_SUCCEEDED = 6;
+  }
+
+  // The kind of event.
+  optional NonTransitiveRClassMigrationEventKind kind = 2;
+
+  // The number of usages.  Will be set if kind is FIND_USAGES,
+  // PREVIEW_REFACTORING or EXECUTE.
+  optional int32 usages = 3;
 }
