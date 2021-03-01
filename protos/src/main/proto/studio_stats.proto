@@ -3323,6 +3323,10 @@ message GradleBuildProject {
   // these are class names of the plugins, not free form names
   repeated string plugin_names = 16;
 
+  // Record all of the task class names applied to the project
+  // e.g an example is ORG_GRADLE_API_TASKS_WRAPPER_WRAPPER_DECORATED
+  repeated string task_names = 17;
+
   enum PluginType {
     UNKNOWN_PLUGIN_TYPE = 0;
     // The 'com.android.application' or 'com.android.model.application' plugins.
