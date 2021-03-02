@@ -430,6 +430,9 @@ message AndroidStudioEvent {
   optional NonTransitiveRClassMigrationEvent
       non_transitive_r_class_migration_event = 120;
 
+  // set when kind = ANDROID_TEST_RETENTION_EVENT
+  optional AndroidTestRetentionEvent android_test_retention_event = 121;
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -1004,6 +1007,9 @@ message AndroidStudioEvent {
 
     // Event related to Non-Transitive R class migration.
     MIGRATE_TO_NON_TRANSITIVE_R_CLASS = 222;
+
+    // Event related to Android Test Retention
+    ANDROID_TEST_RETENTION_EVENT = 223;
   }
 
   // Represents different Performance Monitoring types.
@@ -1554,6 +1560,7 @@ message AndroidStudioEvent {
     REMOVE_DISTRIBUTIONSHA256SUM_FROM_WRAPPER_HYPERLINK = 46;
     CONFIRM_DISTRIBUTIONSHA256SUM_FROM_WRAPPER_HYPERLINK = 47;
     ENABLE_ANDROIDX_HYPERLINK = 48;
+    REMOVE_JCENTER_HYPERLINK = 49;
   }
 }
 
@@ -8939,6 +8946,27 @@ message DaggerEditorEvent {
   optional int64 calculation_time_ms = 4;
 }
 
+// Track Android Test Retention events.
+message AndroidTestRetentionEvent {
+  // Compatibility check result related to one retention snapshot.
+  message SnapshotCompatibility {
+    enum Result {
+      UNKNOWN_FAILURE = 0;
+      LOADABLE = 1;
+      SNAPSHOT_FILE_NOT_FOUND = 2;
+      EMULATOR_EXEC_NOT_FOUND = 3;
+      SNAPSHOT_PROTO_FILE_NOT_FOUND = 4;
+      EMULATOR_LOADABLE_CHECK_FAILURE = 5;
+    }
+    // Compatibility check result.
+    optional Result result = 1;
+    // More detailed failure reason returned by the emulator. Only set when
+    // result=EMULATOR_LOADABLE_CHECK_FAILURE.
+    optional EmulatorSnapshotFailureReason emulator_check_failure_reason = 2;
+  }
+  optional SnapshotCompatibility snapshot_compatibility = 1;
+}
+
 // Tracks UI impressions and user interactions in the test report UI.
 message ParallelAndroidTestReportUiEvent {
   // IDs to identify UI element.
@@ -8951,6 +8979,7 @@ message ParallelAndroidTestReportUiEvent {
     TEST_SUITE_LOG_VIEW = 5;
     TEST_SUITE_DEVICE_INFO_VIEW = 6;
     TEST_SUITE_OPT_IN_BANNER = 7;
+    TEST_SUITE_RETENTION_VIEW = 8;
   }
 
   // All IDs of UI element that are displayed to users.
