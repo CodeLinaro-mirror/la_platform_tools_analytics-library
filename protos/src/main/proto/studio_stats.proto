@@ -426,6 +426,13 @@ message AndroidStudioEvent {
   // set when kind = LIVE_LITERALS_EVENT
   optional LiveLiteralsEvent live_literals_event = 119;
 
+  // set when kind = MIGRATE_TO_NON_TRANSITIVE_R_CLASS
+  optional NonTransitiveRClassMigrationEvent
+      non_transitive_r_class_migration_event = 120;
+
+  // set when kind = ANDROID_TEST_RETENTION_EVENT
+  optional AndroidTestRetentionEvent android_test_retention_event = 121;
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -997,6 +1004,12 @@ message AndroidStudioEvent {
 
     // Event related to live literals.
     LIVE_LITERALS_EVENT = 221;
+
+    // Event related to Non-Transitive R class migration.
+    MIGRATE_TO_NON_TRANSITIVE_R_CLASS = 222;
+
+    // Event related to Android Test Retention
+    ANDROID_TEST_RETENTION_EVENT = 223;
   }
 
   // Represents different Performance Monitoring types.
@@ -1547,6 +1560,7 @@ message AndroidStudioEvent {
     REMOVE_DISTRIBUTIONSHA256SUM_FROM_WRAPPER_HYPERLINK = 46;
     CONFIRM_DISTRIBUTIONSHA256SUM_FROM_WRAPPER_HYPERLINK = 47;
     ENABLE_ANDROIDX_HYPERLINK = 48;
+    REMOVE_JCENTER_HYPERLINK = 49;
   }
 }
 
@@ -3315,6 +3329,10 @@ message GradleBuildProject {
   // All of the gradle plugin names applied to this project,
   // these are class names of the plugins, not free form names
   repeated string plugin_names = 16;
+
+  // Record all of the task class names applied to the project
+  // e.g an example is ORG_GRADLE_API_TASKS_WRAPPER_WRAPPER_DECORATED
+  repeated string task_names = 17;
 
   enum PluginType {
     UNKNOWN_PLUGIN_TYPE = 0;
@@ -6114,6 +6132,8 @@ message GradleSyncStats {
     TRIGGER_QF_DISTRIBUTIONSHA256SUM_CONFIRMED_BY_USER = 425;
     // gradleJvm set to USE_PROJECT_JDK in gradle.xml
     TRIGGER_QF_GRADLEJVM_TO_USE_PROJECT_JDK = 426;
+    // Remove JCenter from repositories
+    TRIGGER_QF_REMOVE_JCENTER_FROM_REPOSITORIES = 427;
     // Last marker for syncs caused by quickfixes
     TRIGGER_QF_LAST_MARKER = 999;
 
@@ -6125,6 +6145,8 @@ message GradleSyncStats {
     TRIGGER_REFACTOR_MIGRATE_TO_RESOURCE_NAMESPACES = 1202;
     // A module was renamed using refactoring
     TRIGGER_REFACTOR_MODULE_RENAMED = 1203;
+    // Migrate project to use non-transitive R classes
+    TRIGGER_REFACTOR_MIGRATE_TO_NON_TRANSITIVE_R_CLASSES = 1204;
     // Last marker for syncs caused by a refactor
     TRIGGER_REFACTOR_LAST_MARKER = 1299;
 
@@ -8924,6 +8946,27 @@ message DaggerEditorEvent {
   optional int64 calculation_time_ms = 4;
 }
 
+// Track Android Test Retention events.
+message AndroidTestRetentionEvent {
+  // Compatibility check result related to one retention snapshot.
+  message SnapshotCompatibility {
+    enum Result {
+      UNKNOWN_FAILURE = 0;
+      LOADABLE = 1;
+      SNAPSHOT_FILE_NOT_FOUND = 2;
+      EMULATOR_EXEC_NOT_FOUND = 3;
+      SNAPSHOT_PROTO_FILE_NOT_FOUND = 4;
+      EMULATOR_LOADABLE_CHECK_FAILURE = 5;
+    }
+    // Compatibility check result.
+    optional Result result = 1;
+    // More detailed failure reason returned by the emulator. Only set when
+    // result=EMULATOR_LOADABLE_CHECK_FAILURE.
+    optional EmulatorSnapshotFailureReason emulator_check_failure_reason = 2;
+  }
+  optional SnapshotCompatibility snapshot_compatibility = 1;
+}
+
 // Tracks UI impressions and user interactions in the test report UI.
 message ParallelAndroidTestReportUiEvent {
   // IDs to identify UI element.
@@ -8936,6 +8979,7 @@ message ParallelAndroidTestReportUiEvent {
     TEST_SUITE_LOG_VIEW = 5;
     TEST_SUITE_DEVICE_INFO_VIEW = 6;
     TEST_SUITE_OPT_IN_BANNER = 7;
+    TEST_SUITE_RETENTION_VIEW = 8;
   }
 
   // All IDs of UI element that are displayed to users.
@@ -9276,4 +9320,27 @@ message LiveLiteralsEvent {
     // Stats for deployment type.
     optional PercentileEstimator deployment_time_ms = 6;
   }
+}
+
+// Data collected when running Migrate to Non-Transitive R class action.
+message NonTransitiveRClassMigrationEvent {
+  // The uuid for a session of the migration.
+  optional string migration_uuid = 1;
+
+  enum NonTransitiveRClassMigrationEventKind {
+    UNKNOWN_MIGRATION_EVENT_KIND = 0;
+    FIND_USAGES = 1;
+    PREVIEW_REFACTORING = 2;
+    EXECUTE = 3;
+    SYNC_SKIPPED = 4;
+    SYNC_FAILED = 5;
+    SYNC_SUCCEEDED = 6;
+  }
+
+  // The kind of event.
+  optional NonTransitiveRClassMigrationEventKind kind = 2;
+
+  // The number of usages.  Will be set if kind is FIND_USAGES,
+  // PREVIEW_REFACTORING or EXECUTE.
+  optional int32 usages = 3;
 }
