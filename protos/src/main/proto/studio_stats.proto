@@ -3082,7 +3082,7 @@ message TestRun {
 // Each string field of this message holds the exact version of the given
 // library (e.g. "1.0.0") that the field name represents. The field is populated
 // only if this project uses the given library.
-// Next ID: 31
+// Next ID: 33
 message TestLibraries {
   // "com.android.support.test:runner".
   optional string test_support_library_version = 1;
@@ -3141,6 +3141,10 @@ message TestLibraries {
   optional string benchmark_common_version = 20;
   // "androidx.benchmark:benchmark-junit4".
   optional string benchmark_junit4_version = 21;
+  // "androidx.benchmark:benchmark-macro".
+  optional string benchmark_macro_version = 31;
+  // "androidx.benchmark:benchmark-macro-junit4".
+  optional string benchmark_macro_junit4_version = 32;
 
   // "org.robolectric:robolectric".
   optional string robolectric_version = 3;

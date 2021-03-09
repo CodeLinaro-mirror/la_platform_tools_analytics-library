@@ -51,6 +51,8 @@ private val setters = ImmutableTable.Builder<String, String, (Builder, String) -
   put("org.robolectric", "robolectric", Builder::setRobolectricVersion)
   put("androidx.benchmark", "benchmark-common", Builder::setBenchmarkCommonVersion)
   put("androidx.benchmark", "benchmark-junit4", Builder::setBenchmarkJunit4Version)
+  put("androidx.benchmark", "benchmark-macro", Builder::setBenchmarkMacroVersion)
+  put("androidx.benchmark", "benchmark-macro-junit4", Builder::setBenchmarkMacroJunit4Version)
 }.build()
 
 /**
