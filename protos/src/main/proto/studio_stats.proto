@@ -8733,6 +8733,7 @@ message AppInspectionEvent {
         SCHEMA_TREE_CONTEXT_MENU = 1;
         SCHEMA_TREE_EXPORT_BUTTON = 2;
         QUERY_RESULTS_EXPORT_BUTTON = 3;
+        TABLE_CONTENTS_EXPORT_BUTTON = 4;
       }
       // What context kicked off the opening of the export dialog?
       optional Origin origin = 1;
@@ -8760,14 +8761,28 @@ message AppInspectionEvent {
         CSV_DESTINATION = 3;
       }
 
+      enum Outcome {
+        UNKNOWN_OUTCOME = 0;
+        SUCCESS_OUTCOME = 1;
+        CANCELLED_BY_USER_OUTCOME = 2;
+        // Export operation was cancelled due to entering/leaving offline mode.
+        CANCELLED_BY_OFFLINE_MODE_CHANGE_OUTCOME = 3;
+        // Cancelled due to normal flow, e.g. Studio shutting down.
+        CANCELLED_OTHER_OUTCOME = 4;
+        // Genuine error while performing an export operation.
+        ERROR_OUTCOME = 5;
+      }
+
       // What kind of data was being exported
       optional Source source = 1;
-      // What is the format of the soruce data
+      // What is the format of the source data
       optional SourceFormat source_format = 2;
       // What file type was the data exported as
       optional Destination destination = 3;
       // How long did the export take in milliseconds?
       optional int32 export_duration_ms = 4;
+      // Was the operation successful? If not, how did it fail?
+      optional Outcome outcome = 5;
     }
 
     // The detailed type of this event
