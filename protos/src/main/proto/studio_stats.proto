@@ -8351,6 +8351,7 @@ message BuildAttributionUiEvent {
     OPEN_MEMORY_SETTINGS_BUTTON_CLICKED = 18;
     // Applied filter state change on tasks or warnings page.
     FILTER_APPLIED = 19;
+    CONFIGURE_GC_WARNING_SUSPEND_CLICKED = 20;
   }
 
   message Page {
@@ -8379,8 +8380,13 @@ message BuildAttributionUiEvent {
       CONFIGURATION_TIME_ROOT = 20;
       CONFIGURATION_TIME_PROJECT = 21;
       CONFIGURATION_TIME_PLUGIN = 22;
+      // Plugin warnings page when grouped by plugin.
       PLUGIN_WARNINGS_ROOT = 23;
       WARNINGS_ROOT = 24;
+      // Task warnings page when grouped by plugin.
+      PLUGIN_TASK_WARNINGS = 25;
+      CONFIGURATION_CACHE_ROOT = 26;
+      CONFIGURATION_CACHE_PLUGIN_WARNING = 27;
     }
     // Type of current page.
     optional PageType page_type = 1;
@@ -8399,6 +8405,8 @@ message BuildAttributionUiEvent {
     UP_TO_DATE_EQUALS_FALSE_ISSUE_HELP = 4;
     NON_INCREMENTAL_ANNOTATION_PROCESSORS_HELP = 5;
     OPTIMIZE_CONFIGURATION_PHASE_HELP = 6;
+    CONFIGURE_GC = 7;
+    CONFIGURATION_CACHING = 8;
   }
 
   // Filter consists of items that might be included or not.
