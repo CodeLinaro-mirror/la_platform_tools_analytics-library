@@ -3666,6 +3666,8 @@ message GradleBuildVariant {
     // For a java library (java or java-library plugin, for the standalone lint
     // plugin)
     JAVA_LIBRARY = 9;
+    // For test fixtures components.
+    TEST_FIXTURES = 10;
   }
 
   // Different tools that provide Java 8 language usage.
