@@ -1135,6 +1135,7 @@ message AndroidStudioEvent {
     ML_MODEL_BINDING_IMPORT_WIZARD = 60;
     ML_MODEL_BINDING_FEATURE_OFF_NOTIFICATION = 61;
     ANDROID_NATIVE_MODULE = 62;
+    RESPONSIVE_ACTIVITY = 63;
   }
 
   // Wizard Templates Usage (New Project, New Module and New Component)
@@ -1163,6 +1164,7 @@ message AndroidStudioEvent {
 
       // The different template components (eg Activities, Fragments, Services,
       // etc) the template engine could be asked to render
+      // Next ID: 58
       enum TemplateType {
         UNKNOWN_TEMPLATE = 0;
         CUSTOM_TEMPLATE = 1;
@@ -1187,6 +1189,7 @@ message AndroidStudioEvent {
         VIEW_MODEL_ACTIVITY = 20;
         BOTTOM_NAVIGATION_ACTIVITY = 21;
         CPP_EMPTY_ACTIVITY = 22;
+        RESPONSIVE_ACTIVITY = 57;
 
         FRAGMENT_LIST = 23;
         FRAGMENT_BLANK = 24;
