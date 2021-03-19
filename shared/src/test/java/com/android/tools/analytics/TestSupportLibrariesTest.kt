@@ -86,6 +86,10 @@ class TestSupportLibrariesTest {
             newBuilder().setBenchmarkCommonVersion("1.0").build())
     assertThat(newBuilder().recordTestLibrary("androidx.benchmark", "benchmark-junit4", "1.0").build()).isEqualTo(
             newBuilder().setBenchmarkJunit4Version("1.0").build())
+    assertThat(newBuilder().recordTestLibrary("androidx.benchmark", "benchmark-macro", "1.1.0-alpha02").build()).isEqualTo(
+            newBuilder().setBenchmarkMacroVersion("1.1.0-alpha02").build())
+    assertThat(newBuilder().recordTestLibrary("androidx.benchmark", "benchmark-macro-junit4", "1.1.0-alpha02").build()).isEqualTo(
+            newBuilder().setBenchmarkMacroJunit4Version("1.1.0-alpha02").build())
     assertThat(newBuilder().recordTestLibrary("invalid", "name", "1.0").build()).isEqualTo(getDefaultInstance())
   }
 }

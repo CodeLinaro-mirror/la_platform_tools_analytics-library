@@ -496,6 +496,7 @@ enum BooleanOption {
     USE_LINT_PARTIAL_ANALYSIS = 141;
     RELATIVE_COMPILE_LIB_RESOURCES = 142;
     R8_FAIL_ON_MISSING_CLASSES = 143;
+    ENABLE_TEST_FIXTURES = 144;
 }
 
 enum OptionalBooleanOption {

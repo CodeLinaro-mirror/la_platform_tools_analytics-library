@@ -1135,6 +1135,7 @@ message AndroidStudioEvent {
     ML_MODEL_BINDING_IMPORT_WIZARD = 60;
     ML_MODEL_BINDING_FEATURE_OFF_NOTIFICATION = 61;
     ANDROID_NATIVE_MODULE = 62;
+    RESPONSIVE_ACTIVITY = 63;
   }
 
   // Wizard Templates Usage (New Project, New Module and New Component)
@@ -1163,6 +1164,7 @@ message AndroidStudioEvent {
 
       // The different template components (eg Activities, Fragments, Services,
       // etc) the template engine could be asked to render
+      // Next ID: 58
       enum TemplateType {
         UNKNOWN_TEMPLATE = 0;
         CUSTOM_TEMPLATE = 1;
@@ -1187,6 +1189,7 @@ message AndroidStudioEvent {
         VIEW_MODEL_ACTIVITY = 20;
         BOTTOM_NAVIGATION_ACTIVITY = 21;
         CPP_EMPTY_ACTIVITY = 22;
+        RESPONSIVE_ACTIVITY = 57;
 
         FRAGMENT_LIST = 23;
         FRAGMENT_BLANK = 24;
@@ -3082,7 +3085,7 @@ message TestRun {
 // Each string field of this message holds the exact version of the given
 // library (e.g. "1.0.0") that the field name represents. The field is populated
 // only if this project uses the given library.
-// Next ID: 31
+// Next ID: 33
 message TestLibraries {
   // "com.android.support.test:runner".
   optional string test_support_library_version = 1;
@@ -3141,6 +3144,10 @@ message TestLibraries {
   optional string benchmark_common_version = 20;
   // "androidx.benchmark:benchmark-junit4".
   optional string benchmark_junit4_version = 21;
+  // "androidx.benchmark:benchmark-macro".
+  optional string benchmark_macro_version = 31;
+  // "androidx.benchmark:benchmark-macro-junit4".
+  optional string benchmark_macro_junit4_version = 32;
 
   // "org.robolectric:robolectric".
   optional string robolectric_version = 3;
@@ -3666,6 +3673,8 @@ message GradleBuildVariant {
     // For a java library (java or java-library plugin, for the standalone lint
     // plugin)
     JAVA_LIBRARY = 9;
+    // For test fixtures components.
+    TEST_FIXTURES = 10;
   }
 
   // Different tools that provide Java 8 language usage.
@@ -8268,6 +8277,22 @@ message TasksConfigurationIssuesAnalyzerData {
   repeated TasksSharingOutputData tasks_sharing_output_data = 1;
 }
 
+// Data about configuration cache compatibility
+message ConfigurationCacheCompatibilityData {
+  enum CompatibilityState {
+    UNKNOWN_STATE = 0;
+    AGP_NOT_COMPATIBLE = 1;
+    AGP_DOES_NOT_PROVIDE_PLUGINS_DATA = 2;
+    INCOMPATIBLE_PLUGINS_DETECTED = 3;
+    INCOMPATIBLE_PLUGINS_NOT_DETECTED = 4;
+    CONFIGURATION_CACHE_TURNED_ON = 5;
+  }
+
+  optional CompatibilityState compatibility_state = 1;
+  // Non empty only if INCOMPATIBLE_PLUGINS_DETECTED state.
+  repeated BuildAttributionPluginIdentifier incompatible_plugins = 2;
+}
+
 // Data about build attribution analyzers
 message BuildAttributionAnalyzersData {
   // Total build time in microseconds
@@ -8285,6 +8310,9 @@ message BuildAttributionAnalyzersData {
   // Data from the tasks configuration issues analyzer
   optional TasksConfigurationIssuesAnalyzerData
       tasks_configuration_issues_analyzer_data = 6;
+  // Data from configuration caching compatibility analyzer
+  optional ConfigurationCacheCompatibilityData
+      configuration_cache_compatibility_data = 7;
 }
 
 // Data about build attribution performance
@@ -8733,6 +8761,7 @@ message AppInspectionEvent {
         SCHEMA_TREE_CONTEXT_MENU = 1;
         SCHEMA_TREE_EXPORT_BUTTON = 2;
         QUERY_RESULTS_EXPORT_BUTTON = 3;
+        TABLE_CONTENTS_EXPORT_BUTTON = 4;
       }
       // What context kicked off the opening of the export dialog?
       optional Origin origin = 1;
@@ -8760,14 +8789,28 @@ message AppInspectionEvent {
         CSV_DESTINATION = 3;
       }
 
+      enum Outcome {
+        UNKNOWN_OUTCOME = 0;
+        SUCCESS_OUTCOME = 1;
+        CANCELLED_BY_USER_OUTCOME = 2;
+        // Export operation was cancelled due to entering/leaving offline mode.
+        CANCELLED_BY_OFFLINE_MODE_CHANGE_OUTCOME = 3;
+        // Cancelled due to normal flow, e.g. Studio shutting down.
+        CANCELLED_OTHER_OUTCOME = 4;
+        // Genuine error while performing an export operation.
+        ERROR_OUTCOME = 5;
+      }
+
       // What kind of data was being exported
       optional Source source = 1;
-      // What is the format of the soruce data
+      // What is the format of the source data
       optional SourceFormat source_format = 2;
       // What file type was the data exported as
       optional Destination destination = 3;
       // How long did the export take in milliseconds?
       optional int32 export_duration_ms = 4;
+      // Was the operation successful? If not, how did it fail?
+      optional Outcome outcome = 5;
     }
 
     // The detailed type of this event
