@@ -8154,6 +8154,9 @@ message BuildAttributionPluginIdentifier {
   // when calling apply. ex: com.android.application, kotlin-android
   // Should not be set in the case of a build script
   optional string plugin_display_name = 2;
+  // The class name of the gradle plugin.
+  // ex: org.jetbrains.kotlin.gradle.plugin.KotlinAndroidPluginWrapper
+  optional string plugin_class_name = 3;
 }
 
 // The task identifier used in build attribution
@@ -8388,6 +8391,9 @@ message BuildAttributionUiEvent {
     // Applied filter state change on tasks or warnings page.
     FILTER_APPLIED = 19;
     CONFIGURE_GC_WARNING_SUSPEND_CLICKED = 20;
+    UPGRADE_AGP_BUTTON_CLICKED = 21;
+    RERUN_BUILD_WITH_CONFIGURATION_CACHE_CLICKED = 22;
+    TURN_ON_CONFIGURATION_CACHE_IN_PROPERTIES_LINK_CLICKED = 23;
   }
 
   message Page {
