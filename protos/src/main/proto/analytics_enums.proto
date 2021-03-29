@@ -590,6 +590,8 @@ enum VariantMethodType {
     REGISTER_EXTENSION = 7;
     UNIT_TEST_ENABLED = 8;
     ANDROID_TEST_ENABLED = 9;
+    MIN_SDK_PREVIEW = 10;
+    TARGET_SDK_PREVIEW = 11;
 }
 
 enum VariantPropertiesMethodType {
@@ -675,4 +677,7 @@ enum VariantPropertiesMethodType {
     SIGNING_CONFIG_ENABLE_V4 = 79;
     VARIANT_PSEUDOLOCALES_ENABLED=80;
     PROGUARD_FILES = 81;
+    MIN_SDK_VERSION = 82;
+    MAX_SDK_VERSION = 83;
+    TARGET_SDK_VERSION = 84;
 }
