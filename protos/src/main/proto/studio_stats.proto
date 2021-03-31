@@ -8502,6 +8502,7 @@ message BuildAttributionUiEvent {
 
   // Filter consists of items that might be included or not.
   // Current filter state is represented by items that are included (turned on).
+  // Next ID: 10
   enum FilterItem {
     UNKNOWN_FILTER_ITEM = 0;
     // Filters by task type.
@@ -8512,6 +8513,7 @@ message BuildAttributionUiEvent {
     SHOW_ALWAYS_RUN_TASK_WARNINGS = 4;
     SHOW_TASK_SETUP_ISSUE_WARNINGS = 5;
     SHOW_ANNOTATION_PROCESSOR_WARNINGS = 6;
+    SHOW_CONFIGURATION_CACHE_WARNINGS = 9;
     // Other task attributes filters
     SHOW_WARNINGS_FOR_TASK_NOT_FROM_CRITICAL_PATH = 7;
     SHOW_TASKS_WITHOUT_WARNINGS = 8;
