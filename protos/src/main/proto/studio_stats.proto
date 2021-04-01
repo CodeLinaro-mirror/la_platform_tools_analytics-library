@@ -9231,6 +9231,8 @@ message UpgradeAssistantComponentInfo {
     FABRIC_CRASHLYTICS = 6;
     MIGRATE_TO_BUILD_FEATURES = 7;
     REMOVE_SOURCE_SET_JNI = 8;
+    MIGRATE_TO_ANDROID_RESOURCES = 9;
+    REMOVE_BUILD_TYPE_USE_PROGUARD = 10;
   }
 
   message Java8DefaultProcessorSettings {
