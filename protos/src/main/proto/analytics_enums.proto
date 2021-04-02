@@ -586,10 +586,13 @@ enum VariantMethodType {
     RENDERSCRIPT_TARGET_API = 3;
     MAX_SDK_VERSION_VALUE = 4;
     TARGET_SDK_VERSION_VALUE = 5;
-    DEPENDENCIES_ACTION = 6;
+    DEPENDENCIES_ACTION = 6;                        // deprecated
     REGISTER_EXTENSION = 7;
     UNIT_TEST_ENABLED = 8;
     ANDROID_TEST_ENABLED = 9;
+    MIN_SDK_PREVIEW = 10;
+    TARGET_SDK_PREVIEW = 11;
+    VARIANT_BUILDER_DEPENDENCIES_INFO = 12;
 }
 
 enum VariantPropertiesMethodType {
@@ -603,9 +606,9 @@ enum VariantPropertiesMethodType {
     READ_ONLY_APPLICATION_ID = 7;
     PACKAGE_NAME = 8 [deprecated=true];
     BUILD_CONFIG_FIELDS = 9;
-    ADD_BUILD_CONFIG_FIELD = 10;
+    ADD_BUILD_CONFIG_FIELD = 10;                    // deprecated
     RES_VALUE = 11;
-    ADD_RES_VALUE = 12;
+    ADD_RES_VALUE = 12;                             // deprecated
     MANIFEST_PLACEHOLDERS = 13;
     APPLICATION_ID = 14;
     AAPT_OPTIONS = 15;
@@ -638,9 +641,9 @@ enum VariantPropertiesMethodType {
     TO_TRANSFORM_MANY = 42;
     SUBMIT_TO_WORKERS = 43;
     JNI_LIBS_PACKAGING_OPTIONS = 44;
-    JNI_LIBS_PACKAGING_OPTIONS_ACTION = 45;
+    JNI_LIBS_PACKAGING_OPTIONS_ACTION = 45;             // deprecated
     RESOURCES_PACKAGING_OPTIONS = 46;
-    RESOURCES_PACKAGING_OPTIONS_ACTION = 47;
+    RESOURCES_PACKAGING_OPTIONS_ACTION = 47;            // deprecated
     DEX_PACKAGING_OPTIONS = 48;
     DEX_PACKAGING_OPTIONS_ACTION = 49;                  // deprecated
     CMAKE_NATIVE_OPTIONS = 50;
@@ -675,4 +678,8 @@ enum VariantPropertiesMethodType {
     SIGNING_CONFIG_ENABLE_V4 = 79;
     VARIANT_PSEUDOLOCALES_ENABLED=80;
     PROGUARD_FILES = 81;
+    MIN_SDK_VERSION = 82;
+    MAX_SDK_VERSION = 83;
+    TARGET_SDK_VERSION = 84;
+    MAKE_RES_VALUE_KEY = 85;
 }

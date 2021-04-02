@@ -1514,6 +1514,9 @@ message AndroidStudioEvent {
     // JCenter Maven is deprecated and it should not be used in build scripts.
     TYPE_JCENTER_IS_DEPRECATED = 54;
 
+    // Java version used by AGP is too low.
+    TYPE_AGP_USED_JAVA_VERSION_TOO_LOW = 55;
+
     // NOTE: When adding a new type here, increment the index by 1. This index
     // may not be consistent with the corresponding value in the Android Gradle
     // plugin (e.g., it could be higher by 1), because of an indexing issue in
@@ -1821,6 +1824,33 @@ message StudioCrash {
   optional int64 non_bundled_plugin_exceptions = 5;
   // details on each exception
   repeated StudioExceptionDetails details = 6;
+}
+
+// Metrics for Icebox invocations.
+message EmulatorIcebox {
+  // Message for starting an icebox command.
+  message StartIcebox {
+    // Maximum number of snapshots set by users. -1 for infinite snapshots;
+    optional int32 max_snapshot_number = 1;
+  }
+  // Message for taking a snapshot.
+  message TakeSnapshot {
+    // The snapshot.
+    optional EmulatorSnapshot snapshot = 1;
+  }
+  // Message for finishing an icebox command.
+  message FinishIcebox {
+    // Maximum number of snapshots set by users. -1 for infinite snapshots;
+    optional int32 max_snapshot_number = 1;
+    // Actual number of snapshots taken.
+    optional uint32 actual_snapshot_number = 2;
+  }
+  // Kind of command of this message.
+  oneof kind {
+    StartIcebox start_icebox = 1;
+    TakeSnapshot take_snapshot = 2;
+    FinishIcebox finish_icebox = 3;
+  }
 }
 
 // Emulator guest image's GL info.
@@ -2513,7 +2543,9 @@ message EmulatorDetails {
   optional EmulatorLocationV2 location_v2 = 33;
   // Metrics for streamScreenshot
   optional EmulatorStreamScreenshot screenshot = 34;
-  // Next tag: 35
+  // Metrics for Icebox
+  repeated EmulatorIcebox icebox = 35;
+  // Next tag: 36
 
   // Emulator instance liveness as determined via adb connectivity.
   enum EmulatorAdbLiveness {
@@ -3093,7 +3125,7 @@ message TestRun {
 // Each string field of this message holds the exact version of the given
 // library (e.g. "1.0.0") that the field name represents. The field is populated
 // only if this project uses the given library.
-// Next ID: 33
+// Next ID: 38
 message TestLibraries {
   // "com.android.support.test:runner".
   optional string test_support_library_version = 1;
@@ -3168,6 +3200,21 @@ message TestLibraries {
 
   // "com.google.truth:truth".
   optional string truth_version = 19;
+
+  // "org.testng:testng"
+  optional string test_ng_version = 33;
+
+  // "org.junit.platform:junit-platform-launcher"
+  optional string junit_platform_launcher_version = 34;
+
+  // "org.junit.platform:junit-platform-runner"
+  optional string junit_platform_runner_version = 35;
+
+  // "org.junit.jupiter:junit-jupiter"
+  optional string junit_jupiter_version = 36;
+
+  // "org.junit.vintage:junit-vintage-engine"
+  optional string junit_vintage_engine_version = 37;
 }
 
 // Describes the status of various Hypervisors
@@ -8394,6 +8441,8 @@ message BuildAttributionUiEvent {
     UPGRADE_AGP_BUTTON_CLICKED = 21;
     RERUN_BUILD_WITH_CONFIGURATION_CACHE_CLICKED = 22;
     TURN_ON_CONFIGURATION_CACHE_IN_PROPERTIES_LINK_CLICKED = 23;
+    // Update plugin button on configuration cache warnings.
+    UPDATE_PLUGIN_BUTTON_CLICKED = 24;
   }
 
   message Page {
