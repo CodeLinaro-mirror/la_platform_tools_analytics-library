@@ -5981,6 +5981,9 @@ message AndroidProfilerEvent {
     NETWORK_STAGE = 5;
     ENERGY_STAGE = 6;
     CPU_CAPTURE_STAGE = 7;
+    MEMORY_HEAP_DUMP_STAGE = 8;
+    MEMORY_NATIVE_RECORDING_STAGE = 9;
+    MEMORY_JVM_RECORDING_STAGE = 10;
   }
 
   enum MemoryHeap {
