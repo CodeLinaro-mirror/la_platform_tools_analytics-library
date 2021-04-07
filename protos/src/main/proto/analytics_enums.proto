@@ -350,6 +350,7 @@ enum GradleTaskExecutionType {
     FEATURE_DEX_MERGE = 263;
     ANDROID_LINT_ANALYSIS = 264;
     MERGE_R_FILES_FOR_DATA_BINDING = 265;
+    DEVICE_SERIAL_TEST = 266;
 }
 
 enum BooleanOption {
