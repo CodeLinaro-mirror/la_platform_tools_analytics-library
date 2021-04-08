@@ -8212,9 +8212,10 @@ message MotionLayoutEditorEvent {
   optional MotionLayoutEditorEventType type = 1;
 }
 
-// Details for multi view panel events
+// Details for Validation Tool events
+// Note: Validation Tool was called multi view or visualization tool.
 message MultiViewEvent {
-  // List of event types available in motion layout editor
+  // List of event types available in Validation Tool
   enum MultiViewEventType {
     UNKNOWN_EVENT_TYPE = 0;
     OPEN_PIXEL_DEVICES = 1;
@@ -8223,6 +8224,8 @@ message MultiViewEvent {
     OPEN_COLOR_BLIND_MODE = 4;
     OPEN_LARGE_FONT = 5;
     OPEN_LARGE_DISPLAY = 6;
+    // Select wear device category in Validation Tool
+    OPEN_WEAR_DEVICES = 7;
   }
 
   // Type of event
