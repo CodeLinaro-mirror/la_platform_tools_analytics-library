@@ -8453,6 +8453,7 @@ message ConfigurationCacheCompatibilityData {
     INCOMPATIBLE_PLUGINS_DETECTED = 3;
     INCOMPATIBLE_PLUGINS_NOT_DETECTED = 4;
     CONFIGURATION_CACHE_TURNED_ON = 5;
+    CONFIGURATION_CACHE_TRIAL_FLOW_BUILD = 6;
   }
 
   optional CompatibilityState compatibility_state = 1;
