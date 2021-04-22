@@ -4747,7 +4747,21 @@ message LayoutEditorRenderResult {
   optional int32 fidelity_warning_count = 8;
 }
 
-// Record of Accessibility Testing Framework audit results.
+// Details related to an ATF fix suggestion.
+message AtfFixDetail {
+  // Type of an ATF fix suggestion
+  enum AtfFixType {
+    UNKNOWN = 0;
+    SET_VIEW_ATTRIBUTE = 1;
+    REMOVE_VIEW_ATTRIBUTE = 2;
+    COMPOUND = 3;
+  }
+
+  // The type of the applied ATF fix
+  optional AtfFixType fix_type = 3;
+}
+
+// Record of Accessibility Testing Framework(ATF) audit results.
 message AtfAuditResult {
   enum Trigger {
     UNKNOWN_TRIGGER = 0;
@@ -4778,6 +4792,8 @@ message AtfAuditResult {
     optional CheckResultType result_type = 2;
     // Error expanded for more information by user
     optional bool error_expanded = 3;
+    // ATF fix suggestions which are provided for this ATF check result
+    repeated AtfFixDetail fixes = 4;
   }
 
   // What triggered Accessibility testing framework
@@ -4792,8 +4808,82 @@ message AtfAuditResult {
   optional int64 audit_duration_ms = 5;
   // Full render time in ms
   optional int64 total_render_time_ms = 6;
-  // Errors displayed in the error panel, including non atf errors.
+  // Errors displayed in the error panel, including non ATF errors.
   optional int32 error_count = 7;
+}
+
+// Details related to an ATF check result
+message AtfResultDetail {
+  // Simple name of the ATF check which produced the check result
+  optional string check_name = 1;
+
+  // The result type of the ATF check result
+  optional AtfAuditResult.AtfResultCount.CheckResultType result_type = 2;
+}
+
+// Details related to an ATF fix which been applied by the user
+message ApplyAtfFixEvent {
+  // Details related to the ATF result which has been fixed
+  optional AtfResultDetail atf_result = 1;
+
+  // Details related to the ATF fix which has been applied
+  optional AtfFixDetail atf_fix = 2;
+}
+
+// Details related to an ATF result which has been marked as ignored by the user
+message IgnoreAtfResultEvent {
+  // Details related to the ATF result which has been ignored
+  optional AtfResultDetail atf_result = 1;
+}
+
+// Details related to undoing an applied ATF fix by the user
+message UndoAppliedAtfFixEvent {
+  // Details related to the ATF result which produced the undone fix suggestion
+  optional AtfResultDetail atf_result = 1;
+
+  // Details related to the ATF fix that was undone
+  optional AtfFixDetail atf_fix = 2;
+}
+
+// A user interaction with the layout editor animation previewer
+message AnimationPreviewEvent {
+  // The type of animation bar. Each offers different UI and/or control panels
+  // to interact with user.
+  enum ToolbarType {
+    UNKNOWN_TOOLBAR_TYPE = 0;
+    // This toolbar type is provided for endless animation.
+    // For example, if the animation repeats itself, then it is considered as
+    // endless.
+    UNLIMITED_ANIMATION = 1;
+    // This toolbar type is provided for endable animation.
+    // It provides a slider bar to control the current animation progress.
+    LIMITED_ANIMATION = 2;
+    // This toolbar type is provided for animated selector.
+    // It provides a dropdown button for switching the previewing animation
+    // inside this animated selector.
+    ANIMATED_SELECTOR = 3;
+  }
+
+  // The type of tool bar which provided for the previewed animation.
+  optional ToolbarType toolbar_type = 1;
+
+  // The operation which user executed.
+  enum UserAction {
+    UNKNOWN_CONTROL = 0;
+    PLAY = 1;
+    PAUSE = 2;
+    STOP = 3;
+    FRAME_FORWARD = 4;
+    FRAME_BACKWARD = 5;
+    // Control the frame by draggig the progress bar.
+    FRAME_CONTROL = 6;
+    // Select the preview animation when previewing animated selector.
+    SELECT_ANIMATION = 7;
+  }
+
+  // The operation from user to control the animation preview, such like play,
+  // pause, or stop.
+  optional UserAction user_action = 2;
 }
 
 // Reference to a View used in an Android application.
@@ -5013,6 +5103,11 @@ message LayoutEditorEvent {
     DISABLE_LAYOUTLIB_NATIVE = 46;
 
     ATF_AUDIT_RESULT = 47;
+    APPLY_ATF_FIX = 48;
+    IGNORE_ATF_RESULT = 49;
+    UNDO_APPLIED_ATF_FIX = 50;
+
+    ANIMATION_PREVIEW = 51;
   }
 
   // Type of event
@@ -5029,6 +5124,14 @@ message LayoutEditorEvent {
   optional LayoutFavoriteAttributeChangeEvent favorite_change_event = 6;
   // Result of the atf audit (type = ATF_AUDIT_RESULT)
   optional AtfAuditResult atf_audit_result = 7;
+  // Details related to applying an atf fix (type = APPLY_ATF_FIX)
+  optional ApplyAtfFixEvent apply_atf_fix_event = 8;
+  // Details related to ignoring an atf result (type = IGNORE_ATF_FIX)
+  optional IgnoreAtfResultEvent ignore_atf_result_event = 9;
+  // Details related to undoing an applied atf fix (type = UNDO_APPLIED_ATF_FIX)
+  optional UndoAppliedAtfFixEvent undo_applied_atf_fix_event = 10;
+  // Details related to interacting animation preview (type = ANIMATION_PREVIEW)
+  optional AnimationPreviewEvent animation_preview_event = 11;
 }
 
 // Details for navigation editor events
@@ -5878,6 +5981,9 @@ message AndroidProfilerEvent {
     NETWORK_STAGE = 5;
     ENERGY_STAGE = 6;
     CPU_CAPTURE_STAGE = 7;
+    MEMORY_HEAP_DUMP_STAGE = 8;
+    MEMORY_NATIVE_RECORDING_STAGE = 9;
+    MEMORY_JVM_RECORDING_STAGE = 10;
   }
 
   enum MemoryHeap {
@@ -8106,9 +8212,10 @@ message MotionLayoutEditorEvent {
   optional MotionLayoutEditorEventType type = 1;
 }
 
-// Details for multi view panel events
+// Details for Validation Tool events
+// Note: Validation Tool was called multi view or visualization tool.
 message MultiViewEvent {
-  // List of event types available in motion layout editor
+  // List of event types available in Validation Tool
   enum MultiViewEventType {
     UNKNOWN_EVENT_TYPE = 0;
     OPEN_PIXEL_DEVICES = 1;
@@ -8117,6 +8224,8 @@ message MultiViewEvent {
     OPEN_COLOR_BLIND_MODE = 4;
     OPEN_LARGE_FONT = 5;
     OPEN_LARGE_DISPLAY = 6;
+    // Select wear device category in Validation Tool
+    OPEN_WEAR_DEVICES = 7;
   }
 
   // Type of event
@@ -9231,6 +9340,8 @@ message UpgradeAssistantComponentInfo {
     FABRIC_CRASHLYTICS = 6;
     MIGRATE_TO_BUILD_FEATURES = 7;
     REMOVE_SOURCE_SET_JNI = 8;
+    MIGRATE_TO_ANDROID_RESOURCES = 9;
+    REMOVE_BUILD_TYPE_USE_PROGUARD = 10;
   }
 
   message Java8DefaultProcessorSettings {
