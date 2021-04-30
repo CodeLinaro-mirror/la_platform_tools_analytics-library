@@ -598,6 +598,7 @@ enum VariantMethodType {
     MIN_SDK_PREVIEW = 10;
     TARGET_SDK_PREVIEW = 11;
     VARIANT_BUILDER_DEPENDENCIES_INFO = 12;
+    TEST_FIXTURES_ENABLED = 13;
 }
 
 enum VariantPropertiesMethodType {
@@ -687,4 +688,5 @@ enum VariantPropertiesMethodType {
     MAX_SDK_VERSION = 83;
     TARGET_SDK_VERSION = 84;
     MAKE_RES_VALUE_KEY = 85;
+    TEST_FIXTURES = 86;
 }
