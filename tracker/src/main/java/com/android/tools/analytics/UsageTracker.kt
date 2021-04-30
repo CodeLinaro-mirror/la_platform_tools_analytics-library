@@ -168,7 +168,9 @@ object UsageTracker {
     @JvmStatic
     fun initialize(scheduler: ScheduledExecutorService): UsageTrackerWriter {
         if (isTesting) {
+            // @coverage:off
             return writer
+            // @coverage:on
         }
         synchronized(gate) {
             val oldInstance = writer
