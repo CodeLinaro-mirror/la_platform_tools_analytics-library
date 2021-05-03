@@ -440,6 +440,9 @@ message AndroidStudioEvent {
   // set when kind = VFS_REFRESH
   optional VfsRefresh vfs_refresh = 123;
 
+  // Set when kind is SIGNING_WIZARD_*_FAILED or SIGNING_WIZARD_*_SUCCEEDED
+  optional SigningWizardEvent signing_wizard_event = 124;
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -1024,6 +1027,22 @@ message AndroidStudioEvent {
 
     // Event related to IntelliJ collected VFS refresh
     VFS_REFRESH = 225;
+
+    // Events related to Bundle/APK Signing wizard
+    // Dialog is opened
+    SIGNING_WIZARD_OPEN = 226;
+    // Ok action was performed ("Finish" button pressed)
+    SIGNING_WIZARD_OK_ACTION = 227;
+    // Cancel action was performed ("Cancel" button is pressed or dialog closed)
+    SIGNING_WIZARD_CANCEL_ACTION = 228;
+    // Failed to sign Gradle project
+    SIGNING_WIZARD_GRADLE_SIGNING_FAILED = 229;
+    // Gradle project successfully signed
+    SIGNING_WIZARD_GRADLE_SIGNING_SUCCEEDED = 230;
+    // Failed to sign Intellij project
+    SIGNING_WIZARD_INTELLIJ_SIGNING_FAILED = 231;
+    // INTELLIJ project successfully signed
+    SIGNING_WIZARD_INTELLIJ_SIGNING_SUCCEEDED = 232;
   }
 
   // Represents different Performance Monitoring types.
@@ -9597,4 +9616,38 @@ message SuggestedImportEvent {
 message VfsRefresh {
   // Duration of the VFS refresh in milliseconds
   optional uint64 duration_ms = 1;
+}
+
+// Tracks user interactions with signing wizard
+message SigningWizardEvent {
+  enum SigningWizardFailureCause {
+    FAILURE_CAUSE_UNKNOWN = 0;
+    FAILURE_CAUSE_NO_MODULE_FACET = 1;
+    FAILURE_CAUSE_NO_MODULE_ROOT_PATH = 2;
+    FAILURE_CAUSE_NO_ANDROID_MODEL = 3;
+    FAILURE_CAUSE_NO_VARIANTS_SELECTED = 4;
+    FAILURE_CAUSE_ENCRYPTION_ERROR = 5;
+    FAILURE_CAUSE_COMPILE_ABORTED = 6;
+    FAILURE_CAUSE_COMPILE_ERRORS = 7;
+    FAILURE_CAUSE_CANNOT_CREATE_APK = 8;
+    FAILURE_CAUSE_ZIP_ALIGN_ERROR = 9;
+  }
+
+  enum SigningTargetType {
+    TARGET_TYPE_UNKNOWN = 0;
+    TARGET_TYPE_APK = 1;
+    TARGET_TYPE_BUNDLE = 2;
+  }
+
+  // Specify cause when signing fails
+  optional SigningWizardFailureCause failure_cause = 1;
+
+  // Details when building and signing a Gradle project
+  optional SigningTargetType target_type = 2;
+  // Number of modules in project
+  optional uint32 number_of_modules = 3;
+  // Number of variants selected for signing
+  optional uint32 number_of_variants = 4;
+  // Private key is stored?
+  optional bool is_private_key_exported = 5;
 }
