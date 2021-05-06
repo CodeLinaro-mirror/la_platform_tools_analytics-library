@@ -351,6 +351,7 @@ enum GradleTaskExecutionType {
     ANDROID_LINT_ANALYSIS = 264;
     MERGE_R_FILES_FOR_DATA_BINDING = 265;
     DEVICE_SERIAL_TEST = 266;
+    LINT_MODEL_METADATA = 267;
 }
 
 enum BooleanOption {
@@ -569,6 +570,7 @@ enum StringOption {
     NATIVE_BUILD_OUTPUT_LEVEL = 30;
     AAPT2_FROM_MAVEN_VERSION_OVERRIDE = 31;
     LINT_HEAP_SIZE = 32;
+    SUPPRESS_UNSUPPORTED_COMPILE_SDK = 33;
 }
 
 enum VariantApiArtifactType {
