@@ -20,7 +20,6 @@ import com.android.utils.DateProvider
 import com.android.utils.ILogger
 import com.google.common.annotations.VisibleForTesting
 import com.google.common.base.Charsets
-import com.google.common.hash.Hashing
 import com.google.common.io.Files
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonParseException
@@ -40,10 +39,7 @@ import java.time.Instant
 import java.time.LocalDate
 import java.time.ZoneOffset
 import java.time.temporal.ChronoUnit
-import java.util.Calendar
 import java.util.Date
-import java.util.GregorianCalendar
-import java.util.TimeZone
 import java.util.UUID
 import java.util.concurrent.ScheduledExecutorService
 import java.util.logging.Level
@@ -56,10 +52,6 @@ import java.util.logging.Logger
 object AnalyticsSettings {
 
     private val LOG = Logger.getLogger(AnalyticsSettings.javaClass.name)
-
-    private const val DAYS_IN_LEAP_YEAR = 366
-    private const val DAYS_IN_NON_LEAP_YEAR = 365
-    private const val DAYS_TO_WAIT_FOR_REQUESTING_SENTIMENT_AGAIN = 7
 
     @JvmStatic
     var initialized = false
@@ -381,54 +373,6 @@ object AnalyticsSettings {
     /** Checks if the AnalyticsSettings object is in a valid state.  */
     internal fun isValid(settings: AnalyticsSettingsData): Boolean {
         return settings.userId != null && (settings.saltSkew == AnalyticsSettings.SALT_SKEW_NOT_INITIALIZED || settings.saltValue != null)
-    }
-
-    fun shouldRequestUserSentiment(): Boolean {
-        if (!optedIn) {
-            return false
-        }
-
-        val lastSentimentAnswerDate = AnalyticsSettings.lastSentimentAnswerDate
-        val lastSentimentQuestionDate = AnalyticsSettings.lastSentimentQuestionDate
-        val now = dateProvider.now()
-
-        var daysInYear = DAYS_IN_NON_LEAP_YEAR
-        if (GregorianCalendar().isLeapYear(now.year + 1900)) {
-            daysInYear = DAYS_IN_LEAP_YEAR
-        }
-
-        if (lastSentimentAnswerDate != null) {
-            val calendar = Calendar.getInstance()
-            calendar.time = now
-            calendar.add(Calendar.DATE, -daysInYear)
-            val lastYear = calendar.time
-            if (lastSentimentAnswerDate.after(lastYear)) {
-                return false
-            }
-        }
-
-        // If we should ask the question based on dates, and asked but not answered then we should always prompt, even if this is
-        // not the magic date for that user.
-        if (lastSentimentQuestionDate != null) {
-            val calendar = Calendar.getInstance()
-            calendar.time = now
-            calendar.add(Calendar.DATE, -DAYS_TO_WAIT_FOR_REQUESTING_SENTIMENT_AGAIN)
-            val startOfWaitForRequest = calendar.time
-            return !lastSentimentQuestionDate.after(startOfWaitForRequest)
-        }
-
-        val startOfYear = GregorianCalendar(now.year + 1900, 0, 1)
-        startOfYear.timeZone = TimeZone.getTimeZone(ZoneOffset.UTC)
-
-        // Otherwise, only request on the magic date for the user, to spread user sentiment data throughout the year.
-        var daysSinceJanFirst = ChronoUnit.DAYS.between(startOfYear.toInstant(), now.toInstant())
-        var offset =
-            Math.abs(
-                Hashing.farmHashFingerprint64()
-                    .hashString(AnalyticsSettings.userId, Charsets.UTF_8)
-                    .asLong()
-            ) % daysInYear
-        return daysSinceJanFirst == offset
     }
 }
 
