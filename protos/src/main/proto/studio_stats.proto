@@ -9372,6 +9372,7 @@ message UpgradeAssistantComponentInfo {
     REMOVE_SOURCE_SET_JNI = 8;
     MIGRATE_TO_ANDROID_RESOURCES = 9;
     REMOVE_BUILD_TYPE_USE_PROGUARD = 10;
+    REMOVE_IMPLEMENTATION_PROPERTIES = 11;
   }
 
   message Java8DefaultProcessorSettings {
