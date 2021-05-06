@@ -695,4 +695,5 @@ enum VariantPropertiesMethodType {
     TARGET_SDK_VERSION = 84;
     MAKE_RES_VALUE_KEY = 85;
     TEST_FIXTURES = 86;
+    VARIANT_PROPERTIES = 87;
 }
