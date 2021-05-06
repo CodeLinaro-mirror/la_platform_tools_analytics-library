@@ -110,7 +110,7 @@ object AnalyticsSettings {
     private fun ensureInitialized() {
         if (!initialized && java.lang.Boolean.getBoolean("idea.is.internal")) {
             // Android Studio Developers: If you hit this exception, you're trying to find out the status
-            // of AnalyticsSettings before the system has been initialized. Please reach out the the owners
+            // of AnalyticsSettings before the system has been initialized. Please reach out to the owners
             // of this code to figure out how best to do these checks instead of getting null values.
             throw RuntimeException("call to AnalyticsSettings before initialization")
         }
@@ -147,6 +147,32 @@ object AnalyticsSettings {
         set(value) {
             runIfAnalyticsSettingsUsable(Unit) {
                 instance?.lastSentimentAnswerDate = value
+            }
+        }
+
+    @JvmStatic
+    var nextFeatureSurveyDate: Date?
+        get() {
+            return runIfAnalyticsSettingsUsable(null) {
+                instance?.nextFeatureSurveyDate
+            }
+        }
+        set(value) {
+            runIfAnalyticsSettingsUsable(Unit) {
+                instance?.nextFeatureSurveyDate = value
+            }
+        }
+
+    @JvmStatic
+    var nextFeatureSurveyDateMap: MutableMap<String, Date>?
+        get() {
+            return runIfAnalyticsSettingsUsable(null) {
+                instance?.nextFeatureSurveyDateMap
+            }
+        }
+        set(value) {
+            runIfAnalyticsSettingsUsable(Unit) {
+                instance?.nextFeatureSurveyDateMap = value
             }
         }
 
@@ -212,7 +238,7 @@ object AnalyticsSettings {
         } catch (e: IllegalStateException) {
             logger.warning("Unable to parse settings file %s: %s", file.toString(), e)
         }
-        var newSettings = AnalyticsSettingsData()
+        val newSettings = AnalyticsSettingsData()
         newSettings.userId = UUID.randomUUID().toString()
         return newSettings
     }
@@ -340,12 +366,12 @@ object AnalyticsSettings {
     val salt: ByteArray
         @Throws(IOException::class)
         get() = synchronized(AnalyticsSettings.gate) {
-            var data: AnalyticsSettingsData = instance ?: return byteArrayOf()
+            val data: AnalyticsSettingsData = instance ?: return byteArrayOf()
             // Starting with Android Studio 3.5 we switch to 532 day rotation, this logic is to coincide with that change
             // starting with the rotation on 2018/11/26. 28*19 = 532 days and -11 is to offset with the 28 day rotation cycle starting on
             // 2018/11/26.
-            var dataSkew532: Int = (data.saltSkew - 11) / 19
-            var currentSaltSkew = com.android.tools.analytics.AnalyticsSettings.currentSaltSkew()
+            val dataSkew532: Int = (data.saltSkew - 11) / 19
+            val currentSaltSkew = com.android.tools.analytics.AnalyticsSettings.currentSaltSkew()
             val currentSaltSkew532: Int = (currentSaltSkew - 11) / 19
             if (dataSkew532 != currentSaltSkew532) {
                 data.saltSkew = currentSaltSkew
@@ -380,7 +406,7 @@ class AnalyticsSettingsData {
 
     fun saveSettings() {
         val file = AnalyticsSettings.settingsFile
-        var dir = file.parentFile
+        val dir = file.parentFile
         if (!dir.exists()) {
             dir.mkdirs()
         }
@@ -389,7 +415,7 @@ class AnalyticsSettingsData {
                 settingsFile.channel.use { channel ->
                     channel.tryLock().use { lock ->
                         if (lock == null) {
-                            throw IOException("Unable to lock settings file " + file.toString())
+                            throw IOException("Unable to lock settings file $file")
                         }
                         val gson = GsonBuilder().create()
                         val readStream = InputStreamReader(Channels.newInputStream(channel))
@@ -413,7 +439,7 @@ class AnalyticsSettingsData {
                 }
             }
         } catch (e: OverlappingFileLockException) {
-            throw IOException("Unable to lock settings file " + file.toString(), e)
+            throw IOException("Unable to lock settings file $file", e)
         }
     }
 
@@ -440,6 +466,12 @@ class AnalyticsSettingsData {
 
     @field:SerializedName("lastSentimentAnswerDate")
     var lastSentimentAnswerDate: Date? = null
+
+    @field:SerializedName("lastFeatureSurveyDate")
+    var nextFeatureSurveyDate: Date? = null
+
+    @field:SerializedName("lastFeatureSurveyDateMap")
+    var nextFeatureSurveyDateMap: MutableMap<String, Date>? = null
 }
 
 fun BigInteger.toByteArrayOfLength24(): ByteArray {
