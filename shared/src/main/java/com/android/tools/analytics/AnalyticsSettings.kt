@@ -20,7 +20,6 @@ import com.android.utils.DateProvider
 import com.android.utils.ILogger
 import com.google.common.annotations.VisibleForTesting
 import com.google.common.base.Charsets
-import com.google.common.hash.Hashing
 import com.google.common.io.Files
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonParseException
@@ -40,10 +39,7 @@ import java.time.Instant
 import java.time.LocalDate
 import java.time.ZoneOffset
 import java.time.temporal.ChronoUnit
-import java.util.Calendar
 import java.util.Date
-import java.util.GregorianCalendar
-import java.util.TimeZone
 import java.util.UUID
 import java.util.concurrent.ScheduledExecutorService
 import java.util.logging.Level
@@ -56,10 +52,6 @@ import java.util.logging.Logger
 object AnalyticsSettings {
 
     private val LOG = Logger.getLogger(AnalyticsSettings.javaClass.name)
-
-    private const val DAYS_IN_LEAP_YEAR = 366
-    private const val DAYS_IN_NON_LEAP_YEAR = 365
-    private const val DAYS_TO_WAIT_FOR_REQUESTING_SENTIMENT_AGAIN = 7
 
     @JvmStatic
     var initialized = false
@@ -118,7 +110,7 @@ object AnalyticsSettings {
     private fun ensureInitialized() {
         if (!initialized && java.lang.Boolean.getBoolean("idea.is.internal")) {
             // Android Studio Developers: If you hit this exception, you're trying to find out the status
-            // of AnalyticsSettings before the system has been initialized. Please reach out the the owners
+            // of AnalyticsSettings before the system has been initialized. Please reach out to the owners
             // of this code to figure out how best to do these checks instead of getting null values.
             throw RuntimeException("call to AnalyticsSettings before initialization")
         }
@@ -155,6 +147,32 @@ object AnalyticsSettings {
         set(value) {
             runIfAnalyticsSettingsUsable(Unit) {
                 instance?.lastSentimentAnswerDate = value
+            }
+        }
+
+    @JvmStatic
+    var nextFeatureSurveyDate: Date?
+        get() {
+            return runIfAnalyticsSettingsUsable(null) {
+                instance?.nextFeatureSurveyDate
+            }
+        }
+        set(value) {
+            runIfAnalyticsSettingsUsable(Unit) {
+                instance?.nextFeatureSurveyDate = value
+            }
+        }
+
+    @JvmStatic
+    var nextFeatureSurveyDateMap: MutableMap<String, Date>?
+        get() {
+            return runIfAnalyticsSettingsUsable(null) {
+                instance?.nextFeatureSurveyDateMap
+            }
+        }
+        set(value) {
+            runIfAnalyticsSettingsUsable(Unit) {
+                instance?.nextFeatureSurveyDateMap = value
             }
         }
 
@@ -220,7 +238,7 @@ object AnalyticsSettings {
         } catch (e: IllegalStateException) {
             logger.warning("Unable to parse settings file %s: %s", file.toString(), e)
         }
-        var newSettings = AnalyticsSettingsData()
+        val newSettings = AnalyticsSettingsData()
         newSettings.userId = UUID.randomUUID().toString()
         return newSettings
     }
@@ -348,12 +366,12 @@ object AnalyticsSettings {
     val salt: ByteArray
         @Throws(IOException::class)
         get() = synchronized(AnalyticsSettings.gate) {
-            var data: AnalyticsSettingsData = instance ?: return byteArrayOf()
+            val data: AnalyticsSettingsData = instance ?: return byteArrayOf()
             // Starting with Android Studio 3.5 we switch to 532 day rotation, this logic is to coincide with that change
             // starting with the rotation on 2018/11/26. 28*19 = 532 days and -11 is to offset with the 28 day rotation cycle starting on
             // 2018/11/26.
-            var dataSkew532: Int = (data.saltSkew - 11) / 19
-            var currentSaltSkew = com.android.tools.analytics.AnalyticsSettings.currentSaltSkew()
+            val dataSkew532: Int = (data.saltSkew - 11) / 19
+            val currentSaltSkew = com.android.tools.analytics.AnalyticsSettings.currentSaltSkew()
             val currentSaltSkew532: Int = (currentSaltSkew - 11) / 19
             if (dataSkew532 != currentSaltSkew532) {
                 data.saltSkew = currentSaltSkew
@@ -382,61 +400,13 @@ object AnalyticsSettings {
     internal fun isValid(settings: AnalyticsSettingsData): Boolean {
         return settings.userId != null && (settings.saltSkew == AnalyticsSettings.SALT_SKEW_NOT_INITIALIZED || settings.saltValue != null)
     }
-
-    fun shouldRequestUserSentiment(): Boolean {
-        if (!optedIn) {
-            return false
-        }
-
-        val lastSentimentAnswerDate = AnalyticsSettings.lastSentimentAnswerDate
-        val lastSentimentQuestionDate = AnalyticsSettings.lastSentimentQuestionDate
-        val now = dateProvider.now()
-
-        var daysInYear = DAYS_IN_NON_LEAP_YEAR
-        if (GregorianCalendar().isLeapYear(now.year + 1900)) {
-            daysInYear = DAYS_IN_LEAP_YEAR
-        }
-
-        if (lastSentimentAnswerDate != null) {
-            val calendar = Calendar.getInstance()
-            calendar.time = now
-            calendar.add(Calendar.DATE, -daysInYear)
-            val lastYear = calendar.time
-            if (lastSentimentAnswerDate.after(lastYear)) {
-                return false
-            }
-        }
-
-        // If we should ask the question based on dates, and asked but not answered then we should always prompt, even if this is
-        // not the magic date for that user.
-        if (lastSentimentQuestionDate != null) {
-            val calendar = Calendar.getInstance()
-            calendar.time = now
-            calendar.add(Calendar.DATE, -DAYS_TO_WAIT_FOR_REQUESTING_SENTIMENT_AGAIN)
-            val startOfWaitForRequest = calendar.time
-            return !lastSentimentQuestionDate.after(startOfWaitForRequest)
-        }
-
-        val startOfYear = GregorianCalendar(now.year + 1900, 0, 1)
-        startOfYear.timeZone = TimeZone.getTimeZone(ZoneOffset.UTC)
-
-        // Otherwise, only request on the magic date for the user, to spread user sentiment data throughout the year.
-        var daysSinceJanFirst = ChronoUnit.DAYS.between(startOfYear.toInstant(), now.toInstant())
-        var offset =
-            Math.abs(
-                Hashing.farmHashFingerprint64()
-                    .hashString(AnalyticsSettings.userId, Charsets.UTF_8)
-                    .asLong()
-            ) % daysInYear
-        return daysSinceJanFirst == offset
-    }
 }
 
 class AnalyticsSettingsData {
 
     fun saveSettings() {
         val file = AnalyticsSettings.settingsFile
-        var dir = file.parentFile
+        val dir = file.parentFile
         if (!dir.exists()) {
             dir.mkdirs()
         }
@@ -445,7 +415,7 @@ class AnalyticsSettingsData {
                 settingsFile.channel.use { channel ->
                     channel.tryLock().use { lock ->
                         if (lock == null) {
-                            throw IOException("Unable to lock settings file " + file.toString())
+                            throw IOException("Unable to lock settings file $file")
                         }
                         val gson = GsonBuilder().create()
                         val readStream = InputStreamReader(Channels.newInputStream(channel))
@@ -469,7 +439,7 @@ class AnalyticsSettingsData {
                 }
             }
         } catch (e: OverlappingFileLockException) {
-            throw IOException("Unable to lock settings file " + file.toString(), e)
+            throw IOException("Unable to lock settings file $file", e)
         }
     }
 
@@ -496,6 +466,12 @@ class AnalyticsSettingsData {
 
     @field:SerializedName("lastSentimentAnswerDate")
     var lastSentimentAnswerDate: Date? = null
+
+    @field:SerializedName("lastFeatureSurveyDate")
+    var nextFeatureSurveyDate: Date? = null
+
+    @field:SerializedName("lastFeatureSurveyDateMap")
+    var nextFeatureSurveyDateMap: MutableMap<String, Date>? = null
 }
 
 fun BigInteger.toByteArrayOfLength24(): ByteArray {
