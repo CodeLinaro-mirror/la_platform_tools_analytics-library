@@ -281,4 +281,6 @@ object UsageTracker {
             writer = NullUsageTracker
         }
     }
+
+    var listener: (event: AndroidStudioEvent.Builder) -> Unit = {}
 }

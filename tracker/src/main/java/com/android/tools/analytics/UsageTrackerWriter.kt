@@ -54,6 +54,8 @@ abstract class UsageTrackerWriter : AutoCloseable, Flushable {
             studioEvent.ideaIsInternal = true
         }
 
+        UsageTracker.listener(studioEvent)
+
         logDetails(
             ClientAnalytics.LogEvent.newBuilder()
                 .setEventTimeMs(eventTimeMs)
