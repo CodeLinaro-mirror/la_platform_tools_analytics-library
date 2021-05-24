@@ -1711,6 +1711,9 @@ message DeviceInfo {
   // Describes the type of mDNS connection (if any)
   optional MdnsConnectionType mdns_connection_type = 11;
 
+  // Set of characteristics obtained from "ro.build.characteristics" property
+  repeated string characteristics = 12;
+
   // Describes tthe ABI of the device/emulator.
   enum ApplicationBinaryInterface {
     UNKNOWN_ABI = 0;
