@@ -18,10 +18,11 @@ package com.android.tools.analytics
 
 import com.google.wireless.android.play.playlog.proto.ClientAnalytics
 import java.nio.file.Path
-import java.util.*
 
 /**
  * Describes a usage tracking spool directory's state.
  */
-internal data class SpoolDetails(val lockedFiles: MutableList<Path> = ArrayList(),
-                                 val completedLogs: MutableMap<Path, List<ClientAnalytics.LogEvent>> = HashMap())
+internal data class SpoolDetails(
+    val lockedFiles: MutableList<Path> = ArrayList(),
+    val completedLogs: MutableMap<Path, List<ClientAnalytics.LogEvent>> = HashMap()
+)
