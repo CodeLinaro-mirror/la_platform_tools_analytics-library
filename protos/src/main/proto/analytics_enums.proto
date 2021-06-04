@@ -697,4 +697,5 @@ enum VariantPropertiesMethodType {
     MAKE_RES_VALUE_KEY = 85;
     TEST_FIXTURES = 86;
     VARIANT_PROPERTIES = 87;
+    SIGNING_CONFIG_SET_CONFIG = 88;
 }
