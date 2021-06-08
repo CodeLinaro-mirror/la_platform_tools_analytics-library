@@ -356,6 +356,7 @@ enum GradleTaskExecutionType {
     PROCESS_LIBRARY_ART_PROFILE = 269;
     COMPILE_ART_PROFILE = 270;
     ANDROID_LINT_TEXT_OUTPUT = 271;
+    SOURCE_JAR = 272;
 }
 
 enum BooleanOption {
