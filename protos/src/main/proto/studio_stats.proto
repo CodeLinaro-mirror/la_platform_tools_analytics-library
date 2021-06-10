@@ -9245,6 +9245,11 @@ message ParallelAndroidTestReportUiEvent {
     TEST_SUITE_DEVICE_INFO_VIEW = 6;
     TEST_SUITE_OPT_IN_BANNER = 7;
     TEST_SUITE_RETENTION_VIEW = 8;
+
+    // A dialog that is displayed after you click on run button
+    // to promote Android instrumentation test execution using
+    // Gradle from Android Studio. b/190209774.
+    GRADLE_ANDROID_TEST_RUNNER_OPT_IN_DIALOG = 9;
   }
 
   // All IDs of UI element that are displayed to users.
