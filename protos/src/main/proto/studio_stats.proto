@@ -443,6 +443,17 @@ message AndroidStudioEvent {
   // Set when kind is SIGNING_WIZARD_*_FAILED or SIGNING_WIZARD_*_SUCCEEDED
   optional SigningWizardEvent signing_wizard_event = 124;
 
+  // set when kind = FILE_TYPE
+  optional FileType file_type = 125;
+
+  // set when kind is KOTLIN_PROJECT_CONFIGURATION
+  optional KotlinProjectConfiguration kotlin_project_configuration = 126;
+  // set when kind = RUN_START_DATA
+  optional RunStartData run_start_data = 127;
+
+  // set when kind = RUN_FINISH_DATA
+  optional RunFinishData run_finish_data = 128;
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -1043,6 +1054,18 @@ message AndroidStudioEvent {
     SIGNING_WIZARD_INTELLIJ_SIGNING_FAILED = 231;
     // INTELLIJ project successfully signed
     SIGNING_WIZARD_INTELLIJ_SIGNING_SUCCEEDED = 232;
+
+    // File type information for a project
+    FILE_TYPE = 233;
+
+    // Kotlin project information logged by IntelliJ
+    KOTLIN_PROJECT_CONFIGURATION = 234;
+
+    // Event related to IntelliJ Run Start data being logged
+    RUN_START_DATA = 235;
+
+    // Event related to IntelliJ Run Finish data being logged
+    RUN_FINISH_DATA = 236;
   }
 
   // Represents different Performance Monitoring types.
@@ -9666,4 +9689,49 @@ message SigningWizardEvent {
   optional uint32 number_of_variants = 4;
   // Private key is stored?
   optional bool is_private_key_exported = 5;
+}
+
+// File type information for a project
+message FileType {
+  // Type of file, i.e. kotlin, java, xml
+  optional string file_type = 1;
+  // Plugin type, i.e. platform
+  optional string plugin_type = 2;
+  // Number of files of this type in the project
+  optional uint32 number_of_files = 3;
+}
+
+// Kotlin project configuration information logged by IntelliJ
+message KotlinProjectConfiguration {
+  // Build system, i.e. Gradle
+  optional string system = 1;
+  // plugin version
+  optional string plugin_version = 2;
+  // plugin name, i.e. org.jetbrains.kotlin
+  optional string plugin = 3;
+  // plugin type, i.e. JB_BUNDLED
+  optional string plugin_type = 4;
+  // platform, i.e. jvm
+  optional string platform = 5;
+  // indicates whether this a kotlin multiplatform programming project
+  optional bool is_multiplatform = 6;
+}
+
+// Data collected by IntelliJ when a run is started
+message RunStartData {
+  // Unique id for activity. This number is generated sequentially
+  // and exists only across the lifetime of the process.
+  optional int32 ide_activity_id = 1;
+  // Type of launch performed, i.e. Run, Debug, etc.
+  optional string executor = 2;
+  // Type of run configuration, i.e. AndroidRunConfigurationType
+  optional string run_configuration = 3;
+}
+
+// Data collected by IntelliJ when a run is finished
+message RunFinishData {
+  // duration of the run in ms
+  optional int64 duration_ms = 1;
+  // Unique id for activity
+  optional int32 ide_activity = 2;
 }
