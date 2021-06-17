@@ -357,6 +357,7 @@ enum GradleTaskExecutionType {
     COMPILE_ART_PROFILE = 270;
     ANDROID_LINT_TEXT_OUTPUT = 271;
     SOURCE_JAR = 272;
+    MERGE_ASSETS_FOR_UNIT_TEST = 273;
 }
 
 enum BooleanOption {
@@ -591,6 +592,7 @@ enum VariantApiArtifactType {
     MERGED_MANIFEST = 5;
     OBFUSCATION_MAPPING_FILE = 6;
     PUBLIC_ANDROID_RESOURCES_LIST = 7;
+    ASSETS = 8;
 }
 
 enum VariantMethodType {
