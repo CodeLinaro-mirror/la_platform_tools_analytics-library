@@ -8922,6 +8922,8 @@ message AppInspectionEvent {
     DatabaseInspectorEvent database_inspector_event = 2;
     // Event associated with the user interacting with the WorkManager inspector
     WorkManagerInspectorEvent work_manager_inspector_event = 3;
+    // Event associated with the user interacting with the Network inspector
+    NetworkInspectorEvent network_inspector_event = 4;
   }
 
   // Set if |type| is |ERROR_OCCURRED|
@@ -9155,6 +9157,29 @@ message AppInspectionEvent {
     // |type| is |GRAPH_MODE_SELECTED|,
     // |type| is |WORK_SELECTED| when |mode| is |GRAPH_MODE|
     optional ChainInfo chain_info = 4;
+  }
+
+  // Events associated with users interacting with the network inspector
+  message NetworkInspectorEvent {
+    enum Type {
+      UNKNOWN_EVENT_TYPE = 0;
+
+      // User clicks on the migration prompt in profilers
+      MIGRATION_LINK_SELECTED = 1;
+
+      // User selects a connection to bring up the details panel
+      CONNECTION_DETAIL_SELECTED = 2;
+
+      // Details panel
+      // User selects the request tab
+      REQUEST_TAB_SELECTED = 3;
+      // User selects the response tab
+      RESPONSE_TAB_SELECTED = 4;
+      // User selects the callstack tab
+      CALLSTACK_TAB_SELECTED = 5;
+    }
+
+    optional Type type = 1;
   }
 }
 
