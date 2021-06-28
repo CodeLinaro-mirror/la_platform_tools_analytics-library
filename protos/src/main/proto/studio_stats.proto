@@ -9471,8 +9471,13 @@ message UpgradeAssistantEventInfo {
   // The kind of event.
   optional UpgradeAssistantEventKind kind = 1;
   // The number of usages.  Will be set if kind is FIND_USAGES,
-  // PREVIEW_REFACTORING or EXECUTE.
+  // PREVIEW_REFACTORING, EXECUTE, SYNC_SKIPPED, SYNC_FAILED, or
+  // SYNC_SUCCEEDED.
   optional int32 usages = 2;
+  // The number of files involved in the build.  Will be set if
+  // kind is FIND_USAGES, PREVIEW_REFACTORING, EXECUTE,
+  // SYNC_SKIPPED, SYNC_FAILED, or SYNC_SUCCEEDED.
+  optional int32 files = 3;
 }
 
 message UpgradeAssistantComponentEvent {
