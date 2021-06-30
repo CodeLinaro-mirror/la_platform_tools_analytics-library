@@ -7155,6 +7155,8 @@ message RunEvent {
   optional bool apply_changes_fallback_to_run = 22;
   // Whether the user configured ACC to fall back to Run
   optional bool apply_code_changes_fallback_to_run = 23;
+  // Whether the user configured Run to disable overlay installs.
+  optional bool run_always_install_with_pm = 24;
 }
 
 message LaunchTaskDetail {
@@ -9436,6 +9438,10 @@ message UpgradeAssistantComponentInfo {
     MIGRATE_TO_ANDROID_RESOURCES = 9;
     REMOVE_BUILD_TYPE_USE_PROGUARD = 10;
     REMOVE_IMPLEMENTATION_PROPERTIES = 11;
+    GRADLE_PLUGINS = 12;
+    MIGRATE_TO_INSTALLATION = 13;
+    MIGRATE_TO_EMULATOR_SNAPSHOTS = 14;
+    MIGRATE_TO_TEST_COVERAGE = 15;
   }
 
   message Java8DefaultProcessorSettings {
