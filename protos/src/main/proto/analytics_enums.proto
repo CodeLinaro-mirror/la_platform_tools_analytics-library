@@ -358,6 +358,7 @@ enum GradleTaskExecutionType {
     ANDROID_LINT_TEXT_OUTPUT = 271;
     SOURCE_JAR = 272;
     MERGE_ASSETS_FOR_UNIT_TEST = 273;
+    CHECK_JETIFIER = 274;
 }
 
 enum BooleanOption {
@@ -582,6 +583,7 @@ enum StringOption {
     LINT_HEAP_SIZE = 32;
     SUPPRESS_UNSUPPORTED_COMPILE_SDK = 33;
     LINT_VERSION_OVERRIDE = 34;
+    IDE_CHECK_JETIFIER_RESULT_FILE = 35;
 }
 
 enum VariantApiArtifactType {
