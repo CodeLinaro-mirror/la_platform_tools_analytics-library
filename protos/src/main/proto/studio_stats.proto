@@ -3451,6 +3451,9 @@ message GradleBuildProject {
   // e.g an example is ORG_GRADLE_API_TASKS_WRAPPER_WRAPPER_DECORATED
   repeated string task_names = 17;
 
+  // Records use of APIs used at the sub-project level
+  optional ProjectApiUse project_api_use = 18;
+
   enum PluginType {
     UNKNOWN_PLUGIN_TYPE = 0;
     // The 'com.android.application' or 'com.android.model.application' plugins.
@@ -3544,6 +3547,15 @@ message GradleBuildProject {
     COM_ANDROID_BUILD_GRADLE_INTERNAL_PLUGINS_VERSIONCHECKPLUGIN = 62;
     PROGUARD_GRADLE_PROGUARDPLUGIN = 63;
   }
+}
+
+// Records use of APIs used at the gradle project level
+message ProjectApiUse {
+  // Whether the device provider API is used in this project.
+  optional bool builder_test_api_device_provider = 1;
+
+  // Whether the test server API is used in this project.
+  optional bool builder_test_api_test_server = 2;
 }
 
 // Configuration flags for the gradle plugin.
