@@ -6661,6 +6661,8 @@ message DynamicLayoutInspectorSession {
   optional DynamicLayoutInspectorCompose compose = 4;
   // Session data around the system view toggle
   optional DynamicLayoutInspectorSystemNode system = 5;
+  // Session data around goto declaration
+  optional DynamicLayoutInspectorGotoDeclaration goto_declaration = 6;
 }
 
 // Session data for dynamic layout inspector (inspector v2) around live mode
@@ -6718,6 +6720,17 @@ message DynamicLayoutInspectorMemory {
     // The time it took to measure the memory used
     optional uint64 measurement_duration_ms = 3;
   }
+}
+
+// Session data around goto declaration
+message DynamicLayoutInspectorGotoDeclaration {
+  // Number of clicks on "Goto Declaration" menu action
+  optional uint32 clicks_menu_action = 1;
+  // Number of times the "Goto Declaration" menu action was activated with key
+  // shortcut
+  optional uint32 key_strokes_shortcut = 2;
+  // Number of times a double click was used to "Goto Declaration"
+  optional uint32 double_clicks = 3;
 }
 
 // Kotlin support information
