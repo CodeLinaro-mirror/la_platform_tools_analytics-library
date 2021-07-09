@@ -7155,6 +7155,8 @@ message RunEvent {
   optional bool apply_changes_fallback_to_run = 22;
   // Whether the user configured ACC to fall back to Run
   optional bool apply_code_changes_fallback_to_run = 23;
+  // Whether the user configured Run to disable overlay installs.
+  optional bool run_always_install_with_pm = 24;
 }
 
 message LaunchTaskDetail {
@@ -8922,6 +8924,8 @@ message AppInspectionEvent {
     DatabaseInspectorEvent database_inspector_event = 2;
     // Event associated with the user interacting with the WorkManager inspector
     WorkManagerInspectorEvent work_manager_inspector_event = 3;
+    // Event associated with the user interacting with the Network inspector
+    NetworkInspectorEvent network_inspector_event = 4;
   }
 
   // Set if |type| is |ERROR_OCCURRED|
@@ -9155,6 +9159,29 @@ message AppInspectionEvent {
     // |type| is |GRAPH_MODE_SELECTED|,
     // |type| is |WORK_SELECTED| when |mode| is |GRAPH_MODE|
     optional ChainInfo chain_info = 4;
+  }
+
+  // Events associated with users interacting with the network inspector
+  message NetworkInspectorEvent {
+    enum Type {
+      UNKNOWN_EVENT_TYPE = 0;
+
+      // User clicks on the migration prompt in profilers
+      MIGRATION_LINK_SELECTED = 1;
+
+      // User selects a connection to bring up the details panel
+      CONNECTION_DETAIL_SELECTED = 2;
+
+      // Details panel
+      // User selects the request tab
+      REQUEST_TAB_SELECTED = 3;
+      // User selects the response tab
+      RESPONSE_TAB_SELECTED = 4;
+      // User selects the callstack tab
+      CALLSTACK_TAB_SELECTED = 5;
+    }
+
+    optional Type type = 1;
   }
 }
 
@@ -9411,6 +9438,10 @@ message UpgradeAssistantComponentInfo {
     MIGRATE_TO_ANDROID_RESOURCES = 9;
     REMOVE_BUILD_TYPE_USE_PROGUARD = 10;
     REMOVE_IMPLEMENTATION_PROPERTIES = 11;
+    GRADLE_PLUGINS = 12;
+    MIGRATE_TO_INSTALLATION = 13;
+    MIGRATE_TO_EMULATOR_SNAPSHOTS = 14;
+    MIGRATE_TO_TEST_COVERAGE = 15;
   }
 
   message Java8DefaultProcessorSettings {
@@ -9446,8 +9477,13 @@ message UpgradeAssistantEventInfo {
   // The kind of event.
   optional UpgradeAssistantEventKind kind = 1;
   // The number of usages.  Will be set if kind is FIND_USAGES,
-  // PREVIEW_REFACTORING or EXECUTE.
+  // PREVIEW_REFACTORING, EXECUTE, SYNC_SKIPPED, SYNC_FAILED, or
+  // SYNC_SUCCEEDED.
   optional int32 usages = 2;
+  // The number of files involved in the build.  Will be set if
+  // kind is FIND_USAGES, PREVIEW_REFACTORING, EXECUTE,
+  // SYNC_SKIPPED, SYNC_FAILED, or SYNC_SUCCEEDED.
+  optional int32 files = 3;
 }
 
 message UpgradeAssistantComponentEvent {
