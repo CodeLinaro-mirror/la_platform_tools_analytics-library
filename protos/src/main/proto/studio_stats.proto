@@ -9467,6 +9467,7 @@ message UpgradeAssistantComponentInfo {
     MIGRATE_TO_INSTALLATION = 13;
     MIGRATE_TO_EMULATOR_SNAPSHOTS = 14;
     MIGRATE_TO_TEST_COVERAGE = 15;
+    MIGRATE_PACKAGING_OPTIONS = 16;
   }
 
   message Java8DefaultProcessorSettings {
