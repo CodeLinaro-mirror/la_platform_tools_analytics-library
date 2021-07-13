@@ -359,6 +359,8 @@ enum GradleTaskExecutionType {
     SOURCE_JAR = 272;
     MERGE_ASSETS_FOR_UNIT_TEST = 273;
     CHECK_JETIFIER = 274;
+    JAVA_DOC_GENERATION = 275;
+    JAVA_DOC_JAR = 276;
 }
 
 enum BooleanOption {
