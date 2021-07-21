@@ -357,6 +357,8 @@ enum GradleTaskExecutionType {
     COMPILE_ART_PROFILE = 270;
     ANDROID_LINT_TEXT_OUTPUT = 271;
     SOURCE_JAR = 272;
+    MERGE_ASSETS_FOR_UNIT_TEST = 273;
+    CHECK_JETIFIER = 274;
 }
 
 enum BooleanOption {
@@ -508,6 +510,7 @@ enum BooleanOption {
     INCLUDE_REPOSITORIES_IN_DEPENDENCY_REPORT = 145;
     ENABLE_ART_PROFILES = 146;
     ENABLE_JACOCO_TRANSFORM_INSTRUMENTATION = 147;
+    FORCE_DETERMINISTIC_APK = 148;
 }
 
 enum OptionalBooleanOption {
@@ -580,6 +583,7 @@ enum StringOption {
     LINT_HEAP_SIZE = 32;
     SUPPRESS_UNSUPPORTED_COMPILE_SDK = 33;
     LINT_VERSION_OVERRIDE = 34;
+    IDE_CHECK_JETIFIER_RESULT_FILE = 35;
 }
 
 enum VariantApiArtifactType {
@@ -591,6 +595,7 @@ enum VariantApiArtifactType {
     MERGED_MANIFEST = 5;
     OBFUSCATION_MAPPING_FILE = 6;
     PUBLIC_ANDROID_RESOURCES_LIST = 7;
+    ASSETS = 8;
 }
 
 enum VariantMethodType {
