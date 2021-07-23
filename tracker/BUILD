@@ -1,5 +1,7 @@
 load("//tools/base/bazel:bazel.bzl", "iml_module")
-load("//tools/base/bazel:kotlin.bzl", "kotlin_library_legacy", "kotlin_test")
+load("//tools/base/bazel:kotlin.bzl", "kotlin_test", "maven_library")
+load("//tools/base/bazel:maven.bzl", "maven_java_library", "maven_pom")
+load("//tools/base/common:version.bzl", "BASE_VERSION")
 
 # managed by go/iml_to_build
 iml_module(
@@ -23,31 +25,24 @@ iml_module(
     ],
 )
 
-load("//tools/base/bazel:maven.bzl", "maven_java_library", "maven_pom")
-
-kotlin_library_legacy(
-    name = "tools.analytics-tracker",
+maven_library(
+    name = "tools.analytics-tracker_bzl",
     srcs = glob([
         "src/main/java/**/*.kt",
         "src/main/java/**/*.java",
     ]),
-    pom = "analytics-tracker.pom",
+    coordinates = "com.android.tools.analytics-library:tracker:" + BASE_VERSION,
+    legacy_name = "tools.analytics-tracker",
+    notice = "NOTICE",
     resource_strip_prefix = "tools/analytics-library/tracker",
     visibility = ["//visibility:public"],
     deps = [
-        "//tools/analytics-library/protos/src/main/proto",
-        "//tools/analytics-library/shared:tools.analytics-shared",
-        "//tools/base/annotations",
-        "//tools/base/common:tools.common",
-        "//tools/base/third_party:com.google.guava_guava",
+        "//tools/analytics-library/protos/src/main/proto:proto_bzl",
+        "//tools/analytics-library/shared:tools.analytics-shared_bzl",
+        "//tools/base/annotations:annotations_bzl",
+        "//tools/base/common:common_bzl",
+        "@maven//:com.google.guava.guava",
     ],
-)
-
-maven_pom(
-    name = "analytics-tracker.pom",
-    artifact = "tracker",
-    group = "com.android.tools.analytics-library",
-    source = "//tools/buildSrc/base:base_version",
 )
 
 kotlin_test(
