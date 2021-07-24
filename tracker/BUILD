@@ -1,5 +1,5 @@
 load("//tools/base/bazel:bazel.bzl", "iml_module")
-load("//tools/base/bazel:kotlin.bzl", "kotlin_library", "kotlin_test")
+load("//tools/base/bazel:kotlin.bzl", "kotlin_library_legacy", "kotlin_test")
 
 # managed by go/iml_to_build
 iml_module(
@@ -25,7 +25,7 @@ iml_module(
 
 load("//tools/base/bazel:maven.bzl", "maven_java_library", "maven_pom")
 
-kotlin_library(
+kotlin_library_legacy(
     name = "tools.analytics-tracker",
     srcs = glob([
         "src/main/java/**/*.kt",
