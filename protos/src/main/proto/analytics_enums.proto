@@ -362,6 +362,7 @@ enum GradleTaskExecutionType {
     JAVA_DOC_GENERATION = 275;
     JAVA_DOC_JAR = 276;
     LISTING_FILE_REDIRECT = 277;
+    PREFAB_PACKAGE_CONFIGURATION = 278;
 }
 
 enum BooleanOption {
