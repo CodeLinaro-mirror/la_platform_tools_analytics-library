@@ -6641,12 +6641,50 @@ message DynamicLayoutInspectorEvent {
     COMPATIBILITY_RENDER_NO_PICTURE = 10;
     // Session Data after a session ended
     SESSION_DATA = 11;
+    // User saved a snapshot
+    SNAPSHOT_CAPTURED = 12;
+    // User loaded a snapshot
+    SNAPSHOT_LOADED = 13;
+    // Error loading a snapshot
+    SNAPSHOT_LOAD_ERROR = 14;
+    // User cancelled the snapshot saving process
+    SNAPSHOT_CANCELLED = 15;
+    // There was an error during initial connect
+    ATTACH_ERROR = 16;
   }
 
   // Type of event
   optional DynamicLayoutInspectorEventType type = 1;
   // Data for the layout inspector session
   optional DynamicLayoutInspectorSession session = 2;
+  // Additional information that will be available when looking at a snapshot
+  optional DynamicLayoutInspectorSnapshotInfo snapshot_info = 3;
+}
+
+// Information specific to snapshots
+message DynamicLayoutInspectorSnapshotInfo {
+  // The version of the snapshot file format. Current versions are:
+  // 1 - non-dynamic inspector
+  // 2 - new version of non-dynamic inspector, never enabled in production
+  // 3 - dynamic inspector in legacy mode (API < 28)
+  // 4 - dynamic inspector in normal mode
+  optional int32 snapshot_version = 1;
+
+  // What program saved the snapshot
+  enum SaveSource {
+    UNKNOWN = 0;
+    STUDIO = 1;
+  }
+  // What program saved the snapshot
+  optional SaveSource save_source = 2;
+  // The version of studio (or some other future tool) that saved it
+  optional string save_version = 3;
+  // Was the inspector in live mode when the snapshot was saved
+  optional bool live_when_saved = 4;
+  // How long it took to save the snapshot in milliseconds
+  optional uint32 save_duration_ms = 5;
+  // How long it took to load the snapshot in milliseconds
+  optional uint32 load_duration_ms = 6;
 }
 
 // Session data for dynamic layout inspector (inspector v2)
