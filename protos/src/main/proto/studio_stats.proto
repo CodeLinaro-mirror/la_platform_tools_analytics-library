@@ -8348,8 +8348,18 @@ message MultiViewEvent {
     OPEN_WEAR_DEVICES = 7;
   }
 
+  // Mode of the editor associated to this Validation Tool
+  enum AssociatedSplitEditorMode {
+    UNKNOWN_MODE = 0;
+    TEXT_MODE = 1;
+    SPLIT_MODE = 2;
+    VISUAL_MODE = 3;
+  }
+
   // Type of event
   optional MultiViewEventType type = 1;
+  // The mode of the editor to the Validation Tool window
+  optional AssociatedSplitEditorMode associated_split_editor_mode = 2;
 }
 
 // Details for Compose animation tooling event
