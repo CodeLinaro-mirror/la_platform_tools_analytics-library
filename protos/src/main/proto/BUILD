@@ -10,9 +10,6 @@ maven_proto_library(
     resource_strip_prefix = "tools/analytics-library/protos",
     resources = ["//tools/analytics-library/protos:NOTICE"],
     visibility = ["//visibility:public"],
-    deps = [
-        "@maven//:com.google.protobuf.protobuf-java",
-    ],
 )
 
 java_proto_library(
