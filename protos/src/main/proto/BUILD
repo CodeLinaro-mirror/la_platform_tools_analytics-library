@@ -1,5 +1,4 @@
 load("//tools/base/bazel:proto.bzl", "java_proto_library", "maven_proto_library")
-load("//tools/base/bazel:maven.bzl", "maven_java_library", "maven_pom")
 load("//tools/base/common:version.bzl", "BASE_VERSION")
 
 maven_proto_library(
