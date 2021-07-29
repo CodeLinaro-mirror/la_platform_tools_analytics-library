@@ -1193,6 +1193,7 @@ message AndroidStudioEvent {
     ANDROID_NATIVE_MODULE = 62;
     RESPONSIVE_ACTIVITY = 63;
     MACROBENCHMARK_LIBRARY_MODULE = 64;
+    GOOGLE_PAY_ACTIVITY = 65;
   }
 
   // Wizard Templates Usage (New Project, New Module and New Component)
@@ -1221,7 +1222,7 @@ message AndroidStudioEvent {
 
       // The different template components (eg Activities, Fragments, Services,
       // etc) the template engine could be asked to render
-      // Next ID: 58
+      // Next ID: 59
       enum TemplateType {
         UNKNOWN_TEMPLATE = 0;
         CUSTOM_TEMPLATE = 1;
@@ -1247,6 +1248,7 @@ message AndroidStudioEvent {
         BOTTOM_NAVIGATION_ACTIVITY = 21;
         CPP_EMPTY_ACTIVITY = 22;
         RESPONSIVE_ACTIVITY = 57;
+        GOOGLE_PAY_ACTIVITY = 58;
 
         FRAGMENT_LIST = 23;
         FRAGMENT_BLANK = 24;
