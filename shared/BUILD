@@ -1,5 +1,7 @@
 load("//tools/base/bazel:bazel.bzl", "iml_module")
-load("//tools/base/bazel:kotlin.bzl", "kotlin_library", "kotlin_test")
+load("//tools/base/bazel:kotlin.bzl", "kotlin_library", "kotlin_test", "maven_library")
+load("//tools/base/bazel:maven.bzl", "maven_java_library", "maven_pom")
+load("//tools/base/common:version.bzl", "BASE_VERSION")
 
 # managed by go/iml_to_build
 iml_module(
@@ -22,36 +24,29 @@ iml_module(
     ],
 )
 
-load("//tools/base/bazel:maven.bzl", "maven_java_library", "maven_pom")
-
-kotlin_library(
-    name = "tools.analytics-shared",
+maven_library(
+    name = "tools.analytics-shared_bzl",
     srcs = glob([
         "src/main/java/**/*.kt",
         "src/main/java/**/*.java",
     ]),
-    pom = ":analytics-shared.pom",
+    coordinates = "com.android.tools.analytics-library:shared:" + BASE_VERSION,
+    legacy_name = "tools.analytics-shared",
+    notice = "NOTICE",
     resource_strip_prefix = "tools/analytics-library/shared",
     visibility = ["//visibility:public"],
     deps = [
-        "//tools/analytics-library/protos/src/main/proto",
-        "//tools/base/annotations",
-        "//tools/base/common:tools.common",
-        "//tools/base/third_party:com.google.code.gson_gson",
-        "//tools/base/third_party:com.google.guava_guava",
-        "//tools/base/third_party:net.java.dev.jna_jna",
-        "//tools/base/third_party:net.java.dev.jna_jna-platform",
-        "//tools/base/third_party:org.jetbrains.kotlin_kotlin-stdlib",
-        "//tools/base/third_party:org.jetbrains.kotlin_kotlin-stdlib-jdk7",
-        "//tools/base/third_party:org.jetbrains.kotlin_kotlin-stdlib-jdk8",
+        "//tools/analytics-library/protos/src/main/proto:proto_bzl",
+        "//tools/base/annotations:annotations_bzl",
+        "//tools/base/common:common_bzl",
+        "@maven//:com.google.code.gson.gson",
+        "@maven//:com.google.guava.guava",
+        "@maven//:net.java.dev.jna.jna",
+        "@maven//:net.java.dev.jna.jna-platform",
+        "@maven//:org.jetbrains.kotlin.kotlin-stdlib",
+        "@maven//:org.jetbrains.kotlin.kotlin-stdlib-jdk7",
+        "@maven//:org.jetbrains.kotlin.kotlin-stdlib-jdk8",
     ],
-)
-
-maven_pom(
-    name = "analytics-shared.pom",
-    artifact = "shared",
-    group = "com.android.tools.analytics-library",
-    source = "//tools/buildSrc/base:base_version",
 )
 
 kotlin_test(
@@ -83,6 +78,9 @@ filegroup(
         "src/main/**/*.java",
         "src/main/**/*.kt",
         "src/main/resources/**",
-    ]) + ["build.gradle"],
+    ]) + [
+        "build.gradle",
+        "NOTICE",
+    ],
     visibility = ["//tools/base/build-system:__pkg__"],
 )

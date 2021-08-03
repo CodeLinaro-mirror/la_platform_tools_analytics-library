@@ -8588,6 +8588,22 @@ message ConfigurationCacheCompatibilityData {
   repeated BuildAttributionPluginIdentifier incompatible_plugins = 2;
 }
 
+// Data about jetifier usage in the project
+message JetifierUsageData {
+  enum JetifierUsageState {
+    UNKNOWN_STATE = 0;
+    JETIFIER_NOT_USED = 1;
+    // Jetifier is used in project
+    // but no existing checkJetifier task results found
+    JETIFIER_USED_CHECK_REQUIRED = 2;
+    JETIFIER_CAN_BE_REMOVED = 3;
+    JETIFIER_REQUIRED_FOR_LIBRARIES = 4;
+  }
+  optional JetifierUsageState jetifier_usage_state = 1;
+  // Size of the libraries list found by checkJetifier task
+  optional int32 number_of_libraries_require_jetifier = 2;
+}
+
 // Data about build attribution analyzers
 message BuildAttributionAnalyzersData {
   // Total build time in microseconds
@@ -8608,6 +8624,8 @@ message BuildAttributionAnalyzersData {
   // Data from configuration caching compatibility analyzer
   optional ConfigurationCacheCompatibilityData
       configuration_cache_compatibility_data = 7;
+  // Data from jetifier usage analyzer
+  optional JetifierUsageData jetifier_usage_data = 8;
 }
 
 // Data about build attribution performance
@@ -8680,6 +8698,8 @@ message BuildAttributionUiEvent {
     TURN_ON_CONFIGURATION_CACHE_IN_PROPERTIES_LINK_CLICKED = 23;
     // Update plugin button on configuration cache warnings.
     UPDATE_PLUGIN_BUTTON_CLICKED = 24;
+    RUN_CHECK_JETIFIER_TASK_CLICKED = 25;
+    REMOVE_JETIFIER_PROPERTY_CLICKED = 26;
   }
 
   message Page {
@@ -8715,6 +8735,7 @@ message BuildAttributionUiEvent {
       PLUGIN_TASK_WARNINGS = 25;
       CONFIGURATION_CACHE_ROOT = 26;
       CONFIGURATION_CACHE_PLUGIN_WARNING = 27;
+      JETIFIER_USAGE_WARNING = 28;
     }
     // Type of current page.
     optional PageType page_type = 1;
@@ -8735,11 +8756,12 @@ message BuildAttributionUiEvent {
     OPTIMIZE_CONFIGURATION_PHASE_HELP = 6;
     CONFIGURE_GC = 7;
     CONFIGURATION_CACHING = 8;
+    JETIFIER_MIGRATION = 9;
   }
 
   // Filter consists of items that might be included or not.
   // Current filter state is represented by items that are included (turned on).
-  // Next ID: 10
+  // Next ID: 11
   enum FilterItem {
     UNKNOWN_FILTER_ITEM = 0;
     // Filters by task type.
@@ -8751,6 +8773,7 @@ message BuildAttributionUiEvent {
     SHOW_TASK_SETUP_ISSUE_WARNINGS = 5;
     SHOW_ANNOTATION_PROCESSOR_WARNINGS = 6;
     SHOW_CONFIGURATION_CACHE_WARNINGS = 9;
+    SHOW_JETIFIER_USAGE_WARNINGS = 10;
     // Other task attributes filters
     SHOW_WARNINGS_FOR_TASK_NOT_FROM_CRITICAL_PATH = 7;
     SHOW_TASKS_WITHOUT_WARNINGS = 8;
@@ -9506,6 +9529,8 @@ message UpgradeAssistantComponentInfo {
     MIGRATE_TO_EMULATOR_SNAPSHOTS = 14;
     MIGRATE_TO_TEST_COVERAGE = 15;
     MIGRATE_PACKAGING_OPTIONS = 16;
+    MIGRATE_TO_LINT = 17;
+    REWRITE_DEPRECATED_OPERATORS = 18;
   }
 
   message Java8DefaultProcessorSettings {
