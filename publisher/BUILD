@@ -1,5 +1,6 @@
 load("//tools/base/bazel:bazel.bzl", "iml_module")
-load("//tools/base/bazel:kotlin.bzl", "kotlin_library_legacy", "kotlin_test")
+load("//tools/base/bazel:kotlin.bzl", "maven_library", "kotlin_test")
+load("//tools/base/common:version.bzl", "BASE_VERSION")
 
 # managed by go/iml_to_build
 iml_module(
@@ -24,30 +25,23 @@ iml_module(
     ],
 )
 
-kotlin_library_legacy(
-    name = "publisher",
+maven_library(
+    name = "publisher_bzl",
     srcs = glob([
         "src/main/java/**/*.kt",
         "src/main/java/**/*.java",
     ]),
-    pom = ":publisher.pom",
+    coordinates = "com.android.tools.analytics-library:publisher:" + BASE_VERSION,
+    legacy_name = "publisher",
+    notice = "NOTICE",
     resource_strip_prefix = "tools/analytics-library/publisher",
     visibility = ["//visibility:public"],
     deps = [
-        "//tools/analytics-library/protos/src/main/proto",
-        "//tools/analytics-library/shared:tools.analytics-shared",
-        "//tools/base/annotations",
-        "//tools/base/common:tools.common",
-        "//tools/base/third_party:com.google.code.gson_gson",
-        "//tools/base/third_party:com.google.guava_guava",
+        "//tools/analytics-library/protos/src/main/proto:proto_bzl",
+        "//tools/analytics-library/shared:tools.analytics-shared_bzl",
+        "//tools/base/annotations:annotations_bzl",
+        "//tools/base/common:common_bzl",
+        "@maven//:com.google.code.gson.gson",
+        "@maven//:com.google.guava.guava",
     ],
-)
-
-load("//tools/base/bazel:maven.bzl", "maven_pom")
-
-maven_pom(
-    name = "publisher.pom",
-    artifact = "publisher",
-    group = "com.android.tools.analytics-library",
-    source = "//tools/buildSrc/base:base_version",
 )

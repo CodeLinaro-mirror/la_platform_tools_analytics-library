@@ -1,4 +1,6 @@
 load("//tools/base/bazel:bazel.bzl", "iml_module")
+load("//tools/base/bazel:kotlin.bzl", "maven_library")
+load("//tools/base/common:version.bzl", "BASE_VERSION")
 
 # managed by go/iml_to_build
 iml_module(
@@ -27,26 +29,19 @@ java_binary(
     runtime_deps = [":inspector"],
 )
 
-load("//tools/base/bazel:maven.bzl", "maven_java_library", "maven_pom")
-
-maven_java_library(
-    name = "inspector",
+maven_library(
+    name = "inspector_bzl",
     srcs = glob(["src/main/java/**"]),
-    pom = ":inspector.pom",
+    coordinates = "com.android.tools.analytics-library:inspector:" + BASE_VERSION,
+    legacy_name = "inspector",
+    notice = "NOTICE",
     resource_strip_prefix = "tools/analytics-library/inspector",
     visibility = ["//visibility:public"],
     deps = [
-        "//tools/analytics-library/protos/src/main/proto",
-        "//tools/base/annotations",
-        "//tools/base/common:tools.common",
-        "//tools/base/third_party:com.google.code.gson_gson",
-        "//tools/base/third_party:com.google.guava_guava",
+        "//tools/analytics-library/protos/src/main/proto:proto_bzl",
+        "//tools/base/annotations:annotations_bzl",
+        "//tools/base/common:common_bzl",
+        "@maven//:com.google.code.gson.gson",
+        "@maven//:com.google.guava.guava",
     ],
-)
-
-maven_pom(
-    name = "inspector.pom",
-    artifact = "inspector",
-    group = "com.android.tools.analytics-library",
-    source = "//tools/buildSrc/base:base_version",
 )

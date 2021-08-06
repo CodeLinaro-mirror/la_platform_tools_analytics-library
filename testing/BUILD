@@ -23,8 +23,6 @@ iml_module(
     ],
 )
 
-load("//tools/base/bazel:maven.bzl", "maven_java_library", "maven_pom")
-
 kotlin_library(
     name = "tools.analytics-testing",
     srcs = glob([
