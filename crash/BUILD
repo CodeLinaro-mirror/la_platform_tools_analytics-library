@@ -47,17 +47,17 @@ kotlin_test(
     runtime_deps = [
         # Need to put this on the classpath before TestRunner_deploy.jar which contains
         # old JUnit classes. See https://github.com/bazelbuild/bazel/issues/2146.
-        "//tools/base/third_party:junit_junit",
+        "@maven//:junit.junit",
     ],
     deps = [
         ":tools.analytics-crash",
         "//tools/base/annotations",
         "//tools/base/testutils:tools.testutils",
-        "//tools/base/third_party:com.google.truth_truth",
-        "//tools/base/third_party:io.netty_netty-all",
-        "//tools/base/third_party:junit_junit",
-        "//tools/base/third_party:org.apache.httpcomponents_httpmime",
-        "//tools/base/third_party:org.mockito_mockito-core",
+        "@maven//:com.google.truth.truth",
+        "@maven//:io.netty.netty-all",
+        "@maven//:junit.junit",
+        "@maven//:org.apache.httpcomponents.httpmime",
+        "@maven//:org.mockito.mockito-core",
     ],
 )
 
