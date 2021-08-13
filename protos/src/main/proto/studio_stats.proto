@@ -7424,11 +7424,33 @@ message StudioToolWindowActionStats {
 
     CLOSED_EVENT_TYPE = 3;
   }
+
+  // "View Mode" in the UI
+  enum ToolWindowType {
+    // Default tool window type
+    UNKNOWN_TOOL_WINDOW_TYPE = 0;
+
+    // "Dock Pinned" in the UI
+    DOCKED_TOOL_WINDOW_TYPE = 1;
+
+    // "Float" in the UI
+    FLOATING_TOOL_WINDOW_TYPE = 2;
+
+    // "Undock" in the UI
+    SLIDING_TOOL_WINDOW_TYPE = 3;
+
+    // "Window" in the UI
+    WINDOWED_TOOL_WINDOW_TYPE = 4;
+  }
+
   // Id of the tool window
   // e.g. 'Assistant'
   optional string tool_window_id = 1;
 
   optional EventType event_type = 2;
+
+  // "View Mode" in the UI
+  optional ToolWindowType tool_window_type = 3;
 }
 
 // Statistics related to PSD
@@ -9897,5 +9919,44 @@ message DeviceManagerEvent {
 
     // The count of devices under the Virtual tab
     VIRTUAL_DEVICE_COUNT = 1;
+
+    // The Launch action under the Virtual tab was clicked
+    VIRTUAL_LAUNCH_ACTION = 2;
+
+    // The Device file explorer action under the Virtual tab was clicked
+    VIRTUAL_DEVICE_FILE_EXPLORER_ACTION = 3;
+
+    // The Edit action under the Virtual tab was clicked
+    VIRTUAL_EDIT_ACTION = 4;
+
+    // The Pair device action under the Virtual tab was clicked
+    VIRTUAL_PAIR_DEVICE_ACTION = 5;
+
+    // The Duplicate action under the Virtual tab was clicked
+    VIRTUAL_DUPLICATE_ACTION = 6;
+
+    // The Wipe data action under the Virtual tab was clicked
+    VIRTUAL_WIPE_DATA_ACTION = 7;
+
+    // The Cold boot now action under the Virtual tab was clicked
+    VIRTUAL_COLD_BOOT_NOW_ACTION = 8;
+
+    // The Show on disk action under the Virtual tab was clicked
+    VIRTUAL_SHOW_ON_DISK_ACTION = 9;
+
+    // The Delete action under the Virtual tab was clicked
+    VIRTUAL_DELETE_ACTION = 10;
+
+    // The Stop action under the Virtual tab was clicked
+    VIRTUAL_STOP_ACTION = 11;
+
+    // The Device file explorer action under the Physical tab was clicked
+    PHYSICAL_DEVICE_FILE_EXPLORER_ACTION = 12;
+
+    // The Pair device action under the Physical tab was clicked
+    PHYSICAL_PAIR_DEVICE_ACTION = 13;
+
+    // The Delete action under the Physical tab was clicked
+    PHYSICAL_DELETE_ACTION = 14;
   }
 }
