@@ -26,21 +26,20 @@ iml_module(
 )
 
 maven_library(
-    name = "publisher_bzl",
+    name = "publisher",
     srcs = glob([
         "src/main/java/**/*.kt",
         "src/main/java/**/*.java",
     ]),
     coordinates = "com.android.tools.analytics-library:publisher:" + BASE_VERSION,
-    legacy_name = "publisher",
     notice = "NOTICE",
     resource_strip_prefix = "tools/analytics-library/publisher",
     visibility = ["//visibility:public"],
     deps = [
-        "//tools/analytics-library/protos/src/main/proto:proto_bzl",
-        "//tools/analytics-library/shared:tools.analytics-shared_bzl",
-        "//tools/base/annotations:annotations_bzl",
-        "//tools/base/common:common_bzl",
+        "//tools/analytics-library/protos/src/main/proto",
+        "//tools/analytics-library/shared:tools.analytics-shared",
+        "//tools/base/annotations",
+        "//tools/base/common:tools.common",
         "@maven//:com.google.code.gson.gson",
         "@maven//:com.google.guava.guava",
     ],

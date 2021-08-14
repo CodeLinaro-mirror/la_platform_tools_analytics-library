@@ -22,15 +22,14 @@ iml_module(
 )
 
 maven_library(
-    name = "tools.analytics-crash_bzl",
+    name = "tools.analytics-crash",
     srcs = glob(["src/main/java/**"]),
     coordinates = "com.android.tools.analytics-library:crash:" + BASE_VERSION,
-    legacy_name = "tools.analytics-crash",
     notice = "NOTICE",
     resource_strip_prefix = "tools/analytics-library/crash",
     visibility = ["//visibility:public"],
     deps = [
-        "//tools/base/annotations:annotations_bzl",
+        "//tools/base/annotations",
         "@maven//:com.google.guava.guava",
         "@maven//:org.apache.httpcomponents.httpmime",
     ],

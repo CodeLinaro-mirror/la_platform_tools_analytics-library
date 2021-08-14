@@ -24,20 +24,19 @@ iml_module(
 )
 
 maven_library(
-    name = "tools.analytics-shared_bzl",
+    name = "tools.analytics-shared",
     srcs = glob([
         "src/main/java/**/*.kt",
         "src/main/java/**/*.java",
     ]),
     coordinates = "com.android.tools.analytics-library:shared:" + BASE_VERSION,
-    legacy_name = "tools.analytics-shared",
     notice = "NOTICE",
     resource_strip_prefix = "tools/analytics-library/shared",
     visibility = ["//visibility:public"],
     deps = [
-        "//tools/analytics-library/protos/src/main/proto:proto_bzl",
-        "//tools/base/annotations:annotations_bzl",
-        "//tools/base/common:common_bzl",
+        "//tools/analytics-library/protos/src/main/proto",
+        "//tools/base/annotations",
+        "//tools/base/common:tools.common",
         "@maven//:com.google.code.gson.gson",
         "@maven//:com.google.guava.guava",
         "@maven//:net.java.dev.jna.jna",
