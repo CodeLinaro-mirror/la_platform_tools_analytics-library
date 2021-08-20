@@ -1,5 +1,6 @@
 load("//tools/base/bazel:bazel.bzl", "iml_module")
-load("//tools/base/bazel:kotlin.bzl", "kotlin_test", "maven_library")
+load("//tools/base/bazel:kotlin.bzl", "kotlin_test")
+load("//tools/base/bazel:maven.bzl", "maven_library")
 load("//tools/base/common:version.bzl", "BASE_VERSION")
 
 # managed by go/iml_to_build
@@ -22,15 +23,14 @@ iml_module(
 )
 
 maven_library(
-    name = "tools.analytics-crash_bzl",
+    name = "tools.analytics-crash",
     srcs = glob(["src/main/java/**"]),
     coordinates = "com.android.tools.analytics-library:crash:" + BASE_VERSION,
-    legacy_name = "tools.analytics-crash",
     notice = "NOTICE",
     resource_strip_prefix = "tools/analytics-library/crash",
     visibility = ["//visibility:public"],
     deps = [
-        "//tools/base/annotations:annotations_bzl",
+        "//tools/base/annotations",
         "@maven//:com.google.guava.guava",
         "@maven//:org.apache.httpcomponents.httpmime",
     ],

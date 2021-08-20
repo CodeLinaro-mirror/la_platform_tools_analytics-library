@@ -1,5 +1,6 @@
 load("//tools/base/bazel:bazel.bzl", "iml_module")
-load("//tools/base/bazel:kotlin.bzl", "kotlin_library", "kotlin_test", "maven_library")
+load("//tools/base/bazel:kotlin.bzl", "kotlin_library", "kotlin_test")
+load("//tools/base/bazel:maven.bzl", "maven_library")
 load("//tools/base/common:version.bzl", "BASE_VERSION")
 
 # managed by go/iml_to_build
@@ -24,20 +25,19 @@ iml_module(
 )
 
 maven_library(
-    name = "tools.analytics-shared_bzl",
+    name = "tools.analytics-shared",
     srcs = glob([
         "src/main/java/**/*.kt",
         "src/main/java/**/*.java",
     ]),
     coordinates = "com.android.tools.analytics-library:shared:" + BASE_VERSION,
-    legacy_name = "tools.analytics-shared",
     notice = "NOTICE",
     resource_strip_prefix = "tools/analytics-library/shared",
     visibility = ["//visibility:public"],
     deps = [
-        "//tools/analytics-library/protos/src/main/proto:proto_bzl",
-        "//tools/base/annotations:annotations_bzl",
-        "//tools/base/common:common_bzl",
+        "//tools/analytics-library/protos/src/main/proto",
+        "//tools/base/annotations",
+        "//tools/base/common:tools.common",
         "@maven//:com.google.code.gson.gson",
         "@maven//:com.google.guava.guava",
         "@maven//:net.java.dev.jna.jna",
