@@ -42,8 +42,6 @@ maven_library(
         "@maven//:com.google.guava.guava",
         "@maven//:net.java.dev.jna.jna",
         "@maven//:net.java.dev.jna.jna-platform",
-        "@maven//:org.jetbrains.kotlin.kotlin-stdlib",
-        "@maven//:org.jetbrains.kotlin.kotlin-stdlib-jdk7",
         "@maven//:org.jetbrains.kotlin.kotlin-stdlib-jdk8",
     ],
 )
