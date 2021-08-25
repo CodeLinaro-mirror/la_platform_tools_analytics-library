@@ -32,6 +32,8 @@ maven_library(
     deps = [
         "//tools/base/annotations",
         "@maven//:com.google.guava.guava",
+        "@maven//:org.apache.httpcomponents.httpclient",
+        "@maven//:org.apache.httpcomponents.httpcore",
         "@maven//:org.apache.httpcomponents.httpmime",
     ],
 )

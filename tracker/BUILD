@@ -32,7 +32,6 @@ maven_library(
         "src/main/java/**/*.java",
     ]),
     coordinates = "com.android.tools.analytics-library:tracker:" + BASE_VERSION,
-    enable_scopes = True,
     notice = "NOTICE",
     resource_strip_prefix = "tools/analytics-library/tracker",
     visibility = ["//visibility:public"],
@@ -44,6 +43,8 @@ maven_library(
         "//tools/base/annotations",
         "//tools/base/common:tools.common",
         "@maven//:com.google.guava.guava",
+        "@maven//:com.google.protobuf.protobuf-java",
+        "@maven//:org.jetbrains.kotlin.kotlin-stdlib-jdk8",
     ],
 )
 

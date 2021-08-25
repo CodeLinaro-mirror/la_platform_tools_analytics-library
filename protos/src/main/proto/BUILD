@@ -5,6 +5,8 @@ maven_proto_library(
     name = "proto",
     srcs = glob(["*.proto"]),
     coordinates = "com.android.tools.analytics-library:protos:" + BASE_VERSION,
+    java_exports = ["@maven//:com.google.protobuf.protobuf-java"],
+    proto_java_runtime_library = [],
     resource_strip_prefix = "tools/analytics-library/protos",
     resources = ["//tools/analytics-library/protos:NOTICE"],
     visibility = ["//visibility:public"],
