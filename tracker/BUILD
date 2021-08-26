@@ -32,12 +32,15 @@ maven_library(
         "src/main/java/**/*.java",
     ]),
     coordinates = "com.android.tools.analytics-library:tracker:" + BASE_VERSION,
+    enable_scopes = True,
     notice = "NOTICE",
     resource_strip_prefix = "tools/analytics-library/tracker",
     visibility = ["//visibility:public"],
-    deps = [
+    exports = [
         "//tools/analytics-library/protos/src/main/proto",
         "//tools/analytics-library/shared:tools.analytics-shared",
+    ],
+    deps = [
         "//tools/base/annotations",
         "//tools/base/common:tools.common",
         "@maven//:com.google.guava.guava",

@@ -33,6 +33,7 @@ maven_library(
         "src/main/java/**/*.java",
     ]),
     coordinates = "com.android.tools.analytics-library:publisher:" + BASE_VERSION,
+    enable_scopes = True,
     notice = "NOTICE",
     resource_strip_prefix = "tools/analytics-library/publisher",
     visibility = ["//visibility:public"],

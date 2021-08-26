@@ -31,19 +31,20 @@ maven_library(
         "src/main/java/**/*.java",
     ]),
     coordinates = "com.android.tools.analytics-library:shared:" + BASE_VERSION,
+    enable_scopes = True,
     notice = "NOTICE",
     resource_strip_prefix = "tools/analytics-library/shared",
     visibility = ["//visibility:public"],
-    deps = [
+    exports = [
         "//tools/analytics-library/protos/src/main/proto",
+    ],
+    deps = [
         "//tools/base/annotations",
         "//tools/base/common:tools.common",
         "@maven//:com.google.code.gson.gson",
         "@maven//:com.google.guava.guava",
         "@maven//:net.java.dev.jna.jna",
         "@maven//:net.java.dev.jna.jna-platform",
-        "@maven//:org.jetbrains.kotlin.kotlin-stdlib",
-        "@maven//:org.jetbrains.kotlin.kotlin-stdlib-jdk7",
         "@maven//:org.jetbrains.kotlin.kotlin-stdlib-jdk8",
     ],
 )

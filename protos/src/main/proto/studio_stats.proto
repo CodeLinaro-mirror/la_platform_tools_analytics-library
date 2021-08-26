@@ -6668,6 +6668,68 @@ message DynamicLayoutInspectorEvent {
   optional DynamicLayoutInspectorSession session = 2;
   // Additional information that will be available when looking at a snapshot
   optional DynamicLayoutInspectorSnapshotInfo snapshot_info = 3;
+  // Extra info for error-related events
+  optional DynamicLayoutInspectorErrorInfo error_info = 4;
+}
+
+// Extra info for error-related events
+message DynamicLayoutInspectorErrorInfo {
+  // How far the inspector attach process got before an error occurred.
+  // Order matters: later states are farther along in the process.
+  enum AttachErrorState {
+    UNKNOWN_ATTACH_ERROR_STATE = 0;
+    NOT_STARTED = 1;
+
+    // App Inspection states
+    // ---------------------------------
+    // Studio sent a request to start capturing
+    START_REQUEST_SENT = 10;
+    // The inspector received the request to start capturing
+    START_RECEIVED = 20;
+    // The inspector registered the root view detector
+    STARTED = 30;
+    // The inspector found root views and registered invalidation callbacks
+    ROOTS_EVENT_SENT = 40;
+    // Studio received the root views
+    ROOTS_EVENT_RECEIVED = 50;
+    // The inspector got a callback from the platform
+    VIEW_INVALIDATION_CALLBACK = 60;
+    // The inspector captured a screenshot or serialized an SKP
+    SCREENSHOT_CAPTURED = 70;
+    // The inspector executed the view hierarchy capture code
+    VIEW_HIERARCHY_CAPTURED = 80;
+    // The inspector sent a response
+    RESPONSE_SENT = 90;
+    // Studio received the response
+    LAYOUT_EVENT_RECEIVED = 100;
+
+    // Compose-related states
+    // ---------------------------------
+    // Request sent to Compose inspector
+    COMPOSE_REQUEST_SENT = 110;
+    // TODO: compose inspector device-side states
+
+    // Studio received a response from the compose inspector
+    COMPOSE_RESPONSE_RECEIVED = 200;
+
+    // Legacy inspector states
+    // ---------------------------------
+    LEGACY_WINDOW_LIST_REQUESTED = 210;
+    LEGACY_WINDOW_LIST_RECEIVED = 220;
+    LEGACY_HIERARCHY_REQUESTED = 230;
+    LEGACY_HIERARCHY_RECEIVED = 240;
+    LEGACY_SCREENSHOT_REQUESTED = 250;
+    LEGACY_SCREENSHOT_RECEIVED = 260;
+
+    // Common states
+    // ---------------------------------
+    PARSED_COMPONENT_TREE = 270;
+    // Model is updated with received info
+    MODEL_UPDATED = 280;
+  }
+  // How far we got on initial connect before an error happened, when sending
+  // ATTACH_ERROR
+  optional AttachErrorState attach_error_state = 1;
 }
 
 // Information specific to snapshots
