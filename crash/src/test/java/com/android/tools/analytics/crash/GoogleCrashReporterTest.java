@@ -15,10 +15,14 @@
  */
 package com.android.tools.analytics.crash;
 
+import com.google.common.base.Ascii;
+import com.google.common.base.Strings;
 import com.google.common.truth.Truth;
 import io.netty.handler.codec.http.DefaultFullHttpResponse;
 import io.netty.handler.codec.http.HttpResponseStatus;
 import io.netty.handler.codec.http.HttpVersion;
+import org.apache.http.entity.ContentType;
+import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
@@ -36,7 +40,10 @@ import java.util.concurrent.TimeUnit;
 
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 public class GoogleCrashReporterTest {
   // Most of the tests do a future.get(), but since they are uploaded to a local server, they should complete relatively quickly.
@@ -103,6 +110,32 @@ public class GoogleCrashReporterTest {
     catch (CompletionException e) {
       Truth.assertThat(e.getCause().getMessage()).isEqualTo("Exceeded Quota of crashes that can be reported");
     }
+  }
+
+  @Test
+  public void checkTextBodyAddedForShortValue() {
+    String key = "key";
+    String value = Strings.repeat(" ",100);
+    MultipartEntityBuilder mockBuilder = mock(MultipartEntityBuilder.class);
+
+    GoogleCrashReporter.addBodyToBuilder(mockBuilder, "key", value);
+
+    verify(mockBuilder).addTextBody(key, value, ContentType.DEFAULT_TEXT);
+    verify(mockBuilder, times(0)).addBinaryBody(any(), any(byte[].class), any(), any());
+  }
+
+  @Test
+  public void checkBinaryBodyAddedForLongValue() {
+    String key = "key";
+    String truncationIndicator = "[truncated]";
+    int maxBytesForValue = 250 * 1024;
+    String value = Strings.repeat(" ",255 * 1024);
+    MultipartEntityBuilder mockBuilder = mock(MultipartEntityBuilder.class);
+
+    GoogleCrashReporter.addBodyToBuilder(mockBuilder, "key", value);
+
+    verify(mockBuilder).addTextBody(key, Ascii.truncate(value, maxBytesForValue, truncationIndicator), ContentType.DEFAULT_TEXT);
+    verify(mockBuilder).addBinaryBody(key + "-full", value.getBytes(), ContentType.DEFAULT_TEXT, key + ".txt");
   }
 
   private static int getFreePort() {
