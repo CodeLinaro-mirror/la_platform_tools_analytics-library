@@ -457,6 +457,9 @@ message AndroidStudioEvent {
   // set when kind = DEVICE_MANAGER
   optional DeviceManagerEvent device_manager_event = 129;
 
+  // set when kind = WEAR_PAIRING
+  optional WearPairingEvent wear_pairing_event = 130;
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -1073,6 +1076,9 @@ message AndroidStudioEvent {
     // Event related to the device manager tool window, the replacement for the
     // AVD manager
     DEVICE_MANAGER = 237;
+
+    // Event related to Wear OS emulator pairing assistant
+    WEAR_PAIRING = 238;
   }
 
   // Represents different Performance Monitoring types.
@@ -10110,5 +10116,32 @@ message DeviceManagerEvent {
 
     // The Delete action under the Physical tab was clicked
     PHYSICAL_DELETE_ACTION = 14;
+  }
+}
+
+// Event related to Wear OS emulator pairing assistant
+message WearPairingEvent {
+  // The kind of WearPairingEvent
+  optional EventKind kind = 1;
+
+  // The kind of WearPairingEvent
+  enum EventKind {
+    // Default kind
+    UNSPECIFIED = 0;
+
+    // Assistant was launched with no pre-selected device (ie two columns)
+    SHOW_ASSISTANT_FULL_SELECTION = 1;
+
+    // Assistant was launched with a pre-selected device (ie single column)
+    SHOW_ASSISTANT_PRE_SELECTION = 2;
+
+    // "Successful Pairing" screen is displayed
+    SHOW_SUCCESSFUL_PAIRING = 3;
+
+    // "Install Wear OS Companion" screen is displayed
+    SHOW_INSTALL_WEAR_OS_COMPANION = 4;
+
+    // Devices lost connection and then automatically reconnected
+    AUTOMATIC_RECONNECT = 5;
   }
 }
