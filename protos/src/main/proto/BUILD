@@ -16,7 +16,6 @@ java_proto_library(
     name = "studio.proto",
     srcs = glob(["*.proto"]),
     proto_java_runtime_library = ["@maven//:com.google.protobuf.protobuf-java"],
-    protoc_version = "3.0.0",  # Should match the version used in Studio.
     visibility = ["//visibility:public"],
 )
 
