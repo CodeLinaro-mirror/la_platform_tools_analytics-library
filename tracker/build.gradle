@@ -6,7 +6,7 @@ apply plugin: 'sdk-java-lib'
 dependencies {
     api project(':analytics-library:protos')
     api project(':analytics-library:shared')
-    implementation project(':base:annotations')
+    implementation libs.com.android.tools.annotations
     implementation project(':base:common')
     implementation libs.protobuf
     implementation libs.guava

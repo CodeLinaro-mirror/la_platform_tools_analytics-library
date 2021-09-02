@@ -22,7 +22,7 @@ repositories {
 }
 
 dependencies {
-    implementation project(':base:annotations')
+    implementation libs.com.android.tools.annotations
     implementation libs.guava
     implementation libs.apache_httpmime
     implementation libs.apache_httpcore

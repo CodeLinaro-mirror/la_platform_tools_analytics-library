@@ -3,7 +3,7 @@ apply plugin: 'com.android.tools.publish'
 apply plugin: 'com.android.tools.kotlin'
 
 dependencies {
-    implementation project(':base:annotations')
+    implementation libs.com.android.tools.annotations
     implementation project(':base:common')
     implementation project(':analytics-library:protos')
     implementation project(':analytics-library:shared')
