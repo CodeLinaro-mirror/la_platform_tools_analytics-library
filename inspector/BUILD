@@ -38,10 +38,11 @@ maven_library(
     visibility = ["//visibility:public"],
     deps = [
         "//tools/analytics-library/protos/src/main/proto",
+        "//tools/analytics-library/shared:tools.analytics-shared",
         "//tools/base/annotations",
-        "//tools/base/common:tools.common",
         "@maven//:com.google.code.gson.gson",
         "@maven//:com.google.guava.guava",
+        "@maven//:com.google.protobuf.protobuf-java",
     ],
 )
 

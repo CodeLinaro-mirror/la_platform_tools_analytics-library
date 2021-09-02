@@ -457,6 +457,9 @@ message AndroidStudioEvent {
   // set when kind = DEVICE_MANAGER
   optional DeviceManagerEvent device_manager_event = 129;
 
+  // set when kind = WEAR_PAIRING
+  optional WearPairingEvent wear_pairing_event = 130;
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -1073,6 +1076,9 @@ message AndroidStudioEvent {
     // Event related to the device manager tool window, the replacement for the
     // AVD manager
     DEVICE_MANAGER = 237;
+
+    // Event related to Wear OS emulator pairing assistant
+    WEAR_PAIRING = 238;
   }
 
   // Represents different Performance Monitoring types.
@@ -9115,6 +9121,8 @@ message AppInspectionEvent {
     WorkManagerInspectorEvent work_manager_inspector_event = 3;
     // Event associated with the user interacting with the Network inspector
     NetworkInspectorEvent network_inspector_event = 4;
+    // Event associated with the user interacting with background task inspector
+    BackgroundTaskInspectorEvent background_task_inspector_event = 5;
   }
 
   // Set if |type| is |ERROR_OCCURRED|
@@ -9272,6 +9280,7 @@ message AppInspectionEvent {
     optional ExportOperationCompletedEvent export_completed_event = 9;
   }
 
+  // Deprecated. Use BackgroundTaskInspectorEvent instead.
   // Event associated with the user interacting with the WorkManager inspector
   message WorkManagerInspectorEvent {
     // The detailed type of this event
@@ -9371,6 +9380,93 @@ message AppInspectionEvent {
     }
 
     optional Type type = 1;
+  }
+
+  // Events associated with users interacting with the background task inspector
+  message BackgroundTaskInspectorEvent {
+    enum Type {
+      UNKNOWN_EVENT_TYPE = 0;
+
+      // General events
+      // User clicks on the migration prompt in profilers
+      MIGRATION_LINK_SELECTED = 1;
+      // Fired when the user requests viewing data in table form
+      TABLE_MODE_SELECTED = 2;
+      // Fired when the user requests viewing data in graph form
+      GRAPH_MODE_SELECTED = 3;
+      // Fired when the user clicks on a link that jumps into code
+      JUMPED_TO_SOURCE = 4;
+
+      // Entry selection events
+      // Clicks on a standalone job
+      JOB_SELECTED = 101;
+      // Clicks on a job associated with a work
+      JOB_UNDER_WORK_SELECTED = 102;
+      // Clicks on an alarm
+      ALARM_SELECTED = 103;
+      // Clicks on a standalone wake lock
+      WAKE_LOCK_SELECTED = 104;
+      // Clicks on a wake lock associated with a job
+      WAKE_LOCK_UNDER_JOB_SELECTED = 105;
+      // Fired when a worker is actively selected by the user
+      WORK_SELECTED = 106;
+
+      // Work events
+      // Fired when the user requests stopping a running worker
+      WORK_CANCELED = 201;
+    }
+
+    // UI context associated with the current event
+    enum Context {
+      UNKNOWN_CONTEXT = 0;
+
+      // The current event is related to the table view
+      TABLE_CONTEXT = 1;
+
+      // The current event is related to the graph view
+      GRAPH_CONTEXT = 2;
+
+      // The current event is related to the details panel
+      DETAILS_CONTEXT = 3;
+
+      // The current event is related to the tool buttons bar
+      TOOL_BUTTON_CONTEXT = 4;
+    }
+
+    // Active UI layout when the current event was sent
+    enum Mode {
+      UNKNOWN_MODE = 0;
+
+      // The table view is currently active
+      TABLE_MODE = 1;
+
+      // The graph view is currently active
+      GRAPH_MODE = 2;
+    }
+
+    // Information about the chain of workers a worker is part of
+    message ChainInfo {
+      // The total number of all workers in this work chain
+      optional int32 worker_count = 1;
+      // The total number of all connections between workers
+      optional int32 dependency_count = 2;
+      // The longest chain of parents / children
+      optional int32 max_depth = 3;
+      // The widest chain of siblings
+      optional int32 max_width = 4;
+    }
+
+    // The detailed type of this event
+    optional Type type = 1;
+    // UI context associated with the current event
+    optional Context context = 2;
+    // Active UI layout when the current event was sent
+    optional Mode mode = 3;
+
+    // Set if event indicates we're going to update the graph view, i.e.
+    // |type| is |GRAPH_MODE_SELECTED|,
+    // |type| is |WORK_SELECTED| when |mode| is |GRAPH_MODE|
+    optional ChainInfo chain_info = 4;
   }
 }
 
@@ -10020,5 +10116,32 @@ message DeviceManagerEvent {
 
     // The Delete action under the Physical tab was clicked
     PHYSICAL_DELETE_ACTION = 14;
+  }
+}
+
+// Event related to Wear OS emulator pairing assistant
+message WearPairingEvent {
+  // The kind of WearPairingEvent
+  optional EventKind kind = 1;
+
+  // The kind of WearPairingEvent
+  enum EventKind {
+    // Default kind
+    UNSPECIFIED = 0;
+
+    // Assistant was launched with no pre-selected device (ie two columns)
+    SHOW_ASSISTANT_FULL_SELECTION = 1;
+
+    // Assistant was launched with a pre-selected device (ie single column)
+    SHOW_ASSISTANT_PRE_SELECTION = 2;
+
+    // "Successful Pairing" screen is displayed
+    SHOW_SUCCESSFUL_PAIRING = 3;
+
+    // "Install Wear OS Companion" screen is displayed
+    SHOW_INSTALL_WEAR_OS_COMPANION = 4;
+
+    // Devices lost connection and then automatically reconnected
+    AUTOMATIC_RECONNECT = 5;
   }
 }
