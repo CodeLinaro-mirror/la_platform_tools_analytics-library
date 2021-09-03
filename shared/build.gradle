@@ -21,7 +21,7 @@ apply plugin: 'sdk-java-lib'
 dependencies {
     api project(':analytics-library:protos')
     implementation libs.com.android.tools.annotations
-    implementation project(':base:common')
+    implementation libs.com.android.tools.common
     implementation libs.guava
     implementation libs.gson
     implementation libs.kotlin_stdlib
