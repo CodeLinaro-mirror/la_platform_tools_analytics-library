@@ -10116,6 +10116,12 @@ message DeviceManagerEvent {
 
     // The Delete action under the Physical tab was clicked
     PHYSICAL_DELETE_ACTION = 14;
+
+    // The Unpair device action under the Virtual tab was clicked
+    VIRTUAL_UNPAIR_DEVICE_ACTION = 15;
+
+    // The Unpair device action under the Physical tab was clicked
+    PHYSICAL_UNPAIR_DEVICE_ACTION = 16;
   }
 }
 
