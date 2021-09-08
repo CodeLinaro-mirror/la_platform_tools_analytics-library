@@ -6,9 +6,14 @@ maven_proto_library(
     srcs = glob(["*.proto"]),
     coordinates = "com.android.tools.analytics-library:protos:" + BASE_VERSION,
     java_exports = ["@maven//:com.google.protobuf.protobuf-java"],
+    notice = "NOTICE",
     proto_java_runtime_library = [],
-    resource_strip_prefix = "tools/analytics-library/protos",
-    resources = ["//tools/analytics-library/protos:NOTICE"],
+    resource_strip_prefix = "tools/analytics-library/protos/src/main/proto",
+    resources = [
+        "analytics_enums.proto",
+        "google_logs_publishing.proto",
+        "studio_stats.proto",
+    ],
     visibility = ["//visibility:public"],
 )
 
@@ -21,6 +26,6 @@ java_proto_library(
 
 filegroup(
     name = "agp_gradle_build_files",
-    srcs = glob(["*.proto"]),
+    srcs = [],
     visibility = ["//tools/base/build-system:__pkg__"],
 )

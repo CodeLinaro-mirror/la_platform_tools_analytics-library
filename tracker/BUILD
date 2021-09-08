@@ -32,6 +32,7 @@ maven_library(
         "src/main/java/**/*.java",
     ]),
     coordinates = "com.android.tools.analytics-library:tracker:" + BASE_VERSION,
+    module_name = "tracker",
     notice = "NOTICE",
     resource_strip_prefix = "tools/analytics-library/tracker",
     visibility = ["//visibility:public"],
@@ -71,13 +72,6 @@ kotlin_test(
 
 filegroup(
     name = "agp_gradle_build_files",
-    srcs = glob([
-        "src/main/**/*.java",
-        "src/main/**/*.kt",
-        "src/main/resources/**",
-    ]) + [
-        "build.gradle",
-        "NOTICE",
-    ],
+    srcs = ["build.gradle"],
     visibility = ["//tools/base/build-system:__pkg__"],
 )
