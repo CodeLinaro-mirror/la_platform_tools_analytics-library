@@ -460,6 +460,9 @@ message AndroidStudioEvent {
   // set when kind = WEAR_PAIRING
   optional WearPairingEvent wear_pairing_event = 130;
 
+  // set when kind = GRADLE_JDK_INVALID
+  optional GradleJdkInvalidEvent gradle_jdk_invalid_event = 131;
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -1079,6 +1082,9 @@ message AndroidStudioEvent {
 
     // Event related to Wear OS emulator pairing assistant
     WEAR_PAIRING = 238;
+
+    // Event to report why Gradle JDK is invalid
+    GRADLE_JDK_INVALID = 239;
   }
 
   // Represents different Performance Monitoring types.
@@ -1996,6 +2002,8 @@ message EmulatorAvdInfo {
     AOSP = 1;
     GOOGLE = 2;
     PLAY_STORE_KIND = 3;
+    AOSP_ATD = 4;
+    GOOGLE_ATD = 5;
   }
   // Other AVD properties that can combine with EmulatorAvdImageKind.
   enum EmulatorAvdProperty {
@@ -3164,6 +3172,11 @@ message TestRun {
   // Only set when test_kind=INSTRUMENTATION_TEST
   optional TestExecution test_execution = 8;
 
+  // Whether the feature Automatic Snapshot on Test Failure is enabled.
+  // Currently only set when test_invocation_type =
+  // ANDROID_STUDIO_THROUGH_GRADLE.
+  optional AutomaticSnapshotOnFailure automatic_snapshot_on_failure = 9;
+
   // Describes how tests where invoked.
   enum TestInvocationType {
     UNKNOWN_TEST_INVOCATION_TYPE = 0;
@@ -3188,6 +3201,25 @@ message TestRun {
     HOST = 1;
     ANDROID_TEST_ORCHESTRATOR = 2;
     NITROGEN = 3;
+  }
+
+  // Configuration for automatic snapshot for test failures.
+  message AutomaticSnapshotOnFailure {
+    enum Enabled {
+      UNSPECIFIED = 0;
+
+      // AutomaticSnapshotOnFailure is enabled by RunConfiguration in Android
+      // Studio.
+      ENABLED_BY_RUN_CONFIGURATION = 1;
+
+      // AutomaticSnapshotOnFailure is disabled by RunConfiguration in Android
+      // Studio.
+      DISABLED_BY_RUN_CONFIGURATION = 2;
+
+      // Use value from Gradle DSL.
+      USE_VALUE_IN_GRADLE_DSL = 3;
+    }
+    optional Enabled enabled = 1;
   }
 }
 
@@ -10149,5 +10181,33 @@ message WearPairingEvent {
 
     // Devices lost connection and then automatically reconnected
     AUTOMATIC_RECONNECT = 5;
+  }
+}
+
+message GradleJdkInvalidEvent {
+  // Reason to consider JDK as invalid
+  optional InvalidJdkReason reason = 1;
+
+  // List of invalid JDK reasons
+  enum InvalidJdkReason {
+    // Default (not specified)
+    INVALID_JDK_UNSPECIFIED_REASON = 0;
+    // JDK is not specified (Neither gradleJvm nor project-jdk-name are defined)
+    INVALID_JDK_UNDEFINED_JDK = 1;
+    // gradleJvm is set to #USE_PROJECT_JDK but project-jdk-name is not defined
+    INVALID_JDK_PROJECT_JDK_UNDEFINED = 2;
+    // gradleJvm set to #USE_JAVA_HOME but JAVA_HOME is not a valid path
+    INVALID_JDK_JAVA_HOME_INVALID = 3;
+    // gradleJvm set to #USE_INTERNAL_JAVA but SystemProperties.javaHome is not
+    // a valid JDK
+    INVALID_JDK_INTERNAL_JAVA_INVALID = 4;
+    // A JDK name is defined but the JDK table does not have it
+    INVALID_JDK_NAME_NOT_IN_TABLE = 5;
+    // JDK can be found in the JDK table but the home path is not defined on it
+    INVALID_JDK_HOME_PATH_NOT_DEFINED = 6;
+    // There is no bin/javac in the JDK path
+    INVALID_JDK_NO_JAVAC = 7;
+    // Some required files are missing from the JDK path
+    INVALID_JDK_MISSING_FILES = 8;
   }
 }
