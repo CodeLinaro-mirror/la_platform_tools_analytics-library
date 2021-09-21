@@ -23,9 +23,3 @@ java_proto_library(
     proto_java_runtime_library = ["@maven//:com.google.protobuf.protobuf-java"],
     visibility = ["//visibility:public"],
 )
-
-filegroup(
-    name = "agp_gradle_build_files",
-    srcs = [],
-    visibility = ["//tools/base/build-system:__pkg__"],
-)

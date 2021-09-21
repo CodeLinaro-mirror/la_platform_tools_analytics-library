@@ -3,9 +3,9 @@ apply plugin: 'com.android.tools.kotlin'
 apply plugin: 'com.android.tools.publish'
 
 dependencies {
-    implementation project(':analytics-library:protos')
-    implementation project(':analytics-library:shared')
-    implementation project(':analytics-library:tracker')
+    implementation libs.com.android.tools.analyticsLibrary.protos
+    implementation libs.com.android.tools.analyticsLibrary.shared
+    implementation libs.com.android.tools.analyticsLibrary.tracker
     implementation libs.com.android.tools.annotations
     implementation libs.com.android.tools.common
     implementation project(':base:testutils')
