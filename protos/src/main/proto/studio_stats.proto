@@ -9730,6 +9730,7 @@ message UpgradeAssistantComponentInfo {
     MIGRATE_PACKAGING_OPTIONS = 16;
     MIGRATE_TO_LINT = 17;
     REWRITE_DEPRECATED_OPERATORS = 18;
+    REDUNDANT_PROPERTIES = 19;
   }
 
   message Java8DefaultProcessorSettings {
