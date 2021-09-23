@@ -33,7 +33,9 @@ maven_library(
         "src/main/java/**/*.java",
     ]),
     coordinates = "com.android.tools.analytics-library:publisher:" + BASE_VERSION,
+    description = "Library for publishing usage analytics.",
     notice = "NOTICE",
+    pom_name = "Android Tools Analytics Publisher",
     resource_strip_prefix = "tools/analytics-library/publisher",
     visibility = ["//visibility:public"],
     exports = [

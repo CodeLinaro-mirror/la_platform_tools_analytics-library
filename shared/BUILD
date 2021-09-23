@@ -31,8 +31,10 @@ maven_library(
         "src/main/java/**/*.java",
     ]),
     coordinates = "com.android.tools.analytics-library:shared:" + BASE_VERSION,
+    description = "Helper Library for tracking usage analytics.",
     module_name = "shared",
     notice = "NOTICE",
+    pom_name = "Android Tools Analytics Shared Library",
     resource_strip_prefix = "tools/analytics-library/shared",
     visibility = ["//visibility:public"],
     exports = [

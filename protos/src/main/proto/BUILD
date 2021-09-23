@@ -5,8 +5,10 @@ maven_proto_library(
     name = "proto",
     srcs = glob(["*.proto"]),
     coordinates = "com.android.tools.analytics-library:protos:" + BASE_VERSION,
+    description = "Library containing protobufs for usage analytics.",
     java_exports = ["@maven//:com.google.protobuf.protobuf-java"],
     notice = "NOTICE",
+    pom_name = "Android Tools Analytics Protobufs",
     proto_java_runtime_library = [],
     resource_strip_prefix = "tools/analytics-library/protos/src/main/proto",
     resources = [
