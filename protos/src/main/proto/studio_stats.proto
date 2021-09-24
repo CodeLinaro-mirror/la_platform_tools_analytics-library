@@ -9730,6 +9730,7 @@ message UpgradeAssistantComponentInfo {
     MIGRATE_PACKAGING_OPTIONS = 16;
     MIGRATE_TO_LINT = 17;
     REWRITE_DEPRECATED_OPERATORS = 18;
+    REDUNDANT_PROPERTIES = 19;
   }
 
   message Java8DefaultProcessorSettings {
@@ -10116,6 +10117,12 @@ message DeviceManagerEvent {
 
     // The Delete action under the Physical tab was clicked
     PHYSICAL_DELETE_ACTION = 14;
+
+    // The Unpair device action under the Virtual tab was clicked
+    VIRTUAL_UNPAIR_DEVICE_ACTION = 15;
+
+    // The Unpair device action under the Physical tab was clicked
+    PHYSICAL_UNPAIR_DEVICE_ACTION = 16;
   }
 }
 
