@@ -33,7 +33,10 @@ maven_library(
         "src/main/java/**/*.java",
     ]),
     coordinates = "com.android.tools.analytics-library:publisher:" + BASE_VERSION,
+    description = "Library for publishing usage analytics.",
+    module_name = "publisher",
     notice = "NOTICE",
+    pom_name = "Android Tools Analytics Publisher",
     resource_strip_prefix = "tools/analytics-library/publisher",
     visibility = ["//visibility:public"],
     exports = [
@@ -47,17 +50,4 @@ maven_library(
         "@maven//:com.google.guava.guava",
         "@maven//:com.google.protobuf.protobuf-java",
     ],
-)
-
-filegroup(
-    name = "agp_gradle_build_files",
-    srcs = glob([
-        "src/main/**/*.java",
-        "src/main/**/*.kt",
-        "src/main/resources/**",
-    ]) + [
-        "build.gradle",
-        "NOTICE",
-    ],
-    visibility = ["//tools/base/build-system:__pkg__"],
 )

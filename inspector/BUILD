@@ -33,7 +33,9 @@ maven_library(
     name = "inspector",
     srcs = glob(["src/main/java/**"]),
     coordinates = "com.android.tools.analytics-library:inspector:" + BASE_VERSION,
+    description = "Tool for debugging usage analytics spool files.",
     notice = "NOTICE",
+    pom_name = "Android Tools Analytics Inspector",
     resource_strip_prefix = "tools/analytics-library/inspector",
     visibility = ["//visibility:public"],
     deps = [
@@ -44,17 +46,4 @@ maven_library(
         "@maven//:com.google.guava.guava",
         "@maven//:com.google.protobuf.protobuf-java",
     ],
-)
-
-filegroup(
-    name = "agp_gradle_build_files",
-    srcs = glob([
-        "src/main/**/*.java",
-        "src/main/**/*.kt",
-        "src/main/resources/**",
-    ]) + [
-        "build.gradle",
-        "NOTICE",
-    ],
-    visibility = ["//tools/base/build-system:__pkg__"],
 )

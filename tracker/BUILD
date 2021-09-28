@@ -32,8 +32,10 @@ maven_library(
         "src/main/java/**/*.java",
     ]),
     coordinates = "com.android.tools.analytics-library:tracker:" + BASE_VERSION,
+    description = "Library for tracking usage analytics.",
     module_name = "tracker",
     notice = "NOTICE",
+    pom_name = "Android Tools Analytics Tracker",
     resource_strip_prefix = "tools/analytics-library/tracker",
     visibility = ["//visibility:public"],
     exports = [

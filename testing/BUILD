@@ -1,5 +1,7 @@
 load("//tools/base/bazel:bazel.bzl", "iml_module")
 load("//tools/base/bazel:kotlin.bzl", "kotlin_library", "kotlin_test")
+load("//tools/base/bazel:maven.bzl", "maven_library")
+load("//tools/base/common:version.bzl", "BASE_VERSION")
 
 # managed by go/iml_to_build
 iml_module(
@@ -23,12 +25,18 @@ iml_module(
     ],
 )
 
-kotlin_library(
+maven_library(
     name = "tools.analytics-testing",
     srcs = glob([
         "src/main/java/**/*.kt",
         "src/main/java/**/*.java",
     ]),
+    coordinates = "com.android.tools.analytics-library:testing:" + BASE_VERSION,
+    description = "Library for tracking usage analytics.",
+    module_name = "testing",
+    notice = "NOTICE",
+    pom_name = "Android Tools Analytics Testing Library",
+    resource_strip_prefix = "tools/analytics-library/testing",
     visibility = ["//visibility:public"],
     deps = [
         "//tools/analytics-library/protos/src/main/proto",
@@ -62,17 +70,4 @@ kotlin_test(
         "@maven//:com.google.truth.truth",
         "@maven//:junit.junit",
     ],
-)
-
-filegroup(
-    name = "agp_gradle_build_files",
-    srcs = glob([
-        "src/main/**/*.java",
-        "src/main/**/*.kt",
-        "src/main/resources/**",
-    ]) + [
-        "build.gradle",
-        "NOTICE",
-    ],
-    visibility = ["//tools/base/build-system:__pkg__"],
 )
