@@ -9769,6 +9769,7 @@ message UpgradeAssistantComponentInfo {
     MIGRATE_TO_LINT = 17;
     REWRITE_DEPRECATED_OPERATORS = 18;
     REDUNDANT_PROPERTIES = 19;
+    ANDROID_MANIFEST_PACKAGE = 20;
   }
 
   message Java8DefaultProcessorSettings {
