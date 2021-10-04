@@ -7335,6 +7335,16 @@ message RunEvent {
   optional bool apply_code_changes_fallback_to_run = 23;
   // Whether the user configured Run to disable overlay installs.
   optional bool run_always_install_with_pm = 24;
+
+  enum AppComponent {
+    UNKNOWN = 0;
+    ACTIVITY = 1;
+    WATCH_FACE = 2;
+    TILE = 3;
+    COMPLICATION = 4;
+  }
+  // Type of AppComponent user wants to run
+  optional AppComponent app_component_type = 25;
 }
 
 message LaunchTaskDetail {
