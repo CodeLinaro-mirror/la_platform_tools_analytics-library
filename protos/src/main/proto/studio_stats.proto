@@ -466,6 +466,12 @@ message AndroidStudioEvent {
   // set when kind = DEVICE_EXPLORER
   optional DeviceExplorerEvent device_explorer_event = 132;
 
+  // set when kind = OPTIN_METRICS
+  optional OptInToMetrics opt_in_to_metrics = 133;
+
+  // set when kind = OPTOUT_METRICS
+  optional OptOutOfMetrics opt_out_of_metrics = 134;
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -1091,6 +1097,12 @@ message AndroidStudioEvent {
 
     // Event related to the device explorer tool
     DEVICE_EXPLORER = 240;
+
+    // Event related to user opting in to metrics
+    OPTIN_METRICS = 241;
+
+    // Event related to user opting out of metrics
+    OPTOUT_METRICS = 242;
   }
 
   // Represents different Performance Monitoring types.
@@ -10267,3 +10279,9 @@ message DeviceExplorerEvent {
     EXPAND_APP_DATA = 10;
   }
 }
+
+// Event raised when user opts in to metrics
+message OptInToMetrics {}
+
+// Event raised when user opts out of metrics
+message OptOutOfMetrics {}
