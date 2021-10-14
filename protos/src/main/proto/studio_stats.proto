@@ -1259,7 +1259,7 @@ message AndroidStudioEvent {
 
       // The different template components (eg Activities, Fragments, Services,
       // etc) the template engine could be asked to render
-      // Next ID: 59
+      // Next ID: 60
       enum TemplateType {
         UNKNOWN_TEMPLATE = 0;
         CUSTOM_TEMPLATE = 1;
@@ -1313,9 +1313,10 @@ message AndroidStudioEvent {
 
         AIDL_FILE = 45;
         ANDROID_MANIFEST_FILE = 46;
-        APP_ACTIONS_XML_FILE = 47;
+        APP_ACTIONS_XML_FILE = 47 [deprecated = true];
         LAYOUT_XML_FILE = 48;
         VALUES_XML_FILE = 49;
+        SHORTCUTS_XML_FILE = 59;
 
         CUSTOM_VIEW = 50;
         BROADCAST_RECEIVER = 51;
