@@ -460,6 +460,18 @@ message AndroidStudioEvent {
   // set when kind = WEAR_PAIRING
   optional WearPairingEvent wear_pairing_event = 130;
 
+  // set when kind = GRADLE_JDK_INVALID
+  optional GradleJdkInvalidEvent gradle_jdk_invalid_event = 131;
+
+  // set when kind = DEVICE_EXPLORER
+  optional DeviceExplorerEvent device_explorer_event = 132;
+
+  // set when kind = OPTIN_METRICS
+  optional OptInToMetrics opt_in_to_metrics = 133;
+
+  // set when kind = OPTOUT_METRICS
+  optional OptOutOfMetrics opt_out_of_metrics = 134;
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -1079,6 +1091,18 @@ message AndroidStudioEvent {
 
     // Event related to Wear OS emulator pairing assistant
     WEAR_PAIRING = 238;
+
+    // Event to report why Gradle JDK is invalid
+    GRADLE_JDK_INVALID = 239;
+
+    // Event related to the device explorer tool
+    DEVICE_EXPLORER = 240;
+
+    // Event related to user opting in to metrics
+    OPTIN_METRICS = 241;
+
+    // Event related to user opting out of metrics
+    OPTOUT_METRICS = 242;
   }
 
   // Represents different Performance Monitoring types.
@@ -10152,3 +10176,75 @@ message WearPairingEvent {
     AUTOMATIC_RECONNECT = 5;
   }
 }
+
+message GradleJdkInvalidEvent {
+  // Reason to consider JDK as invalid
+  optional InvalidJdkReason reason = 1;
+
+  // List of invalid JDK reasons
+  enum InvalidJdkReason {
+    // Default (not specified)
+    INVALID_JDK_UNSPECIFIED_REASON = 0;
+    // JDK is not specified (Neither gradleJvm nor project-jdk-name are defined)
+    INVALID_JDK_UNDEFINED_JDK = 1;
+    // gradleJvm is set to #USE_PROJECT_JDK but project-jdk-name is not defined
+    INVALID_JDK_PROJECT_JDK_UNDEFINED = 2;
+    // gradleJvm set to #USE_JAVA_HOME but JAVA_HOME is not a valid path
+    INVALID_JDK_JAVA_HOME_INVALID = 3;
+    // gradleJvm set to #USE_INTERNAL_JAVA but SystemProperties.javaHome is not
+    // a valid JDK
+    INVALID_JDK_INTERNAL_JAVA_INVALID = 4;
+    // A JDK name is defined but the JDK table does not have it
+    INVALID_JDK_NAME_NOT_IN_TABLE = 5;
+    // JDK can be found in the JDK table but the home path is not defined on it
+    INVALID_JDK_HOME_PATH_NOT_DEFINED = 6;
+    // There is no bin/javac in the JDK path
+    INVALID_JDK_NO_JAVAC = 7;
+    // Some required files are missing from the JDK path
+    INVALID_JDK_MISSING_FILES = 8;
+  }
+}
+
+message DeviceExplorerEvent {
+  optional Action action = 1;
+
+  // Number of files (Only valid for transfer actions)
+  optional int32 transfer_file_count = 2;
+
+  // Total size in bytes (Only valid for transfer actions)
+  optional int32 transfer_total_size = 3;
+
+  // Total time in ms (Only valid for transfer actions)
+  optional int32 transfer_time_ms = 4;
+
+  enum Action {
+    // Default
+    UNSPECIFIED = 0;
+    // The user changed the device in the dropdown.
+    DEVICE_CHANGE = 1;
+    // The user created a new file
+    NEW_FILE = 2;
+    // The user created a new directory
+    NEW_DIRECTORY = 3;
+    // The user downloaded a file using "save as"
+    SAVE_AS = 4;
+    // The user uploaded a file using "upload..."
+    UPLOAD = 5;
+    // The user uploaded a file using drag and drop
+    DROP = 6;
+    // The user deleted a path
+    DELETE = 7;
+    // The user resync'ed a path
+    SYNC = 8;
+    // The user copied a path
+    COPY_PATH = 9;
+    // The user expanded a data/data/* directory
+    EXPAND_APP_DATA = 10;
+  }
+}
+
+// Event raised when user opts in to metrics
+message OptInToMetrics {}
+
+// Event raised when user opts out of metrics
+message OptOutOfMetrics {}
