@@ -8915,6 +8915,9 @@ message BuildAttributionUiEvent {
     UPDATE_PLUGIN_BUTTON_CLICKED = 24;
     RUN_CHECK_JETIFIER_TASK_CLICKED = 25;
     REMOVE_JETIFIER_PROPERTY_CLICKED = 26;
+    // Use of an action on jetifier warning page that searches for where
+    // the problematic library is defined in build files.
+    FIND_LIBRARY_DECLARATION_CLICKED = 27;
   }
 
   message Page {
