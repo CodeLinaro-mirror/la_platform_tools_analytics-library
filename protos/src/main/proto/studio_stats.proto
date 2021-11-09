@@ -2539,6 +2539,15 @@ message EmulatorMultiDisplay {
   optional uint32 max_displays = 2;
 }
 
+// Metrics for resizable display details
+message EmulatorResizableDisplay {
+  // Counts for different display size types
+  optional uint32 display_phone_count = 1;
+  optional uint32 display_foldable_count = 2;
+  optional uint32 display_tablet_count = 3;
+  optional uint32 display_desktop_count = 4;
+}
+
 // Metrics for LocationV2
 message EmulatorLocationV2 {
   // Count for "Set Location" button
@@ -2642,7 +2651,9 @@ message EmulatorDetails {
   optional EmulatorStreamScreenshot screenshot = 34;
   // Metrics for Icebox
   repeated EmulatorIcebox icebox = 35;
-  // Next tag: 36
+  // Metrics for resizable display
+  optional EmulatorResizableDisplay resizable_display = 36;
+  // Next tag: 37
 
   // Emulator instance liveness as determined via adb connectivity.
   enum EmulatorAdbLiveness {
@@ -5019,6 +5030,34 @@ message AnimationPreviewEvent {
   optional UserAction user_action = 2;
 }
 
+// Details of an event linked to visual linting
+message VisualLintEvent {
+  // Type of issues creating by visual linting
+  enum IssueType {
+    UNKNOWN_TYPE = 0;
+    BOUNDS = 1;
+    BOTTOM_NAV = 2;
+    BOTTOM_APP_BAR = 3;
+    OVERLAP = 4;
+    LONG_TEXT = 5;
+    ATF = 6;
+    LOCALE_TEXT = 7;
+  }
+
+  // Type of events affecting visual lint issues
+  enum IssueEvent {
+    UNKNOWN_EVENT = 0;
+    CREATE_ISSUE = 1;
+    EXPAND_ISSUE = 2;
+    IGNORE_ISSUE = 3;
+  }
+
+  // The type of the visual lint issue affected by this event
+  optional IssueType issue_type = 1;
+  // The kind of event affecting the issue
+  optional IssueEvent issue_event = 2;
+}
+
 // Reference to a View used in an Android application.
 // Although this proto contains just a single field, we may decide
 // to represent a view with an enum in the future.
@@ -5241,6 +5280,8 @@ message LayoutEditorEvent {
     UNDO_APPLIED_ATF_FIX = 50;
 
     ANIMATION_PREVIEW = 51;
+
+    VISUAL_LINT = 52;
   }
 
   // Type of event
@@ -5265,6 +5306,8 @@ message LayoutEditorEvent {
   optional UndoAppliedAtfFixEvent undo_applied_atf_fix_event = 10;
   // Details related to interacting animation preview (type = ANIMATION_PREVIEW)
   optional AnimationPreviewEvent animation_preview_event = 11;
+  // Details related to visual linting (type = VISUAL_LINT)
+  optional VisualLintEvent visual_lint_event = 12;
 }
 
 // Details for navigation editor events
