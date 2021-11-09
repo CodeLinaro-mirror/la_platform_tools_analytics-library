@@ -472,6 +472,10 @@ message AndroidStudioEvent {
   // set when kind = OPTOUT_METRICS
   optional OptOutOfMetrics opt_out_of_metrics = 134;
 
+  // set when kind = GRADLE_VERSION_CATALOG_DETECTOR
+  optional GradleVersionCatalogDetectorEvent
+      gradle_version_catalog_detector_event = 135;
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -1103,6 +1107,9 @@ message AndroidStudioEvent {
 
     // Event related to user opting out of metrics
     OPTOUT_METRICS = 242;
+
+    // Event related to project Version Catalog usage detection
+    GRADLE_VERSION_CATALOG_DETECTOR = 243;
   }
 
   // Represents different Performance Monitoring types.
@@ -10334,3 +10341,24 @@ message OptInToMetrics {}
 
 // Event raised when user opts out of metrics
 message OptOutOfMetrics {}
+
+// Event related to detection of Version Catalog use in a project
+message GradleVersionCatalogDetectorEvent {
+  // The state of Version Catalog use as detected
+  optional State state = 1;
+
+  enum State {
+    // Default state
+    UNKNOWN_GRADLE_VERSION_CATALOG_DETECTOR_STATE = 0;
+    // The build system does not support Version Catalogs
+    UNSUPPORTED = 1;
+    // The project does not use Version Catalogs
+    NONE = 2;
+    // There is explicit configuration or use of Version Catalogs in
+    // the project configuration files
+    EXPLICIT = 3;
+    // There is implicit use of Version Catalogs in the project
+    // without explicit mention in configuration files
+    IMPLICIT = 4;
+  }
+}
