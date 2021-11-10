@@ -615,6 +615,7 @@ enum VariantApiArtifactType {
     OBFUSCATION_MAPPING_FILE = 6;
     PUBLIC_ANDROID_RESOURCES_LIST = 7;
     ASSETS = 8;
+    METADATA_LIBRARY_DEPENDENCIES_REPORT = 9;
 }
 
 enum VariantMethodType {
