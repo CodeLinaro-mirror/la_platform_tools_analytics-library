@@ -3535,7 +3535,8 @@ message GradleBuildProject {
 
   // All of the gradle plugin names applied to this project,
   // these are class names of the plugins, not free form names
-  repeated string plugin_names = 16;
+  // deprecated, use applied_plugins instead
+  repeated string plugin_names = 16 [deprecated = true];
 
   // Record all of the task class names applied to the project
   // e.g an example is ORG_GRADLE_API_TASKS_WRAPPER_WRAPPER_DECORATED
@@ -3543,6 +3544,9 @@ message GradleBuildProject {
 
   // Records use of APIs used at the sub-project level
   optional ProjectApiUse project_api_use = 18;
+
+  // All the gradle plugins applied to this project.
+  repeated GradlePluginData applied_plugins = 19;
 
   enum PluginType {
     UNKNOWN_PLUGIN_TYPE = 0;
@@ -3637,6 +3641,16 @@ message GradleBuildProject {
     COM_ANDROID_BUILD_GRADLE_INTERNAL_PLUGINS_VERSIONCHECKPLUGIN = 62;
     PROGUARD_GRADLE_PROGUARDPLUGIN = 63;
   }
+}
+
+// Data of a gradle plugin.
+message GradlePluginData {
+  // The name of the plugin class. e.g. com.android.build.gradle.LintPlugin
+  optional string class_name = 1;
+
+  // The name of the jar containing the plugin class, will be on the form:
+  // artifactId-version. e.g. "kotlin-gradle-plugin-1.5.30"
+  optional string jar_name = 2;
 }
 
 // Records use of APIs used at the gradle project level
