@@ -476,6 +476,9 @@ message AndroidStudioEvent {
   optional GradleVersionCatalogDetectorEvent
       gradle_version_catalog_detector_event = 135;
 
+  // set when kind = COROUTINE_DEBUGGER
+  optional CoroutineDebuggerEvent coroutine_debugger_event = 136;
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -1110,6 +1113,9 @@ message AndroidStudioEvent {
 
     // Event related to project Version Catalog usage detection
     GRADLE_VERSION_CATALOG_DETECTOR = 243;
+
+    // Event related to coroutine debugger
+    COROUTINE_DEBUGGER = 244;
   }
 
   // Represents different Performance Monitoring types.
@@ -10367,4 +10373,20 @@ message GradleVersionCatalogDetectorEvent {
     // without explicit mention in configuration files
     IMPLICIT = 4;
   }
+}
+
+// Events raised by user interactions with the coroutine debugger
+message CoroutineDebuggerEvent {
+  enum Type {
+    // Default
+    UNKNOWN_EVENT_TYPE = 0;
+    // Studio tried to launch the coroutine debugger
+    LAUNCH_EVENT = 1;
+  }
+
+  optional Type type = 1;
+
+  // can be set if event type is LAUNCH_EVENT
+  // the user can enable or disable the coroutine debugger from studio settings
+  optional bool disabled_in_settings = 2;
 }
