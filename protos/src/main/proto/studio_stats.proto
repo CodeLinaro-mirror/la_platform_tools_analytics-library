@@ -476,6 +476,9 @@ message AndroidStudioEvent {
   optional GradleVersionCatalogDetectorEvent
       gradle_version_catalog_detector_event = 135;
 
+  // set when kind = COROUTINE_DEBUGGER
+  optional CoroutineDebuggerEvent coroutine_debugger_event = 136;
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -1110,6 +1113,9 @@ message AndroidStudioEvent {
 
     // Event related to project Version Catalog usage detection
     GRADLE_VERSION_CATALOG_DETECTOR = 243;
+
+    // Event related to coroutine debugger
+    COROUTINE_DEBUGGER = 244;
   }
 
   // Represents different Performance Monitoring types.
@@ -3529,7 +3535,8 @@ message GradleBuildProject {
 
   // All of the gradle plugin names applied to this project,
   // these are class names of the plugins, not free form names
-  repeated string plugin_names = 16;
+  // deprecated, use applied_plugins instead
+  repeated string plugin_names = 16 [deprecated = true];
 
   // Record all of the task class names applied to the project
   // e.g an example is ORG_GRADLE_API_TASKS_WRAPPER_WRAPPER_DECORATED
@@ -3537,6 +3544,9 @@ message GradleBuildProject {
 
   // Records use of APIs used at the sub-project level
   optional ProjectApiUse project_api_use = 18;
+
+  // All the gradle plugins applied to this project.
+  repeated GradlePluginData applied_plugins = 19;
 
   enum PluginType {
     UNKNOWN_PLUGIN_TYPE = 0;
@@ -3631,6 +3641,16 @@ message GradleBuildProject {
     COM_ANDROID_BUILD_GRADLE_INTERNAL_PLUGINS_VERSIONCHECKPLUGIN = 62;
     PROGUARD_GRADLE_PROGUARDPLUGIN = 63;
   }
+}
+
+// Data of a gradle plugin.
+message GradlePluginData {
+  // The name of the plugin class. e.g. com.android.build.gradle.LintPlugin
+  optional string class_name = 1;
+
+  // The name of the jar containing the plugin class, will be on the form:
+  // artifactId-version. e.g. "kotlin-gradle-plugin-1.5.30"
+  optional string jar_name = 2;
 }
 
 // Records use of APIs used at the gradle project level
@@ -6152,6 +6172,9 @@ message AndroidProfilerEvent {
   // Set if |type| is |TRACK_GROUP_METADATA|
   optional AdtUiTrackGroupMetadata track_group_metadata = 21;
 
+  // Set if |type| is |SELECT_FRAME|, |TOGGLE_ALL_FRAMES|, or |TOGGLE_LIFECYCLE|
+  optional uint32 event_count = 22;
+
   enum Stage {
     UNKNOWN_STAGE = 0;
 
@@ -6251,6 +6274,9 @@ message AndroidProfilerEvent {
     CPU_STARTUP_PROFILING = 217;
     CPU_IMPORT_TRACE = 218;
     CPU_API_TRACING = 219;
+    SELECT_FRAME = 220;
+    TOGGLE_ALL_FRAMES = 221;
+    TOGGLE_LIFECYCLE = 222;
 
     /// Memory
 
@@ -10361,4 +10387,20 @@ message GradleVersionCatalogDetectorEvent {
     // without explicit mention in configuration files
     IMPLICIT = 4;
   }
+}
+
+// Events raised by user interactions with the coroutine debugger
+message CoroutineDebuggerEvent {
+  enum Type {
+    // Default
+    UNKNOWN_EVENT_TYPE = 0;
+    // Studio tried to launch the coroutine debugger
+    LAUNCH_EVENT = 1;
+  }
+
+  optional Type type = 1;
+
+  // can be set if event type is LAUNCH_EVENT
+  // the user can enable or disable the coroutine debugger from studio settings
+  optional bool disabled_in_settings = 2;
 }
