@@ -603,6 +603,7 @@ enum StringOption {
     IDE_CHECK_JETIFIER_RESULT_FILE = 35;
     AAPT2_FROM_MAVEN_PLATFORM_OVERRIDE = 36;
     IDE_AGDE_VERSION = 37;
+    PROFILING_MODE = 38;
 }
 
 enum VariantApiArtifactType {
