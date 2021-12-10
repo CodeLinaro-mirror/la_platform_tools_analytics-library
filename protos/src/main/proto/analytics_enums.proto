@@ -604,6 +604,7 @@ enum StringOption {
     AAPT2_FROM_MAVEN_PLATFORM_OVERRIDE = 36;
     IDE_AGDE_VERSION = 37;
     PROFILING_MODE = 38;
+    GRADLE_MANAGED_DEVICE_EMULATOR_GPU_MODE = 39;
 }
 
 enum VariantApiArtifactType {
