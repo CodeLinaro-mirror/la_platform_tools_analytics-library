@@ -8583,6 +8583,9 @@ message MultiViewEvent {
     OPEN_LARGE_DISPLAY = 6;
     // Select wear device category in Validation Tool
     OPEN_WEAR_DEVICES = 7;
+    OPEN_REFERENCE_DEVICES = 8;
+    // Select custom category which is created by user.
+    OPEN_USER_DEFINED_CUSTOM_SETS = 9;
   }
 
   // Mode of the editor associated to this Validation Tool
