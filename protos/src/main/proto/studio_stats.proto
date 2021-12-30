@@ -2987,6 +2987,8 @@ message GradleNativeAndroidModule {
     NDK_BUILD = 3;
     // CMake is a very common C++ build system.
     CMAKE = 4;
+    // Custom build system that uses Ninja as back end.
+    NINJA = 5;
   }
 }
 
@@ -6794,6 +6796,8 @@ message DynamicLayoutInspectorEvent {
     SNAPSHOT_CANCELLED = 15;
     // There was an error during initial connect
     ATTACH_ERROR = 16;
+    // An attach attempt was cancelled or preempted by the user
+    ATTACH_CANCELLED = 17;
   }
 
   // Type of event
