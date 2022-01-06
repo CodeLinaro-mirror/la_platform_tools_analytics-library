@@ -1244,6 +1244,7 @@ message AndroidStudioEvent {
     RESPONSIVE_ACTIVITY = 63;
     MACROBENCHMARK_LIBRARY_MODULE = 64;
     GOOGLE_PAY_ACTIVITY = 65;
+    WEAR_OS_COMPOSE_ACTIVITY = 66;
   }
 
   // Wizard Templates Usage (New Project, New Module and New Component)
@@ -2986,6 +2987,8 @@ message GradleNativeAndroidModule {
     NDK_BUILD = 3;
     // CMake is a very common C++ build system.
     CMAKE = 4;
+    // Custom build system that uses Ninja as back end.
+    NINJA = 5;
   }
 }
 
@@ -6793,6 +6796,8 @@ message DynamicLayoutInspectorEvent {
     SNAPSHOT_CANCELLED = 15;
     // There was an error during initial connect
     ATTACH_ERROR = 16;
+    // An attach attempt was cancelled or preempted by the user
+    ATTACH_CANCELLED = 17;
   }
 
   // Type of event
@@ -8582,6 +8587,9 @@ message MultiViewEvent {
     OPEN_LARGE_DISPLAY = 6;
     // Select wear device category in Validation Tool
     OPEN_WEAR_DEVICES = 7;
+    OPEN_REFERENCE_DEVICES = 8;
+    // Select custom category which is created by user.
+    OPEN_USER_DEFINED_CUSTOM_SETS = 9;
   }
 
   // Mode of the editor associated to this Validation Tool
@@ -8618,6 +8626,14 @@ message ComposeAnimationToolingEvent {
     TRIGGER_SWAP_STATES_ACTION = 13;
     CLICK_ANIMATION_INSPECTOR_TIMELINE = 14;
     DRAG_ANIMATION_INSPECTOR_TIMELINE = 15;
+    EXPAND_ANIMATION_CARD = 16;
+    COLLAPSE_ANIMATION_CARD = 17;
+    OPEN_ANIMATION_IN_TAB = 18;
+    CLOSE_ANIMATION_TAB = 19;
+    LOCK_ANIMATION = 20;
+    UNLOCK_ANIMATION = 21;
+    RESET_TIMELINE = 22;
+    DRAG_TIMELINE_LINE = 23;
   }
 
   // Type of event.
