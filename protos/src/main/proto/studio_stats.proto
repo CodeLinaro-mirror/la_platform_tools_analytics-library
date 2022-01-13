@@ -1273,7 +1273,7 @@ message AndroidStudioEvent {
 
       // The different template components (eg Activities, Fragments, Services,
       // etc) the template engine could be asked to render
-      // Next ID: 60
+      // Next ID: 61
       enum TemplateType {
         UNKNOWN_TEMPLATE = 0;
         CUSTOM_TEMPLATE = 1;
@@ -1300,6 +1300,7 @@ message AndroidStudioEvent {
         CPP_EMPTY_ACTIVITY = 22;
         RESPONSIVE_ACTIVITY = 57;
         GOOGLE_PAY_ACTIVITY = 58;
+        CPP_GAME_ACTIVITY = 60;
 
         FRAGMENT_LIST = 23;
         FRAGMENT_BLANK = 24;
@@ -10059,6 +10060,8 @@ message FileUsage {
   optional string file_type = 2;
   // Plugin type
   optional string plugin_type = 3;
+  // Plugin version
+  optional string plugin_version = 4;
 }
 
 // Details for live literal events
