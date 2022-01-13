@@ -6818,8 +6818,13 @@ message DynamicLayoutInspectorErrorInfo {
     UNKNOWN_ATTACH_ERROR_STATE = 0;
     NOT_STARTED = 1;
 
+    // Test ADB roundtrip to device successful
+    ADB_PING = 4;
+
     // App Inspection states
     // ---------------------------------
+    // Studio has established an app inspection connection to the device
+    ATTACH_SUCCESS = 7;
     // Studio sent a request to start capturing
     START_REQUEST_SENT = 10;
     // The inspector received the request to start capturing
