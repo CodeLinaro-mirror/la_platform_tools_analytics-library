@@ -9672,8 +9672,6 @@ message DaggerEditorEvent {
     ENTRY_POINT = 6;
     COMPONENT_METHOD = 7;
     ENTRY_POINT_METHOD = 8;
-    ASSISTED_INJECTED_CONSTRUCTOR = 9;
-    ASSISTED_FACTORY_METHOD = 10;
   }
 
   // Detailed description of naviganion event
