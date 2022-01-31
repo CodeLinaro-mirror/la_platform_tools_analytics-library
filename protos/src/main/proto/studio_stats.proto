@@ -479,6 +479,9 @@ message AndroidStudioEvent {
   // set when kind = COROUTINE_DEBUGGER
   optional CoroutineDebuggerEvent coroutine_debugger_event = 136;
 
+  // set when kind = SPLITTING_TABS_USAGE
+  optional SplittingTabsUsageEvent splitting_tabs_usage_event = 137;
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -542,6 +545,8 @@ message AndroidStudioEvent {
     DEPRECATED_CMAKE_EDITING_EVENT = 26 [deprecated = true];
     // The event is related to Android Studio Projects
     PROJECT_SYSTEM = 27;
+    // The event is related to Splitting Tabs tool windows
+    SPLITTING_TABS = 28;
   }
 
   // Specific kind of event, primary separation key of all Android Studio
@@ -1116,6 +1121,9 @@ message AndroidStudioEvent {
 
     // Event related to coroutine debugger
     COROUTINE_DEBUGGER = 244;
+
+    // Event related to usage of Splitting Tabs tool windows
+    SPLITTING_TABS_USAGE = 245;
   }
 
   // Represents different Performance Monitoring types.
@@ -10429,4 +10437,70 @@ message CoroutineDebuggerEvent {
   // can be set if event type is LAUNCH_EVENT
   // the user can enable or disable the coroutine debugger from studio settings
   optional bool disabled_in_settings = 2;
+}
+
+// Events raised by user interactions with Splitting Tabs tool windows
+message SplittingTabsUsageEvent {
+  // The type of Splitting Tabs tool window
+  optional ToolWindowType tool_window_type = 1;
+
+  // The event type
+  optional EventType event_type = 2;
+
+  // Set if type is PANEL_SPLIT
+  optional SplitType split_type = 3;
+
+  // The tool window subsystem using the Splitting Tabs component
+  enum ToolWindowType {
+    // Default
+    UNKNOWN_TOOL_WINDOW_TYPE = 0;
+    // A Logcat tool window.
+    LOGCAT_TOOL_WINDOW = 1;
+  }
+
+  // The type of event
+  enum EventType {
+    // Default
+    UNKNOWN_EVENT_TYPE = 0;
+    // A panel is created.
+    PANEL_CREATED = 1;
+    // A tab is created.
+    TAB_CREATED = 2;
+    // A panel is split.
+    PANEL_SPLIT = 3;
+    // A panel is moved.
+    PANEL_MOVED = 4;
+    // A panel is renamed.
+    PANEL_RENAMED = 5;
+    // A panel is closed.
+    PANEL_CLOSED = 6;
+  }
+
+  // Details of a Split event. Set if event_type is a PANEL_SPLIT
+  message SplitType {
+    // The orientation of the split
+    optional Orientation orientation = 1;
+    // The UI component the Split event was initiated from
+    optional Source source = 2;
+
+    // The orientation of the Split
+    enum Orientation {
+      // Default
+      UNKNOWN_ORIENTATION = 0;
+      // Horizontal orientation
+      HORIZONTAL = 1;
+      // Vertical orientation
+      VERTICAL = 2;
+    }
+
+    // The source of the event
+    enum Source {
+      // Default
+      UNKNOWN_SOURCE = 0;
+      // The split action in the Tab header
+      TAB = 1;
+      // The aplit action in the panel context menu
+      PANEL = 2;
+    }
+  }
 }
