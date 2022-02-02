@@ -485,6 +485,12 @@ message AndroidStudioEvent {
   // set when kind = LOGCAT_USAGE
   optional LogcatUsageEvent logcat_usage_event = 138;
 
+  // the project ids as used in the playstore, e.g.
+  // 'com.google.android.apps.maps'. This is sensitive information and
+  // thus restricted to "raw" sawmill access. This data is only available in
+  // and for PWG approved scenarios.
+  repeated string raw_project_ids = 139;
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
