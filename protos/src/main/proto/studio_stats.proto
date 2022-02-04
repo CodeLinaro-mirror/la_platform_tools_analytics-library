@@ -1646,6 +1646,9 @@ message AndroidStudioEvent {
     // An AGP upgrade is recommended to use this compile sdk version.
     TYPE_COMPILE_SDK_VERSION_TOO_HIGH = 56;
 
+    // A higher compileSdk is required for compilation.
+    TYPE_COMPILE_SDK_VERSION_TOO_LOW = 57;
+
     // NOTE: When adding a new type here, increment the index by 1. This index
     // may not be consistent with the corresponding value in the Android Gradle
     // plugin (e.g., it could be higher by 1), because of an indexing issue in
