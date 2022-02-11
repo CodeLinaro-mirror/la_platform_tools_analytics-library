@@ -485,6 +485,12 @@ message AndroidStudioEvent {
   // set when kind = LOGCAT_USAGE
   optional LogcatUsageEvent logcat_usage_event = 138;
 
+  // the project ids as used in the playstore, e.g.
+  // 'com.google.android.apps.maps'. This is sensitive information and
+  // thus restricted to "raw" sawmill access. This data is only available in
+  // and for PWG approved scenarios.
+  repeated string raw_project_ids = 139;
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -1639,6 +1645,9 @@ message AndroidStudioEvent {
 
     // An AGP upgrade is recommended to use this compile sdk version.
     TYPE_COMPILE_SDK_VERSION_TOO_HIGH = 56;
+
+    // A higher compileSdk is required for compilation.
+    TYPE_COMPILE_SDK_VERSION_TOO_LOW = 57;
 
     // NOTE: When adding a new type here, increment the index by 1. This index
     // may not be consistent with the corresponding value in the Android Gradle
@@ -10521,6 +10530,9 @@ message LogcatUsageEvent {
   // State of an applied Logcat Format dialog. Set if type is FORMAT_DIALOG
   optional LogcatFormatDialogEvent format_dialog = 2;
 
+  // A logcat filter. Set when type is FILTER_ADDED_TO_HISTORY.
+  optional LogcatFilterEvent logcat_filter = 3;
+
   // The type of event
   enum Type {
     // Default
@@ -10528,6 +10540,10 @@ message LogcatUsageEvent {
 
     // Format Dialog Applied
     FORMAT_DIALOG = 1;
+
+    // We don't want to log filters on every keystroke so we only log when a
+    // filter is added to history which is much less frequent.
+    FILTER_ADDED_TO_HISTORY = 2;
   }
 
   // The state of a Logcat Format Dialog
@@ -10581,6 +10597,64 @@ message LogcatUsageEvent {
 
       // The compact format
       COMPACT = 2;
+    }
+  }
+
+  // A summary of a logcat search filter
+  // (Logcat is the logging from an Android device the developer is testing
+  // their app on)
+  message LogcatFilterEvent {
+    // Summary of search terms pertaining to the log entry 'tag' field
+    optional TermVariants tag_terms = 1;
+
+    // Summary of search terms pertaining to the log entry 'package' field
+    optional TermVariants package_terms = 2;
+
+    // Summary of search terms pertaining to the log entry 'message' field
+    optional TermVariants message_terms = 3;
+
+    // Summary of search terms pertaining to entire log entry
+    optional TermVariants line_terms = 4;
+
+    // Number of search terms pertaining to entire log entry. Differs from the
+    // above as these terms do not use the 'line:' prefix.
+    optional int32 implicit_line_terms = 5;
+
+    // Number of search terms pertaining to the 'level' field.
+    optional int32 level_terms = 6;
+
+    // Number of search terms pertaining to the 'timestamp' field. As in
+    // "how long ago the entry was logged"
+    optional int32 age_terms = 7;
+
+    // Number of the search terms of the form 'package:mine'.
+    optional int32 package_project_terms = 8;
+
+    // Number of or operators in the expression
+    optional int32 or_operators = 9;
+
+    // Number of and operators in the expression
+    optional int32 and_operators = 10;
+
+    // Number of parentheses pairs in the expressions
+    optional int32 parentheses = 11;
+
+    // Does the filter contain an error
+    optional bool contains_errors = 12;
+
+    // A summary of a term with regex and negated variants
+    message TermVariants {
+      // Number of normal terms (for example 'tag:foo')
+      optional int32 count = 1;
+
+      // Number of negated terms (for example '-tag:foo')
+      optional int32 count_negated = 2;
+
+      // Number of regex terms (for example 'tag~:foo')
+      optional int32 count_regex = 3;
+
+      // Number of negated regex terms (for example '-tag~:foo')
+      optional int32 count_negated_regex = 4;
     }
   }
 }
