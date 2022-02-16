@@ -10536,6 +10536,9 @@ message LogcatUsageEvent {
   // The Logcat format configuration set by the format dialog
   optional LogcatFormatDialog format_dialog_applied = 4;
 
+  // A Logcat panel was added
+  optional LogcatPanelEvent panel_added = 5;
+
   // The type of event
   enum Type {
     // Default
@@ -10547,6 +10550,9 @@ message LogcatUsageEvent {
     // We don't want to log filters on every keystroke so we only log when a
     // filter is added to history which is much less frequent.
     FILTER_ADDED_TO_HISTORY = 2;
+
+    // A Logcat panel was added
+    PANEL_ADDED = 3;
   }
 
   // The state of a Logcat format dialog when applied
@@ -10671,5 +10677,17 @@ message LogcatUsageEvent {
       // Number of negated regex terms (for example '-tag~:foo')
       optional int32 count_negated_regex = 4;
     }
+  }
+
+  // Details of a Logcat panel
+  message LogcatPanelEvent {
+    // True if the panel is created from a restore-state.
+    optional bool is_restored = 1;
+
+    // The formatting configuration of the panel
+    optional LogcatFormatConfiguration format_configuration = 2;
+
+    // The panel filter.
+    optional LogcatFilterEvent filter = 3;
   }
 }
