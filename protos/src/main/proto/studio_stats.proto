@@ -10527,11 +10527,17 @@ message LogcatUsageEvent {
   // The event type
   optional Type type = 1;
 
-  // State of an applied Logcat Format dialog. Set if type is FORMAT_DIALOG
-  optional LogcatFormatDialogEvent format_dialog = 2;
+  // Historical, no longer used for writing as of 02/2022
+  optional LogcatFormatConfiguration format_dialog = 2 [deprecated = true];
 
   // A logcat filter. Set when type is FILTER_ADDED_TO_HISTORY.
   optional LogcatFilterEvent logcat_filter = 3;
+
+  // The Logcat format configuration set by the format dialog
+  optional LogcatFormatDialog format_dialog_applied = 4;
+
+  // A Logcat panel was added
+  optional LogcatPanelEvent panel_added = 5;
 
   // The type of event
   enum Type {
@@ -10544,48 +10550,63 @@ message LogcatUsageEvent {
     // We don't want to log filters on every keystroke so we only log when a
     // filter is added to history which is much less frequent.
     FILTER_ADDED_TO_HISTORY = 2;
+
+    // A Logcat panel was added
+    PANEL_ADDED = 3;
+  }
+
+  // The state of a Logcat format dialog when applied
+  message LogcatFormatDialog {
+    // The Logcat format configuration the dialog represents
+    optional LogcatFormatConfiguration configuration = 1;
+
+    // The state of the "set as default" checkbox
+    optional bool is_default_preset = 2;
+
+    // True if the "Apply" button was used as oppesed to "OK"
+    optional bool is_apply_button_used = 3;
   }
 
   // The state of a Logcat Format Dialog
-  message LogcatFormatDialogEvent {
-    // Show timestamp checkbox is set
+  message LogcatFormatConfiguration {
+    // Show timestamp field
     optional bool is_show_timestamp = 1;
 
-    // Timestamp format includes the data
+    // Timestamp format includes the date
     optional bool is_show_date = 2;
 
-    // Show process id checkbox is set
+    // Show the process id field
     optional bool is_show_process_id = 3;
 
-    // Include thread id checkbox is set
+    // Show the thread id field
     optional bool is_show_thread_id = 4;
 
-    // Show tags checkbox is set
+    // Show the tag field
     optional bool is_show_tags = 5;
 
-    // Show repeated tags checkbox is set
+    // Show repeated tags
     optional bool is_show_repeated_tags = 6;
 
-    // Value of tag width spinner
+    // The width of the tag field
     optional int32 tag_width = 7;
 
-    // Show packages checkbox is set
+    // Show the package field
     optional bool is_show_packages = 8;
 
-    // Show repeated packages checkbox is set
+    // Show repeated packages
     optional bool is_show_repeated_packages = 9;
 
-    // Value of package width spinner
+    // The width of the package field
     optional int32 package_width = 10;
 
-    // Value of the presests combo
+    // The preset configuration if applicable
     optional Preset preset = 11;
 
-    // Use preset as default checkbox is selected
-    optional bool is_default_preset = 12;
+    // Historical, no longer used for writing as of 02/2022
+    optional bool is_default_preset = 12 [deprecated = true];
 
-    // Apply button used (as opposed to OK)
-    optional bool is_apply_button_used = 13;
+    // Historical, no longer used for writing as of 02/2022
+    optional bool is_apply_button_used = 13 [deprecated = true];
 
     // Logcat Format presets
     enum Preset {
@@ -10656,5 +10677,17 @@ message LogcatUsageEvent {
       // Number of negated regex terms (for example '-tag~:foo')
       optional int32 count_negated_regex = 4;
     }
+  }
+
+  // Details of a Logcat panel
+  message LogcatPanelEvent {
+    // True if the panel is created from a restore-state.
+    optional bool is_restored = 1;
+
+    // The formatting configuration of the panel
+    optional LogcatFormatConfiguration format_configuration = 2;
+
+    // The panel filter.
+    optional LogcatFilterEvent filter = 3;
   }
 }
