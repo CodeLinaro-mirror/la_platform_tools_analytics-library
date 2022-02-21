@@ -491,6 +491,10 @@ message AndroidStudioEvent {
   // and for PWG approved scenarios.
   repeated string raw_project_ids = 139;
 
+  // Client-side salted (rotating every 28 days), sha256 of the project id.
+  // set when kind = PROJECT_STRUCTURE_* or kind = APK_ANALYZER_STATS
+  repeated string project_ids = 140;
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -3299,7 +3303,7 @@ message TestRun {
 // Each string field of this message holds the exact version of the given
 // library (e.g. "1.0.0") that the field name represents. The field is populated
 // only if this project uses the given library.
-// Next ID: 38
+// Next ID: 41
 message TestLibraries {
   // "com.android.support.test:runner".
   optional string test_support_library_version = 1;
@@ -3362,6 +3366,13 @@ message TestLibraries {
   optional string benchmark_macro_version = 31;
   // "androidx.benchmark:benchmark-macro-junit4".
   optional string benchmark_macro_junit4_version = 32;
+
+  // "androidx.compose.ui:ui-test".
+  optional string compose_ui_test_version = 38;
+  // "androidx.compose.ui:ui-test-junit4".
+  optional string compose_ui_test_junit4_version = 39;
+  // "androidx.compose.ui:ui-test-manifest".
+  optional string compose_ui_test_manifest_version = 40;
 
   // "org.robolectric:robolectric".
   optional string robolectric_version = 3;
