@@ -2826,7 +2826,9 @@ message EmulatorPercentileEstimator {
   optional PercentileEstimator estimator = 3;
 
   // Metric types that can be monitored.
-  enum EmulatorPerformanceMetric { UI_EVENT_HANDLING_TIME_US = 0; }
+  enum EmulatorPerformanceMetric {
+    UI_EVENT_HANDLING_TIME_US = 0;
+  }
 }
 
 // Tracking CPU usage for some operation
@@ -10673,6 +10675,9 @@ message LogcatUsageEvent {
 
     // Does the filter contain an error
     optional bool contains_errors = 12;
+
+    // Is this filter saved as a favorite
+    optional bool is_favorite = 13;
 
     // A summary of a term with regex and negated variants
     message TermVariants {
