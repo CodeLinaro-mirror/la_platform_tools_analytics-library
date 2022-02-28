@@ -90,6 +90,12 @@ class TestSupportLibrariesTest {
             newBuilder().setBenchmarkMacroVersion("1.1.0-alpha02").build())
     assertThat(newBuilder().recordTestLibrary("androidx.benchmark", "benchmark-macro-junit4", "1.1.0-alpha02").build()).isEqualTo(
             newBuilder().setBenchmarkMacroJunit4Version("1.1.0-alpha02").build())
+    assertThat(newBuilder().recordTestLibrary("androidx.compose.ui", "ui-test", "1.2.0-beta01").build()).isEqualTo(
+            newBuilder().setComposeUiTestVersion("1.2.0-beta01").build())
+    assertThat(newBuilder().recordTestLibrary("androidx.compose.ui", "ui-test-junit4", "1.2.0-beta01").build()).isEqualTo(
+            newBuilder().setComposeUiTestJunit4Version("1.2.0-beta01").build())
+    assertThat(newBuilder().recordTestLibrary("androidx.compose.ui", "ui-test-manifest", "1.2.0-beta01").build()).isEqualTo(
+            newBuilder().setComposeUiTestManifestVersion("1.2.0-beta01").build())
     assertThat(newBuilder().recordTestLibrary("invalid", "name", "1.0").build()).isEqualTo(getDefaultInstance())
   }
 }
