@@ -3924,6 +3924,15 @@ message GradleBuildVariant {
   // /tools/base/common/src/main/java/com/android/utils/cxx/CxxDiagnosticCode.kt
   repeated int32 cxx_diagnostic_codes = 29 [packed = true];
 
+  // whether this variant has unit tests enabled
+  optional bool has_unit_test = 30;
+
+  // whether this variant has android tests enabled
+  optional bool has_android_test = 31;
+
+  // whether this variant has test fixtures enabled
+  optional bool has_test_fixtures = 32;
+
   // The nature of this variant.
   // The test variants have an associated tested variant.
   // See com.android.builder.core.VariantType
