@@ -4975,6 +4975,12 @@ message LayoutEditorRenderResult {
   optional int32 error_count = 7;
   // Fidelity warnings
   optional int32 fidelity_warning_count = 8;
+  // The id of rendered device, such as "pixel", "pixel_3", "pixel_3_xl",
+  // "wearos_square", "tv_4k".
+  // Device ids are built-in in the sdk and studio. There is no enum or list of
+  // them. For all custom android virtual devices (AVDs), they should be
+  // recorded as "_custom_avd".
+  optional string device_id = 9;
 }
 
 // Details related to an ATF fix suggestion.
@@ -10113,6 +10119,14 @@ message AutoImportEvent {
 
 // Data collected by IntelliJ's FileTypeUsageCounterCollector regarding files
 message FileUsage {
+  enum EventType {
+    UNKNOWN_TYPE = 0;
+    SELECT = 1;
+    EDIT = 2;
+    OPEN = 3;
+    CLOSE = 4;
+  }
+
   // Anonymized guid representing file path
   optional string file_path = 1;
   // Type of file, i.e. kotlin, java
@@ -10121,6 +10135,8 @@ message FileUsage {
   optional string plugin_type = 3;
   // Plugin version
   optional string plugin_version = 4;
+  // Event type
+  optional EventType event_type = 5;
 }
 
 // Details for live literal events
