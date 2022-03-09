@@ -498,6 +498,10 @@ message AndroidStudioEvent {
   // set when kind = OS_METRICS
   optional OSMetrics os_metrics = 141;
 
+  // set when kind is SDK_INDEX_LIBRARY_HAS_CRITICAL_ISSUES,
+  // SDK_INDEX_LIBRARY_IS_OUTDATED or SDK_INDEX_LIBRARY_IS_NON_COMPLIANT
+  optional SdkIndexLibraryDetails sdk_index_library_details = 142;
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -565,6 +569,8 @@ message AndroidStudioEvent {
     SPLITTING_TABS = 28;
     // The event is related to Logcat tool window
     LOGCAT = 29;
+    // The event is related to Google Play SDK Index
+    GOOGLE_PLAY_SDK_INDEX = 30;
   }
 
   // Specific kind of event, primary separation key of all Android Studio
@@ -1148,6 +1154,22 @@ message AndroidStudioEvent {
 
     // OS-level metrics
     OS_METRICS = 247;
+
+    // Events related to Google Play SDK Index
+    // SDK Index was loaded correctly
+    SDK_INDEX_LOADED_CORRECTLY = 248;
+    // Error while reading SDK Index from cache or network
+    SDK_INDEX_CACHING_ERROR = 249;
+    // Error while reading SDK Index from default resource
+    SDK_INDEX_DEFAULT_DATA_ERROR = 250;
+    // Link provided by the SDK Index was used
+    SDK_INDEX_LINK_FOLLOWED = 251;
+    // Library has critical issues in the SDK Index
+    SDK_INDEX_LIBRARY_HAS_CRITICAL_ISSUES = 252;
+    // Library has is marked as outdated in the SDK Index
+    SDK_INDEX_LIBRARY_IS_OUTDATED = 253;
+    // Library has is marked as non compliant in the SDK Index
+    SDK_INDEX_LIBRARY_IS_NON_COMPLIANT = 254;
   }
 
   // Represents different Performance Monitoring types.
@@ -10793,4 +10815,13 @@ message OSMetrics {
     // Console host (Windows only)
     CONSOLE_HOST = 6;
   }
+}
+
+message SdkIndexLibraryDetails {
+  // Group Id of library
+  optional string group_id = 1;
+  // Artifact Id of library
+  optional string artifact_id = 2;
+  // Version of library
+  optional string version_string = 3;
 }
