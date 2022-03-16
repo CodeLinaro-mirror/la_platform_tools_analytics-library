@@ -8957,6 +8957,33 @@ message JetifierUsageData {
   optional bool check_jetifier_task_build = 3;
 }
 
+message BuildDownloadsAnalysisData {
+  message RepositoryStats {
+    enum RepositoryType {
+      UNKNOWN_REPOSITORY = 0;
+      GOOGLE = 1;
+      MAVEN_CENTRAL = 2;
+      JCENTER = 3;
+      OTHER_REPOSITORY = 4;
+    }
+    // Type of the repository, if it is one of the known ones.
+    optional RepositoryType repository_type = 1;
+    optional int32 success_requests_count = 2;
+    optional int64 success_requests_total_time_ms = 3;
+    optional int64 success_requests_total_bytes_downloaded = 4;
+    optional int32 failed_requests_count = 5;
+    optional int64 failed_requests_total_time_ms = 6;
+    optional int64 failed_requests_total_bytes_downloaded = 7;
+    // Missed request is when file was not found in the repository.
+    // These are not marked as failed but data downloaded is 0 bytes.
+    optional int32 missed_requests_count = 8;
+    optional int64 missed_requests_total_time_ms = 9;
+  }
+
+  // Aggregated result per repository requested for file downloads.
+  repeated RepositoryStats repositories = 1;
+}
+
 // Data about build attribution analyzers
 message BuildAttributionAnalyzersData {
   // Total build time in microseconds
@@ -8979,6 +9006,8 @@ message BuildAttributionAnalyzersData {
       configuration_cache_compatibility_data = 7;
   // Data from jetifier usage analyzer
   optional JetifierUsageData jetifier_usage_data = 8;
+  // Data from downloads analyzer
+  optional BuildDownloadsAnalysisData downloads_analysis_data = 9;
 }
 
 // Data about build attribution performance
