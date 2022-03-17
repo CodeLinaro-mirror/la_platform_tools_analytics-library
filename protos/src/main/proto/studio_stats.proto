@@ -502,6 +502,9 @@ message AndroidStudioEvent {
   // SDK_INDEX_LIBRARY_IS_OUTDATED or SDK_INDEX_LIBRARY_IS_NON_COMPLIANT
   optional SdkIndexLibraryDetails sdk_index_library_details = 142;
 
+  // set when kind = EDITOR_PICKER
+  optional EditorPickerEvent editor_picker_event = 143;
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -1170,6 +1173,9 @@ message AndroidStudioEvent {
     SDK_INDEX_LIBRARY_IS_OUTDATED = 253;
     // Library has is marked as non compliant in the SDK Index
     SDK_INDEX_LIBRARY_IS_NON_COMPLIANT = 254;
+
+    // Event related to Pickers invoked from the Editor's gutter
+    EDITOR_PICKER = 255;
   }
 
   // Represents different Performance Monitoring types.
@@ -5225,6 +5231,155 @@ enum SearchOption {
   SINGLE_MATCH = 3;
 }
 
+// Event for the picker panel that can be invoked from the editor gutter. The
+// picker is a panel to assist in modifying an element in the source file. For
+// example, the Preview picker surfaces the Compose @Preview annotation fields
+// and provides context-correct values for the fields that require it.
+message EditorPickerEvent {
+  // The type of picker panel
+  enum PickerType {
+    UNKNOWN_PICKER_TYPE = 0;
+    // Picker for Compose @Preview annotation
+    PREVIEW = 1;
+  }
+
+  // Contains data for actions that can be performed in an editor picker.
+  message EditorPickerAction {
+    // Describes a modification performed through a Preview picker, defined by
+    // the parameter that was modified and the value assigned to it. Since a
+    // modification can contain virtually any value, the values tracked are a
+    // subset of predefined values available through the picker, all other
+    // open-ended values are generalized as Text or Number.
+    message PreviewPickerModification {
+      // The parameters available through the picker panel. It does not
+      // necessarily match the values in the Preview annotation since the ui
+      // might surface them as several parameters, such as the Device field.
+      enum PreviewPickerParameter {
+        UNKNOWN_PREVIEW_PICKER_PARAMETER = 0;
+        // Name of the Preview Composable, visible in the Preview panel
+        NAME = 1;
+        // User-defined group, to manage different Previews within a file
+        GROUP = 2;
+        // The api-level used for the renderer in the Preview panel
+        API_LEVEL = 3;
+        // A custom width applied to the Composable for the Preview rendering
+        WIDTH = 4;
+        // A custom height applied to the Composable for the Preview rendering
+        HEIGHT = 5;
+        // The locale used by the Preview renderer
+        LOCALE = 6;
+        // Amount (in percentage) to modify the font size on the Preview
+        FONT_SCALE = 7;
+        // Show the rendered Composable within the context of a mocked device ui
+        SHOW_SYSTEM_UI = 8;
+        // Show a solid background under the rendered Composable
+        SHOW_BACKGROUND = 9;
+        // Defines the color of the background when show_background is true
+        BACKGROUND_COLOR = 10;
+        // The uiMode value applied to the application context for Preview
+        // rendering
+        UI_MODE = 11;
+        // String that defines a device by id, display name, or screen specs
+        DEVICE = 12;
+        // Width when defining a device by its screen specs
+        DEVICE_WIDTH = 13;
+        // Height when defining a device by its screen specs
+        DEVICE_HEIGHT = 14;
+        // Unit of width/height when defining a device by its screen specs
+        DEVICE_DIM_UNIT = 15;
+        // Dpi when defining a device by its screen specs
+        DEVICE_DPI = 16;
+        // Orientation of Device in the Preview panel
+        DEVICE_ORIENTATION = 17;
+      }
+
+      // Typical device targets for Android applications
+      enum DeviceType {
+        UNKNOWN_DEVICE_TYPE = 0;
+        PHONE = 1;
+        TABLET = 2;
+        DESKTOP = 3;
+        WEAR = 4;
+        TV = 5;
+        GENERIC = 6;
+        CUSTOM = 7;
+      }
+
+      // Value definition for a modification action, meant to represent relevant
+      // predefined values available in the picker, usually within a dropdown
+      // menu, any other values should fallback to UnsupportedOrOpenEnded
+      enum PreviewPickerValue {
+        UNKNOWN_PREVIEW_PICKER_VALUE = 0;
+        // Fallback for open-ended values or other not listed predefined values
+        UNSUPPORTED_OR_OPEN_ENDED = 1;
+        // Parameter's value was deleted/cleared
+        CLEARED = 2;
+        // A selected device that do not match any of the offered reference
+        // devices, typically either a custom device or an AvdManager device
+        DEVICE_REF_NONE = 3;
+        // Phone option in the 'Reference Devices' submenu of the Device
+        // dropdown
+        DEVICE_REF_PHONE = 4;
+        // Foldable option in the 'Reference Devices' submenu of the Device
+        // dropdown
+        DEVICE_REF_FOLDABLE = 5;
+        // Tablet option in the 'Reference Devices' submenu of the Device
+        // dropdown
+        DEVICE_REF_TABLET = 6;
+        // Desktop option in the 'Reference Devices' submenu of the Device
+        // dropdown
+        DEVICE_REF_DESKTOP = 7;
+        // Use 'px' as unit for the given device width/heigh
+        UNIT_PIXELS = 8;
+        // Use 'dp' as unit for the given device width/heigh
+        UNIT_DP = 9;
+        // Show device in portrait orientation in the Preview
+        ORIENTATION_PORTRAIT = 10;
+        // Show device in landscape orientation in the Preview
+        ORIENTATION_LANDSCAPE = 11;
+        // Set device screen dpi to 'ldpi'
+        DENSITY_LOW = 12;
+        // Set device screen dpi to 'mdpi'
+        DENSITY_MEDIUM = 13;
+        // Set device screen dpi to 'hdpi'
+        DENSITY_HIGH = 14;
+        // Set device screen dpi to 'xhdpi'
+        DENSITY_X_HIGH = 15;
+        // Set device screen dpi to 'xxhdpi'
+        DENSITY_XX_HIGH = 16;
+        // Set device screen dpi to 'xxxhdpi'
+        DENSITY_XXX_HIGH = 17;
+        // The assigned UiMode value does not set the 'Night' flag
+        UI_MODE_NOT_NIGHT = 18;
+        // The assigned UiMode value explicitly sets the 'Night' flag
+        UI_MODE_NIGHT = 19;
+      }
+
+      // Parameter modified
+      optional PreviewPickerParameter parameter = 1;
+      // The device type that closest resembles the device used in the preview
+      optional DeviceType closest_device_type = 2;
+      // The assigned value, as described by PreviewPickerValue
+      optional PreviewPickerValue assigned_value = 3;
+    }
+
+    oneof action_info {
+      // Available when a @Preview field was modified through the Preview
+      // picker. Describes the modification performed, such as the parameter
+      // modified and the value assigned to it.
+      PreviewPickerModification preview_modification = 1;
+    }
+  }
+
+  // Defines the type of picker invoked, this should be defined based on the
+  // kind of text element intended to be modified. E.g.: The picker that
+  // modifies the Compose @Preview annotation is the 'Preview' picker.
+  optional PickerType type = 1;
+  // Contains any additional data related to the action performed for the type
+  // of picker in use.
+  repeated EditorPickerAction action = 2;
+}
+
 // Details for the event of dropping a View from Palette:
 message LayoutPaletteEvent {
   // Display option when using the palette
@@ -6262,6 +6417,9 @@ message AndroidProfilerEvent {
   // Set if |type| is |SELECT_FRAME|, |TOGGLE_ALL_FRAMES|, or |TOGGLE_LIFECYCLE|
   optional uint32 event_count = 22;
 
+  // Set if |type| is |LOADING|
+  optional Loading loading = 23;
+
   enum Stage {
     UNKNOWN_STAGE = 0;
 
@@ -6340,6 +6498,8 @@ message AndroidProfilerEvent {
     SELECT_BOX = 115;
     // Perform an action on a track group. Should be correlated with |stage|.
     TRACK_GROUP_ACTION = 116;
+    // A loading event
+    LOADING = 117;
 
     /// CPU
 
@@ -6418,6 +6578,47 @@ message AndroidProfilerEvent {
     TPD_QUERY_PROCESS_METADATA = 711;
     TPD_QUERY_LOAD_CPU_DATA = 712;
     TPD_QUERY_LOAD_MEMORY_DATA = 713;
+  }
+
+  message Loading {
+    // Type of recording event
+    optional Type type = 1;
+
+    // Whether this is an attempt or a success
+    optional bool is_success = 2;
+
+    // Size of the trace or file to load (in KB)
+    optional uint32 size_kb = 3;
+
+    // Event count or instance count, depending on the type
+    optional uint64 event_count = 4;
+
+    // Set if |is_success|
+    optional uint32 elapsed_ms = 5;
+
+    // Number of logical cores
+    optional uint32 core_count = 6;
+
+    // Memory available in the machine (in MB)
+    optional uint32 machine_memory_mb = 7;
+
+    // Memory set aside for studio (in MB)
+    optional uint32 studio_max_memory_mb = 8;
+
+    // Memory available for studio (in MB) when event is sent
+    optional uint32 studio_free_memory_mb = 9;
+
+    enum Type {
+      UNSPECIFIED = 0;
+      HPROF = 1;
+      HEAP_PROFD = 2;
+      LEGACY_ALLOC = 3;  // pre-O
+      LIVE_ALLOC = 4;
+      PERFETTO_PROCESS_LIST = 5;
+      PERFETTO_PROCESS = 6;
+      SIMPLEPERF = 7;
+      ART = 8;
+    }
   }
 }
 
