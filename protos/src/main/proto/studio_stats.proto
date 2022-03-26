@@ -4095,6 +4095,8 @@ message AnnotationProcessorInfo {
     COMPILE_CLASSPATH = 1;
     // The new annotationProcessor way to include them.
     ANNOTATION_PROCESSOR = 2;
+    // From KSP
+    KSP = 3;
   }
 }
 
