@@ -1176,6 +1176,9 @@ message AndroidStudioEvent {
 
     // Event related to Pickers invoked from the Editor's gutter
     EDITOR_PICKER = 255;
+
+    // Event type used when raw_project_ids set
+    PROJECT_IDS = 256;
   }
 
   // Represents different Performance Monitoring types.
@@ -10524,6 +10527,11 @@ message FileType {
 
 // Kotlin project configuration information logged by IntelliJ
 message KotlinProjectConfiguration {
+  enum EventType {
+    TYPE_UNKNOWN = 0;
+    BUILD = 1;
+  }
+
   // Build system, i.e. Gradle
   optional string system = 1;
   // plugin version
@@ -10536,6 +10544,8 @@ message KotlinProjectConfiguration {
   optional string platform = 5;
   // indicates whether this a kotlin multiplatform programming project
   optional bool is_multiplatform = 6;
+  // indicates the type of the configuration event (i.e. build)
+  optional EventType event_type = 7;
 }
 
 // Data collected by IntelliJ when a run is started
