@@ -9292,6 +9292,23 @@ message BuildAttributionPerformanceStats {
 
 // Stats about build attribution
 message BuildAttributionStats {
+  enum BuildAnalysisStatus {
+    UNKNOWN_STATUS = 0;
+    // Build successful, analysis successful.
+    SUCCESS = 1;
+    // Build failed, no analysis done.
+    BUILD_FAILURE = 2;
+    // Build analyzer failed during events processing or post-processing.
+    ANALYSIS_FAILURE = 3;
+  }
+  enum BuildType {
+    UNKNOWN_BUILD_TYPE = 0;
+    REGULAR_BUILD = 1;
+    // Build triggered from Build Analyzer configuration cache warning page.
+    CONFIGURATION_CACHE_TRIAL_FLOW_BUILD = 2;
+    // Build triggered from Build Analyzer jetifier warning page.
+    CHECK_JETIFIER_BUILD = 3;
+  }
   // Data from build attribution analyzers
   optional BuildAttributionAnalyzersData build_attribution_analyzers_data = 1;
   // Stats about the performance of build attribution
@@ -9300,6 +9317,8 @@ message BuildAttributionStats {
   // The session id is a UUID tracking a single build report generated
   // to associate build attribution events together
   optional string build_attribution_report_session_id = 3;
+  optional BuildAnalysisStatus build_analysis_status = 4;
+  optional BuildType build_type = 5;
 }
 
 // Tracks user interaction with build attribution UI.
