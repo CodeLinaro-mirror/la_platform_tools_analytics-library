@@ -505,6 +505,9 @@ message AndroidStudioEvent {
   // set when kind = EDITOR_PICKER
   optional EditorPickerEvent editor_picker_event = 143;
 
+  // set when kind = COMPOSE_MULTI_PREVIEW
+  optional ComposeMultiPreviewEvent compose_multi_preview_event = 144;
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -1179,6 +1182,9 @@ message AndroidStudioEvent {
 
     // Event type used when raw_project_ids set
     PROJECT_IDS = 256;
+
+    // Event related to Compose MultiPreview
+    COMPOSE_MULTI_PREVIEW = 257;
   }
 
   // Represents different Performance Monitoring types.
@@ -8953,6 +8959,45 @@ message ComposeAnimationToolingEvent {
   // Multiplier of the animation speed (e.g. 1.5x, 0.25x).
   // Set when type is CHANGE_ANIMATION_SPEED.
   optional float animation_speed_multiplier = 2;
+}
+
+// Details for Compose MultiPreview event
+message ComposeMultiPreviewEvent {
+  // One for each new or modified node in the MultiPreview graph, in terms of
+  // annotation relations, detected when the process of finding preview
+  // elements is executed in a file.
+  repeated ComposeMultiPreviewNodeInfo multi_preview_nodes = 1;
+
+  // Information about MultiPreview, in particular as information about a node
+  // in the directed graph formed by a Composable function, and its related
+  // Preview and MultiPreview annotations.
+  message ComposeMultiPreviewNodeInfo {
+    enum NodeType {
+      UNKNOWN_NODE_TYPE = 0;
+      ROOT_COMPOSABLE_FUNCTION_NODE = 1;
+      MULTIPREVIEW_NODE = 2;
+      PREVIEW_NODE = 3;
+    }
+    // Type of node in the MultiPreview graph.
+    optional NodeType node_type = 1;
+    // Anonymized id for the Composable node that is the root of this graph.
+    optional int64 anonymized_composable_id = 2;
+    // Number of direct childs which are Preview annotations.
+    optional int32 preview_childs_count = 3;
+    // Number of direct childs which are MultiPreview annotations.
+    optional int32 multi_preview_childs_count = 4;
+    // Number of nodes in the subtree rooted at this node and defined by the
+    // graph traversal, which are Preview annotations.
+    optional int32 subtree_previews_count = 5;
+    // Number of nodes in the subtree rooted at this node and defined by the
+    // graph traversal, which are MultiPreview annotations.
+    optional int32 subtree_multi_previews_count = 6;
+    // Number of nodes in the subtree rooted at this node and defined by the
+    // graph traversal, which are not important for MultiPreview.
+    optional int32 subtree_useless_nodes_count = 7;
+    // Length of the path traversed from the root Composable to this node.
+    optional int32 depth_level = 8;
+  }
 }
 
 // Details for Compose deploy event
