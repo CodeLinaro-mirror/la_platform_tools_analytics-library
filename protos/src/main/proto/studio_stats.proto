@@ -10301,6 +10301,7 @@ message UpgradeAssistantComponentInfo {
     REWRITE_DEPRECATED_OPERATORS = 18;
     REDUNDANT_PROPERTIES = 19;
     ANDROID_MANIFEST_PACKAGE = 20;
+    R8_FULL_MODE_DEFAULT = 21;
   }
 
   message Java8DefaultProcessorSettings {
@@ -10312,6 +10313,15 @@ message UpgradeAssistantComponentInfo {
     optional NoLanguageLevelAction no_language_level_action = 1;
   }
 
+  message R8FullModeDefaultProcessorSettings {
+    enum NoPropertyPresentAction {
+      UNKNOWN_NO_PROPERTY_PRESENT_ACTION = 0;
+      ACCEPT_NEW_DEFAULT = 1;
+      INSERT_OLD_DEFAULT = 2;
+    }
+    optional NoPropertyPresentAction no_property_present_action = 1;
+  }
+
   // The kind of processor.
   optional UpgradeAssistantComponentKind kind = 1;
   // Whether the processor is enabled.
@@ -10319,6 +10329,9 @@ message UpgradeAssistantComponentInfo {
   // Settings of the processor.  Will be set if kind is
   // JAVA8_DEFAULT.
   optional Java8DefaultProcessorSettings java8_default_settings = 3;
+  // Settings of the processor.  Will be set if kind is
+  // R8_FULL_MODE_DEFAULT.
+  optional R8FullModeDefaultProcessorSettings r8_full_mode_default_settings = 4;
 }
 
 message UpgradeAssistantEventInfo {
