@@ -505,6 +505,9 @@ message AndroidStudioEvent {
   // set when kind = EDITOR_PICKER
   optional EditorPickerEvent editor_picker_event = 143;
 
+  // set when kind = COMPOSE_MULTI_PREVIEW
+  optional ComposeMultiPreviewEvent compose_multi_preview_event = 144;
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -1179,6 +1182,9 @@ message AndroidStudioEvent {
 
     // Event type used when raw_project_ids set
     PROJECT_IDS = 256;
+
+    // Event related to Compose MultiPreview
+    COMPOSE_MULTI_PREVIEW = 257;
   }
 
   // Represents different Performance Monitoring types.
@@ -8955,6 +8961,45 @@ message ComposeAnimationToolingEvent {
   optional float animation_speed_multiplier = 2;
 }
 
+// Details for Compose MultiPreview event
+message ComposeMultiPreviewEvent {
+  // One for each new or modified node in the MultiPreview graph, in terms of
+  // annotation relations, detected when the process of finding preview
+  // elements is executed in a file.
+  repeated ComposeMultiPreviewNodeInfo multi_preview_nodes = 1;
+
+  // Information about MultiPreview, in particular as information about a node
+  // in the directed graph formed by a Composable function, and its related
+  // Preview and MultiPreview annotations.
+  message ComposeMultiPreviewNodeInfo {
+    enum NodeType {
+      UNKNOWN_NODE_TYPE = 0;
+      ROOT_COMPOSABLE_FUNCTION_NODE = 1;
+      MULTIPREVIEW_NODE = 2;
+      PREVIEW_NODE = 3;
+    }
+    // Type of node in the MultiPreview graph.
+    optional NodeType node_type = 1;
+    // Anonymized id for the Composable node that is the root of this graph.
+    optional int64 anonymized_composable_id = 2;
+    // Number of direct childs which are Preview annotations.
+    optional int32 preview_childs_count = 3;
+    // Number of direct childs which are MultiPreview annotations.
+    optional int32 multi_preview_childs_count = 4;
+    // Number of nodes in the subtree rooted at this node and defined by the
+    // graph traversal, which are Preview annotations.
+    optional int32 subtree_previews_count = 5;
+    // Number of nodes in the subtree rooted at this node and defined by the
+    // graph traversal, which are MultiPreview annotations.
+    optional int32 subtree_multi_previews_count = 6;
+    // Number of nodes in the subtree rooted at this node and defined by the
+    // graph traversal, which are not important for MultiPreview.
+    optional int32 subtree_useless_nodes_count = 7;
+    // Length of the path traversed from the root Composable to this node.
+    optional int32 depth_level = 8;
+  }
+}
+
 // Details for Compose deploy event
 message ComposeDeployEvent {
   enum ComposeDeployEventType {
@@ -9247,6 +9292,23 @@ message BuildAttributionPerformanceStats {
 
 // Stats about build attribution
 message BuildAttributionStats {
+  enum BuildAnalysisStatus {
+    UNKNOWN_STATUS = 0;
+    // Build successful, analysis successful.
+    SUCCESS = 1;
+    // Build failed, no analysis done.
+    BUILD_FAILURE = 2;
+    // Build analyzer failed during events processing or post-processing.
+    ANALYSIS_FAILURE = 3;
+  }
+  enum BuildType {
+    UNKNOWN_BUILD_TYPE = 0;
+    REGULAR_BUILD = 1;
+    // Build triggered from Build Analyzer configuration cache warning page.
+    CONFIGURATION_CACHE_TRIAL_FLOW_BUILD = 2;
+    // Build triggered from Build Analyzer jetifier warning page.
+    CHECK_JETIFIER_BUILD = 3;
+  }
   // Data from build attribution analyzers
   optional BuildAttributionAnalyzersData build_attribution_analyzers_data = 1;
   // Stats about the performance of build attribution
@@ -9255,6 +9317,8 @@ message BuildAttributionStats {
   // The session id is a UUID tracking a single build report generated
   // to associate build attribution events together
   optional string build_attribution_report_session_id = 3;
+  optional BuildAnalysisStatus build_analysis_status = 4;
+  optional BuildType build_type = 5;
 }
 
 // Tracks user interaction with build attribution UI.
