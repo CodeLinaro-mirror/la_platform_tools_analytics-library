@@ -508,6 +508,9 @@ message AndroidStudioEvent {
   // set when kind = COMPOSE_MULTI_PREVIEW
   optional ComposeMultiPreviewEvent compose_multi_preview_event = 144;
 
+  // set when kind = LIVE_EDIT_EVENT
+  optional LiveEditEvent live_edit_event = 145;
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -1185,6 +1188,9 @@ message AndroidStudioEvent {
 
     // Event related to Compose MultiPreview
     COMPOSE_MULTI_PREVIEW = 257;
+
+    // Event related to a LiveEdit action
+    LIVE_EDIT_EVENT = 258;
   }
 
   // Represents different Performance Monitoring types.
@@ -10346,6 +10352,7 @@ message UpgradeAssistantEventInfo {
     SYNC_SKIPPED = 5;
     SYNC_FAILED = 6;
     SYNC_SUCCEEDED = 7;
+    INTERNAL_ERROR = 8;
   }
 
   // The kind of event.
@@ -11162,4 +11169,37 @@ message SdkIndexLibraryDetails {
   optional string artifact_id = 2;
   // Version of library
   optional string version_string = 3;
+}
+
+message LiveEditEvent {
+  enum Status {
+    UNKNOWN = 0;
+    // LiveEdit push succeeded
+    SUCCESS = 1;
+    // LiveEdit push failed due to transport issues
+    PUSH_FAILED = 2;
+    // LiveEdit failed because the user added a method
+    UNSUPPORTED_ADDED_METHOD = 3;
+    // LiveEdit failed because the user removed a method
+    UNSUPPORTED_REMOVED_METHOD = 4;
+    // LiveEdit failed because the user added a class
+    UNSUPPORTED_ADDED_CLASS = 5;
+    // LiveEdit failed because the user added a field
+    UNSUPPORTED_ADDED_FIELD = 6;
+    // LiveEdit failed because the user removed a field
+    UNSUPPORTED_REMOVED_FIELD = 7;
+    // LiveEdit failed because of an error with inlining
+    UNSUPPORTED_MODIFY_INLINE = 8;
+    // LiveEdit failed because the user changed the class hierarchy
+    UNSUPPORTED_MODIFY_INHERITANCE = 9;
+  }
+
+  // Result of the LiveEdit device push
+  optional Status status = 1;
+  // Whether the changed code involves a non-@Composable method
+  optional bool has_non_compose = 2;
+  // The duration of the LiveEdit compile, in milliseconds
+  optional int64 compile_duration_ms = 3;
+  // The duration of the LiveEdit push, in milliseconds
+  optional int64 push_duration_ms = 4;
 }
