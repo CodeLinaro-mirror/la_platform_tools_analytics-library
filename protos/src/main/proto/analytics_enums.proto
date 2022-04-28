@@ -634,6 +634,7 @@ enum VariantApiArtifactType {
     PUBLIC_ANDROID_RESOURCES_LIST = 7;
     ASSETS = 8;
     METADATA_LIBRARY_DEPENDENCIES_REPORT = 9;
+    APK_FROM_BUNDLE = 10;
 }
 
 enum VariantMethodType {
