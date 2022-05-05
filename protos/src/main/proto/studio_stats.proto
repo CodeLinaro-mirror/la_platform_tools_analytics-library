@@ -508,6 +508,17 @@ message AndroidStudioEvent {
   // set when kind = COMPOSE_MULTI_PREVIEW
   optional ComposeMultiPreviewEvent compose_multi_preview_event = 144;
 
+  // set when kind = LIVE_EDIT_EVENT
+  optional LiveEditEvent live_edit_event = 145;
+
+  // set when kind = STOP_EVENT
+  optional StopEvent stop_event = 146;
+
+  // set when kind = APP_QUALITY_INSIGHTS_USAGE
+  optional AppQualityInsightsUsageEvent app_quality_insights_usage_event = 147;
+
+  // set when kind = GOOGLE_LOGIN_EVENT
+  optional GoogleLoginPluginEvent google_login_event = 148;
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -1185,6 +1196,18 @@ message AndroidStudioEvent {
 
     // Event related to Compose MultiPreview
     COMPOSE_MULTI_PREVIEW = 257;
+
+    // Event related to a LiveEdit action
+    LIVE_EDIT_EVENT = 258;
+
+    // User pressed stop button for configurations that run App Component
+    STOP_EVENT = 259;
+
+    // App Quality Insights Event
+    APP_QUALITY_INSIGHTS_USAGE = 260;
+
+    // Google Login plugin event
+    GOOGLE_LOGIN_EVENT = 261;
   }
 
   // Represents different Performance Monitoring types.
@@ -4095,6 +4118,8 @@ message AnnotationProcessorInfo {
     COMPILE_CLASSPATH = 1;
     // The new annotationProcessor way to include them.
     ANNOTATION_PROCESSOR = 2;
+    // From KSP
+    KSP = 3;
   }
 }
 
@@ -7757,6 +7782,9 @@ message RunEvent {
   }
   // Type of AppComponent user wants to run
   optional AppComponent app_component_type = 25;
+
+  // List of devices on which the command was called
+  repeated RunDeviceInfo devices = 26;
 }
 
 message LaunchTaskDetail {
@@ -7776,6 +7804,50 @@ message LaunchTaskDetail {
   // some of them coming from device and being populated here. This is similar
   // to the RunEvent.deploy_failure_id
   optional string status = 6;
+}
+
+message StopEvent {
+  // Whether the stop succeeded
+  optional RunEvent.Status status = 1;
+
+  // The executor used, from Executor::getId()
+  optional string executor = 2;
+
+  // Whether the app is debuggable
+  optional bool debuggable = 3;
+
+  // List of devices on which the command was called
+  repeated RunDeviceInfo devices = 4;
+
+  // The stop cycle begins
+  optional int64 begin_timestamp_ms = 5;
+
+  // The stop cycle finished
+  optional int64 end_timestamp_ms = 6;
+
+  // Type of AppComponent user wants to stop
+  optional RunEvent.AppComponent app_component_type = 7;
+}
+
+message RunDeviceInfo {
+  // Type of build this device is running.
+  // e.g. 'user' or 'userdebug' or 'eng' or 'alphabuild'
+  optional string build_type = 1;
+
+  // ABI of the device, e.g. 'armeabi-v7a' or 'x86'
+  optional DeviceInfo.ApplicationBinaryInterface cpu_abi = 2;
+
+  // Device manufacturer, e.g. 'Motorola' or 'Samsung'
+  optional string manufacturer = 3;
+
+  // Device model, e.g. 'Nexus 5' or 'GT-I9500'.
+  optional string model = 4;
+
+  // What kind of device is this? Physicial/Emulator/Cloud etc...
+  optional DeviceInfo.DeviceType device_type = 5;
+
+  // android api level  e.g. '23' or 'N'
+  optional string build_api_level_full = 6;
 }
 
 message StudioRunEvent {
@@ -10301,6 +10373,7 @@ message UpgradeAssistantComponentInfo {
     REWRITE_DEPRECATED_OPERATORS = 18;
     REDUNDANT_PROPERTIES = 19;
     ANDROID_MANIFEST_PACKAGE = 20;
+    R8_FULL_MODE_DEFAULT = 21;
   }
 
   message Java8DefaultProcessorSettings {
@@ -10312,6 +10385,15 @@ message UpgradeAssistantComponentInfo {
     optional NoLanguageLevelAction no_language_level_action = 1;
   }
 
+  message R8FullModeDefaultProcessorSettings {
+    enum NoPropertyPresentAction {
+      UNKNOWN_NO_PROPERTY_PRESENT_ACTION = 0;
+      ACCEPT_NEW_DEFAULT = 1;
+      INSERT_OLD_DEFAULT = 2;
+    }
+    optional NoPropertyPresentAction no_property_present_action = 1;
+  }
+
   // The kind of processor.
   optional UpgradeAssistantComponentKind kind = 1;
   // Whether the processor is enabled.
@@ -10319,6 +10401,9 @@ message UpgradeAssistantComponentInfo {
   // Settings of the processor.  Will be set if kind is
   // JAVA8_DEFAULT.
   optional Java8DefaultProcessorSettings java8_default_settings = 3;
+  // Settings of the processor.  Will be set if kind is
+  // R8_FULL_MODE_DEFAULT.
+  optional R8FullModeDefaultProcessorSettings r8_full_mode_default_settings = 4;
 }
 
 message UpgradeAssistantEventInfo {
@@ -10331,6 +10416,7 @@ message UpgradeAssistantEventInfo {
     SYNC_SKIPPED = 5;
     SYNC_FAILED = 6;
     SYNC_SUCCEEDED = 7;
+    INTERNAL_ERROR = 8;
   }
 
   // The kind of event.
@@ -11147,4 +11233,244 @@ message SdkIndexLibraryDetails {
   optional string artifact_id = 2;
   // Version of library
   optional string version_string = 3;
+}
+
+message LiveEditEvent {
+  enum Status {
+    UNKNOWN = 0;
+    // LiveEdit push succeeded
+    SUCCESS = 1;
+    // LiveEdit push failed due to transport issues
+    PUSH_FAILED = 2;
+    // LiveEdit failed because the user added a method
+    UNSUPPORTED_ADDED_METHOD = 3;
+    // LiveEdit failed because the user removed a method
+    UNSUPPORTED_REMOVED_METHOD = 4;
+    // LiveEdit failed because the user added a class
+    UNSUPPORTED_ADDED_CLASS = 5;
+    // LiveEdit failed because the user added a field
+    UNSUPPORTED_ADDED_FIELD = 6;
+    // LiveEdit failed because the user removed a field
+    UNSUPPORTED_REMOVED_FIELD = 7;
+    // LiveEdit failed because of an error with inlining
+    UNSUPPORTED_MODIFY_INLINE = 8;
+    // LiveEdit failed because the user changed the class hierarchy
+    UNSUPPORTED_MODIFY_INHERITANCE = 9;
+  }
+
+  // Result of the LiveEdit device push
+  optional Status status = 1;
+  // Whether the changed code involves a non-@Composable method
+  optional bool has_non_compose = 2;
+  // The duration of the LiveEdit compile, in milliseconds
+  optional int64 compile_duration_ms = 3;
+  // The duration of the LiveEdit push, in milliseconds
+  optional int64 push_duration_ms = 4;
+}
+
+message GoogleLoginPluginEvent {
+  enum EventKind {
+    UNKNOWN_EVENT_TYPE = 0;
+    LOGIN_WITH_SUCCESS = 1;
+    LOGIN_WITH_FAILURE = 2;
+    // Forced logout is performed as a first step to recover from
+    // `TokenResponseException`
+    FORCE_LOGOUT = 3;
+  }
+  optional EventKind event = 1;
+}
+
+message AppQualityInsightsUsageEvent {
+  enum AppQualityInsightsUsageEventType {
+    UNKNOWN_EVENT = 0;
+    // AQI Panel is opened
+    ZERO_STATE = 1;
+
+    // AQI Fetches Crashes
+    CRASHES_FETCHED = 2;
+
+    // Interactions with Crash Details view
+    CRASH_LIST_DETAILS_VIEW = 3;
+
+    // AQI Stacktrace clicked
+    STACKTRACE_CLICKED = 4;
+
+    // AQI User leaves to see crash in console
+    FB_CONSOLE_LINK_CLICKED = 5;
+
+    // AQI matchers run
+    MATCHERS_INITIATED = 6;
+
+    // AQI Experiences an error
+    ERROR = 7;
+  }
+
+  enum CrashType {
+    UNKNOWN_TYPE = 0;
+    FATAL = 1;
+    NON_FATAL = 2;
+  }
+  enum Confidence {
+    UNKNOWN_CONFIDENCE = 0;
+    LOW = 1;
+    MEDIUM = 2;
+    HIGH = 3;
+  }
+  enum Resolution {
+    UNKNOWN_RESOLUTION = 0;
+    LINE = 1;
+    METHOD = 2;
+    CLASS = 3;
+    FAILED = 4;
+  }
+  message AppQualityInsightsZeroStateDetails {
+    enum EmptyState {
+      UNKNOWN_STATE = 0;
+      // User isn't logged into Android Studio
+      NO_LOGIN = 1;
+      // User doesn't have a google-services.json in the module
+      NO_FIREBASE = 2;
+    }
+    optional EmptyState empty_state = 1;
+  }
+
+  message AppQualityInsightsFetchDetails {
+    enum TimeFilter {
+      UNKNOWN_FILTER = 0;
+      THIRTY_DAYS = 1;
+      SIXTY_DAYS = 2;
+      NINETY_DAYS = 3;
+      SEVEN_DAYS = 4;
+    }
+    enum FetchSource {
+      UNKNOWN_SOURCE = 0;
+      // Passive background refresh
+      BACKGROUND = 1;
+      // User initiated refresh
+      REFRESH = 2;
+      // User applied filter
+      FILTER = 3;
+      // User selected a different project
+      PROJECT_SELECTION = 4;
+    }
+    enum SeverityFilter {
+      UNKNOWN_SEVERITY = 0;
+      FATAL = 1;
+      NON_FATAL = 2;
+      ALL = 3;
+    }
+    // The Time filter used for this fetch of crashes
+    optional TimeFilter time_filter = 1;
+    // Whether the version filter is enabled for this fetch (false means all
+    // versions)
+    optional bool version_filter = 2;
+    // The Severity filter used for this fetch of crashes
+    optional SeverityFilter severity_filter = 3;
+    // True if the project fetched for was the default project for the variant
+    optional bool default_project = 4;
+    // The source triggering this fetch
+    optional FetchSource fetch_source = 5;
+    // The number of retries required to get the data (0 means it got it first
+    // try)
+    optional int32 num_retries = 6;
+    // Whether the fetch hit a cached result (true means no network request was
+    // made)
+    optional bool cache = 7;
+  }
+
+  message AppQualityInsightsCrashOpenDetails {
+    enum CrashOpenSource {
+      UNKNOWN_SOURCE = 0;
+      // Crash was opened in AQI panel
+      LIST = 1;
+      // Crash was opened directly from codebase
+      INSPECTION = 2;
+    }
+
+    optional CrashType crash_type = 1;
+    optional CrashOpenSource source = 2;
+  }
+
+  message AppQualityInsightsStacktraceDetails {
+    optional CrashType crash_type = 1;
+    // True if the file is part of the users project (ie: not a library)
+    optional bool local_file = 2;
+    optional Confidence confidence = 3;
+    optional Resolution resolution = 4;
+  }
+
+  message AppQualityInsightsConsoleLinkDetails {
+    enum ConsoleOpenSource {
+      UNKNOWN_SOURCE = 0;
+      // Console was opened from details view
+      DETAILS = 1;
+      // Console was opened by inspection quick-fix action
+      INSPECTION = 2;
+    }
+
+    optional CrashType crash_type = 1;
+    optional ConsoleOpenSource source = 2;
+    optional Confidence confidence = 3;
+    optional Resolution resolution = 4;
+  }
+
+  message AppQualityInsightsMatcherDetails {
+    enum MatcherSource {
+      UNKNOWN_SOURCE = 0;
+      // Matcher was run to fill in details panel
+      DETAILS = 1;
+      // Matcher was run to populate in code highlighting
+      INSPECTION = 2;
+    }
+
+    optional Confidence confidence = 1;
+    optional Resolution resolution = 2;
+    optional MatcherSource source = 3;
+    optional CrashType crash_type = 4;
+  }
+
+  message AppQualityInsightsErrorDetails {
+    enum ErrorSource {
+      UNKNOWN_SOURCE = 0;
+      // Occurred during scan for google-services.json
+      CONFIG_SCAN = 1;
+      // Occurred during RPC (fetching data)
+      RPC = 2;
+      // Occurred while trying to match stacktrace to local code
+      MATCHERS = 3;
+      // Occurred during authentication (fetching auth token)
+      AUTHENTICATION = 4;
+    }
+    optional ErrorSource source = 1;
+    optional int32 api_error_code = 2;
+  }
+
+  // The app_id is the id for the user's android app
+  // which we salt on the client (28 day rotation) then sha256
+  // so it is anonymized and is unique per user, but has a 1-N relation.
+  optional string app_id = 1;
+
+  // Type of event
+  optional AppQualityInsightsUsageEventType type = 2;
+
+  // set when type = ZERO_STATE
+  optional AppQualityInsightsZeroStateDetails zero_state_details = 3;
+
+  // set when type = CRASHES_FETCHED
+  optional AppQualityInsightsFetchDetails fetch_details = 4;
+
+  // set when type = CRASH_LIST_DETAILS_VIEW
+  optional AppQualityInsightsCrashOpenDetails crash_open_details = 5;
+
+  // set when type = STACKTRACE_CLICKED
+  optional AppQualityInsightsStacktraceDetails stacktrace_details = 6;
+
+  // set when type = FB_CONSOLE_LINK_CLICKED
+  optional AppQualityInsightsConsoleLinkDetails console_link_details = 7;
+
+  // set when type = MATCHERS_INITIATED
+  optional AppQualityInsightsMatcherDetails matcher_details = 8;
+
+  // set when type = ERROR
+  optional AppQualityInsightsErrorDetails error_details = 9;
 }
