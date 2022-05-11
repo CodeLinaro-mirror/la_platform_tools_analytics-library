@@ -7793,9 +7793,6 @@ message RunEvent {
   }
   // Type of AppComponent user wants to run
   optional AppComponent app_component_type = 25;
-
-  // List of devices on which the command was called
-  repeated RunDeviceInfo devices = 26;
 }
 
 message LaunchTaskDetail {
@@ -7827,38 +7824,14 @@ message StopEvent {
   // Whether the app is debuggable
   optional bool debuggable = 3;
 
-  // List of devices on which the command was called
-  repeated RunDeviceInfo devices = 4;
-
   // The stop cycle begins
-  optional int64 begin_timestamp_ms = 5;
+  optional int64 begin_timestamp_ms = 4;
 
   // The stop cycle finished
-  optional int64 end_timestamp_ms = 6;
+  optional int64 end_timestamp_ms = 5;
 
   // Type of AppComponent user wants to stop
-  optional RunEvent.AppComponent app_component_type = 7;
-}
-
-message RunDeviceInfo {
-  // Type of build this device is running.
-  // e.g. 'user' or 'userdebug' or 'eng' or 'alphabuild'
-  optional string build_type = 1;
-
-  // ABI of the device, e.g. 'armeabi-v7a' or 'x86'
-  optional DeviceInfo.ApplicationBinaryInterface cpu_abi = 2;
-
-  // Device manufacturer, e.g. 'Motorola' or 'Samsung'
-  optional string manufacturer = 3;
-
-  // Device model, e.g. 'Nexus 5' or 'GT-I9500'.
-  optional string model = 4;
-
-  // What kind of device is this? Physicial/Emulator/Cloud etc...
-  optional DeviceInfo.DeviceType device_type = 5;
-
-  // android api level  e.g. '23' or 'N'
-  optional string build_api_level_full = 6;
+  optional RunEvent.AppComponent app_component_type = 6;
 }
 
 message StudioRunEvent {
