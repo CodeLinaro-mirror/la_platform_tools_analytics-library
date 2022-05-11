@@ -519,6 +519,10 @@ message AndroidStudioEvent {
 
   // set when kind = GOOGLE_LOGIN_EVENT
   optional GoogleLoginPluginEvent google_login_event = 148;
+
+  // set when kind = DEVICE_MIRRORING_SESSION
+  optional DeviceMirroringSession device_mirroring_session = 149;
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -1208,6 +1212,9 @@ message AndroidStudioEvent {
 
     // Google Login plugin event
     GOOGLE_LOGIN_EVENT = 261;
+
+    // Event recording mirroring of a device in the Running Devices tool window
+    DEVICE_MIRRORING_SESSION = 262;
   }
 
   // Represents different Performance Monitoring types.
@@ -1718,6 +1725,10 @@ message AndroidStudioEvent {
 
     // A higher compileSdk is required for compilation.
     TYPE_COMPILE_SDK_VERSION_TOO_LOW = 57;
+
+    // Trying to read/write to a variant api property that will not be used as
+    // the feature using it is disabled.
+    TYPE_ACCESSING_DISABLED_FEATURE_VARIANT_API = 58;
 
     // NOTE: When adding a new type here, increment the index by 1. This index
     // may not be consistent with the corresponding value in the Android Gradle
@@ -11278,6 +11289,16 @@ message GoogleLoginPluginEvent {
     FORCE_LOGOUT = 3;
   }
   optional EventKind event = 1;
+}
+
+message DeviceMirroringSession {
+  enum DeviceKind {
+    UNKNOWN_DEVICE_KIND = 0;
+    PHYSICAL = 1;
+    VIRTUAL = 2;
+  }
+  optional DeviceKind device_kind = 1;
+  optional int64 duration_sec = 2;
 }
 
 message AppQualityInsightsUsageEvent {
