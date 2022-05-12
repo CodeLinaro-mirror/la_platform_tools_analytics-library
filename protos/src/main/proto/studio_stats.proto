@@ -3683,8 +3683,10 @@ message GradleBuildProject {
     FEATURE = 6;
     // The 'com.android.dynamic-feature' plugin.
     DYNAMIC_FEATURE = 7;
-    // The 'com.android.fused-libraries' plugin
+    // The 'com.android.fused-library' plugin
     FUSED_LIBRARIES = 8;
+    // the 'com.android.privacy-sandbox-sdk' plugin
+    PRIVACY_SANDBOX_SDK = 9;
   }
 
   enum PluginGeneration {
