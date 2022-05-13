@@ -10403,6 +10403,7 @@ message UpgradeAssistantEventInfo {
     SYNC_FAILED = 6;
     SYNC_SUCCEEDED = 7;
     INTERNAL_ERROR = 8;
+    BLOCKED = 9;
   }
 
   // The kind of event.
