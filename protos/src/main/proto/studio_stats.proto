@@ -7213,9 +7213,57 @@ message DynamicLayoutInspectorErrorInfo {
     // Model is updated with received info
     MODEL_UPDATED = 280;
   }
+
+  // The error code encountered
+  enum AttachErrorCode {
+    // Unknown error code
+    UNKNOWN_ERROR_CODE = 0;
+
+    // --------------------------------------
+    // Error code from the View Client
+    // --------------------------------------
+
+    // Api lower than 29
+    LOW_API_LEVEL = 1;
+    // Timeout with fallback to Legacy mode
+    CONNECT_TIMEOUT = 2;
+
+    // --------------------------------------
+    // Error codes from the View Agent
+    // --------------------------------------
+
+    UNKNOWN_VIEW_AGENT_ERROR = 101;
+    // No hardware acceleration
+    NO_HARDWARE_ACCELERATION = 102;
+    // The app seems to have no UI
+    NO_ROOT_VIEWS_FOUND = 103;
+
+    // --------------------------------------
+    // Error codes from App Inspection Layer
+    // --------------------------------------
+
+    // General fallback if we were unable to map the app inspection exception
+    UNKNOWN_APP_INSPECTION_ERROR = 201;
+    // The device in not found among the ABD devices
+    APP_INSPECTION_CANNOT_FIND_DEVICE = 202;
+    // The process is no longer found
+    APP_INSPECTION_PROCESS_NO_LONGER_EXISTS = 203;
+    // The inspector is incompatible with the library in the running app
+    APP_INSPECTION_INCOMPATIBLE_VERSION = 204;
+    // The targeted library does not exist in the app
+    APP_INSPECTION_MISSING_LIBRARY = 205;
+    // The target app is proguarded
+    APP_INSPECTION_PROGUARDED_APP = 206;
+    // An inspector artifact can't be resolved
+    APP_INSPECTION_ARTIFACT_NOT_FOUND = 207;
+  }
+
   // How far we got on initial connect before an error happened, when sending
   // ATTACH_ERROR
   optional AttachErrorState attach_error_state = 1;
+
+  // The error encountered to abort the attach attempt
+  optional AttachErrorCode attach_error_code = 2;
 }
 
 // Information specific to snapshots
