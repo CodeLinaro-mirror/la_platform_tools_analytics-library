@@ -3683,8 +3683,10 @@ message GradleBuildProject {
     FEATURE = 6;
     // The 'com.android.dynamic-feature' plugin.
     DYNAMIC_FEATURE = 7;
-    // The 'com.android.fused-libraries' plugin
+    // The 'com.android.fused-library' plugin
     FUSED_LIBRARIES = 8;
+    // the 'com.android.privacy-sandbox-sdk' plugin
+    PRIVACY_SANDBOX_SDK = 9;
   }
 
   enum PluginGeneration {
@@ -7211,9 +7213,57 @@ message DynamicLayoutInspectorErrorInfo {
     // Model is updated with received info
     MODEL_UPDATED = 280;
   }
+
+  // The error code encountered
+  enum AttachErrorCode {
+    // Unknown error code
+    UNKNOWN_ERROR_CODE = 0;
+
+    // --------------------------------------
+    // Error code from the View Client
+    // --------------------------------------
+
+    // Api lower than 29
+    LOW_API_LEVEL = 1;
+    // Timeout with fallback to Legacy mode
+    CONNECT_TIMEOUT = 2;
+
+    // --------------------------------------
+    // Error codes from the View Agent
+    // --------------------------------------
+
+    UNKNOWN_VIEW_AGENT_ERROR = 101;
+    // No hardware acceleration
+    NO_HARDWARE_ACCELERATION = 102;
+    // The app seems to have no UI
+    NO_ROOT_VIEWS_FOUND = 103;
+
+    // --------------------------------------
+    // Error codes from App Inspection Layer
+    // --------------------------------------
+
+    // General fallback if we were unable to map the app inspection exception
+    UNKNOWN_APP_INSPECTION_ERROR = 201;
+    // The device in not found among the ABD devices
+    APP_INSPECTION_CANNOT_FIND_DEVICE = 202;
+    // The process is no longer found
+    APP_INSPECTION_PROCESS_NO_LONGER_EXISTS = 203;
+    // The inspector is incompatible with the library in the running app
+    APP_INSPECTION_INCOMPATIBLE_VERSION = 204;
+    // The targeted library does not exist in the app
+    APP_INSPECTION_MISSING_LIBRARY = 205;
+    // The target app is proguarded
+    APP_INSPECTION_PROGUARDED_APP = 206;
+    // An inspector artifact can't be resolved
+    APP_INSPECTION_ARTIFACT_NOT_FOUND = 207;
+  }
+
   // How far we got on initial connect before an error happened, when sending
   // ATTACH_ERROR
   optional AttachErrorState attach_error_state = 1;
+
+  // The error encountered to abort the attach attempt
+  optional AttachErrorCode attach_error_code = 2;
 }
 
 // Information specific to snapshots
@@ -7793,9 +7843,6 @@ message RunEvent {
   }
   // Type of AppComponent user wants to run
   optional AppComponent app_component_type = 25;
-
-  // List of devices on which the command was called
-  repeated RunDeviceInfo devices = 26;
 }
 
 message LaunchTaskDetail {
@@ -7827,38 +7874,14 @@ message StopEvent {
   // Whether the app is debuggable
   optional bool debuggable = 3;
 
-  // List of devices on which the command was called
-  repeated RunDeviceInfo devices = 4;
-
   // The stop cycle begins
-  optional int64 begin_timestamp_ms = 5;
+  optional int64 begin_timestamp_ms = 4;
 
   // The stop cycle finished
-  optional int64 end_timestamp_ms = 6;
+  optional int64 end_timestamp_ms = 5;
 
   // Type of AppComponent user wants to stop
-  optional RunEvent.AppComponent app_component_type = 7;
-}
-
-message RunDeviceInfo {
-  // Type of build this device is running.
-  // e.g. 'user' or 'userdebug' or 'eng' or 'alphabuild'
-  optional string build_type = 1;
-
-  // ABI of the device, e.g. 'armeabi-v7a' or 'x86'
-  optional DeviceInfo.ApplicationBinaryInterface cpu_abi = 2;
-
-  // Device manufacturer, e.g. 'Motorola' or 'Samsung'
-  optional string manufacturer = 3;
-
-  // Device model, e.g. 'Nexus 5' or 'GT-I9500'.
-  optional string model = 4;
-
-  // What kind of device is this? Physicial/Emulator/Cloud etc...
-  optional DeviceInfo.DeviceType device_type = 5;
-
-  // android api level  e.g. '23' or 'N'
-  optional string build_api_level_full = 6;
+  optional RunEvent.AppComponent app_component_type = 6;
 }
 
 message StudioRunEvent {
@@ -10428,6 +10451,7 @@ message UpgradeAssistantEventInfo {
     SYNC_FAILED = 6;
     SYNC_SUCCEEDED = 7;
     INTERNAL_ERROR = 8;
+    BLOCKED = 9;
   }
 
   // The kind of event.
