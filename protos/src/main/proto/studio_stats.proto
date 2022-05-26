@@ -11389,6 +11389,7 @@ message AppQualityInsightsUsageEvent {
       SIXTY_DAYS = 2;
       NINETY_DAYS = 3;
       SEVEN_DAYS = 4;
+      TWENTYFOUR_HOURS = 5;
     }
     enum FetchSource {
       UNKNOWN_SOURCE = 0;
