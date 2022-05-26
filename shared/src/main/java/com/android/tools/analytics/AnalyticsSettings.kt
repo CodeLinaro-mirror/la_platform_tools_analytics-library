@@ -32,6 +32,7 @@ import java.io.RandomAccessFile
 import java.math.BigInteger
 import java.net.URL
 import java.nio.channels.Channels
+import java.nio.channels.FileChannel
 import java.nio.channels.OverlappingFileLockException
 import java.nio.file.Paths
 import java.security.SecureRandom
@@ -257,30 +258,26 @@ object AnalyticsSettings {
     @JvmStatic
     private fun loadSettingsData(logger: ILogger): AnalyticsSettingsData {
         val file = settingsFile
-        if (!file.exists()) {
-            return createNewAnalyticsSettingsData()
-        }
-        val channel = RandomAccessFile(file, "rw").channel
-        try {
-            val settings: AnalyticsSettingsData? = channel.tryLock().use {
-                val inputStream = Channels.newInputStream(channel)
-                val gson = GsonBuilder().create()
-                gson.fromJson(InputStreamReader(inputStream), AnalyticsSettingsData::class.java)
+        if (file.exists()) {
+            val channel = RandomAccessFile(file, "rw").channel
+            try {
+                channel.tryLock().use {
+                    AnalyticsSettingsData.parseSettingsData(channel, file, logger)?.let {
+                        if (isValid(it)) {
+                            return it
+                        }
+                    }
+                }
+            } catch (e: OverlappingFileLockException) {
+                logger.warning("Unable to lock settings file %s: %s", file.toString(), e)
+
+                val newSettings = AnalyticsSettingsData()
+                newSettings.userId = UUID.randomUUID().toString()
+                return newSettings
             }
-            if (settings == null || !isValid(settings)) {
-                return createNewAnalyticsSettingsData()
-            }
-            return settings
-        } catch (e: OverlappingFileLockException) {
-            logger.warning("Unable to lock settings file %s: %s", file.toString(), e)
-        } catch (e: JsonParseException) {
-            logger.warning("Unable to parse settings file %s: %s", file.toString(), e)
-        } catch (e: IllegalStateException) {
-            logger.warning("Unable to parse settings file %s: %s", file.toString(), e)
         }
-        val newSettings = AnalyticsSettingsData()
-        newSettings.userId = UUID.randomUUID().toString()
-        return newSettings
+
+        return createNewAnalyticsSettingsData(logger)
     }
 
     /**
@@ -292,7 +289,7 @@ object AnalyticsSettings {
     @VisibleForTesting
     @JvmStatic
     @Throws(IOException::class)
-    private fun createNewAnalyticsSettingsData(): AnalyticsSettingsData {
+    private fun createNewAnalyticsSettingsData(logger: ILogger): AnalyticsSettingsData {
         val settings = AnalyticsSettingsData()
 
         val uidFile =
@@ -304,12 +301,11 @@ object AnalyticsSettings {
             } catch (e: IOException) {
                 // Ignore and set new UID.
             }
-
         }
         if (settings.userId == null) {
             settings.userId = UUID.randomUUID().toString()
         }
-        settings.saveSettings()
+        settings.saveSettings(logger)
         return settings
     }
 
@@ -444,7 +440,7 @@ object AnalyticsSettings {
 
 class AnalyticsSettingsData {
 
-    fun saveSettings() {
+    fun saveSettings(logger: ILogger? = null) {
         val file = AnalyticsSettings.settingsFile
         val dir = file.parentFile
         if (!dir.exists()) {
@@ -457,10 +453,8 @@ class AnalyticsSettingsData {
                         if (lock == null) {
                             throw IOException("Unable to lock settings file $file")
                         }
-                        val gson = GsonBuilder().create()
-                        val readStream = InputStreamReader(Channels.newInputStream(channel))
                         val existingData =
-                            gson.fromJson(readStream, AnalyticsSettingsData::class.java)
+                            parseSettingsData(channel, file, null)
                         if (existingData?.saltSkew == saltSkew) {
                             // The salt is apparently updated by some other process. In this case we read that on the disk rather than using our own in
                             // order to make sure all processes use the same salt.
@@ -515,6 +509,27 @@ class AnalyticsSettingsData {
 
     @field:SerializedName("lastOptinPromptVersion")
     var lastOptinPromptVersion: String? = null
+
+    companion object {
+
+        fun parseSettingsData(
+            channel: FileChannel,
+            file: File,
+            logger: ILogger? = null
+        ): AnalyticsSettingsData? {
+            val inputStream = Channels.newInputStream(channel)
+            val gson = GsonBuilder().create()
+            return try {
+                gson.fromJson(InputStreamReader(inputStream), AnalyticsSettingsData::class.java)
+            } catch (e: JsonParseException) {
+                logger?.warning("Unable to parse settings file %s: %s", file.toString(), e)
+                null
+            } catch (e: IllegalStateException) {
+                logger?.warning("Unable to parse settings file %s: %s", file.toString(), e)
+                null
+            }
+        }
+    }
 }
 
 fun BigInteger.toByteArrayOfLength24(): ByteArray {
