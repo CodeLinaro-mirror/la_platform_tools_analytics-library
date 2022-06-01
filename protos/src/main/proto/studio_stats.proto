@@ -523,6 +523,9 @@ message AndroidStudioEvent {
   // set when kind = DEVICE_MIRRORING_SESSION
   optional DeviceMirroringSession device_mirroring_session = 149;
 
+  // set when kind = FAST_PREVIEW_EVENT
+  optional FastPreviewEvent fast_preview_event = 150;
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -1215,6 +1218,9 @@ message AndroidStudioEvent {
 
     // Event recording mirroring of a device in the Running Devices tool window
     DEVICE_MIRRORING_SESSION = 262;
+
+    // Event related to a Fast Preview action
+    FAST_PREVIEW_EVENT = 263;
   }
 
   // Represents different Performance Monitoring types.
@@ -2235,7 +2241,55 @@ message EmulatorFeatureFlagState {
     VIDEO_PLAYBACK = 40;
     VULKAN = 41;
     MACRO_UI = 42;
-    // Next tag: 43
+    CAR_VHAL_TABLE = 43;
+    DYNAMIC_PARTITION = 44;
+    IP_DISCONNECT_ON_LOAD = 45;
+    VULKAN_SNAPSHOTS = 46;
+    VIRTIO_INPUT = 47;
+    MULTI_DISPLAY = 48;
+    VULKAN_NULL_OPTIONAL_STRINGS = 49;
+    DYNAMIC_MEDIA_PROFILE = 50;
+    YUV420_888_to_NV21 = 51;
+    YUV_Cache = 52;
+    KEYCODE_FORWARDING = 53;
+    VULKAN_IGNORED_HANDLES = 54;
+    VIRTIO_GPU_NEXT = 55;
+    MAC80211HWSIM_USERSPACE_MANAGED = 56;
+    HAS_SHARED_SLOTS_HOST_MEMORY_ALLOCATOR = 57;
+    CAR_VHAL_REPLAY = 58;
+    CAR_ASSIST_BUTTON = 59;
+    HARDWARE_DECODER = 60;
+    NO_DELAY_CLOSE_COLOR_BUFFER = 61;
+    NO_DEVICE_FRAME = 62;
+    VIRTIO_GPU_NATIVE_SYNC = 63;
+    VIRTIO_WIFI = 64;
+    VULKAN_SHADER_FLOAT16_INT8 = 65;
+    CAR_ROTARY = 66;
+    MODEM_SIMULATOR = 67;
+    TV_REMOTE = 68;
+    NATIVE_TEXTURE_DECOMPRESSION = 69;
+    BPTC_TEXTURE_SUPPORT = 70;
+    GUEST_USES_ANGLE = 71;
+    VIRTIO_VSOCK_PIPE = 72;
+    S3TC_TEXTURE_SUPPORT = 73;
+    VIRTIO_MOUSE = 74;
+    VIRTCONSOLE_LOGCAT = 75;
+    VULKAN_QUEUE_SUBMIT_WITH_COMMANDS = 76;
+    VULKAN_BATCHED_DESCRIPTOR_SET_UPDATE = 77;
+    MINIGBM = 78;
+    NO_DRAW = 79;
+    GNSS_GRPC_V1 = 80;
+    MIGRATABLE_SNAPSHOT_SAVE = 81;
+    ANDROIDBOOT_PROPS = 82;
+    DEVICESKINOVERLAY = 83;
+    ANDROIDBOOT_PROPS2 = 84;
+    BLUETOOTH_EMULATION = 85;
+    DEVICESTATE_ON_BOOT = 86;
+    HWC_MULTI_CONFIGS = 87;
+    ASYNC_COMPOSE_SUPPORT = 88;
+    VIRTIO_SND_CARD = 89;
+    VIRTIO_TABLET = 90;
+    // Next tag: 91
   }
   // Which features were enabled by default or through the server-side config.
   repeated EmulatorFeatureFlag attempted_enabled_feature_flags = 1;
@@ -11522,4 +11576,45 @@ message AppQualityInsightsUsageEvent {
 
   // set when type = ERROR
   optional AppQualityInsightsErrorDetails error_details = 9;
+}
+
+message FastPreviewEvent {
+  enum Type {
+    UNKNOWN = 0;
+    // Fast Preview was enabled by the user
+    USER_ENABLED = 1;
+    // Fast Preview was disable by the user
+    USER_DISABLED = 2;
+    // Fast Preview was disabled automatically after an error
+    AUTO_DISABLED = 3;
+    // Fast Preview compilation completed
+    COMPILE = 4;
+  }
+
+  message CompilationResult {
+    enum Status {
+      UNKNOWN = 0;
+      // Compilation was successful
+      SUCCESS = 1;
+      // The code could not be compiled because the compiler daemon
+      // failed to start
+      DAEMON_START_ERROR = 2;
+      // Compilation failed
+      FAILED = 3;
+    }
+
+    // Result of the Compilation
+    optional Status status = 1;
+    // Number of files compiled
+    optional int64 compiled_files = 2;
+    // The duration of the compilation, in milliseconds
+    optional int64 compile_duration_ms = 3;
+    // The duration of the refresh, in milliseconds
+    optional int64 refresh_duration_ms = 4;
+  }
+
+  // Result of the LiveEdit device push
+  optional Type type = 1;
+  // The compilation result when type = COMPILE
+  optional CompilationResult compilation_result = 2;
 }
