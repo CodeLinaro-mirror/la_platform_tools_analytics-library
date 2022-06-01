@@ -10100,16 +10100,51 @@ message AppInspectionEvent {
       // User selects a connection to bring up the details panel
       CONNECTION_DETAIL_SELECTED = 2;
 
-      // Details panel
+      // Connection details panel
       // User selects the request tab
       REQUEST_TAB_SELECTED = 3;
       // User selects the response tab
       RESPONSE_TAB_SELECTED = 4;
       // User selects the callstack tab
       CALLSTACK_TAB_SELECTED = 5;
+
+      // User creates a new rule
+      RULE_CREATED = 6;
+      // User edits the rule details panel
+      RULE_UPDATED = 7;
+      // A network response is intercepted
+      RESPONSE_INTERCEPTED = 8;
+    }
+
+    message RuleUpdatedEvent {
+      enum Component {
+        UNKNOWN_COMPONENT = 0;
+        URL_PROTOCOL = 1;
+        URL_HOST = 2;
+        URL_PORT = 3;
+        URL_PATH = 4;
+        URL_QUERY = 5;
+        FIND_CODE = 6;
+        FIND_REPLACE_CODE = 7;
+        ADD_HEADER = 8;
+        FIND_REPLACE_HEADER = 9;
+        FIND_REPLACE_BODY = 10;
+        REPLACE_BODY = 11;
+      }
+      optional Component component = 1;
+    }
+
+    message ResponseInterceptedEvent {
+      optional bool status_code = 1;
+      optional bool header_added = 2;
+      optional bool header_replaced = 3;
+      optional bool body_replaced = 4;
+      optional bool body_modified = 5;
     }
 
     optional Type type = 1;
+    optional RuleUpdatedEvent rule_detail_updated = 2;
+    optional ResponseInterceptedEvent response_intercepted = 3;
   }
 
   // Events associated with users interacting with the background task inspector
