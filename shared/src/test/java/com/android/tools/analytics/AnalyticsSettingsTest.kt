@@ -155,6 +155,13 @@ class AnalyticsSettingsTest {
             AnalyticsSettings.initialize(countingLogger)
 
             assertEquals(1, countingLogger.warnings)
+
+            AnalyticsSettings.setInstanceForTest(null)
+            countingLogger.warnings = 0
+            AnalyticsSettings.initialize(countingLogger)
+
+            // Verify that corrupted file has been overwritten with valid file
+            assertEquals(0, countingLogger.warnings)
         } finally {
             EnvironmentFakes.setSystemEnvironment()
         }
