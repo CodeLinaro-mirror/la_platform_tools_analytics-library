@@ -11302,6 +11302,12 @@ message LogcatUsageEvent {
     // Is this filter saved as a favorite
     optional bool is_favorite = 13;
 
+    // Number of 'is:crash' search terms.
+    optional int32 crash_terms = 14;
+
+    // Number of 'is:stacktrace' search terms.
+    optional int32 stacktrace_terms = 15;
+
     // A summary of a term with regex and negated variants
     message TermVariants {
       // Number of normal terms (for example 'tag:foo')
