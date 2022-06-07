@@ -6463,6 +6463,29 @@ message AdtUiTrackGroupMetadata {
   }
 }
 
+// Metadata for RUN_WITH_PROFILING action.
+message RunWithProfilingMetadata {
+  // Profiling mode controls the whether the built APK is profileable or
+  // debuggable.
+  optional ProfilingMode profiling_mode = 1;
+
+  // Information about the active build variant.
+  optional BuildVariantMetadata build_variant_metadata = 2;
+
+  enum ProfilingMode {
+    UNKNOWN_PROFILING_MODE = 0;
+    PROFILEABLE = 1;
+    DEBUGGABLE = 2;
+  }
+
+  message BuildVariantMetadata {
+    // True if the active build variant is debuggable.
+    optional bool is_debuggable = 1;
+    // True if the active build variant is profileable.
+    optional bool is_profileable = 2;
+  }
+}
+
 // Android Profiler metrics
 message AndroidProfilerEvent {
   // The current stage we're on when this event was generated
@@ -6534,6 +6557,9 @@ message AndroidProfilerEvent {
 
   // Set if |type| is |LOADING|
   optional Loading loading = 23;
+
+  // Set if |type| is |RUN_WITH_PROFILING|
+  optional RunWithProfilingMetadata run_with_profiling_metadata = 24;
 
   enum Stage {
     UNKNOWN_STAGE = 0;
@@ -7030,6 +7056,8 @@ message GradleSyncStats {
     TRIGGER_AGP_FIRST_MARKER = 4500;
     // Android Gradle plugin was updated
     TRIGGER_AGP_VERSION_UPDATED = 4501;
+    // Rollback of Android Gradle plugin update was requested
+    TRIGGER_AGP_VERSION_UPDATE_ROLLED_BACK = 4502;
     // Last marker for changes in Android Gradle Plugin
     TRIGGER_AGP_LAST_MARKER = 4599;
 
