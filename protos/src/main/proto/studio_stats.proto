@@ -3037,6 +3037,9 @@ message GradleAndroidModule {
   optional int64 flavor_dimension = 6;
   // Number of signing configurations for this module.
   optional int64 signing_config_count = 7;
+  // Hardware specified as required in the manifest. Only logging the types
+  // from the allow-list. E.g. "android.hardware.type.watch".
+  optional string required_hardware = 8;
 }
 
 // per "native" (C++) android module Gradle metrics.
