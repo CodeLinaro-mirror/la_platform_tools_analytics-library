@@ -9606,6 +9606,7 @@ message BuildAttributionUiEvent {
       CONFIGURATION_CACHE_ROOT = 26;
       CONFIGURATION_CACHE_PLUGIN_WARNING = 27;
       JETIFIER_USAGE_WARNING = 28;
+      DOWNLOADS_INFO = 29;
     }
     // Type of current page.
     optional PageType page_type = 1;
