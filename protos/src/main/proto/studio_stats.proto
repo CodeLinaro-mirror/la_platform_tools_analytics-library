@@ -526,6 +526,9 @@ message AndroidStudioEvent {
   // set when kind = FAST_PREVIEW_EVENT
   optional FastPreviewEvent fast_preview_event = 150;
 
+  // set when kind = MEMORY_USAGE_REPORT_EVENT
+  optional MemoryUsageReportEvent memory_usage_report_event = 151;
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -1221,6 +1224,9 @@ message AndroidStudioEvent {
 
     // Event related to a Fast Preview action
     FAST_PREVIEW_EVENT = 263;
+
+    // Event containing a per-component memory usage report
+    MEMORY_USAGE_REPORT_EVENT = 264;
   }
 
   // Represents different Performance Monitoring types.
@@ -4093,6 +4099,8 @@ message GradleBuildVariant {
     JAVA_LIBRARY = 9;
     // For test fixtures components.
     TEST_FIXTURES = 10;
+    // main artifact of the privacy sandbox sdk bundle plugin
+    PRIVACY_SANDBOX_SDK = 11;
   }
 
   // Different tools that provide Java 8 language usage.
@@ -6849,6 +6857,9 @@ message GradleSyncStats {
   optional bool uses_build_gradle = 10;
   // Whether or not the project uses Kotlin build files ("build.gradle.kts")
   optional bool uses_build_gradle_kts = 11;
+  // The Sync execution type: whether it uses Sequential or parallel model
+  // fetching
+  optional GradleSyncExecutionType sync_execution_type = 12;
 
   // List of triggers for gradle Sync
   enum Trigger {
@@ -7115,6 +7126,16 @@ message GradleSyncStats {
     GRADLE_SYNC_TYPE_SHIPPED = 4;
     // New sync (without other features)
     GRADLE_SYNC_TYPE_NEW_SYNC = 5;
+  }
+
+  // Sync execution type: whether Sync fetches model builders in parallel or
+  // sequentially
+  enum GradleSyncExecutionType {
+    // Gradle sync runs sequentially
+    GRADLE_SYNC_RUNS_SEQUENTIALLY = 0;
+
+    // Gradle sync runs in parallel
+    GRADLE_SYNC_RUNS_IN_PARALLEL = 1;
   }
 }
 
@@ -11690,4 +11711,120 @@ message FastPreviewEvent {
   optional Type type = 1;
   // The compilation result when type = COMPILE
   optional CompilationResult compilation_result = 2;
+}
+
+message MemoryUsageReportEvent {
+  enum ComponentCategory {
+    DEFAULT_COMPONENT_CATEGORY = 0;
+    ANDROID_RESOURCE_MANAGER_CATEGORY = 1;
+    ANDROID_RESOURCE_REPOSITORY_CATEGORY = 2;
+    ANDROID_DESIGN_TOOLS_CATEGORY = 3;
+    ANDROID_GRADLE_CATEGORY = 4;
+    ANDROID_PROFILER_CATEGORY = 5;
+    ANDROID_TEMPLATES_CATEGORY = 6;
+    ANDROID_RUN_DEBUG_CATEGORY = 7;
+    ANDROID_LINT_CATEGORY = 8;
+    ANDROID_CPP_CATEGORY = 9;
+    ANDROID_AVDMANAGER_CATEGORY = 10;
+    ANDROID_EDITORS_CATEGORY = 11;
+    ANDROID_DIAGNOSTICS_CATEGORY = 12;
+    ANDROID_DATA_BINDINGS_CATEGORY = 13;
+    ANDROID_SDK_CATEGORY = 14;
+    INTELLIJ_PLATFORM_CATEGORY = 15;
+    ANDROID_REST_CATEGORY = 16;
+  }
+
+  enum ComponentKind {
+    reserved 10;
+
+    DEFAULT_COMPONENT_KIND = 0;
+    ANDROID_RESOURCE_MANAGER = 1;
+    ANDROID_RESOURCE_REPOSITORY = 2;
+    ANDROID_RENDERING = 3;
+    ANDROID_LAYOUT_EDITOR = 4;
+    ANDROID_LAYOUTLIB = 5;
+    ANDROID_NAVEDITOR = 6;
+    ANDROID_GRADLE = 7;
+    ANDROID_PROFILER = 8;
+    ANDROID_TEMPLATES = 9;
+    ANDROID_LOGCAT = 11;
+    ANDROID_LINT = 12;
+    ANDROID_CPP = 13;
+    ANDROID_AVDMANAGER = 14;
+    ANDROID_EDITORS = 15;
+    ANDROID_INSPECTIONS = 16;
+    ANDROID_DIAGNOSTICS = 17;
+    ANDROID_DATA_BINDINGS = 18;
+    ANDROID_SDK = 19;
+    INTELLIJ_KOTLIN = 20;
+    INTELLIJ_PROJECT = 21;
+    INTELLIJ_APPLICATION = 22;
+    INTELLIJ_MODULE = 23;
+    INTELLIJ_VFS = 24;
+    INTELLIJ_EDITOR = 25;
+    INTELLIJ_PSI = 26;
+    ANDROID_TRANSPORT = 27;
+    ANDROID_RUN_DEPLOYER = 28;
+    ANDROID_DDM = 29;
+    ANDROID_DEBUG = 30;
+    ANDROID_APK_VIEW = 31;
+    ANDROID_REST = 32;
+  }
+
+  message ComponentMemoryUsage {
+    optional ComponentKind component = 1;
+    optional uint32 owned_objects_number = 2;
+    optional uint64 owned_objects_total_size = 3;
+    optional uint32 retained_objects_number = 4;
+    optional uint64 retained_objects_total_size = 5;
+  }
+
+  message SharedClusterMemoryUsage {
+    repeated ComponentKind components = 1 [packed = true];
+    optional uint32 objects_number = 2;
+    optional uint64 objects_total_size = 3;
+  }
+
+  message ComponentCategoryMemoryUsage {
+    optional ComponentCategory component_category = 1;
+    optional uint32 owned_objects_number = 2;
+    optional uint64 owned_objects_total_size = 3;
+    optional uint32 retained_objects_number = 4;
+    optional uint64 retained_objects_total_size = 5;
+  }
+
+  message MemoryUsageCollectionMetadata {
+    enum ErrorCode {
+      NO_ERROR = 0;
+      HEAP_IS_TOO_BIG = 1;
+      CANT_TAG_OBJECTS =
+          2;  // JVM doesn't have a capability of tagging objects configured
+      OBJECTS_MAP_IS_TOO_BIG =
+          3;  // The size of the object map exceeded the limit
+      CLASS_FIELDS_CACHE_IS_TOO_BIG =
+          4;  // The size of the class fields cache exceeded the limit
+      WRONG_ROOT_OBJECT_ID = 5;  // Something went wrong: one of the root
+                                 // objects had the wrong id after enumeration
+      LOW_MEMORY = 6;  // LowMemory state occurred during the heap traversal
+                       // (and collecting was immediately stopped)
+      AGENT_LOAD_FAILED = 7;  // Loading object tagging java agent failed
+    }
+
+    optional ErrorCode error_code = 1;
+    optional uint32 total_heap_objects_count = 2;
+    optional uint64 total_heap_objects_size = 3;
+    optional uint32 max_field_cache_size = 4;
+    optional uint32 max_object_queue_size = 5;
+    // number of objects that were enumerated during the first traverse, but
+    // GCed after that and were not reached during the second pass.
+    optional uint32 enumerated_garbage_collected_objects_count = 6;
+    optional double collection_time_seconds = 7;
+    optional bool is_in_power_save_mode = 8;
+    optional uint32 unsuccessful_field_accesses_number = 9;
+  }
+
+  repeated ComponentMemoryUsage component_stats = 1;
+  repeated SharedClusterMemoryUsage shared_stats = 2;
+  repeated ComponentCategoryMemoryUsage component_category_stats = 3;
+  optional MemoryUsageCollectionMetadata metadata = 4;
 }
