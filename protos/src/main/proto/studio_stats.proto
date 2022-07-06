@@ -2837,7 +2837,11 @@ message EmulatorDetails {
   repeated EmulatorIcebox icebox = 35;
   // Metrics for resizable display
   optional EmulatorResizableDisplay resizable_display = 36;
-  // Next tag: 37
+  // Process ID of the emulator wrapper process.
+  optional int32 emu_pid = 37;
+  // Process ID of the child qemu process that does the real job.
+  optional int32 qemu_pid = 38;
+  // Next tag: 39
 
   // Emulator instance liveness as determined via adb connectivity.
   enum EmulatorAdbLiveness {
@@ -6857,10 +6861,17 @@ message GradleSyncStats {
   optional bool uses_build_gradle = 10;
   // Whether or not the project uses Kotlin build files ("build.gradle.kts")
   optional bool uses_build_gradle_kts = 11;
+  // Deprecated.
+  // Use user_requested_sync_type and studio_requested_sync_execution_type.
   // The Sync execution type: whether it uses Sequential or parallel model
-  // fetching
-  optional GradleSyncExecutionType sync_execution_type = 12;
-
+  // fetching.
+  optional GradleSyncExecutionType sync_execution_type = 12 [deprecated = true];
+  // The type of sync execution user requested. Note that this may be overridden
+  // by [sync_execution_type] property.
+  optional UserRequestedExecution user_requested_sync_type = 13;
+  // The type of sync execution Studio requested. Note that e.g. even if
+  // parallel is requested, Gradle may decide to run it sequentially.
+  optional StudioRequestedExecution studio_requested_sync_type = 14;
   // List of triggers for gradle Sync
   enum Trigger {
     // Default, should not be explicitly set
@@ -7128,14 +7139,35 @@ message GradleSyncStats {
     GRADLE_SYNC_TYPE_NEW_SYNC = 5;
   }
 
+  // Deprecated: use StudioRequestedExecution and UserRequestedExecution.
   // Sync execution type: whether Sync fetches model builders in parallel or
   // sequentially
   enum GradleSyncExecutionType {
+    option deprecated = true;
+
     // Gradle sync runs sequentially
     GRADLE_SYNC_RUNS_SEQUENTIALLY = 0;
 
     // Gradle sync runs in parallel
     GRADLE_SYNC_RUNS_IN_PARALLEL = 1;
+  }
+
+  enum UserRequestedExecution {
+    UNKNOWN_USER_REQUESTED_EXECUTION_TYPE = 0;
+    // User requested sequential sync.
+    USER_REQUESTED_SEQUENTIAL = 1;
+
+    // User requested parallel sync.
+    USER_REQUESTED_PARALLEL = 2;
+  }
+
+  enum StudioRequestedExecution {
+    UNKNOWN_STUDIO_REQUESTED_EXECUTION_TYPE = 0;
+    // Studio requested sequential sync.
+    STUDIO_REQUESTD_SEQUENTIAL = 1;
+
+    // Studio requested parallel sync.
+    STUDIO_REQUESTD_PARALLEL = 2;
   }
 }
 
