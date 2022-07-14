@@ -5281,6 +5281,9 @@ message VisualLintEvent {
     LONG_TEXT = 5;
     ATF = 6;
     LOCALE_TEXT = 7;
+    TEXT_FIELD_SIZE = 8;
+    BUTTON_SIZE = 9;
+    WEAR_MARGIN = 10;
   }
 
   // Type of events affecting visual lint issues
@@ -5289,6 +5292,12 @@ message VisualLintEvent {
     CREATE_ISSUE = 1;
     EXPAND_ISSUE = 2;
     IGNORE_ISSUE = 3;
+    ENABLE_RULE = 4;
+    DISABLE_RULE = 5;
+    ENABLE_BACKGROUND_RULE = 6;
+    DISABLE_BACKGROUND_RULE = 7;
+    CLICK_DOCUMENTATION_LINK = 8;
+    CANCEL_BACKGROUND_ANALYSIS = 9;
   }
 
   // The type of the visual lint issue affected by this event
@@ -11364,6 +11373,9 @@ message LogcatUsageEvent {
 
     // Number of 'is:stacktrace' search terms.
     optional int32 stacktrace_terms = 15;
+
+    // Summary of search terms pertaining to the log entry 'process' field
+    optional TermVariants process_terms = 16;
 
     // A summary of a term with regex and negated variants
     message TermVariants {
