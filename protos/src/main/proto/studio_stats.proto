@@ -7291,6 +7291,8 @@ message DynamicLayoutInspectorEvent {
     ATTACH_ERROR = 16;
     // An attach attempt was cancelled or preempted by the user
     ATTACH_CANCELLED = 17;
+    // Info about auto-connect to foreground process
+    AUTO_CONNECT_INFO = 18;
   }
 
   // Type of event
@@ -7301,6 +7303,51 @@ message DynamicLayoutInspectorEvent {
   optional DynamicLayoutInspectorSnapshotInfo snapshot_info = 3;
   // Extra info for error-related events
   optional DynamicLayoutInspectorErrorInfo error_info = 4;
+  // Extra info about auto connect to foreground process
+  optional DynamicLayoutInspectorAutoConnectInfo auto_connect_info = 5;
+}
+
+message DynamicLayoutInspectorAutoConnectInfo {
+  // The result of the handshake
+  enum HandshakeResult {
+    UNSPECIFIED_RESULT = 0;
+    // It's not known if auto-connection is supported
+    SUPPORT_UNKNOWN = 1;
+    // Auto-connection is supported
+    SUPPORTED = 2;
+    // Auto-connection is not supported
+    NOT_SUPPORTED = 3;
+  }
+
+  // To what a SUPPORT_UNKNOWN handshake converted to
+  enum HandshakeUnknownConversion {
+    // A device with UNKNOWN support state converted to SUPPORTED
+    UNKNOWN_TO_SUPPORTED = 0;
+    // A device with UNKNOWN support state converted to NOT_SUPPORTED
+    UNKNOWN_TO_NOT_SUPPORTED = 1;
+    // A device with UNKNOWN support state was unplugged bevore converting
+    UNKNOWN_NOT_RESOLVED = 2;
+  }
+
+  // Reason why the HandshakeResult is NOT_SUPPORTED
+  enum AutoConnectReasonNotSupported {
+    UNSPECIFIED_REASON = 0;
+    // Dumpsys was not found
+    DUMPSYS_NOT_FOUND = 1;
+    // Grep was not found
+    GREP_NOT_FOUND = 2;
+    // Dumpsys found no top activity and no sleeping activities
+    DUMPSYS_NO_TOP_ACTIVITY_NO_SLEEPING_ACTIVITIES = 3;
+    // Dumpsys found no top activity but found awake activities
+    DUMPSYS_NO_TOP_ACTIVITY_BUT_HAS_AWAKE_ACTIVITIES = 4;
+  }
+
+  // The result of the handsthake. Does the device support auto connect?
+  optional HandshakeResult handshake_result = 1;
+  // If the handshake was initially SUPPORT_UNKNOWN, to what did it convert to?
+  optional HandshakeUnknownConversion handshake_conversion = 2;
+  // Additional info about why the handshake_result is NOT_SUPPORTED
+  optional AutoConnectReasonNotSupported reason_not_supported = 3;
 }
 
 // Extra info for error-related events
