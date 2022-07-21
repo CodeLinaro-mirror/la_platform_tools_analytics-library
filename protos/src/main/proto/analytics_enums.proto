@@ -636,6 +636,7 @@ enum StringOption {
     IDE_AGDE_VERSION = 37;
     PROFILING_MODE = 38;
     GRADLE_MANAGED_DEVICE_EMULATOR_GPU_MODE = 39;
+    EXECUTION_PROFILE_SELECTION = 40;
 }
 
 enum VariantApiArtifactType {
