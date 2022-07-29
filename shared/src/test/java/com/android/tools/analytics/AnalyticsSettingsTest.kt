@@ -19,7 +19,6 @@ import com.android.tools.analytics.stubs.StubDateProvider
 import com.android.utils.DateProvider
 import com.android.utils.ILogger
 import com.google.common.base.Charsets
-import com.google.gson.GsonBuilder
 import com.google.protobuf.ByteString
 import org.junit.Assert.assertArrayEquals
 import org.junit.Assert.assertEquals
@@ -34,11 +33,15 @@ import org.junit.rules.TemporaryFolder
 import java.io.File
 import java.io.IOException
 import java.math.BigInteger
+import java.nio.channels.FileChannel
 import java.nio.file.Files
-import java.nio.file.Paths
+import java.nio.file.Path
+import java.nio.file.StandardOpenOption
 import java.util.Arrays
 import java.util.Date
 import java.util.UUID
+import kotlin.io.path.readText
+import kotlin.io.path.writeText
 
 /**
  * Tests for [AnalyticsSettings].
@@ -50,19 +53,19 @@ class AnalyticsSettingsTest {
         override fun error(
             t: Throwable?, msgFormat: String?, vararg args: Any
         ) {
-            fail()
+            fail("${msgFormat?.format(*args)} throwable=$t")
         }
 
         override fun warning(msgFormat: String, vararg args: Any) {
-            fail()
+            fail(msgFormat.format(*args))
         }
 
         override fun info(msgFormat: String, vararg args: Any) {
-            fail()
+            fail(msgFormat.format(*args))
         }
 
         override fun verbose(msgFormat: String, vararg args: Any) {
-            fail()
+            fail(msgFormat.format(*args))
         }
     }
 
@@ -97,6 +100,13 @@ class AnalyticsSettingsTest {
     @get:Rule
     var thrown = ExpectedException.none()
 
+    private val analyticsSettingsFile: Path
+        get() = testConfigDir.root.toPath().resolve("analytics.settings")
+
+    private var analyticsSettingsFileContent: String
+        get() = analyticsSettingsFile.readText()
+        set(value) = analyticsSettingsFile.writeText(value)
+
     @Test
     @Throws(Exception::class)
     fun loadExistingSettingsTest() {
@@ -104,11 +114,8 @@ class AnalyticsSettingsTest {
         EnvironmentFakes.setCustomAndroidPrefsRootEnvironment(testConfigDir.root.toString())
         try {
             // Write a json settings file.
-            val json = "{ userId: \"a4d47d92-8d4c-44bb-a8a4-d2483b6e0c16\", hasOptedIn: true }"
-            Files.write(
-                testConfigDir.root.toPath().resolve("analytics.settings"),
-                json.toByteArray(Charsets.UTF_8)
-            )
+            analyticsSettingsFileContent =
+                "{ userId: \"a4d47d92-8d4c-44bb-a8a4-d2483b6e0c16\", hasOptedIn: true }"
 
             // read settings just written.
             AnalyticsSettings.setInstanceForTest(null)
@@ -119,11 +126,8 @@ class AnalyticsSettingsTest {
             assertTrue(AnalyticsSettings.optedIn)
 
             // Write another json settings file
-            val json2 = "{ userId: \"06120264-c9e7-492f-a39c-89c3cbee57c5\", hasOptedIn: false }"
-            Files.write(
-                testConfigDir.root.toPath().resolve("analytics.settings"),
-                json2.toByteArray(Charsets.UTF_8)
-            )
+            analyticsSettingsFileContent =
+                "{ userId: \"06120264-c9e7-492f-a39c-89c3cbee57c5\", hasOptedIn: false }"
             // read settings just written.
             AnalyticsSettings.setInstanceForTest(null)
             AnalyticsSettings.initialize(failureLogger)
@@ -145,11 +149,7 @@ class AnalyticsSettingsTest {
         )
         try {
             // Write non-valid json file content.
-            val json = "BADFILE"
-            Files.write(
-                testConfigDir.root.toPath().resolve("analytics.settings"),
-                json.toByteArray(Charsets.UTF_8)
-            )
+            analyticsSettingsFileContent = "BADFILE"
 
             AnalyticsSettings.setInstanceForTest(null)
             AnalyticsSettings.initialize(countingLogger)
@@ -176,12 +176,8 @@ class AnalyticsSettingsTest {
         )
         try {
             // Write non-valid json file content.
-            val json =
+            analyticsSettingsFileContent =
                 "{\"hasOptedIn\":true,\"saltValue\":746227786052768374406922174584132630757738414714263142088,\"saltSkew\":632}"
-            Files.write(
-                testConfigDir.root.toPath().resolve("analytics.settings"),
-                json.toByteArray(Charsets.UTF_8)
-            )
 
             AnalyticsSettings.setInstanceForTest(null)
             AnalyticsSettings.initialize(failureLogger)
@@ -201,10 +197,7 @@ class AnalyticsSettingsTest {
         )
         try {
             // Write empty file.
-            Files.write(
-                testConfigDir.root.toPath().resolve("analytics.settings"),
-                byteArrayOf()
-            )
+            analyticsSettingsFileContent = ""
 
             AnalyticsSettings.setInstanceForTest(null)
             AnalyticsSettings.initialize(failureLogger)
@@ -222,15 +215,8 @@ class AnalyticsSettingsTest {
         EnvironmentFakes.setCustomAndroidPrefsRootEnvironment(
             testConfigDir.root.toPath().toString()
         )
-        // The settings file should now be created.
-        assertFalse(
-            testConfigDir
-                .root
-                .toPath()
-                .resolve("analytics.settings")
-                .toFile()
-                .exists()
-        )
+        // The settings file should not be created.
+        assertFalse(Files.exists(analyticsSettingsFile))
 
         try {
             // load settings while there is no settings file present.
@@ -245,32 +231,22 @@ class AnalyticsSettingsTest {
             assertFalse(AnalyticsSettings.optedIn)
 
             // The settings file should now be created.
-            assertTrue(
-                testConfigDir
-                    .root
-                    .toPath()
-                    .resolve("analytics.settings")
-                    .toFile()
-                    .exists()
-            )
-
-            //AnalyticsSettings.saveSettings()
-
-            // The settings file should still exist.
-            assertTrue(
-                testConfigDir
-                    .root
-                    .toPath()
-                    .resolve("analytics.settings")
-                    .toFile()
-                    .exists()
-            )
+            assertTrue(analyticsSettingsFileContent.isNotEmpty())
 
             // Reading the settings again should lead to the same data being read.
             AnalyticsSettings.setInstanceForTest(null)
             AnalyticsSettings.initialize(failureLogger)
             assertFalse(AnalyticsSettings.optedIn)
             assertEquals(uid, AnalyticsSettings.userId)
+            assertEquals(
+                """{"userId":"<uuid>","hasOptedIn":false,"debugDisablePublishing":false,"saltValue":0,"saltSkew":-1}""",
+                analyticsSettingsFileContent.normalizeUserid().normalizeSalt()
+            )
+            assertTrue(BigInteger(AnalyticsSettings.salt) != BigInteger.ZERO)
+            assertEquals(
+                """{"userId":"<uuid>","hasOptedIn":false,"debugDisablePublishing":false,"saltValue":<saltValue>,"saltSkew":<saltSkew>}""",
+                analyticsSettingsFileContent.normalizeUserid().normalizeSalt()
+            )
         } finally {
             EnvironmentFakes.setSystemEnvironment()
         }
@@ -302,10 +278,21 @@ class AnalyticsSettingsTest {
 
             // Default setting should be to not be opted in.
             assertFalse(AnalyticsSettings.optedIn)
+            assertEquals(
+                """{"userId":"db3dd15b-053a-4066-ac93-04c50585edc2","hasOptedIn":false,"debugDisablePublishing":false,"saltValue":0,"saltSkew":-1}""",
+                analyticsSettingsFileContent.normalizeSalt()
+            )
+            assertTrue(BigInteger(AnalyticsSettings.salt) != BigInteger.ZERO)
+            // Getting the salt should trigger the file to be updated with the new salt value
+            assertEquals(
+                """{"userId":"db3dd15b-053a-4066-ac93-04c50585edc2","hasOptedIn":false,"debugDisablePublishing":false,"saltValue":<saltValue>,"saltSkew":<saltSkew>}""",
+                analyticsSettingsFileContent.normalizeSalt()
+            )
         } finally {
             EnvironmentFakes.setSystemEnvironment()
         }
     }
+
 
     @Test
     @Throws(Exception::class)
@@ -317,11 +304,8 @@ class AnalyticsSettingsTest {
 
         try {
             // Start with an existing config on disk.
-            val json = "{ userId: \"a4d47d92-8d4c-44bb-a8a4-d2483b6e0c16\", hasOptedIn: true }"
-            Files.write(
-                testConfigDir.root.toPath().resolve("analytics.settings"),
-                json.toByteArray(Charsets.UTF_8)
-            )
+            analyticsSettingsFileContent =
+                "{ userId: \"a4d47d92-8d4c-44bb-a8a4-d2483b6e0c16\", hasOptedIn: true }"
 
             AnalyticsSettings.setInstanceForTest(null)
             AnalyticsSettings.initialize(failureLogger)
@@ -465,6 +449,10 @@ class AnalyticsSettingsTest {
             AnalyticsSettings.optedIn = true
             // Write updated settings to disk
             AnalyticsSettings.saveSettings()
+            assertEquals(
+                """{"userId":"<uuid>","hasOptedIn":true,"debugDisablePublishing":false,"saltValue":0,"saltSkew":-1}""",
+                analyticsSettingsFileContent.normalizeUserid().normalizeSalt()
+            )
 
             // Read settings and verify that changes have persisted.
             AnalyticsSettings.setInstanceForTest(null)
@@ -504,11 +492,7 @@ class AnalyticsSettingsTest {
         try {
             // Write a json settings file.
             val json = "{ userId: \"a4d47d92-8d4c-44bb-a8a4-d2483b6e0c16\", hasOptedIn: true }"
-            Files.write(
-                testConfigDir.root.toPath().resolve("analytics.settings"),
-                json.toByteArray(Charsets.UTF_8)
-            )
-
+            analyticsSettingsFileContent = json
             // ensure the settings are not initialized
             AnalyticsSettings.setInstanceForTest(null)
             // disable analytics
@@ -517,6 +501,10 @@ class AnalyticsSettingsTest {
             assertTrue(AnalyticsSettings.initialized)
             assertFalse(AnalyticsSettings.optedIn)
             assertEquals("", AnalyticsSettings.userId)
+            assertEquals(
+                json,
+                analyticsSettingsFileContent
+            ) // The analytics settings file is not touched
         } finally {
             EnvironmentFakes.setSystemEnvironment()
         }
@@ -532,24 +520,74 @@ class AnalyticsSettingsTest {
                 lastSentimentAnswerDate = Date(115, 4, 17, 14, 23, 45)
             })
             AnalyticsSettings.saveSettings()
-            val analysticsSettingsContents =
-                String(
-                    Files.readAllBytes(
-                        Paths.get(
-                            testConfigDir.root.toString(),
-                            "analytics.settings"
-                        )
-                    ), Charsets.UTF_8
-                )
-            val lastSentimentAnswerDate =
-                GsonBuilder().create()
-                    .fromJson(
-                        analysticsSettingsContents,
-                        Map::class.java
-                    )["lastSentimentAnswerDate"]
-            assertEquals("May 17, 2015 2:23:45 PM", lastSentimentAnswerDate)
+
+            assertEquals(
+                """{"userId":"<uuid>","hasOptedIn":true,"debugDisablePublishing":false,"saltValue":0,"saltSkew":-1,"lastSentimentAnswerDate":"May 17, 2015 2:23:45 PM"}""",
+                analyticsSettingsFileContent.normalizeUserid().normalizeSalt()
+            )
         } finally {
             EnvironmentFakes.setSystemEnvironment()
         }
+    }
+
+    @Test
+    fun settingsDataIncludesAllFields() {
+        EnvironmentFakes.setCustomAndroidPrefsRootEnvironment(testConfigDir.root.toString())
+        try {
+            val allFieldsSettingsContent =
+                """{"userId":"db3dd15b-053a-4066-ac93-04c50585edc2","hasOptedIn":true,"debugDisablePublishing":true,"saltValue":1234,"saltSkew":567,"lastSentimentQuestionDate":"May 17, 2015 2:23:45 PM","lastSentimentAnswerDate":"May 18, 2015 2:23:45 PM","lastFeatureSurveyDate":"May 19, 2015 2:23:45 PM","lastFeatureSurveyDateMap":{"survey1":"May 20, 2015 2:23:45 PM"},"lastOptinPromptVersion":"2020.3.4"}"""
+
+            analyticsSettingsFileContent = allFieldsSettingsContent
+
+            val settingsData =
+                FileChannel.open(
+                    analyticsSettingsFile,
+                    StandardOpenOption.READ,
+                    StandardOpenOption.WRITE
+                ).use { channel ->
+                    AnalyticsSettingsData.parseSettingsData(
+                        channel,
+                        analyticsSettingsFile.toFile(),
+                        failureLogger
+                    )!!
+                }
+            assertEquals("db3dd15b-053a-4066-ac93-04c50585edc2", settingsData.userId)
+            assertEquals(true, settingsData.optedIn)
+            assertEquals(true, settingsData.debugDisablePublishing)
+            assertEquals(BigInteger.valueOf(1234), settingsData.saltValue)
+            assertEquals(567, settingsData.saltSkew)
+            assertEquals(Date(115, 4, 17, 14, 23, 45), settingsData.lastSentimentQuestionDate)
+            assertEquals(Date(115, 4, 18, 14, 23, 45), settingsData.lastSentimentAnswerDate)
+            assertEquals(Date(115, 4, 19, 14, 23, 45), settingsData.nextFeatureSurveyDate)
+            assertEquals(
+                mapOf("survey1" to Date(115, 4, 20, 14, 23, 45)),
+                settingsData.nextFeatureSurveyDateMap
+            )
+            assertEquals("2020.3.4", settingsData.lastOptinPromptVersion)
+
+
+            settingsData.saveSettings(failureLogger)
+
+            assertEquals(allFieldsSettingsContent, analyticsSettingsFileContent)
+        } finally {
+            EnvironmentFakes.setSystemEnvironment()
+        }
+    }
+
+    private fun String.normalizeUserid(): String {
+        return this.replace(
+            regex = Regex("[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"),
+            replacement = "<uuid>"
+        )
+    }
+
+    private fun String.normalizeSalt(): String {
+        return this.replace(
+            regex = Regex(""""saltValue":-?\d{2,}"""),
+            replacement = "\"saltValue\":<saltValue>"
+        ).replace(
+            regex = Regex(""""saltSkew":\d{2,}"""),
+            replacement = "\"saltSkew\":<saltSkew>"
+        )
     }
 }
