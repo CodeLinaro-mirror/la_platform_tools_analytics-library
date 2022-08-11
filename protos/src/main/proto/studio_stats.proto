@@ -9737,6 +9737,7 @@ message BuildAttributionUiEvent {
     CONFIGURE_GC = 7;
     CONFIGURATION_CACHING = 8;
     JETIFIER_MIGRATION = 9;
+    DOWNLOADS_INFO = 10;
   }
 
   // Filter consists of items that might be included or not.
