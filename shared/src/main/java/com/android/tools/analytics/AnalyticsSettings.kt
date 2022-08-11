@@ -21,9 +21,11 @@ import com.android.utils.ILogger
 import com.google.common.annotations.VisibleForTesting
 import com.google.common.base.Charsets
 import com.google.common.io.Files
-import com.google.gson.GsonBuilder
 import com.google.gson.JsonParseException
+import com.google.gson.TypeAdapter
 import com.google.gson.annotations.SerializedName
+import com.google.gson.stream.JsonReader
+import com.google.gson.stream.JsonWriter
 import java.io.File
 import java.io.IOException
 import java.io.InputStreamReader
@@ -36,11 +38,13 @@ import java.nio.channels.FileChannel
 import java.nio.channels.OverlappingFileLockException
 import java.nio.file.Paths
 import java.security.SecureRandom
+import java.text.SimpleDateFormat
 import java.time.Instant
 import java.time.LocalDate
 import java.time.ZoneOffset
 import java.time.temporal.ChronoUnit
 import java.util.Date
+import java.util.Locale
 import java.util.UUID
 import java.util.concurrent.ScheduledExecutorService
 import java.util.logging.Level
@@ -463,10 +467,7 @@ class AnalyticsSettingsData {
                         channel.truncate(0)
                         val outputStream = Channels.newOutputStream(channel)
                         val writer = OutputStreamWriter(outputStream)
-
-                        // Write out using pre-Java9 date format to let older releases read the file correctly.
-                        val datePatternJava8 = "MMM d, y h:mm:ss a"
-                        GsonBuilder().setDateFormat(datePatternJava8).create().toJson(this, writer)
+                        DataTypeAdapter.write(JsonWriter(writer), this)
                         writer.flush()
                         outputStream.flush()
                     }
@@ -480,34 +481,16 @@ class AnalyticsSettingsData {
     /**
      * User id used for reporting analytics. This id is pseudo-anonymous.
      */
-    @field:SerializedName("userId")
     var userId: String? = null
-
-    @field:SerializedName("hasOptedIn")
     var optedIn: Boolean = false
-
-    @field:SerializedName("debugDisablePublishing")
-    val debugDisablePublishing: Boolean = false
-
-    @field:SerializedName("saltValue")
+    var debugDisablePublishing: Boolean = false
+        private set
     var saltValue = BigInteger.valueOf(0L)
-
-    @field:SerializedName("saltSkew")
     var saltSkew = AnalyticsSettings.SALT_SKEW_NOT_INITIALIZED
-
-    @field:SerializedName("lastSentimentQuestionDate")
     var lastSentimentQuestionDate: Date? = null
-
-    @field:SerializedName("lastSentimentAnswerDate")
     var lastSentimentAnswerDate: Date? = null
-
-    @field:SerializedName("lastFeatureSurveyDate")
     var nextFeatureSurveyDate: Date? = null
-
-    @field:SerializedName("lastFeatureSurveyDateMap")
     var nextFeatureSurveyDateMap: MutableMap<String, Date>? = null
-
-    @field:SerializedName("lastOptinPromptVersion")
     var lastOptinPromptVersion: String? = null
 
     companion object {
@@ -517,10 +500,12 @@ class AnalyticsSettingsData {
             file: File,
             logger: ILogger? = null
         ): AnalyticsSettingsData? {
+            if (channel.size() == 0L) return null
             val inputStream = Channels.newInputStream(channel)
-            val gson = GsonBuilder().create()
             return try {
-                gson.fromJson(InputStreamReader(inputStream), AnalyticsSettingsData::class.java)
+                val reader = JsonReader(InputStreamReader(inputStream))
+                reader.isLenient = true
+                DataTypeAdapter.read(reader)
             } catch (e: JsonParseException) {
                 logger?.warning("Unable to parse settings file %s: %s", file.toString(), e)
                 null
@@ -530,6 +515,76 @@ class AnalyticsSettingsData {
             }
         }
     }
+
+    internal object DataTypeAdapter: TypeAdapter<AnalyticsSettingsData>() {
+
+        private val datePatternJava8 = SimpleDateFormat("MMM d, y h:mm:ss a", Locale.US)
+
+        override fun write(writer: JsonWriter, data: AnalyticsSettingsData) {
+            writer.beginObject()
+            data.userId?.let { writer.name("userId").value(it) }
+            writer.name("hasOptedIn").value(data.optedIn)
+            writer.name("debugDisablePublishing").value(data.debugDisablePublishing)
+            writer.name("saltValue").value(data.saltValue)
+            writer.name("saltSkew").value(data.saltSkew)
+            data.lastSentimentQuestionDate?.let { writer.name("lastSentimentQuestionDate").value(format(it)) }
+            data.lastSentimentAnswerDate?.let { writer.name("lastSentimentAnswerDate").value(format(it)) }
+            data.nextFeatureSurveyDate?.let { writer.name("lastFeatureSurveyDate").value(format(it)) }
+            data.nextFeatureSurveyDateMap?.let {
+                writer.name("lastFeatureSurveyDateMap")
+                writer.beginObject()
+                it.forEach { (key, value) ->
+                    writer.name(key).value(format(value))
+                }
+                writer.endObject()
+            }
+            data.lastOptinPromptVersion?.let {
+                writer.name("lastOptinPromptVersion").value(it)
+            }
+            writer.endObject()
+        }
+
+        // Write out using pre-Java9 date format to let older releases read the file correctly.
+        private fun format(it: Date): String = datePatternJava8.format(it)
+
+        override fun read(reader: JsonReader): AnalyticsSettingsData {
+            val data = AnalyticsSettingsData()
+            if (!reader.hasNext()) {
+                return data
+            }
+            reader.beginObject()
+            while(reader.hasNext()) {
+                when (reader.nextName()) {
+                    "userId" -> data.userId = reader.nextString()
+                    "hasOptedIn" -> data.optedIn = reader.nextBoolean()
+                    "debugDisablePublishing" -> data.debugDisablePublishing = reader.nextBoolean()
+                    "saltValue" -> data.saltValue = BigInteger(reader.nextString())
+                    "saltSkew" -> data.saltSkew = reader.nextInt()
+                    "lastSentimentQuestionDate" -> data.lastSentimentQuestionDate = parseDate(reader.nextString())
+                    "lastSentimentAnswerDate" -> data.lastSentimentAnswerDate = parseDate(reader.nextString())
+                    "lastFeatureSurveyDate" -> data.nextFeatureSurveyDate = parseDate(reader.nextString())
+                    "lastFeatureSurveyDateMap" -> {
+                        val map = data.nextFeatureSurveyDateMap ?: mutableMapOf()
+                        reader.beginObject()
+                        while(reader.hasNext()) {
+                            map[reader.nextName()] = parseDate(reader.nextString())
+                        }
+                        reader.endObject()
+                        data.nextFeatureSurveyDateMap = map
+                    }
+                    "lastOptinPromptVersion" -> data.lastOptinPromptVersion = reader.nextString()
+                    else -> reader.skipValue()
+                }
+            }
+            reader.endObject()
+            return data
+        }
+
+        private fun parseDate(string: String): Date {
+            return datePatternJava8.parse(string)
+        }
+    }
+
 }
 
 fun BigInteger.toByteArrayOfLength24(): ByteArray {
