@@ -529,6 +529,11 @@ message AndroidStudioEvent {
   // set when kind = MEMORY_USAGE_REPORT_EVENT
   optional MemoryUsageReportEvent memory_usage_report_event = 151;
 
+  // set when kind = SDK_INDEX_LOADED_CORRECTLY
+  // or kind = SDK_INDEX_CACHING_ERROR
+  // or kind = SDK_INDEX_DEFAULT_DATA_ERROR
+  optional SdkIndexLoadingDetails sdk_index_loading_details = 152;
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -7503,6 +7508,8 @@ message DynamicLayoutInspectorSession {
   optional DynamicLayoutInspectorSystemNode system = 5;
   // Session data around goto declaration
   optional DynamicLayoutInspectorGotoDeclaration goto_declaration = 6;
+  // Session data around attachment to process
+  optional DynamicLayoutInspectorAttachToProcess attach = 7;
 }
 
 // Session data for dynamic layout inspector (inspector v2) around live mode
@@ -7527,6 +7534,8 @@ message DynamicLayoutInspectorRotation {
   optional uint32 component_tree_clicks_in_2d = 4;
 }
 
+// Session data for dynamic layout inspector (inspector v2) around the system
+// view toggle
 message DynamicLayoutInspectorCompose {
   // Is the kotlin reflection library included in the project
   optional bool kotlin_reflection_available = 1;
@@ -7546,6 +7555,8 @@ message DynamicLayoutInspectorCompose {
   optional uint32 recomposition_reset_clicks = 8;
 }
 
+// Session data for dynamic layout inspector (inspector v2) around hiding of
+// system nodes
 message DynamicLayoutInspectorSystemNode {
   // Number of selections while the system views are hidden
   optional uint32 clicks_with_hidden_system_views = 1;
@@ -7579,6 +7590,28 @@ message DynamicLayoutInspectorGotoDeclaration {
   optional uint32 key_strokes_shortcut = 2;
   // Number of times a double click was used to "Goto Declaration"
   optional uint32 double_clicks = 3;
+}
+
+// Session data for dynamic layout inspector (inspector v2) process attaching
+message DynamicLayoutInspectorAttachToProcess {
+  // Client type: Legacy or AppInspection
+  optional ClientType client_type = 1;
+  // True if the attach to process succeeded
+  optional bool success = 2;
+  // Error information if the attach failed
+  optional DynamicLayoutInspectorErrorInfo error_info = 3;
+
+  // The Client type
+  enum ClientType {
+    // Unknown client
+    UNKNOWN_CLIENT_TYPE = 0;
+    // Client using DdmClient.dumpViewHierarchy to retrieve View information
+    LEGACY_CLIENT = 1;
+    // Client using app inspection to retrieve View and Compose information
+    APP_INSPECTION_CLIENT = 2;
+    // Data loaded from a file
+    SNAPSHOT_CLIENT = 3;
+  }
 }
 
 // Kotlin support information
@@ -9716,6 +9749,12 @@ message BuildAttributionUiEvent {
       CONFIGURATION_CACHE_PLUGIN_WARNING = 27;
       JETIFIER_USAGE_WARNING = 28;
       DOWNLOADS_INFO = 29;
+      // Group by Task Category page in critical path window.
+      TASK_CATEGORY_PAGE = 30;
+      // Single task category page.
+      TASK_CATEGORY_CRITICAL_PATH_TASKS_ROOT = 31;
+      // Task page in Group by Category page.
+      TASK_CATEGORY_CRITICAL_PATH_TASK_PAGE = 32;
     }
     // Type of current page.
     optional PageType page_type = 1;
@@ -9737,6 +9776,7 @@ message BuildAttributionUiEvent {
     CONFIGURE_GC = 7;
     CONFIGURATION_CACHING = 8;
     JETIFIER_MIGRATION = 9;
+    DOWNLOADS_INFO = 10;
   }
 
   // Filter consists of items that might be included or not.
@@ -11510,6 +11550,45 @@ message SdkIndexLibraryDetails {
   optional string artifact_id = 2;
   // Version of library
   optional string version_string = 3;
+}
+
+message SdkIndexLoadingDetails {
+  enum SourceType {
+    UNKNOWN_SOURCE = 0;
+    // Test data, not to be used in production
+    TEST_DATA = 1;
+    // Cache file is too old but no network is available
+    CACHE_FILE_EXPIRED_NO_NETWORK = 2;
+    // Cache file is too old, network is available but was not able to update
+    CACHE_FILE_EXPIRED_NETWORK_ERROR = 3;
+    // Cache file exist but cannot tell if too old
+    CACHE_FILE_EXPIRED_UNKNOWN = 4;
+    // Cache file exists and has not expired
+    CACHE_FILE_RECENT = 5;
+    // Cache file and was just downloaded
+    CACHE_FILE_NEW = 6;
+    // Default data was used
+    DEFAULT_DATA = 7;
+  }
+
+  enum ReadErrorType {
+    NO_ERROR = 0;
+    // Function used to get the data caused an exception
+    DATA_FUNCTION_EXCEPTION = 1;
+    // Function used to get the data returned null
+    DATA_FUNCTION_NULL_ERROR = 2;
+    // There was an exception while decompressing the raw data
+    GZIP_EXCEPTION = 3;
+    // Exception while parsing decompressed data
+    INDEX_PARSE_EXCEPTION = 4;
+    // Resulted Index was null after parsing
+    INDEX_PARSE_NULL_ERROR = 5;
+  }
+
+  // Specify the source of the Index data
+  optional SourceType source_type = 1;
+  // What is the type of error when the Index could not be loaded
+  optional ReadErrorType read_error_type = 2;
 }
 
 message LiveEditEvent {
