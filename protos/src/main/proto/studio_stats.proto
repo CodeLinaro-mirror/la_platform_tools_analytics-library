@@ -10681,6 +10681,7 @@ message UpgradeAssistantComponentInfo {
     REDUNDANT_PROPERTIES = 19;
     ANDROID_MANIFEST_PACKAGE = 20;
     R8_FULL_MODE_DEFAULT = 21;
+    RENDER_SCRIPT_DEFAULT = 22;
   }
 
   message Java8DefaultProcessorSettings {
