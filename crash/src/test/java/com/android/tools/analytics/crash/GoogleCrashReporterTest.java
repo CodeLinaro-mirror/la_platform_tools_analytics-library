@@ -138,6 +138,17 @@ public class GoogleCrashReporterTest {
     verify(mockBuilder).addBinaryBody(key + "-full", value.getBytes(), ContentType.DEFAULT_TEXT, key + ".txt");
   }
 
+  @Test
+  public void checkProperCrashUrl() {
+    GoogleCrashReporter prodCrash = new GoogleCrashReporter(false, false);
+    // This is never set back to false because there's no need; no other test should try to contact
+    // production. If one did, it might cause race conditions if tests are run in parallel.
+    System.setProperty("use.staging.crash.url", "true");
+    GoogleCrashReporter stagingCrash = new GoogleCrashReporter(false, false);
+    Truth.assertThat(prodCrash.getCrashUrl()).doesNotContain("staging");
+    Truth.assertThat(stagingCrash.getCrashUrl()).contains("staging");
+  }
+
   private static int getFreePort() {
     try (ServerSocket s = new ServerSocket(0)) {
       return s.getLocalPort();
