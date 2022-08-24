@@ -7553,6 +7553,20 @@ message DynamicLayoutInspectorCompose {
   optional float max_recomposition_highlight = 7;
   // Number of times the recomposition counts were explicitly reset
   optional uint32 recomposition_reset_clicks = 8;
+  // Number of frames received where the recomposition counts were shown
+  optional uint32 frames_with_recomposition_counts_on = 9;
+  // Number of frames received where the recomposition counts were in red
+  optional uint32 frames_with_recomposition_color_red = 10;
+  // Number of frames received where the recomposition counts were in blue
+  optional uint32 frames_with_recomposition_color_blue = 11;
+  // Number of frames received where the recomposition counts were in green
+  optional uint32 frames_with_recomposition_color_green = 12;
+  // Number of frames received where the recomposition counts were in yellow
+  optional uint32 frames_with_recomposition_color_yellow = 13;
+  // Number of frames received where the recomposition counts were in purple
+  optional uint32 frames_with_recomposition_color_purple = 14;
+  // Number of frames received where the recomposition counts were in orange
+  optional uint32 frames_with_recomposition_color_orange = 15;
 }
 
 // Session data for dynamic layout inspector (inspector v2) around hiding of
