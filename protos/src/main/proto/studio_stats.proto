@@ -10696,6 +10696,7 @@ message UpgradeAssistantComponentInfo {
     ANDROID_MANIFEST_PACKAGE = 20;
     R8_FULL_MODE_DEFAULT = 21;
     RENDER_SCRIPT_DEFAULT = 22;
+    NON_TRANSITIVE_R_CLASS_DEFAULT = 23;
   }
 
   message Java8DefaultProcessorSettings {
