@@ -11900,117 +11900,68 @@ message FastPreviewEvent {
 }
 
 message MemoryUsageReportEvent {
-  enum ComponentCategory {
-    DEFAULT_COMPONENT_CATEGORY = 0;
-    ANDROID_RESOURCE_MANAGER_CATEGORY = 1;
-    ANDROID_RESOURCE_REPOSITORY_CATEGORY = 2;
-    ANDROID_DESIGN_TOOLS_CATEGORY = 3;
-    ANDROID_GRADLE_CATEGORY = 4;
-    ANDROID_PROFILER_CATEGORY = 5;
-    ANDROID_TEMPLATES_CATEGORY = 6;
-    ANDROID_RUN_DEBUG_CATEGORY = 7;
-    ANDROID_LINT_CATEGORY = 8;
-    ANDROID_CPP_CATEGORY = 9;
-    ANDROID_AVDMANAGER_CATEGORY = 10;
-    ANDROID_EDITORS_CATEGORY = 11;
-    ANDROID_DIAGNOSTICS_CATEGORY = 12;
-    ANDROID_DATA_BINDINGS_CATEGORY = 13;
-    ANDROID_SDK_CATEGORY = 14;
-    INTELLIJ_PLATFORM_CATEGORY = 15;
-    ANDROID_REST_CATEGORY = 16;
+  message ObjectsStatistics {
+    optional uint32 objects_count = 1;
+    optional uint64 total_size_bytes = 2;
   }
 
-  enum ComponentKind {
-    reserved 10;
-
-    DEFAULT_COMPONENT_KIND = 0;
-    ANDROID_RESOURCE_MANAGER = 1;
-    ANDROID_RESOURCE_REPOSITORY = 2;
-    ANDROID_RENDERING = 3;
-    ANDROID_LAYOUT_EDITOR = 4;
-    ANDROID_LAYOUTLIB = 5;
-    ANDROID_NAVEDITOR = 6;
-    ANDROID_GRADLE = 7;
-    ANDROID_PROFILER = 8;
-    ANDROID_TEMPLATES = 9;
-    ANDROID_LOGCAT = 11;
-    ANDROID_LINT = 12;
-    ANDROID_CPP = 13;
-    ANDROID_AVDMANAGER = 14;
-    ANDROID_EDITORS = 15;
-    ANDROID_INSPECTIONS = 16;
-    ANDROID_DIAGNOSTICS = 17;
-    ANDROID_DATA_BINDINGS = 18;
-    ANDROID_SDK = 19;
-    INTELLIJ_KOTLIN = 20;
-    INTELLIJ_PROJECT = 21;
-    INTELLIJ_APPLICATION = 22;
-    INTELLIJ_MODULE = 23;
-    INTELLIJ_VFS = 24;
-    INTELLIJ_EDITOR = 25;
-    INTELLIJ_PSI = 26;
-    ANDROID_TRANSPORT = 27;
-    ANDROID_RUN_DEPLOYER = 28;
-    ANDROID_DDM = 29;
-    ANDROID_DEBUG = 30;
-    ANDROID_APK_VIEW = 31;
-    ANDROID_REST = 32;
+  message MemoryTrafficStatistics {
+    optional ObjectsStatistics total_stats = 1;
+    optional ObjectsStatistics new_generation_stats = 2;
+    repeated ObjectsStatistics old_generations_stats = 3;
   }
 
-  message ComponentMemoryUsage {
-    optional ComponentKind component = 1;
-    optional uint32 owned_objects_number = 2;
-    optional uint64 owned_objects_total_size = 3;
-    optional uint32 retained_objects_number = 4;
-    optional uint64 retained_objects_total_size = 5;
+  message ClusterObjectsStatistics {
+    optional MemoryTrafficStatistics owned_cluster_stats = 1;
+    optional MemoryTrafficStatistics retained_cluster_stats = 2;
+  }
+
+  message ClusterMemoryUsage {
+    optional string label = 1;
+    optional ClusterObjectsStatistics stats = 2;
   }
 
   message SharedClusterMemoryUsage {
-    repeated ComponentKind components = 1 [packed = true];
-    optional uint32 objects_number = 2;
-    optional uint64 objects_total_size = 3;
-  }
-
-  message ComponentCategoryMemoryUsage {
-    optional ComponentCategory component_category = 1;
-    optional uint32 owned_objects_number = 2;
-    optional uint64 owned_objects_total_size = 3;
-    optional uint32 retained_objects_number = 4;
-    optional uint64 retained_objects_total_size = 5;
+    // Ids of the components, enumerated according to used_components field
+    repeated int32 ids = 1 [packed = true];
+    optional MemoryTrafficStatistics stats = 2;
   }
 
   message MemoryUsageCollectionMetadata {
-    enum ErrorCode {
+    enum StatusCode {
       NO_ERROR = 0;
       HEAP_IS_TOO_BIG = 1;
       CANT_TAG_OBJECTS =
-          2;  // JVM doesn't have a capability of tagging objects configured
+        2;  // JVM doesn't have a capability of tagging objects configured
       OBJECTS_MAP_IS_TOO_BIG =
-          3;  // The size of the object map exceeded the limit
+        3;  // The size of the object map exceeded the limit
       CLASS_FIELDS_CACHE_IS_TOO_BIG =
-          4;  // The size of the class fields cache exceeded the limit
+        4;  // The size of the class fields cache exceeded the limit
       WRONG_ROOT_OBJECT_ID = 5;  // Something went wrong: one of the root
-                                 // objects had the wrong id after enumeration
+      // objects had the wrong id after enumeration
       LOW_MEMORY = 6;  // LowMemory state occurred during the heap traversal
-                       // (and collecting was immediately stopped)
+      // (and collecting was immediately stopped)
       AGENT_LOAD_FAILED = 7;  // Loading object tagging java agent failed
     }
 
-    optional ErrorCode error_code = 1;
-    optional uint32 total_heap_objects_count = 2;
-    optional uint64 total_heap_objects_size = 3;
-    optional uint32 max_field_cache_size = 4;
-    optional uint32 max_object_queue_size = 5;
+    optional StatusCode status_code = 1;
+    optional MemoryTrafficStatistics total_heap_objects_stats = 2;
+    optional uint32 field_cache_count_peak = 3;
+    optional uint32 object_queue_length_peak = 4;
     // number of objects that were enumerated during the first traverse, but
     // GCed after that and were not reached during the second pass.
-    optional uint32 enumerated_garbage_collected_objects_count = 6;
-    optional double collection_time_seconds = 7;
-    optional bool is_in_power_save_mode = 8;
-    optional uint32 unsuccessful_field_accesses_number = 9;
+    optional uint32 garbage_collected_before_2pass_count = 5;
+    optional double collection_time_seconds = 6;
+    optional bool is_in_power_save_mode = 7;
+    optional uint32 unsuccessful_field_accesses_count = 8;
+    optional double collection_start_timestamp_seconds = 9;
+    // Sequence number of report collection iteration that happened in this
+    // IDE session.
+    optional int32 collection_iteration = 10;
   }
 
-  repeated ComponentMemoryUsage component_stats = 1;
-  repeated SharedClusterMemoryUsage shared_stats = 2;
-  repeated ComponentCategoryMemoryUsage component_category_stats = 3;
-  optional MemoryUsageCollectionMetadata metadata = 4;
+  repeated ClusterMemoryUsage component_stats = 1;
+  repeated SharedClusterMemoryUsage shared_component_stats = 2;
+  repeated ClusterMemoryUsage component_category_stats = 4;
+  optional MemoryUsageCollectionMetadata metadata = 6;
 }
