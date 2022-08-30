@@ -1750,6 +1750,11 @@ message AndroidStudioEvent {
     // Using the variant API to set the application ID to a dynamic value
     TYPE_APPLICATION_ID_MUST_NOT_BE_DYNAMIC = 59;
 
+    // Using the removed API. The support for the API was removed
+    // but API and associated types were left intact to not fail sync with
+    // ClassNotFoundException which would be confusing to users.
+    TYPE_REMOVED_API = 60;
+
     // NOTE: When adding a new type here, increment the index by 1. This index
     // may not be consistent with the corresponding value in the Android Gradle
     // plugin (e.g., it could be higher by 1), because of an indexing issue in
@@ -2230,7 +2235,7 @@ message EmulatorFeatureFlagState {
     SCREEN_RECORDING = 18;
     VIRTUAL_SCENE = 19;
     SYSTEM_AS_ROOT = 20;
-    IGNORE_HOST_OPENGL_ERRORS = 21;
+    DEPRECATED_IGNORE_HOST_OPENGL_ERRORS = 21 [deprecated = true];
     GENERIC_SNAPSHOTS_UI = 22;
     ALLOW_SNAPSHOT_MIGRATION = 23;
     DEPRECATED_GENERIC_INCREMENTAL_SNAPSHOT = 24 [deprecated = true];
@@ -8285,6 +8290,8 @@ message IntellijProjectSizeStats {
     ALL = 1;
     // All project libraries i.e. all jar files
     LIBRARY = 2;
+    // Project files only
+    PROJECT = 3;
   }
   optional FileType type = 1;
   optional Scope scope = 2;
