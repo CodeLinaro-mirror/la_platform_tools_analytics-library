@@ -10704,6 +10704,8 @@ message UpgradeAssistantComponentInfo {
     R8_FULL_MODE_DEFAULT = 21;
     RENDER_SCRIPT_DEFAULT = 22;
     NON_TRANSITIVE_R_CLASS_DEFAULT = 23;
+    AIDL_DEFAULT = 24;
+    BUILD_CONFIG_DEFAULT = 25;
   }
 
   message Java8DefaultProcessorSettings {
