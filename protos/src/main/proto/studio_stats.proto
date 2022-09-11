@@ -5059,6 +5059,8 @@ message LayoutEditorState {
     PREFERENCE_SCREEN = 4;
     COMPOSE = 5;
     CUSTOM_VIEWS = 6;
+    GLANCE_WEAR_TILE = 7;
+    GLANCE_APP_WIDGET = 8;
   }
 
   // Layout orientation
@@ -5314,6 +5316,48 @@ message VisualLintEvent {
   optional IssueType issue_type = 1;
   // The kind of event affecting the issue
   optional IssueEvent issue_event = 2;
+}
+
+message UniversalProblemsPanelEvent {
+  // Type of interaction events of universal problems panel.
+  enum InteractionEvent {
+    UNKNOWN_INTERACTION = 0;
+    // A tab is activated. By either manually or automatically switching the tab
+    TAB_ACTIVATED = 1;
+    // A user clicks an issue
+    ISSUE_SINGLE_CLICKED = 2;
+    // A user double clicks an issue
+    ISSUE_DOUBLE_CLICKED = 3;
+  }
+
+  // Currently activated tab. This is usually done by clicking tab, but in some
+  // scenarios the tab may be activated without the interactions.
+  enum ActivatedTab {
+    UNKNOWN_TAB = 0;
+    // IJ's current file tab
+    CURRENT_FILE = 1;
+    // IJ's project errors tab
+    PROJECT_ERRORS = 2;
+    // This is the shared issue panel, used by compose, layout editor, etc.
+    DESIGN_TOOLS = 3;
+  }
+
+  // Event of triggering navigatable of an issue. This is usually done by double
+  // clicking an issue or pressing enter on the selected issue.
+  enum IssueNavigated {
+    UNKNOWN_NAVIGATION = 0;
+    OPEN_VALIDATION_TOOL = 1;
+    OPEN_FILE = 2;
+  }
+
+  // True if IJ's problems pane is visible, false otherwise.
+  optional bool problems_panel_visibility = 1;
+  // User interactions event of universal problems panel.
+  optional InteractionEvent interaction_event = 2;
+  // The type of the activated tab affected by this event
+  optional ActivatedTab activated_tab = 3;
+  // The Navigation event of the issues.
+  optional IssueNavigated issue_navigated = 4;
 }
 
 // Reference to a View used in an Android application.
@@ -5689,6 +5733,8 @@ message LayoutEditorEvent {
     ANIMATION_PREVIEW = 51;
 
     VISUAL_LINT = 52;
+
+    UNIVERSAL_PROBLEMS_PANEL = 53;
   }
 
   // Type of event
@@ -5715,6 +5761,9 @@ message LayoutEditorEvent {
   optional AnimationPreviewEvent animation_preview_event = 11;
   // Details related to visual linting (type = VISUAL_LINT)
   optional VisualLintEvent visual_lint_event = 12;
+  // Details related to universal problems panel (type =
+  // UNIVERSAL_PROBLEMS_PANEL)
+  optional UniversalProblemsPanelEvent universal_problems_panel_event = 13;
 }
 
 // Details for navigation editor events
@@ -9275,10 +9324,20 @@ message MultiViewEvent {
     VISUAL_MODE = 3;
   }
 
+  enum ToggleIssuePanel {
+    UNKNOWN_OPERATION = 0;
+    // Open issue panel from Validation Tool
+    OPEN_ISSUE_PANEL = 1;
+    // Close issue panel from Validation Tool
+    CLOSE_ISSUE_PANEL = 2;
+  }
+
   // Type of event
   optional MultiViewEventType type = 1;
   // The mode of the editor to the Validation Tool window
   optional AssociatedSplitEditorMode associated_split_editor_mode = 2;
+  // The event of opening or closing the issue panel in Validation Tool
+  optional ToggleIssuePanel toggle_issue_panel = 3;
 }
 
 // Details for Compose animation tooling event
