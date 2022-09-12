@@ -1361,6 +1361,7 @@ message AndroidStudioEvent {
     MACROBENCHMARK_LIBRARY_MODULE = 64;
     GOOGLE_PAY_ACTIVITY = 65;
     WEAR_OS_COMPOSE_ACTIVITY = 66;
+    GOOGLE_WALLET_ACTIVITY = 67;
   }
 
   // Wizard Templates Usage (New Project, New Module and New Component)
@@ -1417,6 +1418,7 @@ message AndroidStudioEvent {
         RESPONSIVE_ACTIVITY = 57;
         GOOGLE_PAY_ACTIVITY = 58;
         CPP_GAME_ACTIVITY = 60;
+        GOOGLE_WALLET_ACTIVITY = 61;
 
         FRAGMENT_LIST = 23;
         FRAGMENT_BLANK = 24;
