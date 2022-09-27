@@ -1361,6 +1361,7 @@ message AndroidStudioEvent {
     MACROBENCHMARK_LIBRARY_MODULE = 64;
     GOOGLE_PAY_ACTIVITY = 65;
     WEAR_OS_COMPOSE_ACTIVITY = 66;
+    GOOGLE_WALLET_ACTIVITY = 67;
   }
 
   // Wizard Templates Usage (New Project, New Module and New Component)
@@ -1417,6 +1418,7 @@ message AndroidStudioEvent {
         RESPONSIVE_ACTIVITY = 57;
         GOOGLE_PAY_ACTIVITY = 58;
         CPP_GAME_ACTIVITY = 60;
+        GOOGLE_WALLET_ACTIVITY = 61;
 
         FRAGMENT_LIST = 23;
         FRAGMENT_BLANK = 24;
@@ -1749,6 +1751,11 @@ message AndroidStudioEvent {
 
     // Using the variant API to set the application ID to a dynamic value
     TYPE_APPLICATION_ID_MUST_NOT_BE_DYNAMIC = 59;
+
+    // Using the removed API. The support for the API was removed
+    // but API and associated types were left intact to not fail sync with
+    // ClassNotFoundException which would be confusing to users.
+    TYPE_REMOVED_API = 60;
 
     // NOTE: When adding a new type here, increment the index by 1. This index
     // may not be consistent with the corresponding value in the Android Gradle
@@ -2230,7 +2237,7 @@ message EmulatorFeatureFlagState {
     SCREEN_RECORDING = 18;
     VIRTUAL_SCENE = 19;
     SYSTEM_AS_ROOT = 20;
-    IGNORE_HOST_OPENGL_ERRORS = 21;
+    DEPRECATED_IGNORE_HOST_OPENGL_ERRORS = 21 [deprecated = true];
     GENERIC_SNAPSHOTS_UI = 22;
     ALLOW_SNAPSHOT_MIGRATION = 23;
     DEPRECATED_GENERIC_INCREMENTAL_SNAPSHOT = 24 [deprecated = true];
@@ -5054,6 +5061,8 @@ message LayoutEditorState {
     PREFERENCE_SCREEN = 4;
     COMPOSE = 5;
     CUSTOM_VIEWS = 6;
+    GLANCE_WEAR_TILE = 7;
+    GLANCE_APP_WIDGET = 8;
   }
 
   // Layout orientation
@@ -5309,6 +5318,48 @@ message VisualLintEvent {
   optional IssueType issue_type = 1;
   // The kind of event affecting the issue
   optional IssueEvent issue_event = 2;
+}
+
+message UniversalProblemsPanelEvent {
+  // Type of interaction events of universal problems panel.
+  enum InteractionEvent {
+    UNKNOWN_INTERACTION = 0;
+    // A tab is activated. By either manually or automatically switching the tab
+    TAB_ACTIVATED = 1;
+    // A user clicks an issue
+    ISSUE_SINGLE_CLICKED = 2;
+    // A user double clicks an issue
+    ISSUE_DOUBLE_CLICKED = 3;
+  }
+
+  // Currently activated tab. This is usually done by clicking tab, but in some
+  // scenarios the tab may be activated without the interactions.
+  enum ActivatedTab {
+    UNKNOWN_TAB = 0;
+    // IJ's current file tab
+    CURRENT_FILE = 1;
+    // IJ's project errors tab
+    PROJECT_ERRORS = 2;
+    // This is the shared issue panel, used by compose, layout editor, etc.
+    DESIGN_TOOLS = 3;
+  }
+
+  // Event of triggering navigatable of an issue. This is usually done by double
+  // clicking an issue or pressing enter on the selected issue.
+  enum IssueNavigated {
+    UNKNOWN_NAVIGATION = 0;
+    OPEN_VALIDATION_TOOL = 1;
+    OPEN_FILE = 2;
+  }
+
+  // True if IJ's problems pane is visible, false otherwise.
+  optional bool problems_panel_visibility = 1;
+  // User interactions event of universal problems panel.
+  optional InteractionEvent interaction_event = 2;
+  // The type of the activated tab affected by this event
+  optional ActivatedTab activated_tab = 3;
+  // The Navigation event of the issues.
+  optional IssueNavigated issue_navigated = 4;
 }
 
 // Reference to a View used in an Android application.
@@ -5684,6 +5735,8 @@ message LayoutEditorEvent {
     ANIMATION_PREVIEW = 51;
 
     VISUAL_LINT = 52;
+
+    UNIVERSAL_PROBLEMS_PANEL = 53;
   }
 
   // Type of event
@@ -5710,6 +5763,9 @@ message LayoutEditorEvent {
   optional AnimationPreviewEvent animation_preview_event = 11;
   // Details related to visual linting (type = VISUAL_LINT)
   optional VisualLintEvent visual_lint_event = 12;
+  // Details related to universal problems panel (type =
+  // UNIVERSAL_PROBLEMS_PANEL)
+  optional UniversalProblemsPanelEvent universal_problems_panel_event = 13;
 }
 
 // Details for navigation editor events
@@ -8285,6 +8341,8 @@ message IntellijProjectSizeStats {
     ALL = 1;
     // All project libraries i.e. all jar files
     LIBRARY = 2;
+    // Project files only
+    PROJECT = 3;
   }
   optional FileType type = 1;
   optional Scope scope = 2;
@@ -9268,10 +9326,20 @@ message MultiViewEvent {
     VISUAL_MODE = 3;
   }
 
+  enum ToggleIssuePanel {
+    UNKNOWN_OPERATION = 0;
+    // Open issue panel from Validation Tool
+    OPEN_ISSUE_PANEL = 1;
+    // Close issue panel from Validation Tool
+    CLOSE_ISSUE_PANEL = 2;
+  }
+
   // Type of event
   optional MultiViewEventType type = 1;
   // The mode of the editor to the Validation Tool window
   optional AssociatedSplitEditorMode associated_split_editor_mode = 2;
+  // The event of opening or closing the issue panel in Validation Tool
+  optional ToggleIssuePanel toggle_issue_panel = 3;
 }
 
 // Details for Compose animation tooling event
@@ -9726,6 +9794,7 @@ message BuildAttributionUiEvent {
     TOOL_WINDOW_BALLOON_SHOWN = 28;
     TOOL_WINDOW_BALLOON_DETAILS_LINK_CLICKED = 29;
     TOOL_WINDOW_BALLOON_DONT_SHOW_AGAIN_LINK_CLICKED = 30;
+    MIGRATE_NON_TRANSITIVE_R_CLASS_ACTION_CLICKED = 31;
   }
 
   message Page {
@@ -9769,6 +9838,8 @@ message BuildAttributionUiEvent {
       TASK_CATEGORY_CRITICAL_PATH_TASKS_ROOT = 31;
       // Task page in Group by Category page.
       TASK_CATEGORY_CRITICAL_PATH_TASK_PAGE = 32;
+      // Task category warning on 'Warnings' page
+      TASK_CATEGORY_WARNING_ROOT = 33;
     }
     // Type of current page.
     optional PageType page_type = 1;
@@ -9791,6 +9862,9 @@ message BuildAttributionUiEvent {
     CONFIGURATION_CACHING = 8;
     JETIFIER_MIGRATION = 9;
     DOWNLOADS_INFO = 10;
+    RENDERSCRIPT_MIGRATE = 11;
+    AIDL_INFO = 12;
+    NON_TRANSITIVE_R_CLASS = 13;
   }
 
   // Filter consists of items that might be included or not.
@@ -10695,6 +10769,10 @@ message UpgradeAssistantComponentInfo {
     REDUNDANT_PROPERTIES = 19;
     ANDROID_MANIFEST_PACKAGE = 20;
     R8_FULL_MODE_DEFAULT = 21;
+    RENDER_SCRIPT_DEFAULT = 22;
+    NON_TRANSITIVE_R_CLASS_DEFAULT = 23;
+    AIDL_DEFAULT = 24;
+    BUILD_CONFIG_DEFAULT = 25;
   }
 
   message Java8DefaultProcessorSettings {
@@ -11898,87 +11976,35 @@ message FastPreviewEvent {
 }
 
 message MemoryUsageReportEvent {
-  enum ComponentCategory {
-    DEFAULT_COMPONENT_CATEGORY = 0;
-    ANDROID_RESOURCE_MANAGER_CATEGORY = 1;
-    ANDROID_RESOURCE_REPOSITORY_CATEGORY = 2;
-    ANDROID_DESIGN_TOOLS_CATEGORY = 3;
-    ANDROID_GRADLE_CATEGORY = 4;
-    ANDROID_PROFILER_CATEGORY = 5;
-    ANDROID_TEMPLATES_CATEGORY = 6;
-    ANDROID_RUN_DEBUG_CATEGORY = 7;
-    ANDROID_LINT_CATEGORY = 8;
-    ANDROID_CPP_CATEGORY = 9;
-    ANDROID_AVDMANAGER_CATEGORY = 10;
-    ANDROID_EDITORS_CATEGORY = 11;
-    ANDROID_DIAGNOSTICS_CATEGORY = 12;
-    ANDROID_DATA_BINDINGS_CATEGORY = 13;
-    ANDROID_SDK_CATEGORY = 14;
-    INTELLIJ_PLATFORM_CATEGORY = 15;
-    ANDROID_REST_CATEGORY = 16;
+  message ObjectsStatistics {
+    optional uint32 objects_count = 1;
+    optional uint64 total_size_bytes = 2;
   }
 
-  enum ComponentKind {
-    reserved 10;
-
-    DEFAULT_COMPONENT_KIND = 0;
-    ANDROID_RESOURCE_MANAGER = 1;
-    ANDROID_RESOURCE_REPOSITORY = 2;
-    ANDROID_RENDERING = 3;
-    ANDROID_LAYOUT_EDITOR = 4;
-    ANDROID_LAYOUTLIB = 5;
-    ANDROID_NAVEDITOR = 6;
-    ANDROID_GRADLE = 7;
-    ANDROID_PROFILER = 8;
-    ANDROID_TEMPLATES = 9;
-    ANDROID_LOGCAT = 11;
-    ANDROID_LINT = 12;
-    ANDROID_CPP = 13;
-    ANDROID_AVDMANAGER = 14;
-    ANDROID_EDITORS = 15;
-    ANDROID_INSPECTIONS = 16;
-    ANDROID_DIAGNOSTICS = 17;
-    ANDROID_DATA_BINDINGS = 18;
-    ANDROID_SDK = 19;
-    INTELLIJ_KOTLIN = 20;
-    INTELLIJ_PROJECT = 21;
-    INTELLIJ_APPLICATION = 22;
-    INTELLIJ_MODULE = 23;
-    INTELLIJ_VFS = 24;
-    INTELLIJ_EDITOR = 25;
-    INTELLIJ_PSI = 26;
-    ANDROID_TRANSPORT = 27;
-    ANDROID_RUN_DEPLOYER = 28;
-    ANDROID_DDM = 29;
-    ANDROID_DEBUG = 30;
-    ANDROID_APK_VIEW = 31;
-    ANDROID_REST = 32;
+  message MemoryTrafficStatistics {
+    optional ObjectsStatistics total_stats = 1;
+    optional ObjectsStatistics new_generation_stats = 2;
+    repeated ObjectsStatistics old_generations_stats = 3;
   }
 
-  message ComponentMemoryUsage {
-    optional ComponentKind component = 1;
-    optional uint32 owned_objects_number = 2;
-    optional uint64 owned_objects_total_size = 3;
-    optional uint32 retained_objects_number = 4;
-    optional uint64 retained_objects_total_size = 5;
+  message ClusterObjectsStatistics {
+    optional MemoryTrafficStatistics owned_cluster_stats = 1;
+    optional MemoryTrafficStatistics retained_cluster_stats = 2;
+  }
+
+  message ClusterMemoryUsage {
+    optional string label = 1;
+    optional ClusterObjectsStatistics stats = 2;
   }
 
   message SharedClusterMemoryUsage {
-    repeated ComponentKind components = 1 [packed = true];
-    optional uint32 objects_number = 2;
-    optional uint64 objects_total_size = 3;
-  }
-
-  message ComponentCategoryMemoryUsage {
-    optional ComponentCategory component_category = 1;
-    optional uint32 owned_objects_number = 2;
-    optional uint64 owned_objects_total_size = 3;
-    optional uint32 retained_objects_number = 4;
-    optional uint64 retained_objects_total_size = 5;
+    // Ids of the components, enumerated according to used_components field
+    repeated int32 ids = 1 [packed = true];
+    optional MemoryTrafficStatistics stats = 2;
   }
 
   message MemoryUsageCollectionMetadata {
-    enum ErrorCode {
+    enum StatusCode {
       NO_ERROR = 0;
       HEAP_IS_TOO_BIG = 1;
       CANT_TAG_OBJECTS =
@@ -11994,21 +12020,24 @@ message MemoryUsageReportEvent {
       AGENT_LOAD_FAILED = 7;  // Loading object tagging java agent failed
     }
 
-    optional ErrorCode error_code = 1;
-    optional uint32 total_heap_objects_count = 2;
-    optional uint64 total_heap_objects_size = 3;
-    optional uint32 max_field_cache_size = 4;
-    optional uint32 max_object_queue_size = 5;
+    optional StatusCode status_code = 1;
+    optional MemoryTrafficStatistics total_heap_objects_stats = 2;
+    optional uint32 field_cache_count_peak = 3;
+    optional uint32 object_queue_length_peak = 4;
     // number of objects that were enumerated during the first traverse, but
     // GCed after that and were not reached during the second pass.
-    optional uint32 enumerated_garbage_collected_objects_count = 6;
-    optional double collection_time_seconds = 7;
-    optional bool is_in_power_save_mode = 8;
-    optional uint32 unsuccessful_field_accesses_number = 9;
+    optional uint32 garbage_collected_before_2pass_count = 5;
+    optional double collection_time_seconds = 6;
+    optional bool is_in_power_save_mode = 7;
+    optional uint32 unsuccessful_field_accesses_count = 8;
+    optional double collection_start_timestamp_seconds = 9;
+    // Sequence number of report collection iteration that happened in this
+    // IDE session.
+    optional int32 collection_iteration = 10;
   }
 
-  repeated ComponentMemoryUsage component_stats = 1;
-  repeated SharedClusterMemoryUsage shared_stats = 2;
-  repeated ComponentCategoryMemoryUsage component_category_stats = 3;
-  optional MemoryUsageCollectionMetadata metadata = 4;
+  repeated ClusterMemoryUsage component_stats = 1;
+  repeated SharedClusterMemoryUsage shared_component_stats = 2;
+  repeated ClusterMemoryUsage component_category_stats = 4;
+  optional MemoryUsageCollectionMetadata metadata = 6;
 }
