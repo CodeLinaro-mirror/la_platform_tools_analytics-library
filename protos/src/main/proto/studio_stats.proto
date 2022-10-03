@@ -1232,6 +1232,9 @@ message AndroidStudioEvent {
 
     // Event containing a per-component memory usage report
     MEMORY_USAGE_REPORT_EVENT = 264;
+
+    // A sync between Android Studio and Gradle was cancelled.
+    GRADLE_SYNC_CANCELLED = 265;
   }
 
   // Represents different Performance Monitoring types.
