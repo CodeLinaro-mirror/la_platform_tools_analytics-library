@@ -6577,6 +6577,29 @@ message RunWithProfilingMetadata {
   }
 }
 
+// Metadata for PERFETTO_SDK_HANDSHAKE (for apps relying on tracing-perfetto)
+message PerfettoSdkHandshakeMetadata {
+  // Outcome of the handshake
+  optional HandshakeResult handshake_result = 1;
+
+  // Adapted from tracing-perfetto response codes: http://shortn/_nogjJTzVBc
+  // with the following changes:
+  // - different indexing as by proto convention we reserve 0 for UNKNOWN value
+  // - no enum value for BINARY_MISSING as it's expected and part of the process
+  // - new enum value for BINARY_UNAVAILABLE when Studio tries to fetch binaries
+  //   from Maven but is unable to, e.g. because of lack of Internet connection
+  enum HandshakeResult {
+    UNKNOWN_RESULT = 0;
+    UNSUPPORTED = 1;  // If the app does have tracing-perfetto as a dependency
+    SUCCESS = 2;
+    ALREADY_ENABLED = 3;           // Not an error; still worth tracking
+    ERROR_BINARY_UNAVAILABLE = 4;  // E.g. if no Internet connection
+    ERROR_BINARY_VERSION_MISMATCH = 5;
+    ERROR_BINARY_VERIFICATION_ERROR = 6;
+    ERROR_OTHER = 7;
+  }
+}
+
 // Android Profiler metrics
 message AndroidProfilerEvent {
   // The current stage we're on when this event was generated
@@ -6651,6 +6674,9 @@ message AndroidProfilerEvent {
 
   // Set if |type| is |RUN_WITH_PROFILING|
   optional RunWithProfilingMetadata run_with_profiling_metadata = 24;
+
+  // Set if |type| is |PERFETTO_SDK_HANDSHAKE|
+  optional PerfettoSdkHandshakeMetadata perfetto_sdk_handshake_metadata = 25;
 
   enum Stage {
     UNKNOWN_STAGE = 0;
@@ -6756,6 +6782,7 @@ message AndroidProfilerEvent {
     SELECT_FRAME = 220;
     TOGGLE_ALL_FRAMES = 221;
     TOGGLE_LIFECYCLE = 222;
+    PERFETTO_SDK_HANDSHAKE = 223;
 
     /// Memory
 
