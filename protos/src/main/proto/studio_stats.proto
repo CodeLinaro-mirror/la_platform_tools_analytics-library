@@ -1232,6 +1232,9 @@ message AndroidStudioEvent {
 
     // Event containing a per-component memory usage report
     MEMORY_USAGE_REPORT_EVENT = 264;
+
+    // A sync between Android Studio and Gradle was cancelled.
+    GRADLE_SYNC_CANCELLED = 265;
   }
 
   // Represents different Performance Monitoring types.
@@ -1361,6 +1364,7 @@ message AndroidStudioEvent {
     MACROBENCHMARK_LIBRARY_MODULE = 64;
     GOOGLE_PAY_ACTIVITY = 65;
     WEAR_OS_COMPOSE_ACTIVITY = 66;
+    GOOGLE_WALLET_ACTIVITY = 67;
   }
 
   // Wizard Templates Usage (New Project, New Module and New Component)
@@ -1417,6 +1421,7 @@ message AndroidStudioEvent {
         RESPONSIVE_ACTIVITY = 57;
         GOOGLE_PAY_ACTIVITY = 58;
         CPP_GAME_ACTIVITY = 60;
+        GOOGLE_WALLET_ACTIVITY = 61;
 
         FRAGMENT_LIST = 23;
         FRAGMENT_BLANK = 24;
@@ -1754,6 +1759,9 @@ message AndroidStudioEvent {
     // but API and associated types were left intact to not fail sync with
     // ClassNotFoundException which would be confusing to users.
     TYPE_REMOVED_API = 60;
+
+    // KMP projects with java plugin creates incorrect sourceSets in IDE
+    TYPE_KMP_INCORRECT_PLATFORM_SOURCE_SET = 61;
 
     // NOTE: When adding a new type here, increment the index by 1. This index
     // may not be consistent with the corresponding value in the Android Gradle
@@ -6569,6 +6577,29 @@ message RunWithProfilingMetadata {
   }
 }
 
+// Metadata for PERFETTO_SDK_HANDSHAKE (for apps relying on tracing-perfetto)
+message PerfettoSdkHandshakeMetadata {
+  // Outcome of the handshake
+  optional HandshakeResult handshake_result = 1;
+
+  // Adapted from tracing-perfetto response codes: http://shortn/_nogjJTzVBc
+  // with the following changes:
+  // - different indexing as by proto convention we reserve 0 for UNKNOWN value
+  // - no enum value for BINARY_MISSING as it's expected and part of the process
+  // - new enum value for BINARY_UNAVAILABLE when Studio tries to fetch binaries
+  //   from Maven but is unable to, e.g. because of lack of Internet connection
+  enum HandshakeResult {
+    UNKNOWN_RESULT = 0;
+    UNSUPPORTED = 1;  // If the app does have tracing-perfetto as a dependency
+    SUCCESS = 2;
+    ALREADY_ENABLED = 3;           // Not an error; still worth tracking
+    ERROR_BINARY_UNAVAILABLE = 4;  // E.g. if no Internet connection
+    ERROR_BINARY_VERSION_MISMATCH = 5;
+    ERROR_BINARY_VERIFICATION_ERROR = 6;
+    ERROR_OTHER = 7;
+  }
+}
+
 // Android Profiler metrics
 message AndroidProfilerEvent {
   // The current stage we're on when this event was generated
@@ -6643,6 +6674,9 @@ message AndroidProfilerEvent {
 
   // Set if |type| is |RUN_WITH_PROFILING|
   optional RunWithProfilingMetadata run_with_profiling_metadata = 24;
+
+  // Set if |type| is |PERFETTO_SDK_HANDSHAKE|
+  optional PerfettoSdkHandshakeMetadata perfetto_sdk_handshake_metadata = 25;
 
   enum Stage {
     UNKNOWN_STAGE = 0;
@@ -6748,6 +6782,7 @@ message AndroidProfilerEvent {
     SELECT_FRAME = 220;
     TOGGLE_ALL_FRAMES = 221;
     TOGGLE_LIFECYCLE = 222;
+    PERFETTO_SDK_HANDSHAKE = 223;
 
     /// Memory
 
