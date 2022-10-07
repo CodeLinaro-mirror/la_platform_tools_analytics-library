@@ -8853,6 +8853,7 @@ enum EditorFileType {
   XML_RES_TRANSITION = 21;
   XML_RES_VALUES = 22;
   XML_RES_XML = 23;
+  KOTLIN_COMPOSE = 24;
 }
 
 message TypingLatencyStats {
