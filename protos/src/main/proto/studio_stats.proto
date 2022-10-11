@@ -6288,6 +6288,9 @@ message CpuCaptureMetadata {
 
   // How much time it took to stop CPU recording.
   optional int32 stopping_time_ms = 8;
+
+  // Whether the trace contains Compose Tracing nodes
+  optional bool has_compose_tracing_nodes = 9;
 }
 
 // Data associated with importing CPU traces.
@@ -6306,6 +6309,7 @@ message CpuImportTraceMetadata {
     ART_TECHNOLOGY = 1;
     SIMPLEPERF_TECHNOLOGY = 2;
     ATRACE_TECHNOLOGY = 3;
+    PERFETTO_TECHNOLOGY = 4;
   }
 
   // Status of the import trace action.
@@ -6314,6 +6318,9 @@ message CpuImportTraceMetadata {
   // Technology used to generate the trace imported.
   // Technologies supported are ART, simpleperf and atrace.
   optional Technology technology = 2;
+
+  // Whether the trace contains Compose Tracing nodes
+  optional bool has_compose_tracing_nodes = 3;
 }
 
 // Metadata associated with how users are using the profilers filter.
@@ -6600,6 +6607,13 @@ message PerfettoSdkHandshakeMetadata {
   }
 }
 
+// Metadata for RESOLVE_COMPOSE_TRACING_CODE_LOCATION (navigating to source for
+// Compose Tracing events in the Profiler UI)
+message ResolveComposeTracingCodeLocationMetadata {
+  // Number of source-code locations resolved for the query
+  optional int32 result_count = 1;
+}
+
 // Android Profiler metrics
 message AndroidProfilerEvent {
   // The current stage we're on when this event was generated
@@ -6677,6 +6691,10 @@ message AndroidProfilerEvent {
 
   // Set if |type| is |PERFETTO_SDK_HANDSHAKE|
   optional PerfettoSdkHandshakeMetadata perfetto_sdk_handshake_metadata = 25;
+
+  // Set if |type| is |RESOLVE_COMPOSE_TRACING_CODE_LOCATION|
+  optional ResolveComposeTracingCodeLocationMetadata
+      resolve_compose_tracing_code_location_metadata = 26;
 
   enum Stage {
     UNKNOWN_STAGE = 0;
@@ -6758,6 +6776,9 @@ message AndroidProfilerEvent {
     TRACK_GROUP_ACTION = 116;
     // A loading event
     LOADING = 117;
+    // Triggered when a Compose Tracing slice is engaged in an to attempt to
+    // navigate to code
+    RESOLVE_COMPOSE_TRACING_CODE_LOCATION = 118;
 
     /// CPU
 
