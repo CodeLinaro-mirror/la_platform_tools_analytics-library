@@ -534,6 +534,9 @@ message AndroidStudioEvent {
   // or kind = SDK_INDEX_DEFAULT_DATA_ERROR
   optional SdkIndexLoadingDetails sdk_index_loading_details = 152;
 
+  // set when kind = MANIFEST_MERGER_STATS
+  optional ManifestMergerStats manifest_merger_stats = 153;
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -1235,6 +1238,9 @@ message AndroidStudioEvent {
 
     // A sync between Android Studio and Gradle was cancelled.
     GRADLE_SYNC_CANCELLED = 265;
+
+    // Event containing latency stats for manifest merge run from the IDE
+    MANIFEST_MERGER_STATS = 266;
   }
 
   // Represents different Performance Monitoring types.
@@ -11763,6 +11769,14 @@ message LiveEditEvent {
     UNSUPPORTED_MODIFY_INHERITANCE = 9;
   }
 
+  enum Mode {
+    UNKNOWN_MODE = 0;
+    // The LiveEdit push was triggered automatically.
+    AUTO = 1;
+    // The LiveEdit push was triggered by the user.
+    MANUAL = 2;
+  }
+
   // Result of the LiveEdit device push
   optional Status status = 1;
   // Whether the changed code involves a non-@Composable method
@@ -11771,6 +11785,8 @@ message LiveEditEvent {
   optional int64 compile_duration_ms = 3;
   // The duration of the LiveEdit push, in milliseconds
   optional int64 push_duration_ms = 4;
+  // How the LiveEdit push was triggered
+  optional Mode mode = 5;
 }
 
 message GoogleLoginPluginEvent {
@@ -12097,4 +12113,19 @@ message MemoryUsageReportEvent {
   repeated SharedClusterMemoryUsage shared_component_stats = 2;
   repeated ClusterMemoryUsage component_category_stats = 4;
   optional MemoryUsageCollectionMetadata metadata = 6;
+}
+
+message ManifestMergerStats {
+  // The following run times measure how long it takes to creating a new
+  // MergedManifestSnapshot, including calling into the manifest merger
+  // component. This corresponds to the amount of time spent in a cancellable
+  // read action.
+
+  // Histogram of run times with successful completion
+  optional Histogram success_run_time_ms = 1;
+  // Histogram of run times when execution was canceled due to read lock being
+  // canceled in favor of a write lock
+  optional Histogram canceled_run_time_ms = 2;
+  // Histogram of run times when execution failed with a parsing or other error
+  optional Histogram failed_run_time_ms = 3;
 }
