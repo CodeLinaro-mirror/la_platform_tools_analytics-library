@@ -3476,7 +3476,7 @@ message TestRun {
 // Each string field of this message holds the exact version of the given
 // library (e.g. "1.0.0") that the field name represents. The field is populated
 // only if this project uses the given library.
-// Next ID: 41
+// Next ID: 42
 message TestLibraries {
   // "com.android.support.test:runner".
   optional string test_support_library_version = 1;
@@ -3527,6 +3527,8 @@ message TestLibraries {
   optional string espresso_idling_resource_version = 8;
   // "androidx.test.espresso:espresso-accessibility"
   optional string espresso_accessibility_version = 9;
+  // "androidx.test.espresso:espresso-device"
+  optional string espresso_device_version = 41;
 
   // "androidx.fragment:fragment-testing".
   optional string fragment_testing_version = 17;
