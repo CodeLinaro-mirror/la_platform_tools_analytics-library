@@ -12093,6 +12093,9 @@ message MemoryUsageReportEvent {
       LOW_MEMORY = 6;  // LowMemory state occurred during the heap traversal
                        // (and collecting was immediately stopped)
       AGENT_LOAD_FAILED = 7;  // Loading object tagging java agent failed
+      POWER_SAVING_MODE_ENABLED = 8;  // Power saving mode is enabled, report
+                                      // collection will be aborted to reduce
+                                      // the CPU load.
     }
 
     optional StatusCode status_code = 1;
