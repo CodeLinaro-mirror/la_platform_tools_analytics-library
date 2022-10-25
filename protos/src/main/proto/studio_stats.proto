@@ -11940,6 +11940,12 @@ message AppQualityInsightsUsageEvent {
 
     // AQI Experiences an error
     ERROR = 7;
+
+    // User closed/opened the issue from AQI
+    ISSUE_STATUS_CHANGED = 8;
+
+    // User added/removed/edited a note to an issue
+    NOTE = 9;
   }
 
   enum CrashType {
@@ -11997,6 +12003,15 @@ message AppQualityInsightsUsageEvent {
       NON_FATAL = 2;
       ALL = 3;
     }
+    enum SignalFilter {
+      UNKNOWN_SIGNAL = 0;
+      ALL_SIGNAL = 1;
+      EARLY_SIGNAL = 2;
+      FRESH_SIGNAL = 3;
+      REGRESSIVE_SIGNAL = 4;
+      REPETITIVE_SIGNAL = 5;
+    }
+
     // The Time filter used for this fetch of crashes
     optional TimeFilter time_filter = 1;
     // Whether the version filter is enabled for this fetch (false means all
@@ -12014,6 +12029,13 @@ message AppQualityInsightsUsageEvent {
     // Whether the fetch hit a cached result (true means no network request was
     // made)
     optional bool cache = 7;
+    // The signal filter used for this fetch
+    optional SignalFilter signal_filter = 8;
+    // Whether the os filter is enabled for this fetch (false means all OSes)
+    optional bool os_filter = 9;
+    // Whether the device filter is enabled for this fetch (false means all
+    // devices)
+    optional bool device_filter = 10;
   }
 
   message AppQualityInsightsCrashOpenDetails {
@@ -12083,6 +12105,24 @@ message AppQualityInsightsUsageEvent {
     optional int32 api_error_code = 2;
   }
 
+  message AppQualityInsightsIssueChangedDetails {
+    enum StatusChange {
+      UNKNOWN_CHANGE = 0;
+      OPENED = 1;
+      CLOSED = 2;
+    }
+    optional StatusChange status_change = 1;
+  }
+
+  message AppQualityInsightsNotesDetails {
+    enum NoteEvent {
+      UNKNOWN_EVENT = 0;
+      ADDED = 1;
+      REMOVED = 2;
+    }
+    optional NoteEvent note_event = 1;
+  }
+
   // The app_id is the id for the user's android app
   // which we salt on the client (28 day rotation) then sha256
   // so it is anonymized and is unique per user, but has a 1-N relation.
@@ -12111,6 +12151,15 @@ message AppQualityInsightsUsageEvent {
 
   // set when type = ERROR
   optional AppQualityInsightsErrorDetails error_details = 9;
+
+  // set when type = ISSUE_STATUS_CHANGED
+  optional AppQualityInsightsIssueChangedDetails issue_changed_details = 10;
+
+  // set when type = NOTE
+  optional AppQualityInsightsNotesDetails notes_details = 11;
+
+  // This event occurred while AQI was in offline mode
+  optional bool is_offline = 12;
 }
 
 message FastPreviewEvent {
