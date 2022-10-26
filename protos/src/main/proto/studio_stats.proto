@@ -7578,6 +7578,14 @@ message DynamicLayoutInspectorErrorInfo {
     APP_INSPECTION_PROGUARDED_APP = 206;
     // An inspector artifact can't be resolved
     APP_INSPECTION_ARTIFACT_NOT_FOUND = 207;
+    // The compose:ui:ui version file was missing
+    APP_INSPECTION_VERSION_FILE_NOT_FOUND = 208;
+    // Snapshot version used, but use.snapshot.jar flag is not set
+    APP_INSPECTION_SNAPSHOT_NOT_SPECIFIED = 209;
+    // Compose inspector not found.
+    APP_INSPECTION_COMPOSE_INSPECTOR_NOT_FOUND = 210;
+    // Failed to download compose inspector from maven
+    APP_INSPECTION_FAILED_MAVEN_DOWNLOAD = 211;
   }
 
   // How far we got on initial connect before an error happened, when sending
@@ -7734,6 +7742,9 @@ message DynamicLayoutInspectorAttachToProcess {
   optional bool success = 2;
   // Error information if the attach failed
   optional DynamicLayoutInspectorErrorInfo error_info = 3;
+  // Error information if the compose inspector failed
+  optional DynamicLayoutInspectorErrorInfo.AttachErrorCode compose_error_code =
+      4;
 
   // The Client type
   enum ClientType {
