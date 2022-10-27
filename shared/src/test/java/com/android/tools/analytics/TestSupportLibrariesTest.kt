@@ -51,6 +51,8 @@ class TestSupportLibrariesTest {
       newBuilder().setEspressoIntentsVersion("1.0").build())
     assertThat(newBuilder().recordTestLibrary("androidx.test.espresso", "espresso-web", "1.0").build()).isEqualTo(
       newBuilder().setEspressoWebVersion("1.0").build())
+    assertThat(newBuilder().recordTestLibrary("androidx.test.espresso", "espresso-device", "1.0").build()).isEqualTo(
+      newBuilder().setEspressoDeviceVersion("1.0").build())
     assertThat(newBuilder().recordTestLibrary("androidx.test.ext", "junit", "1.0").build()).isEqualTo(
       newBuilder().setTestExtJunitVersion("1.0").build())
     assertThat(newBuilder().recordTestLibrary("androidx.test.ext", "junit-ktx", "1.0").build()).isEqualTo(

@@ -534,6 +534,9 @@ message AndroidStudioEvent {
   // or kind = SDK_INDEX_DEFAULT_DATA_ERROR
   optional SdkIndexLoadingDetails sdk_index_loading_details = 152;
 
+  // set when kind = MANIFEST_MERGER_STATS
+  optional ManifestMergerStats manifest_merger_stats = 153;
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -1235,6 +1238,9 @@ message AndroidStudioEvent {
 
     // A sync between Android Studio and Gradle was cancelled.
     GRADLE_SYNC_CANCELLED = 265;
+
+    // Event containing latency stats for manifest merge run from the IDE
+    MANIFEST_MERGER_STATS = 266;
   }
 
   // Represents different Performance Monitoring types.
@@ -3470,7 +3476,7 @@ message TestRun {
 // Each string field of this message holds the exact version of the given
 // library (e.g. "1.0.0") that the field name represents. The field is populated
 // only if this project uses the given library.
-// Next ID: 41
+// Next ID: 42
 message TestLibraries {
   // "com.android.support.test:runner".
   optional string test_support_library_version = 1;
@@ -3521,6 +3527,8 @@ message TestLibraries {
   optional string espresso_idling_resource_version = 8;
   // "androidx.test.espresso:espresso-accessibility"
   optional string espresso_accessibility_version = 9;
+  // "androidx.test.espresso:espresso-device"
+  optional string espresso_device_version = 41;
 
   // "androidx.fragment:fragment-testing".
   optional string fragment_testing_version = 17;
@@ -7570,6 +7578,14 @@ message DynamicLayoutInspectorErrorInfo {
     APP_INSPECTION_PROGUARDED_APP = 206;
     // An inspector artifact can't be resolved
     APP_INSPECTION_ARTIFACT_NOT_FOUND = 207;
+    // The compose:ui:ui version file was missing
+    APP_INSPECTION_VERSION_FILE_NOT_FOUND = 208;
+    // Snapshot version used, but use.snapshot.jar flag is not set
+    APP_INSPECTION_SNAPSHOT_NOT_SPECIFIED = 209;
+    // Compose inspector not found.
+    APP_INSPECTION_COMPOSE_INSPECTOR_NOT_FOUND = 210;
+    // Failed to download compose inspector from maven
+    APP_INSPECTION_FAILED_MAVEN_DOWNLOAD = 211;
   }
 
   // How far we got on initial connect before an error happened, when sending
@@ -7726,6 +7742,9 @@ message DynamicLayoutInspectorAttachToProcess {
   optional bool success = 2;
   // Error information if the attach failed
   optional DynamicLayoutInspectorErrorInfo error_info = 3;
+  // Error information if the compose inspector failed
+  optional DynamicLayoutInspectorErrorInfo.AttachErrorCode compose_error_code =
+      4;
 
   // The Client type
   enum ClientType {
@@ -11763,6 +11782,14 @@ message LiveEditEvent {
     UNSUPPORTED_MODIFY_INHERITANCE = 9;
   }
 
+  enum Mode {
+    UNKNOWN_MODE = 0;
+    // The LiveEdit push was triggered automatically.
+    AUTO = 1;
+    // The LiveEdit push was triggered by the user.
+    MANUAL = 2;
+  }
+
   // Result of the LiveEdit device push
   optional Status status = 1;
   // Whether the changed code involves a non-@Composable method
@@ -11771,6 +11798,8 @@ message LiveEditEvent {
   optional int64 compile_duration_ms = 3;
   // The duration of the LiveEdit push, in milliseconds
   optional int64 push_duration_ms = 4;
+  // How the LiveEdit push was triggered
+  optional Mode mode = 5;
 }
 
 message GoogleLoginPluginEvent {
@@ -12075,6 +12104,9 @@ message MemoryUsageReportEvent {
       LOW_MEMORY = 6;  // LowMemory state occurred during the heap traversal
                        // (and collecting was immediately stopped)
       AGENT_LOAD_FAILED = 7;  // Loading object tagging java agent failed
+      POWER_SAVING_MODE_ENABLED = 8;  // Power saving mode is enabled, report
+                                      // collection will be aborted to reduce
+                                      // the CPU load.
     }
 
     optional StatusCode status_code = 1;
@@ -12097,4 +12129,19 @@ message MemoryUsageReportEvent {
   repeated SharedClusterMemoryUsage shared_component_stats = 2;
   repeated ClusterMemoryUsage component_category_stats = 4;
   optional MemoryUsageCollectionMetadata metadata = 6;
+}
+
+message ManifestMergerStats {
+  // The following run times measure how long it takes to creating a new
+  // MergedManifestSnapshot, including calling into the manifest merger
+  // component. This corresponds to the amount of time spent in a cancellable
+  // read action.
+
+  // Histogram of run times with successful completion
+  optional Histogram success_run_time_ms = 1;
+  // Histogram of run times when execution was canceled due to read lock being
+  // canceled in favor of a write lock
+  optional Histogram canceled_run_time_ms = 2;
+  // Histogram of run times when execution failed with a parsing or other error
+  optional Histogram failed_run_time_ms = 3;
 }
