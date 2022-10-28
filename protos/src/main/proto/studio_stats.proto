@@ -9454,6 +9454,8 @@ message ComposeAnimationToolingEvent {
     UNLOCK_ANIMATION = 21;
     RESET_TIMELINE = 22;
     DRAG_TIMELINE_LINE = 23;
+    // Open the picker to change the state of the animation.
+    OPEN_PICKER = 24;
   }
 
   // Type of event.
@@ -9754,6 +9756,18 @@ message BuildDownloadsAnalysisData {
   repeated RepositoryStats repositories = 1;
 }
 
+message TaskCategoryIssuesData {
+  enum TaskCategoryIssue {
+    UNKNOWN_ISSUE = 0;
+    NON_FINAL_RES_IDS_DISABLED = 1;
+    NON_TRANSITIVE_R_CLASS_DISABLED = 2;
+    RESOURCE_VALIDATION_ENABLED = 3;
+    MINIFICATION_ENABLED_IN_DEBUG_BUILD = 4;
+  }
+
+  repeated TaskCategoryIssue reported_issues = 1 [packed = true];
+}
+
 // Data about build attribution analyzers
 message BuildAttributionAnalyzersData {
   // Total build time in microseconds
@@ -9778,6 +9792,8 @@ message BuildAttributionAnalyzersData {
   optional JetifierUsageData jetifier_usage_data = 8;
   // Data from downloads analyzer
   optional BuildDownloadsAnalysisData downloads_analysis_data = 9;
+  // Data from task category issues
+  optional TaskCategoryIssuesData task_category_issues_data = 10;
 }
 
 // Data about build attribution performance
