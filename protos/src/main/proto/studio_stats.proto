@@ -7586,6 +7586,14 @@ message DynamicLayoutInspectorErrorInfo {
     APP_INSPECTION_COMPOSE_INSPECTOR_NOT_FOUND = 210;
     // Failed to download compose inspector from maven
     APP_INSPECTION_FAILED_MAVEN_DOWNLOAD = 211;
+
+    // ----------------------------------
+    // Error codes from Transport Layer
+    // ----------------------------------
+
+    TRANSPORT_UNKNOWN_ERROR = 301;
+    TRANSPORT_PUSH_FAILED_FILE_NOT_FOUND = 302;
+    TRANSPORT_FAILED_TO_START_DAEMON = 303;
   }
 
   // How far we got on initial connect before an error happened, when sending
