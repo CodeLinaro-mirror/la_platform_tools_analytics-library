@@ -9806,6 +9806,10 @@ message BuildAttributionPerformanceStats {
   // The latency introduced by the tooling API events (the duration from
   // when the build is finished until when the build finished event is received)
   optional int64 tooling_api_build_finished_event_latency_ms = 3;
+  // The number of partial result files generated in AGP which corresponds to
+  // the number of build services created per the build, which corresponds to
+  // the number of classloaders.
+  optional int32 number_of_generated_partial_results = 4;
 }
 
 // Stats about build attribution
