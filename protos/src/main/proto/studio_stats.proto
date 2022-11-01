@@ -134,7 +134,7 @@ message AndroidStudioEvent {
   // kind FIREBASE_ASSISTANT_SILENT_ERROR
   optional FirebaseErrorDetails firebase_error_details = 30;
 
-  // Client-side salted (rotating every 28 days), sha256 of the project id.
+  // Client-side salted (rotating every 532 days), sha256 of the project id.
   // set when kind = PROJECT_STRUCTURE_* or kind = APK_ANALYZER_STATS
   optional string project_id = 31;
 
@@ -10873,6 +10873,7 @@ message UpgradeAssistantComponentInfo {
     NON_TRANSITIVE_R_CLASS_DEFAULT = 23;
     AIDL_DEFAULT = 24;
     BUILD_CONFIG_DEFAULT = 25;
+    PROJECT_JDK = 26;
   }
 
   message Java8DefaultProcessorSettings {
