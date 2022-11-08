@@ -4513,16 +4513,35 @@ message GradleTaskExecution {
   // Whether the task did work (TaskState#getDidWork())
   // This is not necessarily the inverse of up_to_date: see
   // https://docs.gradle.org/current/javadoc/org/gradle/api/tasks/TaskState.html#getDidWork()
-  optional bool did_work = 2;
+  // DEPRECATED since 11/2022 (AGP 8.0). Use task_state instead.
+  optional bool did_work = 2 [deprecated = true];
 
   // Whether the task was skipped (TaskState#getSkipped())
-  optional bool skipped = 3;
+  // DEPRECATED since 11/2022 (AGP 8.0). Use task_state instead.
+  optional bool skipped = 3 [deprecated = true];
 
   // Whether the task was up to date (TaskState#getUpToDate())
-  optional bool up_to_date = 4;
+  // DEPRECATED since 11/2022 (AGP 8.0). Use task_state instead.
+  optional bool up_to_date = 4 [deprecated = true];
 
   // Whether the task failed
-  optional bool failed = 5;
+  // DEPRECATED since 11/2022 (AGP 8.0). Use task_state instead.
+  optional bool failed = 5 [deprecated = true];
+
+  // State of the task during the build
+  optional TaskState task_state = 6;
+
+  // State of a task during a build, similar to
+  // https://docs.gradle.org/current/javadoc/org/gradle/testkit/runner/TaskOutcome.html
+  enum TaskState {
+    UNKNOWN = 0;
+    UP_TO_DATE = 1;
+    FROM_CACHE = 2;
+    DID_WORK_INCREMENTAL = 3;
+    DID_WORK_NON_INCREMENTAL = 4;
+    SKIPPED = 5;
+    FAILED = 6;
+  }
 }
 
 message GradleTransformExecution {
