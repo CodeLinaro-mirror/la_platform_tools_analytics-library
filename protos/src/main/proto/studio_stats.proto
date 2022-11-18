@@ -3123,6 +3123,14 @@ message GradleBuildDetails {
   // which we salt on the client (28 day rotation) then sha256
   // so it is anonymized and is unique per user, but has a 1-N relation.
   optional string app_id = 10;
+
+  // The number of modules in the project (In the case of a build system that
+  // produces different modules for tests and production code, these modules are
+  // counted as one).
+  optional int64 module_count = 11;
+
+  // The number of distinct external dependencies in this project.
+  optional int64 lib_count = 12;
 }
 
 // Per library Gradle metrics.

@@ -823,4 +823,5 @@ enum VariantPropertiesMethodType {
     CODE_MINIFICATION = 130;
     SHRINK_RESOURCES = 131;
     SOURCES_RESOURCES_ACCESS = 132;
+    ADD_ARTIFACTS = 133;
 }
