@@ -7445,6 +7445,8 @@ message DynamicLayoutInspectorEvent {
     ATTACH_CANCELLED = 17;
     // Info about auto-connect to foreground process
     AUTO_CONNECT_INFO = 18;
+    // A transport-related error
+    TRANSPORT_ERROR = 19;
   }
 
   // Type of event
@@ -7457,6 +7459,22 @@ message DynamicLayoutInspectorEvent {
   optional DynamicLayoutInspectorErrorInfo error_info = 4;
   // Extra info about auto connect to foreground process
   optional DynamicLayoutInspectorAutoConnectInfo auto_connect_info = 5;
+  // An error from the transport that prevents Layout Inspector from starting
+  optional DynamicLayoutInspectorTransportError transport_error = 6;
+}
+
+// Transport related errors
+message DynamicLayoutInspectorTransportError {
+  // Types of transport errors
+  enum Type {
+    UNSPECIFIED_STATE = 0;
+    // The transport failed to start the daemon
+    TRANSPORT_FAILED_TO_START_DAEMON = 1;
+    // A device is sending events with wrong timestamp
+    TRANSPORT_OLD_TIMESTAMP_BIGGER_THAN_NEW_TIMESTAMP = 2;
+  }
+
+  optional Type type = 1;
 }
 
 message DynamicLayoutInspectorAutoConnectInfo {
@@ -7471,7 +7489,7 @@ message DynamicLayoutInspectorAutoConnectInfo {
     NOT_SUPPORTED = 3;
   }
 
-  // To what a SUPPORT_UNKNOWN handshake converted to
+  // Deprecated, use HandshakeConversion instead
   enum HandshakeUnknownConversion {
     // A device with UNKNOWN support state converted to SUPPORTED
     UNKNOWN_TO_SUPPORTED = 0;
@@ -7479,6 +7497,19 @@ message DynamicLayoutInspectorAutoConnectInfo {
     UNKNOWN_TO_NOT_SUPPORTED = 1;
     // A device with UNKNOWN support state was unplugged bevore converting
     UNKNOWN_NOT_RESOLVED = 2;
+  }
+
+  // Indicates when a handshake state converts to another
+  enum HandshakeConversion {
+    UNSPECIFIED_CONVERSION = 0;
+    // A device with SUPPORT_UNKNOWN state converted to SUPPORTED
+    FROM_UNKNOWN_TO_SUPPORTED = 1;
+    // A device with SUPPORT_UNKNOWN state converted to NOT_SUPPORTED
+    FROM_UNKNOWN_TO_NOT_SUPPORTED = 2;
+    // A device with SUPPORT_UNKNOWN state was unplugged before converting
+    FROM_UNKNOWN_TO_DISCONNECTED = 3;
+    // A device with NOT_SUPPORTED state converted to SUPPORTED (false negative)
+    FROM_NOT_SUPPORTED_TO_SUPPORTED = 4;
   }
 
   // Reason why the HandshakeResult is NOT_SUPPORTED
@@ -7496,10 +7527,15 @@ message DynamicLayoutInspectorAutoConnectInfo {
 
   // The result of the handsthake. Does the device support auto connect?
   optional HandshakeResult handshake_result = 1;
-  // If the handshake was initially SUPPORT_UNKNOWN, to what did it convert to?
-  optional HandshakeUnknownConversion handshake_conversion = 2;
+  // Deprecated, use handshake_conversion_info instead
+  optional HandshakeUnknownConversion handshake_conversion = 2
+      [deprecated = true];
   // Additional info about why the handshake_result is NOT_SUPPORTED
   optional AutoConnectReasonNotSupported reason_not_supported = 3;
+  // Indicates when a handshake state converts to another
+  optional HandshakeConversion handshake_conversion_info = 4;
+  // Indicates whether this auto-connect info is about a recovery handshake
+  optional bool is_recovery_handshake = 5;
 }
 
 // Extra info for error-related events
@@ -7620,7 +7656,6 @@ message DynamicLayoutInspectorErrorInfo {
 
     TRANSPORT_UNKNOWN_ERROR = 301;
     TRANSPORT_PUSH_FAILED_FILE_NOT_FOUND = 302;
-    TRANSPORT_FAILED_TO_START_DAEMON = 303;
   }
 
   // How far we got on initial connect before an error happened, when sending
@@ -7780,6 +7815,8 @@ message DynamicLayoutInspectorAttachToProcess {
   // Error information if the compose inspector failed
   optional DynamicLayoutInspectorErrorInfo.AttachErrorCode compose_error_code =
       4;
+  // When we attached to a process, were the multiple projects open?
+  optional bool multiple_projects_open = 5;
 
   // The Client type
   enum ClientType {
