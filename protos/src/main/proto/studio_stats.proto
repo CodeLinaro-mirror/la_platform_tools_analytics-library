@@ -10942,6 +10942,8 @@ message UpgradeAssistantComponentInfo {
     AIDL_DEFAULT = 24;
     BUILD_CONFIG_DEFAULT = 25;
     PROJECT_JDK = 26;
+    NON_CONSTANT_R_CLASS_DEFAULT = 27;
+    ANDROID_MANIFEST_EXTRACT_NATIVE_LIBS = 28;
   }
 
   message Java8DefaultProcessorSettings {
