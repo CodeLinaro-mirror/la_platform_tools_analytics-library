@@ -7445,6 +7445,8 @@ message DynamicLayoutInspectorEvent {
     ATTACH_CANCELLED = 17;
     // Info about auto-connect to foreground process
     AUTO_CONNECT_INFO = 18;
+    // A transport-related error
+    TRANSPORT_ERROR = 19;
   }
 
   // Type of event
@@ -7457,6 +7459,22 @@ message DynamicLayoutInspectorEvent {
   optional DynamicLayoutInspectorErrorInfo error_info = 4;
   // Extra info about auto connect to foreground process
   optional DynamicLayoutInspectorAutoConnectInfo auto_connect_info = 5;
+  // An error from the transport that prevents Layout Inspector from starting
+  optional DynamicLayoutInspectorTransportError transport_error = 6;
+}
+
+// Transport related errors
+message DynamicLayoutInspectorTransportError {
+  // Types of transport errors
+  enum Type {
+    UNSPECIFIED_STATE = 0;
+    // The transport failed to start the daemon
+    TRANSPORT_FAILED_TO_START_DAEMON = 1;
+    // A device is sending events with wrong timestamp
+    TRANSPORT_OLD_TIMESTAMP_BIGGER_THAN_NEW_TIMESTAMP = 2;
+  }
+
+  optional Type type = 1;
 }
 
 message DynamicLayoutInspectorAutoConnectInfo {
@@ -7471,7 +7489,7 @@ message DynamicLayoutInspectorAutoConnectInfo {
     NOT_SUPPORTED = 3;
   }
 
-  // To what a SUPPORT_UNKNOWN handshake converted to
+  // Deprecated, use HandshakeConversion instead
   enum HandshakeUnknownConversion {
     // A device with UNKNOWN support state converted to SUPPORTED
     UNKNOWN_TO_SUPPORTED = 0;
@@ -7479,6 +7497,19 @@ message DynamicLayoutInspectorAutoConnectInfo {
     UNKNOWN_TO_NOT_SUPPORTED = 1;
     // A device with UNKNOWN support state was unplugged bevore converting
     UNKNOWN_NOT_RESOLVED = 2;
+  }
+
+  // Indicates when a handshake state converts to another
+  enum HandshakeConversion {
+    UNSPECIFIED_CONVERSION = 0;
+    // A device with SUPPORT_UNKNOWN state converted to SUPPORTED
+    FROM_UNKNOWN_TO_SUPPORTED = 1;
+    // A device with SUPPORT_UNKNOWN state converted to NOT_SUPPORTED
+    FROM_UNKNOWN_TO_NOT_SUPPORTED = 2;
+    // A device with SUPPORT_UNKNOWN state was unplugged before converting
+    FROM_UNKNOWN_TO_DISCONNECTED = 3;
+    // A device with NOT_SUPPORTED state converted to SUPPORTED (false negative)
+    FROM_NOT_SUPPORTED_TO_SUPPORTED = 4;
   }
 
   // Reason why the HandshakeResult is NOT_SUPPORTED
@@ -7496,10 +7527,15 @@ message DynamicLayoutInspectorAutoConnectInfo {
 
   // The result of the handsthake. Does the device support auto connect?
   optional HandshakeResult handshake_result = 1;
-  // If the handshake was initially SUPPORT_UNKNOWN, to what did it convert to?
-  optional HandshakeUnknownConversion handshake_conversion = 2;
+  // Deprecated, use handshake_conversion_info instead
+  optional HandshakeUnknownConversion handshake_conversion = 2
+      [deprecated = true];
   // Additional info about why the handshake_result is NOT_SUPPORTED
   optional AutoConnectReasonNotSupported reason_not_supported = 3;
+  // Indicates when a handshake state converts to another
+  optional HandshakeConversion handshake_conversion_info = 4;
+  // Indicates whether this auto-connect info is about a recovery handshake
+  optional bool is_recovery_handshake = 5;
 }
 
 // Extra info for error-related events
@@ -7620,7 +7656,6 @@ message DynamicLayoutInspectorErrorInfo {
 
     TRANSPORT_UNKNOWN_ERROR = 301;
     TRANSPORT_PUSH_FAILED_FILE_NOT_FOUND = 302;
-    TRANSPORT_FAILED_TO_START_DAEMON = 303;
   }
 
   // How far we got on initial connect before an error happened, when sending
@@ -7780,6 +7815,8 @@ message DynamicLayoutInspectorAttachToProcess {
   // Error information if the compose inspector failed
   optional DynamicLayoutInspectorErrorInfo.AttachErrorCode compose_error_code =
       4;
+  // When we attached to a process, were the multiple projects open?
+  optional bool multiple_projects_open = 5;
 
   // The Client type
   enum ClientType {
@@ -10905,6 +10942,8 @@ message UpgradeAssistantComponentInfo {
     AIDL_DEFAULT = 24;
     BUILD_CONFIG_DEFAULT = 25;
     PROJECT_JDK = 26;
+    NON_CONSTANT_R_CLASS_DEFAULT = 27;
+    ANDROID_MANIFEST_EXTRACT_NATIVE_LIBS = 28;
   }
 
   message Java8DefaultProcessorSettings {
@@ -11903,6 +11942,12 @@ message AppQualityInsightsUsageEvent {
 
     // AQI Experiences an error
     ERROR = 7;
+
+    // User closed/opened the issue from AQI
+    ISSUE_STATUS_CHANGED = 8;
+
+    // User added/removed/edited a note to an issue
+    NOTE = 9;
   }
 
   enum CrashType {
@@ -11960,6 +12005,15 @@ message AppQualityInsightsUsageEvent {
       NON_FATAL = 2;
       ALL = 3;
     }
+    enum SignalFilter {
+      UNKNOWN_SIGNAL = 0;
+      ALL_SIGNAL = 1;
+      EARLY_SIGNAL = 2;
+      FRESH_SIGNAL = 3;
+      REGRESSIVE_SIGNAL = 4;
+      REPETITIVE_SIGNAL = 5;
+    }
+
     // The Time filter used for this fetch of crashes
     optional TimeFilter time_filter = 1;
     // Whether the version filter is enabled for this fetch (false means all
@@ -11977,6 +12031,13 @@ message AppQualityInsightsUsageEvent {
     // Whether the fetch hit a cached result (true means no network request was
     // made)
     optional bool cache = 7;
+    // The signal filter used for this fetch
+    optional SignalFilter signal_filter = 8;
+    // Whether the os filter is enabled for this fetch (false means all OSes)
+    optional bool os_filter = 9;
+    // Whether the device filter is enabled for this fetch (false means all
+    // devices)
+    optional bool device_filter = 10;
   }
 
   message AppQualityInsightsCrashOpenDetails {
@@ -12046,6 +12107,24 @@ message AppQualityInsightsUsageEvent {
     optional int32 api_error_code = 2;
   }
 
+  message AppQualityInsightsIssueChangedDetails {
+    enum StatusChange {
+      UNKNOWN_CHANGE = 0;
+      OPENED = 1;
+      CLOSED = 2;
+    }
+    optional StatusChange status_change = 1;
+  }
+
+  message AppQualityInsightsNotesDetails {
+    enum NoteEvent {
+      UNKNOWN_EVENT = 0;
+      ADDED = 1;
+      REMOVED = 2;
+    }
+    optional NoteEvent note_event = 1;
+  }
+
   // The app_id is the id for the user's android app
   // which we salt on the client (28 day rotation) then sha256
   // so it is anonymized and is unique per user, but has a 1-N relation.
@@ -12074,6 +12153,15 @@ message AppQualityInsightsUsageEvent {
 
   // set when type = ERROR
   optional AppQualityInsightsErrorDetails error_details = 9;
+
+  // set when type = ISSUE_STATUS_CHANGED
+  optional AppQualityInsightsIssueChangedDetails issue_changed_details = 10;
+
+  // set when type = NOTE
+  optional AppQualityInsightsNotesDetails notes_details = 11;
+
+  // This event occurred while AQI was in offline mode
+  optional bool is_offline = 12;
 }
 
 message FastPreviewEvent {
