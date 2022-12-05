@@ -10749,6 +10749,10 @@ message DaggerEditorEvent {
 
   // Set if |type| is |FIND_USAGES_NODE_WAS_DISPLAYED|, |GUTTER_WAS_DISPLAYED|
   optional int64 calculation_time_ms = 4;
+
+  // Indicates whether built-in (true) or custom Dagger (false) annotation
+  // search is in use.
+  optional bool using_built_in_annotation_search = 5;
 }
 
 // Track Android Test Retention events.
