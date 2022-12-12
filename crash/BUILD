@@ -25,11 +25,12 @@ iml_module(
 maven_library(
     name = "tools.analytics-crash",
     srcs = glob(["src/main/java/**"]),
-    coordinates = "com.android.tools.analytics-library:crash:" + BASE_VERSION,
+    coordinates = "com.android.tools.analytics-library:crash",
     description = "Helper Library for uploading crash reports.",
     notice = "NOTICE",
     pom_name = "Android Tools Analytics Crash Library",
     resource_strip_prefix = "tools/analytics-library/crash",
+    version = BASE_VERSION,
     visibility = ["//visibility:public"],
     deps = [
         "//tools/base/annotations",
