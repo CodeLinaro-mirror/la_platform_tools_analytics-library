@@ -540,6 +540,10 @@ message AndroidStudioEvent {
   // set when kind = THREADING_AGENT_STATS
   optional ThreadingAgentUsageEvent threading_agent_usage_event = 154;
 
+  // set when kind = PROJECT_VIEW_SELECTION_CHANGE_EVENT
+  optional ProjectViewSelectionChangeEvent project_view_selection_change_event =
+      155;
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -1247,6 +1251,9 @@ message AndroidStudioEvent {
 
     // Event related to the usage of the threading agent
     THREADING_AGENT_STATS = 267;
+
+    // Event marking a change of view selected in the Project tool window
+    PROJECT_VIEW_SELECTION_CHANGE_EVENT = 268;
   }
 
   // Represents different Performance Monitoring types.
@@ -12319,4 +12326,16 @@ message ThreadingAgentUsageEvent {
   // The number of times the threading agent verified that a method was invoked
   // on a worker thread
   optional int64 verify_worker_thread_count = 2;
+}
+
+message ProjectViewSelectionChangeEvent {
+  enum ProjectViewContent {
+    UNKNOWN = 0;
+    ANDROID = 1;
+    PROJECT = 2;
+    OTHER = 3;
+  }
+  // For init event 'before' will be UNKNOWN
+  optional ProjectViewContent view_before_change = 1;
+  optional ProjectViewContent view_after_change = 2;
 }
