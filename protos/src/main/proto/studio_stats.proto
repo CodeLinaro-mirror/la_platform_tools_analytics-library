@@ -537,6 +537,13 @@ message AndroidStudioEvent {
   // set when kind = MANIFEST_MERGER_STATS
   optional ManifestMergerStats manifest_merger_stats = 153;
 
+  // set when kind = THREADING_AGENT_STATS
+  optional ThreadingAgentUsageEvent threading_agent_usage_event = 154;
+
+  // set when kind = PROJECT_VIEW_SELECTION_CHANGE_EVENT
+  optional ProjectViewSelectionChangeEvent project_view_selection_change_event =
+      155;
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -1241,6 +1248,12 @@ message AndroidStudioEvent {
 
     // Event containing latency stats for manifest merge run from the IDE
     MANIFEST_MERGER_STATS = 266;
+
+    // Event related to the usage of the threading agent
+    THREADING_AGENT_STATS = 267;
+
+    // Event marking a change of view selected in the Project tool window
+    PROJECT_VIEW_SELECTION_CHANGE_EVENT = 268;
   }
 
   // Represents different Performance Monitoring types.
@@ -2319,7 +2332,17 @@ message EmulatorFeatureFlagState {
     ASYNC_COMPOSE_SUPPORT = 88;
     VIRTIO_SND_CARD = 89;
     VIRTIO_TABLET = 90;
-    // Next tag: 91
+    RGTC_TEXTURE_SUPPORT = 91 [deprecated = true];
+    VULKAN_NATIVE_SWAPCHAIN = 92;
+    VIRTIO_GPU_FENCE_CONTEXTS = 93;
+    VSOCK_SNAPSHOT_LOAD_FIXED_B231345789 = 94;
+    VULKAN_ASTC_LDR_EMULATION = 95;
+    VULKAN_YCBCR_EMULATION = 96;
+    VULKAN_ETC2_EMULATION = 97;
+    EXTERNAL_BLOB = 98;
+    DOWNLOADABLE_SNAPSHOT = 99;
+    SYSTEM_BLOB = 100;
+    // Next tag: 101
   }
   // Which features were enabled by default or through the server-side config.
   repeated EmulatorFeatureFlag attempted_enabled_feature_flags = 1;
@@ -12293,4 +12316,26 @@ message ManifestMergerStats {
   optional Histogram canceled_run_time_ms = 2;
   // Histogram of run times when execution failed with a parsing or other error
   optional Histogram failed_run_time_ms = 3;
+}
+
+message ThreadingAgentUsageEvent {
+  // The number of times the threading agent verified that a method was invoked
+  // on a UI thread
+  optional int64 verify_ui_thread_count = 1;
+
+  // The number of times the threading agent verified that a method was invoked
+  // on a worker thread
+  optional int64 verify_worker_thread_count = 2;
+}
+
+message ProjectViewSelectionChangeEvent {
+  enum ProjectViewContent {
+    UNKNOWN = 0;
+    ANDROID = 1;
+    PROJECT = 2;
+    OTHER = 3;
+  }
+  // For init event 'before' will be UNKNOWN
+  optional ProjectViewContent view_before_change = 1;
+  optional ProjectViewContent view_after_change = 2;
 }

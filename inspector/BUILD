@@ -32,11 +32,12 @@ java_binary(
 maven_library(
     name = "inspector",
     srcs = glob(["src/main/java/**"]),
-    coordinates = "com.android.tools.analytics-library:inspector:" + BASE_VERSION,
+    coordinates = "com.android.tools.analytics-library:inspector",
     description = "Tool for debugging usage analytics spool files.",
     notice = "NOTICE",
     pom_name = "Android Tools Analytics Inspector",
     resource_strip_prefix = "tools/analytics-library/inspector",
+    version = BASE_VERSION,
     visibility = ["//visibility:public"],
     deps = [
         "//tools/analytics-library/protos/src/main/proto",

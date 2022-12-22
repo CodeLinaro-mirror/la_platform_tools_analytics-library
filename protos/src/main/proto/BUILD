@@ -4,7 +4,7 @@ load("//tools/base/common:version.bzl", "BASE_VERSION")
 maven_proto_library(
     name = "proto",
     srcs = glob(["*.proto"]),
-    coordinates = "com.android.tools.analytics-library:protos:" + BASE_VERSION,
+    coordinates = "com.android.tools.analytics-library:protos",
     description = "Library containing protobufs for usage analytics.",
     java_exports = ["@maven//:com.google.protobuf.protobuf-java"],
     notice = "NOTICE",
@@ -16,6 +16,7 @@ maven_proto_library(
         "google_logs_publishing.proto",
         "studio_stats.proto",
     ],
+    version = BASE_VERSION,
     visibility = ["//visibility:public"],
 )
 
