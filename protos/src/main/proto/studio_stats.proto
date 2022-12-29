@@ -11314,6 +11314,8 @@ message KotlinProjectConfiguration {
   optional bool is_multiplatform = 6;
   // indicates the type of the configuration event (i.e. build)
   optional EventType event_type = 7;
+  // bitfield for future flags added by kotlin plugin
+  optional uint64 event_flags = 8;
 }
 
 // Data collected by IntelliJ when a run is started
