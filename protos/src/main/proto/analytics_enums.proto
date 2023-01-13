@@ -669,6 +669,7 @@ enum VariantApiArtifactType {
     METADATA_LIBRARY_DEPENDENCIES_REPORT = 9;
     APK_FROM_BUNDLE = 10;
     PROJECT_CLASSES = 11;
+    MERGED_NATIVE_LIBS = 12;
 }
 
 enum VariantMethodType {
