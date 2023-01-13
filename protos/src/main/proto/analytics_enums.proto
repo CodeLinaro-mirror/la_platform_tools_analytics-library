@@ -402,6 +402,7 @@ enum GradleTaskExecutionType {
     GLOBAL_SYNTHETICS_MERGE = 315;
     FEATURE_GLOBAL_SYNTHETICS_MERGE = 316;
     BUILD_ANALYZER = 317;
+    SIGN_ASB = 318;
 }
 
 enum BooleanOption {
