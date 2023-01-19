@@ -7844,6 +7844,8 @@ message DynamicLayoutInspectorAttachToProcess {
   optional bool debugger_attached = 6;
   // Was the debugger paused during the attach
   optional bool debugger_paused_during_attach = 7;
+  // Was auto connect enabled for this session
+  optional bool auto_connect_enabled = 8;
 
   // The Client type
   enum ClientType {
