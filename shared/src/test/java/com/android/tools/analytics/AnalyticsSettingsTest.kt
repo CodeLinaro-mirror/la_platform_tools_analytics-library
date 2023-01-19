@@ -69,8 +69,7 @@ class AnalyticsSettingsTest {
         }
     }
 
-    object countingLogger : ILogger {
-
+    class CountingLogger : ILogger {
         var errors = 0
         var warnings = 0
         var infos = 0
@@ -152,15 +151,17 @@ class AnalyticsSettingsTest {
             analyticsSettingsFileContent = "BADFILE"
 
             AnalyticsSettings.setInstanceForTest(null)
+            val countingLogger = CountingLogger()
             AnalyticsSettings.initialize(countingLogger)
 
+            // Verify that a warning has been logged
             assertEquals(1, countingLogger.warnings)
 
             AnalyticsSettings.setInstanceForTest(null)
             countingLogger.warnings = 0
             AnalyticsSettings.initialize(countingLogger)
 
-            // Verify that corrupted file has been overwritten with valid file
+            // Verify that no warnings were logged
             assertEquals(0, countingLogger.warnings)
         } finally {
             EnvironmentFakes.setSystemEnvironment()
@@ -203,6 +204,31 @@ class AnalyticsSettingsTest {
             AnalyticsSettings.initialize(failureLogger)
             // Try reading the settings file and verify that it fails.
             assertFalse(AnalyticsSettings.optedIn)
+        } finally {
+            EnvironmentFakes.setSystemEnvironment()
+        }
+    }
+
+    @Test
+    @Throws(Exception::class)
+    fun loadBadDateFormatSettingsTest() {
+        // Configure the paths to use a temp directory for reading from and writing to.
+        EnvironmentFakes.setCustomAndroidPrefsRootEnvironment(
+            testConfigDir.root.toPath().toString()
+        )
+        try {
+            // Write empty file.
+            analyticsSettingsFileContent =
+                "{ userId: \"a4d47d92-8d4c-44bb-a8a4-d2483b6e0c16\", hasOptedIn: true, \"lastSentimentQuestionDate\":\"Jan 12, 2023, 8:52:49 AM\" }"
+
+            AnalyticsSettings.setInstanceForTest(null)
+            val countingLogger = CountingLogger()
+            AnalyticsSettings.initialize(countingLogger)
+            // Try reading the settings file and verify that it fails.
+            assertFalse(AnalyticsSettings.optedIn)
+
+            // Verify that a warning has been logged
+            assertEquals(1, countingLogger.warnings)
         } finally {
             EnvironmentFakes.setSystemEnvironment()
         }
