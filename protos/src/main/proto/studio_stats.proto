@@ -7838,8 +7838,12 @@ message DynamicLayoutInspectorAttachToProcess {
   // Error information if the compose inspector failed
   optional DynamicLayoutInspectorErrorInfo.AttachErrorCode compose_error_code =
       4;
-  // When we attached to a process, were the multiple projects open?
+  // When we attached to a process, were there multiple projects open?
   optional bool multiple_projects_open = 5;
+  // Was the debugger running for this session
+  optional bool debugger_attached = 6;
+  // Was the debugger paused during the attach
+  optional bool debugger_paused_during_attach = 7;
 
   // The Client type
   enum ClientType {
