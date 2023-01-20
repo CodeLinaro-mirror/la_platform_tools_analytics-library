@@ -7054,6 +7054,8 @@ message GradleSyncStats {
   // The type of sync execution Studio requested. Note that e.g. even if
   // parallel is requested, Gradle may decide to run it sequentially.
   optional StudioRequestedExecution studio_requested_sync_type = 14;
+  // Data on downloads happened during sync.
+  optional BuildDownloadsAnalysisData downloads_data = 15;
   // List of triggers for gradle Sync
   enum Trigger {
     // Default, should not be explicitly set
