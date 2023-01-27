@@ -7844,6 +7844,8 @@ message DynamicLayoutInspectorAttachToProcess {
   optional bool debugger_attached = 6;
   // Was the debugger paused during the attach
   optional bool debugger_paused_during_attach = 7;
+  // Was auto connect enabled for this session
+  optional bool auto_connect_enabled = 8;
 
   // The Client type
   enum ClientType {
@@ -11982,6 +11984,9 @@ message AppQualityInsightsUsageEvent {
 
     // User added/removed/edited a note to an issue
     NOTE = 9;
+
+    // AQI transitioned to offline or online mode
+    MODE_TRANSITION = 10;
   }
 
   enum CrashType {
@@ -12159,6 +12164,12 @@ message AppQualityInsightsUsageEvent {
     optional NoteEvent note_event = 1;
   }
 
+  enum AppQualityInsightsModeTransitionDetails {
+    UNKNOWN_TRANSITION = 0;
+    ONLINE_TO_OFFLINE = 1;
+    OFFLINE_TO_ONLINE = 2;
+  }
+
   // The app_id is the id for the user's android app
   // which we salt on the client (28 day rotation) then sha256
   // so it is anonymized and is unique per user, but has a 1-N relation.
@@ -12196,6 +12207,9 @@ message AppQualityInsightsUsageEvent {
 
   // This event occurred while AQI was in offline mode
   optional bool is_offline = 12;
+
+  // set when type = MODE_TRANSITION
+  optional AppQualityInsightsModeTransitionDetails mode_transition_details = 13;
 }
 
 message FastPreviewEvent {
