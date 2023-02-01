@@ -547,6 +547,10 @@ message AndroidStudioEvent {
   // set when kind = HEAP_REPORT_EVENT
   optional HeapReportEvent heap_report_event = 156;
 
+  // set when kind = CREATE_DIAGNOSTIC_REPORT_ACTION
+  optional CreateDiagnosticReportAction create_diagnostic_report_action_event =
+      157;
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -1260,6 +1264,12 @@ message AndroidStudioEvent {
 
     // Event related to collection or analysis of client side heap reports
     HEAP_REPORT_EVENT = 269;
+
+    // Action taken by user from create diagnostic report dialog
+    CREATE_DIAGNOSTIC_REPORT_ACTION = 270;
+
+    // Event when the AGP Upgrade Assistant CTA from an old AGP is dismissed
+    UPGRADE_ASSISTANT_CTA_OLD_AGP_DISMISSED = 271;
   }
 
   // Represents different Performance Monitoring types.
@@ -5133,6 +5143,7 @@ message LayoutEditorState {
     CUSTOM_VIEWS = 6;
     GLANCE_WEAR_TILE = 7;
     GLANCE_APP_WIDGET = 8;
+    VALIDATION_TOOL = 9;
   }
 
   // Layout orientation
@@ -12403,4 +12414,15 @@ message HeapReportEvent {
   optional Status status = 1;
   optional Reason reason = 2;       // set when status = LOW_MEMORY_EVENT
   optional int64 freed_memory = 3;  // set when status = FORCED_GC
+}
+
+message CreateDiagnosticReportAction {
+  enum ActionType {
+    UNKNOWN_ACTION_TYPE = 0;
+    CANCELLED = 1;
+    CREATED = 2;
+  }
+
+  // Indicates which action the user took
+  optional ActionType action_type = 1;
 }
