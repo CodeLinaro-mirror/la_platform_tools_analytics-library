@@ -407,6 +407,7 @@ enum GradleTaskExecutionType {
     MANAGED_DEVICE_SETUP = 320;
     EXTRACT_SUPPORTED_LOCALES = 321;
     GENERATE_LOCALE_CONFIG = 322;
+    VERIFY_LIBRARY_CLASSES = 323;
 }
 
 enum BooleanOption {
@@ -573,6 +574,7 @@ enum BooleanOption {
     ENABLE_GLOBAL_SYNTHETICS = 160;
     PRINT_LINT_STACK_TRACE = 161;
     PRIVACY_SANDBOX_SDK_REQUIRE_SERVICES = 162;
+    VERIFY_AAR_CLASSES = 163;
 }
 
 enum OptionalBooleanOption {
