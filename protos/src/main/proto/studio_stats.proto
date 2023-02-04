@@ -544,6 +544,13 @@ message AndroidStudioEvent {
   optional ProjectViewSelectionChangeEvent project_view_selection_change_event =
       155;
 
+  // set when kind = HEAP_REPORT_EVENT
+  optional HeapReportEvent heap_report_event = 156;
+
+  // set when kind = CREATE_DIAGNOSTIC_REPORT_ACTION
+  optional CreateDiagnosticReportAction create_diagnostic_report_action_event =
+      157;
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -1254,6 +1261,15 @@ message AndroidStudioEvent {
 
     // Event marking a change of view selected in the Project tool window
     PROJECT_VIEW_SELECTION_CHANGE_EVENT = 268;
+
+    // Event related to collection or analysis of client side heap reports
+    HEAP_REPORT_EVENT = 269;
+
+    // Action taken by user from create diagnostic report dialog
+    CREATE_DIAGNOSTIC_REPORT_ACTION = 270;
+
+    // Event when the AGP Upgrade Assistant CTA from an old AGP is dismissed
+    UPGRADE_ASSISTANT_CTA_OLD_AGP_DISMISSED = 271;
   }
 
   // Represents different Performance Monitoring types.
@@ -5127,6 +5143,7 @@ message LayoutEditorState {
     CUSTOM_VIEWS = 6;
     GLANCE_WEAR_TILE = 7;
     GLANCE_APP_WIDGET = 8;
+    VALIDATION_TOOL = 9;
   }
 
   // Layout orientation
@@ -7054,6 +7071,8 @@ message GradleSyncStats {
   // The type of sync execution Studio requested. Note that e.g. even if
   // parallel is requested, Gradle may decide to run it sequentially.
   optional StudioRequestedExecution studio_requested_sync_type = 14;
+  // Data on downloads happened during sync.
+  optional BuildDownloadsAnalysisData downloads_data = 15;
   // List of triggers for gradle Sync
   enum Trigger {
     // Default, should not be explicitly set
@@ -11849,6 +11868,8 @@ message SdkIndexLibraryDetails {
   optional string artifact_id = 2;
   // Version of library
   optional string version_string = 3;
+  // Is this library reported as blocking publising on Google Play?
+  optional bool is_blocking = 4;
 }
 
 message SdkIndexLoadingDetails {
@@ -12358,4 +12379,50 @@ message ProjectViewSelectionChangeEvent {
   // For init event 'before' will be UNKNOWN
   optional ProjectViewContent view_before_change = 1;
   optional ProjectViewContent view_after_change = 2;
+}
+
+message HeapReportEvent {
+  enum Status {
+    UNKNOWN = 0;
+    LOW_MEMORY_EVENT = 1;
+    INSUFFICIENT_DISK_SPACE = 2;
+    HEAP_TOO_SMALL = 3;
+    RATE_LIMITED = 4;
+    EXCESS_FREE_MEMORY = 5;
+    FORCED_GC = 6;
+    EXCESS_FREE_MEMORY_AFTER_GC = 7;
+    REPORT_ALREADY_PENDING = 8;
+    CAPTURE_SNAPSHOT_FAILED = 9;
+    ANALYSIS_STARTED = 10;
+    ERROR_DURING_ANALYSIS = 11;
+    ANALYSIS_FINISHED = 12;
+    REVIEW_DIALOG_SHOWN = 13;
+    REVIEW_ACCEPTED = 14;
+    REVIEW_DECLINED = 15;
+    REPORT_UPLOADED = 16;
+    REPORT_UPLOAD_FAILED = 17;
+  }
+  // mirrors com.android.tools.idea.diagnostic.report.MemoryReportReason
+  enum Reason {
+    NONE = 0;
+    USER_INVOKED = 1;
+    INTERNAL_USER_INVOKED = 2;
+    FREQUENT_LOW_MEMORY_NOTIFICATION = 3;
+    LOW_MEMORY = 4;
+    OUT_OF_MEMORY = 5;
+  }
+  optional Status status = 1;
+  optional Reason reason = 2;       // set when status = LOW_MEMORY_EVENT
+  optional int64 freed_memory = 3;  // set when status = FORCED_GC
+}
+
+message CreateDiagnosticReportAction {
+  enum ActionType {
+    UNKNOWN_ACTION_TYPE = 0;
+    CANCELLED = 1;
+    CREATED = 2;
+  }
+
+  // Indicates which action the user took
+  optional ActionType action_type = 1;
 }
