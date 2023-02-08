@@ -551,6 +551,9 @@ message AndroidStudioEvent {
   optional CreateDiagnosticReportAction create_diagnostic_report_action_event =
       157;
 
+  // set when kind = DIRECT_ACCESS_USAGE_EVENT
+  optional DirectAccessUsageEvent direct_access_usage_event = 158;
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -1270,6 +1273,9 @@ message AndroidStudioEvent {
 
     // Event when the AGP Upgrade Assistant CTA from an old AGP is dismissed
     UPGRADE_ASSISTANT_CTA_OLD_AGP_DISMISSED = 271;
+
+    // Event marking interaction with Direct Access
+    DIRECT_ACCESS_USAGE_EVENT = 272;
   }
 
   // Represents different Performance Monitoring types.
@@ -12425,4 +12431,91 @@ message CreateDiagnosticReportAction {
 
   // Indicates which action the user took
   optional ActionType action_type = 1;
+}
+
+message DirectAccessUsageEvent {
+  enum DirectAccessUsageEventType {
+    UNKNOWN_EVENT = 0;
+    // User requested to reserve a device
+    RESERVE_DEVICE = 1;
+    // Connect during initial reservation or user requested to reconnect
+    CONNECT_DEVICE = 2;
+    // Video stream started from device
+    STREAM_STARTED = 3;
+    // User requested to extend current device reservation
+    EXTEND_RESERVATION = 4;
+    // User requested to end reservation
+    END_RESERVATION = 5;
+  }
+
+  enum FailureReason {
+    UNKNOWN_FAILURE = 0;
+  }
+
+  message ReserveDeviceDetails {
+    // True if reserve device request succeeded
+    optional bool success = 1;
+    // Time measured between the user clicking reserve (run) button and getting
+    // a reserved device
+    optional uint32 reserve_time_ms = 2;
+  }
+
+  message ConnectDeviceDetails {
+    // True if connect device request succeeded
+    optional bool success = 1;
+    // Reconnecting to reserved device or connecting during reservation request
+    optional bool reconnect = 2;
+    // Time taken to connect to device
+    optional uint32 connect_time_ms = 3;
+  }
+
+  message StreamStartedDetails {
+    // True if studio successfully received video stream from device
+    optional bool success = 1;
+    // Recorded latency of first stream
+    optional uint32 latency_ms = 2;
+  }
+
+  message ExtendReservationDetails {
+    enum ExtendReservationDuration {
+      NONE = 0;
+      THIRTY_MINUTES = 1;
+      SIXTY_MINUTES = 2;
+    }
+    // True if extend reservation request succeeded
+    optional bool success = 1;
+    // Duration for which session should be extended
+    optional ExtendReservationDuration extend_reservation_duration = 2;
+  }
+
+  message EndReservationDetails {
+    // True if end reservation request succeeded
+    optional bool success = 1;
+    // User ended reservation or reservation expired
+    optional bool user_ended = 2;
+    // Total reservation time
+    // MAX_VALUE: 4,294,967,295 -> ~49710 days
+    optional uint32 total_reservation_time_sec = 3;
+    // Average connection latency calculated over the entire session
+    optional uint32 average_connection_latency_ms = 4;
+  }
+
+  // Type of event
+  optional DirectAccessUsageEventType type = 1;
+  // Session ID of current reservation/session for tracking events
+  // during a session
+  // Client-side salted, sha256 of session ID with salt rotated every 28 day.
+  optional string device_session_id = 2;
+  // set when type = RESERVE_DEVICE
+  optional ReserveDeviceDetails reserve_device_details = 3;
+  // set when type = CONNECT_DEVICE
+  optional ConnectDeviceDetails connect_device_details = 4;
+  // set when type = STREAM_STARTED
+  optional StreamStartedDetails stream_started_details = 5;
+  // set when type = EXTEND_RESERVATION
+  optional ExtendReservationDetails extend_reservation_details = 6;
+  // set when type = END_RESERVATION
+  optional EndReservationDetails end_reservation_details = 7;
+  // set when any of the above event fails (success bool is marked false)
+  optional FailureReason failure_reason = 8;
 }
