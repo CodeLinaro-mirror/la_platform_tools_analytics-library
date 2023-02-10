@@ -404,6 +404,7 @@ enum GradleTaskExecutionType {
     BUILD_ANALYZER = 317;
     SIGN_ASB = 318;
     MANAGED_DEVICE_TEST = 319;
+    MANAGED_DEVICE_SETUP = 320;
 }
 
 enum BooleanOption {
