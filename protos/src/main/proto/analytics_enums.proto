@@ -405,6 +405,8 @@ enum GradleTaskExecutionType {
     SIGN_ASB = 318;
     MANAGED_DEVICE_TEST = 319;
     MANAGED_DEVICE_SETUP = 320;
+    EXTRACT_SUPPORTED_LOCALES = 321;
+    GENERATE_LOCALE_CONFIG = 322;
 }
 
 enum BooleanOption {
