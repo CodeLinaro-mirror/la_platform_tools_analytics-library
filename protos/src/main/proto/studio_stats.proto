@@ -554,6 +554,9 @@ message AndroidStudioEvent {
   // set when kind = DIRECT_ACCESS_USAGE_EVENT
   optional DirectAccessUsageEvent direct_access_usage_event = 158;
 
+  // set when kind = SAFE_MODE_STATS_EVENT
+  optional SafeModeStatsEvent safe_mode_stats_event = 159;
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -1276,6 +1279,9 @@ message AndroidStudioEvent {
 
     // Event marking interaction with Direct Access
     DIRECT_ACCESS_USAGE_EVENT = 272;
+
+    // Event related to the usage of safe mode in Android Studio.
+    SAFE_MODE_STATS_EVENT = 273;
   }
 
   // Represents different Performance Monitoring types.
@@ -1600,6 +1606,7 @@ message AndroidStudioEvent {
     JDK8_REQUIRED = 32;
     GRADLE_DISTRIBUTION_INSTALL_ERROR = 33;
     DISTRIBUTIONSHA256SUM_FOUND_IN_WRAPPER = 34;
+    GRADLE_JVM_NOT_COMPATIBLE_WITH_AGP = 35;
   }
 
   // IDE brand containing the android plugin
@@ -5150,6 +5157,7 @@ message LayoutEditorState {
     GLANCE_WEAR_TILE = 7;
     GLANCE_APP_WIDGET = 8;
     VALIDATION_TOOL = 9;
+    WEAR_TILE = 10;
   }
 
   // Layout orientation
@@ -12518,4 +12526,38 @@ message DirectAccessUsageEvent {
   optional EndReservationDetails end_reservation_details = 7;
   // set when any of the above event fails (success bool is marked false)
   optional FailureReason failure_reason = 8;
+}
+
+message SafeModeStatsEvent {
+  enum OS {
+    UNKNOWN_OS = 0;
+    WINDOWS = 1;
+    MAC = 2;
+    LINUX = 3;
+  }
+  enum EntryPoint {
+    UNKNOWN_ENTRY_POINT = 0;
+    SCRIPT = 1;
+    IDE = 2;
+    CONTEXT_MENU = 3;
+    POPUP = 4;
+  }
+  enum Trigger {
+    UNKNOWN_TRIGGER = 0;
+    STARTUP_FAILED = 1;
+  }
+  enum StartUpResult {
+    UNKNOWN_STARTUP_RESULT = 0;
+    SAFE_MODE_SUCCESS = 1;
+    STARTUP_SUCCESS_AFTER_SAFE_MODE = 2;
+  }
+  optional OS os = 1;
+  optional EntryPoint entry_point = 2;
+  optional Trigger trigger = 3;
+  optional StartUpResult start_up_result = 4;
+  optional string studio_version = 5;
+  optional string jdk_modified = 6;
+  optional string kotlin_modified = 7;
+  repeated string disabled_plugins = 8;
+  repeated string vmoptions_modified = 9;
 }
