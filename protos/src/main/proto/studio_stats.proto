@@ -1412,6 +1412,7 @@ message AndroidStudioEvent {
     GOOGLE_PAY_ACTIVITY = 65;
     WEAR_OS_COMPOSE_ACTIVITY = 66;
     GOOGLE_WALLET_ACTIVITY = 67;
+    BASELINE_PROFILES_MODULE = 68;
   }
 
   // Wizard Templates Usage (New Project, New Module and New Component)
@@ -1550,6 +1551,7 @@ message AndroidStudioEvent {
         IMPORT_JAR_AAR = 12;
         JAVA_OR_KOTLIN_LIBRARY = 13;
         BENCHMARK_LIBRARY = 14;
+        BASELINE_PROFILES = 15;
       }
 
       // Java byte code level
@@ -7338,6 +7340,13 @@ message GradleSyncStats {
     TRIGGER_GRADLEDEPENDENCY_UPDATED = 5702;
     // Last marker for changes done by GradleDependencyManager
     TRIGGER_GRADLEDEPENDENCY_LAST_MARKER = 5799;
+
+    // First marker for changes related to Version Catalogs
+    TRIGGER_VERSION_CATALOG_FIRST_MARKER = 6000;
+    // A Version Catalog file was added
+    TRIGGER_VERSION_CATALOG_FILE_ADDED = 6001;
+    // Last marker for changes related to Version Catalogs
+    TRIGGER_VERSION_CATALOG_LAST_MARKER = 6099;
   }
 
   // List of sync types
