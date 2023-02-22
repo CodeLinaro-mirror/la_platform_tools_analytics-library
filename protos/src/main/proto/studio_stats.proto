@@ -11548,6 +11548,14 @@ message DeviceExplorerEvent {
     COPY_PATH = 9;
     // The user expanded a data/data/* directory
     EXPAND_APP_DATA = 10;
+    // The user force stopped a process
+    FORCE_STOP = 11;
+    // The user killed a process
+    KILL = 12;
+    // The user attached the debugger to a process
+    ATTACH_DEBUGGER = 13;
+    // The user refreshed the process list
+    REFRESH_PROCESSES = 14;
   }
 }
 
@@ -11993,6 +12001,9 @@ message GoogleLoginPluginEvent {
     // Forced logout is performed as a first step to recover from
     // `TokenResponseException`
     FORCE_LOGOUT = 3;
+    LOGOUT_WITH_SUCCESS = 5;
+    LOGOUT_WITH_FAILURE = 6;
+    LOGGED_IN_ON_STUDIO_START = 7;
   }
   optional EventKind event = 1;
 }
