@@ -135,7 +135,9 @@ message AndroidStudioEvent {
   optional FirebaseErrorDetails firebase_error_details = 30;
 
   // Client-side salted (rotating every 532 days), sha256 of the project id.
-  // set when kind = PROJECT_STRUCTURE_* or kind = APK_ANALYZER_STATS
+  // set when kind = PROJECT_STRUCTURE_*
+  //       or kind = APK_ANALYZER_STATS
+  //       or kind = TSDKUA_EVENT
   optional string project_id = 31;
 
   // set when kind = GFX_TRACE_*
@@ -556,6 +558,9 @@ message AndroidStudioEvent {
 
   // set when kind = SAFE_MODE_STATS_EVENT
   optional SafeModeStatsEvent safe_mode_stats_event = 159;
+
+  // set when kind = TSDKUA_EVENT
+  optional TSdkUAEvent tsdk_ua_event = 160;
 
   enum EventCategory {
     // The event was not grouped into any specific category (default).
@@ -1282,6 +1287,9 @@ message AndroidStudioEvent {
 
     // Event related to the usage of safe mode in Android Studio.
     SAFE_MODE_STATS_EVENT = 273;
+
+    // Event related to targetSdkVersion Upgrade Assistant
+    TSDKUA_EVENT = 274;
   }
 
   // Represents different Performance Monitoring types.
@@ -12569,4 +12577,34 @@ message SafeModeStatsEvent {
   optional string kotlin_modified = 7;
   repeated string disabled_plugins = 8;
   repeated string vmoptions_modified = 9;
+}
+
+message TSdkUAEvent {
+  oneof content {
+    StateUpdate state_update = 1;
+    FilterRun filter_run = 2;
+  }
+
+  message StateUpdate {
+    optional uint64 timestamp_ms = 1;
+    // The version of `active_steps`'s interpretation (step <-> bit index)
+    optional uint32 mapping_version = 2;
+    // The encoding of which step is active/inactive, as a bitvector
+    optional bytes active_steps = 3;
+  }
+
+  message FilterRun {
+    optional uint32 filter_id = 1;
+    optional uint32 filter_version = 2;
+    optional uint32 elapsed_ms = 3;
+    oneof result {
+      uint32 count = 4;
+      Problem problem = 5;
+    }
+    enum Problem {
+      UNSPECIFIED = 0;
+      TIMEOUT = 1;
+      ERROR = 2;
+    }
+  }
 }
