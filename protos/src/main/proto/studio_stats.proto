@@ -8372,6 +8372,13 @@ message RunEvent {
   }
   // Type of AppComponent user wants to run
   optional AppComponent app_component_type = 25;
+
+  // Whether or not the deployed project is a Compose project.
+  optional bool is_compose_project = 26;
+
+  // Client-side salted (rotating every 28 days), sha256 of the project base
+  // path. Used to correlate LiveEdit usage with Compose projects.
+  optional string project_id = 27;
 }
 
 message LaunchTaskDetail {
@@ -11031,6 +11038,7 @@ message UpgradeAssistantComponentInfo {
     PROJECT_JDK = 26;
     NON_CONSTANT_R_CLASS_DEFAULT = 27;
     ANDROID_MANIFEST_EXTRACT_NATIVE_LIBS = 28;
+    ANDROID_MANIFEST_USE_EMBEDDED_DEX = 29;
   }
 
   message Java8DefaultProcessorSettings {
@@ -11994,6 +12002,9 @@ message LiveEditEvent {
   optional int64 push_duration_ms = 4;
   // How the LiveEdit push was triggered
   optional Mode mode = 5;
+  // Client-side salted (rotating every 28 days), sha256 of the project base
+  // path. Used to correlate LiveEdit usage with Compose projects.
+  optional string project_id = 6;
 }
 
 message GoogleLoginPluginEvent {
