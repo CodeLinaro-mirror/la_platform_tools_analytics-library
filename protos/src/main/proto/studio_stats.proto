@@ -7097,6 +7097,9 @@ message GradleSyncStats {
   optional StudioRequestedExecution studio_requested_sync_type = 14;
   // Data on downloads happened during sync.
   optional BuildDownloadsAnalysisData downloads_data = 15;
+  // Data on Version Catalog use.
+  optional GradleVersionCatalogDetectorEvent.State
+      version_catalog_detector_state = 16;
   // List of triggers for gradle Sync
   enum Trigger {
     // Default, should not be explicitly set
