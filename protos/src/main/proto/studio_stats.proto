@@ -562,6 +562,16 @@ message AndroidStudioEvent {
   // set when kind = TSDKUA_EVENT
   optional TSdkUAEvent tsdk_ua_event = 160;
 
+  // set when kind = INTELLIJ_NEW_UI_STATE_EVENT
+  optional IntelliJNewUIState intellij_new_ui_state_event = 161;
+
+  // set when kind = KOTLIN_GRADLE_PERFORMANCE
+  optional KotlinGradlePerformance kotlin_gradle_performance_event = 162;
+
+  // set when kind = BUILD_OUTPUT_DOWNLOADS_INFO_USER_INTERACTION
+  optional BuildOutputDownloadsInfoEvent build_output_downloads_info_event =
+      163;
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -1290,6 +1300,15 @@ message AndroidStudioEvent {
 
     // Event related to targetSdkVersion Upgrade Assistant
     TSDKUA_EVENT = 274;
+
+    // Event related to IntelliJ new UI state
+    INTELLIJ_NEW_UI_STATE_EVENT = 275;
+
+    // Event related to kotlin gradle performance
+    KOTLIN_GRADLE_PERFORMANCE_EVENT = 276;
+
+    // Event tracking user interactions with build output downloads info UI
+    BUILD_OUTPUT_DOWNLOADS_INFO_USER_INTERACTION = 277;
   }
 
   // Represents different Performance Monitoring types.
@@ -12632,4 +12651,57 @@ message TSdkUAEvent {
       ERROR = 2;
     }
   }
+}
+
+message IntelliJNewUIState {
+  // Indicates whether the user has enabled the new IntellJ UI
+  optional bool is_enabled = 1;
+}
+
+message KotlinGradlePerformance {
+  enum FirUsage {
+    UNSPECIFIED = 0;
+    NONE = 1;
+    PARTIAL = 2;
+    TOTAL = 3;
+  }
+
+  // Indicates whether FIR usage is total, partial, or none
+  optional FirUsage use_fir = 1;
+  optional string kotlin_api_version = 2;       // e.g. 1.5.0
+  optional string kotlin_compiler_version = 3;  // e.g. 1.8.0
+  optional string kotlin_language_version = 4;  // e.g. 1.5.0
+  optional string kotlin_stdlib_version = 5;    // e.g.1.8.0
+  optional string plugin_version = 6;           // e.g.223-18.0-release
+  // Flags to indicate the presence of common compiler plugins
+  optional bool enabled_compiler_plugin_all_open = 7;
+  optional bool enabled_compiler_plugin_atomicfu = 8;
+  optional bool enabled_compiler_plugin_jpa_support = 9;
+  optional bool enabled_compiler_plugin_lombok = 10;
+  optional bool enabled_compiler_plugin_no_arg = 11;
+  optional bool enabled_compiler_plugin_parcelize = 12;
+  optional bool enabled_compiler_plugin_sam_with_receiver = 13;
+  // Indicates usage of Kotlin script
+  optional bool kts_used = 14;
+}
+
+message BuildOutputDownloadsInfoEvent {
+  enum View {
+    UNKNOWN_VIEW = 0;
+    SYNC_VIEW = 1;
+    BUILD_VIEW = 2;
+  }
+  enum Interaction {
+    UNKNOWN_INTERACTION = 0;
+    OPEN_DOWNLOADS_INFO_UI = 1;
+    CLICK_LEARN_MORE_LINK = 2;
+    SELECT_REPOSITORY_ROW = 3;
+  }
+
+  optional View view = 1;
+  optional Interaction interaction = 2;
+  // 'true' if this build/sync already finished, 'false' if still running
+  optional bool build_finished = 3;
+  // Indicates time of this event in ms since this build/sync started
+  optional uint32 ms_since_build_start = 4;
 }
