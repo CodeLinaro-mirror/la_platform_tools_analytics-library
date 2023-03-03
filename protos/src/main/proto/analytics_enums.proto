@@ -575,6 +575,7 @@ enum BooleanOption {
     PRINT_LINT_STACK_TRACE = 161;
     PRIVACY_SANDBOX_SDK_REQUIRE_SERVICES = 162;
     VERIFY_AAR_CLASSES = 163;
+    DISABLE_COMPILE_SDK_CHECKS = 164;
 }
 
 enum OptionalBooleanOption {
