@@ -572,6 +572,10 @@ message AndroidStudioEvent {
   optional BuildOutputDownloadsInfoEvent build_output_downloads_info_event =
       163;
 
+  // set when kind = DEVICE_MIRRORING_ABNORMAL_AGENT_TERMINATION
+  optional DeviceMirroringAbnormalAgentTermination device_mirroring_abnormal_agent_termination =
+      164;
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -1309,6 +1313,9 @@ message AndroidStudioEvent {
 
     // Event tracking user interactions with build output downloads info UI
     BUILD_OUTPUT_DOWNLOADS_INFO_USER_INTERACTION = 277;
+
+    // Event recording abnormal termination of the Screen Sharing Agent.
+    DEVICE_MIRRORING_ABNORMAL_AGENT_TERMINATION = 278;
   }
 
   // Represents different Performance Monitoring types.
@@ -12049,6 +12056,11 @@ message DeviceMirroringSession {
   }
   optional DeviceKind device_kind = 1;
   optional int64 duration_sec = 2;
+}
+
+message DeviceMirroringAbnormalAgentTermination {
+  optional int32 exit_code = 1;
+  optional int64 run_duration_millis = 2;
 }
 
 message AppQualityInsightsUsageEvent {
