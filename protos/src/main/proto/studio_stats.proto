@@ -573,8 +573,11 @@ message AndroidStudioEvent {
       163;
 
   // set when kind = DEVICE_MIRRORING_ABNORMAL_AGENT_TERMINATION
-  optional DeviceMirroringAbnormalAgentTermination device_mirroring_abnormal_agent_termination =
-      164;
+  optional DeviceMirroringAbnormalAgentTermination
+      device_mirroring_abnormal_agent_termination = 164;
+
+  // set when kind = SYSTEM_HEALTH_EVENT
+  optional SystemHealthEvent system_health_event = 165;
 
   enum EventCategory {
     // The event was not grouped into any specific category (default).
@@ -1316,6 +1319,9 @@ message AndroidStudioEvent {
 
     // Event recording abnormal termination of the Screen Sharing Agent.
     DEVICE_MIRRORING_ABNORMAL_AGENT_TERMINATION = 278;
+
+    // Event related to system health
+    SYSTEM_HEALTH_EVENT = 279;
   }
 
   // Represents different Performance Monitoring types.
@@ -1657,6 +1663,8 @@ message AndroidStudioEvent {
     GAME_TOOLS = 5;
 
     AGDE = 6;
+    // Android Studio for Platform (ASfP)
+    ANDROID_STUDIO_FOR_PLATFORM = 7;
   }
 
   // Gradle sync issue type.
@@ -12061,6 +12069,89 @@ message DeviceMirroringSession {
 message DeviceMirroringAbnormalAgentTermination {
   optional int32 exit_code = 1;
   optional int64 run_duration_millis = 2;
+}
+
+message SystemHealthEvent {
+  enum SystemHealthEventType {
+    UNKNOWN_EVENT = 0;
+
+    // UI freeze detected
+    UI_FREEZE_STARTED = 1;
+    // Periodic update on freeze status
+    UI_FREEZE_UPDATE = 2;
+    // UI Freeze finished
+    UI_FREEZE_FINISHED = 3;
+
+    // Studio ecnountered JVM crash
+    EXIT_JVM_CRASH = 4;
+    // Graceful Studio exit
+    EXIT_GRACEFUL = 5;
+    // Studio shutdown without calling app exit hooks
+    // (but not due to JVM crash)
+    EXIT_NONGRACEFUL = 6;
+
+    // GC reported low memory warning
+    MEMORY_LOW_MEMORY_WARNING = 7;
+    // Long GC pause detected
+    MEMORY_LONG_GC_PAUSE = 8;
+    // OOM error detected
+    MEMORY_OOM_ERROR = 9;
+  }
+
+  enum DeadlockStatus {
+    UNKNOWN = 0;
+    // Always sent on UI_FREEZE_FINISHED
+    NO_DEADLOCK = 1;
+    // Likely a deadlock, but couldn't make final determination
+    SUSPECTED = 2;
+    // Deadlock detected
+    CONFIRMED = 3;
+  }
+
+  enum LowMemoryWarningType {
+    UNKNOWN_TYPE = 0;
+    // Low memory before GC
+    BEFORE_GC = 1;
+    // Low memory after GC
+    AFTER_GC = 2;
+  }
+
+  message UIFreeze {
+    // Unique freeze id (per session)
+    optional int64 freeze_id = 1;
+    // Duration of the freeze so far. Total duration when UI_FREEZE_FINISHED
+    optional int64 duration_ms = 2;
+    // Current status of deadlock detection
+    optional DeadlockStatus deadlock = 3;
+  }
+
+  message Exit {
+    // Session ID of:
+    // * previous session when EXIT_JVM_CRASH or EXIT_NONGRACEFUL
+    // * current session when EXIT_GRACEFUL
+    optional string studio_session_id = 1;
+
+    // For EXIT_JVM_CRASH, UNIX signal number
+    optional int32 jvm_signal_number = 2;
+  }
+
+  message Memory {
+    optional LowMemoryWarningType low_memory_warning_type = 1;
+
+    // Time spent in GC over reported period (GC pause reporting)
+    optional int64 period_cumulative_gc_time_ms = 2;
+
+    // Duration of the sampled period (GC pause reporting)
+    optional int64 period_duration_ms = 3;
+  }
+
+  optional SystemHealthEventType event_type = 1;
+  // Additional information about current UI freeze
+  optional UIFreeze ui_freeze = 2;
+  // Additional information how this/previous session terminated
+  optional Exit exit = 3;
+  // Additional information about memory events
+  optional Memory memory = 4;
 }
 
 message AppQualityInsightsUsageEvent {
