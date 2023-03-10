@@ -579,6 +579,9 @@ message AndroidStudioEvent {
   // set when kind = SYSTEM_HEALTH_EVENT
   optional SystemHealthEvent system_health_event = 165;
 
+  // set when kind = COMPOSE_PREVIEW_CANVAS_EVENT
+  optional ComposePreviewCanvasEvent compose_preview_canvas_event = 166;
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -1322,6 +1325,9 @@ message AndroidStudioEvent {
 
     // Event related to system health
     SYSTEM_HEALTH_EVENT = 279;
+
+    // Event related to compose preview canvas
+    COMPOSE_PREVIEW_CANVAS_EVENT = 280;
   }
 
   // Represents different Performance Monitoring types.
@@ -12152,6 +12158,24 @@ message SystemHealthEvent {
   optional Exit exit = 3;
   // Additional information about memory events
   optional Memory memory = 4;
+}
+
+message ComposePreviewCanvasEvent {
+  enum EventType {
+    UNKNOWN_EVENT_TYPE = 0;
+    SELECT_LAYOUT = 1;
+  }
+  enum LayoutName {
+    UNKNOWN_LAYOUT_NAME = 0;
+    LIST = 1;
+    GRID = 2;
+    GROUPED_LIST = 3;
+    GROUPED_GRID = 4;
+  }
+  // What kind of interaction or event happens in the compose preview canvas
+  optional EventType event_type = 1;
+  // The chosen layout id in the compose preview canvas, i.e. ListLayout
+  optional LayoutName layout_name = 2;
 }
 
 message AppQualityInsightsUsageEvent {
