@@ -582,6 +582,18 @@ message AndroidStudioEvent {
   // set when kind = COMPOSE_PREVIEW_CANVAS_EVENT
   optional ComposePreviewCanvasEvent compose_preview_canvas_event = 166;
 
+  // set when kind = SML_COMPLETION_EVENT
+  optional SmlCompletionEvent sml_completion_event = 167;
+
+  // set when kind = SML_CODE_TRANSFORMATION_EVENT
+  optional SmlTransformEvent sml_transform_event = 168;
+
+  // set when kind = SML_CHATBOT_EVENT
+  optional SmlChatBotEvent sml_chat_bot_event = 169;
+
+  // set when kind = SML_CONFIGURATION_EVENT
+  optional SmlConfigurationEvent sml_configuration_event = 170;
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -1328,6 +1340,18 @@ message AndroidStudioEvent {
 
     // Event related to compose preview canvas
     COMPOSE_PREVIEW_CANVAS_EVENT = 280;
+
+    // Event related to ML based Code Completion
+    SML_COMPLETION_EVENT = 281;
+
+    // Event related to ML based Code Fixing/Transformation
+    SML_CODE_TRANSFORMATION_EVENT = 282;
+
+    // Event related to Studio Chat Bot
+    SML_CHATBOT_EVENT = 283;
+
+    // Configuration settings for ML based features
+    SML_CONFIGURATION_EVENT = 284;
   }
 
   // Represents different Performance Monitoring types.
@@ -1860,6 +1884,9 @@ message AndroidStudioEvent {
 
     // KMP projects with java plugin creates incorrect sourceSets in IDE
     TYPE_KMP_INCORRECT_PLATFORM_SOURCE_SET = 61;
+
+    // Empty dimension results in no variant in IDE
+    TYPE_EMPTY_FLAVOR_DIMENSION = 62;
 
     // NOTE: When adding a new type here, increment the index by 1. This index
     // may not be consistent with the corresponding value in the Android Gradle
@@ -11958,7 +11985,7 @@ message SdkIndexLibraryDetails {
   optional string artifact_id = 2;
   // Version of library
   optional string version_string = 3;
-  // Is this library reported as blocking publising on Google Play?
+  // Is this library reported as blocking publishing on Google Play?
   optional bool is_blocking = 4;
 }
 
@@ -12831,4 +12858,145 @@ message BuildOutputDownloadsInfoEvent {
   optional bool build_finished = 3;
   // Indicates time of this event in ms since this build/sync started
   optional uint32 ms_since_build_start = 4;
+}
+
+message SmlResponseMetadata {
+  // Trace id (provided by the server) for this response
+  optional int64 rpc_global_id = 1;
+}
+
+message SmlCompletionEvent {
+  message CompletionRequest {
+    enum Trigger {
+      UNKNOWN = 0;
+
+      // User explicitly triggered completion
+      USER = 1;
+
+      // Completion was automatically triggered
+      AUTOMATIC = 2;
+    }
+
+    optional Trigger trigger = 1;
+    optional EditorFileType file_type = 2;
+
+    // Length of prefix (# of chars before cursor) included in the request
+    optional uint32 prefix_length = 3;
+
+    // Length of suffix (# of chars after cursor) included in the request
+    optional uint32 suffix_length = 4;
+  }
+
+  message CompletionError {
+    optional int32 status_code = 1;
+  }
+
+  message CompletionResult {
+    optional SmlResponseMetadata metadata = 1;
+    optional uint64 latency_ms = 2;
+    optional int32 num_completions = 3;
+  }
+
+  message CompletionResponse {
+    oneof response {
+      CompletionResult result = 1;
+      CompletionError backend_error = 2;
+    }
+  }
+
+  message CompletionShown {
+    optional SmlResponseMetadata metadata = 1;
+    optional int32 shown_suggestion_index = 2;
+  }
+
+  message CompletionAccepted {
+    optional SmlResponseMetadata metadata = 1;
+
+    // Index of the accepted suggestion from the multiple suggestions in the
+    // response
+    optional int32 accepted_suggestion_index = 2;
+
+    // Length (# of chars) of the accepted suggestion
+    optional int32 accepted_suggestion_length = 3;
+  }
+
+  oneof completion {
+    CompletionRequest request = 1;
+    CompletionResponse response = 2;
+    CompletionShown shown = 3;
+    CompletionAccepted accepted = 4;
+  }
+}
+
+message SmlTransformEvent {
+  message TransformRequest {
+    optional uint32 context_length = 1;
+  }
+
+  message TransformResult {
+    optional SmlResponseMetadata metadata = 1;
+    optional uint64 latency_ms = 2;
+    optional int32 num_transformations = 3;
+  }
+
+  message TransformError {
+    optional int32 status_code = 1;
+  }
+
+  message TransformResponse {
+    oneof response {
+      TransformResult result = 1;
+      TransformError backend_error = 2;
+    }
+  }
+
+  message TransformShown {
+    optional SmlResponseMetadata metadata = 1;
+  }
+
+  message TransformAccepted {
+    optional SmlResponseMetadata metadata = 1;
+  }
+
+  oneof transform {
+    TransformRequest request = 1;
+    TransformResponse response = 2;
+    TransformShown shown = 3;
+    TransformAccepted accepted = 4;
+  }
+}
+
+message SmlChatBotEvent {
+  message BotResponse {
+    optional SmlResponseMetadata metadata = 1;
+    optional uint64 latency_ms = 2;
+  }
+
+  message UserFeedback {
+    optional SmlResponseMetadata metadata = 1;
+
+    enum Sentiment {
+      UNKNOWN = 0;
+      POSITIVE = 1;
+      NEGATIVE = 2;
+    }
+
+    optional Sentiment sentiment = 2;
+  }
+
+  oneof content {
+    BotResponse response = 1;
+    UserFeedback user_feedback = 2;
+  }
+}
+
+message SmlConfigurationEvent {
+  // Whether SML features are available to this user.
+  optional bool sml_available = 1;
+
+  // User has ML completion enabled.
+  optional bool completion_enabled = 2;
+
+  // User has ML based fixes enabled.
+  optional bool transform_enabled = 3;
 }
