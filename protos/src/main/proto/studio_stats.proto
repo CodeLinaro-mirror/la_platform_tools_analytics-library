@@ -4939,6 +4939,8 @@ message UIActionStats {
   // this is a software identifier specified in code in our product and does
   // not contain user data. Examples: "MainMenu", "Editor", "NavBarToolbar".
   optional string ui_place = 5;
+  // For toggle UI actions to track whether they are turning on or off.
+  optional bool toggling_on = 6;
 
   // The way an UI action was invocated by the user.
   enum InvocationKind {
