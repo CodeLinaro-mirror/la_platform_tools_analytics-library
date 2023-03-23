@@ -12852,6 +12852,8 @@ message BuildOutputDownloadsInfoEvent {
     OPEN_DOWNLOADS_INFO_UI = 1;
     CLICK_LEARN_MORE_LINK = 2;
     SELECT_REPOSITORY_ROW = 3;
+    NOTIFICATION_TRIGGERED = 4;
+    NOTIFICATION_LINK_CLICK = 5;
   }
 
   optional View view = 1;
