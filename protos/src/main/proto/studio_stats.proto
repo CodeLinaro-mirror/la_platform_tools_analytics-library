@@ -594,6 +594,9 @@ message AndroidStudioEvent {
   // set when kind = SML_CONFIGURATION_EVENT
   optional SmlConfigurationEvent sml_configuration_event = 170;
 
+  // set when kind = KOTLIN_SUPPORT_DECLINED
+  optional KotlinSupportDeclined kotlin_support_declined = 171;
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -1352,6 +1355,9 @@ message AndroidStudioEvent {
 
     // Configuration settings for ML based features
     SML_CONFIGURATION_EVENT = 284;
+
+    // Event raised when user declines kotlin support for a project
+    KOTLIN_SUPPORT_DECLINED_EVENT = 285;
   }
 
   // Represents different Performance Monitoring types.
@@ -3059,7 +3065,7 @@ message EmulatorDetails {
     HAXM = 3;    // Intel HAXM
     HVF = 4;     // Apple Hypervisor.Framework
     HYPERV = 5;  // Microsoft Hyper-V
-    GVM = 6;     // AMD Hypervisor for Android Emulator
+    AEHD = 6;    // Android Emulator hypervisor driver
                  // Next tag: 7
   }
 }
@@ -9124,6 +9130,7 @@ enum EditorFileType {
   XML_RES_VALUES = 22;
   XML_RES_XML = 23;
   KOTLIN_COMPOSE = 24;
+  TOML = 25;
 }
 
 message TypingLatencyStats {
@@ -11590,6 +11597,30 @@ message GradleJdkInvalidEvent {
     INVALID_JDK_NO_JAVAC = 7;
     // Some required files are missing from the JDK path
     INVALID_JDK_MISSING_FILES = 8;
+    // The jdk.dir isn't defined in the project local.properties
+    UNDEFINED_LOCAL_PROPERTIES_JDK_DIR = 9;
+    // The jdk.dir defined in the project local.properties is invalid
+    INVALID_LOCAL_PROPERTIES_JDK_DIR = 10;
+    // The org.gradle.java.home isn't defined in the gradle.properties
+    UNDEFINED_GRADLE_PROPERTIES_JAVA_HOME = 11;
+    // The org.gradle.java.home defined in the gradle.properties is invalid
+    INVALID_GRADLE_PROPERTIES_JAVA_HOME = 12;
+    // The system environment variable JAVA_HOME isn't defined
+    UNDEFINED_ENVIRONMENT_VARIABLE_JAVA_HOME = 13;
+    // The system environment variable JAVA_HOME is invalid
+    INVALID_ENVIRONMENT_VARIABLE_JAVA_HOME = 14;
+    // The system environment variable STUDIO_GRADLE_JDK isn't defined
+    UNDEFINED_ENVIRONMENT_VARIABLE_STUDIO_GRADLE_JDK = 15;
+    // The system environment variable STUDIO_GRADLE_JDK is invalid
+    INVALID_ENVIRONMENT_VARIABLE_STUDIO_GRADLE_JDK = 16;
+    // The studio config jdk.table.xml doesn't contain gradleJvm table entry
+    UNDEFINED_GRADLE_JVM_TABLE_ENTRY = 17;
+    // The studio config jdk.table.xml contains gradleJvm table entry with
+    // undefined javaHome path
+    UNDEFINED_GRADLE_JVM_TABLE_ENTRY_JAVA_HOME = 18;
+    // The studio config jdk.table.xml contains gradleJvm table entry with
+    // invalid javaHome path
+    INVALID_GRADLE_JVM_TABLE_ENTRY_JAVA_HOME = 19;
   }
 }
 
@@ -13003,4 +13034,9 @@ message SmlConfigurationEvent {
 
   // User has ML based fixes enabled.
   optional bool transform_enabled = 3;
+}
+
+message KotlinSupportDeclined {
+  // template renderer used
+  optional AndroidStudioEvent.TemplateRenderer template_renderer = 1;
 }
