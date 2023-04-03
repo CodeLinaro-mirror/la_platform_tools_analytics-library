@@ -597,6 +597,9 @@ message AndroidStudioEvent {
   // set when kind = KOTLIN_SUPPORT_DECLINED
   optional KotlinSupportDeclined kotlin_support_declined = 171;
 
+  // set when kind = DEVICE_SCREENSHOT_EVENT
+  optional DeviceScreenshotEvent device_screenshot_event = 172;
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -1358,6 +1361,15 @@ message AndroidStudioEvent {
 
     // Event raised when user declines kotlin support for a project
     KOTLIN_SUPPORT_DECLINED_EVENT = 285;
+
+    // Event raised when user accepted to migrate Gradle JDK to local.properties
+    GRADLE_JDK_MIGRATE_TO_LOCAL_PROPERTIES_DIALOG_ACCEPTED = 286;
+
+    // Event raised when user declined to migrate Gradle JDK to local.properties
+    GRADLE_JDK_MIGRATE_TO_LOCAL_PROPERTIES_DIALOG_CANCELED = 287;
+
+    // Event related to screenshots taken of running devices
+    DEVICE_SCREENSHOT_EVENT = 288;
   }
 
   // Represents different Performance Monitoring types.
@@ -13039,4 +13051,27 @@ message SmlConfigurationEvent {
 message KotlinSupportDeclined {
   // template renderer used
   optional AndroidStudioEvent.TemplateRenderer template_renderer = 1;
+}
+
+message DeviceScreenshotEvent {
+  // The type of the device the screenshot is taken on
+  optional DeviceType device_type = 1;
+
+  // The type of decoration used for the screenshot
+  optional DecorationOption decoration_option = 2;
+
+  enum DeviceType {
+    UNKNOWN_DEVICE_TYPE = 0;
+    PHONE = 1;
+    WEAR = 2;
+    TV = 3;
+  }
+
+  enum DecorationOption {
+    UNKNOWN_DECORATION_OPTION = 0;
+    RECTANGULAR = 1;
+    DISPLAY_SHAPE_CLIP = 2;
+    PLAY_COMPATIBLE = 3;
+    FRAMED = 4;
+  }
 }
