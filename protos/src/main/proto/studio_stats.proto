@@ -12465,6 +12465,12 @@ message AppQualityInsightsUsageEvent {
     OFFLINE_TO_ONLINE = 2;
   }
 
+  enum AppQualityInsightsProductType {
+    UNKNOWN_PRODUCT_TYPE = 0;
+    CRASHLYTICS = 1;
+    PLAY_VITALS = 2;
+  }
+
   // The app_id is the id for the user's android app
   // which we salt on the client (28 day rotation) then sha256
   // so it is anonymized and is unique per user, but has a 1-N relation.
@@ -12505,6 +12511,9 @@ message AppQualityInsightsUsageEvent {
 
   // set when type = MODE_TRANSITION
   optional AppQualityInsightsModeTransitionDetails mode_transition_details = 13;
+
+  // Required for all event types.
+  optional AppQualityInsightsProductType product_type = 14;
 }
 
 message FastPreviewEvent {
