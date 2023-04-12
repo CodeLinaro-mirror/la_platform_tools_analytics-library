@@ -12094,6 +12094,29 @@ message LiveEditEvent {
     UNSUPPORTED_MODIFY_INLINE = 8;
     // LiveEdit failed because the user changed the class hierarchy
     UNSUPPORTED_MODIFY_INHERITANCE = 9;
+
+    // The following are from LiveEditUpdateException.Error
+    // We DO NOT log this. If this shows up in metrics, we know we have a bug at
+    // hand.
+    ANALYSIS_ERROR = 10;
+    // We DO NOT log this. If this shows up in metrics, we know we have a bug at
+    // hand.
+    COMPILATION_ERROR = 11;
+
+    NON_KOTLIN = 12;
+    NON_PRIVATE_INLINE_FUNCTION = 13;
+    UNABLE_TO_INLINE = 14;
+    UNABLE_TO_LOCATE_COMPOSE_GROUP = 15;
+    UNSUPPORTED_BUILD_SRC_CHANGE = 16;
+    UNSUPPORTED_SRC_CHANGE_RECOVERABLE = 17;
+    UNSUPPORTED_SRC_CHANGE_UNRECOVERABLE = 18;
+    UNSUPPORTED_TEST_SRC_CHANGE = 19;
+    UNABLE_TO_DESUGAR = 20;
+    INTERNAL_ERROR = 21;
+    KNOWN_ISSUE = 22;
+
+    // Semantic unsafe operations
+    PENDING_ERROR_IN_ANOTHER_FILE_AUTO_MODE = 23;
   }
 
   enum Mode {
