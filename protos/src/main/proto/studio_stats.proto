@@ -7986,6 +7986,8 @@ message DynamicLayoutInspectorAttachToProcess {
   optional bool debugger_paused_during_attach = 7;
   // Was auto connect enabled for this session
   optional bool auto_connect_enabled = 8;
+  // Was Layout Inspector embedded in the Running Devices Tool Window
+  optional bool is_embedded_layout_inspector = 9;
 
   // The Client type
   enum ClientType {
