@@ -410,6 +410,7 @@ enum GradleTaskExecutionType {
     VERIFY_LIBRARY_CLASSES = 323;
     EXTRACT_VERSION_CONTROL_INFO = 324;
     EXPAND_ART_PROFILE_WILDCARDS = 325;
+    SCREENSHOT_TEST = 326;
 }
 
 enum BooleanOption {
