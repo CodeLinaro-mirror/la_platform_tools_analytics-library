@@ -582,6 +582,7 @@ enum BooleanOption {
     ENABLE_EMULATOR_CONTROL = 168;
     FUSED_LIBRARY_SUPPORT = 169;
     SUPPORT_PAST_STUDIO_VERSIONS = 170;
+    ENABLE_SCREENSHOT_TEST = 171;
 }
 
 enum OptionalBooleanOption {
