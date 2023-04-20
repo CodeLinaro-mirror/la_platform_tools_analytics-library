@@ -13065,9 +13065,42 @@ message SmlChatBotEvent {
     optional Sentiment sentiment = 2;
   }
 
+  enum Action {
+    INVALID = 0;
+    MOVE_TO_EDITOR = 1;
+    MOVE_TO_CARET = 2;
+    MOVE_TO_NEW_FILE = 3;
+    ADD_DEPENDENCY = 4;
+    BROWSE_TOPIC = 5;
+    EXPLORE_IN_PLAYGROUND = 6;
+    MERGE_MANIFEST = 7;
+  }
+
+  message ActionInvoked {
+    optional SmlResponseMetadata metadata = 1;
+    optional Action action = 2;
+    optional EditorFileType file_type = 3;
+  }
+
+  message ActionResult {
+    optional SmlResponseMetadata metadata = 1;
+    optional Action action = 2;
+    optional EditorFileType file_type = 3;
+    optional bool success = 4;
+  }
+
+  message ParseResult {
+    optional SmlResponseMetadata metadata = 1;
+    optional EditorFileType file_type = 2;
+    optional bool success = 3;
+  }
+
   oneof content {
     BotResponse response = 1;
     UserFeedback user_feedback = 2;
+    ActionInvoked action_invoked = 3;
+    ActionResult action_result = 4;
+    ParseResult parse_result = 5;
   }
 }
 
