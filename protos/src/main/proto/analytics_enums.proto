@@ -420,7 +420,7 @@ enum BooleanOption {
     ENABLE_BUILD_CACHE = 4 [deprecated=true];
     ENABLE_PROFILE_JSON = 5;
     ENABLE_SDK_DOWNLOAD = 6;
-    ENABLE_TEST_SHARDING = 7;
+    ENABLE_TEST_SHARDING = 7 [deprecated=true];
     ENABLE_DEX_ARCHIVE = 8;
     ENABLE_NEW_RESOURCE_PROCESSING = 9;
     ENABLE_IMPROVED_DEPENDENCY_RESOLUTION = 10;
@@ -605,7 +605,7 @@ enum OptionalBooleanOption {
 
 enum IntegerOption {
     UNKNOWN_INTEGER_OPTION = 0;
-    ANDROID_TEST_SHARD_COUNT = 1;
+    ANDROID_TEST_SHARD_COUNT = 1 [deprecated=true];
     ANDROID_SDK_CHANNEL = 2;
     THREAD_POOL_SIZE = 3;
     IDE_BUILD_MODEL_ONLY_VERSION = 4;
