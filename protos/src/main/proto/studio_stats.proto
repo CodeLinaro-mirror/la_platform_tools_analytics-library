@@ -12598,8 +12598,14 @@ message MemoryUsageReportEvent {
 
   message MemoryTrafficStatistics {
     optional ObjectsStatistics total_stats = 1;
-    optional ObjectsStatistics new_generation_stats = 2;
-    repeated ObjectsStatistics old_generations_stats = 3;
+
+    // Historical: we no longer track object creation timestamps
+    optional ObjectsStatistics new_generation_stats = 2 [deprecated = true];
+    // Historical: we no longer track object creation timestamps
+    repeated ObjectsStatistics old_generations_stats = 3 [deprecated = true];
+
+    optional ObjectsStatistics platform_objects_stats = 4;
+    optional ObjectsStatistics platform_retained_stats = 5;
   }
 
   message ClusterObjectsStatistics {
