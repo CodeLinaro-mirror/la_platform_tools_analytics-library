@@ -408,6 +408,7 @@ enum GradleTaskExecutionType {
     EXTRACT_SUPPORTED_LOCALES = 321;
     GENERATE_LOCALE_CONFIG = 322;
     VERIFY_LIBRARY_CLASSES = 323;
+    EXTRACT_VERSION_CONTROL_INFO = 324;
 }
 
 enum BooleanOption {
@@ -584,6 +585,7 @@ enum BooleanOption {
     SUPPORT_PAST_STUDIO_VERSIONS = 170;
     ENABLE_SCREENSHOT_TEST = 171;
     LINT_ANALYSIS_PER_COMPONENT = 172;
+    ENABLE_VCS_INFO = 173;
 }
 
 enum OptionalBooleanOption {
