@@ -3938,6 +3938,8 @@ message GradleBuildProject {
     FUSED_LIBRARIES = 8;
     // the 'com.android.privacy-sandbox-sdk' plugin
     PRIVACY_SANDBOX_SDK = 9;
+    // The 'com.android.kotlin.multiplatform.library' plugin
+    KOTLIN_MULTIPLATFORM_ANDROID_LIBRARY = 10;
   }
 
   enum PluginGeneration {
@@ -4286,6 +4288,8 @@ message GradleBuildVariant {
     TEST_FIXTURES = 10;
     // main artifact of the privacy sandbox sdk bundle plugin
     PRIVACY_SANDBOX_SDK = 11;
+    // Main variant of the kotlin multiplatform android library plugin
+    KOTLIN_MULTIPLATFORM_ANDROID_LIBRARY = 12;
   }
 
   // Different tools that provide Java 8 language usage.
