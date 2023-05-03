@@ -7967,8 +7967,12 @@ message DynamicLayoutInspectorGotoDeclaration {
   // Number of times the "Goto Declaration" menu action was activated with key
   // shortcut
   optional uint32 key_strokes_shortcut = 2;
-  // Number of times a double click was used to "Goto Declaration"
+  // Number of times double click was used to "Goto Declaration"
+  // from component tree
   optional uint32 double_clicks = 3;
+  // Number of times double click was used to "Goto Declaration"
+  // from device render
+  optional uint32 double_clicks_from_render = 4;
 }
 
 // Session data for dynamic layout inspector (inspector v2) process attaching
