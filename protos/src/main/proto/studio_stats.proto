@@ -2924,6 +2924,15 @@ message EmulatorStreamScreenshot {
 
 // Metrics for grpc invocations.
 message EmulatorGrpc {
+  enum GrpcConnection {
+    // Unknown type of connection.
+    UNKNOWN_GRPC_CONNECTION = 0;
+    // An incoming call to emulator
+    SERVER = 1;
+    // Emulator making an outgoing call
+    CLIENT = 2;
+  }
+
   // CRC32 digest of the fully-specified method name.
   optional uint32 call_id = 1;
   // Number of requests
@@ -2936,6 +2945,12 @@ message EmulatorGrpc {
   optional PercentileEstimator snd_bytes_estimate = 5;
   // Duration of the total request time in milliseconds.
   optional PercentileEstimator duration = 6;
+  // Number of messages received
+  optional PercentileEstimator rcv = 7;
+  // Number of messages send
+  optional PercentileEstimator snd = 8;
+  // Type of connection
+  optional GrpcConnection type = 9;
 }
 
 // Metrics related to the Emulator.
@@ -6450,6 +6465,24 @@ message CpuCaptureMetadata {
     PREPROCESS_FAILED_SIMPLEPERF_FAILED_TO_WAIT = 28;
   }
 
+  enum CpuProfilerEntryPoint {
+    // The entry point was not specified.
+    UNKNOWN = 0;
+    // User enters the CpuProfilerStage by clicking the CpuMonitor.
+    CPU_MONITOR = 1;
+    // User enters the CpuProfilerStage by performing a startup trace.
+    STARTUP_PROFILING = 2;
+    // User enters the CpuProfilerStage via the Energy Profiler deprecation
+    // panel hyperlink.
+    ENERGY_DEPRECATION_LINK = 3;
+    // User selects an ongoing session performing a capture.
+    ONGOING_SESSION_SELECTION = 4;
+    // User navigates back to parent stage or the child stage fails to load.
+    CHILD_STAGE_BACK_BTN_OR_FAILURE = 5;
+    // User enters the CpuProfilerStage via an Energy Task.
+    ENERGY_TASK = 6;
+  }
+
   // The result of a CPU capture
   optional CaptureStatus capture_status = 1;
 
@@ -6481,6 +6514,9 @@ message CpuCaptureMetadata {
 
   // Whether the trace contains Compose Tracing nodes
   optional bool has_compose_tracing_nodes = 9;
+
+  // The entry point to the cpu profiling stage (cpu profiler)
+  optional CpuProfilerEntryPoint cpu_profiler_entry_point = 10;
 }
 
 // Data associated with importing CPU traces.
@@ -6748,6 +6784,7 @@ message AdtUiTrackGroupMetadata {
     MOVE_DOWN = 2;
     COLLAPSE = 3;
     EXPAND = 4;
+    MOUSE_OVER = 5;
   }
 }
 
@@ -6802,6 +6839,15 @@ message PerfettoSdkHandshakeMetadata {
 message ResolveComposeTracingCodeLocationMetadata {
   // Number of source-code locations resolved for the query
   optional int32 result_count = 1;
+}
+
+// Metadata for POWER_PROFILER_DATA_CAPTURED event tracking the number of
+// power rails and battery counters captured in a power profiler trace
+message PowerProfilerCaptureMetadata {
+  // Number of power rails
+  optional int32 power_rail_count = 1;
+  // Number of battery counters
+  optional int32 battery_counter_count = 2;
 }
 
 // Android Profiler metrics
@@ -6885,6 +6931,9 @@ message AndroidProfilerEvent {
   // Set if |type| is |RESOLVE_COMPOSE_TRACING_CODE_LOCATION|
   optional ResolveComposeTracingCodeLocationMetadata
       resolve_compose_tracing_code_location_metadata = 26;
+
+  // Set if |type| is |POWER_PROFILER_DATA_CAPTURED|
+  optional PowerProfilerCaptureMetadata power_profiler_capture_metadata = 27;
 
   enum Stage {
     UNKNOWN_STAGE = 0;
@@ -7027,6 +7076,7 @@ message AndroidProfilerEvent {
     // Sent in addition to |SELECT_RANGE| but including extra data
     SELECT_ENERGY_RANGE = 601;
     SELECT_ENERGY_EVENT = 602;
+    POWER_PROFILER_DATA_CAPTURED = 603;
 
     /// Session
 
