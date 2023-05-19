@@ -8456,6 +8456,8 @@ message RunEvent {
     FAIL = 2;
     // The run was aborted mid-way
     ABORT = 3;
+    // The `Before Run Task` failed.
+    BEFORE_RUN_TASK_FAIL = 4;
   }
 
   optional Status status = 1;
