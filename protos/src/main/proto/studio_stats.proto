@@ -2924,6 +2924,15 @@ message EmulatorStreamScreenshot {
 
 // Metrics for grpc invocations.
 message EmulatorGrpc {
+  enum GrpcConnection {
+    // Unknown type of connection.
+    UNKNOWN_GRPC_CONNECTION = 0;
+    // An incoming call to emulator
+    SERVER = 1;
+    // Emulator making an outgoing call
+    CLIENT = 2;
+  }
+
   // CRC32 digest of the fully-specified method name.
   optional uint32 call_id = 1;
   // Number of requests
@@ -2936,6 +2945,12 @@ message EmulatorGrpc {
   optional PercentileEstimator snd_bytes_estimate = 5;
   // Duration of the total request time in milliseconds.
   optional PercentileEstimator duration = 6;
+  // Number of messages received
+  optional PercentileEstimator rcv = 7;
+  // Number of messages send
+  optional PercentileEstimator snd = 8;
+  // Type of connection
+  optional GrpcConnection type = 9;
 }
 
 // Metrics related to the Emulator.
@@ -6450,6 +6465,24 @@ message CpuCaptureMetadata {
     PREPROCESS_FAILED_SIMPLEPERF_FAILED_TO_WAIT = 28;
   }
 
+  enum CpuProfilerEntryPoint {
+    // The entry point was not specified.
+    UNKNOWN = 0;
+    // User enters the CpuProfilerStage by clicking the CpuMonitor.
+    CPU_MONITOR = 1;
+    // User enters the CpuProfilerStage by performing a startup trace.
+    STARTUP_PROFILING = 2;
+    // User enters the CpuProfilerStage via the Energy Profiler deprecation
+    // panel hyperlink.
+    ENERGY_DEPRECATION_LINK = 3;
+    // User selects an ongoing session performing a capture.
+    ONGOING_SESSION_SELECTION = 4;
+    // User navigates back to parent stage or the child stage fails to load.
+    CHILD_STAGE_BACK_BTN_OR_FAILURE = 5;
+    // User enters the CpuProfilerStage via an Energy Task.
+    ENERGY_TASK = 6;
+  }
+
   // The result of a CPU capture
   optional CaptureStatus capture_status = 1;
 
@@ -6481,6 +6514,9 @@ message CpuCaptureMetadata {
 
   // Whether the trace contains Compose Tracing nodes
   optional bool has_compose_tracing_nodes = 9;
+
+  // The entry point to the cpu profiling stage (cpu profiler)
+  optional CpuProfilerEntryPoint cpu_profiler_entry_point = 10;
 }
 
 // Data associated with importing CPU traces.
@@ -6748,6 +6784,7 @@ message AdtUiTrackGroupMetadata {
     MOVE_DOWN = 2;
     COLLAPSE = 3;
     EXPAND = 4;
+    MOUSE_OVER = 5;
   }
 }
 
@@ -6802,6 +6839,15 @@ message PerfettoSdkHandshakeMetadata {
 message ResolveComposeTracingCodeLocationMetadata {
   // Number of source-code locations resolved for the query
   optional int32 result_count = 1;
+}
+
+// Metadata for POWER_PROFILER_DATA_CAPTURED event tracking the number of
+// power rails and battery counters captured in a power profiler trace
+message PowerProfilerCaptureMetadata {
+  // Number of power rails
+  optional int32 power_rail_count = 1;
+  // Number of battery counters
+  optional int32 battery_counter_count = 2;
 }
 
 // Android Profiler metrics
@@ -6885,6 +6931,9 @@ message AndroidProfilerEvent {
   // Set if |type| is |RESOLVE_COMPOSE_TRACING_CODE_LOCATION|
   optional ResolveComposeTracingCodeLocationMetadata
       resolve_compose_tracing_code_location_metadata = 26;
+
+  // Set if |type| is |POWER_PROFILER_DATA_CAPTURED|
+  optional PowerProfilerCaptureMetadata power_profiler_capture_metadata = 27;
 
   enum Stage {
     UNKNOWN_STAGE = 0;
@@ -7027,6 +7076,7 @@ message AndroidProfilerEvent {
     // Sent in addition to |SELECT_RANGE| but including extra data
     SELECT_ENERGY_RANGE = 601;
     SELECT_ENERGY_EVENT = 602;
+    POWER_PROFILER_DATA_CAPTURED = 603;
 
     /// Session
 
@@ -12590,13 +12640,26 @@ message FastPreviewEvent {
   optional CompilationResult compilation_result = 2;
 }
 
+// Event containing a report on the memory usage of Android Studio components
 message MemoryUsageReportEvent {
+  // Number of objects and their total size
   message ObjectsStatistics {
+    // Number of objects
     optional uint32 objects_count = 1;
+    // Total size of objects in bytes
     optional uint64 total_size_bytes = 2;
   }
 
+  // Characteristics of the object tree. It contains total number of objects in
+  // the subtree and their total size. It also contains the number and total
+  // size of objects declared in IntelliJ platform code from the subtree.
+  //
+  // MemoryTrafficStatistics is an outdated name: data here no longer represents
+  // memory traffic, but the name was kept to maintain backward compatibility.
+  // ObjectTreeStatistics is
+  // a better name.
   message MemoryTrafficStatistics {
+    // Statistics of a subtree objects.
     optional ObjectsStatistics total_stats = 1;
 
     // Historical: we no longer track object creation timestamps
@@ -12604,27 +12667,45 @@ message MemoryUsageReportEvent {
     // Historical: we no longer track object creation timestamps
     repeated ObjectsStatistics old_generations_stats = 3 [deprecated = true];
 
+    // Statistics of IntelliJ platform declared objects from the subtree.
     optional ObjectsStatistics platform_objects_stats = 4;
+    // Statistics of the objects from the subtree that are retained by the
+    // IntelliJ platform declared objects.
     optional ObjectsStatistics platform_retained_stats = 5;
   }
 
+  // Statistics of objects of the cluster(component or category). Contains data
+  // on the subtrees owned and retained by the cluster.
   message ClusterObjectsStatistics {
+    // Statistics of the subtree owned by the cluster.
     optional MemoryTrafficStatistics owned_cluster_stats = 1;
+    // Statistics of the subtree retained by the cluster.
     optional MemoryTrafficStatistics retained_cluster_stats = 2;
   }
 
+  // Statistics of the cluster.
   message ClusterMemoryUsage {
+    // Label of the component/category.
     optional string label = 1;
+    // Statistics of the cluster objects.
     optional ClusterObjectsStatistics stats = 2;
+    // Number of the instances of tracked classes.
+    // (these class names are listed in memory_usage_reporting.textproto)
+    map<string, int32> instance_count_per_class_name = 3;
   }
 
+  // Information about the cluster for which the owning component wasn't
+  // unambiguously determined
   message SharedClusterMemoryUsage {
     // Ids of the components, enumerated according to used_components field
     repeated int32 ids = 1 [packed = true];
+    // Statistics of the objects from the shared cluster.
     optional MemoryTrafficStatistics stats = 2;
   }
 
+  // Metadata of the report collection
   message MemoryUsageCollectionMetadata {
+    // Status code of the report collection.
     enum StatusCode {
       NO_ERROR = 0;
       HEAP_IS_TOO_BIG = 1;
@@ -12644,25 +12725,39 @@ message MemoryUsageReportEvent {
                                       // the CPU load.
     }
 
+    // Status code of the report collection
     optional StatusCode status_code = 1;
+    // Statistics of the total memory used by Android Studio
     optional MemoryTrafficStatistics total_heap_objects_stats = 2;
+    // Peak size of internal field cache
     optional uint32 field_cache_count_peak = 3;
+    // Peak length of object queue used for traverse BFS
     optional uint32 object_queue_length_peak = 4;
     // number of objects that were enumerated during the first traverse, but
     // GCed after that and were not reached during the second pass.
     optional uint32 garbage_collected_before_2pass_count = 5;
+    // The time it took to collect the report
     optional double collection_time_seconds = 6;
+    // Was the power save mode enabled at the time of sending the report
     optional bool is_in_power_save_mode = 7;
+    // The number of unsuccessful attempts to access the field via reflection.
+    // This may be due, for example, to the fact that VM limited the access to
+    // some fields.
     optional uint32 unsuccessful_field_accesses_count = 8;
+    // Uptime of the Java virtual machine at the start of the report collecting
     optional double collection_start_timestamp_seconds = 9;
     // Sequence number of report collection iteration that happened in this
     // IDE session.
     optional int32 collection_iteration = 10;
   }
 
+  // Statistics of the components
   repeated ClusterMemoryUsage component_stats = 1;
+  // Statistics of the shared clusters
   repeated SharedClusterMemoryUsage shared_component_stats = 2;
+  // Statistics of the categories
   repeated ClusterMemoryUsage component_category_stats = 4;
+  // Report collection metadata
   optional MemoryUsageCollectionMetadata metadata = 6;
 }
 
@@ -12762,6 +12857,8 @@ message DirectAccessUsageEvent {
     EXTEND_RESERVATION = 4;
     // User requested to end reservation
     END_RESERVATION = 5;
+    // Device disconnected
+    DISCONNECT_DEVICE = 6;
   }
 
   enum FailureReason {
@@ -12804,16 +12901,36 @@ message DirectAccessUsageEvent {
     optional ExtendReservationDuration extend_reservation_duration = 2;
   }
 
+  message DisconnectDeviceDetails {
+    // True if device successfully disconnects
+    optional bool success = 1;
+    // True if user disconnected device, false if it was disconnected by other
+    // reasons such as reservation end or error
+    optional bool user_disconnected = 2;
+  }
+
   message EndReservationDetails {
+    enum EndReservationType {
+      UNKNOWN = 0;
+      // Reservation ended due to an error on FTL side
+      ERROR = 1;
+      // Reservation time expired
+      EXPIRE = 2;
+      // User force checked-in the device
+      FORCE_CHECK_IN = 3;
+    }
     // True if end reservation request succeeded
     optional bool success = 1;
     // User ended reservation or reservation expired
-    optional bool user_ended = 2;
+    // Deprecated by end_reservation_type
+    optional bool user_ended = 2 [deprecated = true];
     // Total reservation time
     // MAX_VALUE: 4,294,967,295 -> ~49710 days
     optional uint32 total_reservation_time_sec = 3;
     // Average connection latency calculated over the entire session
     optional uint32 average_connection_latency_ms = 4;
+    // Tracks how the reservation ended.
+    optional EndReservationType end_reservation_type = 5;
   }
 
   // Type of event
@@ -12834,6 +12951,8 @@ message DirectAccessUsageEvent {
   optional EndReservationDetails end_reservation_details = 7;
   // set when any of the above event fails (success bool is marked false)
   optional FailureReason failure_reason = 8;
+  // Set when type = DISCONNECT_DEVICE
+  optional DisconnectDeviceDetails disconnect_device_details = 9;
 }
 
 message SafeModeStatsEvent {
