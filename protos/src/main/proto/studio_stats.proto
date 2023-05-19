@@ -11932,6 +11932,8 @@ message GradleJdkInvalidEvent {
     // The studio config jdk.table.xml contains gradleJvm table entry with
     // invalid javaHome path
     INVALID_GRADLE_JVM_TABLE_ENTRY_JAVA_HOME = 19;
+    // Unsupported gradleJvm #GRADLE_LOCAL_JAVA_HOME macro to configure Gradle JDK
+    UNSUPPORTED_GRADLE_LOCAL_JAVA_HOME_MACRO = 20;
   }
 }
 
