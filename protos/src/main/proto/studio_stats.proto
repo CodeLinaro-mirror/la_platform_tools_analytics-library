@@ -13209,6 +13209,9 @@ message SmlChatBotEvent {
     BROWSE_TOPIC = 5;
     EXPLORE_IN_PLAYGROUND = 6;
     MERGE_MANIFEST = 7;
+    MERGE_SUGGESTION = 9;
+    INSERT_RESOURCES = 10;
+    INSERT_NAME_SUGGESTIONS = 11;
   }
 
   message ActionInvoked {
