@@ -588,6 +588,7 @@ enum BooleanOption {
     ENABLE_SCREENSHOT_TEST = 171;
     LINT_ANALYSIS_PER_COMPONENT = 172;
     ENABLE_VCS_INFO = 173;
+    LINT_BASELINE_OMIT_LINE_NUMBERS = 174;
 }
 
 enum OptionalBooleanOption {
