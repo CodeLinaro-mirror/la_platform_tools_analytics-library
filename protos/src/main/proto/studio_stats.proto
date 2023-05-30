@@ -12414,7 +12414,10 @@ message AppQualityInsightsUsageEvent {
       // User isn't logged into Android Studio
       NO_LOGIN = 1;
       // User doesn't have a google-services.json in the module
-      NO_FIREBASE = 2;
+      // Deprecated by NO_ACCESS below
+      NO_FIREBASE = 2 [deprecated = true];
+      // User doesn't have access to any apps
+      NO_ACCESS = 3;
     }
     optional EmptyState empty_state = 1;
   }
