@@ -13238,6 +13238,7 @@ message SmlChatBotEvent {
     BUILD = 8;
     CRASHLYTICS = 9;
     PLAY_VITALS = 10;
+    LOGCAT = 11;
   }
 
   message BotInvoked {
