@@ -6284,6 +6284,8 @@ message AppLinksAssistantEvent {
 
   optional IntentFilterFix intent_filter_fix = 12;
 
+  optional LinkFilterOption link_filter_option = 13;
+
   // UI event source.
   enum EventSource {
     // Will be deprecated and replaced by NEW_LINK_CREATION_SIDE_PANEL.
@@ -6402,6 +6404,13 @@ message AppLinksAssistantEvent {
     optional int64 num_broken_links_before = 2;
     // Number of invalid links after fixing (i.e. links that need manual fixes)
     optional int64 num_broken_links_after = 3;
+  }
+
+  enum LinkFilterOption {
+    UNKNOWN = 0;  // We don't expect this to actually be used.
+    NONE = 1;
+    MANIFEST_ISSUES = 2;
+    JSON_ISSUES = 3;
   }
 }
 
