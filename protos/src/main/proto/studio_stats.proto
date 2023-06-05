@@ -1964,6 +1964,8 @@ message AndroidStudioEvent {
     CONFIRM_DISTRIBUTIONSHA256SUM_FROM_WRAPPER_HYPERLINK = 47;
     ENABLE_ANDROIDX_HYPERLINK = 48;
     REMOVE_JCENTER_HYPERLINK = 49;
+    OPEN_UPGRADE_ASSISTANT_HYPERLINK = 50;
+    SUPPRESS_UNSUPPORTED_SDK_HYPERLINK = 51;
   }
 }
 
@@ -12259,6 +12261,9 @@ message SystemHealthEvent {
     MEMORY_LONG_GC_PAUSE = 8;
     // OOM error detected
     MEMORY_OOM_ERROR = 9;
+
+    // Exception reported to crash
+    EXCEPTION = 10;
   }
 
   enum DeadlockStatus {
@@ -12308,6 +12313,22 @@ message SystemHealthEvent {
     optional int64 period_duration_ms = 3;
   }
 
+  message Exception {
+    // Stable signature for the exception
+    optional string stable_signature = 1;
+    // Crash ReportID if assigned for the report
+    // Special value "[timeout]" indicates report id was not set in required
+    // time.
+    optional string crash_report_id = 2;
+    // Index of the exception in this session
+    optional int64 exception_index = 3;
+    // Index of exception with this signature in this session
+    optional int64 signature_index = 4;
+    // As some reports may be skipped if they happen too often,
+    // this field tells how many were skipped for the given signature
+    optional int64 signature_reports_skipped = 5;
+  }
+
   optional SystemHealthEventType event_type = 1;
   // Additional information about current UI freeze
   optional UIFreeze ui_freeze = 2;
@@ -12315,6 +12336,8 @@ message SystemHealthEvent {
   optional Exit exit = 3;
   // Additional information about memory events
   optional Memory memory = 4;
+  // Exception details
+  optional Exception exception = 5;
 }
 
 message ComposePreviewCanvasEvent {
@@ -12393,7 +12416,10 @@ message AppQualityInsightsUsageEvent {
       // User isn't logged into Android Studio
       NO_LOGIN = 1;
       // User doesn't have a google-services.json in the module
-      NO_FIREBASE = 2;
+      // Deprecated by NO_ACCESS below
+      NO_FIREBASE = 2 [deprecated = true];
+      // User doesn't have access to any apps
+      NO_ACCESS = 3;
     }
     optional EmptyState empty_state = 1;
   }
@@ -13200,6 +13226,26 @@ message SmlChatBotEvent {
     optional Sentiment sentiment = 2;
   }
 
+  enum EntryPoint {
+    UNKNOWN = 0;
+    DOCUMENT = 1;
+    COMMENT = 2;
+    SIMPLIFY = 3;
+    EXPLAIN = 4;
+    OTHER_EDITOR = 5;
+    IDE_ERROR = 6;
+    SYNC = 7;
+    BUILD = 8;
+    CRASHLYTICS = 9;
+    PLAY_VITALS = 10;
+    LOGCAT = 11;
+  }
+
+  message BotInvoked {
+    optional SmlResponseMetadata metadata = 1;
+    optional EntryPoint entry_point = 2;
+  }
+
   enum Action {
     INVALID = 0;
     MOVE_TO_EDITOR = 1;
@@ -13239,12 +13285,19 @@ message SmlChatBotEvent {
     ActionInvoked action_invoked = 3;
     ActionResult action_result = 4;
     ParseResult parse_result = 5;
+    BotInvoked bot_invoked = 6;
   }
 }
 
 message SmlConfigurationEvent {
   // Whether SML features are available to this user.
   optional bool sml_available = 1;
+
+  // Whether this user has started Studio Bot onboarding.
+  optional bool bot_onboarding_started = 4;
+
+  // Whether this user has completed Studio Bot onboarding.
+  optional bool bot_onboarding_completed = 5;
 
   // User has ML completion enabled.
   optional bool completion_enabled = 2;
