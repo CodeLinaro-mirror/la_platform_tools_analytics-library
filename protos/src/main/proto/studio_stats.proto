@@ -12537,6 +12537,11 @@ message AppQualityInsightsUsageEvent {
       REGRESSIVE_SIGNAL = 4;
       REPETITIVE_SIGNAL = 5;
     }
+    enum VisibilityFilter {
+      UNKNOWN_VISIBILITY = 0;
+      ALL_VISIBILITY = 1;
+      USER_PERCEIVED = 2;
+    }
 
     // The Time filter used for this fetch of crashes
     optional TimeFilter time_filter = 1;
@@ -12562,6 +12567,8 @@ message AppQualityInsightsUsageEvent {
     // Whether the device filter is enabled for this fetch (false means all
     // devices)
     optional bool device_filter = 10;
+    // The visibility type used for this fetch.
+    optional VisibilityFilter visibility_filter = 11;
   }
 
   message AppQualityInsightsCrashOpenDetails {
