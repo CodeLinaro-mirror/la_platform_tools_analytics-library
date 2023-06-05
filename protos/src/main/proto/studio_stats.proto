@@ -12260,6 +12260,9 @@ message LiveEditEvent {
 
     // Semantic unsafe operations
     PENDING_ERROR_IN_ANOTHER_FILE_AUTO_MODE = 23;
+
+    UNSUPPORTED_BUILD_LIBRARY_DESUGAR = 24;
+    BAD_MIN_API = 25;
   }
 
   enum Mode {
