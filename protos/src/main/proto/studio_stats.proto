@@ -600,6 +600,9 @@ message AndroidStudioEvent {
   // set when kind = DEVICE_SCREENSHOT_EVENT
   optional DeviceScreenshotEvent device_screenshot_event = 172;
 
+  // set when kind = EDITOR_NOTIFICATION
+  optional EditorNotification editor_notification = 173;
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -1370,6 +1373,9 @@ message AndroidStudioEvent {
 
     // Event related to screenshots taken of running devices
     DEVICE_SCREENSHOT_EVENT = 288;
+
+    // Event related to a notification being displayed to the user
+    EDITOR_NOTIFICATION = 289;
   }
 
   // Represents different Performance Monitoring types.
@@ -6274,8 +6280,15 @@ message AppLinksAssistantEvent {
   // and for PWG approved scenarios.
   optional string raw_project_id = 10;
 
+  optional ValidationSummary validation_summary = 11;
+
+  optional IntentFilterFix intent_filter_fix = 12;
+
+  optional LinkFilterOption link_filter_option = 13;
+
   // UI event source.
   enum EventSource {
+    // Will be deprecated and replaced by NEW_LINK_CREATION_SIDE_PANEL.
     ASSISTANT_SIDE_PANEL = 1;
 
     // UI elements of URL mapping panel.
@@ -6306,6 +6319,33 @@ message AppLinksAssistantEvent {
     APP_LINKS_TEST_PANEL = 17;
     APP_LINKS_TEST_PANEL_MODULE_SELECTION = 18;
     APP_LINKS_TEST_PANEL_RUN_TEST_BUTTON = 19;
+
+    // The new link creation panel.
+    NEW_LINK_CREATION_SIDE_PANEL = 20;
+
+    // The main page of the new App Links Assistant.
+    OVERVIEW_TABLE = 22;
+    OVERVIEW_TABLE_FIX_ALL_APP_CHECKS_BUTTON = 23;
+    OVERVIEW_TABLE_FIX_ALL_WEB_CHECKS_BUTTON = 24;
+    OVERVIEW_TABLE_SEARCH_BOX = 25;
+    OVERVIEW_TABLE_FILTERS = 26;
+
+    // App link details page of new App Links Assistant.
+    DETAILS = 27;
+    DETAILS_FIX_ONE_LINK_APP_CHECKS_BUTTON = 28;
+    DETAILS_FIX_ONE_LINK_WEB_CHECKS_BUTTON = 29;
+    DETAILS_RUN_CHECKS_BUTTON = 30;
+
+    // Manual fix guidance page of new App Links Assistant.
+    MANUAL_FIX = 31;
+    MANUAL_FIX_ROW = 32;
+
+    // Fix web checks page of new App Links Assistant.
+    FIX_WEB_CHECKS_CREATE_JSON_BUTTON = 33;
+    FIX_WEB_CHECKS_SAVE_JSON_BUTTON = 34;
+
+    // Event sources that are not tied to any particular UI.
+    VALIDATION = 35;
   }
 
   // The state list of UI event source.
@@ -6332,6 +6372,45 @@ message AppLinksAssistantEvent {
     // Corresponds to attribute android:pathPattern of <data> tag in
     // Android Manifest File
     PATH_PATTERN = 3;
+  }
+
+  // Message to be sent when validation is run.
+  message ValidationSummary {
+    // Stats of custom scheme links
+    optional int64 total_cs_links = 1;
+    optional int64 total_valid_cs_links = 2;
+    // cs_links_app_check_failed = total_cs_links - total_valid_cs_links
+
+    // Stats of app links
+    optional int64 total_app_links = 3;
+    optional int64 total_valid_app_links = 4;
+    // Number of links with app checks issues
+    optional int64 app_links_app_check_failed = 5;
+    // Number of links with web checks issues
+    optional int64 app_links_web_check_failed = 6;
+    // Number of links with Google Ads policy notifications
+    optional int64 app_links_google_ads_policy_failed = 7;
+
+    // Stats of domains
+    optional int64 total_domains = 8;
+    // Number of domains with issues
+    optional int64 domains_web_check_failed = 9;
+  }
+
+  message IntentFilterFix {
+    // Total number of links that we are trying to fix in this operation
+    optional int64 total_links = 1;
+    // Initial number of invalid links
+    optional int64 num_broken_links_before = 2;
+    // Number of invalid links after fixing (i.e. links that need manual fixes)
+    optional int64 num_broken_links_after = 3;
+  }
+
+  enum LinkFilterOption {
+    UNKNOWN = 0;  // We don't expect this to actually be used.
+    NONE = 1;
+    MANIFEST_ISSUES = 2;
+    JSON_ISSUES = 3;
   }
 }
 
@@ -12181,6 +12260,9 @@ message LiveEditEvent {
 
     // Semantic unsafe operations
     PENDING_ERROR_IN_ANOTHER_FILE_AUTO_MODE = 23;
+
+    UNSUPPORTED_BUILD_LIBRARY_DESUGAR = 24;
+    BAD_MIN_API = 25;
   }
 
   enum Mode {
@@ -12458,6 +12540,11 @@ message AppQualityInsightsUsageEvent {
       REGRESSIVE_SIGNAL = 4;
       REPETITIVE_SIGNAL = 5;
     }
+    enum VisibilityFilter {
+      UNKNOWN_VISIBILITY = 0;
+      ALL_VISIBILITY = 1;
+      USER_PERCEIVED = 2;
+    }
 
     // The Time filter used for this fetch of crashes
     optional TimeFilter time_filter = 1;
@@ -12483,6 +12570,8 @@ message AppQualityInsightsUsageEvent {
     // Whether the device filter is enabled for this fetch (false means all
     // devices)
     optional bool device_filter = 10;
+    // The visibility type used for this fetch.
+    optional VisibilityFilter visibility_filter = 11;
   }
 
   message AppQualityInsightsCrashOpenDetails {
@@ -13331,5 +13420,15 @@ message DeviceScreenshotEvent {
     DISPLAY_SHAPE_CLIP = 2;
     PLAY_COMPATIBLE = 3;
     FRAMED = 4;
+  }
+}
+
+message EditorNotification {
+  // The type of notification being displayed to the user
+  optional NotificationType notification_type = 1;
+
+  enum NotificationType {
+    UNKNOWN = 0;
+    ESSENTIALS_MODE = 1;
   }
 }
