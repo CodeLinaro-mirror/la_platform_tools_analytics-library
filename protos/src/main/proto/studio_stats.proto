@@ -9563,9 +9563,15 @@ message WindowsDefenderStatus {
   enum Status {
     UNKNOWN_STATUS = 0;
     SCANNING_DISABLED = 1;
-    ALL_EXCLUDED = 2;
-    SOME_EXCLUDED = 3;
-    NONE_EXCLUDED = 4;
+    // Deprecated, excluded paths information not available anymore
+    ALL_EXCLUDED = 2 [deprecated = true];
+    // Deprecated, excluded paths information not available anymore
+    SOME_EXCLUDED = 3 [deprecated = true];
+    // Deprecated, excluded paths information not available anymore
+    NONE_EXCLUDED = 4 [deprecated = true];
+    CHECK_IGNORED = 5;
+    ENABLED_AUTO = 6;
+    ENABLED_MANUAL = 7;
   }
 }
 
@@ -10284,6 +10290,9 @@ message BuildAttributionUiEvent {
     TOOL_WINDOW_BALLOON_DONT_SHOW_AGAIN_LINK_CLICKED = 30;
     MIGRATE_NON_TRANSITIVE_R_CLASS_ACTION_CLICKED = 31;
     TAB_OPENED_WITH_ACTION = 32;
+    DEFENDER_WARNING_SUPPRESS_CLICKED = 33;
+    DEFENDER_WARNING_AUTO_EXCLUDE_SUCCESS = 34;
+    DEFENDER_WARNING_AUTO_EXCLUDE_FAILURE = 35;
   }
 
   message Page {
@@ -10329,6 +10338,7 @@ message BuildAttributionUiEvent {
       TASK_CATEGORY_CRITICAL_PATH_TASK_PAGE = 32;
       // Task category warning on 'Warnings' page
       TASK_CATEGORY_WARNING_ROOT = 33;
+      WINDOWS_DEFENDER_WARNING_PAGE = 34;
     }
     // Type of current page.
     optional PageType page_type = 1;
@@ -10354,6 +10364,7 @@ message BuildAttributionUiEvent {
     RENDERSCRIPT_MIGRATE = 11;
     AIDL_INFO = 12;
     NON_TRANSITIVE_R_CLASS = 13;
+    WINDOWS_DEFENDER_INSTRUCTIONS = 14;
   }
 
   // Filter consists of items that might be included or not.
