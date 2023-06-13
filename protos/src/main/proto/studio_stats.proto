@@ -10314,6 +10314,8 @@ message BuildAttributionUiEvent {
     DEFENDER_WARNING_SUPPRESS_CLICKED = 33;
     DEFENDER_WARNING_AUTO_EXCLUDE_SUCCESS = 34;
     DEFENDER_WARNING_AUTO_EXCLUDE_FAILURE = 35;
+    DEFENDER_WARNING_SUPPRESS_GLOBALLY_CLICKED = 36;
+    DEFENDER_WARNING_MANUAL_INSTRUCTIONS_CLICKED = 37;
   }
 
   message Page {
@@ -10360,6 +10362,9 @@ message BuildAttributionUiEvent {
       // Task category warning on 'Warnings' page
       TASK_CATEGORY_WARNING_ROOT = 33;
       WINDOWS_DEFENDER_WARNING_PAGE = 34;
+      // Not a page inside Build Analyzer but a place containing user actions
+      // so can be used to distinguish those from the value above.
+      WINDOWS_DEFENDER_NOTIFICATION = 35;
     }
     // Type of current page.
     optional PageType page_type = 1;
