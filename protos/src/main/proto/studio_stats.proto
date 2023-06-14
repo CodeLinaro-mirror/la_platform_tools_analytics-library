@@ -6401,6 +6401,9 @@ message AppLinksAssistantEvent {
     optional int64 total_domains = 8;
     // Number of domains with issues
     optional int64 domains_web_check_failed = 9;
+
+    // Time taken to perform validation
+    optional uint64 validation_runtime_millis = 10;
   }
 
   message IntentFilterFix {
