@@ -12312,8 +12312,10 @@ message LiveEditEvent {
     UNKNOWN_MODE = 0;
     // The LiveEdit push was triggered automatically.
     AUTO = 1;
-    // The LiveEdit push was triggered by the user.
+    // The LiveEdit push was triggered by the user on hot key.
     MANUAL = 2;
+    // The LiveEdit push was triggered by the user on save.
+    ON_SAVE = 3;
   }
 
   // Result of the LiveEdit device push
