@@ -12552,6 +12552,10 @@ message AppQualityInsightsUsageEvent {
   }
 
   message AppQualityInsightsFetchDetails {
+    message VcsIntegrationDetails {
+      optional bool has_app_vcs_info = 1;
+    }
+
     enum TimeFilter {
       UNKNOWN_FILTER = 0;
       THIRTY_DAYS = 1;
@@ -12617,6 +12621,8 @@ message AppQualityInsightsUsageEvent {
     optional bool device_filter = 10;
     // The visibility type used for this fetch.
     optional VisibilityFilter visibility_filter = 11;
+    // The app vcs info got from this fetch.
+    optional VcsIntegrationDetails vcs_integration_details = 12;
   }
 
   message AppQualityInsightsCrashOpenDetails {
@@ -12633,11 +12639,23 @@ message AppQualityInsightsUsageEvent {
   }
 
   message AppQualityInsightsStacktraceDetails {
+    enum ClickLocation {
+      // Old events will by default have ClickLocation set to UNKNOWN_LOCATION
+      // when they should be treated as TARGET_FILE_HYPER_LINK
+      UNKNOWN_LOCATION = 0;
+      // Click on a resolved file target from the parsed trace
+      TARGET_FILE_HYPER_LINK = 1;
+      // Click on an attached "diff link" inlay element where the app vcs info
+      // is available
+      DIFF_INLAY = 2;
+    }
+
     optional CrashType crash_type = 1;
     // True if the file is part of the users project (ie: not a library)
     optional bool local_file = 2;
     optional Confidence confidence = 3;
     optional Resolution resolution = 4;
+    optional ClickLocation click_location = 5;
   }
 
   message AppQualityInsightsConsoleLinkDetails {
