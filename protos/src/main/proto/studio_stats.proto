@@ -603,6 +603,9 @@ message AndroidStudioEvent {
   // set when kind = EDITOR_NOTIFICATION
   optional EditorNotification editor_notification = 173;
 
+  // set when kind = COMPOSE_PREVIEW_LITE_MODE
+  optional ComposePreviewLiteModeEvent compose_preview_lite_mode_event = 174;
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -1376,6 +1379,9 @@ message AndroidStudioEvent {
 
     // Event related to a notification being displayed to the user
     EDITOR_NOTIFICATION = 289;
+
+    // Event related to Compose Preview Lite Mode
+    COMPOSE_PREVIEW_LITE_MODE = 290;
   }
 
   // Represents different Performance Monitoring types.
@@ -6395,6 +6401,9 @@ message AppLinksAssistantEvent {
     optional int64 total_domains = 8;
     // Number of domains with issues
     optional int64 domains_web_check_failed = 9;
+
+    // Time taken to perform validation
+    optional uint64 validation_runtime_millis = 10;
   }
 
   message IntentFilterFix {
@@ -9563,9 +9572,15 @@ message WindowsDefenderStatus {
   enum Status {
     UNKNOWN_STATUS = 0;
     SCANNING_DISABLED = 1;
-    ALL_EXCLUDED = 2;
-    SOME_EXCLUDED = 3;
-    NONE_EXCLUDED = 4;
+    // Deprecated, excluded paths information not available anymore
+    ALL_EXCLUDED = 2 [deprecated = true];
+    // Deprecated, excluded paths information not available anymore
+    SOME_EXCLUDED = 3 [deprecated = true];
+    // Deprecated, excluded paths information not available anymore
+    NONE_EXCLUDED = 4 [deprecated = true];
+    CHECK_IGNORED = 5;
+    ENABLED_AUTO = 6;
+    ENABLED_MANUAL = 7;
   }
 }
 
@@ -9856,6 +9871,9 @@ message ComposeMultiPreviewEvent {
   // elements is executed in a file.
   repeated ComposeMultiPreviewNodeInfo multi_preview_nodes = 1;
 
+  // True if Compose Preview Lite Mode is enabled when logging the event.
+  optional bool is_compose_preview_lite_mode = 2;
+
   // Information about MultiPreview, in particular as information about a node
   // in the directed graph formed by a Composable function, and its related
   // Preview and MultiPreview annotations.
@@ -9886,6 +9904,18 @@ message ComposeMultiPreviewEvent {
     // Length of the path traversed from the root Composable to this node.
     optional int32 depth_level = 8;
   }
+}
+
+// Details for Compose Preview Lite Mode event
+message ComposePreviewLiteModeEvent {
+  enum ComposePreviewLiteModeEventType {
+    UNKNOWN_EVENT_TYPE = 0;
+    // A file containing previews is opened and the preview(s) render.
+    OPEN_AND_RENDER = 1;
+  }
+
+  // Type of event
+  optional ComposePreviewLiteModeEventType type = 1;
 }
 
 // Details for Compose deploy event
@@ -10284,6 +10314,11 @@ message BuildAttributionUiEvent {
     TOOL_WINDOW_BALLOON_DONT_SHOW_AGAIN_LINK_CLICKED = 30;
     MIGRATE_NON_TRANSITIVE_R_CLASS_ACTION_CLICKED = 31;
     TAB_OPENED_WITH_ACTION = 32;
+    DEFENDER_WARNING_SUPPRESS_CLICKED = 33;
+    DEFENDER_WARNING_AUTO_EXCLUDE_SUCCESS = 34;
+    DEFENDER_WARNING_AUTO_EXCLUDE_FAILURE = 35;
+    DEFENDER_WARNING_SUPPRESS_GLOBALLY_CLICKED = 36;
+    DEFENDER_WARNING_MANUAL_INSTRUCTIONS_CLICKED = 37;
   }
 
   message Page {
@@ -10329,6 +10364,10 @@ message BuildAttributionUiEvent {
       TASK_CATEGORY_CRITICAL_PATH_TASK_PAGE = 32;
       // Task category warning on 'Warnings' page
       TASK_CATEGORY_WARNING_ROOT = 33;
+      WINDOWS_DEFENDER_WARNING_PAGE = 34;
+      // Not a page inside Build Analyzer but a place containing user actions
+      // so can be used to distinguish those from the value above.
+      WINDOWS_DEFENDER_NOTIFICATION = 35;
     }
     // Type of current page.
     optional PageType page_type = 1;
@@ -10354,6 +10393,7 @@ message BuildAttributionUiEvent {
     RENDERSCRIPT_MIGRATE = 11;
     AIDL_INFO = 12;
     NON_TRANSITIVE_R_CLASS = 13;
+    WINDOWS_DEFENDER_INSTRUCTIONS = 14;
   }
 
   // Filter consists of items that might be included or not.
@@ -11752,10 +11792,10 @@ message GradleJdkInvalidEvent {
     INVALID_JDK_NO_JAVAC = 7;
     // Some required files are missing from the JDK path
     INVALID_JDK_MISSING_FILES = 8;
-    // The jdk.dir isn't defined in the project local.properties
-    UNDEFINED_LOCAL_PROPERTIES_JDK_DIR = 9;
-    // The jdk.dir defined in the project local.properties is invalid
-    INVALID_LOCAL_PROPERTIES_JDK_DIR = 10;
+    // The java.home isn't defined in the project .gradle/config.properties
+    UNDEFINED_GRADLE_LOCAL_JAVA_HOME = 9;
+    // The java.home defined in the project .gradle/config.properties is invalid
+    INVALID_GRADLE_LOCAL_JAVA_HOME = 10;
     // The org.gradle.java.home isn't defined in the gradle.properties
     UNDEFINED_GRADLE_PROPERTIES_JAVA_HOME = 11;
     // The org.gradle.java.home defined in the gradle.properties is invalid
@@ -12263,6 +12303,9 @@ message LiveEditEvent {
 
     UNSUPPORTED_BUILD_LIBRARY_DESUGAR = 24;
     BAD_MIN_API = 25;
+
+    UNSUPPORTED_COMPOSE_RUNTIME_VERSION = 26;
+    UNKNOWN_LIVE_UPDATE_DEPLOYER_ERROR = 27;
   }
 
   enum Mode {
@@ -13026,6 +13069,15 @@ message DirectAccessUsageEvent {
     optional bool user_disconnected = 2;
   }
 
+  message ConnectionMetrics {
+    // Maximum observed latency
+    optional uint32 max_latency_ms = 1;
+    // p50 latency
+    optional uint32 p50_latency_ms = 2;
+    // p90 latency
+    optional uint32 p90_latency_ms = 3;
+  }
+
   message EndReservationDetails {
     enum EndReservationType {
       UNKNOWN = 0;
@@ -13045,9 +13097,12 @@ message DirectAccessUsageEvent {
     // MAX_VALUE: 4,294,967,295 -> ~49710 days
     optional uint32 total_reservation_time_sec = 3;
     // Average connection latency calculated over the entire session
-    optional uint32 average_connection_latency_ms = 4;
+    // Deprecated by ConnectionMetrics
+    optional uint32 average_connection_latency_ms = 4 [deprecated = true];
     // Tracks how the reservation ended.
     optional EndReservationType end_reservation_type = 5;
+    // Connection metrics measured during the reservation
+    optional ConnectionMetrics connection_metrics = 6;
   }
 
   // Type of event
