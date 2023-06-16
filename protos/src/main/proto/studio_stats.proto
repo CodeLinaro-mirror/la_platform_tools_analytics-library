@@ -9912,10 +9912,18 @@ message ComposePreviewLiteModeEvent {
     UNKNOWN_EVENT_TYPE = 0;
     // A file containing previews is opened and the preview(s) render.
     OPEN_AND_RENDER = 1;
+    // Compose Preview Lite Mode was enabled/disabled.
+    PREVIEW_LITE_MODE_SWITCH = 2;
+    // Android Studio Essentials Mode was enabled/disabled.
+    STUDIO_ESSENTIALS_MODE_SWITCH = 3;
   }
 
   // Type of event
   optional ComposePreviewLiteModeEventType type = 1;
+
+  // True if Compose Preview Lite Mode is enabled when logging the event.
+  // For switch events, the value is logged after the switch happens.
+  optional bool is_compose_preview_lite_mode = 2;
 }
 
 // Details for Compose deploy event
