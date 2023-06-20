@@ -606,6 +606,9 @@ message AndroidStudioEvent {
   // set when kind = COMPOSE_PREVIEW_LITE_MODE
   optional ComposePreviewLiteModeEvent compose_preview_lite_mode_event = 174;
 
+  // set when kind = UPGRADE_ANDROID_STUDIO_DIALOG
+  optional UpgradeAndroidStudioDialogStats upgrade_android_studio_dialog = 175;
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -1382,6 +1385,9 @@ message AndroidStudioEvent {
 
     // Event related to Compose Preview Lite Mode
     COMPOSE_PREVIEW_LITE_MODE = 290;
+
+    // Upgrade Android Studio dialog event
+    UPGRADE_ANDROID_STUDIO_DIALOG = 291;
   }
 
   // Represents different Performance Monitoring types.
@@ -8194,6 +8200,22 @@ message ConnectionAssistantEvent {
   // defined if ConnectionAssistantEventType = USB_DEVICES_DETECTED,
   // ADB_DEVICES_DETECTEd
   optional int32 adb_devices_detected = 3;
+}
+
+// Upgrade Android Studio Dialog stats
+message UpgradeAndroidStudioDialogStats {
+  optional UserAction user_action = 1;
+
+  enum UserAction {
+    // We don't know
+    UNKNOWN_USER_ACTION = 0;
+    // The user closed the dialog
+    CANCEL = 1;
+    // Upgrade Android Studio button
+    UPGRADE_STUDIO = 2;
+    // Do not show the prompt again
+    DO_NOT_ASK_AGAIN = 3;
+  }
 }
 
 // Details for Out of Memory Dialog event
