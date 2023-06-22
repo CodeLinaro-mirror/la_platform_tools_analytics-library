@@ -606,6 +606,9 @@ message AndroidStudioEvent {
   // set when kind = COMPOSE_PREVIEW_LITE_MODE
   optional ComposePreviewLiteModeEvent compose_preview_lite_mode_event = 174;
 
+  // set when kind = UPGRADE_ANDROID_STUDIO_DIALOG
+  optional UpgradeAndroidStudioDialogStats upgrade_android_studio_dialog = 175;
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -1382,6 +1385,9 @@ message AndroidStudioEvent {
 
     // Event related to Compose Preview Lite Mode
     COMPOSE_PREVIEW_LITE_MODE = 290;
+
+    // Upgrade Android Studio dialog event
+    UPGRADE_ANDROID_STUDIO_DIALOG = 291;
   }
 
   // Represents different Performance Monitoring types.
@@ -8196,6 +8202,22 @@ message ConnectionAssistantEvent {
   optional int32 adb_devices_detected = 3;
 }
 
+// Upgrade Android Studio Dialog stats
+message UpgradeAndroidStudioDialogStats {
+  optional UserAction user_action = 1;
+
+  enum UserAction {
+    // We don't know
+    UNKNOWN_USER_ACTION = 0;
+    // The user closed the dialog
+    CANCEL = 1;
+    // Upgrade Android Studio button
+    UPGRADE_STUDIO = 2;
+    // Do not show the prompt again
+    DO_NOT_ASK_AGAIN = 3;
+  }
+}
+
 // Details for Out of Memory Dialog event
 message OomDialogEvent {
   // Event type describing which memory the process ran out of
@@ -9912,10 +9934,18 @@ message ComposePreviewLiteModeEvent {
     UNKNOWN_EVENT_TYPE = 0;
     // A file containing previews is opened and the preview(s) render.
     OPEN_AND_RENDER = 1;
+    // Compose Preview Lite Mode was enabled/disabled.
+    PREVIEW_LITE_MODE_SWITCH = 2;
+    // Android Studio Essentials Mode was enabled/disabled.
+    STUDIO_ESSENTIALS_MODE_SWITCH = 3;
   }
 
   // Type of event
   optional ComposePreviewLiteModeEventType type = 1;
+
+  // True if Compose Preview Lite Mode is enabled when logging the event.
+  // For switch events, the value is logged after the switch happens.
+  optional bool is_compose_preview_lite_mode = 2;
 }
 
 // Details for Compose deploy event
@@ -12312,8 +12342,10 @@ message LiveEditEvent {
     UNKNOWN_MODE = 0;
     // The LiveEdit push was triggered automatically.
     AUTO = 1;
-    // The LiveEdit push was triggered by the user.
+    // The LiveEdit push was triggered by the user on hot key.
     MANUAL = 2;
+    // The LiveEdit push was triggered by the user on save.
+    ON_SAVE = 3;
   }
 
   // Result of the LiveEdit device push
@@ -12550,6 +12582,10 @@ message AppQualityInsightsUsageEvent {
   }
 
   message AppQualityInsightsFetchDetails {
+    message VcsIntegrationDetails {
+      optional bool has_app_vcs_info = 1;
+    }
+
     enum TimeFilter {
       UNKNOWN_FILTER = 0;
       THIRTY_DAYS = 1;
@@ -12615,6 +12651,8 @@ message AppQualityInsightsUsageEvent {
     optional bool device_filter = 10;
     // The visibility type used for this fetch.
     optional VisibilityFilter visibility_filter = 11;
+    // The app vcs info got from this fetch.
+    optional VcsIntegrationDetails vcs_integration_details = 12;
   }
 
   message AppQualityInsightsCrashOpenDetails {
@@ -12631,11 +12669,23 @@ message AppQualityInsightsUsageEvent {
   }
 
   message AppQualityInsightsStacktraceDetails {
+    enum ClickLocation {
+      // Old events will by default have ClickLocation set to UNKNOWN_LOCATION
+      // when they should be treated as TARGET_FILE_HYPER_LINK
+      UNKNOWN_LOCATION = 0;
+      // Click on a resolved file target from the parsed trace
+      TARGET_FILE_HYPER_LINK = 1;
+      // Click on an attached "diff link" inlay element where the app vcs info
+      // is available
+      DIFF_INLAY = 2;
+    }
+
     optional CrashType crash_type = 1;
     // True if the file is part of the users project (ie: not a library)
     optional bool local_file = 2;
     optional Confidence confidence = 3;
     optional Resolution resolution = 4;
+    optional ClickLocation click_location = 5;
   }
 
   message AppQualityInsightsConsoleLinkDetails {
