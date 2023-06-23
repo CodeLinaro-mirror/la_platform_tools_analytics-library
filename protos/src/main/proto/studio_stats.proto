@@ -609,6 +609,9 @@ message AndroidStudioEvent {
   // set when kind = UPGRADE_ANDROID_STUDIO_DIALOG
   optional UpgradeAndroidStudioDialogStats upgrade_android_studio_dialog = 175;
 
+  // set when kind = DEBUGGER_EVENT
+  optional DebuggerEvent debugger_event = 176;
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -1388,6 +1391,9 @@ message AndroidStudioEvent {
 
     // Upgrade Android Studio dialog event
     UPGRADE_ANDROID_STUDIO_DIALOG = 291;
+
+    // Event related to the Debugger tool window
+    DEBUGGER_EVENT = 292;
   }
 
   // Represents different Performance Monitoring types.
@@ -13535,5 +13541,23 @@ message EditorNotification {
   enum NotificationType {
     UNKNOWN = 0;
     ESSENTIALS_MODE = 1;
+  }
+}
+
+message DebuggerEvent {
+  // The event type
+  optional Type type = 1;
+
+  optional BreakpointAdded breakpoint_added = 2;
+
+  enum Type {
+    UNKNOWN = 0;
+    BREAKPOINT_ADDED_EVENT = 1;
+  }
+
+  message BreakpointAdded {
+    optional string type = 1;
+    optional string plugin_type = 2;
+    optional bool in_session = 3;
   }
 }
