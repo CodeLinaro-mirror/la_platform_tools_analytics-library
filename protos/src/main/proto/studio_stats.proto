@@ -12189,6 +12189,9 @@ message LogcatUsageEvent {
 
     // The panel filter.
     optional LogcatFilterEvent filter = 3;
+
+    // The buffer size.
+    optional int32 buffer_size = 4;
   }
 }
 
@@ -12965,6 +12968,8 @@ message MemoryUsageReportEvent {
     // Sequence number of report collection iteration that happened in this
     // IDE session.
     optional int32 collection_iteration = 10;
+    // Was essentials mode enabled at the time of sending the report
+    optional bool is_in_essentials_mode = 11;
   }
 
   // Statistics of the components
