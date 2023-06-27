@@ -612,6 +612,9 @@ message AndroidStudioEvent {
   // set when kind = DEBUGGER_EVENT
   optional DebuggerEvent debugger_event = 176;
 
+  // set when kind = SOONG_SYNC_EVENT
+  optional SoongSyncStats soong_sync_stats = 177;
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -1394,6 +1397,9 @@ message AndroidStudioEvent {
 
     // Event related to the Debugger tool window
     DEBUGGER_EVENT = 292;
+
+    // Soong sync event
+    SOONG_SYNC_EVENT = 293;
   }
 
   // Represents different Performance Monitoring types.
@@ -13570,5 +13576,27 @@ message DebuggerEvent {
     optional string type = 1;
     optional string plugin_type = 2;
     optional bool in_session = 3;
+  }
+}
+
+message SoongSyncStats {
+  // Cause of sync
+  optional Trigger trigger = 1;
+  // Status of sync
+  optional Status status = 2;
+  // Total time of the entire sync process
+  optional int64 total_time_ms = 3;
+
+  enum Trigger {
+    TRIGGER_UNKNOWN = 0;
+    PROJECT_OPEN = 1;
+    USER_SYNC_ACTION = 2;
+  }
+
+  enum Status {
+    STATUS_UNKNOWN = 0;
+    SUCCESS = 1;
+    FAIL = 2;
+    CANCELLED = 3;
   }
 }
