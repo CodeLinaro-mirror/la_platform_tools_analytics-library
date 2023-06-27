@@ -11898,6 +11898,12 @@ message DeviceExplorerEvent {
     ATTACH_DEBUGGER = 13;
     // The user refreshed the process list
     REFRESH_PROCESSES = 14;
+    // The user toggled application ID filtering
+    APPLICATION_ID_FILTER_TOGGLED = 15;
+    // The user clicked on the files tab
+    FILES_TAB_CLICKED = 16;
+    // The user clicked on the process tab
+    PROCESS_TAB_CLICKED = 17;
   }
 }
 
