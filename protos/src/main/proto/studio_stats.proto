@@ -13567,15 +13567,29 @@ message DebuggerEvent {
 
   optional BreakpointAdded breakpoint_added = 2;
 
+  optional FramesViewUpdated frames_view_updated = 3;
+
   enum Type {
     UNKNOWN = 0;
     BREAKPOINT_ADDED_EVENT = 1;
+    FRAMES_VIEW_UPDATED = 2;
   }
 
   message BreakpointAdded {
     optional string type = 1;
     optional string plugin_type = 2;
     optional bool in_session = 3;
+  }
+
+  message FramesViewUpdated {
+    optional uint64 duration_ms = 1;
+    optional int32 total_frames = 2;
+    repeated FileTypeInfo file_type_infos = 3;
+
+    message FileTypeInfo {
+      optional string file_type = 1;
+      optional int32 num_frames = 2;
+    }
   }
 }
 
