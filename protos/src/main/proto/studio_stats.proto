@@ -8578,10 +8578,12 @@ message RunEvent {
     SUCCESS = 1;
     // The run finished with an error
     FAIL = 2;
-    // The run was aborted mid-way
+    // The run was aborted mid-way, for example, build failed.
     ABORT = 3;
-    // The `Before Run Task` failed.
-    BEFORE_RUN_TASK_FAIL = 4;
+    // Deprecated
+    BEFORE_RUN_TASK_FAIL = 4 [deprecated = true];
+    // The run event was never completed for unknown reasons.
+    ABANDONED = 5;
   }
 
   optional Status status = 1;
