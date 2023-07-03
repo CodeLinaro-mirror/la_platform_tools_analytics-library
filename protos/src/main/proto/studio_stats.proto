@@ -7459,6 +7459,8 @@ message GradleSyncStats {
     TRIGGER_REFACTOR_MODULE_RENAMED = 1203;
     // Migrate project to use non-transitive R classes
     TRIGGER_REFACTOR_MIGRATE_TO_NON_TRANSITIVE_R_CLASSES = 1204;
+    // Migrate BuildConfig setting from gradle.properties to build files
+    TRIGGER_REFACTOR_MIGRATE_BUILD_CONFIG_FROM_GRADLE_PROPERTIES = 1205;
     // Last marker for syncs caused by a refactor
     TRIGGER_REFACTOR_LAST_MARKER = 1299;
 
