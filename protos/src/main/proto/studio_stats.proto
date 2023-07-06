@@ -7459,6 +7459,8 @@ message GradleSyncStats {
     TRIGGER_REFACTOR_MODULE_RENAMED = 1203;
     // Migrate project to use non-transitive R classes
     TRIGGER_REFACTOR_MIGRATE_TO_NON_TRANSITIVE_R_CLASSES = 1204;
+    // Migrate BuildConfig setting from gradle.properties to build files
+    TRIGGER_REFACTOR_MIGRATE_BUILD_CONFIG_FROM_GRADLE_PROPERTIES = 1205;
     // Last marker for syncs caused by a refactor
     TRIGGER_REFACTOR_LAST_MARKER = 1299;
 
@@ -8578,10 +8580,12 @@ message RunEvent {
     SUCCESS = 1;
     // The run finished with an error
     FAIL = 2;
-    // The run was aborted mid-way
+    // The run was aborted mid-way, for example, build failed.
     ABORT = 3;
-    // The `Before Run Task` failed.
-    BEFORE_RUN_TASK_FAIL = 4;
+    // Deprecated
+    BEFORE_RUN_TASK_FAIL = 4 [deprecated = true];
+    // The run event was never completed for unknown reasons.
+    ABANDONED = 5;
   }
 
   optional Status status = 1;
