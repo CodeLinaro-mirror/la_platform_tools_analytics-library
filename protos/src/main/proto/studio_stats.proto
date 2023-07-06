@@ -615,6 +615,9 @@ message AndroidStudioEvent {
   // set when kind = SOONG_SYNC_EVENT
   optional SoongSyncStats soong_sync_stats = 177;
 
+  // set when kind = INTELLIJ_NEW_UI_SWITCH
+  optional IntelliJNewUISwitch intellij_new_ui_switch = 178;
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -1400,6 +1403,9 @@ message AndroidStudioEvent {
 
     // Soong sync event
     SOONG_SYNC_EVENT = 293;
+
+    // Event related to the user toggling the new UI state
+    INTELLIJ_NEW_UI_SWITCH = 294;
   }
 
   // Represents different Performance Monitoring types.
@@ -13621,4 +13627,21 @@ message SoongSyncStats {
     FAIL = 2;
     CANCELLED = 3;
   }
+}
+
+message IntelliJNewUISwitch {
+  enum SwitchSource {
+    SOURCE_UNKNOWN = 0;
+    ENABLE_NEW_UI_ACTION = 1;
+    DISABLE_NEW_UI_ACTION = 2;
+    WELCOME_PROMO = 3;
+    WHATS_NEW_PAGE = 4;
+    SETTINGS_PAGE = 5;
+  }
+
+  // Source of the new ui status switch
+  optional SwitchSource switch_source = 1;
+
+  // updated status of new ui
+  optional bool new_ui = 2;
 }
