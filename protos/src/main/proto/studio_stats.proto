@@ -11914,6 +11914,10 @@ message DeviceExplorerEvent {
     FILES_TAB_CLICKED = 16;
     // The user clicked on the process tab
     PROCESS_TAB_CLICKED = 17;
+    // The user toggled on application ID filtering
+    APPLICATION_ID_FILTER_TOGGLED_ON = 18;
+    // The user toggled off application ID filtering
+    APPLICATION_ID_FILTER_TOGGLED_OFF = 19;
   }
 }
 
