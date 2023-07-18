@@ -618,6 +618,9 @@ message AndroidStudioEvent {
   // set when kind = INTELLIJ_NEW_UI_SWITCH
   optional IntelliJNewUISwitch intellij_new_ui_switch = 178;
 
+  // set when kind = ESSENTIALS_MODE_EVENT
+  optional EssentialsModeEvent essentials_mode_event = 179;
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -1406,6 +1409,9 @@ message AndroidStudioEvent {
 
     // Event related to the user toggling the new UI state
     INTELLIJ_NEW_UI_SWITCH = 294;
+
+    // Event related to essentials mode state changes
+    ESSENTIALS_MODE_EVENT = 295;
   }
 
   // Represents different Performance Monitoring types.
@@ -9355,6 +9361,8 @@ message TypingLatencyStats {
   }
   // Per-file-type latency stats.
   repeated LatencyRecord latency_records = 1;
+  // Whether the IDE was in Essential Highlighting or not
+  optional bool essential_highlighting = 2;
 }
 
 message EditorHighlightingStats {
@@ -12530,6 +12538,8 @@ message SystemHealthEvent {
   optional Memory memory = 4;
   // Exception details
   optional Exception exception = 5;
+  // Whether the IDE is in Essentials Mode
+  optional bool essentials_mode = 6;
 }
 
 message ComposePreviewCanvasEvent {
@@ -13644,4 +13654,9 @@ message IntelliJNewUISwitch {
 
   // updated status of new ui
   optional bool new_ui = 2;
+}
+
+message EssentialsModeEvent {
+  // when the mode was just enabled or not
+  optional bool enabled = 1;
 }
