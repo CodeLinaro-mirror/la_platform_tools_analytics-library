@@ -13402,6 +13402,9 @@ message BuildOutputDownloadsInfoEvent {
 message SmlResponseMetadata {
   // Trace id (provided by the server) for this response
   optional int64 rpc_global_id = 1;
+
+  // AIDA server-side experiment ids.
+  repeated int32 server_experiment_ids = 2;
 }
 
 message SmlCompletionEvent {
@@ -13509,6 +13512,14 @@ message SmlChatBotEvent {
   message BotResponse {
     optional SmlResponseMetadata metadata = 1;
     optional uint64 latency_ms = 2;
+
+    // Currently, fact retrieval is a different API from the chat API. But
+    // retrieval's only use is for the chat API, so here we model it as part
+    // of the chat event since we'll very likely want to associate it with
+    // the corresponding chat event. (Note that retrieval by itself doesn't
+    // have a trace id, so including it here allows us to associate it with the
+    // chat event).
+    optional uint64 retrieval_latency_ms = 3;
   }
 
   message UserFeedback {
