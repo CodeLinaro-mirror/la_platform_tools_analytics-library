@@ -1734,6 +1734,7 @@ message AndroidStudioEvent {
     GRADLE2_REQUIRED = 22;
     CORRUPT_GRADLE_DEPENDENCY = 23;
     INTERNET_CONNECTION_ERROR = 24;
+    // Failure when Studio does not support too old AGP.
     OLD_ANDROID_PLUGIN = 25;
     MISSING_CMAKE = 26;
     NDK_NOT_CONFIGURED = 27;
@@ -1745,6 +1746,14 @@ message AndroidStudioEvent {
     GRADLE_DISTRIBUTION_INSTALL_ERROR = 33;
     DISTRIBUTIONSHA256SUM_FOUND_IN_WRAPPER = 34;
     GRADLE_JVM_NOT_COMPATIBLE_WITH_AGP = 35;
+    // Failure because older Studio does not support newer AGP.
+    ANDROID_PLUGIN_TOO_NEW = 36;
+    // Failure because Studio and AGP preview versions differ.
+    ANDROID_PLUGIN_VERSION_INCOMPATIBLE = 37;
+    // Failure because of multiple AGP versions detected in projects.
+    MULTIPLE_ANDROID_PLUGIN_VERSIONS = 38;
+    ANDROID_SYNC_NO_VALID_NATIVE_ABI_FOUND = 39;
+    ANDROID_SYNC_NO_VARIANTS_FOUND = 40;
   }
 
   // IDE brand containing the android plugin
