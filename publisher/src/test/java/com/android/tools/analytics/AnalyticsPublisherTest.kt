@@ -16,6 +16,7 @@
 
 package com.android.tools.analytics
 
+import com.android.testutils.AssumeUtil
 import com.android.testutils.SystemPropertyOverrides
 import com.android.testutils.VirtualTimeDateProvider
 import com.android.testutils.VirtualTimeScheduler
@@ -55,6 +56,7 @@ class AnalyticsPublisherTest {
 
   @Before
   fun before() {
+      AssumeUtil.assumeNotWindows() // TODO(b/295070308): fails on Windows with IntelliJ 2023.2.
       val analyticsSettings = AnalyticsSettingsData()
       analyticsSettings.optedIn = true
       analyticsSettings.userId = "f59e9566-2416-42a9-a159-b91fa484e4d7"
