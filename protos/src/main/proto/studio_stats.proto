@@ -4481,6 +4481,9 @@ message GradleBuildVariant {
   message KotlinOptions {
     // if IR backend is enabled
     optional bool use_ir = 1;
+
+    // Language version (e.g., "2.0")
+    optional string language_version = 2;
   }
 }
 
@@ -11932,7 +11935,7 @@ message GradleJdkInvalidEvent {
     // The studio config jdk.table.xml contains gradleJvm table entry with
     // invalid javaHome path
     INVALID_GRADLE_JVM_TABLE_ENTRY_JAVA_HOME = 19;
-    // Unsupported gradleJvm #GRADLE_LOCAL_JAVA_HOME macro to configure Gradle JDK
+    // Unsupported gradleJvm #GRADLE_LOCAL_JAVA_HOME macro to configure JDK
     UNSUPPORTED_GRADLE_LOCAL_JAVA_HOME_MACRO = 20;
   }
 }
