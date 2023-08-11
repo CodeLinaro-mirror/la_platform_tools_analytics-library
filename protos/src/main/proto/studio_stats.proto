@@ -2133,6 +2133,9 @@ message DeviceInfo {
   // Set of characteristics obtained from "ro.build.characteristics" property
   repeated string characteristics = 12;
 
+  // ID of device provisioner plugin that created the device
+  optional string device_provisioner_id = 13;
+
   // Describes tthe ABI of the device/emulator.
   enum ApplicationBinaryInterface {
     UNKNOWN_ABI = 0;
