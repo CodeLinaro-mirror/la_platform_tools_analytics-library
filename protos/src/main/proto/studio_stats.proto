@@ -7132,6 +7132,7 @@ message AndroidProfilerEvent {
     MEMORY_HEAP_DUMP_STAGE = 8;
     MEMORY_NATIVE_RECORDING_STAGE = 9;
     MEMORY_JVM_RECORDING_STAGE = 10;
+    LIVE_STAGE = 11;
   }
 
   enum MemoryHeap {
@@ -13589,10 +13590,53 @@ message SmlChatBotEvent {
     optional bool success = 4;
   }
 
+  message DependencySuggestion {
+    optional SmlResponseMetadata metadata = 1;
+    optional bool accepted = 2;
+  }
+
+  enum Command {
+    CMD_OTHER = 0;
+    CMD_ABOUT = 1;
+    CMD_HELP = 2;
+    CMD_CLEAR = 3;
+    CMD_HISTORY = 4;
+    CMD_CLOSE = 5;
+    CMD_SCREENSHOT = 6;
+    CMD_SAVE = 7;
+    CMD_ME = 8;
+    CMD_EDIT = 9;
+    CMD_UNDO = 10;
+    CMD_REDO = 11;
+    CMD_FORMAT = 12;
+    CMD_RENAME = 13;
+    CMD_BUILD = 14;
+    CMD_RUN = 15;
+    CMD_DEBUG = 16;
+    CMD_PROFILE = 17;
+    CMD_TEST = 18;
+    CMD_STOP = 19;
+    CMD_SYNC = 20;
+    CMD_TERMINAL = 21;
+    CMD_SPLIT = 22;
+    CMD_UNSPLIT = 23;
+    CMD_OPEN = 24;
+    CMD_GOTOTEST = 25;
+  }
+
+  message SlashAction {
+    optional Command command = 1;
+  }
+
   message ParseResult {
     optional SmlResponseMetadata metadata = 1;
     optional EditorFileType file_type = 2;
-    optional bool success = 3;
+    // success indicates that the code snippet was able to be parsed
+    // without throwing any errors, e.g. PSI related exceptions.
+    optional bool success = 3 [deprecated = true];
+    // has_error indicates that the code snippet was parsed successfully,
+    // but contains one or more syntax errors.
+    optional bool has_error = 4;
   }
 
   oneof content {
@@ -13602,6 +13646,8 @@ message SmlChatBotEvent {
     ActionResult action_result = 4;
     ParseResult parse_result = 5;
     BotInvoked bot_invoked = 6;
+    SlashAction slash_action = 7;
+    DependencySuggestion dependency_suggestion = 8;
   }
 }
 
