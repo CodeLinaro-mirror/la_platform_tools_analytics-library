@@ -18,25 +18,30 @@ package com.android.tools.analytics
 
 import com.android.tools.analytics.stubs.StubDateProvider
 import com.android.utils.DateProvider
-import com.android.utils.ILogger
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNotEquals
+import org.junit.Assert.assertNotNull
+import org.junit.Assert.assertNull
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TemporaryFolder
-import java.io.IOException
 
-/** Tests for @{link Anonymizer}.  */
+/** Tests for @{link Anonymizer}. */
 class AnonymizerTest {
 
-  @get:Rule
-  val testConfigDir = TemporaryFolder()
+  @get:Rule val testConfigDir = TemporaryFolder()
 
   @Test
-  @Throws(IOException::class)
+  fun uninitialized() {
+    AnalyticsSettings.setInstanceForTest(null)
+
+    assertNull(Anonymizer.anonymize("abcd"))
+  }
+
+  @Test
   fun anonymizerTest() {
     // Configure the paths to use a temp directory for reading from and writing to.
-    EnvironmentFakes.setCustomAndroidPrefsRootEnvironment(
-      testConfigDir.root.toPath().toString())
+    EnvironmentFakes.setCustomAndroidPrefsRootEnvironment(testConfigDir.root.toPath().toString())
     try {
       // Prepopulate AnalysisSettings.
       AnalyticsSettings.setInstanceForTest(AnalyticsSettingsData())
@@ -45,21 +50,21 @@ class AnonymizerTest {
       AnalyticsSettings.dateProvider = StubDateProvider(2016, 3, 18)
 
       // Ensure we get some form of anonymization.
-      val data1 = Anonymizer.anonymizeUtf8(DO_NOT_LOG, MY_RANDOM_TEXT1)
+      val data1 = Anonymizer.anonymize(MY_RANDOM_TEXT1)
       assertNotNull(data1)
       assertNotEquals(MY_RANDOM_TEXT1, data1)
 
       // Ensure different input gives different output.
-      val other = Anonymizer.anonymizeUtf8(DO_NOT_LOG, MY_RANDOM_TEXT2)
+      val other = Anonymizer.anonymize(MY_RANDOM_TEXT2)
       assertNotEquals(data1, other)
 
       // Ensure that anonymizing is stable with time stable.
-      val data2 = Anonymizer.anonymizeUtf8(DO_NOT_LOG, MY_RANDOM_TEXT1)
+      val data2 = Anonymizer.anonymize(MY_RANDOM_TEXT1)
       assertEquals(data1, data2)
 
       // Set date to different date in same skew range.
       AnalyticsSettings.dateProvider = StubDateProvider(2016, 4, 15)
-      val data3 = Anonymizer.anonymizeUtf8(DO_NOT_LOG, MY_RANDOM_TEXT1)
+      val data3 = Anonymizer.anonymize(MY_RANDOM_TEXT1)
       // Ensure that same input is stable for dates in same skew range.
       assertEquals(data1, data3)
 
@@ -67,16 +72,15 @@ class AnonymizerTest {
       AnalyticsSettings.dateProvider = StubDateProvider(2019, 4, 16)
 
       // Ensure that same input is different for different skew range.
-      val data4 = Anonymizer.anonymizeUtf8(DO_NOT_LOG, MY_RANDOM_TEXT1)
+      val data4 = Anonymizer.anonymize(MY_RANDOM_TEXT1)
       assertNotEquals(data1, data4)
 
       // Ensure that null and empty are reported as empty.
-      val data6 = Anonymizer.anonymizeUtf8(DO_NOT_LOG, null)
+      val data6 = Anonymizer.anonymize(null)
       assertEquals("", data6)
-      val data7 = Anonymizer.anonymizeUtf8(DO_NOT_LOG, "")
+      val data7 = Anonymizer.anonymize("")
       assertEquals("", data7)
-    }
-    finally {
+    } finally {
       // Undo stub of DateProvider.
       AnalyticsSettings.dateProvider = DateProvider.SYSTEM
       EnvironmentFakes.setSystemEnvironment()
@@ -86,24 +90,5 @@ class AnonymizerTest {
   companion object {
     private const val MY_RANDOM_TEXT1 = "My random text"
     private const val MY_RANDOM_TEXT2 = "More random text"
-    // In our case we already create an instance of AnalysisSettings so no logging should occur.
-    private val DO_NOT_LOG = object : ILogger {
-      override fun error(
-        t: Throwable?, msgFormat: String?, vararg args: Any) {
-        fail(String.format(msgFormat!!, *args))
-      }
-
-      override fun warning(msgFormat: String, vararg args: Any) {
-        fail(String.format(msgFormat, *args))
-      }
-
-      override fun info(msgFormat: String, vararg args: Any) {
-        fail(String.format(msgFormat, *args))
-      }
-
-      override fun verbose(msgFormat: String, vararg args: Any) {
-        fail(String.format(msgFormat, *args))
-      }
-    }
   }
 }
