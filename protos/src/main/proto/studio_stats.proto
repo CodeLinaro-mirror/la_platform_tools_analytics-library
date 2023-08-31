@@ -12494,6 +12494,10 @@ message DeviceMirroringSession {
   }
   optional DeviceKind device_kind = 1;
   optional int64 duration_sec = 2;
+  // Time it took to push the Screen Sharing Agent to the device.
+  optional int64 agent_push_time_millis = 3;
+  // Time between the end of agent push and the arrival of the first frame.
+  optional int64 first_frame_delay_millis = 4;
 }
 
 message DeviceMirroringAbnormalAgentTermination {
