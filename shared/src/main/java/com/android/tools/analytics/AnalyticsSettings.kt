@@ -417,12 +417,11 @@ object AnalyticsSettings {
             .toFile()
 
     /**
-     * Check if the [ANALYTICS_SETTINGS] file exists without creating parent directories
+     * Get [settingsFile] without creating parent directories
      */
     @JvmStatic
-    fun settingsFileExists(): Boolean {
-        return File(AnalyticsPaths.getAndroidSettingsHome(), ANALYTICS_SETTINGS).exists()
-    }
+    val settingsFileLocation: File
+        get() = File(AnalyticsPaths.getAndroidSettingsHome(), ANALYTICS_SETTINGS)
 
     /**
      * Gets a binary blob to ensure per user anonymization. Gets automatically rotated every 28
