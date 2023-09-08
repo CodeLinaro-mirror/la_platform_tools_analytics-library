@@ -12666,6 +12666,9 @@ message AppQualityInsightsUsageEvent {
 
     // AQI transitioned to offline or online mode
     MODE_TRANSITION = 10;
+
+    // For measuring performance in AQI
+    PERFORMANCE_STATS = 11;
   }
 
   enum CrashType {
@@ -12877,6 +12880,18 @@ message AppQualityInsightsUsageEvent {
     OFFLINE_TO_ONLINE = 2;
   }
 
+  message PerformanceStats {
+    message VersionControlBasedLineNumberMappingLatency {
+      optional int64 min_latency_ms = 1;
+      optional int64 p50_latency_ms = 2;
+      optional int64 p90_latency_ms = 3;
+      optional int64 max_latency_ms = 4;
+    }
+
+    optional VersionControlBasedLineNumberMappingLatency
+        vc_based_line_number_mapping_latency = 1;
+  }
+
   enum AppQualityInsightsProductType {
     UNKNOWN_PRODUCT_TYPE = 0;
     CRASHLYTICS = 1;
@@ -12926,6 +12941,9 @@ message AppQualityInsightsUsageEvent {
 
   // Required for all event types.
   optional AppQualityInsightsProductType product_type = 14;
+
+  // set when type = PERFORMANCE_STATS
+  optional PerformanceStats performance_stats = 15;
 }
 
 message FastPreviewEvent {
