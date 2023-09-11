@@ -10689,6 +10689,15 @@ message AndroidCppExtensionEvent {
       GNUPP20 = 18;
     }
 
+    optional NativeBuildBackend native_build_backend = 13;
+
+    enum NativeBuildBackend {
+      UNSPECIFIED_NATIVE_BUILD_BACKEND = 0;
+      ORIGINAL_MSBUILD = 1;
+      MULTITOOLTASK_MSBUILD = 2;
+      NINJA = 3;
+    }
+
     // TODO: try adding gradle info like the app_id.
   }
 
