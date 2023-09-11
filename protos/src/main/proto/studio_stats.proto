@@ -10685,6 +10685,8 @@ message AndroidCppExtensionEvent {
       GNU17 = 14;
       CPP17 = 15;
       GNUPP17 = 16;
+      CPP20 = 17;
+      GNUPP20 = 18;
     }
 
     // TODO: try adding gradle info like the app_id.
