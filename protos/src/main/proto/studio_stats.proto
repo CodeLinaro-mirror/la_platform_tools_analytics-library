@@ -365,8 +365,8 @@ message AndroidStudioEvent {
   // set when kind = BUILD_ATTRIBUTION_UI_EVENT
   optional BuildAttributionUiEvent build_attribution_ui_event = 98;
 
-  // set when kind = ANDROID_CPP_EXTENSION
-  optional AndroidCppExtensionEvent android_cpp_extension_event = 99;
+  // set when kind = VS_PLUGIN
+  optional VsPluginEvent vs_plugin_event = 99;
 
   // set when kind = DESIGN_EDITOR_HELP_PANEL_EVENT
   optional DesignEditorHelpPanelEvent design_editor_help_panel_event = 100;
@@ -1158,7 +1158,8 @@ message AndroidStudioEvent {
     // Build Attribution ui event
     BUILD_ATTRIBUTION_UI_EVENT = 199;
 
-    ANDROID_CPP_EXTENSION = 200;
+    // The event is related to Android Visual Studio plugin (go/vs-android).
+    VS_PLUGIN = 200;
 
     // The event related to help panels in design editor
     DESIGN_EDITOR_HELP_PANEL_EVENT = 201;
@@ -2111,7 +2112,7 @@ message ProductDetails {
     GRADLE = 3;
     DDMS = 4;
     STUDIO_PATCH_UPDATER = 5;
-    ANDROID_CPP_EXTENSION = 6;
+    VS_PLUGIN = 6;
     GAME_TOOLS = 7;
   }
 
@@ -10842,14 +10843,14 @@ message BuildAttributionUiEvent {
   optional int64 height = 9;
 }
 
-message AndroidCppExtensionEvent {
-  enum AndroidCppExtensionEventType {
-    UNSPECIFIED_ANDROID_CPP_EXTENSION_EVENT_TYPE = 0;
+message VsPluginEvent {
+  enum VsPluginEventType {
+    UNSPECIFIED_VS_PLUGIN_EVENT_TYPE = 0;
     BUILD = 1;
     DEBUG = 2;
   }
 
-  optional AndroidCppExtensionEventType type = 1;
+  optional VsPluginEventType type = 1;
 
   optional BuildEvent build_event = 2;
   optional DebugEvent debug_event = 3;
@@ -10858,18 +10859,18 @@ message AndroidCppExtensionEvent {
     // A GUID for the build session, this session ID is per project and is
     // intended to correlate build events for a particular project.
     optional string build_session = 1;
-    optional string build_program_version = 2;
+    optional string msbuild_version = 2;
 
     optional DeviceInfo.ApplicationBinaryInterface platform = 3;
     optional string ndk_version = 4;
 
     optional bool is_debug_build = 5;
     optional int64 duration_ms = 6;
-    optional bool is_using_distributed_build = 7;
+    optional bool is_using_incredibuild = 7;
 
     // The absolute path of the project on user's computer being built. This
     // value is anonymized before uploaded with salt.
-    optional string build_project_path = 12;
+    optional string msbuild_project_path = 12;
 
     optional BuildEventType type = 8;
 
@@ -10982,8 +10983,8 @@ message AndroidCppExtensionEvent {
     // A GUID for the debug session
     optional string session = 1;
 
-    // The numerical version of the host, For example, 15.9.
-    optional string host_version = 2;
+    // The numerical version of Visual Studio, For example, 15.9.
+    optional string vs_version = 2;
 
     optional DeviceInfo.ApplicationBinaryInterface platform = 3;
 
@@ -10993,7 +10994,7 @@ message AndroidCppExtensionEvent {
 
     // Time that it takes each debugging event to complete. For example, if the
     // type is `START_WITHOUT_DEBUGGING`, this duration is how long it takes
-    // the host to send the intent to launch the main activity after build
+    // Visual Studio to send the intent to launch the main activity after build
     // finishes.
     optional int64 duration_ms = 6;
 
