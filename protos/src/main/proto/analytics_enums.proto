@@ -699,6 +699,7 @@ enum VariantApiArtifactType {
     APK_FROM_BUNDLE = 10;
     PROJECT_CLASSES = 11;
     MERGED_NATIVE_LIBS = 12;
+    RUNTIME_SYMBOL_LIST = 13;
 }
 
 enum VariantMethodType {
