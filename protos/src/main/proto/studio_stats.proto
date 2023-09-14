@@ -2136,6 +2136,11 @@ message DeviceInfo {
   // ID of device provisioner plugin that created the device
   optional string device_provisioner_id = 13;
 
+  // A unique identifier of the connection session, i.e. a contiguous time
+  // period when the device was connected to Studio. The format and semantic
+  // meaning (if any) of the id is defined by the device provisioner plugin.
+  optional string connection_id = 14;
+
   // Describes tthe ABI of the device/emulator.
   enum ApplicationBinaryInterface {
     UNKNOWN_ABI = 0;
@@ -10680,6 +10685,17 @@ message AndroidCppExtensionEvent {
       GNU17 = 14;
       CPP17 = 15;
       GNUPP17 = 16;
+      CPP20 = 17;
+      GNUPP20 = 18;
+    }
+
+    optional NativeBuildBackend native_build_backend = 13;
+
+    enum NativeBuildBackend {
+      UNSPECIFIED_NATIVE_BUILD_BACKEND = 0;
+      ORIGINAL_MSBUILD = 1;
+      MULTITOOLTASK_MSBUILD = 2;
+      NINJA = 3;
     }
 
     // TODO: try adding gradle info like the app_id.
@@ -12661,6 +12677,9 @@ message AppQualityInsightsUsageEvent {
 
     // AQI transitioned to offline or online mode
     MODE_TRANSITION = 10;
+
+    // For measuring performance in AQI
+    PERFORMANCE_STATS = 11;
   }
 
   enum CrashType {
@@ -12872,6 +12891,18 @@ message AppQualityInsightsUsageEvent {
     OFFLINE_TO_ONLINE = 2;
   }
 
+  message PerformanceStats {
+    message VersionControlBasedLineNumberMappingLatency {
+      optional int64 min_latency_ms = 1;
+      optional int64 p50_latency_ms = 2;
+      optional int64 p90_latency_ms = 3;
+      optional int64 max_latency_ms = 4;
+    }
+
+    optional VersionControlBasedLineNumberMappingLatency
+        vc_based_line_number_mapping_latency = 1;
+  }
+
   enum AppQualityInsightsProductType {
     UNKNOWN_PRODUCT_TYPE = 0;
     CRASHLYTICS = 1;
@@ -12921,6 +12952,9 @@ message AppQualityInsightsUsageEvent {
 
   // Required for all event types.
   optional AppQualityInsightsProductType product_type = 14;
+
+  // set when type = PERFORMANCE_STATS
+  optional PerformanceStats performance_stats = 15;
 }
 
 message FastPreviewEvent {
