@@ -417,14 +417,6 @@ object AnalyticsSettings {
             .toFile()
 
     /**
-     * Check if the [ANALYTICS_SETTINGS] file exists without creating parent directories
-     */
-    @JvmStatic
-    fun settingsFileExists(): Boolean {
-        return File(AnalyticsPaths.getAndroidSettingsHome(), ANALYTICS_SETTINGS).exists()
-    }
-
-    /**
      * Gets a binary blob to ensure per user anonymization. Gets automatically rotated every 28
      * days. Primarily used by [Anonymizer].
      */
