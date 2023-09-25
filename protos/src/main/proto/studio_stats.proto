@@ -7155,6 +7155,7 @@ message AndroidProfilerEvent {
     APP_HEAP = 4;
     JNI_HEAP = 5;
     NATIVE_HEAP = 6;
+    ALL_HEAP = 7;
   }
 
   enum Type {
