@@ -4419,6 +4419,8 @@ message GradleBuildVariant {
     PRIVACY_SANDBOX_SDK = 11;
     // Main variant of the kotlin multiplatform android library plugin
     KOTLIN_MULTIPLATFORM_ANDROID_LIBRARY = 12;
+    // Test component for host side screenshot testing
+    SCREENSHOT_TEST = 13;
   }
 
   // Different tools that provide Java 8 language usage.
