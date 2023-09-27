@@ -592,6 +592,7 @@ enum BooleanOption {
     ENABLE_VCS_INFO = 173;
     LINT_BASELINE_OMIT_LINE_NUMBERS = 174;
     LINT_USE_K2_UAST = 175;
+    ANDROID_TEST_LEAVE_APKS_INSTALLED_AFTER_RUN = 177;
 }
 
 enum OptionalBooleanOption {
