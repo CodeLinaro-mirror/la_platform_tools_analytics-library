@@ -49,14 +49,8 @@ class AnalyticsPublisherTest {
   @get:Rule
   val testConfigDir = TemporaryFolder()
 
-  // Make sure the connection to bad server doesn't hang infinitely.
-  @get:Rule
-  val timeout = Timeout.seconds(10)
-
-
   @Before
   fun before() {
-      AssumeUtil.assumeNotWindows() // TODO(b/295070308): fails on Windows with IntelliJ 2023.2.
       val analyticsSettings = AnalyticsSettingsData()
       analyticsSettings.optedIn = true
       analyticsSettings.userId = "f59e9566-2416-42a9-a159-b91fa484e4d7"
@@ -281,11 +275,11 @@ class AnalyticsPublisherTest {
     }
   }
 
-  //@Ignore("b/110330321")
   @Test
   @Throws(Exception::class)
   fun testBadServer() {
     // Configure the paths to use a temp directory for reading from and writing to.
+    AssumeUtil.assumeNotWindows() // TODO(b/295070308): fails on Windows with IntelliJ 2023.2.
     EnvironmentFakes.setCustomAndroidPrefsRootEnvironment(
       testConfigDir.root.toPath().toString())
     try {
@@ -320,6 +314,12 @@ class AnalyticsPublisherTest {
 
           val googleAnalyticsPublisher = GoogleAnalyticsPublisher(vs, testSpoolDir.root.toPath(), "1.2.3.4")
           googleAnalyticsPublisher.setServerUrl(stub.url)
+            googleAnalyticsPublisher.setCreateConnection(Callable {
+                val connection = stub.url.openConnection() as HttpURLConnection
+                connection.connectTimeout = 10000
+                connection.readTimeout = 10000
+                connection
+            })
 
           // Instruct to make the server stub fail the http request in the next call.
           stub.makeNextResponseServerError(true)

@@ -3417,8 +3417,14 @@ message GradleModule {
   optional int64 total_module_count = 1;
   // Number of aar modules in  this app.
   optional int64 app_module_count = 2;
-  // Number of library modules in this app..
+  // Number of library modules in this app.
   optional int64 lib_module_count = 3;
+  // Number of dynamic feature modules in this app.
+  optional int64 dynamic_feature_module_count = 4;
+  // Number of android test modules in this app.
+  optional int64 test_module_count = 5;
+  // Number of kotlin multiplatform modules in this app.
+  optional int64 kotlin_multiplatform_module_count = 6;
 }
 
 // Per Android module Gradle metrics.
@@ -7149,6 +7155,7 @@ message AndroidProfilerEvent {
     APP_HEAP = 4;
     JNI_HEAP = 5;
     NATIVE_HEAP = 6;
+    ALL_HEAP = 7;
   }
 
   enum Type {
