@@ -624,6 +624,9 @@ message AndroidStudioEvent {
   // set when kind = LINT_TOOLTIP_LINK_EVENT
   optional LintTooltipLinkEvent lint_tooltip_link_event = 180;
 
+  // set when kind = SML_AI_EXCLUDE_EVENT
+  optional SmlAiExcludeEvent sml_ai_exclude_event = 181;
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -1418,6 +1421,9 @@ message AndroidStudioEvent {
 
     // Event for links clicked in Lint tooltips.
     LINT_TOOLTIP_LINK_EVENT = 296;
+
+    // Event for Studio Bot aiexclude effects
+    SML_AI_EXCLUDE_EVENT = 297;
   }
 
   // Represents different Performance Monitoring types.
@@ -13713,6 +13719,20 @@ message SmlConfigurationEvent {
 
   // User has ML based fixes enabled.
   optional bool transform_enabled = 3;
+}
+
+message SmlAiExcludeEvent {
+  // Paste into chat
+  optional bool paste_blocked = 1;
+
+  // Editor actions (e.g. document, simplify)
+  optional bool intention_action_blocked = 2;
+
+  // Passive editor effects/actions (e.g. transform)
+  optional bool passive_action_blocked = 3;
+
+  // Code included as context for a query
+  optional bool context_blocked = 4;
 }
 
 message KotlinSupportDeclined {
