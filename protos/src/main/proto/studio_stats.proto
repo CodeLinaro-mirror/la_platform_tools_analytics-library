@@ -13398,10 +13398,19 @@ message TSdkUAEvent {
       uint32 count = 4;
       Problem problem = 5;
     }
+    optional Origin origin = 6;
     enum Problem {
-      UNSPECIFIED = 0;
+      UNSPECIFIED_PROBLEM = 0;
       TIMEOUT = 1;
       ERROR = 2;
+    }
+    // What kicked off this filter run?
+    enum Origin {
+      UNSPECIFIED_ORIGIN = 0;
+      // The "run all filters at assistant open" behavior
+      RUN_ON_START = 1;
+      // The user pressed a "rerun filter" button
+      RERUN_BUTTON = 2;
     }
   }
 }
