@@ -13728,6 +13728,9 @@ message SmlConfigurationEvent {
 
   // User has ML based fixes enabled.
   optional bool transform_enabled = 3;
+
+  // User agrees to sending project context with queries
+  optional bool project_context_enabled = 6;
 }
 
 message SmlAiExcludeEvent {
