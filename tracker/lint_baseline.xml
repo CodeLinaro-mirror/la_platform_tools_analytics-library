@@ -1,28 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<issues format="5" by="lint 7.2.0-dev">
+<issues format="6" by="lint 8.3.0-dev" type="baseline" client="" dependencies="true" name="" variant="all" version="8.3.0-dev">
 
     <issue
         id="VisibleForTests"
-        message="This method should only be accessed from tests or within private scope">
+        message="This method should only be accessed from tests or within private scope"
+        errorLine1="                writer = JournalingUsageTracker("
+        errorLine2="                         ~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/android/tools/analytics/UsageTracker.kt"
-            line="273"/>
+            line="273"
+            column="26"/>
     </issue>
 
     <issue
         id="VisibleForTests"
-        message="This method should only be accessed from tests or within private scope">
+        message="This method should only be accessed from tests or within private scope"
+        errorLine1="        studioEvent.studioSessionId = UsageTracker.sessionId"
+        errorLine2="                                                   ~~~~~~~~~">
         <location
             file="src/main/java/com/android/tools/analytics/UsageTrackerWriter.kt"
-            line="43"/>
+            line="43"
+            column="52"/>
     </issue>
 
     <issue
         id="VisibleForTests"
-        message="This method should only be accessed from tests or within private scope">
+        message="This method should only be accessed from tests or within private scope"
+        errorLine1="        studioEvent.studioSessionId = UsageTracker.sessionId"
+        errorLine2="                                                   ~~~~~~~~~">
         <location
             file="src/main/java/com/android/tools/analytics/UsageTrackerWriter.kt"
-            line="43"/>
+            line="43"
+            column="52"/>
     </issue>
 
 </issues>
