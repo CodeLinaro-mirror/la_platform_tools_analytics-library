@@ -13501,7 +13501,79 @@ message SmlResponseMetadata {
 }
 
 message SmlCompletionEvent {
+  // DEPRECATED Use CompletionAggregateEvent instead
   message CompletionRequest {
+    option deprecated = true;
+
+    enum Trigger {
+      UNKNOWN = 0 [deprecated = true];
+      USER = 1 [deprecated = true];
+      AUTOMATIC = 2 [deprecated = true];
+    }
+
+    // Historical: Not used starting with Android Studio 2023.2.1.11
+    optional Trigger trigger = 1 [deprecated = true];
+    // Historical: Not used starting with Android Studio 2023.2.1.11
+    optional EditorFileType file_type = 2 [deprecated = true];
+    // Historical: Not used starting with Android Studio 2023.2.1.11
+    optional uint32 prefix_length = 3 [deprecated = true];
+    // Historical: Not used starting with Android Studio 2023.2.1.11
+    optional uint32 suffix_length = 4 [deprecated = true];
+  }
+
+  // DEPRECATED Use CompletionAggregateEvent instead
+  message CompletionError {
+    option deprecated = true;
+
+    // Historical: Not used starting with Android Studio 2023.2.1.11
+    optional int32 status_code = 1 [deprecated = true];
+  }
+
+  // DEPRECATED Use CompletionAggregateEvent instead
+  message CompletionResult {
+    option deprecated = true;
+
+    // Historical: Not used starting with Android Studio 2023.2.1.11
+    optional SmlResponseMetadata metadata = 1 [deprecated = true];
+    // Historical: Not used starting with Android Studio 2023.2.1.11
+    optional uint64 latency_ms = 2 [deprecated = true];
+    // Historical: Not used starting with Android Studio 2023.2.1.11
+    optional int32 num_completions = 3 [deprecated = true];
+  }
+
+  // DEPRECATED Use CompletionAggregateEvent instead
+  message CompletionResponse {
+    option deprecated = true;
+
+    // Historical: Not used starting with Android Studio 2023.2.1.11
+    optional CompletionResult result = 1 [deprecated = true];
+    // Historical: Not used starting with Android Studio 2023.2.1.11
+    optional CompletionError backend_error = 2 [deprecated = true];
+  }
+
+  // DEPRECATED Use CompletionAggregateEvent instead
+  message CompletionShown {
+    option deprecated = true;
+
+    // Historical: Not used starting with Android Studio 2023.2.1.11
+    optional SmlResponseMetadata metadata = 1 [deprecated = true];
+    // Historical: Not used starting with Android Studio 2023.2.1.11
+    optional int32 shown_suggestion_index = 2 [deprecated = true];
+  }
+
+  // DEPRECATED Use CompletionAggregateEvent instead
+  message CompletionAccepted {
+    option deprecated = true;
+
+    // Historical: Not used starting with Android Studio 2023.2.1.11
+    optional SmlResponseMetadata metadata = 1 [deprecated = true];
+    // Historical: Not used starting with Android Studio 2023.2.1.11
+    optional int32 accepted_suggestion_index = 2 [deprecated = true];
+    // Historical: Not used starting with Android Studio 2023.2.1.11
+    optional int32 accepted_suggestion_length = 3 [deprecated = true];
+  }
+
+  message CompletionAggregateEvent {
     enum Trigger {
       UNKNOWN = 0;
 
@@ -13512,54 +13584,24 @@ message SmlCompletionEvent {
       AUTOMATIC = 2;
     }
 
-    optional Trigger trigger = 1;
-    optional EditorFileType file_type = 2;
-
-    // Length of prefix (# of chars before cursor) included in the request
-    optional uint32 prefix_length = 3;
-
-    // Length of suffix (# of chars after cursor) included in the request
-    optional uint32 suffix_length = 4;
-  }
-
-  message CompletionError {
-    optional int32 status_code = 1;
-  }
-
-  message CompletionResult {
-    optional SmlResponseMetadata metadata = 1;
-    optional uint64 latency_ms = 2;
-    optional int32 num_completions = 3;
-  }
-
-  message CompletionResponse {
-    oneof response {
-      CompletionResult result = 1;
-      CompletionError backend_error = 2;
-    }
-  }
-
-  message CompletionShown {
-    optional SmlResponseMetadata metadata = 1;
-    optional int32 shown_suggestion_index = 2;
-  }
-
-  message CompletionAccepted {
-    optional SmlResponseMetadata metadata = 1;
-
-    // Index of the accepted suggestion from the multiple suggestions in the
-    // response
-    optional int32 accepted_suggestion_index = 2;
-
-    // Length (# of chars) of the accepted suggestion
-    optional int32 accepted_suggestion_length = 3;
+    optional string model_id = 1;
+    optional Trigger trigger = 2;
+    optional EditorFileType file_type = 3;
+    optional uint32 completions_shown = 4;
+    optional uint32 completions_accepted = 5;
+    optional Histogram latencies_ms = 6;
   }
 
   oneof completion {
-    CompletionRequest request = 1;
-    CompletionResponse response = 2;
-    CompletionShown shown = 3;
-    CompletionAccepted accepted = 4;
+    // Historical: Not used starting with Android Studio 2023.2.1.11
+    CompletionRequest request = 1 [deprecated = true];
+    // Historical: Not used starting with Android Studio 2023.2.1.11
+    CompletionResponse response = 2 [deprecated = true];
+    // Historical: Not used starting with Android Studio 2023.2.1.11
+    CompletionShown shown = 3 [deprecated = true];
+    // Historical: Not used starting with Android Studio 2023.2.1.11
+    CompletionAccepted accepted = 4 [deprecated = true];
+    CompletionAggregateEvent aggregate = 5;
   }
 }
 
