@@ -5657,10 +5657,23 @@ message VisualLintEvent {
     CANCEL_BACKGROUND_ANALYSIS = 9;
   }
 
+  // Possible origins for visual lint event
+  enum EventOrigin {
+    UNKNOWN_ORIGIN = 0;
+    XML_LINTING = 1;
+    UI_CHECK = 2;
+  }
+
   // The type of the visual lint issue affected by this event
   optional IssueType issue_type = 1;
   // The kind of event affecting the issue
   optional IssueEvent issue_event = 2;
+  // The origin that triggered the visual lint event
+  optional EventOrigin event_origin = 3;
+  // The time it took for UI Check mode to start in ms
+  optional int64 ui_check_start_time_ms = 4;
+  // The number of visible previews in UI Check
+  optional int32 visible_previews_number = 5;
 }
 
 message UniversalProblemsPanelEvent {
@@ -5685,6 +5698,8 @@ message UniversalProblemsPanelEvent {
     PROJECT_ERRORS = 2;
     // This is the shared issue panel, used by compose, layout editor, etc.
     DESIGN_TOOLS = 3;
+    // UI Check mode tab
+    UI_CHECK = 4;
   }
 
   // Event of triggering navigatable of an issue. This is usually done by double
