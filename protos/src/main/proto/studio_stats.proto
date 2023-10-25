@@ -627,6 +627,9 @@ message AndroidStudioEvent {
   // set when kind = SML_AI_EXCLUDE_EVENT
   optional SmlAiExcludeEvent sml_ai_exclude_event = 181;
 
+  // set when kind = I_DEVICE_USAGE_EVENT
+  optional IDeviceUsageEvent i_device_usage_event = 182;
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -1424,6 +1427,9 @@ message AndroidStudioEvent {
 
     // Event for Studio Bot aiexclude effects
     SML_AI_EXCLUDE_EVENT = 297;
+
+    // Event for IDevice interface usage
+    I_DEVICE_USAGE_EVENT = 298;
   }
 
   // Represents different Performance Monitoring types.
@@ -13809,6 +13815,86 @@ message SmlAiExcludeEvent {
 
   // Code included as context for a query
   optional bool context_blocked = 4;
+}
+
+message IDeviceUsageEvent {
+  // Identifier of the `IDevice` method
+  enum Method {
+    METHOD_UNSPECIFIED = 0;
+    GET_NAME = 1;
+    EXECUTE_SHELL_COMMAND_1 = 2;
+    EXECUTE_SHELL_COMMAND_2 = 3;
+    EXECUTE_SHELL_COMMAND_3 = 4;
+    EXECUTE_SHELL_COMMAND_4 = 5;
+    EXECUTE_SHELL_COMMAND_5 = 6;
+    GET_SYSTEM_PROPERTY = 7;
+    GET_SERIAL_NUMBER = 8;
+    GET_AVD_NAME = 9;
+    GET_AVD_PATH = 10;
+    GET_AVD_DATA = 11;
+    CREATE_AVD_DATA = 12;
+    GET_STATE = 13;
+    GET_PROPERTIES = 14;
+    GET_PROPERTY_COUNT = 15;
+    GET_PROPERTY = 16;
+    ARE_PROPERTIES_SET = 17;
+    SUPPORTS_FEATURE_1 = 18;
+    SUPPORTS_FEATURE_2 = 19;
+    SERVICES = 20;
+    TO_STRING = 21;
+    IS_ONLINE = 22;
+    IS_EMULATOR = 23;
+    IS_OFFLINE = 24;
+    IS_BOOT_LOADER = 25;
+    GET_CLIENTS = 26;
+    GET_CLIENT = 27;
+    GET_PROFILEABLE_CLIENTS = 28;
+    CREATE_FORWARD_1 = 29;
+    CREATE_FORWARD_2 = 30;
+    REMOVE_FORWARD = 31;
+    GET_CLIENT_NAME = 32;
+    PUSH_FILE = 33;
+    PULL_FILE = 34;
+    INSTALL_PACKAGE_1 = 35;
+    INSTALL_PACKAGE_2 = 36;
+    INSTALL_PACKAGE_3 = 37;
+    INSTALL_PACKAGES_1 = 38;
+    INSTALL_PACKAGES_2 = 39;
+    GET_LAST_INSTALL_METRICS = 40;
+    SYNC_PACKAGE_TO_DEVICE = 41;
+    INSTALL_REMOTE_PACKAGE = 42;
+    REMOVE_REMOTE_PACKAGE = 43;
+    UNINSTALL_PACKAGE = 44;
+    UNINSTALL_APP = 45;
+    ROOT = 46;
+    FORCE_STOP = 47;
+    KILL = 48;
+    IS_ROOT = 49;
+    GET_ABIS = 50;
+    GET_DENSITY = 51;
+    GET_VERSION = 52;
+    EXECUTE_REMOTE_COMMAND_1 = 53;
+    EXECUTE_REMOTE_COMMAND_2 = 54;
+    EXECUTE_REMOTE_COMMAND_3 = 55;
+    EXECUTE_REMOTE_COMMAND_4 = 56;
+    RAW_EXEC2 = 57;
+  }
+
+  // Whether this event is coming from `AdblibIDeviceWrapper` or `DeviceImpl`
+  enum SourceType {
+    SOURCE_TYPE_UNSPECIFIED = 0;
+    DEVICE_IMPL = 1;
+    ADBLIB_I_DEVICE_WRAPPER = 2;
+  }
+
+  // 'IDevice' method
+  optional Method method = 1;
+
+  // `IDevice` implementation
+  optional SourceType source_type = 2;
+
+  // Whether method threw an exception
+  optional bool is_exception = 3;
 }
 
 message KotlinSupportDeclined {
