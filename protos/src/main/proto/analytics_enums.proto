@@ -723,6 +723,8 @@ enum VariantMethodType {
     TEST_FIXTURES_ENABLED = 13;
     CODE_MINIFICATION_VALUE = 14;
     SHRINK_RESOURCES_VALUE = 15;
+    ENABLE_MULTI_DEX = 16;
+    ANDROID_TEST_BUILDER = 17;
 }
 
 enum VariantPropertiesMethodType {
