@@ -13416,6 +13416,16 @@ message TSdkUAEvent {
     optional uint32 mapping_version = 2;
     // The encoding of which step is active/inactive, as a bitvector
     optional bytes active_steps = 3;
+    // The type of state update this entry is
+    optional Type type = 4;
+    // What does this state update describe?
+    enum Type {
+      UNSPECIFIED_TYPE = 0;
+      // The finalized initial state
+      INIT = 1;
+      // A post-init step completion change
+      DELTA = 2;
+    }
   }
 
   message FilterRun {
