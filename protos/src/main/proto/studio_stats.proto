@@ -13976,6 +13976,8 @@ message IDeviceUsageEvent {
     EXECUTE_REMOTE_COMMAND_3 = 55;
     EXECUTE_REMOTE_COMMAND_4 = 56;
     RAW_EXEC2 = 57;
+    STAT_FILE = 58;
+    UNSUPPORTED_METHOD = 59;
   }
 
   // Whether this event is coming from `AdblibIDeviceWrapper` or `DeviceImpl`
