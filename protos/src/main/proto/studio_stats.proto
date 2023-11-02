@@ -2460,6 +2460,9 @@ message EmulatorAvdInfo {
     WEAROS_SMALL_ROUND = 34;
     WEAROS_RECT = 35;
     WEAROS_SQUARE = 36;
+    PIXEL_7A = 37;
+    PIXEL_8 = 38;
+    PIXEL_8_PRO = 39;
   }
   // Name of the AVD. Deprecated as it could potentially contain PII.
   optional string name = 1 [deprecated = true];
@@ -6431,6 +6434,9 @@ message AppLinksAssistantEvent {
 
   optional LinkFilterOption link_filter_option = 13;
 
+  // The information of an interacted link collected for impact tracking.
+  optional LinksRecord links_record = 14;
+
   // UI event source.
   enum EventSource {
     // Will be deprecated and replaced by NEW_LINK_CREATION_SIDE_PANEL.
@@ -6559,6 +6565,88 @@ message AppLinksAssistantEvent {
     NONE = 1;
     MANIFEST_ISSUES = 2;
     JSON_ISSUES = 3;
+  }
+
+  message LinksRecord {
+    // Salted (rotating every 540 days) and SHA256 hashed value of raw_schemes.
+    repeated string anonymized_schemes = 1;
+
+    // the scheme values defined by the <data android:scheme> tag in
+    // AndroidManifest.xml, e.g. 'https", "twitter"
+    // This may be sensitive information because the scheme can be a custom
+    // string and thus restricted to "raw" sawmill access.
+    // This data is only available in and for PWG approved scenarios.
+    repeated string raw_schemes = 2;
+
+    // Salted (rotating every 540 days) and SHA256 hashed value of raw_hosts.
+    repeated string anonymized_hosts = 3;
+
+    // the host values defined by the <data android:host> tag in
+    // AndroidManifest.xml, e.g. "www.google.com", "*.twitter.com" This may be
+    // sensitive information because the host can be unreleased and thus
+    // restricted to "raw" sawmill access. This data is only available in and
+    // for PWG approved scenarios.
+    repeated string raw_hosts = 4;
+
+    // Salted (rotating every 540 days) and SHA256 hashed value of raw_paths.
+    repeated string anonymized_paths = 5;
+
+    // the path patterns defined by the <data android:path> or <data
+    // android:pathPattern>, etc. tags in AndroidManifest.xml, e.g. "/test",
+    // "/product/.*".This may be sensitive information because the path can be
+    // unreleased and thus restricted to "raw" sawmill access. This data is only
+    // available in and for PWG approved scenarios.
+    repeated string raw_paths = 6;
+
+    // The path type defined in <data android:path> or <data
+    // android:pathPattern>, etc. tags,  used as additional information to
+    // distinguish the same path string under different types. For example,
+    // a path "/p" and a path prefix "/p" match different URLs.
+    // This field should match the raw_paths and anonymized_paths field elements
+    // one to one.
+    repeated PathType path_types = 7 [packed = true];
+    enum PathType {
+      PATH_TYPE_UNSPECIFIED = 0;
+      PATH = 1;
+      PATH_PATTERN = 2;
+      PATH_PREFIX = 3;
+      PATH_EMPTY = 4;
+      PATH_SUFFIX = 5;
+      PATH_ADVANCED_PATTERN = 6;
+    }
+
+    // The user's interaction on the link, used as the reason we log this link.
+    optional InteractionType interaction_type = 8;
+    enum InteractionType {
+      INTERACTION_TYPE_UNSPECIFIED = 0;
+
+      // The recorded links are misconfigured and viewed by the user in link
+      // details page.
+      BROKEN_LINK_IN_DETAIL_PAGE = 1;
+
+      // The recorded links are misconfigured and auto-fixed.
+      BROKEN_LINK_AUTO_FIXED = 2;
+
+      // The recorded links are misconfigured and manually fixed after shown
+      // in the manual fix UI.
+      // The fixed link will be seen as a new link in the Play released version.
+      BROKEN_LINK_MANUALLY_FIXED = 3;
+
+      // The recorded links are created using the "creation new link" feature.
+      NEW_LINK_CREATED = 4;
+
+      // The recorded links are misconfigured and shown in the manual fix page.
+      // They are generally links that miss some link component.
+      // The client doesn't have to report this kind of links for the purpose of
+      // ads impact tracking, as the fixed links will no longer match the ones
+      // that miss some link component.
+      BROKEN_LINK_MANUAL_FIX_PAGE = 5;
+
+      // The recorded links are valid. The client doesn't have to report this
+      // kind of links for the purpose of ads impact tracking, as they are not
+      // contributing to additional ads revenue.
+      VALID_LINK_IN_DETAIL_PAGE = 6;
+    }
   }
 }
 
@@ -13416,6 +13504,16 @@ message TSdkUAEvent {
     optional uint32 mapping_version = 2;
     // The encoding of which step is active/inactive, as a bitvector
     optional bytes active_steps = 3;
+    // The type of state update this entry is
+    optional Type type = 4;
+    // What does this state update describe?
+    enum Type {
+      UNSPECIFIED_TYPE = 0;
+      // The finalized initial state
+      INIT = 1;
+      // A post-init step completion change
+      DELTA = 2;
+    }
   }
 
   message FilterRun {
@@ -13878,6 +13976,8 @@ message IDeviceUsageEvent {
     EXECUTE_REMOTE_COMMAND_3 = 55;
     EXECUTE_REMOTE_COMMAND_4 = 56;
     RAW_EXEC2 = 57;
+    STAT_FILE = 58;
+    UNSUPPORTED_METHOD = 59;
   }
 
   // Whether this event is coming from `AdblibIDeviceWrapper` or `DeviceImpl`

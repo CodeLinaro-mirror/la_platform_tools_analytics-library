@@ -1,4 +1,4 @@
-load("//tools/base/bazel:proto.bzl", "java_proto_library", "maven_proto_library")
+load("//tools/base/bazel:proto.bzl", "INTELLIJ_PLATFORM_PROTO_VERSION", "java_proto_library", "maven_proto_library")
 load("//tools/base/common:version.bzl", "BASE_VERSION")
 
 maven_proto_library(
@@ -10,6 +10,7 @@ maven_proto_library(
     notice = "NOTICE",
     pom_name = "Android Tools Analytics Protobufs",
     proto_java_runtime_library = [],
+    protoc_version = INTELLIJ_PLATFORM_PROTO_VERSION,
     resource_strip_prefix = "tools/analytics-library/protos/src/main/proto",
     resources = [
         "analytics_enums.proto",
@@ -23,6 +24,9 @@ maven_proto_library(
 java_proto_library(
     name = "studio.proto",
     srcs = glob(["*.proto"]),
-    proto_java_runtime_library = ["@maven//:com.google.protobuf.protobuf-java"],
+    proto_java_runtime_library = [
+        "//prebuilts/studio/intellij-sdk:studio-sdk",
+    ],
+    protoc_version = INTELLIJ_PLATFORM_PROTO_VERSION,
     visibility = ["//visibility:public"],
 )
