@@ -299,6 +299,13 @@ object AnalyticsSettings {
         return createNewAnalyticsSettingsData(logger)
     }
 
+    fun resetUserId() {
+        runIfAnalyticsSettingsUsable(Unit) {
+            instance?.userId = UUID.randomUUID().toString()
+            saveSettings()
+        }
+    }
+
     /**
      * Creates a new settings object and writes it to disk. Will try to load uid.txt for maintaining
      * the same uid with previous metrics reporting.
