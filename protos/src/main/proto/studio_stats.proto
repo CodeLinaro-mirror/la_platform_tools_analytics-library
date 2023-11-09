@@ -14076,6 +14076,11 @@ message SoongSyncStats {
   optional Status status = 2;
   // Total time of the entire sync process
   optional int64 total_time_ms = 3;
+  // Lunch target used for sync
+  optional string lunch_target = 4;
+  // Module paths that were synced. These are paths relative
+  // to the Platform repo checkout and do not contain PII.
+  repeated string module_paths = 5;
 
   enum Trigger {
     TRIGGER_UNKNOWN = 0;
