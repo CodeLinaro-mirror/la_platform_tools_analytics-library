@@ -1787,8 +1787,10 @@ message AndroidStudioEvent {
     GAME_TOOLS = 5;
 
     AGDE = 6;
-    // Android Studio for Platform (ASfP)
+    // Android Studio for Platform (ASfP) - Public
     ANDROID_STUDIO_FOR_PLATFORM = 7;
+    // Android Studio for Platform (ASfP) - Internal
+    ANDROID_STUDIO_FOR_PLATFORM_INTERNAL = 8;
   }
 
   // Gradle sync issue type.
