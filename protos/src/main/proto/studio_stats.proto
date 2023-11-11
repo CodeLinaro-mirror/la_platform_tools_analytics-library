@@ -13871,6 +13871,11 @@ message SmlChatBotEvent {
     optional bool has_error = 4;
   }
 
+  message HallucinationDetectorResult {
+    optional SmlResponseMetadata metadata = 1;
+    optional bool has_hallucination = 2;
+  }
+
   oneof content {
     BotResponse response = 1;
     UserFeedback user_feedback = 2;
@@ -13880,6 +13885,7 @@ message SmlChatBotEvent {
     BotInvoked bot_invoked = 6;
     SlashAction slash_action = 7;
     DependencySuggestion dependency_suggestion = 8;
+    HallucinationDetectorResult hallucination_detector_result = 9;
   }
 }
 
