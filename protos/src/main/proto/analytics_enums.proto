@@ -887,7 +887,7 @@ enum VariantPropertiesMethodType {
     COMPUTE_TASK_NAME = 146;
     ADD_STATIC_DIRECTORY = 147;
     TRANSFORM_WITH_NAME = 148;
-
+    CONFIGURE_TEST_TASK = 149;
 }
 
 enum ModulePropertyKeys {
