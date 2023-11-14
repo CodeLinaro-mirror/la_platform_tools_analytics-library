@@ -13524,6 +13524,7 @@ message TSdkUAEvent {
   oneof content {
     StateUpdate state_update = 1;
     FilterRun filter_run = 2;
+    UserMotion user_motion = 3;
   }
 
   message StateUpdate {
@@ -13565,6 +13566,23 @@ message TSdkUAEvent {
       RUN_ON_START = 1;
       // The user pressed a "rerun filter" button
       RERUN_BUTTON = 2;
+    }
+  }
+
+  // Tracking user movement through the assistant
+  message UserMotion {
+    oneof motion {
+      Opened opened = 1;
+      Closed closed = 2;
+    }
+    // User opened part of the assistant
+    message Opened {
+      optional string block_id = 1;
+    }
+    // User closed part of the assistant w/ how long they were there
+    message Closed {
+      optional string block_id = 1;
+      optional uint64 elapsed_ms = 2;
     }
   }
 }
