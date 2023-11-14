@@ -8199,6 +8199,12 @@ message DynamicLayoutInspectorErrorInfo {
 
     TRANSPORT_UNKNOWN_ERROR = 301;
     TRANSPORT_PUSH_FAILED_FILE_NOT_FOUND = 302;
+
+    // ----------------------------------
+    // Generic errors
+    // ----------------------------------
+
+    UNEXPECTED_ERROR = 401;
   }
 
   // How far we got on initial connect before an error happened, when sending
