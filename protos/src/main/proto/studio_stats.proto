@@ -13871,9 +13871,30 @@ message SmlChatBotEvent {
     optional bool has_error = 4;
   }
 
+  enum CodeDomain {
+    UNDEFINED = 0;
+    COMPOSE = 1;
+  }
+
+  enum HallucinationType {
+    OTHER = 0;
+    // covers unresolved symbols, mismatched types in calls, wrong number
+    // of parameters, wrong receiver type, etc. - anything which means the
+    // model made up an API or used one in the wrong way.
+    BAD_API = 1;
+    // covers errors that arise when the semantics of composables are not
+    // followed, like invoking a composable from a non-composable context
+    COMPOSE_SEMANTICS = 2;
+  }
+
   message HallucinationDetectorResult {
     optional SmlResponseMetadata metadata = 1;
     optional bool has_hallucination = 2;
+    optional EditorFileType file_type = 3;
+    // libraries, frameworks, or other categories applicable to the code snippet
+    repeated CodeDomain code_domains = 4 [packed = true];
+    // types of hallucinations detected in the snippet
+    repeated HallucinationType hallucination_types = 5 [packed = true];
   }
 
   oneof content {
