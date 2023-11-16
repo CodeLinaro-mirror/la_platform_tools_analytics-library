@@ -67,7 +67,7 @@ constructor() : HttpHandler, AutoCloseable {
 
   init {
     server.createContext("/log", this)
-    server.executor = Executors.newSingleThreadExecutor()
+    server.executor = Executors.newScheduledThreadPool(10)
     server.start()
 
     this.address = server.address

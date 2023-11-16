@@ -279,7 +279,6 @@ class AnalyticsPublisherTest {
   @Throws(Exception::class)
   fun testBadServer() {
     // Configure the paths to use a temp directory for reading from and writing to.
-    AssumeUtil.assumeNotWindows() // TODO(b/295070308): fails on Windows with IntelliJ 2023.2.
     EnvironmentFakes.setCustomAndroidPrefsRootEnvironment(
       testConfigDir.root.toPath().toString())
     try {

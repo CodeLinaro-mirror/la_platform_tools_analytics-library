@@ -1430,6 +1430,9 @@ message AndroidStudioEvent {
 
     // Event for IDevice interface usage
     I_DEVICE_USAGE_EVENT = 298;
+
+    // Event related to merged manifest view usage
+    MANIFEST_PANEL_EVENT = 299;
   }
 
   // Represents different Performance Monitoring types.
@@ -1787,8 +1790,10 @@ message AndroidStudioEvent {
     GAME_TOOLS = 5;
 
     AGDE = 6;
-    // Android Studio for Platform (ASfP)
+    // Android Studio for Platform (ASfP) - Public
     ANDROID_STUDIO_FOR_PLATFORM = 7;
+    // Android Studio for Platform (ASfP) - Internal
+    ANDROID_STUDIO_FOR_PLATFORM_INTERNAL = 8;
   }
 
   // Gradle sync issue type.
@@ -8194,6 +8199,12 @@ message DynamicLayoutInspectorErrorInfo {
 
     TRANSPORT_UNKNOWN_ERROR = 301;
     TRANSPORT_PUSH_FAILED_FILE_NOT_FOUND = 302;
+
+    // ----------------------------------
+    // Generic errors
+    // ----------------------------------
+
+    UNEXPECTED_ERROR = 401;
   }
 
   // How far we got on initial connect before an error happened, when sending
@@ -13354,6 +13365,23 @@ message DirectAccessUsageEvent {
 
   enum FailureReason {
     UNKNOWN_FAILURE = 0;
+
+    // Generic Reasons
+    USER_LOGGED_OUT = 1;
+    // CouroutineScope was cancelled leading to the failure.
+    SCOPE_CANCELLED = 2;
+
+    // Disconnect Reasons
+    // Device failed to connect to ADB
+    CONNECTION_FAILED = 11;
+    // Device disconnected from ADB
+    ADB_DISCONNECTED = 12;
+    // Device disconnected due to latency
+    LATENCY_DISCONNECT = 13;
+    // Session ended normally or through ERROR
+    SESSION_ENDED = 14;
+    // User clicked disconnect before device could connect
+    DISCONNECT_BEFORE_CONNECTED = 15;
   }
 
   message ReserveDeviceDetails {
@@ -13496,6 +13524,7 @@ message TSdkUAEvent {
   oneof content {
     StateUpdate state_update = 1;
     FilterRun filter_run = 2;
+    UserMotion user_motion = 3;
   }
 
   message StateUpdate {
@@ -13537,6 +13566,23 @@ message TSdkUAEvent {
       RUN_ON_START = 1;
       // The user pressed a "rerun filter" button
       RERUN_BUTTON = 2;
+    }
+  }
+
+  // Tracking user movement through the assistant
+  message UserMotion {
+    oneof motion {
+      Opened opened = 1;
+      Closed closed = 2;
+    }
+    // User opened part of the assistant
+    message Opened {
+      optional string block_id = 1;
+    }
+    // User closed part of the assistant w/ how long they were there
+    message Closed {
+      optional string block_id = 1;
+      optional uint64 elapsed_ms = 2;
     }
   }
 }
@@ -13869,6 +13915,32 @@ message SmlChatBotEvent {
     optional bool has_error = 4;
   }
 
+  enum CodeDomain {
+    UNDEFINED = 0;
+    COMPOSE = 1;
+  }
+
+  enum HallucinationType {
+    OTHER = 0;
+    // covers unresolved symbols, mismatched types in calls, wrong number
+    // of parameters, wrong receiver type, etc. - anything which means the
+    // model made up an API or used one in the wrong way.
+    BAD_API = 1;
+    // covers errors that arise when the semantics of composables are not
+    // followed, like invoking a composable from a non-composable context
+    COMPOSE_SEMANTICS = 2;
+  }
+
+  message HallucinationDetectorResult {
+    optional SmlResponseMetadata metadata = 1;
+    optional bool has_hallucination = 2;
+    optional EditorFileType file_type = 3;
+    // libraries, frameworks, or other categories applicable to the code snippet
+    repeated CodeDomain code_domains = 4 [packed = true];
+    // types of hallucinations detected in the snippet
+    repeated HallucinationType hallucination_types = 5 [packed = true];
+  }
+
   oneof content {
     BotResponse response = 1;
     UserFeedback user_feedback = 2;
@@ -13878,6 +13950,7 @@ message SmlChatBotEvent {
     BotInvoked bot_invoked = 6;
     SlashAction slash_action = 7;
     DependencySuggestion dependency_suggestion = 8;
+    HallucinationDetectorResult hallucination_detector_result = 9;
   }
 }
 
@@ -14074,6 +14147,11 @@ message SoongSyncStats {
   optional Status status = 2;
   // Total time of the entire sync process
   optional int64 total_time_ms = 3;
+  // Lunch target used for sync
+  optional string lunch_target = 4;
+  // Module paths that were synced. These are paths relative
+  // to the Platform repo checkout and do not contain PII.
+  repeated string module_paths = 5;
 
   enum Trigger {
     TRIGGER_UNKNOWN = 0;

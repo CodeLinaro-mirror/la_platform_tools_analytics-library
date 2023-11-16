@@ -23,6 +23,7 @@ import com.google.protobuf.ByteString
 import org.junit.Assert.assertArrayEquals
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
+import org.junit.Assert.assertNotEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertTrue
 import org.junit.Assert.fail
@@ -70,6 +71,7 @@ class AnalyticsSettingsTest {
     }
 
     class CountingLogger : ILogger {
+
         var errors = 0
         var warnings = 0
         var infos = 0
@@ -318,7 +320,6 @@ class AnalyticsSettingsTest {
             EnvironmentFakes.setSystemEnvironment()
         }
     }
-
 
     @Test
     @Throws(Exception::class)
@@ -595,6 +596,31 @@ class AnalyticsSettingsTest {
             settingsData.saveSettings(failureLogger)
 
             assertEquals(allFieldsSettingsContent, analyticsSettingsFileContent)
+        } finally {
+            EnvironmentFakes.setSystemEnvironment()
+        }
+    }
+
+    @Test
+    fun testResetUserId() {
+        EnvironmentFakes.setCustomAndroidPrefsRootEnvironment(
+            testConfigDir.root.toPath().toString()
+        )
+
+        try {
+            AnalyticsSettings.setInstanceForTest(AnalyticsSettingsData().apply {
+                userId = "db3dd15b-053a-4066-ac93-04c50585edc2"
+            })
+            AnalyticsSettings.saveSettings()
+            AnalyticsSettings.resetUserId()
+            // We can't check the actual value because the new value is a randomly generated UUID
+            // Confirm that the value has not stayed the same
+            assertNotEquals(AnalyticsSettings.userId, "db3dd15b-053a-4066-ac93-04c50585edc2")
+
+            assertEquals(
+                """{"userId":"<uuid>","hasOptedIn":false,"debugDisablePublishing":false,"saltValue":0,"saltSkew":-1}""",
+                analyticsSettingsFileContent.normalizeUserid()
+            )
         } finally {
             EnvironmentFakes.setSystemEnvironment()
         }
