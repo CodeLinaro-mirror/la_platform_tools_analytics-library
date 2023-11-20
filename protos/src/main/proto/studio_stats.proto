@@ -5676,6 +5676,7 @@ message VisualLintEvent {
     TEXT_FIELD_SIZE = 8;
     BUTTON_SIZE = 9;
     WEAR_MARGIN = 10;
+    ATF_COLORBLIND = 11;
   }
 
   // Type of events affecting visual lint issues
@@ -12124,28 +12125,28 @@ message GradleJdkInvalidEvent {
 }
 
 message GradleJdkConfigurationEvent {
-    // Gradle JDK configuration defined for the project
-    optional GradleJdkConfiguration configuration = 1;
+  // Gradle JDK configuration defined for the project
+  optional GradleJdkConfiguration configuration = 1;
 
-    // List of supported Gradle JDK configurations
-    enum GradleJdkConfiguration {
-        // Undefined Gradle JDK configuration
-        UNDEFINED_JDK_CONFIGURATION = 0;
-        // Use #JAVA_INTERNAL macro pointing to the studio embedded JDK
-        JAVA_INTERNAL = 1;
-        // Use #JAVA_HOME macro pointing to defined java home environment variable
-        JAVA_HOME = 2;
-        // Use #GRADLE_JAVA_HOME from org.gradle.java.home property value defined on
-        // gradle.properties file under GRADLE_USER_HOME, project or installation
-        GRADLE_JAVA_HOME = 3;
-        // Use #GRADLE_LOCAL_JAVA_HOME macro pointing to java.home property value
-        // defined on project ./gradle/config.properties file
-        GRADLE_LOCAL_JAVA_HOME = 4;
-        // Use STUDIO_GRADLE_JDK custom naming pointing to the environment variable
-        STUDIO_GRADLE_JDK = 5;
-        // Use jdk.table.xml entry defined under studio configuration directory
-        JDK_TABLE_ENTRY = 6;
-    }
+  // List of supported Gradle JDK configurations
+  enum GradleJdkConfiguration {
+    // Undefined Gradle JDK configuration
+    UNDEFINED_JDK_CONFIGURATION = 0;
+    // Use #JAVA_INTERNAL macro pointing to the studio embedded JDK
+    JAVA_INTERNAL = 1;
+    // Use #JAVA_HOME macro pointing to defined java home environment variable
+    JAVA_HOME = 2;
+    // Use #GRADLE_JAVA_HOME from org.gradle.java.home property value defined on
+    // gradle.properties file under GRADLE_USER_HOME, project or installation
+    GRADLE_JAVA_HOME = 3;
+    // Use #GRADLE_LOCAL_JAVA_HOME macro pointing to java.home property value
+    // defined on project ./gradle/config.properties file
+    GRADLE_LOCAL_JAVA_HOME = 4;
+    // Use STUDIO_GRADLE_JDK custom naming pointing to the environment variable
+    STUDIO_GRADLE_JDK = 5;
+    // Use jdk.table.xml entry defined under studio configuration directory
+    JDK_TABLE_ENTRY = 6;
+  }
 }
 
 message DeviceExplorerEvent {
