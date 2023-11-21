@@ -4080,6 +4080,9 @@ message GradleBuildProject {
   // All the gradle plugins applied to this project.
   repeated GradlePluginData applied_plugins = 19;
 
+  // Java compilation options
+  optional CompileOptions compile_options = 20;
+
   enum PluginType {
     UNKNOWN_PLUGIN_TYPE = 0;
     // The 'com.android.application' or 'com.android.model.application' plugins.
@@ -4178,6 +4181,18 @@ message GradleBuildProject {
     COM_ANDROID_BUILD_GRADLE_INTERNAL_PLUGINS_TESTPLUGIN = 61;
     COM_ANDROID_BUILD_GRADLE_INTERNAL_PLUGINS_VERSIONCHECKPLUGIN = 62;
     PROGUARD_GRADLE_PROGUARDPLUGIN = 63;
+  }
+
+  // Java compilation options
+  message CompileOptions {
+    // Major version of the Java source code (e.g., 8)
+    optional int32 source_compatibility = 1;
+
+    // Major version of the generated Java bytecode (e.g., 8)
+    optional int32 target_compatibility = 2;
+
+    // Major language version of the Java toolchain if it is used (e.g., 17)
+    optional int32 toolchain_language_version = 3;
   }
 }
 
