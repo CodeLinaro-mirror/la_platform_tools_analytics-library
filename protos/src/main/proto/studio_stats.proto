@@ -1582,6 +1582,7 @@ message AndroidStudioEvent {
     WEAR_OS_COMPOSE_ACTIVITY = 66;
     GOOGLE_WALLET_ACTIVITY = 67;
     BASELINE_PROFILES_MODULE = 68;
+    EXPERIMENTAL_ACTIVITY = 69;
   }
 
   // Wizard Templates Usage (New Project, New Module and New Component)
@@ -1610,7 +1611,7 @@ message AndroidStudioEvent {
 
       // The different template components (eg Activities, Fragments, Services,
       // etc) the template engine could be asked to render
-      // Next ID: 61
+      // Next ID: 63
       enum TemplateType {
         UNKNOWN_TEMPLATE = 0;
         CUSTOM_TEMPLATE = 1;
@@ -1678,6 +1679,7 @@ message AndroidStudioEvent {
         SERVICE = 54;
         SLICE_PROVIDER = 55;
         CONTENT_PROVIDER = 56;
+        EXPERIMENTAL_ACTIVITY = 62;
       }
 
       // The UI context used by the user to make the Template render request
