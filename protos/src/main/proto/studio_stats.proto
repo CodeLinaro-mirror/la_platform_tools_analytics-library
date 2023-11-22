@@ -630,6 +630,9 @@ message AndroidStudioEvent {
   // set when kind = I_DEVICE_USAGE_EVENT
   optional IDeviceUsageEvent i_device_usage_event = 182;
 
+  // set when kind = GRADLE_JDK_CONFIGURATION
+  optional GradleJdkConfigurationEvent gradle_jdk_configuration_event = 183;
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -1433,6 +1436,9 @@ message AndroidStudioEvent {
 
     // Event related to merged manifest view usage
     MANIFEST_PANEL_EVENT = 299;
+
+    // Event to report Gradle JDK configuration during sync
+    GRADLE_JDK_CONFIGURATION = 300;
   }
 
   // Represents different Performance Monitoring types.
@@ -4074,6 +4080,9 @@ message GradleBuildProject {
   // All the gradle plugins applied to this project.
   repeated GradlePluginData applied_plugins = 19;
 
+  // Java compilation options
+  optional CompileOptions compile_options = 20;
+
   enum PluginType {
     UNKNOWN_PLUGIN_TYPE = 0;
     // The 'com.android.application' or 'com.android.model.application' plugins.
@@ -4172,6 +4181,18 @@ message GradleBuildProject {
     COM_ANDROID_BUILD_GRADLE_INTERNAL_PLUGINS_TESTPLUGIN = 61;
     COM_ANDROID_BUILD_GRADLE_INTERNAL_PLUGINS_VERSIONCHECKPLUGIN = 62;
     PROGUARD_GRADLE_PROGUARDPLUGIN = 63;
+  }
+
+  // Java compilation options
+  message CompileOptions {
+    // Major version of the Java source code (e.g., 8)
+    optional int32 source_compatibility = 1;
+
+    // Major version of the generated Java bytecode (e.g., 8)
+    optional int32 target_compatibility = 2;
+
+    // Major language version of the Java toolchain if it is used (e.g., 17)
+    optional int32 toolchain_language_version = 3;
   }
 }
 
@@ -5655,6 +5676,7 @@ message VisualLintEvent {
     TEXT_FIELD_SIZE = 8;
     BUTTON_SIZE = 9;
     WEAR_MARGIN = 10;
+    ATF_COLORBLIND = 11;
   }
 
   // Type of events affecting visual lint issues
@@ -12099,6 +12121,31 @@ message GradleJdkInvalidEvent {
     INVALID_GRADLE_JVM_TABLE_ENTRY_JAVA_HOME = 19;
     // Unsupported gradleJvm #GRADLE_LOCAL_JAVA_HOME macro to configure JDK
     UNSUPPORTED_GRADLE_LOCAL_JAVA_HOME_MACRO = 20;
+  }
+}
+
+message GradleJdkConfigurationEvent {
+  // Gradle JDK configuration defined for the project
+  optional GradleJdkConfiguration configuration = 1;
+
+  // List of supported Gradle JDK configurations
+  enum GradleJdkConfiguration {
+    // Undefined Gradle JDK configuration
+    UNDEFINED_JDK_CONFIGURATION = 0;
+    // Use #JAVA_INTERNAL macro pointing to the studio embedded JDK
+    JAVA_INTERNAL = 1;
+    // Use #JAVA_HOME macro pointing to defined java home environment variable
+    JAVA_HOME = 2;
+    // Use #GRADLE_JAVA_HOME from org.gradle.java.home property value defined on
+    // gradle.properties file under GRADLE_USER_HOME, project or installation
+    GRADLE_JAVA_HOME = 3;
+    // Use #GRADLE_LOCAL_JAVA_HOME macro pointing to java.home property value
+    // defined on project ./gradle/config.properties file
+    GRADLE_LOCAL_JAVA_HOME = 4;
+    // Use STUDIO_GRADLE_JDK custom naming pointing to the environment variable
+    STUDIO_GRADLE_JDK = 5;
+    // Use jdk.table.xml entry defined under studio configuration directory
+    JDK_TABLE_ENTRY = 6;
   }
 }
 
