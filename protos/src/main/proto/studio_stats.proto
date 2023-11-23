@@ -633,6 +633,12 @@ message AndroidStudioEvent {
   // set when kind = GRADLE_JDK_CONFIGURATION
   optional GradleJdkConfigurationEvent gradle_jdk_configuration_event = 183;
 
+  // set when kind = RENDER_SECURITY_MANAGER_EVENT
+  optional RenderSecurityManagerEvent render_security_manager_event = 184;
+
+  // set when kind = PREVIEW_REFRESH_EVENT
+  optional PreviewRefreshEvent preview_refresh_event = 185;
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -1439,6 +1445,12 @@ message AndroidStudioEvent {
 
     // Event to report Gradle JDK configuration during sync
     GRADLE_JDK_CONFIGURATION = 300;
+
+    // Render Security manager event
+    RENDER_SECURITY_MANAGER_EVENT = 301;
+
+    // Event related to the refresh process of a preview tool
+    PREVIEW_REFRESH_EVENT = 302;
   }
 
   // Represents different Performance Monitoring types.
@@ -4259,6 +4271,11 @@ message GradleProjectOptionsSettings {
   // A reference to the proto enum in android git, see StringOption in
   // tools/analytics-library/protos/src/main/proto/analytics_enums.proto
   repeated int32 string_options = 7;
+
+  // Module property keys (experimental properties) that are explicitly set.
+  // A reference to the proto enum in android git, see ModulePropertyKeys in
+  // tools/analytics-library/protos/src/main/proto/analytics_enums.proto
+  repeated int32 module_property_keys = 8;
 }
 
 // An explicitly set integer option in the gradle plugin, with its value.
@@ -10210,6 +10227,61 @@ message ComposePreviewLiteModeEvent {
   optional bool is_compose_preview_lite_mode = 2;
 }
 
+// Details for Preview refresh event
+message PreviewRefreshEvent {
+  // A type corresponding to a preview tool or context in which the refresh
+  // happened
+  enum PreviewType {
+    UNKNOWN_TYPE = 0;
+    COMPOSE = 1;
+    WEAR = 2;
+    GLANCE = 3;
+    CUSTOM_VIEW = 4;
+  }
+  // The result of the refresh process as a whole. Note that this is not
+  // directly tied to the RenderResult of each preview being refreshed
+  enum RefreshResult {
+    UNKNOWN_RESULT = 0;
+    SUCCESS = 1;
+    SKIPPED = 2;
+    USER_CANCELLED = 3;
+    AUTOMATICALLY_CANCELLED = 4;
+    FAILED = 5;
+  }
+  optional PreviewType type = 1;
+  optional RefreshResult result = 2;
+  // The in queue time corresponds to the time that a refresh request waits
+  // inside the queue of a RefreshManager before being processed or skipped
+  optional int32 in_queue_time_millis = 3;
+  // The refresh time starts when the refresh request is taken out of the
+  // queue and starts to be processed and ends when the refresh process
+  // finishes or gets cancelled.
+  optional int32 refresh_time_millis = 4;
+  // The total number of previews not filtered out by the flows and present
+  // in the panel at once
+  optional int32 previews_count = 5;
+  // The number of previews out of previews_count that this refresh should
+  // have refreshed
+  optional int32 previews_to_refresh = 6;
+  // Some information for each preview that was actually rendered
+  repeated SinglePreviewRender preview_renders = 7;
+
+  message SinglePreviewRender {
+    enum RenderResult {
+      UNKNOWN_RESULT = 0;
+      SUCCESS = 1;
+      ERROR = 2;
+    }
+    optional RenderResult result = 1;
+    // True when the render also included executing the inflation step
+    optional bool inflate = 2;
+    // Quality value between 0 and 1 used for rendering
+    optional float render_quality = 3;
+    // Time taken by the render, including inflation time when corresponds
+    optional int32 render_time_millis = 4;
+  }
+}
+
 // Details for Compose deploy event
 message ComposeDeployEvent {
   enum ComposeDeployEventType {
@@ -14253,4 +14325,25 @@ message LintTooltipLinkEvent {
   // https://goo.gle/GetInstance
   // https://krebsonsecurity.com/2021/11/trojan-source-bug-threatens-the-security-of-all-code/
   optional string url = 2;
+}
+
+message RenderSecurityManagerEvent {
+  enum Type {
+    TYPE_UNKNOWN = 0;
+    // A RenderSecurityManager was manually disabled by the user.
+    USER_DISABLED = 1;
+    // A security exception was raised to prevent using a resource.
+    RESOURCE_USAGE_DENIED = 2;
+    // A resource was used and a warning was logged in the Studio log.
+    // This is used in cases where the usage should be denied but it is not
+    // at the moment because of limitations of the implementation, for example,
+    // thread creation.
+    RESOURCE_USAGE_WARNING = 3;
+  }
+
+  // The resource id that is trigger this security event when type is
+  // RESOURCE_USAGE_DENIED or RESOURCE_USAGE_WARNING. Example of resource ids
+  // are "Read", "Property" or "Clipboard".
+  optional Type type = 1;
+  optional string resource = 2;
 }
