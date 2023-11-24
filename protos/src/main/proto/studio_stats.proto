@@ -4453,6 +4453,10 @@ message GradleBuildVariant {
   // whether this variant has test fixtures enabled
   optional bool has_test_fixtures = 32;
 
+  // information about the privacy sandbox SDKs this project consumes
+  optional PrivacySandboxDependenciesInfo privacy_sandbox_dependencies_info =
+      33;
+
   // The nature of this variant.
   // The test variants have an associated tested variant.
   // See com.android.builder.core.VariantType
@@ -4565,6 +4569,37 @@ message GradleBuildVariant {
 
     // Language version (e.g., "2.0")
     optional string language_version = 2;
+  }
+
+  // Information collected when assigning IDs to each Privacy
+  // Sandbox SDK this variant depends on
+  message PrivacySandboxDependenciesInfo {
+    // The Privacy Sandbox SDKs this variant depends on
+    repeated RuntimeEnabledSdk sdk = 1;
+
+    // Privacy sandbox SDKs can only be published via Google Play, this
+    // corresponds to runtime_enabled_sdk_config.proto which is the reference
+    // pushed as part of this app's app
+    // bundle to Google Play to allow the SDK dependency to be matched to the
+    // device.
+    message RuntimeEnabledSdk {
+      // Package name of the runtime-enabled SDK.
+      optional string package_name = 1;
+      // Major version of the runtime-enabled SDK.
+      optional int32 version_major = 2;
+      // Minor version of the runtime-enabled SDK.
+      optional int32 version_minor = 3;
+      // Patch version of the runtime-enabled SDK.
+      // The dependency on a specific patch version is a build-time soft
+      // dependency, that ensures reproducibility of local builds; it does not
+      // imply that all
+      // app stores will honour it when delivering apps to end-users. For
+      // instance, some stores may just honour the dependency on a specific
+      // major and minor,
+      // while serve the latest available patch for the given major.minor
+      // version of the SDK.
+      optional int32 build_time_version_patch = 4;
+    }
   }
 }
 
