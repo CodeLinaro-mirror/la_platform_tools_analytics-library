@@ -7736,6 +7736,8 @@ message GradleSyncStats {
     TRIGGER_QF_REMOVE_JCENTER_FROM_REPOSITORIES = 427;
     // Select signing config using a quickfix
     TRIGGER_QF_SIGNING_CONFIG_SELECTED = 428;
+    // Remove unsupported modules from a quickfix
+    TRIGGER_QF_REMOVE_UNSUPPORTED_MODULES = 429;
     // Last marker for syncs caused by quickfixes
     TRIGGER_QF_LAST_MARKER = 999;
 
