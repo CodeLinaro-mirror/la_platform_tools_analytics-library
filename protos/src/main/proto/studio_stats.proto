@@ -633,6 +633,12 @@ message AndroidStudioEvent {
   // set when kind = GRADLE_JDK_CONFIGURATION
   optional GradleJdkConfigurationEvent gradle_jdk_configuration_event = 183;
 
+  // set when kind = RENDER_SECURITY_MANAGER_EVENT
+  optional RenderSecurityManagerEvent render_security_manager_event = 184;
+
+  // set when kind = PREVIEW_REFRESH_EVENT
+  optional PreviewRefreshEvent preview_refresh_event = 185;
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -1439,6 +1445,12 @@ message AndroidStudioEvent {
 
     // Event to report Gradle JDK configuration during sync
     GRADLE_JDK_CONFIGURATION = 300;
+
+    // Render Security manager event
+    RENDER_SECURITY_MANAGER_EVENT = 301;
+
+    // Event related to the refresh process of a preview tool
+    PREVIEW_REFRESH_EVENT = 302;
   }
 
   // Represents different Performance Monitoring types.
@@ -4259,6 +4271,11 @@ message GradleProjectOptionsSettings {
   // A reference to the proto enum in android git, see StringOption in
   // tools/analytics-library/protos/src/main/proto/analytics_enums.proto
   repeated int32 string_options = 7;
+
+  // Module property keys (experimental properties) that are explicitly set.
+  // A reference to the proto enum in android git, see ModulePropertyKeys in
+  // tools/analytics-library/protos/src/main/proto/analytics_enums.proto
+  repeated int32 module_property_keys = 8;
 }
 
 // An explicitly set integer option in the gradle plugin, with its value.
@@ -4436,6 +4453,10 @@ message GradleBuildVariant {
   // whether this variant has test fixtures enabled
   optional bool has_test_fixtures = 32;
 
+  // information about the privacy sandbox SDKs this project consumes
+  optional PrivacySandboxDependenciesInfo privacy_sandbox_dependencies_info =
+      33;
+
   // The nature of this variant.
   // The test variants have an associated tested variant.
   // See com.android.builder.core.VariantType
@@ -4548,6 +4569,37 @@ message GradleBuildVariant {
 
     // Language version (e.g., "2.0")
     optional string language_version = 2;
+  }
+
+  // Information collected when assigning IDs to each Privacy
+  // Sandbox SDK this variant depends on
+  message PrivacySandboxDependenciesInfo {
+    // The Privacy Sandbox SDKs this variant depends on
+    repeated RuntimeEnabledSdk sdk = 1;
+
+    // Privacy sandbox SDKs can only be published via Google Play, this
+    // corresponds to runtime_enabled_sdk_config.proto which is the reference
+    // pushed as part of this app's app
+    // bundle to Google Play to allow the SDK dependency to be matched to the
+    // device.
+    message RuntimeEnabledSdk {
+      // Package name of the runtime-enabled SDK.
+      optional string package_name = 1;
+      // Major version of the runtime-enabled SDK.
+      optional int32 version_major = 2;
+      // Minor version of the runtime-enabled SDK.
+      optional int32 version_minor = 3;
+      // Patch version of the runtime-enabled SDK.
+      // The dependency on a specific patch version is a build-time soft
+      // dependency, that ensures reproducibility of local builds; it does not
+      // imply that all
+      // app stores will honour it when delivering apps to end-users. For
+      // instance, some stores may just honour the dependency on a specific
+      // major and minor,
+      // while serve the latest available patch for the given major.minor
+      // version of the SDK.
+      optional int32 build_time_version_patch = 4;
+    }
   }
 }
 
@@ -7684,6 +7736,8 @@ message GradleSyncStats {
     TRIGGER_QF_REMOVE_JCENTER_FROM_REPOSITORIES = 427;
     // Select signing config using a quickfix
     TRIGGER_QF_SIGNING_CONFIG_SELECTED = 428;
+    // Remove unsupported modules from a quickfix
+    TRIGGER_QF_REMOVE_UNSUPPORTED_MODULES = 429;
     // Last marker for syncs caused by quickfixes
     TRIGGER_QF_LAST_MARKER = 999;
 
@@ -10208,6 +10262,61 @@ message ComposePreviewLiteModeEvent {
   // True if Compose Preview Lite Mode is enabled when logging the event.
   // For switch events, the value is logged after the switch happens.
   optional bool is_compose_preview_lite_mode = 2;
+}
+
+// Details for Preview refresh event
+message PreviewRefreshEvent {
+  // A type corresponding to a preview tool or context in which the refresh
+  // happened
+  enum PreviewType {
+    UNKNOWN_TYPE = 0;
+    COMPOSE = 1;
+    WEAR = 2;
+    GLANCE = 3;
+    CUSTOM_VIEW = 4;
+  }
+  // The result of the refresh process as a whole. Note that this is not
+  // directly tied to the RenderResult of each preview being refreshed
+  enum RefreshResult {
+    UNKNOWN_RESULT = 0;
+    SUCCESS = 1;
+    SKIPPED = 2;
+    USER_CANCELLED = 3;
+    AUTOMATICALLY_CANCELLED = 4;
+    FAILED = 5;
+  }
+  optional PreviewType type = 1;
+  optional RefreshResult result = 2;
+  // The in queue time corresponds to the time that a refresh request waits
+  // inside the queue of a RefreshManager before being processed or skipped
+  optional int32 in_queue_time_millis = 3;
+  // The refresh time starts when the refresh request is taken out of the
+  // queue and starts to be processed and ends when the refresh process
+  // finishes or gets cancelled.
+  optional int32 refresh_time_millis = 4;
+  // The total number of previews not filtered out by the flows and present
+  // in the panel at once
+  optional int32 previews_count = 5;
+  // The number of previews out of previews_count that this refresh should
+  // have refreshed
+  optional int32 previews_to_refresh = 6;
+  // Some information for each preview that was actually rendered
+  repeated SinglePreviewRender preview_renders = 7;
+
+  message SinglePreviewRender {
+    enum RenderResult {
+      UNKNOWN_RESULT = 0;
+      SUCCESS = 1;
+      ERROR = 2;
+    }
+    optional RenderResult result = 1;
+    // True when the render also included executing the inflation step
+    optional bool inflate = 2;
+    // Quality value between 0 and 1 used for rendering
+    optional float render_quality = 3;
+    // Time taken by the render, including inflation time when corresponds
+    optional int32 render_time_millis = 4;
+  }
 }
 
 // Details for Compose deploy event
@@ -14253,4 +14362,25 @@ message LintTooltipLinkEvent {
   // https://goo.gle/GetInstance
   // https://krebsonsecurity.com/2021/11/trojan-source-bug-threatens-the-security-of-all-code/
   optional string url = 2;
+}
+
+message RenderSecurityManagerEvent {
+  enum Type {
+    TYPE_UNKNOWN = 0;
+    // A RenderSecurityManager was manually disabled by the user.
+    USER_DISABLED = 1;
+    // A security exception was raised to prevent using a resource.
+    RESOURCE_USAGE_DENIED = 2;
+    // A resource was used and a warning was logged in the Studio log.
+    // This is used in cases where the usage should be denied but it is not
+    // at the moment because of limitations of the implementation, for example,
+    // thread creation.
+    RESOURCE_USAGE_WARNING = 3;
+  }
+
+  // The resource id that is trigger this security event when type is
+  // RESOURCE_USAGE_DENIED or RESOURCE_USAGE_WARNING. Example of resource ids
+  // are "Read", "Property" or "Clipboard".
+  optional Type type = 1;
+  optional string resource = 2;
 }
