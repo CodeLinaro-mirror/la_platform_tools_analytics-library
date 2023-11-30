@@ -14209,6 +14209,8 @@ message IDeviceUsageEvent {
     RAW_EXEC2 = 57;
     STAT_FILE = 58;
     UNSUPPORTED_METHOD = 59;
+    CREATE_REVERSE = 60;
+    REMOVE_REVERSE = 61;
   }
 
   // Whether this event is coming from `AdblibIDeviceWrapper` or `DeviceImpl`
