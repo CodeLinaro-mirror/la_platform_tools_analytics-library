@@ -1158,7 +1158,6 @@ message AndroidStudioEvent {
     // Build Attribution ui event
     BUILD_ATTRIBUTION_UI_EVENT = 199;
 
-    // The event is related to Android Visual Studio plugin (go/vs-android).
     VS_PLUGIN = 200;
 
     // The event related to help panels in design editor
@@ -3758,6 +3757,9 @@ message TestRun {
   // ANDROID_STUDIO_THROUGH_GRADLE.
   optional AutomaticSnapshotOnFailure automatic_snapshot_on_failure = 9;
 
+  // Only set when test_kind=PREVIEW_SCREENSHOT_TEST
+  optional PreviewScreenshotRun preview_screenshot_run = 10;
+
   // Describes how tests where invoked.
   enum TestInvocationType {
     UNKNOWN_TEST_INVOCATION_TYPE = 0;
@@ -3774,6 +3776,7 @@ message TestRun {
     UNKNOWN_TEST_KIND = 0;
     UNIT_TEST = 1;
     INSTRUMENTATION_TEST = 2;
+    PREVIEW_SCREENSHOT_TEST = 3;
   }
 
   // How instrumentation tests will be run
@@ -3801,6 +3804,24 @@ message TestRun {
       USE_VALUE_IN_GRADLE_DSL = 3;
     }
     optional Enabled enabled = 1;
+  }
+
+  message PreviewScreenshotRun {
+    // The number of screenshot that was attempted to render.
+    // This value and TestRun.number_of_tests_executed might be
+    // different because this value only counts attempted screenshot
+    // renderings whereas TestRun.number_of_tests_executed counts
+    // skipped test cases.
+    optional int32 screenshot_count = 1;
+
+    // Total run time including preview discovery and rendering.
+    optional int64 total_run_time_ms = 2;
+
+    // Run time for preview discovery.
+    optional int64 discovery_run_time_ms = 3;
+
+    // Run time for rendering.
+    optional int64 rendering_run_time_ms = 4;
   }
 }
 
@@ -7741,7 +7762,7 @@ message GradleSyncStats {
     TRIGGER_QF_SIGNING_CONFIG_SELECTED = 428;
     // Remove unsupported modules from a quickfix
     TRIGGER_QF_REMOVE_UNSUPPORTED_MODULES = 429;
-   // minCompileSdk version is updated using a quickfix
+    // minCompileSdk version is updated using a quickfix
     TRIGGER_QF_MIN_COMPILE_SDK_UPDATED = 430;
     // Last marker for syncs caused by quickfixes
     TRIGGER_QF_LAST_MARKER = 999;
