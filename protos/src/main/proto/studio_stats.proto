@@ -8480,6 +8480,9 @@ message DynamicLayoutInspectorAttachToProcess {
   optional bool auto_connect_enabled = 8;
   // Was Layout Inspector embedded in the Running Devices Tool Window
   optional bool is_embedded_layout_inspector = 9;
+  // The time it took for attach to start and end.
+  // It can end because of success, error or cancellation.
+  optional int64 attach_duration_ms = 10;
 
   // The Client type
   enum ClientType {
