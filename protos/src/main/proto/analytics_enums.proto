@@ -884,6 +884,8 @@ enum VariantPropertiesMethodType {
     SOURCES_AND_OVERLAY_DIRECTORIES_GET_STATIC = 145;
     COMPUTE_TASK_NAME = 146;
     ADD_STATIC_DIRECTORY = 147;
+    TRANSFORM_WITH_NAME = 148;
+
 }
 
 enum ModulePropertyKeys {
