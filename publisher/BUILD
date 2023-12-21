@@ -10,6 +10,7 @@ iml_module(
     iml_files = ["analytics-publisher.iml"],
     lint_baseline = "lint_baseline.xml",
     test_srcs = ["src/test/java"],
+    test_tags = ["no_test_windows"],  # http://b/316139798
     visibility = ["//visibility:public"],
     # do not sort: must match IML order
     exports = ["//tools/base/annotations:studio.android.sdktools.android-annotations"],
