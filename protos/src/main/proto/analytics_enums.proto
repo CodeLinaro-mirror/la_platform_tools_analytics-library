@@ -744,6 +744,8 @@ enum VariantMethodType {
     ANDROID_RESOURCES_BUILDER = 19;
     GENERATE_LOCALE_CONFIG_BUILDER = 20;
     DEVICE_TESTS_BUILDER = 21;
+    HOST_TESTS_BUILDER = 22;
+    HOST_TEST_TYPE = 23;
 }
 
 enum VariantPropertiesMethodType {
@@ -905,6 +907,7 @@ enum VariantPropertiesMethodType {
     DATA_BINDING = 155;
     DEVICE_TESTS = 156;
     DEFAULT_DEVICE_TEST = 157;          // removed
+    HOST_TESTS = 158;
 }
 
 enum ModulePropertyKeys {
