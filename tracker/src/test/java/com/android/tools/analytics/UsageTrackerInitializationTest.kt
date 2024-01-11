@@ -37,15 +37,12 @@ class UsageTrackerInitializationTest {
         analyticsSettingsData.optedIn = true
         AnalyticsSettings.setInstanceForTest(analyticsSettingsData)
         UsageTracker.deinitialize()
-        EnvironmentFakes.setSingleProperty(
-            Environment.EnvironmentVariable.ANDROID_PREFS_ROOT.key,
-            temporaryFolder.newFolder().absolutePath
-        )
+        AnalyticsPaths.overrideAndroidSettingsHomeDirectory(temporaryFolder.newFolder().absolutePath)
     }
 
     @After
-    fun setSystemEnvironment() {
-        EnvironmentFakes.setSystemEnvironment()
+    fun restoreAndroidSettingsHomeDirectory() {
+        AnalyticsPaths.restoreAndroidSettingsHomeDirectory()
     }
 
     @Test
