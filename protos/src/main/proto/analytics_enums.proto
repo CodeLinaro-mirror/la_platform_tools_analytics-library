@@ -740,6 +740,7 @@ enum VariantMethodType {
     PROFILEABLE_ENABLED = 18;
     ANDROID_RESOURCES_BUILDER = 19;
     GENERATE_LOCALE_CONFIG_BUILDER = 20;
+    DEVICE_TESTS_BUILDER = 21;
 }
 
 enum VariantPropertiesMethodType {
@@ -899,6 +900,8 @@ enum VariantPropertiesMethodType {
     NO_COMPRESS = 153;
     VIEW_BINDING = 154;
     DATA_BINDING = 155;
+    DEVICE_TESTS = 156;
+    DEFAULT_DEVICE_TEST = 157;
 }
 
 enum ModulePropertyKeys {
