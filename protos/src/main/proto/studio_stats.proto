@@ -639,6 +639,9 @@ message AndroidStudioEvent {
   // set when kind = PREVIEW_REFRESH_EVENT
   optional PreviewRefreshEvent preview_refresh_event = 185;
 
+  // set when kind = WEAR_HEALTH_SERVICES_TOOL_WINDOW_EVENT
+  optional WearHealthServicesEvent wear_health_services_event = 186;
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -1451,6 +1454,9 @@ message AndroidStudioEvent {
 
     // Event related to the refresh process of a preview tool
     PREVIEW_REFRESH_EVENT = 302;
+
+    // Event related to Wear Health Services tool window
+    WEAR_HEALTH_SERVICES_TOOL_WINDOW_EVENT = 303;
   }
 
   // Represents different Performance Monitoring types.
@@ -2081,7 +2087,7 @@ message ProductDetails {
   // Historical: never used as it was not providing enough info. Use channel
   // instead as it distinguishes between different kinds of preview releases.
   optional bool preview = 4 [deprecated = true];
-  // The CPU archtecture the product is running on.
+  // The CPU architecture the product is running on.
   optional CpuArchitecture os_architecture = 5;
   // The state in the software lifecycle of this product.
   optional SoftwareLifeCycleChannel channel = 6;
@@ -2495,7 +2501,7 @@ message EmulatorAvdInfo {
   optional int64 api_level = 2;
   // CPU architecture.
   optional EmulatorDetails.GuestCpuArchitecture arch = 3;
-  // When was this AVD created, UTC Unix timespamp.
+  // When was this AVD created, UTC Unix timestamp.
   optional int64 creation_timestamp = 4;
   // A build-id string from build.prop, something like 'sdk_google_phone 1231231
   // 10-11-2012'.
@@ -3513,7 +3519,7 @@ message GradleNativeAndroidModule {
   // The various native build systems we support to be used from Gradle.
   enum NativeBuildSystemType {
     UNKNOWN_NATIVE_BUILD_SYSTEM_TYPE = 0;
-    // The Gradle epxerimental plugin
+    // The Gradle experimental plugin
     GRADLE_EXPERIMENTAL = 1;
     // The compilation part of NDK builds (Android's native build system).
     NDK_COMPILE = 2;
@@ -3807,21 +3813,17 @@ message TestRun {
   }
 
   message PreviewScreenshotRun {
-    // The number of screenshot that was attempted to render.
-    // This value and TestRun.number_of_tests_executed might be
-    // different because this value only counts attempted screenshot
-    // renderings whereas TestRun.number_of_tests_executed counts
-    // skipped test cases.
-    optional int32 screenshot_count = 1;
+    // Deprecated: use TestRun.number_of_tests_executed.
+    optional int32 screenshot_count = 1 [deprecated = true];
 
-    // Total run time including preview discovery and rendering.
-    optional int64 total_run_time_ms = 2;
+    // Deprecated: use GradleBuildProfileSpan.
+    optional int64 total_run_time_ms = 2 [deprecated = true];
 
-    // Run time for preview discovery.
-    optional int64 discovery_run_time_ms = 3;
+    // Deprecated: use GradleBuildProfileSpan.
+    optional int64 discovery_run_time_ms = 3 [deprecated = true];
 
-    // Run time for rendering.
-    optional int64 rendering_run_time_ms = 4;
+    // Deprecated: use GradleBuildProfileSpan.
+    optional int64 rendering_run_time_ms = 4 [deprecated = true];
   }
 }
 
@@ -3829,7 +3831,7 @@ message TestRun {
 // Each string field of this message holds the exact version of the given
 // library (e.g. "1.0.0") that the field name represents. The field is populated
 // only if this project uses the given library.
-// Next ID: 42
+// Next ID: 44
 message TestLibraries {
   // "com.android.support.test:runner".
   optional string test_support_library_version = 1;
@@ -3882,6 +3884,11 @@ message TestLibraries {
   optional string espresso_accessibility_version = 9;
   // "androidx.test.espresso:espresso-device"
   optional string espresso_device_version = 41;
+
+  // "androidx.test.services:storage"
+  optional string test_services_storage_version = 42;
+  // "androidx.test.services:test-services"
+  optional string test_services_test_services_version = 43;
 
   // "androidx.fragment:fragment-testing".
   optional string fragment_testing_version = 17;
@@ -4333,7 +4340,7 @@ message GradleBuildSplits {
   // e.g. 480, 560, 640
   // See
   // https://android.googlesource.com/platform/tools/base/+/studio-master-dev/layoutlib-api/src/main/java/com/android/resources/Density.java
-  // for a comprensive list of possible values.
+  // for a comprehensive list of possible values.
   repeated int32 density_values = 4;
 
   // Are language splits enabled?
@@ -5210,7 +5217,7 @@ message UIActionStats {
   optional string action_class_name = 1;
   // How often since the last report this action was invoked.
   optional int64 invocations = 2;
-  // The way this action was invocated by the user.
+  // The way this action was invoked by the user.
   optional InvocationKind invocation_kind = 3;
   // true if this message is sent directly, false if sent
   // with aggregated data over time.
@@ -5280,7 +5287,7 @@ message DisplayDetails {
   optional int64 width = 1;
   // Height of the display screen in pixels.
   optional int64 height = 2;
-  // Densitiy of the pixels on the screen horiziontally.
+  // Density of the pixels on the screen horiziontally.
   optional int32 dots_per_inch_horizontal = 3;
   // Densitiy of the pixels on the screen vertically.
   optional int32 dots_per_inch_vertical = 4;
@@ -8140,7 +8147,7 @@ message DynamicLayoutInspectorAutoConnectInfo {
     UNKNOWN_TO_SUPPORTED = 0;
     // A device with UNKNOWN support state converted to NOT_SUPPORTED
     UNKNOWN_TO_NOT_SUPPORTED = 1;
-    // A device with UNKNOWN support state was unplugged bevore converting
+    // A device with UNKNOWN support state was unplugged before converting
     UNKNOWN_NOT_RESOLVED = 2;
   }
 
@@ -8170,7 +8177,7 @@ message DynamicLayoutInspectorAutoConnectInfo {
     DUMPSYS_NO_TOP_ACTIVITY_BUT_HAS_AWAKE_ACTIVITIES = 4;
   }
 
-  // The result of the handsthake. Does the device support auto connect?
+  // The result of the handshake. Does the device support auto connect?
   optional HandshakeResult handshake_result = 1;
   // Deprecated, use handshake_conversion_info instead
   optional HandshakeUnknownConversion handshake_conversion = 2
@@ -12208,6 +12215,30 @@ message WearPairingEvent {
   }
 }
 
+// Event related to Wear Health Services Tool Window
+message WearHealthServicesEvent {
+  // The kind of Wear Health Services event
+  optional EventKind kind = 1;
+
+  // Definition for the kind of Wear Health Services event
+  enum EventKind {
+    // Default
+    UNSPECIFIED = 0;
+
+    // WHS tool was bound to the emulator
+    EMULATOR_BOUND = 1;
+
+    // WHS tool had a connection error
+    CONNECTION_ERROR = 2;
+
+    // WHS tool successfully applied changes
+    APPLY_CHANGES_SUCCESS = 3;
+
+    // WHS tool failed to apply changes
+    APPLY_CHANGES_FAILURE = 4;
+  }
+}
+
 message GradleJdkInvalidEvent {
   // Reason to consider JDK as invalid
   optional InvalidJdkReason reason = 1;
@@ -12493,7 +12524,7 @@ message LogcatUsageEvent {
     // The state of the "set as default" checkbox
     optional bool is_default_preset = 2;
 
-    // True if the "Apply" button was used as oppesed to "OK"
+    // True if the "Apply" button was used as opposed to "OK"
     optional bool is_apply_button_used = 3;
   }
 
@@ -12812,6 +12843,15 @@ message LiveEditEvent {
   // Client-side salted (rotating every 28 days), sha256 of the project base
   // path. Used to correlate LiveEdit usage with Compose projects.
   optional string project_id = 6;
+
+  enum Device {
+    NONE = 0;  // Possible bug or device disconnected between actions.
+    PHYSICAL = 1;
+    EMULATOR = 2;
+    MULTI = 3;
+  }
+
+  optional Device target_device = 7;
 }
 
 message GoogleLoginPluginEvent {
@@ -13773,7 +13813,7 @@ message TSdkUAEvent {
 }
 
 message IntelliJNewUIState {
-  // Indicates whether the user has enabled the new IntellJ UI
+  // Indicates whether the user has enabled the new IntelliJ UI
   optional bool is_enabled = 1;
 }
 
