@@ -896,6 +896,8 @@ enum VariantPropertiesMethodType {
     IGNORE_ASSETS_PATTERN = 151;
     AAPT_ADDITIONAL_PARAMETERS = 152;
     NO_COMPRESS = 153;
+    VIEW_BINDING = 154;
+    DATA_BINDING = 155;
 }
 
 enum ModulePropertyKeys {
