@@ -13613,6 +13613,10 @@ message DirectAccessUsageEvent {
     SESSION_ENDED = 14;
     // User clicked disconnect before device could connect
     DISCONNECT_BEFORE_CONNECTED = 15;
+
+    // End Reservation Reasons
+    // Server side failed to allocate a device or the request expired in queue
+    FAILED_TO_ALLOCATE_DEVICE = 21;
   }
 
   message ReserveDeviceDetails {
