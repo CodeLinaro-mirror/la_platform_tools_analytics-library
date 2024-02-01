@@ -2013,6 +2013,12 @@ message AndroidStudioEvent {
     // Empty dimension results in no variant in IDE
     TYPE_EMPTY_FLAVOR_DIMENSION = 62;
 
+    // A sync issue type for exceptions that were converted to a sync issue.
+    TYPE_EXCEPTION = 63;
+
+    // Indicates that the namespace is missing.
+    TYPE_NAMESPACE_NOT_SET = 64;
+
     // NOTE: When adding a new type here, increment the index by 1. This index
     // may not be consistent with the corresponding value in the Android Gradle
     // plugin (e.g., it could be higher by 1), because of an indexing issue in
@@ -13607,6 +13613,10 @@ message DirectAccessUsageEvent {
     SESSION_ENDED = 14;
     // User clicked disconnect before device could connect
     DISCONNECT_BEFORE_CONNECTED = 15;
+
+    // End Reservation Reasons
+    // Server side failed to allocate a device or the request expired in queue
+    FAILED_TO_ALLOCATE_DEVICE = 21;
   }
 
   message ReserveDeviceDetails {
