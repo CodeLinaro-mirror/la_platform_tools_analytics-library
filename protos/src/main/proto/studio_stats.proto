@@ -3521,6 +3521,8 @@ message GradleNativeAndroidModule {
   optional string module_name = 2;
   // True if this module is a library.
   optional NativeBuildSystemType build_system_type = 3;
+  // the ndk version being used by this module
+  optional string ndk_version = 4;
 
   // The various native build systems we support to be used from Gradle.
   enum NativeBuildSystemType {
@@ -4131,6 +4133,9 @@ message GradleBuildProject {
 
   // Java compilation options
   optional CompileOptions compile_options = 20;
+
+  // The NDK version
+  optional string ndk_version = 21;
 
   enum PluginType {
     UNKNOWN_PLUGIN_TYPE = 0;
