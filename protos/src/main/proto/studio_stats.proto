@@ -7288,6 +7288,124 @@ message PowerProfilerCaptureMetadata {
   optional int32 battery_counter_count = 2;
 }
 
+// Metadata for a task recorded in the Android Studio Profiler.
+message TaskMetadata {
+  // The type of task recorded.
+  optional ProfilerTaskType task_type = 1;
+  // The task id is the same to the id of the session backing the task. This id
+  // is unique per Studio instance.
+  optional int64 task_id = 2;
+  // The origin of a task's recording data.
+  optional TaskDataOrigin task_data_origin = 3;
+  // The point in the process lifecycle the task began. Only set to a
+  // non-unspecified value if the |task_data_origin| is |NEW|.
+  optional TaskAttachmentPoint task_attachment_point = 4;
+  // The exposure level of the process the task utilized. Only set to a
+  // non-unspecified value if the |task_data_origin| is |NEW|.
+  optional ExposureLevel exposure_level = 5;
+  // The task configuration used (if the task has a customizable configuration).
+  optional TaskConfig task_config = 6;
+
+  enum ProfilerTaskType {
+    PROFILER_TASK_TYPE_UNSPECIFIED = 0;
+    CALLSTACK_SAMPLE = 1;
+    SYSTEM_TRACE = 2;
+    JAVA_KOTLIN_METHOD_TRACE = 3;
+    JAVA_KOTLIN_METHOD_SAMPLE = 4;
+    HEAP_DUMP = 5;
+    NATIVE_ALLOCATIONS = 6;
+    JAVA_KOTLIN_ALLOCATIONS = 7;
+    LIVE_VIEW = 8;
+  }
+
+  enum TaskDataOrigin {
+    TASK_DATA_ORIGIN_UNSPECIFIED = 0;
+    // The task was not launched from a prior capture and was based on a new
+    // recording taken in the Studio session.
+    NEW = 1;
+    // The task was launched from a recording taken within the same Studio
+    // session.
+    PAST_RECORDING = 2;
+    // The task was launched from an imported recording.
+    IMPORTED = 3;
+  }
+
+  enum TaskAttachmentPoint {
+    TASK_ATTACHMENT_POINT_UNSPECIFIED = 0;
+    NEW_PROCESS = 1;
+    EXISTING_PROCESS = 2;
+  }
+
+  enum ExposureLevel {
+    UNKNOWN = 0;
+    RELEASE = 1;
+    PROFILEABLE = 2;
+    DEBUGGABLE = 3;
+  }
+
+  message TaskConfig {
+    oneof union {
+      CallstackSampleTaskConfig callstack_sample_task_config = 1;
+      JavaKotlinMethodTraceTaskConfig java_kotlin_method_trace_task_config = 2;
+      JavaKotlinMethodSampleTaskConfig java_kotlin_method_sample_task_config =
+          3;
+      NativeAllocationsTaskConfig native_allocations_task_config = 4;
+    }
+  }
+
+  message CallstackSampleTaskConfig {
+    optional int32 sample_interval_us = 1;
+  }
+
+  message JavaKotlinMethodTraceTaskConfig {
+    optional int32 buffer_size_mb = 1;
+  }
+
+  message JavaKotlinMethodSampleTaskConfig {
+    optional int32 sample_interval_us = 1;
+    optional int32 buffer_size_mb = 2;
+  }
+
+  message NativeAllocationsTaskConfig {
+    optional int32 sample_interval_bytes = 1;
+  }
+}
+
+// Metadata for the TASK_ENTERED event (when a user enters a task).
+message TaskEnteredMetadata {
+  // The task data.
+  optional TaskMetadata task_data = 1;
+}
+
+// Metadata for the TASK_FINISHED event (when a task finishes).
+message TaskFinishedMetadata {
+  // The task data.
+  optional TaskMetadata task_data = 1;
+  // The state of the task on finish.
+  optional TaskFinishedState task_finished_state = 2;
+
+  enum TaskFinishedState {
+    TASK_FINISHED_STATE_UNSPECIFIED = 0;
+    COMPLETED = 1;
+    USER_CANCELLED = 2;
+  }
+}
+
+// Metadata for the TASK_FAILED event (when a task fails).
+message TaskFailedMetadata {
+  // The task data.
+  optional TaskMetadata task_data = 1;
+  // The point in the task lifecycle it failed.
+  optional FailingPoint failing_point = 2;
+
+  enum FailingPoint {
+    FAILING_POINT_UNSPECIFIED = 0;
+    TASK_START = 1;
+    TASK_STOP = 2;
+    TASK_PROCESSING = 3;
+  }
+}
+
 // Android Profiler metrics
 message AndroidProfilerEvent {
   // The current stage we're on when this event was generated
@@ -7372,6 +7490,18 @@ message AndroidProfilerEvent {
 
   // Set if |type| is |POWER_PROFILER_DATA_CAPTURED|
   optional PowerProfilerCaptureMetadata power_profiler_capture_metadata = 27;
+
+  // Set if |type| is |TASK_ENTERED|
+  optional TaskEnteredMetadata task_entered_metadata = 28;
+
+  // Set if |type| is |TASK_FINISHED|
+  optional TaskFinishedMetadata task_finished_metadata = 29;
+
+  // Set if |type| is |TASK_FAILED|
+  optional TaskFailedMetadata task_failed_metadata = 30;
+
+  // Set if |type| is |TASK_SETTINGS_OPENED|
+  optional bool is_task_settings_changed = 31;
 
   enum Stage {
     UNKNOWN_STAGE = 0;
@@ -7538,6 +7668,14 @@ message AndroidProfilerEvent {
     TPD_QUERY_PROCESS_METADATA = 711;
     TPD_QUERY_LOAD_CPU_DATA = 712;
     TPD_QUERY_LOAD_MEMORY_DATA = 713;
+
+    // Task Stats
+    TASK_ENTERED = 800;
+    TASK_FINISHED = 801;
+    TASK_FAILED = 802;
+
+    // Task Configuration Stats
+    TASK_SETTINGS_OPENED = 810;
   }
 
   message Loading {
@@ -13606,6 +13744,8 @@ message DirectAccessUsageEvent {
     USER_LOGGED_OUT = 1;
     // CouroutineScope was cancelled leading to the failure.
     SCOPE_CANCELLED = 2;
+    // Studio project is closing
+    PROJECT_CLOSING = 3;
 
     // Disconnect Reasons
     // Device failed to connect to ADB
