@@ -9318,14 +9318,6 @@ message StudioRunEvent {
 message ArtifactDetail {
   // Size of the artifact in bytes.
   optional uint64 size = 1;
-
-  enum ArtifactType {
-    UNKNOWN = 0;
-    APK = 1;
-    BASELINE_PROFILE = 2;
-  }
-
-  optional ArtifactType type = 2;
 }
 
 // Statistics regarding IntelliJ project sizes
