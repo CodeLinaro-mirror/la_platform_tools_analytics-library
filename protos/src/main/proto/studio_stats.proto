@@ -6670,6 +6670,9 @@ message AppLinksAssistantEvent {
 
     // Time taken to perform validation
     optional uint64 validation_runtime_millis = 10;
+
+    // Whether user is consented to performing web check validations.
+    optional bool dal_apis_consented = 11;
   }
 
   message IntentFilterFix {
@@ -14129,6 +14132,7 @@ message SmlCompletionEvent {
     optional uint32 completions_shown = 4;
     optional uint32 completions_accepted = 5;
     optional Histogram latencies_ms = 6;
+    optional Histogram not_accepted_shown_durations_ms = 7;
   }
 
   oneof completion {
