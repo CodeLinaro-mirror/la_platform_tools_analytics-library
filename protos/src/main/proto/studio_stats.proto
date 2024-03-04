@@ -645,6 +645,9 @@ message AndroidStudioEvent {
   // set when kind = UI_DEVICE_SETTINGS_EVENT
   optional UiDeviceSettingsEvent ui_device_settings_event = 187;
 
+  // set when kind = ADB_USAGE_EVENT
+  optional AdbUsageEvent adb_usage_event = 188;
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -1463,6 +1466,9 @@ message AndroidStudioEvent {
 
     // Event for UiSettingsPanel in the Running Devices Tool Window.
     UI_DEVICE_SETTINGS_EVENT = 304;
+
+    // Event related to Adblib
+    ADB_USAGE_EVENT = 305;
   }
 
   // Represents different Performance Monitoring types.
@@ -12951,6 +12957,8 @@ message SdkIndexLoadingDetails {
     CACHE_FILE_NEW = 6;
     // Default data was used
     DEFAULT_DATA = 7;
+    // Cache file exists and expired but server reported not modified
+    CACHE_FILE_NOT_MODIFIED = 8;
   }
 
   enum ReadErrorType {
@@ -13210,6 +13218,7 @@ message ComposePreviewCanvasEvent {
     GRID = 2;
     GROUPED_LIST = 3;
     GROUPED_GRID = 4;
+    GALLERY = 5;
   }
   // What kind of interaction or event happens in the compose preview canvas
   optional EventType event_type = 1;
@@ -14507,6 +14516,49 @@ message IDeviceUsageEvent {
 
   // Whether method threw an exception
   optional bool is_exception = 3;
+}
+
+message AdbUsageEvent {
+  oneof event {
+    JdwpProcessPropertiesCollectorEvent process_properties_event = 1;
+    // Add other types of events, e.g. attaching debugger, etc
+  }
+
+  message JdwpProcessPropertiesCollectorEvent {
+    // Whether the collection is successful
+    optional bool success = 1;
+
+    // If failed then the type of failure
+    enum FailureType {
+      FAILURE_TYPE_UNSPECIFIED = 0;
+
+      // No response (handshake) when trying to use a `jdwp:<pid>` command
+      // to send HELO and FEAT commands
+      NO_RESPONSE = 1;
+
+      // Properties collection failed with ClosedChannelException
+      CLOSED_CHANNEL_EXCEPTION = 2;
+
+      // Error like:
+      // 'closed' error on device serial #emulator-5554 executing service
+      // 'jdwp:29038'
+      //  at
+      //  com.android.adblib.impl.services.AdbServiceRunner.readFailResponseAndThrow
+      CONNECTION_CLOSED_ERROR = 3;
+
+      // All other errors
+      OTHER_ERROR = 4;
+    }
+    optional FailureType failure_type = 2;
+
+    // If a property collection previously failed, specifies how many times it
+    // happened
+    optional int32 previously_failed_count = 3;
+
+    // If a property collection previously failed, specifies the type of the
+    // last failure
+    optional FailureType previous_failure_type = 4;
+  }
 }
 
 message KotlinSupportDeclined {
