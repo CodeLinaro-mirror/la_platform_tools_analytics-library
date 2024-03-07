@@ -901,7 +901,7 @@ enum VariantPropertiesMethodType {
     VIEW_BINDING = 154;
     DATA_BINDING = 155;
     DEVICE_TESTS = 156;
-    DEFAULT_DEVICE_TEST = 157;
+    DEFAULT_DEVICE_TEST = 157;          // removed
 }
 
 enum ModulePropertyKeys {
