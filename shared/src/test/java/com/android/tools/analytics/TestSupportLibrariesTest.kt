@@ -59,6 +59,10 @@ class TestSupportLibrariesTest {
       newBuilder().setTestExtJunitKtxVersion("1.0").build())
     assertThat(newBuilder().recordTestLibrary("androidx.test.ext", "truth", "1.0").build()).isEqualTo(
       newBuilder().setTestExtTruthVersion("1.0").build())
+    assertThat(newBuilder().recordTestLibrary("androidx.test.services", "storage", "1.0").build()).isEqualTo(
+      newBuilder().setTestServicesStorageVersion("1.0").build())
+    assertThat(newBuilder().recordTestLibrary("androidx.test.services", "test-services", "1.0").build()).isEqualTo(
+      newBuilder().setTestServicesTestServicesVersion("1.0").build())
     assertThat(newBuilder().recordTestLibrary("com.android.support.test", "orchestrator", "1.0").build()).isEqualTo(
       newBuilder().setTestSupportOrchestratorVersion("1.0").build())
     assertThat(newBuilder().recordTestLibrary("com.android.support.test", "rules", "1.0").build()).isEqualTo(
