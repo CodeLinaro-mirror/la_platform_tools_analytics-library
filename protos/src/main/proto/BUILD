@@ -25,7 +25,7 @@ java_proto_library(
     name = "studio.proto",
     srcs = glob(["*.proto"]),
     proto_java_runtime_library = [
-        "//prebuilts/studio/intellij-sdk:studio-sdk",
+        "@intellij//:intellij-sdk",
     ],
     protoc_version = INTELLIJ_PLATFORM_PROTO_VERSION,
     visibility = ["//visibility:public"],
