@@ -276,7 +276,7 @@ class AnalyticsPublisherTest {
     }
   }
 
-  @Ignore("absurdly flaky. see b/330783405")
+  @Ignore("b/330783405")
   @Test
   @Throws(Exception::class)
   fun testBadServer() {
