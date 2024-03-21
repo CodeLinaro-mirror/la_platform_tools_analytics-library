@@ -28,6 +28,7 @@ import com.google.wireless.android.sdk.stats.MetaMetrics
 import com.google.wireless.android.sdk.stats.StudioCrash
 import org.junit.Assert.*
 import org.junit.Before
+import org.junit.Ignore
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TemporaryFolder
@@ -275,6 +276,7 @@ class AnalyticsPublisherTest {
     }
   }
 
+  @Ignore("absurdly flaky. see b/330783405")
   @Test
   @Throws(Exception::class)
   fun testBadServer() {
