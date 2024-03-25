@@ -747,6 +747,7 @@ enum VariantMethodType {
     DEVICE_TESTS_BUILDER = 21;
     HOST_TESTS_BUILDER = 22;
     HOST_TEST_TYPE = 23;
+    HOST_TEST_ENABLE_CODE_COVERAGE = 24;
 }
 
 enum VariantPropertiesMethodType {
@@ -909,6 +910,7 @@ enum VariantPropertiesMethodType {
     DEVICE_TESTS = 156;
     DEFAULT_DEVICE_TEST = 157;          // removed
     HOST_TESTS = 158;
+    HOST_TEST_CODE_COVERAGE_ENABLED = 159;
 }
 
 enum ModulePropertyKeys {
