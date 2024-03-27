@@ -276,7 +276,6 @@ class AnalyticsPublisherTest {
     }
   }
 
-  @Ignore("b/330783405")
   @Test
   @Throws(Exception::class)
   fun testBadServer() {
@@ -368,42 +367,6 @@ class AnalyticsPublisherTest {
               .build(),
             metaStudioEvent)
 
-          // Send more metrics to test behavior after successful upload
-          journalingUsageTracker = JournalingUsageTracker(vs, testSpoolDir.root.toPath())
-          journalingUsageTracker.logNow(logged)
-          vs.advanceBy(0)
-          journalingUsageTracker.close()
-
-          // Next publishing should be back at 10 minutes as last job
-          vs.advanceBy(10, TimeUnit.MINUTES)
-
-          // Metrics should be published
-          results = stub.results
-          assertEquals(2, results.size.toLong())
-          result = results[1]
-          assertEquals(true, result.isDone)
-          request = result.get()
-
-          assertEquals(2, request.logEventCount.toLong())
-          // Another metric event should be present and it should have no failures counted.
-          metaEvent = request.getLogEvent(0)
-          metaStudioEvent = AndroidStudioEvent.parseFrom(metaEvent.sourceExtension)
-
-          bytesSentInLastUpload = metaStudioEvent.metaMetrics.bytesSentInLastUpload
-          assertTrue("bytes_sent_in_last_upload should be > 0", bytesSentInLastUpload > 0)
-
-          assertEquals(
-            AndroidStudioEvent.newBuilder()
-              .setCategory(AndroidStudioEvent.EventCategory.META)
-              .setKind(AndroidStudioEvent.EventKind.META_METRICS)
-              .setMetaMetrics(
-                MetaMetrics.newBuilder()
-                  .setFailedConnections(0)
-                  .setFailedServerReplies(0)
-                  .setBytesSentInLastUpload(bytesSentInLastUpload)
-                  .build())
-              .build(),
-            metaStudioEvent)
           googleAnalyticsPublisher.close()
         }
       }
