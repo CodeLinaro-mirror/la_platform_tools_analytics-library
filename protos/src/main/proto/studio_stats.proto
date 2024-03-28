@@ -14071,6 +14071,7 @@ message DirectAccessUsageEvent {
       NONE = 0;
       THIRTY_MINUTES = 1;
       SIXTY_MINUTES = 2;
+      FIFTEEN_MINUTES = 3;
     }
     // True if extend reservation request succeeded
     optional bool success = 1;
@@ -14769,6 +14770,9 @@ message AdbUsageEvent {
       //  at
       //  com.android.adblib.impl.services.AdbServiceRunner.readFailResponseAndThrow
       CONNECTION_CLOSED_ERROR = 3;
+
+      // Other `IOException`
+      IO_EXCEPTION = 5;
 
       // All other errors
       OTHER_ERROR = 4;
