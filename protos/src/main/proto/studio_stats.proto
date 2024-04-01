@@ -654,6 +654,9 @@ message AndroidStudioEvent {
   // set when kind = SML_COMPLETION_REQUEST_ERROR
   optional SmlCompletionRequestErrorEvent sml_completion_request_error = 190;
 
+  // set when kind = ADB_DEVICE_CONNECTED
+  optional DeviceConnectedNotificationEvent device_connected = 191;
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -1481,6 +1484,9 @@ message AndroidStudioEvent {
 
     // Event related to Studio Bot completion request errors.
     SML_COMPLETION_REQUEST_ERROR = 307;
+
+    // Event fired every time a device is connects to Studio
+    ADB_DEVICE_CONNECTED = 308;
   }
 
   // Represents different Performance Monitoring types.
@@ -14659,6 +14665,29 @@ message SmlGeolocationEvent {
 message SmlCompletionRequestErrorEvent {
   optional string model_id = 1;
   optional int32 grpc_error_response_code = 3;
+}
+
+// An event fired up each time a device connects
+message DeviceConnectedNotificationEvent {
+  enum DeviceConnectionType {
+    UNKNOWN_DEVICE_CONNECTION_TYPE = 0;
+    USB = 1;
+    SOCKET = 2;
+  }
+
+  optional DeviceConnectionType type = 1;
+
+  // ADB's detected device maximum speed (Mbps)
+  optional uint64 max_speed_mbps = 2;
+
+  // ADB's detected device negotiated speed (Mbps)
+  optional uint64 negotiated_speed_mbps = 3;
+
+  // Is the notification disabled by StudioFlags
+  optional bool speed_notifications_studio_disabled = 4;
+
+  // Is the notification disabled by user preferences
+  optional bool speed_notifications_user_disabled = 5;
 }
 
 message IDeviceUsageEvent {
