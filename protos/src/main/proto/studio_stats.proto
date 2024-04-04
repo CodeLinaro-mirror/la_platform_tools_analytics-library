@@ -13858,6 +13858,7 @@ message DirectAccessUsageEvent {
       NONE = 0;
       THIRTY_MINUTES = 1;
       SIXTY_MINUTES = 2;
+      FIFTEEN_MINUTES = 3;
     }
     // True if extend reservation request succeeded
     optional bool success = 1;
