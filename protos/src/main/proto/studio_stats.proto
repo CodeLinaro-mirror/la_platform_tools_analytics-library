@@ -7341,12 +7341,13 @@ message TaskMetadata {
     PROFILER_TASK_TYPE_UNSPECIFIED = 0;
     CALLSTACK_SAMPLE = 1;
     SYSTEM_TRACE = 2;
-    JAVA_KOTLIN_METHOD_TRACE = 3;
-    JAVA_KOTLIN_METHOD_SAMPLE = 4;
+    JAVA_KOTLIN_METHOD_TRACE = 3 [deprecated = true];
+    JAVA_KOTLIN_METHOD_SAMPLE = 4 [deprecated = true];
     HEAP_DUMP = 5;
     NATIVE_ALLOCATIONS = 6;
     JAVA_KOTLIN_ALLOCATIONS = 7;
     LIVE_VIEW = 8;
+    JAVA_KOTLIN_METHOD_RECORDING = 9;
   }
 
   enum TaskDataOrigin {
@@ -12150,6 +12151,7 @@ message UpgradeAssistantComponentInfo {
     ANDROID_MANIFEST_EXTRACT_NATIVE_LIBS = 28;
     ANDROID_MANIFEST_USE_EMBEDDED_DEX = 29;
     SHADERS_DEFAULT = 30;
+    MIGRATE_TEST_COVERAGE_ENABLED = 31;
   }
 
   message Java8DefaultProcessorSettings {
