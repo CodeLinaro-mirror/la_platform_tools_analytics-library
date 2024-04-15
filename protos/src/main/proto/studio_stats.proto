@@ -6307,6 +6307,8 @@ message LayoutEditorEvent {
   // Details related to universal problems panel (type =
   // UNIVERSAL_PROBLEMS_PANEL)
   optional UniversalProblemsPanelEvent universal_problems_panel_event = 13;
+  // Type of the file, i.e. which language the file in the editor is in
+  optional EditorFileType editor_file_type = 14;
 }
 
 // Details for navigation editor events
