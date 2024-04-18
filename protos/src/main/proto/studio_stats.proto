@@ -1485,7 +1485,7 @@ message AndroidStudioEvent {
     // Event related to Studio Bot completion request errors.
     SML_COMPLETION_REQUEST_ERROR = 307;
 
-    // Event fired every time a device is connects to Studio
+    // Event fired every time Studio detects a new device (via adb)
     ADB_DEVICE_CONNECTED = 308;
   }
 
@@ -2667,7 +2667,16 @@ message EmulatorFeatureFlagState {
     EXTERNAL_BLOB = 98;
     DOWNLOADABLE_SNAPSHOT = 99;
     SYSTEM_BLOB = 100;
-    // Next tag: 101
+    NETSIMWEBUI = 101;
+    NETSIMCLIUI = 102;
+    WIFIPACKETSTREAM = 103;
+    SUPPORT_PIXEL_FOLD = 104;
+    DEVICE_KEYBOARD_HAS_ASSIST_KEY = 105;
+    VULKAN_ALLOCATE_DEVICE_MEMORY_ONLY = 106;
+    VULKAN_ALLOCATE_HOST_MEMORY = 107;
+    DEVICE_KEYBOARD_QT_RAW_INPUT = 108;
+    UWB = 109;
+    // Next tag: 110
   }
   // Which features were enabled by default or through the server-side config.
   repeated EmulatorFeatureFlag attempted_enabled_feature_flags = 1;
@@ -3228,7 +3237,9 @@ message EmulatorDetails {
   optional int32 emu_pid = 37;
   // Process ID of the child qemu process that does the real job.
   optional int32 qemu_pid = 38;
-  // Next tag: 39
+  // Vulkan backend.
+  optional VulkanIcd vulkan_icd = 39;
+  // Next tag: 40
 
   // Emulator instance liveness as determined via adb connectivity.
   enum EmulatorAdbLiveness {
@@ -3295,6 +3306,14 @@ message EmulatorDetails {
     HYPERV = 5;  // Microsoft Hyper-V
     AEHD = 6;    // Android Emulator hypervisor driver
                  // Next tag: 7
+  }
+
+  // Vulkan backend
+  enum VulkanIcd {
+    UNKNOWN_VK = 0;
+    HARDWARE_VK = 1;
+    SWIFTSHADER_VK = 2;  // Swiftshader software renderer
+    MOLTEN_VK = 3;       // Mac only
   }
 }
 
@@ -6288,6 +6307,8 @@ message LayoutEditorEvent {
   // Details related to universal problems panel (type =
   // UNIVERSAL_PROBLEMS_PANEL)
   optional UniversalProblemsPanelEvent universal_problems_panel_event = 13;
+  // Type of the file, i.e. which language the file in the editor is in
+  optional EditorFileType editor_file_type = 14;
 }
 
 // Details for navigation editor events
@@ -13222,7 +13243,9 @@ message LiveEditEvent {
     // LiveEdit failed because of an error with inlining
     UNSUPPORTED_MODIFY_INLINE = 8;
     // LiveEdit failed because the user changed the class hierarchy
-    UNSUPPORTED_MODIFY_INHERITANCE = 9;
+    // DEPRECATED
+    // USE UNSUPPORTED_SUPER_CLASS or UNSUPPORTED_INTERFACE
+    UNSUPPORTED_MODIFY_INHERITANCE = 9 [deprecated = true];
 
     // The following are from LiveEditUpdateException.Error
     // We DO NOT log this. If this shows up in metrics, we know we have a bug at
@@ -13237,8 +13260,10 @@ message LiveEditEvent {
     UNABLE_TO_INLINE = 14;
     UNABLE_TO_LOCATE_COMPOSE_GROUP = 15;
     UNSUPPORTED_BUILD_SRC_CHANGE = 16;
-    UNSUPPORTED_SRC_CHANGE_RECOVERABLE = 17;
-    UNSUPPORTED_SRC_CHANGE_UNRECOVERABLE = 18;
+    // DEPRECATED
+    UNSUPPORTED_SRC_CHANGE_RECOVERABLE = 17 [deprecated = true];
+    // DEPRECATED
+    UNSUPPORTED_SRC_CHANGE_UNRECOVERABLE = 18 [deprecated = true];
     UNSUPPORTED_TEST_SRC_CHANGE = 19;
     UNABLE_TO_DESUGAR = 20;
     INTERNAL_ERROR = 21;
@@ -13252,6 +13277,27 @@ message LiveEditEvent {
 
     UNSUPPORTED_COMPOSE_RUNTIME_VERSION = 26;
     UNKNOWN_LIVE_UPDATE_DEPLOYER_ERROR = 27;
+
+    UNSUPPORTED_ADDED_ACCESS = 28;
+    UNSUPPORTED_REMOVED_ACCESS = 29;
+    UNSUPPORTED_MODIFIED_FIELD = 30;
+
+    UNSUPPORTED_CONSTRUCTOR = 31;
+    UNSUPPORTED_CLINIT = 32;
+    UNSUPPORTED_INIT = 33;
+    UNSUPPORTED_ENCLOSING_METHOD = 34;
+
+    UNSUPPORTED_INTERFACE = 35;
+    UNSUPPORTED_SUPER_CLASS = 36;
+
+    UNSUPPORTED_SIGNATURE = 37;
+    UNSUPPORTED_USER_CLASS_ADDED = 38;
+    UNSUPPORTED_WHEN_ENUM_PATH = 39;
+
+    KOTLIN_EAP = 40;
+    VIRTUAL_FILE_NOT_EXIST = 41;
+
+    INTERNAL_ERROR_NO_BINDING_CONTEXT = 42;
   }
 
   enum Mode {
