@@ -12689,6 +12689,9 @@ message UiDeviceSettingsEvent {
 
     // Reset all UI settings to factory default values
     RESET = 7;
+
+    // Gesture Navigation was changed
+    GESTURE_NAVIGATION = 8;
   }
 }
 
