@@ -657,6 +657,10 @@ message AndroidStudioEvent {
   // set when kind = ADB_DEVICE_CONNECTED
   optional DeviceConnectedNotificationEvent device_connected = 191;
 
+  // set when kind = SCREENSHOT_TEST_COMPOSE_PREVIEW
+  optional ScreenshotTestComposePreviewEvent
+      screenshot_test_compose_preview_event = 192;
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -1487,6 +1491,9 @@ message AndroidStudioEvent {
 
     // Event fired every time Studio detects a new device (via adb)
     ADB_DEVICE_CONNECTED = 308;
+
+    // Event related to screenshot test with Compose Preview.
+    SCREENSHOT_TEST_COMPOSE_PREVIEW = 309;
   }
 
   // Represents different Performance Monitoring types.
@@ -12689,6 +12696,9 @@ message UiDeviceSettingsEvent {
 
     // Reset all UI settings to factory default values
     RESET = 7;
+
+    // Gesture Navigation was changed
+    GESTURE_NAVIGATION = 8;
   }
 }
 
@@ -15031,4 +15041,41 @@ message RenderSecurityManagerEvent {
   // are "Read", "Property" or "Clipboard".
   optional Type type = 1;
   optional string resource = 2;
+}
+
+message ScreenshotTestComposePreviewEvent {
+  enum Type {
+    TYPE_UNKNOWN = 0;
+    PREVIEW_DISCOVERY = 1;
+    PREVIEW_RENDERING = 2;
+  }
+
+  optional Type type = 1;
+
+  message PreviewDiscovery {
+    // Number of processed java classes by preview annotation detector.
+    optional uint32 num_processed_classes = 1;
+    // Duration of the building multipreview in milliseconds.
+    optional uint64 duration_building_multipreview_ms = 2;
+  }
+
+  // This message is populated when the type is PREVIEW_DISCOVERY.
+  optional PreviewDiscovery preview_discovery = 2;
+
+  message PreviewRendering {
+    // Number of rendered images. This number includes failed rendering attempts
+    // that yields a blank image.
+    optional uint32 num_rendered_images = 1;
+    // Duration of the rendering previews in milliseconds.
+    optional uint64 duration_rendering_previews_ms = 2;
+    // Number of rendering attempts that succeeded.
+    optional uint32 num_rendering_succeeded = 3;
+    // Number of rendering attempts that failed.
+    optional uint32 num_rendering_errors = 4;
+    // Number of rendering attempts that succeeded with warning.
+    optional uint32 num_rendering_warnings = 5;
+  }
+
+  // This message is populated when the type is PREVIEW_RENDERING.
+  optional PreviewRendering preview_rendering = 3;
 }
