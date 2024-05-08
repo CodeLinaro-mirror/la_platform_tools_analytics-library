@@ -2187,6 +2187,8 @@ message ProductDetails {
     GTK = 5;
     HIGH_CONTRAST = 6;
     CUSTOM = 7;
+    DARK = 8;
+    LIGHT_WITH_LIGHT_HEADER = 9;
   }
 }
 
