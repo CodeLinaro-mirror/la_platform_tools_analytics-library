@@ -14647,6 +14647,7 @@ message SmlChatBotEvent {
     // has_error indicates that the code snippet was parsed successfully,
     // but contains one or more syntax errors.
     optional bool has_error = 4;
+    optional bool did_timeout = 5;
   }
 
   enum CodeDomain {
@@ -14673,6 +14674,7 @@ message SmlChatBotEvent {
     repeated CodeDomain code_domains = 4 [packed = true];
     // types of hallucinations detected in the snippet
     repeated HallucinationType hallucination_types = 5 [packed = true];
+    optional bool did_timeout = 6;
   }
 
   oneof content {
