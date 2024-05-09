@@ -10093,6 +10093,7 @@ enum EditorFileType {
   XML_RES_XML = 23;
   KOTLIN_COMPOSE = 24;
   TOML = 25;
+  CMAKE = 26;
 }
 
 message TypingLatencyStats {
