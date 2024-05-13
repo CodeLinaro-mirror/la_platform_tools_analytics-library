@@ -10781,6 +10781,9 @@ message PreviewRefreshEvent {
     optional float render_quality = 3;
     // Time taken by the render, including inflation time when corresponds
     optional int32 render_time_millis = 4;
+    // Simple class name of the exception thrown in a render error, e.g.
+    // IllegalStateException or ClassNotFoundException
+    optional string render_exception_simple_name = 5;
   }
 }
 
