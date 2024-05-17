@@ -13370,7 +13370,13 @@ message GoogleLoginPluginEvent {
     LOGOUT_WITH_FAILURE = 6;
     LOGGED_IN_ON_STUDIO_START = 7;
   }
+
+  message LoginFeatures {
+    repeated string features = 1;  // e.g. "Gemini";
+  }
+
   optional EventKind event = 1;
+  optional LoginFeatures features = 2;
 }
 
 message DeviceMirroringSession {
