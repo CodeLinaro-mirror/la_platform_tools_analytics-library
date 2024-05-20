@@ -661,6 +661,10 @@ message AndroidStudioEvent {
   optional ScreenshotTestComposePreviewEvent
       screenshot_test_compose_preview_event = 192;
 
+  // set when kind = TEST_SCENARIO_EVENT
+  optional TestScenarioEvent
+      test_scenario_event = 193;
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -1494,6 +1498,9 @@ message AndroidStudioEvent {
 
     // Event related to screenshot test with Compose Preview.
     SCREENSHOT_TEST_COMPOSE_PREVIEW = 309;
+
+    // Event related to test scenario generation.
+    TEST_SCENARIO_EVENT = 310;
   }
 
   // Represents different Performance Monitoring types.
@@ -14763,6 +14770,29 @@ message SmlGeolocationEvent {
 message SmlCompletionRequestErrorEvent {
   optional string model_id = 1;
   optional int32 grpc_error_response_code = 3;
+}
+
+message TestScenarioEvent {
+    message TestScenarioRequest {
+      // Length of the initial test scenario prompt
+      optional uint32 context_length = 1;
+      // FileType of target / selected file
+      optional EditorFileType target_file_type = 2;
+      // FileType of generated test file
+      optional EditorFileType test_file_type = 3;
+    }
+
+    message InconsistentCount {
+      // This is only logged if the number of test scenarios and actual test
+      // signautres do not match.
+      optional int32 test_scenarios_count = 1;
+      optional int32 test_signatures_count = 2;
+   }
+
+    oneof transform {
+        TestScenarioRequest request = 1;
+        InconsistentCount inconsistent_count = 2;
+    }
 }
 
 // An event fired up each time a device connects
