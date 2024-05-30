@@ -2543,6 +2543,7 @@ message EmulatorAvdInfo {
     PIXEL_7A = 37;
     PIXEL_8 = 38;
     PIXEL_8_PRO = 39;
+    PIXEL_8A = 40;
   }
   // Name of the AVD. Deprecated as it could potentially contain PII.
   optional string name = 1 [deprecated = true];
@@ -12705,6 +12706,9 @@ message UiDeviceSettingsEvent {
 
     // Gesture Navigation was changed
     GESTURE_NAVIGATION = 8;
+
+    // Debug Layout was changed
+    DEBUG_LAYOUT = 9;
   }
 }
 
@@ -14501,7 +14505,13 @@ message SmlCompletionEvent {
 
 message SmlTransformEvent {
   message TransformRequest {
+    // Full file size if it's attached to a request.
+    // In case of multiple files it would be a sum of all sizes.
     optional uint32 context_length = 1;
+    // A size of a code snippet passed to models:
+    // It could be a user selection in case of simple transform,
+    // or a region extended to the closest declaration.
+    optional uint32 selection_length = 2;
   }
 
   message TransformResult {
@@ -14535,6 +14545,16 @@ message SmlTransformEvent {
     TransformShown shown = 3;
     TransformAccepted accepted = 4;
   }
+
+  enum TransformKind {
+    UNKNOWN = 0;
+    CUSTOM = 1;
+    DOCUMENT = 2;
+  }
+
+  // The kind of transform, which will be used to differentiate
+  // metrics for Document action, Custom transforms etc.
+  optional TransformKind transform_kind = 5;
 }
 
 message SmlChatBotEvent {
