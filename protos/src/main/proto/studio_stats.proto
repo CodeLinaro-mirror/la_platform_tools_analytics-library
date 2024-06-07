@@ -662,8 +662,13 @@ message AndroidStudioEvent {
       screenshot_test_compose_preview_event = 192;
 
   // set when kind = TEST_SCENARIO_EVENT
-  optional TestScenarioEvent
-      test_scenario_event = 193;
+  optional TestScenarioEvent test_scenario_event = 193;
+
+  // set when kind = ADB_SERVER_STATE
+  optional AdbServerState adb_server_state = 194;
+
+  // set when kind = FIREBASE_MANAGEMENT_EVENT
+  optional FirebaseManagementEvent firebase_management_event = 195;
 
   enum EventCategory {
     // The event was not grouped into any specific category (default).
@@ -1501,6 +1506,12 @@ message AndroidStudioEvent {
 
     // Event related to test scenario generation.
     TEST_SCENARIO_EVENT = 310;
+
+    // ADB server state event
+    ADB_SERVER_STATE = 311;
+
+    // Firebase management event
+    FIREBASE_MANAGEMENT_EVENT = 312;
   }
 
   // Represents different Performance Monitoring types.
@@ -1633,6 +1644,7 @@ message AndroidStudioEvent {
     GOOGLE_WALLET_ACTIVITY = 67;
     BASELINE_PROFILES_MODULE = 68;
     EXPERIMENTAL_ACTIVITY = 69;
+    KOTLIN_MULTIPLATFORM_LIBRARY_MODULE = 70;
   }
 
   // Wizard Templates Usage (New Project, New Module and New Component)
@@ -1773,6 +1785,7 @@ message AndroidStudioEvent {
         JAVA_OR_KOTLIN_LIBRARY = 13;
         BENCHMARK_LIBRARY = 14;
         BASELINE_PROFILES = 15;
+        KOTLIN_MULTIPLATFORM_LIBRARY = 16;
       }
 
       // Java byte code level
@@ -2507,7 +2520,8 @@ message EmulatorAvdInfo {
     LAPTOP_AVD = 8;
     DESKTOP_AVD = 9;
     CHROMEOS = 10;
-    // Next tag: 11
+    DEV_2024_AVD = 11;
+    // Next tag: 12
   }
   enum EmulatorDeviceName {
     UNKNOWN_EMULATOR_DEVICE_NAME = 0;
@@ -2693,7 +2707,8 @@ message EmulatorFeatureFlagState {
     VULKAN_ALLOCATE_HOST_MEMORY = 107;
     DEVICE_KEYBOARD_QT_RAW_INPUT = 108;
     UWB = 109;
-    // Next tag: 110
+    UX_TEST_2024 = 110;
+    // Next tag: 111
   }
   // Which features were enabled by default or through the server-side config.
   repeated EmulatorFeatureFlag attempted_enabled_feature_flags = 1;
@@ -14773,26 +14788,31 @@ message SmlCompletionRequestErrorEvent {
 }
 
 message TestScenarioEvent {
-    message TestScenarioRequest {
-      // Length of the initial test scenario prompt
-      optional uint32 context_length = 1;
-      // FileType of target / selected file
-      optional EditorFileType target_file_type = 2;
-      // FileType of generated test file
-      optional EditorFileType test_file_type = 3;
-    }
+  // Logged for every test scenario model invocation
+  message TestScenarioRequest {
+    // Length of the initial test scenario prompt
+    optional uint32 context_length = 1;
+    // Deprecated. FileType of target / selected file.
+    optional FileType target_file_type = 2 [deprecated = true];
+    // Deprecated. FileType of generated test file
+    optional FileType test_file_type = 3 [deprecated = true];
+    // EditorFileType of target / selected file
+    optional EditorFileType target_file_language = 4;
+    // EditorFileType of generated test file
+    optional EditorFileType test_file_language = 5;
+  }
 
-    message InconsistentCount {
-      // This is only logged if the number of test scenarios and actual test
-      // signautres do not match.
-      optional int32 test_scenarios_count = 1;
-      optional int32 test_signatures_count = 2;
-   }
+  message InconsistentCount {
+    // This is only logged if the number of test scenarios and actual test
+    // signatures do not match.
+    optional int32 test_scenarios_count = 1;
+    optional int32 test_signatures_count = 2;
+  }
 
-    oneof transform {
-        TestScenarioRequest request = 1;
-        InconsistentCount inconsistent_count = 2;
-    }
+  oneof transform {
+    TestScenarioRequest request = 1;
+    InconsistentCount inconsistent_count = 2;
+  }
 }
 
 // An event fired up each time a device connects
@@ -15107,6 +15127,27 @@ message RenderSecurityManagerEvent {
   optional string resource = 2;
 }
 
+message AdbServerState {
+  enum MDNDBackend {
+    TYPE_MDNS_UNKNOWN = 0;
+    TYPE_MDNS_DEFAULT = 1;
+    TYPE_BONJOUR = 2;
+    TYPE_OPENSCREEN = 3;
+  }
+
+  enum USBBackend {
+    TYPE_USB_UNKNOWN = 0;
+    TYPE_USB_DEFAULT = 1;
+    TYPE_LIBUSB = 2;
+    TYPE_NATIVE = 3;
+  }
+
+  optional bool is_managed = 1;
+  optional string version = 2;
+  optional MDNDBackend mdns_backend = 3;
+  optional USBBackend usb_backend = 4;
+}
+
 message ScreenshotTestComposePreviewEvent {
   enum Type {
     TYPE_UNKNOWN = 0;
@@ -15142,4 +15183,36 @@ message ScreenshotTestComposePreviewEvent {
 
   // This message is populated when the type is PREVIEW_RENDERING.
   optional PreviewRendering preview_rendering = 3;
+}
+
+message FirebaseManagementEvent {
+  enum FirebaseManagementEventType {
+    UNKNOWN_EVENT = 0;
+    // User created a new firebase cloud project during login process
+    CREATE_FIREBASE_PROJECT = 1;
+  }
+
+  message CreateFirebaseProjectDetails {
+    enum CreateFirebaseProjectState {
+      UNKNOWN = 0;
+      // Started the firebase project creation task
+      STARTED = 1;
+      // User did not accepted the term of service before
+      TOS_NEEDED = 2;
+      // User accepted the term of service
+      TOS_ACCEPTED = 3;
+      // Firebase project created
+      CREATED = 4;
+      // Failed to create the firebase project
+      FAILED = 5;
+    }
+    optional CreateFirebaseProjectState state = 1;
+  }
+
+  optional FirebaseManagementEventType type = 1;
+  // Client-side salted, sha256 of firebase project ID with salt rotated every
+  // 28 days
+  optional string project_id = 2;
+  // Set when type = CREATE_FIREBASE_PROJECT
+  optional CreateFirebaseProjectDetails create_firebase_project_details = 3;
 }
