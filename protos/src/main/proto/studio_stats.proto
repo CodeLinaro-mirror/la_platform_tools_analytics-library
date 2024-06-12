@@ -14776,6 +14776,8 @@ message SmlChatBotEvent {
     MERGE_SUGGESTION = 9;
     INSERT_RESOURCES = 10;
     INSERT_NAME_SUGGESTIONS = 11;
+    COPY_BUTTON = 12;
+    COPY_MANUAL = 13;
   }
 
   message ActionInvoked {
