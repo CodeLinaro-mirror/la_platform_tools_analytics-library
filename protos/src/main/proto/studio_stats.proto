@@ -2085,6 +2085,10 @@ message AndroidStudioEvent {
     // Settings or plugins applied
     TYPE_INCONSISTENT_BUILD_FEATURE_SETTING = 65;
 
+    // Missing Compose Compiler Gradle plugin when compose is enabled and Kotlin version is 2.0
+    // or higher.
+    TYPE_MISSING_COMPOSE_COMPILER_GRADLE_PLUGIN = 66;
+
     // NOTE: When adding a new type here, increment the index by 1. This index
     // may not be consistent with the corresponding value in the Android Gradle
     // plugin (e.g., it could be higher by 1), because of an indexing issue in
@@ -2145,6 +2149,7 @@ message AndroidStudioEvent {
     REMOVE_JCENTER_HYPERLINK = 49;
     OPEN_UPGRADE_ASSISTANT_HYPERLINK = 50;
     SUPPRESS_UNSUPPORTED_SDK_HYPERLINK = 51;
+    ADD_COMPOSE_COMPILER_GRADLE_PLUGIN_HYPERLINK = 52;
   }
 }
 
@@ -8305,6 +8310,8 @@ message GradleSyncStats {
     TRIGGER_QF_REMOVE_UNSUPPORTED_MODULES = 429;
     // minCompileSdk version is updated using a quickfix
     TRIGGER_QF_MIN_COMPILE_SDK_UPDATED = 430;
+    // Compose Compiler Gradle plugin is added using a quickfix
+    TRIGGER_QF_ADD_COMPOSE_COMPILER_GRADLE_PLUGIN = 431;
     // Last marker for syncs caused by quickfixes
     TRIGGER_QF_LAST_MARKER = 999;
 
