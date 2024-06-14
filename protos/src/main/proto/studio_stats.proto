@@ -8115,6 +8115,10 @@ message GradleSyncStats {
   // Data on Version Catalog use.
   optional GradleVersionCatalogDetectorEvent.State
       version_catalog_detector_state = 16;
+  // Data on phases executed during sync.
+  // Set only for sync finish events, when kind = GRADLE_SYNC_ENDED,
+  // GRADLE_SYNC_CANCELLED, GRADLE_SYNC_FAILURE or GRADLE_SYNC_FAILURE_DETAILS
+  repeated GradleSyncPhaseData gradle_sync_phases_data = 17;
   // List of triggers for gradle Sync
   enum Trigger {
     // Default, should not be explicitly set
@@ -8426,6 +8430,35 @@ message GradleSyncStats {
 
     // Studio requested parallel sync.
     STUDIO_REQUESTD_PARALLEL = 2;
+  }
+
+  message GradleSyncPhaseData {
+    // List of nested phase names defining this phase.
+    // The most inner phase goes last.
+    repeated SyncPhase phase_stack = 1 [packed = true];
+    optional int64 phase_start_timestamp_ms = 2;
+    optional int64 phase_end_timestamp_ms = 3;
+    optional PhaseResult phase_result = 4;
+
+    // Sync phase names. As phases can be nested, a list of them defines any
+    // particular phase. SYNC_TOTAL corresponds to the whole sync process and
+    // includes all phases. GRADLE_* are the phases inside gradle invocation.
+    enum SyncPhase {
+      UNKNOWN_PHASE = 0;
+      UNKNOWN_GRADLE_PHASE = 1;
+      GRADLE_CONFIGURE_ROOT_BUILD = 2;
+      GRADLE_CONFIGURE_BUILD = 3;
+      GRADLE_RUN_MAIN_TASKS = 4;
+      GRADLE_RUN_WORK = 5;
+      PROJECT_SETUP = 6;
+      SYNC_TOTAL = 7;
+    }
+    enum PhaseResult {
+      UNKNOWN_RESULT = 0;
+      SUCCESS = 1;
+      FAILURE = 2;
+      CANCELLED = 3;
+    }
   }
 }
 
