@@ -197,8 +197,9 @@ message AndroidStudioEvent {
   // set when kind = APK_ANALYZER_STATS
   optional ApkAnalyzerStats apk_analyzer_stats = 49;
 
-  // set when kind = GRADLE_SYNC_ENDED, GRADLE_SYNC_FAILURE or
-  // GRADLE_SYNC_SETUP_STARTED
+  // set when kind = GRADLE_SYNC_STARTED, GRADLE_SYNC_SETUP_STARTED,
+  // GRADLE_SYNC_ENDED, GRADLE_SYNC_FAILURE, GRADLE_SYNC_CANCELLED,
+  // GRADLE_SYNC_SKIPPED, GRADLE_SYNC_FAILURE_DETAILS, GRADLE_SYNC_ISSUES
   optional GradleSyncStats gradle_sync_stats = 50;
 
   // set when kind = GRADLE_CPP_SYNC_COMPLETED
@@ -3863,6 +3864,9 @@ message TestRun {
   // Only set when test_kind=PREVIEW_SCREENSHOT_TEST
   optional PreviewScreenshotRun preview_screenshot_run = 10;
 
+  // Only set when test_kind=INSTRUMENTATION_TEST
+  repeated DeviceTestSpanProfile device_test_span_profiles = 11;
+
   // Describes how tests where invoked.
   enum TestInvocationType {
     UNKNOWN_TEST_INVOCATION_TYPE = 0;
@@ -3921,6 +3925,87 @@ message TestRun {
 
     // Deprecated: use GradleBuildProfileSpan.
     optional int64 rendering_run_time_ms = 4 [deprecated = true];
+  }
+}
+
+// Provides details of a test run on a single device. This includes the
+// provisioning of the device, apk install, test suite run, and device tear
+// down. A single test task may have one or more DeviceTestSpanProfile's as
+// tests may be sharded across multiple devices, or in the case of connected
+// test may run all tests on multiple devices.
+message DeviceTestSpanProfile {
+  // Type of device used in this test run
+  optional DeviceType device_type = 1;
+
+  // Type of test being run on this device
+  optional TestRun.TestKind test_kind = 2;
+
+  // Type of process that is used to install, run, and manage the test.
+  optional ProcessType process_type = 3;
+
+  // Span of how long the test waited for device(s) to become available.
+  // These fields will only be set if a Gradle Managed Device is used and will
+  // be the same across all shards in the same test run.
+  optional int64 device_lock_wait_start_time_ms = 5;
+  optional int64 device_lock_wait_duration_ms = 6;
+
+  // Span of how long the Unified Test Platform needed for internal setup before
+  // requesting the device provider.
+  optional int64 utp_setup_start_time_ms = 7;
+  optional int64 utp_setup_duration_ms = 8;
+
+  // Span of how long the device took to be provisioned by the device provider
+  optional int64 utp_provide_device_start_time_ms = 9;
+  optional int64 utp_provide_device_duration_ms = 10;
+
+  // Span of how long the device took after device was provided, but before
+  // tests start. This includes steps like installing testing and tested apks,
+  // checking device state, and setting up test orchestration.
+  optional int64 utp_test_setup_start_time_ms = 11;
+  optional int64 utp_test_setup_duration_ms = 12;
+
+  // Span for how long the tests actually took to run.
+  optional int64 utp_test_run_start_time_ms = 13;
+  optional int64 utp_test_run_duration_ms = 14;
+
+  // Span of how long it took to clean up the device and test process.
+  // This step can include uninstalling apks, closing the managed device,
+  // resetting device state, etc.
+  optional int64 utp_tear_down_start_time_ms = 15;
+  optional int64 utp_tear_down_duration_ms = 16;
+
+  // Whether or not the tests were able to finish, and, if failed, what caused
+  // the failure.
+  optional TestProgressResult progress_result = 17;
+
+  enum DeviceType {
+    UNKNOWN_DEVICE_TYPE = 0;
+    // Device is a physical device
+    CONNECTED_DEVICE_PHYSICAL = 1;
+    // Device is a emulator device managed by the host
+    CONNECTED_DEVICE_EMULATOR = 2;
+    // Device is Gradle managed emulator
+    VIRTUAL_MANAGED_DEVICE = 3;
+  }
+
+  enum ProcessType {
+    UNKNOWN_PROCESS_TYPE = 0;
+    // Unified Test Platform instance being run in a separate one-shot process.
+    EXTERNAL_UTP_PROCESS = 1;
+    // Tests were run on a new load of Unified Test Platform from within the
+    // Gradle daemon.
+    IN_PROCESS_UTP_FIRST_RUN = 2;
+    // Tests were run on a Unified Test Platform with the plugins already loaded
+    // from a previous run.
+    IN_PROCESS_UTP_SUBSEQUENT_RUN = 3;
+  }
+
+  enum TestProgressResult {
+    UNKNOWN_RESULT = 0;
+    UNKNOWN_FAILURE = 1;
+    TESTS_COMPLETED = 2;
+    DEVICE_PROVISION_FAILURE = 3;
+    UTP_INFRASTRUCTURE_FAILURE = 4;
   }
 }
 
@@ -8115,6 +8200,10 @@ message GradleSyncStats {
   // Data on Version Catalog use.
   optional GradleVersionCatalogDetectorEvent.State
       version_catalog_detector_state = 16;
+  // Data on phases executed during sync.
+  // Set only for sync finish events, when kind = GRADLE_SYNC_ENDED,
+  // GRADLE_SYNC_CANCELLED, GRADLE_SYNC_FAILURE or GRADLE_SYNC_FAILURE_DETAILS
+  repeated GradleSyncPhaseData gradle_sync_phases_data = 17;
   // List of triggers for gradle Sync
   enum Trigger {
     // Default, should not be explicitly set
@@ -8426,6 +8515,35 @@ message GradleSyncStats {
 
     // Studio requested parallel sync.
     STUDIO_REQUESTD_PARALLEL = 2;
+  }
+
+  message GradleSyncPhaseData {
+    // List of nested phase names defining this phase.
+    // The most inner phase goes last.
+    repeated SyncPhase phase_stack = 1 [packed = true];
+    optional int64 phase_start_timestamp_ms = 2;
+    optional int64 phase_end_timestamp_ms = 3;
+    optional PhaseResult phase_result = 4;
+
+    // Sync phase names. As phases can be nested, a list of them defines any
+    // particular phase. SYNC_TOTAL corresponds to the whole sync process and
+    // includes all phases. GRADLE_* are the phases inside gradle invocation.
+    enum SyncPhase {
+      UNKNOWN_PHASE = 0;
+      UNKNOWN_GRADLE_PHASE = 1;
+      GRADLE_CONFIGURE_ROOT_BUILD = 2;
+      GRADLE_CONFIGURE_BUILD = 3;
+      GRADLE_RUN_MAIN_TASKS = 4;
+      GRADLE_RUN_WORK = 5;
+      PROJECT_SETUP = 6;
+      SYNC_TOTAL = 7;
+    }
+    enum PhaseResult {
+      UNKNOWN_RESULT = 0;
+      SUCCESS = 1;
+      FAILURE = 2;
+      CANCELLED = 3;
+    }
   }
 }
 
@@ -10521,6 +10639,7 @@ message BuildErrorMessage {
     GENERAL_ANDROID_GRADLE_PLUGIN = 11;
     INVALID_TOML_DEFINITION = 12;
     CONFIGURATION_CACHE = 13;
+    JAVA_NOT_SUPPORTED_LANGUAGE_LEVEL = 14;
   }
 
   enum FileType {
@@ -13401,12 +13520,21 @@ message GoogleLoginPluginEvent {
     LOGGED_IN_ON_STUDIO_START = 7;
   }
 
+  enum LoginType {
+    UNKNOWN_TYPE = 0;
+    // A user signs in via the combined sign-in flow.
+    COMBINED_LOGIN = 1;
+    // A user signs in via the specific feature login flow.
+    FEATURE_LOGIN = 2;
+  }
+
   message LoginFeatures {
     repeated string features = 1;  // e.g. "Gemini";
   }
 
   optional EventKind event = 1;
   optional LoginFeatures features = 2;
+  optional LoginType login_type = 3;
 }
 
 message DeviceMirroringSession {
