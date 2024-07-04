@@ -2085,8 +2085,8 @@ message AndroidStudioEvent {
     // Settings or plugins applied
     TYPE_INCONSISTENT_BUILD_FEATURE_SETTING = 65;
 
-    // Missing Compose Compiler Gradle plugin when compose is enabled and Kotlin version is 2.0
-    // or higher.
+    // Missing Compose Compiler Gradle plugin when compose is enabled and
+    // Kotlin version is 2.0 or higher.
     TYPE_MISSING_COMPOSE_COMPILER_GRADLE_PLUGIN = 66;
 
     // NOTE: When adding a new type here, increment the index by 1. This index
@@ -2823,8 +2823,10 @@ enum EmulatorSnapshotFailureReason {
   EMULATOR_SNAPSHOT_FAILURE_REASON_RAM_FAILED = 20003;
   EMULATOR_SNAPSHOT_FAILURE_REASON_TEXTURES_FAILED = 20004;
   EMULATOR_SNAPSHOT_FAILURE_REASON_ADB_OFFLINE = 20005;
+  EMULATOR_SNAPSHOT_FAILURE_REASON_UNSUPPORTED_VK_APP = 20006;
+  EMULATOR_SNAPSHOT_FAILURE_REASON_UNSUPPORTED_VK_API = 20007;
 
-  // Next other kind of error here: 20006
+  // Next other kind of error here: 20008
 
   EMULATOR_SNAPSHOT_FAILURE_REASON_IN_PROGRESS_LIMIT = 30000;
 
@@ -2889,6 +2891,8 @@ message EmulatorQuickbootLoad {
     EMULATOR_QUICKBOOT_LOAD_COLD_UNSUPPORTED = 7;
     // Specified snapshot is too old for loading, fallback to cold boot.
     EMULATOR_QUICKBOOT_LOAD_COLD_OLD_SNAPSHOT = 8;
+    // Quickboot succeeded.
+    EMULATOR_QUICKBOOT_LOAD_SUCCEEDED_WITH_VULKAN = 9;
   }
 
   // The state of the quickboot load operation.
@@ -2926,6 +2930,8 @@ message EmulatorQuickbootSave {
     EMULATOR_QUICKBOOT_SAVE_DISABLED_UI = 7;
     // Saving skipped: Not booted yet.
     EMULATOR_QUICKBOOT_SAVE_SKIPPED_NOT_BOOTED = 8;
+    // Successful saving with Vulkan.
+    EMULATOR_QUICKBOOT_SAVE_SUCCEEDED_WITH_VULKAN = 9;
   }
   // The state of the quickboot save operation.
   optional EmulatorQuickbootSaveState state = 1;
@@ -6142,6 +6148,10 @@ message EditorPickerEvent {
         DEVICE_DPI = 16;
         // Orientation of Device in the Preview panel
         DEVICE_ORIENTATION = 17;
+        // Device cutout for the Preview panel
+        DEVICE_CUTOUT = 18;
+        // System Navigation of Device in the Preview panel
+        DEVICE_NAVIGATION = 19;
       }
 
       // Typical device targets for Android applications
@@ -6204,6 +6214,24 @@ message EditorPickerEvent {
         UI_MODE_NOT_NIGHT = 18;
         // The assigned UiMode value explicitly sets the 'Night' flag
         UI_MODE_NIGHT = 19;
+        // Set the shape of the device to 'Normal'
+        SHAPE_NORMAL = 20;
+        // Set the shape of the device to 'Round'
+        SHAPE_ROUND = 21;
+        // Set the cutout of the device to 'none'
+        CUTOUT_NONE = 22;
+        // Set the cutout of the device to 'corner'
+        CUTOUT_CORNER = 23;
+        // Set the cutout of the device to 'double'
+        CUTOUT_DOUBLE = 24;
+        // Set the cutout of the device to 'punch_hole'
+        CUTOUT_HOLE = 25;
+        // Set the cutout of the device to 'tall'
+        CUTOUT_TALL = 26;
+        // Set system navigation to 'buttons'
+        NAVIGATION_BUTTONS = 27;
+        // Set system navigation to 'gesture'
+        NAVIGATION_GESTURE = 28;
       }
 
       // Parameter modified
@@ -13681,6 +13709,8 @@ message ComposePreviewCanvasEvent {
     GROUPED_LIST = 3;
     GROUPED_GRID = 4;
     GALLERY = 5;
+    ORGANIZATION_LIST = 6;
+    ORGANIZATION_GRID = 7;
   }
   // What kind of interaction or event happens in the compose preview canvas
   optional EventType event_type = 1;
