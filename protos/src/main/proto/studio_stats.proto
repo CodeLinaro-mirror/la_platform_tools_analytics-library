@@ -1794,6 +1794,9 @@ message AndroidStudioEvent {
         LEVEL_6 = 0;
         LEVEL_7 = 1;
         LEVEL_8 = 2;
+        LEVEL_8_TOOLCHAIN = 3;
+        LEVEL_11_TOOLCHAIN = 4;
+        LEVEL_11_NO_TOOLCHAIN = 5;
       }
     }
 
