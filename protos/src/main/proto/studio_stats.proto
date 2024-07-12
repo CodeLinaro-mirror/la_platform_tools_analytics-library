@@ -13756,6 +13756,9 @@ message AppQualityInsightsUsageEvent {
 
     // For measuring performance in AQI
     PERFORMANCE_STATS = 11;
+
+    // For tracking the number of events users view.
+    EVENT_VIEWED = 12;
   }
 
   enum CrashType {
@@ -13819,6 +13822,7 @@ message AppQualityInsightsUsageEvent {
       FATAL = 1;
       NON_FATAL = 2;
       ALL = 3;
+      ANR = 4;
     }
     enum SignalFilter {
       UNKNOWN_SIGNAL = 0;
@@ -13985,6 +13989,16 @@ message AppQualityInsightsUsageEvent {
     PLAY_VITALS = 2;
   }
 
+  message EventDetails {
+    // Hashed string that uniquely identifies an issue.
+    optional string issue_id = 1;
+    // Hashed string that uniquely identifies an event.
+    optional string event_id = 2;
+    // Whether the viewing of this event triggered a network fetch, or was it
+    // served from cache.
+    optional bool is_fetched = 3;
+  }
+
   // The app_id is the id for the user's android app
   // which we salt on the client (28 day rotation) then sha256
   // so it is anonymized and is unique per user, but has a 1-N relation.
@@ -14031,6 +14045,9 @@ message AppQualityInsightsUsageEvent {
 
   // set when type = PERFORMANCE_STATS
   optional PerformanceStats performance_stats = 15;
+
+  // set when type = EVENT_VIEWED
+  optional EventDetails event_details = 16;
 }
 
 message FastPreviewEvent {
