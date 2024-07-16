@@ -13837,6 +13837,7 @@ message AppQualityInsightsUsageEvent {
     UNKNOWN_TYPE = 0;
     FATAL = 1;
     NON_FATAL = 2;
+    ANR = 3;
   }
   enum Confidence {
     UNKNOWN_CONFIDENCE = 0;
@@ -14124,7 +14125,7 @@ message AppQualityInsightsUsageEvent {
   optional PerformanceStats performance_stats = 15 [lazy = true];
 
   // set when type = EVENT_VIEWED
-  optional EventDetails event_details = 16;
+  optional EventDetails event_details = 16 [lazy = true];
 }
 
 message FastPreviewEvent {
