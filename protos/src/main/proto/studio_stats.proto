@@ -708,6 +708,10 @@ message AndroidStudioEvent {
   // set when kind = ADB_SERVER_STATUS
   optional AdbServerStatus adb_server_status = 196;
 
+  // set when kind = WEAR_TILE_ANIMATION_TOOLING
+  optional WearTileAnimationToolingEvent wear_tile_animation_tooling_event = 197
+      [lazy = true];
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -1554,6 +1558,9 @@ message AndroidStudioEvent {
 
     // ADB server status event
     ADB_SERVER_STATUS = 313;
+
+    // Event related to Wear Tile preview animation inspector
+    WEAR_TILE_ANIMATION_TOOLING = 314;
   }
 
   // Represents different Performance Monitoring types.
@@ -10337,6 +10344,8 @@ enum EditorFileType {
   KOTLIN_COMPOSE = 24;
   TOML = 25;
   CMAKE = 26;
+  PROTO = 27;                 // .proto
+  PROTO_WITHOUT_PLUGIN = 28;  // .proto (if Protocol Buffers plugin is missing)
 }
 
 message TypingLatencyStats {
@@ -10906,6 +10915,45 @@ message ComposeAnimationToolingEvent {
 
   // Type of event.
   optional ComposeAnimationToolingEventType type = 1;
+  // Multiplier of the animation speed (e.g. 1.5x, 0.25x).
+  // Set when type is CHANGE_ANIMATION_SPEED.
+  optional float animation_speed_multiplier = 2;
+}
+
+// Details for Wear Tile animation tooling event
+message WearTileAnimationToolingEvent {
+  enum WearTileAnimationToolingEventType {
+    UNKNOWN_EVENT_TYPE = 0;
+    OPEN_ANIMATION_INSPECTOR = 1;
+    CLOSE_ANIMATION_INSPECTOR = 2;
+    // Track when the animation inspector is available for Wear Tile previews.
+    ANIMATION_INSPECTOR_AVAILABLE = 3;
+    TRIGGER_PLAY_ACTION = 4;
+    TRIGGER_PAUSE_ACTION = 5;
+    ENABLE_LOOP_ACTION = 6;
+    DISABLE_LOOP_ACTION = 7;
+    CHANGE_ANIMATION_SPEED = 8;
+    TRIGGER_JUMP_TO_START_ACTION = 9;
+    TRIGGER_JUMP_TO_END_ACTION = 10;
+    CHANGE_START_STATE = 11;
+    CHANGE_END_STATE = 12;
+    TRIGGER_SWAP_STATES_ACTION = 13;
+    CLICK_ANIMATION_INSPECTOR_TIMELINE = 14;
+    DRAG_ANIMATION_INSPECTOR_TIMELINE = 15;
+    EXPAND_ANIMATION_CARD = 16;
+    COLLAPSE_ANIMATION_CARD = 17;
+    OPEN_ANIMATION_IN_TAB = 18;
+    CLOSE_ANIMATION_TAB = 19;
+    LOCK_ANIMATION = 20;
+    UNLOCK_ANIMATION = 21;
+    RESET_TIMELINE = 22;
+    DRAG_TIMELINE_LINE = 23;
+    // Open the picker to change the state of the animation.
+    OPEN_PICKER = 24;
+  }
+
+  // Type of event.
+  optional WearTileAnimationToolingEventType type = 1;
   // Multiplier of the animation speed (e.g. 1.5x, 0.25x).
   // Set when type is CHANGE_ANIMATION_SPEED.
   optional float animation_speed_multiplier = 2;
