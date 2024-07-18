@@ -32,7 +32,7 @@ message AndroidStudioEvent {
   // or kind = GAME_TOOLS_PING
   // or kind = AGDE_PING.
   // The version field is set for most messages.
-  optional ProductDetails product_details = 4;
+  optional ProductDetails product_details = 4 [lazy = true];
 
   // set when kind = MONITOR_ACTIVATED or kind = MONITOR_RUNNING
   // Deprecated by AndroidProfilerEvent
@@ -71,7 +71,7 @@ message AndroidStudioEvent {
   // or kind = ANDROID_PROFILER and AndroidProfilerEvent.Type = CHANGE_DEVICE
   // or kind = DynamicLayoutInspectorEvent
   // or kind = AppInspectionEvent and AppInspectionEvent.Type = PROCESS_SELECTED
-  optional DeviceInfo device_info = 12;
+  optional DeviceInfo device_info = 12 [lazy = true];
 
   // set when kind = LLDB_INSTALL_FAILED
   // e.g. 'failed to get reply to handshake packet'
@@ -96,43 +96,44 @@ message AndroidStudioEvent {
   optional TemplateRenderer template_renderer = 18;
 
   // set when kind = STUDIO_CRASH
-  optional StudioCrash studio_crash = 19;
+  optional StudioCrash studio_crash = 19 [lazy = true];
 
   // set when kind = GRADLE_BUILD_DETAILS or INSTANT_RUN
   // In the case of INSTANT_RUN, only the plugin version information is included
-  optional GradleBuildDetails gradle_build_details = 20;
+  optional GradleBuildDetails gradle_build_details = 20 [lazy = true];
 
   // set when kind = INSTANT_RUN
-  optional InstantRun instant_run = 21;
+  optional InstantRun instant_run = 21 [lazy = true];
 
   // set when kind = META_METRICS
-  optional MetaMetrics meta_metrics = 22;
+  optional MetaMetrics meta_metrics = 22 [lazy = true];
 
   // set when kind = EMULATOR_PING
-  optional EmulatorDetails emulator_details = 23;
+  optional EmulatorDetails emulator_details = 23 [lazy = true];
 
   // set when kind = TEST_RUN
-  optional TestRun test_run = 24;
+  optional TestRun test_run = 24 [lazy = true];
 
   // set when kind = EMULATOR_UI_EVENT (deprecated), use the repeated
   // field emulator_ui_events instead.
-  optional EmulatorUiEvent emulator_ui_event = 25 [deprecated = true];
+  optional EmulatorUiEvent emulator_ui_event = 25
+      [deprecated = true, lazy = true];
 
   // set when kind = HYPERVISOR
-  optional Hypervisor hypervisor = 26;
+  optional Hypervisor hypervisor = 26 [lazy = true];
 
   // set when kind = EMULATOR_HOST
-  optional EmulatorHost emulator_host = 27;
+  optional EmulatorHost emulator_host = 27 [lazy = true];
 
   // set when kind = GRADLE_BUILD_PROFILE
-  optional GradleBuildProfile gradle_build_profile = 28;
+  optional GradleBuildProfile gradle_build_profile = 28 [lazy = true];
 
   // set when kind = LLDB_FRONTEND_EXITED
-  optional LLDBFrontendDetails lldb_frontend_details = 29;
+  optional LLDBFrontendDetails lldb_frontend_details = 29 [lazy = true];
 
   // set when kind = FIREBASE_ASSISTANT_ERROR_PRESENTED or
   // kind FIREBASE_ASSISTANT_SILENT_ERROR
-  optional FirebaseErrorDetails firebase_error_details = 30;
+  optional FirebaseErrorDetails firebase_error_details = 30 [lazy = true];
 
   // Client-side salted (rotating every 532 days), sha256 of the project id.
   // set when kind = PROJECT_STRUCTURE_*
@@ -141,102 +142,105 @@ message AndroidStudioEvent {
   optional string project_id = 31;
 
   // set when kind = GFX_TRACE_*
-  optional GfxTracingDetails gfx_tracing_details = 32;
+  optional GfxTracingDetails gfx_tracing_details = 32 [lazy = true];
 
   // set when kind = TEST_RECORDER_GENERATE_TEST_CLASS
-  optional TestRecorderDetails test_recorder_details = 33;
+  optional TestRecorderDetails test_recorder_details = 33 [lazy = true];
 
   // set when kind = STUDIO_UI_ACTION_STATS
-  optional UIActionStats ui_action_stats = 34;
+  optional UIActionStats ui_action_stats = 34 [lazy = true];
 
   // set when kind = STUDIO_PING
-  optional MachineDetails machine_details = 35;
+  optional MachineDetails machine_details = 35 [lazy = true];
 
   // set when kind = STUDIO_PING
-  optional JvmDetails jvm_details = 36;
+  optional JvmDetails jvm_details = 36 [lazy = true];
 
   // set when kind = STUDIO_PROCESS_STATS
   // or kind = GRADLE_BUILD_PROFILE
   // or kind = STUDIO_UI_OOM_DIALOG_EVENT
   // or kind = STUDIO_LOW_MEMORY_EVENT
-  optional JavaProcessStats java_process_stats = 37;
+  optional JavaProcessStats java_process_stats = 37 [lazy = true];
 
   // set when kind = STUDIO_PERFORMANCE_STATS
-  optional StudioPerformanceStats studio_performance_stats = 38;
+  optional StudioPerformanceStats studio_performance_stats = 38 [lazy = true];
 
   // set when kind = LLDB_PERFORMANCE_STATS
-  optional LldbPerformanceStats lldb_performance_stats = 39;
+  optional LldbPerformanceStats lldb_performance_stats = 39 [lazy = true];
 
   // set when kind = STUDIO_PROJECT_OPENED or STUDIO_PROJECT_CLOSED
-  optional StudioProjectChange studio_project_change = 40;
+  optional StudioProjectChange studio_project_change = 40 [lazy = true];
 
   // optionally set when kind = FIREBASE_ASSISTANT_* (except for errors).
-  optional FirebaseContextDetails firebase_context_details = 41;
+  optional FirebaseContextDetails firebase_context_details = 41 [lazy = true];
 
   // set when kind = LAYOUT_EDITOR_EVENT
-  optional LayoutEditorEvent layout_editor_event = 42;
+  optional LayoutEditorEvent layout_editor_event = 42 [lazy = true];
 
   // set when kind = APP_LINKS_ASSISTANT_STATS
-  optional AppLinksAssistantEvent app_links_assistant_event = 43;
+  optional AppLinksAssistantEvent app_links_assistant_event = 43 [lazy = true];
 
   // set when kind = EMULATOR_PERFORMANCE_STATS
-  optional EmulatorPerformanceStats emulator_performance_stats = 44;
+  optional EmulatorPerformanceStats emulator_performance_stats = 44
+      [lazy = true];
 
   // set when kind = ADB_ASSISTANT_STATS
-  optional AdbAssistantStats adb_assistant_stats = 45;
+  optional AdbAssistantStats adb_assistant_stats = 45 [lazy = true];
 
   // set when kind = LLDB_SESSION_STARTED
-  optional LldbSessionStartDetails lldb_session_start_details = 46;
+  optional LldbSessionStartDetails lldb_session_start_details = 46
+      [lazy = true];
 
   // set when kind = LLDB_SESSION_ENDED
-  optional LldbSessionEndDetails lldb_session_end_details = 47;
+  optional LldbSessionEndDetails lldb_session_end_details = 47 [lazy = true];
 
   // set when kind = ANDROID_PROFILER
-  optional AndroidProfilerEvent android_profiler_event = 48;
+  optional AndroidProfilerEvent android_profiler_event = 48 [lazy = true];
 
   // set when kind = APK_ANALYZER_STATS
-  optional ApkAnalyzerStats apk_analyzer_stats = 49;
+  optional ApkAnalyzerStats apk_analyzer_stats = 49 [lazy = true];
 
   // set when kind = GRADLE_SYNC_STARTED, GRADLE_SYNC_SETUP_STARTED,
   // GRADLE_SYNC_ENDED, GRADLE_SYNC_FAILURE, GRADLE_SYNC_CANCELLED,
   // GRADLE_SYNC_SKIPPED, GRADLE_SYNC_FAILURE_DETAILS, GRADLE_SYNC_ISSUES
-  optional GradleSyncStats gradle_sync_stats = 50;
+  optional GradleSyncStats gradle_sync_stats = 50 [lazy = true];
 
   // set when kind = GRADLE_CPP_SYNC_COMPLETED
-  optional GradleCppSyncStats gradle_cpp_sync_stats = 113;
+  optional GradleCppSyncStats gradle_cpp_sync_stats = 113 [lazy = true];
 
   // set when category = APK_DEBUG
-  optional ApkDebugProject apk_debug_project = 51;
+  optional ApkDebugProject apk_debug_project = 51 [lazy = true];
 
   // set when kind = LAYOUT_INSPECTOR_EVENT
-  optional LayoutInspectorEvent layout_inspector_event = 52;
+  optional LayoutInspectorEvent layout_inspector_event = 52 [lazy = true];
 
   // set when kind = ANDROID_PROFILER_DB_STATS
-  optional AndroidProfilerDbStats android_profiler_db_stats = 53;
+  optional AndroidProfilerDbStats android_profiler_db_stats = 53 [lazy = true];
 
   // set when kind = TEMPLATE_RENDERER
   // or kind = GRADLE_SYNC_ENDED
-  optional KotlinSupport kotlin_support = 54;
+  optional KotlinSupport kotlin_support = 54 [lazy = true];
 
   // set when kind = CONNECTION_ASSISTANT_EVENT
-  optional ConnectionAssistantEvent connection_assistant_event = 55;
+  optional ConnectionAssistantEvent connection_assistant_event = 55
+      [lazy = true];
 
   // set when kind = STUDIO_UI_OOM_DIALOG_EVENT
-  optional OomDialogEvent oom_dialog_event = 56;
+  optional OomDialogEvent oom_dialog_event = 56 [lazy = true];
 
   // set when kind = CMAKE_EDITING_EVENT
-  optional CMakeEditingEvent cmake_editing_event = 57;
+  optional CMakeEditingEvent cmake_editing_event = 57 [lazy = true];
 
   // set for all events generated by Android Studio
   optional IdeBrand ide_brand = 58;
 
   // set when kind = CPP_HEADERS_VIEW_EVENT
-  optional CppHeadersViewEvent cpp_headers_view_event = 59;
+  optional CppHeadersViewEvent cpp_headers_view_event = 59 [lazy = true];
 
   // set when kind = WHATS_NEW_ASSISTANT_EVENT
   // Deprecated since 3.6.0.8, replaced with WhatsNewAssistantUpdateEvent
   optional WhatsNewAssistantEvent whats_new_assistant_event = 60
-      [deprecated = true];
+      [deprecated = true, lazy = true];
 
   // the project id as used in the playstore, e.g.
   // 'com.google.android.apps.maps'. This is sensitive information and
@@ -245,25 +249,27 @@ message AndroidStudioEvent {
   optional string raw_project_id = 61;
 
   // set when kind = INTELLIJ_INDEXING_STATS
-  optional IntellijIndexingStats intellij_indexing_stats = 62;
+  optional IntellijIndexingStats intellij_indexing_stats = 62 [lazy = true];
 
   // set when kind == LINT_SESSION
-  optional LintSession lint_session = 63;
+  optional LintSession lint_session = 63 [lazy = true];
 
   // set when kind == LINT_ACTION
-  optional LintAction lint_action = 64;
+  optional LintAction lint_action = 64 [lazy = true];
 
   // set when kind = STUDIO_RUN_EVENT
-  optional StudioRunEvent studio_run_event = 65 [deprecated = true];
+  optional StudioRunEvent studio_run_event = 65
+      [deprecated = true, lazy = true];
 
   // set when kind = INTELLIJ_PROJECT_SIZE_STATS
   repeated IntellijProjectSizeStats intellij_project_size_stats = 66;
 
   // set when kind = STUDIO_TOOL_WINDOW_ACTION_STATS
-  optional StudioToolWindowActionStats studio_tool_window_action_stats = 67;
+  optional StudioToolWindowActionStats studio_tool_window_action_stats = 67
+      [lazy = true];
 
   // set when kind = PROJECT_STRUCTURE_DIALOG
-  optional PSDEvent psd_event = 68;
+  optional PSDEvent psd_event = 68 [lazy = true];
 
   // set when Android Studio is launched with the "idea.is.internal=true"
   // flag, indicating that this is somebody debugging Android Studio rather
@@ -271,31 +277,32 @@ message AndroidStudioEvent {
   optional bool idea_is_internal = 69;
 
   // set when kind == JNI_INSPECTION
-  optional JniInspectionEvent jni_inspection_event = 70;
+  optional JniInspectionEvent jni_inspection_event = 70 [lazy = true];
 
   // set when kind == USER_SENTIMENT
-  optional UserSentiment user_sentiment = 71;
+  optional UserSentiment user_sentiment = 71 [lazy = true];
   // Describes a group of event kinds related to each other.
   // This is redundant in the presence of EventKind + event specific message,
   // and is only necessary for events originally sent to GA.
 
   // set when kind = RUN_EVENT
-  optional RunEvent run_event = 72;
+  optional RunEvent run_event = 72 [lazy = true];
 
   // set when kind = NAV_EDITOR_EVENT
-  optional NavEditorEvent nav_editor_event = 73;
+  optional NavEditorEvent nav_editor_event = 73 [lazy = true];
 
   // set when kind = DIALOG_STATS
-  optional DialogStats dialog_stats = 74;
+  optional DialogStats dialog_stats = 74 [lazy = true];
 
   // set when kind = GRADLE_PLUGIN_UPGRADE_DIALOG
-  optional GradlePluginUpgradeDialogStats gradle_plugin_upgrade_dialog = 75;
+  optional GradlePluginUpgradeDialogStats gradle_plugin_upgrade_dialog = 75
+      [lazy = true];
 
   // set when kind = DATA_BINDING
-  optional DataBindingEvent data_binding_event = 76;
+  optional DataBindingEvent data_binding_event = 76 [lazy = true];
 
   // set when kind = TYPING_LATENCY_STATS
-  optional TypingLatencyStats typing_latency_stats = 77;
+  optional TypingLatencyStats typing_latency_stats = 77 [lazy = true];
 
   // set when kind = GRADLE_SYNC_ISSUES.
   repeated GradleSyncIssue gradle_sync_issues = 78;
@@ -306,187 +313,201 @@ message AndroidStudioEvent {
   repeated GradleSyncQuickFix offered_quick_fixes = 79;
 
   // set when kind = STUDIO_PATCH_UPDATER
-  optional StudioPatchUpdaterEvent studio_patch_updater_event = 80;
+  optional StudioPatchUpdaterEvent studio_patch_updater_event = 80
+      [lazy = true];
 
   // Set when kind = RESOURCE_MANAGER
-  optional ResourceManagerEvent resource_manager_event = 81;
+  optional ResourceManagerEvent resource_manager_event = 81 [lazy = true];
 
   // Set when kind = IDE_PLUGIN_INFO
-  optional IdePluginInfo ide_plugin_info = 82;
+  optional IdePluginInfo ide_plugin_info = 82 [lazy = true];
 
   // Set when kind = EDITOR_HIGHLIGHTING_STATS
-  optional EditorHighlightingStats editor_highlighting_stats = 83;
+  optional EditorHighlightingStats editor_highlighting_stats = 83 [lazy = true];
 
   // Set when kind = WINDOWS_DEFENDER_STATUS
-  optional WindowsDefenderStatus windows_defender_status = 84;
+  optional WindowsDefenderStatus windows_defender_status = 84 [lazy = true];
 
   // Set when kind = MEMORY_SETTINGS_EVENT
-  optional MemorySettingsEvent memory_settings_event = 85;
+  optional MemorySettingsEvent memory_settings_event = 85 [lazy = true];
 
   // Set when kind = STUDIO_UPDATE_FLOW
-  optional StudioUpdateFlowEvent studio_update_flow_event = 86;
+  optional StudioUpdateFlowEvent studio_update_flow_event = 86 [lazy = true];
 
   // set when kind = BUILD_OUTPUT_WINDOW_STATS
-  optional BuildOutputWindowStats build_output_window_stats = 87;
+  optional BuildOutputWindowStats build_output_window_stats = 87 [lazy = true];
 
   // set when kind = GRADLE_PLUGIN_DSL_USAGE_STATS
-  optional GradlePluginDslUsageStats gradle_plugin_dsl_usage_stats = 88;
+  optional GradlePluginDslUsageStats gradle_plugin_dsl_usage_stats = 88
+      [lazy = true];
 
   // set when kind = WHATS_NEW_ASSISTANT_UPDATE_EVENT
-  optional WhatsNewAssistantUpdateEvent whats_new_assistant_update_event = 89;
+  optional WhatsNewAssistantUpdateEvent whats_new_assistant_update_event = 89
+      [lazy = true];
 
   // set when kind = DEFAULT_ACTIVITY_LOCATOR_STATS
-  optional DefaultActivityLocatorStats default_activity_locator_stats = 90;
+  optional DefaultActivityLocatorStats default_activity_locator_stats = 90
+      [lazy = true];
 
   // set when kind = MOTION_LAYOUT_EDITOR_EVENT
-  optional MotionLayoutEditorEvent motion_layout_editor_event = 91;
+  optional MotionLayoutEditorEvent motion_layout_editor_event = 91
+      [lazy = true];
 
   // set when kind = COMPOSE_SAMPLE_EVENT
   // This is a sample project for Compose published on GitHub that can be
   // imported through the sample browser UI or cloned and opened manually
-  optional ComposeSampleEvent compose_sample_event = 92;
+  optional ComposeSampleEvent compose_sample_event = 92 [lazy = true];
 
   // set when kind = IMPORT_SAMPLE_EVENT
   // Logs the ID of the sample project imported through the sample browser UI,
   // e.g. android/user-interface-samples/TextStyling
-  optional ImportSampleEvent import_sample_event = 93;
+  optional ImportSampleEvent import_sample_event = 93 [lazy = true];
 
   // set when kind = DYNAMIC_LAYOUT_INSPECTOR_EVENT
-  optional DynamicLayoutInspectorEvent dynamic_layout_inspector_event = 94;
+  optional DynamicLayoutInspectorEvent dynamic_layout_inspector_event = 94
+      [lazy = true];
 
   // set when kind = BUILD_ATTRIBUTION_STATS
-  optional BuildAttributionStats build_attribution_stats = 95;
+  optional BuildAttributionStats build_attribution_stats = 95 [lazy = true];
 
   // set when kind = EDITOR_COMPLETION_STATS
-  optional EditorCompletionStats editor_completion_stats = 96;
+  optional EditorCompletionStats editor_completion_stats = 96 [lazy = true];
 
   // set when kind = MULTI_VIEW_EVENT
-  optional MultiViewEvent multi_view_event = 97;
+  optional MultiViewEvent multi_view_event = 97 [lazy = true];
 
   // set when kind = BUILD_ATTRIBUTION_UI_EVENT
-  optional BuildAttributionUiEvent build_attribution_ui_event = 98;
+  optional BuildAttributionUiEvent build_attribution_ui_event = 98
+      [lazy = true];
 
   // set when kind = VS_PLUGIN
-  optional VsPluginEvent vs_plugin_event = 99;
+  optional VsPluginEvent vs_plugin_event = 99 [lazy = true];
 
   // set when kind = DESIGN_EDITOR_HELP_PANEL_EVENT
-  optional DesignEditorHelpPanelEvent design_editor_help_panel_event = 100;
+  optional DesignEditorHelpPanelEvent design_editor_help_panel_event = 100
+      [lazy = true];
 
   // set when kind = APP_INSPECTION
-  optional AppInspectionEvent app_inspection_event = 101;
+  optional AppInspectionEvent app_inspection_event = 101 [lazy = true];
 
   // set when kind = ML_MODEL_BINDING
-  optional MlModelBindingEvent ml_model_binding_event = 102;
+  optional MlModelBindingEvent ml_model_binding_event = 102 [lazy = true];
 
   // set when kind = DEPLOYMENT_TO_EMULATOR
-  optional AvdLaunchEvent avd_launch_event = 103;
+  optional AvdLaunchEvent avd_launch_event = 103 [lazy = true];
 
   // set when kind = NAV_SAFE_ARGS_EVENT
-  optional NavSafeArgsEvent nav_safe_args_event = 104;
+  optional NavSafeArgsEvent nav_safe_args_event = 104 [lazy = true];
 
   // set when kind = DAGGER_EDITOR
-  optional DaggerEditorEvent dagger_editor_event = 105;
+  optional DaggerEditorEvent dagger_editor_event = 105 [lazy = true];
 
   // set when kind = PARALLEL_ANDROID_TEST_REPORT_UI
   optional ParallelAndroidTestReportUiEvent
-      parallel_android_test_report_ui_event = 106;
+      parallel_android_test_report_ui_event = 106 [lazy = true];
 
   // set when kind = APPLY_CHANGES_AGENT_ERROR
-  optional ApplyChangesAgentError apply_changes_agent_error = 107;
+  optional ApplyChangesAgentError apply_changes_agent_error = 107 [lazy = true];
 
   // set when kind = WIZARD_TEMPLATES_USAGE
-  optional TemplatesUsage template_usage = 108;
+  optional TemplatesUsage template_usage = 108 [lazy = true];
 
   // set when kind = UPGRADE_ASSISTANT_COMPONENT_EVENT
   optional UpgradeAssistantComponentEvent upgrade_assistant_component_event =
-      109;
+      109 [lazy = true];
 
   // set when kind = UPGRADE_ASSISTANT_PROCESSOR_EVENT
   optional UpgradeAssistantProcessorEvent upgrade_assistant_processor_event =
-      110;
+      110 [lazy = true];
 
   // set when kind = INTERACTIVE_PREVIEW_EVENT
-  optional InteractivePreviewEvent interactive_preview_event = 111;
+  optional InteractivePreviewEvent interactive_preview_event = 111
+      [lazy = true];
 
   // set when kind = COMPOSE_ANIMATION_TOOLING
-  optional ComposeAnimationToolingEvent compose_animation_tooling_event = 112;
+  optional ComposeAnimationToolingEvent compose_animation_tooling_event = 112
+      [lazy = true];
 
   // set when kind = EMULATOR_UI_EVENTS
   repeated EmulatorUiEvent emulator_ui_events = 114;
 
   // set when kind = SURVEY_RESPONSE
-  optional SurveyResponse survey_response = 115;
+  optional SurveyResponse survey_response = 115 [lazy = true];
 
   // set when kind = COMPOSE_DEPLOY
-  optional ComposeDeployEvent compose_deploy_event = 116;
+  optional ComposeDeployEvent compose_deploy_event = 116 [lazy = true];
 
   // Deprecated, use suggested_import_event instead.
   // set when kind = AUTO_IMPORT_EVENT
-  optional AutoImportEvent auto_import_event = 117 [deprecated = true];
+  optional AutoImportEvent auto_import_event = 117
+      [deprecated = true, lazy = true];
 
   // set when kind = FILE_USAGE
-  optional FileUsage file_usage = 118;
+  optional FileUsage file_usage = 118 [lazy = true];
 
   // set when kind = LIVE_LITERALS_EVENT
-  optional LiveLiteralsEvent live_literals_event = 119;
+  optional LiveLiteralsEvent live_literals_event = 119 [lazy = true];
 
   // set when kind = MIGRATE_TO_NON_TRANSITIVE_R_CLASS
   optional NonTransitiveRClassMigrationEvent
-      non_transitive_r_class_migration_event = 120;
+      non_transitive_r_class_migration_event = 120 [lazy = true];
 
   // set when kind = ANDROID_TEST_RETENTION_EVENT
-  optional AndroidTestRetentionEvent android_test_retention_event = 121;
+  optional AndroidTestRetentionEvent android_test_retention_event = 121
+      [lazy = true];
 
   // set when kind = SUGGESTED_IMPORT_EVENT
-  optional SuggestedImportEvent suggested_import_event = 122;
+  optional SuggestedImportEvent suggested_import_event = 122 [lazy = true];
 
   // set when kind = VFS_REFRESH
-  optional VfsRefresh vfs_refresh = 123;
+  optional VfsRefresh vfs_refresh = 123 [lazy = true];
 
   // Set when kind is SIGNING_WIZARD_*_FAILED or SIGNING_WIZARD_*_SUCCEEDED
-  optional SigningWizardEvent signing_wizard_event = 124;
+  optional SigningWizardEvent signing_wizard_event = 124 [lazy = true];
 
   // set when kind = FILE_TYPE
-  optional FileType file_type = 125;
+  optional FileType file_type = 125 [lazy = true];
 
   // set when kind is KOTLIN_PROJECT_CONFIGURATION
-  optional KotlinProjectConfiguration kotlin_project_configuration = 126;
+  optional KotlinProjectConfiguration kotlin_project_configuration = 126
+      [lazy = true];
   // set when kind = RUN_START_DATA
-  optional RunStartData run_start_data = 127;
+  optional RunStartData run_start_data = 127 [lazy = true];
 
   // set when kind = RUN_FINISH_DATA
-  optional RunFinishData run_finish_data = 128;
+  optional RunFinishData run_finish_data = 128 [lazy = true];
 
   // set when kind = DEVICE_MANAGER
-  optional DeviceManagerEvent device_manager_event = 129;
+  optional DeviceManagerEvent device_manager_event = 129 [lazy = true];
 
   // set when kind = WEAR_PAIRING
-  optional WearPairingEvent wear_pairing_event = 130;
+  optional WearPairingEvent wear_pairing_event = 130 [lazy = true];
 
   // set when kind = GRADLE_JDK_INVALID
-  optional GradleJdkInvalidEvent gradle_jdk_invalid_event = 131;
+  optional GradleJdkInvalidEvent gradle_jdk_invalid_event = 131 [lazy = true];
 
   // set when kind = DEVICE_EXPLORER
-  optional DeviceExplorerEvent device_explorer_event = 132;
+  optional DeviceExplorerEvent device_explorer_event = 132 [lazy = true];
 
   // set when kind = OPTIN_METRICS
-  optional OptInToMetrics opt_in_to_metrics = 133;
+  optional OptInToMetrics opt_in_to_metrics = 133 [lazy = true];
 
   // set when kind = OPTOUT_METRICS
-  optional OptOutOfMetrics opt_out_of_metrics = 134;
+  optional OptOutOfMetrics opt_out_of_metrics = 134 [lazy = true];
 
   // set when kind = GRADLE_VERSION_CATALOG_DETECTOR
   optional GradleVersionCatalogDetectorEvent
-      gradle_version_catalog_detector_event = 135;
+      gradle_version_catalog_detector_event = 135 [lazy = true];
 
   // set when kind = COROUTINE_DEBUGGER
-  optional CoroutineDebuggerEvent coroutine_debugger_event = 136;
+  optional CoroutineDebuggerEvent coroutine_debugger_event = 136 [lazy = true];
 
   // set when kind = SPLITTING_TABS_USAGE
-  optional SplittingTabsUsageEvent splitting_tabs_usage_event = 137;
+  optional SplittingTabsUsageEvent splitting_tabs_usage_event = 137
+      [lazy = true];
 
   // set when kind = LOGCAT_USAGE
-  optional LogcatUsageEvent logcat_usage_event = 138;
+  optional LogcatUsageEvent logcat_usage_event = 138 [lazy = true];
 
   // the project ids as used in the playstore, e.g.
   // 'com.google.android.apps.maps'. This is sensitive information and
@@ -499,177 +520,197 @@ message AndroidStudioEvent {
   repeated string project_ids = 140;
 
   // set when kind = OS_METRICS
-  optional OSMetrics os_metrics = 141;
+  optional OSMetrics os_metrics = 141 [lazy = true];
 
   // set when kind is SDK_INDEX_LIBRARY_HAS_CRITICAL_ISSUES,
   // SDK_INDEX_LIBRARY_IS_OUTDATED or SDK_INDEX_LIBRARY_IS_NON_COMPLIANT
-  optional SdkIndexLibraryDetails sdk_index_library_details = 142;
+  optional SdkIndexLibraryDetails sdk_index_library_details = 142 [lazy = true];
 
   // set when kind = EDITOR_PICKER
-  optional EditorPickerEvent editor_picker_event = 143;
+  optional EditorPickerEvent editor_picker_event = 143 [lazy = true];
 
   // set when kind = COMPOSE_MULTI_PREVIEW
-  optional ComposeMultiPreviewEvent compose_multi_preview_event = 144;
+  optional ComposeMultiPreviewEvent compose_multi_preview_event = 144
+      [lazy = true];
 
   // set when kind = LIVE_EDIT_EVENT
-  optional LiveEditEvent live_edit_event = 145;
+  optional LiveEditEvent live_edit_event = 145 [lazy = true];
 
   // set when kind = STOP_EVENT
-  optional StopEvent stop_event = 146;
+  optional StopEvent stop_event = 146 [lazy = true];
 
   // set when kind = APP_QUALITY_INSIGHTS_USAGE
-  optional AppQualityInsightsUsageEvent app_quality_insights_usage_event = 147;
+  optional AppQualityInsightsUsageEvent app_quality_insights_usage_event = 147
+      [lazy = true];
 
   // set when kind = GOOGLE_LOGIN_EVENT
-  optional GoogleLoginPluginEvent google_login_event = 148;
+  optional GoogleLoginPluginEvent google_login_event = 148 [lazy = true];
 
   // set when kind = DEVICE_MIRRORING_SESSION
-  optional DeviceMirroringSession device_mirroring_session = 149;
+  optional DeviceMirroringSession device_mirroring_session = 149 [lazy = true];
 
   // set when kind = FAST_PREVIEW_EVENT
-  optional FastPreviewEvent fast_preview_event = 150;
+  optional FastPreviewEvent fast_preview_event = 150 [lazy = true];
 
   // set when kind = MEMORY_USAGE_REPORT_EVENT
-  optional MemoryUsageReportEvent memory_usage_report_event = 151;
+  optional MemoryUsageReportEvent memory_usage_report_event = 151 [lazy = true];
 
   // set when kind = SDK_INDEX_LOADED_CORRECTLY
   // or kind = SDK_INDEX_CACHING_ERROR
   // or kind = SDK_INDEX_DEFAULT_DATA_ERROR
-  optional SdkIndexLoadingDetails sdk_index_loading_details = 152;
+  optional SdkIndexLoadingDetails sdk_index_loading_details = 152 [lazy = true];
 
   // set when kind = MANIFEST_MERGER_STATS
-  optional ManifestMergerStats manifest_merger_stats = 153;
+  optional ManifestMergerStats manifest_merger_stats = 153 [lazy = true];
 
   // set when kind = THREADING_AGENT_STATS
-  optional ThreadingAgentUsageEvent threading_agent_usage_event = 154;
+  optional ThreadingAgentUsageEvent threading_agent_usage_event = 154
+      [lazy = true];
 
   // set when kind = PROJECT_VIEW_SELECTION_CHANGE_EVENT
   optional ProjectViewSelectionChangeEvent project_view_selection_change_event =
-      155;
+      155 [lazy = true];
 
   // set when kind = HEAP_REPORT_EVENT
-  optional HeapReportEvent heap_report_event = 156;
+  optional HeapReportEvent heap_report_event = 156 [lazy = true];
 
   // set when kind = CREATE_DIAGNOSTIC_REPORT_ACTION
   optional CreateDiagnosticReportAction create_diagnostic_report_action_event =
-      157;
+      157 [lazy = true];
 
   // set when kind = DIRECT_ACCESS_USAGE_EVENT
-  optional DirectAccessUsageEvent direct_access_usage_event = 158;
+  optional DirectAccessUsageEvent direct_access_usage_event = 158 [lazy = true];
 
   // set when kind = SAFE_MODE_STATS_EVENT
-  optional SafeModeStatsEvent safe_mode_stats_event = 159;
+  optional SafeModeStatsEvent safe_mode_stats_event = 159 [lazy = true];
 
   // set when kind = TSDKUA_EVENT
-  optional TSdkUAEvent tsdk_ua_event = 160;
+  optional TSdkUAEvent tsdk_ua_event = 160 [lazy = true];
 
   // set when kind = INTELLIJ_NEW_UI_STATE_EVENT
-  optional IntelliJNewUIState intellij_new_ui_state_event = 161;
+  optional IntelliJNewUIState intellij_new_ui_state_event = 161 [lazy = true];
 
   // set when kind = KOTLIN_GRADLE_PERFORMANCE
-  optional KotlinGradlePerformance kotlin_gradle_performance_event = 162;
+  optional KotlinGradlePerformance kotlin_gradle_performance_event = 162
+      [lazy = true];
 
   // set when kind = BUILD_OUTPUT_DOWNLOADS_INFO_USER_INTERACTION
-  optional BuildOutputDownloadsInfoEvent build_output_downloads_info_event =
-      163;
+  optional BuildOutputDownloadsInfoEvent build_output_downloads_info_event = 163
+      [lazy = true];
 
   // set when kind = DEVICE_MIRRORING_ABNORMAL_AGENT_TERMINATION
   optional DeviceMirroringAbnormalAgentTermination
-      device_mirroring_abnormal_agent_termination = 164;
+      device_mirroring_abnormal_agent_termination = 164 [lazy = true];
 
   // set when kind = SYSTEM_HEALTH_EVENT
-  optional SystemHealthEvent system_health_event = 165;
+  optional SystemHealthEvent system_health_event = 165 [lazy = true];
 
   // set when kind = COMPOSE_PREVIEW_CANVAS_EVENT
-  optional ComposePreviewCanvasEvent compose_preview_canvas_event = 166;
+  optional ComposePreviewCanvasEvent compose_preview_canvas_event = 166
+      [lazy = true];
 
   // set when kind = SML_COMPLETION_EVENT
-  optional SmlCompletionEvent sml_completion_event = 167;
+  optional SmlCompletionEvent sml_completion_event = 167 [lazy = true];
 
   // set when kind = SML_CODE_TRANSFORMATION_EVENT
-  optional SmlTransformEvent sml_transform_event = 168;
+  optional SmlTransformEvent sml_transform_event = 168 [lazy = true];
 
   // set when kind = SML_CHATBOT_EVENT
-  optional SmlChatBotEvent sml_chat_bot_event = 169;
+  optional SmlChatBotEvent sml_chat_bot_event = 169 [lazy = true];
 
   // set when kind = SML_CONFIGURATION_EVENT
-  optional SmlConfigurationEvent sml_configuration_event = 170;
+  optional SmlConfigurationEvent sml_configuration_event = 170 [lazy = true];
 
   // set when kind = KOTLIN_SUPPORT_DECLINED
-  optional KotlinSupportDeclined kotlin_support_declined = 171;
+  optional KotlinSupportDeclined kotlin_support_declined = 171 [lazy = true];
 
   // set when kind = DEVICE_SCREENSHOT_EVENT
-  optional DeviceScreenshotEvent device_screenshot_event = 172;
+  optional DeviceScreenshotEvent device_screenshot_event = 172 [lazy = true];
 
   // set when kind = EDITOR_NOTIFICATION
-  optional EditorNotification editor_notification = 173;
+  optional EditorNotification editor_notification = 173 [lazy = true];
 
   // set when kind = COMPOSE_PREVIEW_LITE_MODE
-  optional ComposePreviewLiteModeEvent compose_preview_lite_mode_event = 174;
+  optional ComposePreviewLiteModeEvent compose_preview_lite_mode_event = 174
+      [lazy = true];
 
   // set when kind = UPGRADE_ANDROID_STUDIO_DIALOG
-  optional UpgradeAndroidStudioDialogStats upgrade_android_studio_dialog = 175;
+  optional UpgradeAndroidStudioDialogStats upgrade_android_studio_dialog = 175
+      [lazy = true];
 
   // set when kind = DEBUGGER_EVENT
-  optional DebuggerEvent debugger_event = 176;
+  optional DebuggerEvent debugger_event = 176 [lazy = true];
 
   // set when kind = SOONG_SYNC_EVENT
-  optional SoongSyncStats soong_sync_stats = 177;
+  optional SoongSyncStats soong_sync_stats = 177 [lazy = true];
 
   // set when kind = INTELLIJ_NEW_UI_SWITCH
-  optional IntelliJNewUISwitch intellij_new_ui_switch = 178;
+  optional IntelliJNewUISwitch intellij_new_ui_switch = 178 [lazy = true];
 
   // set when kind = ESSENTIALS_MODE_EVENT
-  optional EssentialsModeEvent essentials_mode_event = 179;
+  optional EssentialsModeEvent essentials_mode_event = 179 [lazy = true];
 
   // set when kind = LINT_TOOLTIP_LINK_EVENT
-  optional LintTooltipLinkEvent lint_tooltip_link_event = 180;
+  optional LintTooltipLinkEvent lint_tooltip_link_event = 180 [lazy = true];
 
   // set when kind = SML_AI_EXCLUDE_EVENT
-  optional SmlAiExcludeEvent sml_ai_exclude_event = 181;
+  optional SmlAiExcludeEvent sml_ai_exclude_event = 181 [lazy = true];
 
   // set when kind = I_DEVICE_USAGE_EVENT
-  optional IDeviceUsageEvent i_device_usage_event = 182;
+  optional IDeviceUsageEvent i_device_usage_event = 182 [lazy = true];
 
   // set when kind = GRADLE_JDK_CONFIGURATION
-  optional GradleJdkConfigurationEvent gradle_jdk_configuration_event = 183;
+  optional GradleJdkConfigurationEvent gradle_jdk_configuration_event = 183
+      [lazy = true];
 
   // set when kind = RENDER_SECURITY_MANAGER_EVENT
-  optional RenderSecurityManagerEvent render_security_manager_event = 184;
+  optional RenderSecurityManagerEvent render_security_manager_event = 184
+      [lazy = true];
 
   // set when kind = PREVIEW_REFRESH_EVENT
-  optional PreviewRefreshEvent preview_refresh_event = 185;
+  optional PreviewRefreshEvent preview_refresh_event = 185 [lazy = true];
 
   // set when kind = WEAR_HEALTH_SERVICES_TOOL_WINDOW_EVENT
-  optional WearHealthServicesEvent wear_health_services_event = 186;
+  optional WearHealthServicesEvent wear_health_services_event = 186
+      [lazy = true];
 
   // set when kind = UI_DEVICE_SETTINGS_EVENT
-  optional UiDeviceSettingsEvent ui_device_settings_event = 187;
+  optional UiDeviceSettingsEvent ui_device_settings_event = 187 [lazy = true];
 
   // set when kind = ADB_USAGE_EVENT
-  optional AdbUsageEvent adb_usage_event = 188;
+  optional AdbUsageEvent adb_usage_event = 188 [lazy = true];
 
   // set when kind = SML_GEOLOCATION_EVENT
-  optional SmlGeolocationEvent sml_geolocation_event = 189;
+  optional SmlGeolocationEvent sml_geolocation_event = 189 [lazy = true];
 
   // set when kind = SML_COMPLETION_REQUEST_ERROR
-  optional SmlCompletionRequestErrorEvent sml_completion_request_error = 190;
+  optional SmlCompletionRequestErrorEvent sml_completion_request_error = 190
+      [lazy = true];
 
   // set when kind = ADB_DEVICE_CONNECTED
-  optional DeviceConnectedNotificationEvent device_connected = 191;
+  optional DeviceConnectedNotificationEvent device_connected = 191
+      [lazy = true];
 
   // set when kind = SCREENSHOT_TEST_COMPOSE_PREVIEW
   optional ScreenshotTestComposePreviewEvent
-      screenshot_test_compose_preview_event = 192;
+      screenshot_test_compose_preview_event = 192 [lazy = true];
 
   // set when kind = TEST_SCENARIO_EVENT
-  optional TestScenarioEvent test_scenario_event = 193;
+  optional TestScenarioEvent test_scenario_event = 193 [lazy = true];
 
   // set when kind = ADB_SERVER_STATE
-  optional AdbServerState adb_server_state = 194;
+  // OBSOLETE, use ADB_SERVER_STATUS instead.
+  optional AdbServerState adb_server_state = 194 [lazy = true];
 
   // set when kind = FIREBASE_MANAGEMENT_EVENT
   optional FirebaseManagementEvent firebase_management_event = 195;
+
+  // set when kind = ADB_SERVER_STATUS
+  optional AdbServerStatus adb_server_status = 196;
+
+  // set when kind = WEAR_TILE_ANIMATION_TOOLING
+  optional WearTileAnimationToolingEvent wear_tile_animation_tooling_event = 197
+      [lazy = true];
 
   enum EventCategory {
     // The event was not grouped into any specific category (default).
@@ -1509,10 +1550,17 @@ message AndroidStudioEvent {
     TEST_SCENARIO_EVENT = 310;
 
     // ADB server state event
+    // OBSOLETE, USE ADB_SERVER_STATUS instead
     ADB_SERVER_STATE = 311;
 
     // Firebase management event
     FIREBASE_MANAGEMENT_EVENT = 312;
+
+    // ADB server status event
+    ADB_SERVER_STATUS = 313;
+
+    // Event related to Wear Tile preview animation inspector
+    WEAR_TILE_ANIMATION_TOOLING = 314;
   }
 
   // Represents different Performance Monitoring types.
@@ -1651,13 +1699,13 @@ message AndroidStudioEvent {
   // Wizard Templates Usage (New Project, New Module and New Component)
   message TemplatesUsage {
     // Rendered template component (eg Activity, Fragment, Service, etc)
-    optional TemplateComponent template_component = 1;
+    optional TemplateComponent template_component = 1 [lazy = true];
     // Module used to generate code. Can be an existing or a new one.
-    optional TemplateModule template_module = 2;
+    optional TemplateModule template_module = 2 [lazy = true];
     // Project used to generate code. Can be an existing or a new one.
-    optional TemplateProject template_project = 3;
+    optional TemplateProject template_project = 3 [lazy = true];
     // Kotlin support information
-    optional KotlinSupport kotlin_support = 4;
+    optional KotlinSupport kotlin_support = 4 [lazy = true];
 
     // The various template components (eg Activities, Fragments, Services, etc)
     // the template engine could be asked to render, and what UI context that
@@ -2323,7 +2371,7 @@ message LldbSessionStartDetails {
   // True if debugger_type was chosen via the Auto debugger type.
   optional bool auto_debugger = 4;
   // Device on which the debuggable app is running.
-  optional DeviceInfo device_info = 5;
+  optional DeviceInfo device_info = 5 [lazy = true];
   // Version of the native debugger.
   optional string lldb_version = 6;
   // Type of starter used to start this session.
@@ -2427,7 +2475,7 @@ message EmulatorIcebox {
   // Message for taking a snapshot.
   message TakeSnapshot {
     // The snapshot.
-    optional EmulatorSnapshot snapshot = 1;
+    optional EmulatorSnapshot snapshot = 1 [lazy = true];
   }
   // Message for finishing an icebox command.
   message FinishIcebox {
@@ -2438,9 +2486,9 @@ message EmulatorIcebox {
   }
   // Kind of command of this message.
   oneof kind {
-    StartIcebox start_icebox = 1;
-    TakeSnapshot take_snapshot = 2;
-    FinishIcebox finish_icebox = 3;
+    StartIcebox start_icebox = 1 [lazy = true];
+    TakeSnapshot take_snapshot = 2 [lazy = true];
+    FinishIcebox finish_icebox = 3 [lazy = true];
   }
 }
 
@@ -2903,7 +2951,7 @@ message EmulatorQuickbootLoad {
   // How long it took, milliseconds.
   optional uint64 duration_ms = 2;
   // Information about loaded snapshot.
-  optional EmulatorSnapshot snapshot = 3;
+  optional EmulatorSnapshot snapshot = 3 [lazy = true];
   // Flag is set when on demand RAM loading was enabled for the load.
   optional bool on_demand_ram_enabled = 4;
   // ADB connection retries.
@@ -2941,7 +2989,7 @@ message EmulatorQuickbootSave {
   // How long it took, milliseconds.
   optional uint64 duration_ms = 2;
   // Information about the saved snapshot.
-  optional EmulatorSnapshot snapshot = 3;
+  optional EmulatorSnapshot snapshot = 3 [lazy = true];
   // What was the guest session uptime at the time of saving.
   optional uint64 sesion_uptime_ms = 4;
 }
@@ -2975,9 +3023,9 @@ message EmulatorGLESv30Usages {
 // Track whether a GLES command is used or not
 message EmulatorGLESUsages {
   // GLES 1 usage report
-  optional EmulatorGLEScmUsages gles_1_usages = 1;
+  optional EmulatorGLEScmUsages gles_1_usages = 1 [lazy = true];
   // GLES 3.0 usage report
-  optional EmulatorGLESv30Usages gles_3_0_usages = 2;
+  optional EmulatorGLESv30Usages gles_3_0_usages = 2 [lazy = true];
 }
 
 // Per-session counts of snapshot UI interactions.
@@ -3178,7 +3226,7 @@ message EmulatorStreamScreenshot {
   optional uint32 size = 1;
   // This gives us an idea of delivery delay we are experiencing
   // from the emulators perspective, and frames delivered.
-  optional PercentileEstimator delivery_delay = 2;
+  optional PercentileEstimator delivery_delay = 2 [lazy = true];
   // # of frames generated by the emulator. max(delivery_delay.count) <= frames
   optional uint32 frames = 3;
 }
@@ -3201,15 +3249,15 @@ message EmulatorGrpc {
   // Number of requests for which the response was not Status::OK
   optional uint32 failures = 3;
   // Sum of received message size, if streaming
-  optional PercentileEstimator rcv_bytes_estimate = 4;
+  optional PercentileEstimator rcv_bytes_estimate = 4 [lazy = true];
   // Sum of sent message size, if streaming
-  optional PercentileEstimator snd_bytes_estimate = 5;
+  optional PercentileEstimator snd_bytes_estimate = 5 [lazy = true];
   // Duration of the total request time in milliseconds.
-  optional PercentileEstimator duration = 6;
+  optional PercentileEstimator duration = 6 [lazy = true];
   // Number of messages received
-  optional PercentileEstimator rcv = 7;
+  optional PercentileEstimator rcv = 7 [lazy = true];
   // Number of messages send
-  optional PercentileEstimator snd = 8;
+  optional PercentileEstimator snd = 8 [lazy = true];
   // Type of connection
   optional GrpcConnection type = 9;
 }
@@ -3237,7 +3285,7 @@ message EmulatorDetails {
   // Connectivity from adb of the running emulator instance.
   optional EmulatorAdbLiveness adb_liveness = 11;
   // Information about the gl implementation in the guest image.
-  optional EmulatorGuestGlInfo guest_gl = 12;
+  optional EmulatorGuestGlInfo guest_gl = 12 [lazy = true];
   // Information about the host GPUs (one per GPU).
   repeated EmulatorGpuInfo host_gpu = 13;
   // The "phase" of an emulator session where crash happened.
@@ -3247,43 +3295,43 @@ message EmulatorDetails {
   // Renderer of the current emulator session.
   optional EmulatorRenderer renderer = 16;
   // Flags for the used UI features.
-  optional EmulatorFeatures used_features = 17;
+  optional EmulatorFeatures used_features = 17 [lazy = true];
   // Information about the currently loaded AVD.
-  optional EmulatorAvdInfo avd_info = 18;
+  optional EmulatorAvdInfo avd_info = 18 [lazy = true];
   // State tracking emulator feature flag enable/disable.
-  optional EmulatorFeatureFlagState feature_flag_state = 19;
+  optional EmulatorFeatureFlagState feature_flag_state = 19 [lazy = true];
   // Hypervisor used in current session.
   optional EmulatorHypervisor hypervisor = 20;
   // Information about quickboot status of the current session.
-  optional EmulatorQuickbootLoad quickboot_load = 21;
-  optional EmulatorQuickbootSave quickboot_save = 22;
+  optional EmulatorQuickbootLoad quickboot_load = 21 [lazy = true];
+  optional EmulatorQuickbootSave quickboot_save = 22 [lazy = true];
   // Track GLES command usages
-  optional EmulatorGLESUsages gles_usages = 23;
+  optional EmulatorGLESUsages gles_usages = 23 [lazy = true];
   // Metrics on all generic emulator snapshot saves and loads.
   repeated EmulatorSnapshot snapshot_loads = 24;
   repeated EmulatorSnapshot snapshot_saves = 25;
   // Metrics on all snapshot UI.
-  optional EmulatorSnapshotUICounts snapshot_ui_counts = 26;
+  optional EmulatorSnapshotUICounts snapshot_ui_counts = 26 [lazy = true];
   // Metrics on camera usage.
-  optional EmulatorCameraSession camera = 27;
+  optional EmulatorCameraSession camera = 27 [lazy = true];
   // Metrics for virtual scene camera sessions.
-  optional EmulatorVirtualSceneSession virtual_scene = 28;
+  optional EmulatorVirtualSceneSession virtual_scene = 28 [lazy = true];
   // Metrics for emulator boot status and time.
-  optional EmulatorBootInfo boot_info = 29;
+  optional EmulatorBootInfo boot_info = 29 [lazy = true];
   // Metrics for automation/macros.
-  optional EmulatorAutomation automation = 30;
+  optional EmulatorAutomation automation = 30 [lazy = true];
   // Metrics for multi-display
-  optional EmulatorMultiDisplay multi_display = 31;
+  optional EmulatorMultiDisplay multi_display = 31 [lazy = true];
   // Metrics for gRPC invocation
-  optional EmulatorGrpc grpc = 32;
+  optional EmulatorGrpc grpc = 32 [lazy = true];
   // Metrics for LocationUiV2
-  optional EmulatorLocationV2 location_v2 = 33;
+  optional EmulatorLocationV2 location_v2 = 33 [lazy = true];
   // Metrics for streamScreenshot
-  optional EmulatorStreamScreenshot screenshot = 34;
+  optional EmulatorStreamScreenshot screenshot = 34 [lazy = true];
   // Metrics for Icebox
   repeated EmulatorIcebox icebox = 35;
   // Metrics for resizable display
-  optional EmulatorResizableDisplay resizable_display = 36;
+  optional EmulatorResizableDisplay resizable_display = 36 [lazy = true];
   // Process ID of the emulator wrapper process.
   optional int32 emu_pid = 37;
   // Process ID of the child qemu process that does the real job.
@@ -3424,7 +3472,7 @@ message EmulatorPercentileEstimator {
   // time. Not set if there's no context for the specific metric type.
   optional string context = 2;
   // Estimator for metric.
-  optional PercentileEstimator estimator = 3;
+  optional PercentileEstimator estimator = 3 [lazy = true];
 
   // Metric types that can be monitored.
   enum EmulatorPerformanceMetric {
@@ -3453,7 +3501,7 @@ message GraphicsResourceUsage {
   optional uint32 renderthread_count = 3;
   optional uint64 colorbuffer_total_allocation_bytes = 4;
   // Vulkan
-  optional VulkanResourceUsage vulkan_resource_usage = 5;
+  optional VulkanResourceUsage vulkan_resource_usage = 5 [lazy = true];
 }
 
 // Emulator resource usage statistics
@@ -3476,12 +3524,12 @@ message EmulatorResourceUsage {
     GUEST_CPU_USAGE_OTHER = 6;
   }
   optional RunCondition run_condition = 1;
-  optional CpuTimeSlice main_loop_slice = 2;
+  optional CpuTimeSlice main_loop_slice = 2 [lazy = true];
   repeated CpuTimeSlice vcpu_slices = 3;
   repeated CpuTimeSlice guest_cpu_slices = 4;
   repeated GuestCpuUsageSource top_guest_cpu_usage_sources = 5;
-  optional EmulatorMemoryUsage memory_usage = 6;
-  optional GraphicsResourceUsage graphics_resource_usage = 7;
+  optional EmulatorMemoryUsage memory_usage = 6 [lazy = true];
+  optional GraphicsResourceUsage graphics_resource_usage = 7 [lazy = true];
 }
 
 // Emulator latency statistics
@@ -3524,8 +3572,8 @@ message EmulatorPerformanceStats {
   // the emulator process was launched---this is not a timestamp.
   optional uint64 process_uptime_us = 3;
   // Resource usage and latency stats.
-  optional EmulatorResourceUsage resource_usage = 4;
-  optional EmulatorLatencyStats latency_stats = 5;
+  optional EmulatorResourceUsage resource_usage = 4 [lazy = true];
+  optional EmulatorLatencyStats latency_stats = 5 [lazy = true];
   // Guest system uptime when this was captured. Relative to when
   // the Android system image is started---this is not a timestamp.
   optional uint64 guest_uptime_us = 6;
@@ -3724,7 +3772,7 @@ message JniInspectionEvent {
 
   // Performance metrics for the inspection or completion event. This field
   // should only be set if `event_category` is `PERFORMANCE_EVENT`.
-  optional PerformanceEvent performance_event = 3;
+  optional PerformanceEvent performance_event = 3 [lazy = true];
 }
 
 // Metrics related to C++ header file view in Android Project
@@ -3865,7 +3913,7 @@ message TestRun {
   optional bool code_coverage_enabled = 6;
 
   // Provides details on commonly used test libraries.
-  optional TestLibraries test_libraries = 7;
+  optional TestLibraries test_libraries = 7 [lazy = true];
 
   // Only set when test_kind=INSTRUMENTATION_TEST
   optional TestExecution test_execution = 8;
@@ -3873,10 +3921,11 @@ message TestRun {
   // Whether the feature Automatic Snapshot on Test Failure is enabled.
   // Currently only set when test_invocation_type =
   // ANDROID_STUDIO_THROUGH_GRADLE.
-  optional AutomaticSnapshotOnFailure automatic_snapshot_on_failure = 9;
+  optional AutomaticSnapshotOnFailure automatic_snapshot_on_failure = 9
+      [lazy = true];
 
   // Only set when test_kind=PREVIEW_SCREENSHOT_TEST
-  optional PreviewScreenshotRun preview_screenshot_run = 10;
+  optional PreviewScreenshotRun preview_screenshot_run = 10 [lazy = true];
 
   // Only set when test_kind=INSTRUMENTATION_TEST
   repeated DeviceTestSpanProfile device_test_span_profiles = 11;
@@ -4219,7 +4268,7 @@ message GradleBuildProfile {
   repeated GradleBuildProfileSpan span = 16;
 
   // For instant run builds: the resulting instant run build info.
-  optional InstantRunStatus instant_run_status = 17;
+  optional InstantRunStatus instant_run_status = 17 [lazy = true];
 
   // Client-side salted, sha256 of the root project path.
   // This exists to allow multiple instant run builds in one project by one
@@ -4271,7 +4320,7 @@ message GradleBuildProject {
 
   // Statistics about the project build.
   // Will be used to characterize and bucket projects for subgroup analysis.
-  optional GradleBuildProjectMetrics metrics = 6;
+  optional GradleBuildProjectMetrics metrics = 6 [lazy = true];
 
   // The variants in this project
   repeated GradleBuildVariant variant = 7;
@@ -4285,14 +4334,14 @@ message GradleBuildProject {
   optional string compile_sdk = 9;
 
   // The split config as defined by the user in the DSL.
-  optional GradleBuildSplits splits = 10;
+  optional GradleBuildSplits splits = 10 [lazy = true];
 
   // Version of the Kotlin Gradle plugin used, if any.
   // e.g. '1.1.3'
   optional string kotlin_plugin_version = 11;
 
   // The project options as set by the user or by studio.
-  optional GradleProjectOptionsSettings options = 12;
+  optional GradleProjectOptionsSettings options = 12 [lazy = true];
 
   // All of the gradle plugins applied to this project
   repeated GradlePlugin plugin = 13;
@@ -4314,13 +4363,13 @@ message GradleBuildProject {
   repeated string task_names = 17;
 
   // Records use of APIs used at the sub-project level
-  optional ProjectApiUse project_api_use = 18;
+  optional ProjectApiUse project_api_use = 18 [lazy = true];
 
   // All the gradle plugins applied to this project.
   repeated GradlePluginData applied_plugins = 19;
 
   // Java compilation options
-  optional CompileOptions compile_options = 20;
+  optional CompileOptions compile_options = 20 [lazy = true];
 
   // The NDK version
   optional string ndk_version = 21;
@@ -4629,11 +4678,11 @@ message GradleBuildVariant {
 
   // The various device api versions of this variant.
   // Minimum supported.
-  optional ApiVersion min_sdk_version = 12;
+  optional ApiVersion min_sdk_version = 12 [lazy = true];
   // Target sdk version.
-  optional ApiVersion target_sdk_version = 13;
+  optional ApiVersion target_sdk_version = 13 [lazy = true];
   // The maximum sdk version
-  optional ApiVersion max_sdk_version = 14;
+  optional ApiVersion max_sdk_version = 14 [lazy = true];
   optional DexBuilderTool dex_builder = 15;
   optional DexMergerTool dex_merger = 16;
   optional CodeShrinkerTool code_shrinker = 17;
@@ -4658,10 +4707,10 @@ message GradleBuildVariant {
   optional bool core_library_desugaring_enabled = 24;
 
   // container for variant api accesses if the variant api was used.
-  optional VariantApiUsage variant_api_access = 25;
+  optional VariantApiUsage variant_api_access = 25 [lazy = true];
 
   // Kotlin-specific options in build files
-  optional KotlinOptions kotlin_options = 26;
+  optional KotlinOptions kotlin_options = 26 [lazy = true];
 
   // List of registered classes transforms
   repeated AsmClassesTransformRegistration asm_classes_transforms = 27;
@@ -4684,8 +4733,8 @@ message GradleBuildVariant {
   optional bool has_test_fixtures = 32;
 
   // information about the privacy sandbox SDKs this project consumes
-  optional PrivacySandboxDependenciesInfo privacy_sandbox_dependencies_info =
-      33;
+  optional PrivacySandboxDependenciesInfo privacy_sandbox_dependencies_info = 33
+      [lazy = true];
 
   // The nature of this variant.
   // The test variants have an associated tested variant.
@@ -4880,7 +4929,7 @@ message GradleBuildMemorySample {
   optional int64 timestamp = 3;
 
   // More detailed stats on the current running java process.
-  optional JavaProcessStats java_process_stats = 4;
+  optional JavaProcessStats java_process_stats = 4 [lazy = true];
 }
 
 // A single execution span from a build.
@@ -4908,11 +4957,11 @@ message GradleBuildProfileSpan {
   // More informations about the execution of TransformTasks.
   // Only used when executionType is TASK_TRANSFORM_PREPARATION or
   // TASK_TRANSFORM.
-  optional GradleTransformExecution transform = 6;
+  optional GradleTransformExecution transform = 6 [lazy = true];
 
   // More informations about the execution of Tasks.
   // Only used when executionType is TASK_EXECUTION
-  optional GradleTaskExecution task = 9;
+  optional GradleTaskExecution task = 9 [lazy = true];
 
   // Session id of the GradleBuildProject that this span is part of.
   // The ID is not stable nor meaningful over multiple GradleBuildProfile.
@@ -5617,7 +5666,7 @@ message StudioPerformanceStats {
   // number of events handled, quantized by event_service_time_sample_period.
   // For example, if the 10-20ms bin contains 100 samples, it means that
   // approximately 100 events took between 10 and 20 milliseconds to process.
-  optional Histogram event_service_time_ms = 2;
+  optional Histogram event_service_time_ms = 2 [lazy = true];
   // Sample period used to compute the event_service_time_ms histogram. For
   // example, if this is set to 10 then the service time was measured for
   // every 10th event, and each measurement counted for 10 samples in
@@ -5625,7 +5674,7 @@ message StudioPerformanceStats {
   // and is not needed for interpreting the histogram itself.
   optional int32 event_service_time_sample_period = 3;
   // Histogram of wait times for the global write lock
-  optional Histogram write_lock_wait_time_ms = 4;
+  optional Histogram write_lock_wait_time_ms = 4 [lazy = true];
   // Information about GC pause time distributions, one for each collector that
   // is active.
   repeated GcPauseInfo gc_pause_info = 5;
@@ -5647,7 +5696,7 @@ message GcPauseInfo {
   // The type of the garbage collector
   optional GcType collector_type = 1;
   // Distribution of pause times for this collector
-  optional Histogram pause_times_ms = 2;
+  optional Histogram pause_times_ms = 2 [lazy = true];
 }
 
 // One bucket of a PercentileEstimator.
@@ -5673,7 +5722,7 @@ message LldbPercentileEstimator {
   // Type of performance metric.
   optional Metric metric = 1;
   // Estimator for metric.
-  optional PercentileEstimator estimator = 2;
+  optional PercentileEstimator estimator = 2 [lazy = true];
 
   // Metric types that can be monitored.
   enum Metric {
@@ -5881,25 +5930,25 @@ message AtfResultDetail {
 // Details related to an ATF fix which been applied by the user
 message ApplyAtfFixEvent {
   // Details related to the ATF result which has been fixed
-  optional AtfResultDetail atf_result = 1;
+  optional AtfResultDetail atf_result = 1 [lazy = true];
 
   // Details related to the ATF fix which has been applied
-  optional AtfFixDetail atf_fix = 2;
+  optional AtfFixDetail atf_fix = 2 [lazy = true];
 }
 
 // Details related to an ATF result which has been marked as ignored by the user
 message IgnoreAtfResultEvent {
   // Details related to the ATF result which has been ignored
-  optional AtfResultDetail atf_result = 1;
+  optional AtfResultDetail atf_result = 1 [lazy = true];
 }
 
 // Details related to undoing an applied ATF fix by the user
 message UndoAppliedAtfFixEvent {
   // Details related to the ATF result which produced the undone fix suggestion
-  optional AtfResultDetail atf_result = 1;
+  optional AtfResultDetail atf_result = 1 [lazy = true];
 
   // Details related to the ATF fix that was undone
-  optional AtfFixDetail atf_fix = 2;
+  optional AtfFixDetail atf_fix = 2 [lazy = true];
 }
 
 // A user interaction with the layout editor animation previewer
@@ -6249,7 +6298,7 @@ message EditorPickerEvent {
       // Available when a @Preview field was modified through the Preview
       // picker. Describes the modification performed, such as the parameter
       // modified and the value assigned to it.
-      PreviewPickerModification preview_modification = 1;
+      PreviewPickerModification preview_modification = 1 [lazy = true];
     }
   }
 
@@ -6318,7 +6367,7 @@ message LayoutPaletteEvent {
   }
 
   // The View that was dropped onto the design surface from the palette.
-  optional AndroidView view = 1;
+  optional AndroidView view = 1 [lazy = true];
   // The view option used.
   optional ViewOption view_option = 2;
   // The group selected to find the view
@@ -6339,7 +6388,7 @@ message LayoutAttributeChangeEvent {
   }
 
   // The attribute changed by this event
-  optional AndroidAttribute attribute = 1;
+  optional AndroidAttribute attribute = 1 [lazy = true];
   // The search option used when the attribute was changed
   optional SearchOption search_option = 2;
   // The display option used when the attribute was changed
@@ -6350,9 +6399,9 @@ message LayoutAttributeChangeEvent {
 
 message LayoutFavoriteAttributeChangeEvent {
   // This attribute was added as a favorite attribute
-  optional AndroidAttribute added = 1;
+  optional AndroidAttribute added = 1 [lazy = true];
   // This attribute was removed as a favorite attribute
-  optional AndroidAttribute removed = 2;
+  optional AndroidAttribute removed = 2 [lazy = true];
   // These are the resulting active favorite attibutes
   repeated AndroidAttribute active = 3;
 }
@@ -6440,30 +6489,32 @@ message LayoutEditorEvent {
   // Type of event
   optional LayoutEditorEventType type = 1;
   // Layout editor current state
-  optional LayoutEditorState state = 2;
+  optional LayoutEditorState state = 2 [lazy = true];
   // Result of the render when (type = RENDER)
-  optional LayoutEditorRenderResult render_result = 3;
+  optional LayoutEditorRenderResult render_result = 3 [lazy = true];
   // Details related to using the palette (type = DROP_VIEW_FROM_PALETTE)
-  optional LayoutPaletteEvent palette_event = 4;
+  optional LayoutPaletteEvent palette_event = 4 [lazy = true];
   // Details related to changing an attribute (type = ATTRIBUTE_CHANGE)
-  optional LayoutAttributeChangeEvent attribute_change_event = 5;
+  optional LayoutAttributeChangeEvent attribute_change_event = 5 [lazy = true];
   // Details related to favorite attribute changes (type = FAVORITE_CHANGE)
-  optional LayoutFavoriteAttributeChangeEvent favorite_change_event = 6;
+  optional LayoutFavoriteAttributeChangeEvent favorite_change_event = 6
+      [lazy = true];
   // Result of the atf audit (type = ATF_AUDIT_RESULT)
-  optional AtfAuditResult atf_audit_result = 7;
+  optional AtfAuditResult atf_audit_result = 7 [lazy = true];
   // Details related to applying an atf fix (type = APPLY_ATF_FIX)
-  optional ApplyAtfFixEvent apply_atf_fix_event = 8;
+  optional ApplyAtfFixEvent apply_atf_fix_event = 8 [lazy = true];
   // Details related to ignoring an atf result (type = IGNORE_ATF_FIX)
-  optional IgnoreAtfResultEvent ignore_atf_result_event = 9;
+  optional IgnoreAtfResultEvent ignore_atf_result_event = 9 [lazy = true];
   // Details related to undoing an applied atf fix (type = UNDO_APPLIED_ATF_FIX)
-  optional UndoAppliedAtfFixEvent undo_applied_atf_fix_event = 10;
+  optional UndoAppliedAtfFixEvent undo_applied_atf_fix_event = 10 [lazy = true];
   // Details related to interacting animation preview (type = ANIMATION_PREVIEW)
-  optional AnimationPreviewEvent animation_preview_event = 11;
+  optional AnimationPreviewEvent animation_preview_event = 11 [lazy = true];
   // Details related to visual linting (type = VISUAL_LINT)
-  optional VisualLintEvent visual_lint_event = 12;
+  optional VisualLintEvent visual_lint_event = 12 [lazy = true];
   // Details related to universal problems panel (type =
   // UNIVERSAL_PROBLEMS_PANEL)
-  optional UniversalProblemsPanelEvent universal_problems_panel_event = 13;
+  optional UniversalProblemsPanelEvent universal_problems_panel_event = 13
+      [lazy = true];
   // Type of the file, i.e. which language the file in the editor is in
   optional EditorFileType editor_file_type = 14;
 }
@@ -6559,16 +6610,16 @@ message NavEditorEvent {
   // Where the event was triggered
   optional Source source = 2;
   // If the event is property-related, information about the affected property
-  optional NavPropertyInfo property_info = 3;
+  optional NavPropertyInfo property_info = 3 [lazy = true];
   // If the event is action-related, information about the relevant action
-  optional NavActionInfo action_info = 4;
+  optional NavActionInfo action_info = 4 [lazy = true];
   // If the event is destination-related, information about the relevant
   // destination
-  optional NavDestinationInfo destination_info = 5;
+  optional NavDestinationInfo destination_info = 5 [lazy = true];
   // Information about the current NavigationSchema
-  optional NavSchemaInfo schema_info = 6;
+  optional NavSchemaInfo schema_info = 6 [lazy = true];
   // Information on the current contents of the navigation file
-  optional NavigationContents contents = 7;
+  optional NavigationContents contents = 7 [lazy = true];
   // Mode of navigation editor: design-only, text-only, or split view
   optional NavEditorMode mode = 8;
 }
@@ -6700,7 +6751,7 @@ message NavigationContents {
 
 message NavSafeArgsEvent {
   optional EventContext event_context = 1;
-  optional ProjectMetadata project_metadata = 2;
+  optional ProjectMetadata project_metadata = 2 [lazy = true];
 
   enum EventContext {
     UNKNOWN_EVENT_CONTEXT = 0;
@@ -6761,14 +6812,14 @@ message AppLinksAssistantEvent {
   // and for PWG approved scenarios.
   optional string raw_project_id = 10;
 
-  optional ValidationSummary validation_summary = 11;
+  optional ValidationSummary validation_summary = 11 [lazy = true];
 
-  optional IntentFilterFix intent_filter_fix = 12;
+  optional IntentFilterFix intent_filter_fix = 12 [lazy = true];
 
   optional LinkFilterOption link_filter_option = 13;
 
   // The information of an interacted link collected for impact tracking.
-  optional LinksRecord links_record = 14;
+  optional LinksRecord links_record = 14 [lazy = true];
 
   // UI event source.
   enum EventSource {
@@ -7033,7 +7084,7 @@ message CpuProfilingConfig {
 
 // Data associated with startup CPU profiling
 message CpuStartupProfilingMetadata {
-  optional CpuProfilingConfig profiling_config = 1;
+  optional CpuProfilingConfig profiling_config = 1 [lazy = true];
 }
 
 // Data associated with API-initiated tracing
@@ -7156,7 +7207,7 @@ message CpuCaptureMetadata {
   optional uint64 parsing_time_ms = 5;
 
   // The user's configuration used to generate this capture
-  optional CpuProfilingConfig profiling_config = 6;
+  optional CpuProfilingConfig profiling_config = 6 [lazy = true];
 
   // Timeout set by the user for the system "profiler.cpu.art.stop.timeout.sec"
   // property. Set if |profiling_config.type| is |ART|.
@@ -7448,7 +7499,7 @@ message RunWithProfilingMetadata {
   optional ProfilingMode profiling_mode = 1;
 
   // Information about the active build variant.
-  optional BuildVariantMetadata build_variant_metadata = 2;
+  optional BuildVariantMetadata build_variant_metadata = 2 [lazy = true];
 
   enum ProfilingMode {
     UNKNOWN_PROFILING_MODE = 0;
@@ -7519,7 +7570,7 @@ message TaskMetadata {
   // non-unspecified value if the |task_data_origin| is |NEW|.
   optional ExposureLevel exposure_level = 5;
   // The task configuration used (if the task has a customizable configuration).
-  optional TaskConfig task_config = 6;
+  optional TaskConfig task_config = 6 [lazy = true];
 
   enum ProfilerTaskType {
     PROFILER_TASK_TYPE_UNSPECIFIED = 0;
@@ -7561,11 +7612,13 @@ message TaskMetadata {
 
   message TaskConfig {
     oneof union {
-      CallstackSampleTaskConfig callstack_sample_task_config = 1;
-      JavaKotlinMethodTraceTaskConfig java_kotlin_method_trace_task_config = 2;
-      JavaKotlinMethodSampleTaskConfig java_kotlin_method_sample_task_config =
-          3;
-      NativeAllocationsTaskConfig native_allocations_task_config = 4;
+      CallstackSampleTaskConfig callstack_sample_task_config = 1 [lazy = true];
+      JavaKotlinMethodTraceTaskConfig java_kotlin_method_trace_task_config = 2
+          [lazy = true];
+      JavaKotlinMethodSampleTaskConfig java_kotlin_method_sample_task_config = 3
+          [lazy = true];
+      NativeAllocationsTaskConfig native_allocations_task_config = 4
+          [lazy = true];
     }
   }
 
@@ -7590,13 +7643,13 @@ message TaskMetadata {
 // Metadata for the TASK_ENTERED event (when a user enters a task).
 message TaskEnteredMetadata {
   // The task data.
-  optional TaskMetadata task_data = 1;
+  optional TaskMetadata task_data = 1 [lazy = true];
 }
 
 // Metadata for the TASK_FINISHED event (when a task finishes).
 message TaskFinishedMetadata {
   // The task data.
-  optional TaskMetadata task_data = 1;
+  optional TaskMetadata task_data = 1 [lazy = true];
   // The state of the task on finish.
   optional TaskFinishedState task_finished_state = 2;
 
@@ -7610,7 +7663,7 @@ message TaskFinishedMetadata {
 // Metadata for the TASK_FAILED event (when a task fails).
 message TaskFailedMetadata {
   // The task data.
-  optional TaskMetadata task_data = 1;
+  optional TaskMetadata task_data = 1 [lazy = true];
   // The point in the task lifecycle it failed.
   optional FailingPoint failing_point = 2;
 
@@ -7623,31 +7676,32 @@ message TaskFailedMetadata {
 
   oneof union {
     // Set if |failing_point| is |TASK_START|
-    TaskStartFailedMetadata task_start_failure_metadata = 3;
+    TaskStartFailedMetadata task_start_failure_metadata = 3 [lazy = true];
     // Set if |failing_point| is |TASK_STOP|
-    TaskStopFailedMetadata task_stop_failure_metadata = 4;
+    TaskStopFailedMetadata task_stop_failure_metadata = 4 [lazy = true];
     // Set if |failing_point| is |TASK_PROCESSING|
-    TaskProcessingFailedMetadata task_processing_failure_metadata = 5;
+    TaskProcessingFailedMetadata task_processing_failure_metadata = 5
+        [lazy = true];
   }
 
   message TaskStartFailedMetadata {
     oneof union {
-      TraceStartStatus trace_start_status = 1;
-      AllocationTrackStatus track_status = 2;
-      HeapDumpStatus heap_dump_start_status = 3;
+      TraceStartStatus trace_start_status = 1 [lazy = true];
+      AllocationTrackStatus track_status = 2 [lazy = true];
+      HeapDumpStatus heap_dump_start_status = 3 [lazy = true];
     }
   }
 
   message TaskStopFailedMetadata {
     oneof union {
-      CpuCaptureMetadata cpu_capture_metadata = 1;
-      TraceStopStatus trace_stop_status = 2;
-      AllocationTrackStatus track_status = 3;
+      CpuCaptureMetadata cpu_capture_metadata = 1 [lazy = true];
+      TraceStopStatus trace_stop_status = 2 [lazy = true];
+      AllocationTrackStatus track_status = 3 [lazy = true];
     }
   }
 
   message TaskProcessingFailedMetadata {
-    optional CpuCaptureMetadata cpu_capture_metadata = 1;
+    optional CpuCaptureMetadata cpu_capture_metadata = 1 [lazy = true];
   }
 
   message TraceStartStatus {
@@ -7833,89 +7887,99 @@ message AndroidProfilerEvent {
 
   // Used to be set if |type| was |TRACE_CPU|
   // Deprecated since 3.0.0.8 and superseded by cpu_capture_metadata
-  optional CpuProfilingConfig cpu_config = 3 [deprecated = true];
+  optional CpuProfilingConfig cpu_config = 3 [deprecated = true, lazy = true];
 
   // Set if |type| is |CAPTURE_TRACE|
-  optional CpuCaptureMetadata cpu_capture_metadata = 4;
+  optional CpuCaptureMetadata cpu_capture_metadata = 4 [lazy = true];
 
   // Set if |type| is |FILTER|
-  optional FilterMetadata filter_metadata = 5;
+  optional FilterMetadata filter_metadata = 5 [lazy = true];
 
   // Set if |type| is |SELECT_MEMORY_HEAP|
   optional MemoryHeap memory_heap = 6;
 
   // Set if |type| is |SESSION_CREATED|
-  optional ProfilerSessionCreationMetaData session_start_metadata = 7;
+  optional ProfilerSessionCreationMetaData session_start_metadata = 7
+      [lazy = true];
 
   // Set if |type| is |SESSION_ARTIFACT_SELECTED|
-  optional ProfilerSessionSelectionMetaData session_artifact_metadata = 8;
+  optional ProfilerSessionSelectionMetaData session_artifact_metadata = 8
+      [lazy = true];
 
   // Set if |type| is |CPU_STARTUP_PROFILING|
-  optional CpuStartupProfilingMetadata cpu_startup_profiling_metadata = 9;
+  optional CpuStartupProfilingMetadata cpu_startup_profiling_metadata = 9
+      [lazy = true];
 
   // Set if |type| is |CPU_IMPORT_TRACE|
-  optional CpuImportTraceMetadata cpu_import_trace_metadata = 10;
+  optional CpuImportTraceMetadata cpu_import_trace_metadata = 10 [lazy = true];
 
   // Set if |type| is |CPU_API_TRACING|
-  optional CpuApiTracingMetadata cpu_api_tracing_metadata = 11;
+  optional CpuApiTracingMetadata cpu_api_tracing_metadata = 11 [lazy = true];
 
   // Set if |type| is |SELECT_ENERGY_RANGE|
-  optional EnergyRangeMetadata energy_range_metadata = 12;
+  optional EnergyRangeMetadata energy_range_metadata = 12 [lazy = true];
 
   // Set if |type| is |SELECT_ENERGY_EVENT|
-  optional EnergyEventMetadata energy_event_metadata = 13;
+  optional EnergyEventMetadata energy_event_metadata = 13 [lazy = true];
 
   // Set if |type| is |PERFD_CRASHED|
-  optional PerfdCrashInfo perfd_crash_info = 14;
+  optional PerfdCrashInfo perfd_crash_info = 14 [lazy = true];
 
   // Set if |type| is |TRANSPORT_DAEMON_FAILED| OR |TRANSPORT_PROXY_FAILED|
-  optional TransportFailureMetadata transport_failure_metadata = 15;
+  optional TransportFailureMetadata transport_failure_metadata = 15
+      [lazy = true];
 
   // Set if |type| is |MEMORY_INSTANCE_FILTER|
-  optional MemoryInstanceFilterMetadata memory_instance_filter_metadata = 16;
+  optional MemoryInstanceFilterMetadata memory_instance_filter_metadata = 16
+      [lazy = true];
 
   // Set if |type| is |TRANSPORT_DAEMON_STARTED|
-  optional TransportDaemonStartedInfo transport_daemon_started_info = 17;
+  optional TransportDaemonStartedInfo transport_daemon_started_info = 17
+      [lazy = true];
 
   // Set if |type| is |TPD_MANAGER_*|
-  optional TraceProcessorDaemonManagerStats tpd_manager_stats = 18;
+  optional TraceProcessorDaemonManagerStats tpd_manager_stats = 18
+      [lazy = true];
 
   // Set if |type| is |TPD_QUERY_*|
-  optional TraceProcessorDaemonQueryStats tpd_query_stats = 19;
+  optional TraceProcessorDaemonQueryStats tpd_query_stats = 19 [lazy = true];
 
   // Set if |type| is |SELECT_BOX|
-  optional AdtUiBoxSelectionMetadata box_selection_metadata = 20;
+  optional AdtUiBoxSelectionMetadata box_selection_metadata = 20 [lazy = true];
 
   // Set if |type| is |TRACK_GROUP_METADATA|
-  optional AdtUiTrackGroupMetadata track_group_metadata = 21;
+  optional AdtUiTrackGroupMetadata track_group_metadata = 21 [lazy = true];
 
   // Set if |type| is |SELECT_FRAME|, |TOGGLE_ALL_FRAMES|, or |TOGGLE_LIFECYCLE|
   optional uint32 event_count = 22;
 
   // Set if |type| is |LOADING|
-  optional Loading loading = 23;
+  optional Loading loading = 23 [lazy = true];
 
   // Set if |type| is |RUN_WITH_PROFILING|
-  optional RunWithProfilingMetadata run_with_profiling_metadata = 24;
+  optional RunWithProfilingMetadata run_with_profiling_metadata = 24
+      [lazy = true];
 
   // Set if |type| is |PERFETTO_SDK_HANDSHAKE|
-  optional PerfettoSdkHandshakeMetadata perfetto_sdk_handshake_metadata = 25;
+  optional PerfettoSdkHandshakeMetadata perfetto_sdk_handshake_metadata = 25
+      [lazy = true];
 
   // Set if |type| is |RESOLVE_COMPOSE_TRACING_CODE_LOCATION|
   optional ResolveComposeTracingCodeLocationMetadata
-      resolve_compose_tracing_code_location_metadata = 26;
+      resolve_compose_tracing_code_location_metadata = 26 [lazy = true];
 
   // Set if |type| is |POWER_PROFILER_DATA_CAPTURED|
-  optional PowerProfilerCaptureMetadata power_profiler_capture_metadata = 27;
+  optional PowerProfilerCaptureMetadata power_profiler_capture_metadata = 27
+      [lazy = true];
 
   // Set if |type| is |TASK_ENTERED|
-  optional TaskEnteredMetadata task_entered_metadata = 28;
+  optional TaskEnteredMetadata task_entered_metadata = 28 [lazy = true];
 
   // Set if |type| is |TASK_FINISHED|
-  optional TaskFinishedMetadata task_finished_metadata = 29;
+  optional TaskFinishedMetadata task_finished_metadata = 29 [lazy = true];
 
   // Set if |type| is |TASK_FAILED|
-  optional TaskFailedMetadata task_failed_metadata = 30;
+  optional TaskFailedMetadata task_failed_metadata = 30 [lazy = true];
 
   // Set if |type| is |TASK_SETTINGS_OPENED|
   optional bool is_task_settings_changed = 31;
@@ -8232,7 +8296,7 @@ message GradleSyncStats {
   // parallel is requested, Gradle may decide to run it sequentially.
   optional StudioRequestedExecution studio_requested_sync_type = 14;
   // Data on downloads happened during sync.
-  optional BuildDownloadsAnalysisData downloads_data = 15;
+  optional BuildDownloadsAnalysisData downloads_data = 15 [lazy = true];
   // Data on Version Catalog use.
   optional GradleVersionCatalogDetectorEvent.State
       version_catalog_detector_state = 16;
@@ -8705,15 +8769,17 @@ message DynamicLayoutInspectorEvent {
   // Type of event
   optional DynamicLayoutInspectorEventType type = 1;
   // Data for the layout inspector session
-  optional DynamicLayoutInspectorSession session = 2;
+  optional DynamicLayoutInspectorSession session = 2 [lazy = true];
   // Additional information that will be available when looking at a snapshot
-  optional DynamicLayoutInspectorSnapshotInfo snapshot_info = 3;
+  optional DynamicLayoutInspectorSnapshotInfo snapshot_info = 3 [lazy = true];
   // Extra info for error-related events
-  optional DynamicLayoutInspectorErrorInfo error_info = 4;
+  optional DynamicLayoutInspectorErrorInfo error_info = 4 [lazy = true];
   // Extra info about auto connect to foreground process
-  optional DynamicLayoutInspectorAutoConnectInfo auto_connect_info = 5;
+  optional DynamicLayoutInspectorAutoConnectInfo auto_connect_info = 5
+      [lazy = true];
   // An error from the transport that prevents Layout Inspector from starting
-  optional DynamicLayoutInspectorTransportError transport_error = 6;
+  optional DynamicLayoutInspectorTransportError transport_error = 6
+      [lazy = true];
 }
 
 // Transport related errors
@@ -8954,19 +9020,20 @@ message DynamicLayoutInspectorSnapshotInfo {
 // Session data for dynamic layout inspector (inspector v2)
 message DynamicLayoutInspectorSession {
   // Session data around live versus refresh mode
-  optional DynamicLayoutInspectorLiveMode live = 1;
+  optional DynamicLayoutInspectorLiveMode live = 1 [lazy = true];
   // Session data around 3D rotation
-  optional DynamicLayoutInspectorRotation rotation = 2;
+  optional DynamicLayoutInspectorRotation rotation = 2 [lazy = true];
   // Session data around memory usage
-  optional DynamicLayoutInspectorMemory memory = 3;
+  optional DynamicLayoutInspectorMemory memory = 3 [lazy = true];
   // Session data around compose
-  optional DynamicLayoutInspectorCompose compose = 4;
+  optional DynamicLayoutInspectorCompose compose = 4 [lazy = true];
   // Session data around the system view toggle
-  optional DynamicLayoutInspectorSystemNode system = 5;
+  optional DynamicLayoutInspectorSystemNode system = 5 [lazy = true];
   // Session data around goto declaration
-  optional DynamicLayoutInspectorGotoDeclaration goto_declaration = 6;
+  optional DynamicLayoutInspectorGotoDeclaration goto_declaration = 6
+      [lazy = true];
   // Session data around attachment to process
-  optional DynamicLayoutInspectorAttachToProcess attach = 7;
+  optional DynamicLayoutInspectorAttachToProcess attach = 7 [lazy = true];
 }
 
 // Session data for dynamic layout inspector (inspector v2) around live mode
@@ -9038,9 +9105,9 @@ message DynamicLayoutInspectorSystemNode {
 // Session data for dynamic layout inspector (inspector v2) around memory usage
 message DynamicLayoutInspectorMemory {
   // Memory snapshot for the first image rendered
-  optional Snapshot initial_snapshot = 1;
+  optional Snapshot initial_snapshot = 1 [lazy = true];
   // Memory snapshot for the image requiring the most memory in the session
-  optional Snapshot largest_snapshot = 2;
+  optional Snapshot largest_snapshot = 2 [lazy = true];
 
   message Snapshot {
     // True if the image was based on a skia snapshot, false it was a bitmap
@@ -9074,7 +9141,7 @@ message DynamicLayoutInspectorAttachToProcess {
   // True if the attach to process succeeded
   optional bool success = 2;
   // Error information if the attach failed
-  optional DynamicLayoutInspectorErrorInfo error_info = 3;
+  optional DynamicLayoutInspectorErrorInfo error_info = 3 [lazy = true];
   // Error information if the compose inspector failed
   optional DynamicLayoutInspectorErrorInfo.AttachErrorCode compose_error_code =
       4;
@@ -9345,7 +9412,7 @@ message LintSession {
   optional AnalysisType analysis_type = 1;
 
   // performance metrics regarding this session
-  optional LintPerformance lint_performance = 2;
+  optional LintPerformance lint_performance = 2 [lazy = true];
 
   // lint issue id's (counts, severity, etc)
   repeated LintIssueId issue_ids = 3;
@@ -10141,10 +10208,10 @@ message DataBindingEvent {
   optional DataBindingContext context = 2;
 
   // Set if |type| is |DATA_BINDING_BUILD_EVENT| or |DATA_BINDING_SYNC_EVENT|
-  optional DataBindingPollMetadata poll_metadata = 3;
+  optional DataBindingPollMetadata poll_metadata = 3 [lazy = true];
 
   // Collects view binding layout count when |type| = |DATA_BINDING_BUILD_EVENT|
-  optional ViewBindingPollMetadata view_binding_metadata = 4;
+  optional ViewBindingPollMetadata view_binding_metadata = 4 [lazy = true];
 
   // Type of data binding event
   enum EventType {
@@ -10205,13 +10272,13 @@ message DataBindingEvent {
     optional uint32 data_binding_enabled_module_count = 8;
 
     // Observable type metrics
-    optional ObservableMetrics observable_metrics = 101;
+    optional ObservableMetrics observable_metrics = 101 [lazy = true];
 
     // Binding adapter metrics
-    optional BindingAdapterMetrics binding_adapter_metrics = 102;
+    optional BindingAdapterMetrics binding_adapter_metrics = 102 [lazy = true];
 
     // Live Data metrics
-    optional LiveDataMetrics live_data_metrics = 103;
+    optional LiveDataMetrics live_data_metrics = 103 [lazy = true];
 
     message ObservableMetrics {
       // # of observable primitives used
@@ -10277,6 +10344,8 @@ enum EditorFileType {
   KOTLIN_COMPOSE = 24;
   TOML = 25;
   CMAKE = 26;
+  PROTO = 27;                 // .proto
+  PROTO_WITHOUT_PLUGIN = 28;  // .proto (if Protocol Buffers plugin is missing)
 }
 
 message TypingLatencyStats {
@@ -10289,7 +10358,7 @@ message TypingLatencyStats {
     // Max latency recorded for a single key typed.
     optional int64 max_latency_ms = 4;
     // Full latency histogram.
-    optional Histogram histogram = 5;
+    optional Histogram histogram = 5 [lazy = true];
   }
   // Per-file-type latency stats.
   repeated LatencyRecord latency_records = 1;
@@ -10301,7 +10370,7 @@ message EditorHighlightingStats {
   message Stats {
     optional EditorFileType file_type = 1;
     // Highlighting latencies in milliseconds.
-    optional Histogram histogram = 2;
+    optional Histogram histogram = 2 [lazy = true];
   }
   repeated Stats by_file_type = 1;
 }
@@ -10311,11 +10380,11 @@ message EditorCompletionStats {
     // File type (e.g., Java).
     optional EditorFileType file_type = 1;
     // Time in milliseconds to show initial completion popup.
-    optional Histogram popup_latency = 2;
+    optional Histogram popup_latency = 2 [lazy = true];
     // Time in milliseconds to fill *all* completion results.
-    optional Histogram full_completion_latency = 3;
+    optional Histogram full_completion_latency = 3 [lazy = true];
     // Time in milliseconds to insert a selected completion item.
-    optional Histogram insertion_latency = 4;
+    optional Histogram insertion_latency = 4 [lazy = true];
   }
   // Completion stats for each file type.
   repeated Stats by_file_type = 1;
@@ -10326,13 +10395,13 @@ message StudioPatchUpdaterEvent {
   optional Kind kind = 1;
 
   // Information about the patch itself
-  optional Patch patch = 2;
+  optional Patch patch = 2 [lazy = true];
 
   // Details about patch updater issues presented to the user.
-  optional IssueDialog issue_dialog = 3;
+  optional IssueDialog issue_dialog = 3 [lazy = true];
 
   // Options chosen by the user from the
-  optional IssueDialogChoices issue_dialog_choices = 4;
+  optional IssueDialogChoices issue_dialog_choices = 4 [lazy = true];
 
   // The kind of event reported
   enum Kind {
@@ -10573,11 +10642,11 @@ message MemorySettingsEvent {
   // Kind of the event.
   optional EventKind kind = 1;
   // Current memory settings.
-  optional MemorySettings current = 2;
+  optional MemorySettings current = 2 [lazy = true];
   // Recommended memory settings.
-  optional MemorySettings recommended = 3;
+  optional MemorySettings recommended = 3 [lazy = true];
   // New memory settings changed by users (may or may not be saved yet).
-  optional MemorySettings changed = 4;
+  optional MemorySettings changed = 4 [lazy = true];
 
   enum EventKind {
     UNKNOWN = 0;
@@ -10851,6 +10920,45 @@ message ComposeAnimationToolingEvent {
   optional float animation_speed_multiplier = 2;
 }
 
+// Details for Wear Tile animation tooling event
+message WearTileAnimationToolingEvent {
+  enum WearTileAnimationToolingEventType {
+    UNKNOWN_EVENT_TYPE = 0;
+    OPEN_ANIMATION_INSPECTOR = 1;
+    CLOSE_ANIMATION_INSPECTOR = 2;
+    // Track when the animation inspector is available for Wear Tile previews.
+    ANIMATION_INSPECTOR_AVAILABLE = 3;
+    TRIGGER_PLAY_ACTION = 4;
+    TRIGGER_PAUSE_ACTION = 5;
+    ENABLE_LOOP_ACTION = 6;
+    DISABLE_LOOP_ACTION = 7;
+    CHANGE_ANIMATION_SPEED = 8;
+    TRIGGER_JUMP_TO_START_ACTION = 9;
+    TRIGGER_JUMP_TO_END_ACTION = 10;
+    CHANGE_START_STATE = 11;
+    CHANGE_END_STATE = 12;
+    TRIGGER_SWAP_STATES_ACTION = 13;
+    CLICK_ANIMATION_INSPECTOR_TIMELINE = 14;
+    DRAG_ANIMATION_INSPECTOR_TIMELINE = 15;
+    EXPAND_ANIMATION_CARD = 16;
+    COLLAPSE_ANIMATION_CARD = 17;
+    OPEN_ANIMATION_IN_TAB = 18;
+    CLOSE_ANIMATION_TAB = 19;
+    LOCK_ANIMATION = 20;
+    UNLOCK_ANIMATION = 21;
+    RESET_TIMELINE = 22;
+    DRAG_TIMELINE_LINE = 23;
+    // Open the picker to change the state of the animation.
+    OPEN_PICKER = 24;
+  }
+
+  // Type of event.
+  optional WearTileAnimationToolingEventType type = 1;
+  // Multiplier of the animation speed (e.g. 1.5x, 0.25x).
+  // Set when type is CHANGE_ANIMATION_SPEED.
+  optional float animation_speed_multiplier = 2;
+}
+
 // Details for Compose MultiPreview event
 message ComposeMultiPreviewEvent {
   // One for each new or modified node in the MultiPreview graph, in terms of
@@ -11031,7 +11139,7 @@ message BuildAttribuitionTaskIdentifier {
   // ex: MergeResources, JavaPreCompileTask
   optional string task_class_name = 1;
   // The plugin that registered this task
-  optional BuildAttributionPluginIdentifier origin_plugin = 2;
+  optional BuildAttributionPluginIdentifier origin_plugin = 2 [lazy = true];
 }
 
 // Data about tasks that always run
@@ -11049,9 +11157,9 @@ message AlwaysRunTasksAnalyzerData {
     // The origin plugin of the always running task
     // Deprecated, use task_identifier instead
     optional BuildAttributionPluginIdentifier plugin_identifier = 2
-        [deprecated = true];
+        [deprecated = true, lazy = true];
     // The always running task identifier
-    optional BuildAttribuitionTaskIdentifier task_identifier = 3;
+    optional BuildAttribuitionTaskIdentifier task_identifier = 3 [lazy = true];
   }
 
   // The always running tasks detected by the analyzer
@@ -11081,7 +11189,8 @@ message CriticalPathAnalyzerData {
     // created
     optional int64 build_duration_ms = 1;
     // The plugin identifier
-    optional BuildAttributionPluginIdentifier plugin_identifier = 2;
+    optional BuildAttributionPluginIdentifier plugin_identifier = 2
+        [lazy = true];
   }
 
   // The total duration of the critical path
@@ -11103,7 +11212,8 @@ message ProjectConfigurationAnalyzerData {
     // The time it took to configure the plugin
     optional int64 plugin_configuration_time_ms = 1;
     // The plugin identifier
-    optional BuildAttributionPluginIdentifier plugin_identifier = 2;
+    optional BuildAttributionPluginIdentifier plugin_identifier = 2
+        [lazy = true];
   }
 
   message ConfigurationStep {
@@ -11135,7 +11245,8 @@ message ProjectConfigurationAnalyzerData {
   repeated ProjectConfigurationData project_configuration_data = 1;
   // The configuration data summed for all subproject configured during the
   // build
-  optional ProjectConfigurationData overall_configuration_data = 2;
+  optional ProjectConfigurationData overall_configuration_data = 2
+      [lazy = true];
 }
 
 // Data about misconfigured tasks
@@ -11240,27 +11351,29 @@ message BuildAttributionAnalyzersData {
   // Total build time in microseconds
   optional int64 total_build_time_ms = 1;
   // Data from the always running tasks analyzer
-  optional AlwaysRunTasksAnalyzerData always_run_tasks_analyzer_data = 2;
+  optional AlwaysRunTasksAnalyzerData always_run_tasks_analyzer_data = 2
+      [lazy = true];
   // Data from the annotation processors analyzer
   optional AnnotationProcessorsAnalyzerData
-      annotation_processors_analyzer_data = 3;
+      annotation_processors_analyzer_data = 3 [lazy = true];
   // Data from the critical path analyzer
-  optional CriticalPathAnalyzerData critical_path_analyzer_data = 4;
+  optional CriticalPathAnalyzerData critical_path_analyzer_data = 4
+      [lazy = true];
   // Data from the project configuration analyzer
   optional ProjectConfigurationAnalyzerData
-      project_configuration_analyzer_data = 5;
+      project_configuration_analyzer_data = 5 [lazy = true];
   // Data from the tasks configuration issues analyzer
   optional TasksConfigurationIssuesAnalyzerData
-      tasks_configuration_issues_analyzer_data = 6;
+      tasks_configuration_issues_analyzer_data = 6 [lazy = true];
   // Data from configuration caching compatibility analyzer
   optional ConfigurationCacheCompatibilityData
-      configuration_cache_compatibility_data = 7;
+      configuration_cache_compatibility_data = 7 [lazy = true];
   // Data from jetifier usage analyzer
-  optional JetifierUsageData jetifier_usage_data = 8;
+  optional JetifierUsageData jetifier_usage_data = 8 [lazy = true];
   // Data from downloads analyzer
-  optional BuildDownloadsAnalysisData downloads_analysis_data = 9;
+  optional BuildDownloadsAnalysisData downloads_analysis_data = 9 [lazy = true];
   // Data from task category issues
-  optional TaskCategoryIssuesData task_category_issues_data = 10;
+  optional TaskCategoryIssuesData task_category_issues_data = 10 [lazy = true];
 }
 
 // Data about build attribution performance
@@ -11299,10 +11412,11 @@ message BuildAttributionStats {
     CHECK_JETIFIER_BUILD = 3;
   }
   // Data from build attribution analyzers
-  optional BuildAttributionAnalyzersData build_attribution_analyzers_data = 1;
+  optional BuildAttributionAnalyzersData build_attribution_analyzers_data = 1
+      [lazy = true];
   // Stats about the performance of build attribution
   optional BuildAttributionPerformanceStats
-      build_attribution_performance_stats = 2;
+      build_attribution_performance_stats = 2 [lazy = true];
   // The session id is a UUID tracking a single build report generated
   // to associate build attribution events together
   optional string build_attribution_report_session_id = 3;
@@ -11472,9 +11586,9 @@ message BuildAttributionUiEvent {
   // Type of this build attribution UI event.
   optional EventType event_type = 1;
   // What page was opened when this event happened.
-  optional Page current_page = 2;
+  optional Page current_page = 2 [lazy = true];
   // What page will be opened because of this event (if page changes).
-  optional Page target_page = 3;
+  optional Page target_page = 3 [lazy = true];
   // The session id is a UUID tracking a single build report generated
   // to associate build attribution events together
   optional string build_attribution_report_session_id = 4;
@@ -11499,8 +11613,8 @@ message VsPluginEvent {
 
   optional VsPluginEventType type = 1;
 
-  optional BuildEvent build_event = 2;
-  optional DebugEvent debug_event = 3;
+  optional BuildEvent build_event = 2 [lazy = true];
+  optional DebugEvent debug_event = 3 [lazy = true];
 
   message BuildEvent {
     // A GUID for the build session, this session ID is per project and is
@@ -11529,7 +11643,7 @@ message VsPluginEvent {
       GRADLE_COMPLETE = 4;
     }
 
-    optional BuildCompleteInfo build_complete_info = 9;
+    optional BuildCompleteInfo build_complete_info = 9 [lazy = true];
 
     // Information about building the whole project. This event is sent when the
     // build completes.
@@ -11539,7 +11653,7 @@ message VsPluginEvent {
       optional int32 cpp_source_file_count = 4;
     }
 
-    optional CompileCompleteInfo compile_complete_info = 10;
+    optional CompileCompleteInfo compile_complete_info = 10 [lazy = true];
 
     // Information about compiling a batch of C/C++ files, e.g. one event per
     // ClangCompile task run.
@@ -11560,7 +11674,7 @@ message VsPluginEvent {
       }
     }
 
-    optional LinkCompleteInfo link_complete_info = 11;
+    optional LinkCompleteInfo link_complete_info = 11 [lazy = true];
 
     // Information about linking.
     message LinkCompleteInfo {
@@ -11708,20 +11822,21 @@ message AppInspectionEvent {
   // Set if |type| is |INSPECTOR_EVENT|
   oneof inspector_event {
     // Event associated with the user interacting with the database inspector
-    DatabaseInspectorEvent database_inspector_event = 2;
+    DatabaseInspectorEvent database_inspector_event = 2 [lazy = true];
     // Event associated with the user interacting with the WorkManager inspector
-    WorkManagerInspectorEvent work_manager_inspector_event = 3;
+    WorkManagerInspectorEvent work_manager_inspector_event = 3 [lazy = true];
     // Event associated with the user interacting with the Network inspector
-    NetworkInspectorEvent network_inspector_event = 4;
+    NetworkInspectorEvent network_inspector_event = 4 [lazy = true];
     // Event associated with the user interacting with background task inspector
-    BackgroundTaskInspectorEvent background_task_inspector_event = 5;
+    BackgroundTaskInspectorEvent background_task_inspector_event = 5
+        [lazy = true];
   }
 
   // Set if |type| is |ERROR_OCCURRED|
   optional ErrorKind error_kind = 101;
 
   // Set if |type| is |TOOL_WINDOW_OPENED|, |PROCESS_SELECTED|
-  optional EnvironmentMetadata environment_metadata = 102;
+  optional EnvironmentMetadata environment_metadata = 102 [lazy = true];
 
   // App inspection fields above this point
   // Inspector definitions below this point
@@ -11863,13 +11978,15 @@ message AppInspectionEvent {
     optional ConnectivityState connectivity_state = 6;
 
     // Set if |type| is |OFFLINE_MODE_ENTERED|
-    optional OfflineModeMetadata offline_mode_metadata = 7;
+    optional OfflineModeMetadata offline_mode_metadata = 7 [lazy = true];
 
     // Set if |type| is |EXPORT_DIALOG_OPENED|
-    optional ExportDialogOpenedEvent export_dialog_opened_event = 8;
+    optional ExportDialogOpenedEvent export_dialog_opened_event = 8
+        [lazy = true];
 
     // Set if |type| is |EXPORT_OPERATION_COMPLETED|
-    optional ExportOperationCompletedEvent export_completed_event = 9;
+    optional ExportOperationCompletedEvent export_completed_event = 9
+        [lazy = true];
   }
 
   // Deprecated. Use BackgroundTaskInspectorEvent instead.
@@ -11948,7 +12065,7 @@ message AppInspectionEvent {
     // Set if event indicates we're going to update the graph view, i.e.
     // |type| is |GRAPH_MODE_SELECTED|,
     // |type| is |WORK_SELECTED| when |mode| is |GRAPH_MODE|
-    optional ChainInfo chain_info = 4;
+    optional ChainInfo chain_info = 4 [lazy = true];
   }
 
   // Events associated with users interacting with the network inspector
@@ -12005,8 +12122,8 @@ message AppInspectionEvent {
     }
 
     optional Type type = 1;
-    optional RuleUpdatedEvent rule_detail_updated = 2;
-    optional ResponseInterceptedEvent response_intercepted = 3;
+    optional RuleUpdatedEvent rule_detail_updated = 2 [lazy = true];
+    optional ResponseInterceptedEvent response_intercepted = 3 [lazy = true];
   }
 
   // Events associated with users interacting with the background task inspector
@@ -12093,7 +12210,7 @@ message AppInspectionEvent {
     // Set if event indicates we're going to update the graph view, i.e.
     // |type| is |GRAPH_MODE_SELECTED|,
     // |type| is |WORK_SELECTED| when |mode| is |GRAPH_MODE|
-    optional ChainInfo chain_info = 4;
+    optional ChainInfo chain_info = 4 [lazy = true];
   }
 }
 
@@ -12165,7 +12282,7 @@ message DaggerEditorEvent {
   optional Type type = 1;
 
   // Set if |type| is |NAVIGATED|
-  optional NavigationMetadata navigation_metadata = 2;
+  optional NavigationMetadata navigation_metadata = 2 [lazy = true];
 
   // Set if |type| is |FIND_USAGES_NODE_WAS_DISPLAYED|, |CLICKED_ON_GUTTER|,
   // |GUTTER_WAS_DISPLAYED|
@@ -12197,7 +12314,7 @@ message AndroidTestRetentionEvent {
     // result=EMULATOR_LOADABLE_CHECK_FAILURE.
     optional EmulatorSnapshotFailureReason emulator_check_failure_reason = 2;
   }
-  optional SnapshotCompatibility snapshot_compatibility = 1;
+  optional SnapshotCompatibility snapshot_compatibility = 1 [lazy = true];
 }
 
 // Tracks UI impressions and user interactions in the test report UI.
@@ -12402,10 +12519,12 @@ message UpgradeAssistantComponentInfo {
   optional bool is_enabled = 2;
   // Settings of the processor.  Will be set if kind is
   // JAVA8_DEFAULT.
-  optional Java8DefaultProcessorSettings java8_default_settings = 3;
+  optional Java8DefaultProcessorSettings java8_default_settings = 3
+      [lazy = true];
   // Settings of the processor.  Will be set if kind is
   // R8_FULL_MODE_DEFAULT.
-  optional R8FullModeDefaultProcessorSettings r8_full_mode_default_settings = 4;
+  optional R8FullModeDefaultProcessorSettings r8_full_mode_default_settings = 4
+      [lazy = true];
 }
 
 message UpgradeAssistantEventInfo {
@@ -12446,9 +12565,9 @@ message UpgradeAssistantComponentEvent {
   // The software version of Gradle after upgrade.
   optional string new_gradle_version = 5;
   // Information about the component involved in the event.
-  optional UpgradeAssistantComponentInfo component_info = 6;
+  optional UpgradeAssistantComponentInfo component_info = 6 [lazy = true];
   // Information about the event.
-  optional UpgradeAssistantEventInfo event_info = 7;
+  optional UpgradeAssistantEventInfo event_info = 7 [lazy = true];
 }
 
 message UpgradeAssistantProcessorEvent {
@@ -12465,7 +12584,7 @@ message UpgradeAssistantProcessorEvent {
   // Information about the components involved in the event.
   repeated UpgradeAssistantComponentInfo component_info = 6;
   // Information about the event.
-  optional UpgradeAssistantEventInfo event_info = 7;
+  optional UpgradeAssistantEventInfo event_info = 7 [lazy = true];
 }
 
 // Details for interactive preview event
@@ -12611,9 +12730,9 @@ message LiveLiteralsEvent {
     // Number of failed deployments.
     optional uint32 failed_deployments = 4;
     // Stats for number of reported deployment problems.
-    optional PercentileEstimator number_of_problems = 5;
+    optional PercentileEstimator number_of_problems = 5 [lazy = true];
     // Stats for deployment type.
-    optional PercentileEstimator deployment_time_ms = 6;
+    optional PercentileEstimator deployment_time_ms = 6 [lazy = true];
   }
 }
 
@@ -13082,7 +13201,7 @@ message SplittingTabsUsageEvent {
   optional EventType event_type = 2;
 
   // Set if type is PANEL_SPLIT
-  optional SplitType split_type = 3;
+  optional SplitType split_type = 3 [lazy = true];
 
   // The tool window subsystem using the Splitting Tabs component
   enum ToolWindowType {
@@ -13145,16 +13264,17 @@ message LogcatUsageEvent {
   optional Type type = 1;
 
   // Historical, no longer used for writing as of 02/2022
-  optional LogcatFormatConfiguration format_dialog = 2 [deprecated = true];
+  optional LogcatFormatConfiguration format_dialog = 2
+      [deprecated = true, lazy = true];
 
   // A logcat filter. Set when type is FILTER_ADDED_TO_HISTORY.
-  optional LogcatFilterEvent logcat_filter = 3;
+  optional LogcatFilterEvent logcat_filter = 3 [lazy = true];
 
   // The Logcat format configuration set by the format dialog
-  optional LogcatFormatDialog format_dialog_applied = 4;
+  optional LogcatFormatDialog format_dialog_applied = 4 [lazy = true];
 
   // A Logcat panel was added
-  optional LogcatPanelEvent panel_added = 5;
+  optional LogcatPanelEvent panel_added = 5 [lazy = true];
 
   // The type of event
   enum Type {
@@ -13175,7 +13295,7 @@ message LogcatUsageEvent {
   // The state of a Logcat format dialog when applied
   message LogcatFormatDialog {
     // The Logcat format configuration the dialog represents
-    optional LogcatFormatConfiguration configuration = 1;
+    optional LogcatFormatConfiguration configuration = 1 [lazy = true];
 
     // The state of the "set as default" checkbox
     optional bool is_default_preset = 2;
@@ -13243,16 +13363,16 @@ message LogcatUsageEvent {
   // their app on)
   message LogcatFilterEvent {
     // Summary of search terms pertaining to the log entry 'tag' field
-    optional TermVariants tag_terms = 1;
+    optional TermVariants tag_terms = 1 [lazy = true];
 
     // Summary of search terms pertaining to the log entry 'package' field
-    optional TermVariants package_terms = 2;
+    optional TermVariants package_terms = 2 [lazy = true];
 
     // Summary of search terms pertaining to the log entry 'message' field
-    optional TermVariants message_terms = 3;
+    optional TermVariants message_terms = 3 [lazy = true];
 
     // Summary of search terms pertaining to entire log entry
-    optional TermVariants line_terms = 4;
+    optional TermVariants line_terms = 4 [lazy = true];
 
     // Number of search terms pertaining to entire log entry. Differs from the
     // above as these terms do not use the 'line:' prefix.
@@ -13290,7 +13410,7 @@ message LogcatUsageEvent {
     optional int32 stacktrace_terms = 15;
 
     // Summary of search terms pertaining to the log entry 'process' field
-    optional TermVariants process_terms = 16;
+    optional TermVariants process_terms = 16 [lazy = true];
 
     // A summary of a term with regex and negated variants
     message TermVariants {
@@ -13314,10 +13434,10 @@ message LogcatUsageEvent {
     optional bool is_restored = 1;
 
     // The formatting configuration of the panel
-    optional LogcatFormatConfiguration format_configuration = 2;
+    optional LogcatFormatConfiguration format_configuration = 2 [lazy = true];
 
     // The panel filter.
-    optional LogcatFilterEvent filter = 3;
+    optional LogcatFilterEvent filter = 3 [lazy = true];
 
     // The buffer size.
     optional int32 buffer_size = 4;
@@ -13571,7 +13691,7 @@ message GoogleLoginPluginEvent {
   }
 
   optional EventKind event = 1;
-  optional LoginFeatures features = 2;
+  optional LoginFeatures features = 2 [lazy = true];
   optional LoginType login_type = 3;
 }
 
@@ -13689,13 +13809,13 @@ message SystemHealthEvent {
 
   optional SystemHealthEventType event_type = 1;
   // Additional information about current UI freeze
-  optional UIFreeze ui_freeze = 2;
+  optional UIFreeze ui_freeze = 2 [lazy = true];
   // Additional information how this/previous session terminated
-  optional Exit exit = 3;
+  optional Exit exit = 3 [lazy = true];
   // Additional information about memory events
-  optional Memory memory = 4;
+  optional Memory memory = 4 [lazy = true];
   // Exception details
-  optional Exception exception = 5;
+  optional Exception exception = 5 [lazy = true];
   // Whether the IDE is in Essentials Mode
   optional bool essentials_mode = 6;
 }
@@ -13756,12 +13876,16 @@ message AppQualityInsightsUsageEvent {
 
     // For measuring performance in AQI
     PERFORMANCE_STATS = 11;
+
+    // For tracking the number of events users view.
+    EVENT_VIEWED = 12;
   }
 
   enum CrashType {
     UNKNOWN_TYPE = 0;
     FATAL = 1;
     NON_FATAL = 2;
+    ANR = 3;
   }
   enum Confidence {
     UNKNOWN_CONFIDENCE = 0;
@@ -13819,6 +13943,7 @@ message AppQualityInsightsUsageEvent {
       FATAL = 1;
       NON_FATAL = 2;
       ALL = 3;
+      ANR = 4;
     }
     enum SignalFilter {
       UNKNOWN_SIGNAL = 0;
@@ -13861,7 +13986,7 @@ message AppQualityInsightsUsageEvent {
     // The visibility type used for this fetch.
     optional VisibilityFilter visibility_filter = 11;
     // The app vcs info got from this fetch.
-    optional VcsIntegrationDetails vcs_integration_details = 12;
+    optional VcsIntegrationDetails vcs_integration_details = 12 [lazy = true];
   }
 
   message AppQualityInsightsCrashOpenDetails {
@@ -13976,13 +14101,23 @@ message AppQualityInsightsUsageEvent {
     }
 
     optional VersionControlBasedLineNumberMappingLatency
-        vc_based_line_number_mapping_latency = 1;
+        vc_based_line_number_mapping_latency = 1 [lazy = true];
   }
 
   enum AppQualityInsightsProductType {
     UNKNOWN_PRODUCT_TYPE = 0;
     CRASHLYTICS = 1;
     PLAY_VITALS = 2;
+  }
+
+  message EventDetails {
+    // Hashed string that uniquely identifies an issue.
+    optional string issue_id = 1;
+    // Hashed string that uniquely identifies an event.
+    optional string event_id = 2;
+    // Whether the viewing of this event triggered a network fetch, or was it
+    // served from cache.
+    optional bool is_fetched = 3;
   }
 
   // The app_id is the id for the user's android app
@@ -13994,31 +14129,36 @@ message AppQualityInsightsUsageEvent {
   optional AppQualityInsightsUsageEventType type = 2;
 
   // set when type = ZERO_STATE
-  optional AppQualityInsightsZeroStateDetails zero_state_details = 3;
+  optional AppQualityInsightsZeroStateDetails zero_state_details = 3
+      [lazy = true];
 
   // set when type = CRASHES_FETCHED
-  optional AppQualityInsightsFetchDetails fetch_details = 4;
+  optional AppQualityInsightsFetchDetails fetch_details = 4 [lazy = true];
 
   // set when type = CRASH_LIST_DETAILS_VIEW
-  optional AppQualityInsightsCrashOpenDetails crash_open_details = 5;
+  optional AppQualityInsightsCrashOpenDetails crash_open_details = 5
+      [lazy = true];
 
   // set when type = STACKTRACE_CLICKED
-  optional AppQualityInsightsStacktraceDetails stacktrace_details = 6;
+  optional AppQualityInsightsStacktraceDetails stacktrace_details = 6
+      [lazy = true];
 
   // set when type = FB_CONSOLE_LINK_CLICKED
-  optional AppQualityInsightsConsoleLinkDetails console_link_details = 7;
+  optional AppQualityInsightsConsoleLinkDetails console_link_details = 7
+      [lazy = true];
 
   // set when type = MATCHERS_INITIATED
-  optional AppQualityInsightsMatcherDetails matcher_details = 8;
+  optional AppQualityInsightsMatcherDetails matcher_details = 8 [lazy = true];
 
   // set when type = ERROR
-  optional AppQualityInsightsErrorDetails error_details = 9;
+  optional AppQualityInsightsErrorDetails error_details = 9 [lazy = true];
 
   // set when type = ISSUE_STATUS_CHANGED
-  optional AppQualityInsightsIssueChangedDetails issue_changed_details = 10;
+  optional AppQualityInsightsIssueChangedDetails issue_changed_details = 10
+      [lazy = true];
 
   // set when type = NOTE
-  optional AppQualityInsightsNotesDetails notes_details = 11;
+  optional AppQualityInsightsNotesDetails notes_details = 11 [lazy = true];
 
   // This event occurred while AQI was in offline mode
   optional bool is_offline = 12;
@@ -14030,7 +14170,10 @@ message AppQualityInsightsUsageEvent {
   optional AppQualityInsightsProductType product_type = 14;
 
   // set when type = PERFORMANCE_STATS
-  optional PerformanceStats performance_stats = 15;
+  optional PerformanceStats performance_stats = 15 [lazy = true];
+
+  // set when type = EVENT_VIEWED
+  optional EventDetails event_details = 16 [lazy = true];
 }
 
 message FastPreviewEvent {
@@ -14071,7 +14214,7 @@ message FastPreviewEvent {
   // Result of the LiveEdit device push
   optional Type type = 1;
   // The compilation result when type = COMPILE
-  optional CompilationResult compilation_result = 2;
+  optional CompilationResult compilation_result = 2 [lazy = true];
 }
 
 // Event containing a report on the memory usage of Android Studio components
@@ -14094,27 +14237,28 @@ message MemoryUsageReportEvent {
   // a better name.
   message MemoryTrafficStatistics {
     // Statistics of a subtree objects.
-    optional ObjectsStatistics total_stats = 1;
+    optional ObjectsStatistics total_stats = 1 [lazy = true];
 
     // Historical: we no longer track object creation timestamps
-    optional ObjectsStatistics new_generation_stats = 2 [deprecated = true];
+    optional ObjectsStatistics new_generation_stats = 2
+        [deprecated = true, lazy = true];
     // Historical: we no longer track object creation timestamps
     repeated ObjectsStatistics old_generations_stats = 3 [deprecated = true];
 
     // Statistics of IntelliJ platform declared objects from the subtree.
-    optional ObjectsStatistics platform_objects_stats = 4;
+    optional ObjectsStatistics platform_objects_stats = 4 [lazy = true];
     // Statistics of the objects from the subtree that are retained by the
     // IntelliJ platform declared objects.
-    optional ObjectsStatistics platform_retained_stats = 5;
+    optional ObjectsStatistics platform_retained_stats = 5 [lazy = true];
   }
 
   // Statistics of objects of the cluster(component or category). Contains data
   // on the subtrees owned and retained by the cluster.
   message ClusterObjectsStatistics {
     // Statistics of the subtree owned by the cluster.
-    optional MemoryTrafficStatistics owned_cluster_stats = 1;
+    optional MemoryTrafficStatistics owned_cluster_stats = 1 [lazy = true];
     // Statistics of the subtree retained by the cluster.
-    optional MemoryTrafficStatistics retained_cluster_stats = 2;
+    optional MemoryTrafficStatistics retained_cluster_stats = 2 [lazy = true];
   }
 
   // Statistics of the cluster.
@@ -14122,7 +14266,7 @@ message MemoryUsageReportEvent {
     // Label of the component/category.
     optional string label = 1;
     // Statistics of the cluster objects.
-    optional ClusterObjectsStatistics stats = 2;
+    optional ClusterObjectsStatistics stats = 2 [lazy = true];
     // Number of the instances of tracked classes.
     // (these class names are listed in memory_usage_reporting.textproto)
     map<string, int32> instance_count_per_class_name = 3;
@@ -14134,7 +14278,7 @@ message MemoryUsageReportEvent {
     // Ids of the components, enumerated according to used_components field
     repeated int32 ids = 1 [packed = true];
     // Statistics of the objects from the shared cluster.
-    optional MemoryTrafficStatistics stats = 2;
+    optional MemoryTrafficStatistics stats = 2 [lazy = true];
   }
 
   // Metadata of the report collection
@@ -14162,7 +14306,7 @@ message MemoryUsageReportEvent {
     // Status code of the report collection
     optional StatusCode status_code = 1;
     // Statistics of the total memory used by Android Studio
-    optional MemoryTrafficStatistics total_heap_objects_stats = 2;
+    optional MemoryTrafficStatistics total_heap_objects_stats = 2 [lazy = true];
     // Peak size of internal field cache
     optional uint32 field_cache_count_peak = 3;
     // Peak length of object queue used for traverse BFS
@@ -14194,7 +14338,7 @@ message MemoryUsageReportEvent {
   // Statistics of the categories
   repeated ClusterMemoryUsage component_category_stats = 4;
   // Report collection metadata
-  optional MemoryUsageCollectionMetadata metadata = 6;
+  optional MemoryUsageCollectionMetadata metadata = 6 [lazy = true];
 }
 
 message ManifestMergerStats {
@@ -14204,12 +14348,12 @@ message ManifestMergerStats {
   // read action.
 
   // Histogram of run times with successful completion
-  optional Histogram success_run_time_ms = 1;
+  optional Histogram success_run_time_ms = 1 [lazy = true];
   // Histogram of run times when execution was canceled due to read lock being
   // canceled in favor of a write lock
-  optional Histogram canceled_run_time_ms = 2;
+  optional Histogram canceled_run_time_ms = 2 [lazy = true];
   // Histogram of run times when execution failed with a parsing or other error
-  optional Histogram failed_run_time_ms = 3;
+  optional Histogram failed_run_time_ms = 3 [lazy = true];
 }
 
 message ThreadingAgentUsageEvent {
@@ -14402,7 +14546,7 @@ message DirectAccessUsageEvent {
     // Tracks how the reservation ended.
     optional EndReservationType end_reservation_type = 5;
     // Connection metrics measured during the reservation
-    optional ConnectionMetrics connection_metrics = 6;
+    optional ConnectionMetrics connection_metrics = 6 [lazy = true];
   }
 
   // Type of event
@@ -14412,19 +14556,20 @@ message DirectAccessUsageEvent {
   // Client-side salted, sha256 of session ID with salt rotated every 28 day.
   optional string device_session_id = 2;
   // set when type = RESERVE_DEVICE
-  optional ReserveDeviceDetails reserve_device_details = 3;
+  optional ReserveDeviceDetails reserve_device_details = 3 [lazy = true];
   // set when type = CONNECT_DEVICE
-  optional ConnectDeviceDetails connect_device_details = 4;
+  optional ConnectDeviceDetails connect_device_details = 4 [lazy = true];
   // set when type = STREAM_STARTED
-  optional StreamStartedDetails stream_started_details = 5;
+  optional StreamStartedDetails stream_started_details = 5 [lazy = true];
   // set when type = EXTEND_RESERVATION
-  optional ExtendReservationDetails extend_reservation_details = 6;
+  optional ExtendReservationDetails extend_reservation_details = 6
+      [lazy = true];
   // set when type = END_RESERVATION
-  optional EndReservationDetails end_reservation_details = 7;
+  optional EndReservationDetails end_reservation_details = 7 [lazy = true];
   // set when any of the above event fails (success bool is marked false)
   optional FailureReason failure_reason = 8;
   // Set when type = DISCONNECT_DEVICE
-  optional DisconnectDeviceDetails disconnect_device_details = 9;
+  optional DisconnectDeviceDetails disconnect_device_details = 9 [lazy = true];
 }
 
 message SafeModeStatsEvent {
@@ -14463,9 +14608,9 @@ message SafeModeStatsEvent {
 
 message TSdkUAEvent {
   oneof content {
-    StateUpdate state_update = 1;
-    FilterRun filter_run = 2;
-    UserMotion user_motion = 3;
+    StateUpdate state_update = 1 [lazy = true];
+    FilterRun filter_run = 2 [lazy = true];
+    UserMotion user_motion = 3 [lazy = true];
   }
 
   message StateUpdate {
@@ -14513,8 +14658,8 @@ message TSdkUAEvent {
   // Tracking user movement through the assistant
   message UserMotion {
     oneof motion {
-      Opened opened = 1;
-      Closed closed = 2;
+      Opened opened = 1 [lazy = true];
+      Closed closed = 2 [lazy = true];
     }
     // User opened part of the assistant
     message Opened {
@@ -14625,7 +14770,7 @@ message SmlCompletionEvent {
     option deprecated = true;
 
     // Historical: Not used starting with Android Studio 2023.2.1.11
-    optional SmlResponseMetadata metadata = 1 [deprecated = true];
+    optional SmlResponseMetadata metadata = 1 [deprecated = true, lazy = true];
     // Historical: Not used starting with Android Studio 2023.2.1.11
     optional uint64 latency_ms = 2 [deprecated = true];
     // Historical: Not used starting with Android Studio 2023.2.1.11
@@ -14637,9 +14782,9 @@ message SmlCompletionEvent {
     option deprecated = true;
 
     // Historical: Not used starting with Android Studio 2023.2.1.11
-    optional CompletionResult result = 1 [deprecated = true];
+    optional CompletionResult result = 1 [deprecated = true, lazy = true];
     // Historical: Not used starting with Android Studio 2023.2.1.11
-    optional CompletionError backend_error = 2 [deprecated = true];
+    optional CompletionError backend_error = 2 [deprecated = true, lazy = true];
   }
 
   // DEPRECATED Use CompletionAggregateEvent instead
@@ -14647,7 +14792,7 @@ message SmlCompletionEvent {
     option deprecated = true;
 
     // Historical: Not used starting with Android Studio 2023.2.1.11
-    optional SmlResponseMetadata metadata = 1 [deprecated = true];
+    optional SmlResponseMetadata metadata = 1 [deprecated = true, lazy = true];
     // Historical: Not used starting with Android Studio 2023.2.1.11
     optional int32 shown_suggestion_index = 2 [deprecated = true];
   }
@@ -14657,7 +14802,7 @@ message SmlCompletionEvent {
     option deprecated = true;
 
     // Historical: Not used starting with Android Studio 2023.2.1.11
-    optional SmlResponseMetadata metadata = 1 [deprecated = true];
+    optional SmlResponseMetadata metadata = 1 [deprecated = true, lazy = true];
     // Historical: Not used starting with Android Studio 2023.2.1.11
     optional int32 accepted_suggestion_index = 2 [deprecated = true];
     // Historical: Not used starting with Android Studio 2023.2.1.11
@@ -14680,20 +14825,20 @@ message SmlCompletionEvent {
     optional EditorFileType file_type = 3;
     optional uint32 completions_shown = 4;
     optional uint32 completions_accepted = 5;
-    optional Histogram latencies_ms = 6;
-    optional Histogram not_accepted_shown_durations_ms = 7;
+    optional Histogram latencies_ms = 6 [lazy = true];
+    optional Histogram not_accepted_shown_durations_ms = 7 [lazy = true];
   }
 
   oneof completion {
     // Historical: Not used starting with Android Studio 2023.2.1.11
-    CompletionRequest request = 1 [deprecated = true];
+    CompletionRequest request = 1 [deprecated = true, lazy = true];
     // Historical: Not used starting with Android Studio 2023.2.1.11
-    CompletionResponse response = 2 [deprecated = true];
+    CompletionResponse response = 2 [deprecated = true, lazy = true];
     // Historical: Not used starting with Android Studio 2023.2.1.11
-    CompletionShown shown = 3 [deprecated = true];
+    CompletionShown shown = 3 [deprecated = true, lazy = true];
     // Historical: Not used starting with Android Studio 2023.2.1.11
-    CompletionAccepted accepted = 4 [deprecated = true];
-    CompletionAggregateEvent aggregate = 5;
+    CompletionAccepted accepted = 4 [deprecated = true, lazy = true];
+    CompletionAggregateEvent aggregate = 5 [lazy = true];
   }
 }
 
@@ -14709,7 +14854,7 @@ message SmlTransformEvent {
   }
 
   message TransformResult {
-    optional SmlResponseMetadata metadata = 1;
+    optional SmlResponseMetadata metadata = 1 [lazy = true];
     optional uint64 latency_ms = 2;
     optional int32 num_transformations = 3;
   }
@@ -14720,24 +14865,24 @@ message SmlTransformEvent {
 
   message TransformResponse {
     oneof response {
-      TransformResult result = 1;
-      TransformError backend_error = 2;
+      TransformResult result = 1 [lazy = true];
+      TransformError backend_error = 2 [lazy = true];
     }
   }
 
   message TransformShown {
-    optional SmlResponseMetadata metadata = 1;
+    optional SmlResponseMetadata metadata = 1 [lazy = true];
   }
 
   message TransformAccepted {
-    optional SmlResponseMetadata metadata = 1;
+    optional SmlResponseMetadata metadata = 1 [lazy = true];
   }
 
   oneof transform {
-    TransformRequest request = 1;
-    TransformResponse response = 2;
-    TransformShown shown = 3;
-    TransformAccepted accepted = 4;
+    TransformRequest request = 1 [lazy = true];
+    TransformResponse response = 2 [lazy = true];
+    TransformShown shown = 3 [lazy = true];
+    TransformAccepted accepted = 4 [lazy = true];
   }
 
   enum TransformKind {
@@ -14753,7 +14898,7 @@ message SmlTransformEvent {
 
 message SmlChatBotEvent {
   message BotResponse {
-    optional SmlResponseMetadata metadata = 1;
+    optional SmlResponseMetadata metadata = 1 [lazy = true];
     optional uint64 latency_ms = 2;
 
     // Currently, fact retrieval is a different API from the chat API. But
@@ -14766,7 +14911,7 @@ message SmlChatBotEvent {
   }
 
   message UserFeedback {
-    optional SmlResponseMetadata metadata = 1;
+    optional SmlResponseMetadata metadata = 1 [lazy = true];
 
     enum Sentiment {
       UNKNOWN = 0;
@@ -14793,7 +14938,7 @@ message SmlChatBotEvent {
   }
 
   message BotInvoked {
-    optional SmlResponseMetadata metadata = 1;
+    optional SmlResponseMetadata metadata = 1 [lazy = true];
     optional EntryPoint entry_point = 2;
   }
 
@@ -14814,20 +14959,20 @@ message SmlChatBotEvent {
   }
 
   message ActionInvoked {
-    optional SmlResponseMetadata metadata = 1;
+    optional SmlResponseMetadata metadata = 1 [lazy = true];
     optional Action action = 2;
     optional EditorFileType file_type = 3;
   }
 
   message ActionResult {
-    optional SmlResponseMetadata metadata = 1;
+    optional SmlResponseMetadata metadata = 1 [lazy = true];
     optional Action action = 2;
     optional EditorFileType file_type = 3;
     optional bool success = 4;
   }
 
   message DependencySuggestion {
-    optional SmlResponseMetadata metadata = 1;
+    optional SmlResponseMetadata metadata = 1 [lazy = true];
     optional bool accepted = 2;
   }
 
@@ -14865,7 +15010,7 @@ message SmlChatBotEvent {
   }
 
   message ParseResult {
-    optional SmlResponseMetadata metadata = 1;
+    optional SmlResponseMetadata metadata = 1 [lazy = true];
     optional EditorFileType file_type = 2;
     // success indicates that the code snippet was able to be parsed
     // without throwing any errors, e.g. PSI related exceptions.
@@ -14893,7 +15038,7 @@ message SmlChatBotEvent {
   }
 
   message HallucinationDetectorResult {
-    optional SmlResponseMetadata metadata = 1;
+    optional SmlResponseMetadata metadata = 1 [lazy = true];
     optional bool has_hallucination = 2;
     optional EditorFileType file_type = 3;
     // libraries, frameworks, or other categories applicable to the code snippet
@@ -14904,15 +15049,15 @@ message SmlChatBotEvent {
   }
 
   oneof content {
-    BotResponse response = 1;
-    UserFeedback user_feedback = 2;
-    ActionInvoked action_invoked = 3;
-    ActionResult action_result = 4;
-    ParseResult parse_result = 5;
-    BotInvoked bot_invoked = 6;
-    SlashAction slash_action = 7;
-    DependencySuggestion dependency_suggestion = 8;
-    HallucinationDetectorResult hallucination_detector_result = 9;
+    BotResponse response = 1 [lazy = true];
+    UserFeedback user_feedback = 2 [lazy = true];
+    ActionInvoked action_invoked = 3 [lazy = true];
+    ActionResult action_result = 4 [lazy = true];
+    ParseResult parse_result = 5 [lazy = true];
+    BotInvoked bot_invoked = 6 [lazy = true];
+    SlashAction slash_action = 7 [lazy = true];
+    DependencySuggestion dependency_suggestion = 8 [lazy = true];
+    HallucinationDetectorResult hallucination_detector_result = 9 [lazy = true];
   }
 }
 
@@ -14967,9 +15112,9 @@ message TestScenarioEvent {
     // Length of the initial test scenario prompt
     optional uint32 context_length = 1;
     // Deprecated. FileType of target / selected file.
-    optional FileType target_file_type = 2 [deprecated = true];
+    optional FileType target_file_type = 2 [deprecated = true, lazy = true];
     // Deprecated. FileType of generated test file
-    optional FileType test_file_type = 3 [deprecated = true];
+    optional FileType test_file_type = 3 [deprecated = true, lazy = true];
     // EditorFileType of target / selected file
     optional EditorFileType target_file_language = 4;
     // EditorFileType of generated test file
@@ -14984,8 +15129,8 @@ message TestScenarioEvent {
   }
 
   oneof transform {
-    TestScenarioRequest request = 1;
-    InconsistentCount inconsistent_count = 2;
+    TestScenarioRequest request = 1 [lazy = true];
+    InconsistentCount inconsistent_count = 2 [lazy = true];
   }
 }
 
@@ -15098,7 +15243,8 @@ message IDeviceUsageEvent {
 
 message AdbUsageEvent {
   oneof event {
-    JdwpProcessPropertiesCollectorEvent process_properties_event = 1;
+    JdwpProcessPropertiesCollectorEvent process_properties_event = 1
+        [lazy = true];
     // Add other types of events, e.g. attaching debugger, etc
   }
 
@@ -15184,9 +15330,9 @@ message DebuggerEvent {
   // The event type
   optional Type type = 1;
 
-  optional BreakpointAdded breakpoint_added = 2;
+  optional BreakpointAdded breakpoint_added = 2 [lazy = true];
 
-  optional FramesViewUpdated frames_view_updated = 3;
+  optional FramesViewUpdated frames_view_updated = 3 [lazy = true];
 
   enum Type {
     UNKNOWN = 0;
@@ -15301,6 +15447,7 @@ message RenderSecurityManagerEvent {
   optional string resource = 2;
 }
 
+// DO NOT USE: OBSOLETE
 message AdbServerState {
   enum MDNDBackend {
     TYPE_MDNS_UNKNOWN = 0;
@@ -15322,6 +15469,29 @@ message AdbServerState {
   optional USBBackend usb_backend = 4;
 }
 
+message AdbServerStatus {
+  enum MDNSBackend {
+    TYPE_MDNS_UNKNOWN = 0;
+    TYPE_MDNS_DEFAULT = 1;
+    TYPE_BONJOUR = 2;
+    TYPE_OPENSCREEN = 3;
+  }
+
+  enum USBBackend {
+    TYPE_USB_UNKNOWN = 0;
+    TYPE_USB_DEFAULT = 1;
+    TYPE_LIBUSB = 2;
+    TYPE_NATIVE = 3;
+  }
+
+  optional bool is_managed = 1;
+  optional string version = 2;
+  optional MDNSBackend mdns_backend = 3;
+  optional USBBackend usb_backend = 4;
+  optional bool is_mdns_backend_forced = 5;
+  optional bool is_usb_backend_forced = 6;
+}
+
 message ScreenshotTestComposePreviewEvent {
   enum Type {
     TYPE_UNKNOWN = 0;
@@ -15339,7 +15509,7 @@ message ScreenshotTestComposePreviewEvent {
   }
 
   // This message is populated when the type is PREVIEW_DISCOVERY.
-  optional PreviewDiscovery preview_discovery = 2;
+  optional PreviewDiscovery preview_discovery = 2 [lazy = true];
 
   message PreviewRendering {
     // Number of rendered images. This number includes failed rendering attempts
@@ -15356,7 +15526,7 @@ message ScreenshotTestComposePreviewEvent {
   }
 
   // This message is populated when the type is PREVIEW_RENDERING.
-  optional PreviewRendering preview_rendering = 3;
+  optional PreviewRendering preview_rendering = 3 [lazy = true];
 }
 
 message FirebaseManagementEvent {
@@ -15388,5 +15558,6 @@ message FirebaseManagementEvent {
   // 28 days
   optional string project_id = 2;
   // Set when type = CREATE_FIREBASE_PROJECT
-  optional CreateFirebaseProjectDetails create_firebase_project_details = 3;
+  optional CreateFirebaseProjectDetails create_firebase_project_details = 3
+      [lazy = true];
 }
