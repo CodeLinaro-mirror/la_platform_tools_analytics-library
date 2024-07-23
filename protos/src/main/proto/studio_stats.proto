@@ -14456,6 +14456,8 @@ message DirectAccessUsageEvent {
     SCOPE_CANCELLED = 2;
     // Studio project is closing
     PROJECT_CLOSING = 3;
+    // Quota exhausted for the cloud project
+    RESOURCE_EXHAUSTED = 4;
 
     // Disconnect Reasons
     // Device failed to connect to ADB
