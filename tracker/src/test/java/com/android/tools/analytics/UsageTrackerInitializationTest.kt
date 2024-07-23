@@ -17,63 +17,62 @@
 package com.android.tools.analytics
 
 import com.google.common.truth.Truth
+import java.util.concurrent.Executors
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TemporaryFolder
-import java.util.concurrent.Executors
 
 class UsageTrackerInitializationTest {
 
-    private val analyticsSettingsData = AnalyticsSettingsData()
-    private val scheduledExecutorService = Executors.newScheduledThreadPool(1)
+  private val analyticsSettingsData = AnalyticsSettingsData()
+  private val scheduledExecutorService = Executors.newScheduledThreadPool(1)
 
-    @get:Rule
-    val temporaryFolder = TemporaryFolder()
+  @get:Rule val temporaryFolder = TemporaryFolder()
 
-    @Before
-    fun setUp() {
-        analyticsSettingsData.optedIn = true
-        AnalyticsSettings.setInstanceForTest(analyticsSettingsData)
-        UsageTracker.deinitialize()
-        AnalyticsPaths.overrideAndroidSettingsHomeDirectory(temporaryFolder.newFolder().absolutePath)
-    }
+  @Before
+  fun setUp() {
+    analyticsSettingsData.optedIn = true
+    AnalyticsSettings.setInstanceForTest(analyticsSettingsData)
+    UsageTracker.deinitialize()
+    AnalyticsPaths.overrideAndroidSettingsHomeDirectory(temporaryFolder.newFolder().absolutePath)
+  }
 
-    @After
-    fun restoreAndroidSettingsHomeDirectory() {
-        AnalyticsPaths.restoreAndroidSettingsHomeDirectory()
-    }
+  @After
+  fun restoreAndroidSettingsHomeDirectory() {
+    AnalyticsPaths.restoreAndroidSettingsHomeDirectory()
+  }
 
-    @Test
-    fun testInitializeFunction() {
-        UsageTracker.initialize(scheduledExecutorService)
-        val writer = UsageTracker.writer
-        Truth.assertThat(writer).isNotInstanceOf(NullUsageTracker.javaClass)
+  @Test
+  fun testInitializeFunction() {
+    UsageTracker.initialize(scheduledExecutorService)
+    val writer = UsageTracker.writer
+    Truth.assertThat(writer).isNotInstanceOf(NullUsageTracker.javaClass)
 
-        UsageTracker.initialize(scheduledExecutorService)
-        Truth.assertThat(writer).isNotInstanceOf(NullUsageTracker.javaClass)
-        Truth.assertThat(UsageTracker.writer).isNotEqualTo(writer)
+    UsageTracker.initialize(scheduledExecutorService)
+    Truth.assertThat(writer).isNotInstanceOf(NullUsageTracker.javaClass)
+    Truth.assertThat(UsageTracker.writer).isNotEqualTo(writer)
 
-        // initialize function allows us to re-initialize UsageTrackerWriter when optedIn changes
-        analyticsSettingsData.optedIn = false
-        UsageTracker.initialize(scheduledExecutorService)
-        Truth.assertThat(UsageTracker.writer).isInstanceOf(NullUsageTracker.javaClass)
-    }
+    // initialize function allows us to re-initialize UsageTrackerWriter when optedIn changes
+    analyticsSettingsData.optedIn = false
+    UsageTracker.initialize(scheduledExecutorService)
+    Truth.assertThat(UsageTracker.writer).isInstanceOf(NullUsageTracker.javaClass)
+  }
 
-    @Test
-    fun testInitializeIfNotPresentFunction() {
-        UsageTracker.initializeIfNotPresent(scheduledExecutorService)
-        val writer = UsageTracker.writer
-        Truth.assertThat(writer).isNotInstanceOf(NullUsageTracker.javaClass)
+  @Test
+  fun testInitializeIfNotPresentFunction() {
+    UsageTracker.initializeIfNotPresent(scheduledExecutorService)
+    val writer = UsageTracker.writer
+    Truth.assertThat(writer).isNotInstanceOf(NullUsageTracker.javaClass)
 
-        // If UsageTracker is initialized, UsageTrackerWriter instance won't change when
-        // initializeIfNotPresent function is invoked
-        UsageTracker.initializeIfNotPresent(scheduledExecutorService)
-        Truth.assertThat(UsageTracker.writer).isEqualTo(writer)
+    // If UsageTracker is initialized, UsageTrackerWriter instance won't change when
+    // initializeIfNotPresent function is invoked
+    UsageTracker.initializeIfNotPresent(scheduledExecutorService)
+    Truth.assertThat(UsageTracker.writer).isEqualTo(writer)
 
-        analyticsSettingsData.optedIn = false
-        UsageTracker.initializeIfNotPresent(scheduledExecutorService)
-        Truth.assertThat(UsageTracker.writer).isEqualTo(writer)
-    }
+    analyticsSettingsData.optedIn = false
+    UsageTracker.initializeIfNotPresent(scheduledExecutorService)
+    Truth.assertThat(UsageTracker.writer).isEqualTo(writer)
+  }
 }

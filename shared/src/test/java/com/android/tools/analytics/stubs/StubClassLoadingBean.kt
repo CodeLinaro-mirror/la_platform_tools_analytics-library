@@ -16,15 +16,11 @@
 
 package com.android.tools.analytics.stubs
 
-import org.junit.Assert.fail
-
 import java.lang.management.ClassLoadingMXBean
 import javax.management.ObjectName
+import org.junit.Assert.fail
 
-/**
- * A Stub implementation of [ClassLoadingMXBean] for use in tests. By default fails on any
- * call.
- */
+/** A Stub implementation of [ClassLoadingMXBean] for use in tests. By default fails on any call. */
 open class StubClassLoadingBean : ClassLoadingMXBean {
 
   override fun getTotalLoadedClassCount(): Long {

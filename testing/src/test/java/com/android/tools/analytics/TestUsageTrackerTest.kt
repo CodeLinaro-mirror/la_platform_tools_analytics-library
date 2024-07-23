@@ -17,14 +17,14 @@ package com.android.tools.analytics
 
 import com.android.testutils.VirtualTimeScheduler
 import com.google.wireless.android.sdk.stats.AndroidStudioEvent
+import java.util.concurrent.TimeUnit
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertSame
 import org.junit.Before
 import org.junit.Test
-import java.util.concurrent.TimeUnit
 
-/** Tests for [TestUsageTracker].  */
+/** Tests for [TestUsageTracker]. */
 class TestUsageTrackerTest {
 
   private lateinit var scheduler: VirtualTimeScheduler
@@ -65,7 +65,8 @@ class TestUsageTrackerTest {
 
     // log an event
     testUsageTracker.logNow(
-      AndroidStudioEvent.newBuilder().setKind(AndroidStudioEvent.EventKind.META_METRICS))
+      AndroidStudioEvent.newBuilder().setKind(AndroidStudioEvent.EventKind.META_METRICS)
+    )
 
     // ensure that that event is what our test usage tracker reports.
     assertEquals(1, testUsageTracker.usages.size.toLong())
@@ -82,11 +83,15 @@ class TestUsageTrackerTest {
     scheduler.advanceBy(1100, TimeUnit.MILLISECONDS)
     // log first event
     testUsageTracker.logNow(
-      AndroidStudioEvent.newBuilder().setKind(AndroidStudioEvent.EventKind.META_METRICS))
+      AndroidStudioEvent.newBuilder().setKind(AndroidStudioEvent.EventKind.META_METRICS)
+    )
     scheduler.advanceBy(1000, TimeUnit.MILLISECONDS)
 
     // log second event with timestamp before the first event
-    testUsageTracker.logAt(101, AndroidStudioEvent.newBuilder().setKind(AndroidStudioEvent.EventKind.STUDIO_CRASH))
+    testUsageTracker.logAt(
+      101,
+      AndroidStudioEvent.newBuilder().setKind(AndroidStudioEvent.EventKind.STUDIO_CRASH),
+    )
     scheduler.advanceBy(1000, TimeUnit.MILLISECONDS)
 
     val usages = testUsageTracker.usages

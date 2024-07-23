@@ -16,17 +16,12 @@
 
 package com.android.tools.analytics.stubs
 
-import org.junit.Assert.fail
-
 import java.lang.management.ThreadInfo
 import java.lang.management.ThreadMXBean
-
 import javax.management.ObjectName
+import org.junit.Assert.fail
 
-/**
- * A Stub implementation of [ThreadMXBean] for use in tests. By default fails on any
- * call.
- */
+/** A Stub implementation of [ThreadMXBean] for use in tests. By default fails on any call. */
 open class StubThreadBean : ThreadMXBean {
 
   override fun getThreadCount(): Int {
@@ -152,12 +147,18 @@ open class StubThreadBean : ThreadMXBean {
   }
 
   override fun getThreadInfo(
-    ids: LongArray, lockedMonitors: Boolean, lockedSynchronizers: Boolean): Array<ThreadInfo> {
+    ids: LongArray,
+    lockedMonitors: Boolean,
+    lockedSynchronizers: Boolean,
+  ): Array<ThreadInfo> {
     fail()
     return arrayOf()
   }
 
-  override fun dumpAllThreads(lockedMonitors: Boolean, lockedSynchronizers: Boolean): Array<ThreadInfo> {
+  override fun dumpAllThreads(
+    lockedMonitors: Boolean,
+    lockedSynchronizers: Boolean,
+  ): Array<ThreadInfo> {
     fail()
     return arrayOf()
   }

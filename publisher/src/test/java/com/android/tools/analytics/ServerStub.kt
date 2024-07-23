@@ -32,9 +32,7 @@ import java.util.concurrent.Future
 import java.util.concurrent.atomic.AtomicBoolean
 import java.util.zip.GZIPInputStream
 
-/**
- * A tiny webserver used to stub out the Google Analytics server in tests.
- */
+/** A tiny webserver used to stub out the Google Analytics server in tests. */
 class ServerStub
 /**
  * Creates an instance of the webserver and starts listening on an unused port in the ephemeral
@@ -47,23 +45,21 @@ constructor() : HttpHandler, AutoCloseable {
   private val server: HttpServer = HttpServer.create(InetSocketAddress(0), 0)
   private val nextResponseServerError = AtomicBoolean(false)
 
-  /**
-   * Builds a url for the server stub that can be used in testing [AnalyticsPublisher].
-   */
+  /** Builds a url for the server stub that can be used in testing [AnalyticsPublisher]. */
   val url: URL
     @Throws(MalformedURLException::class)
     get() = URL(String.format("http://localhost:%d/log?format=raw", address.port))
 
   /**
-   * Gets results for calls to this webserver since it was started.
-   * The future represents successful (a [ClientAnalytics.LogRequest]) and failed
-   * (an exception) requests.
+   * Gets results for calls to this webserver since it was started. The future represents successful
+   * (a [ClientAnalytics.LogRequest]) and failed (an exception) requests.
    */
   // Synchronized to ensure no results are in flight to avoid test flakeyness.
   val results: List<Future<ClientAnalytics.LogRequest>>
-    get() = synchronized(server) {
-      return results_
-    }
+    get() =
+      synchronized(server) {
+        return results_
+      }
 
   init {
     server.createContext("/log", this)
@@ -74,8 +70,8 @@ constructor() : HttpHandler, AutoCloseable {
   }
 
   /**
-   * iff true, instructs the webserver to send an internal server error as the response to the
-   * next request made to this server.
+   * iff true, instructs the webserver to send an internal server error as the response to the next
+   * request made to this server.
    */
   fun makeNextResponseServerError(nextRequestBad: Boolean) {
     this.nextResponseServerError.set(nextRequestBad)
@@ -95,8 +91,7 @@ constructor() : HttpHandler, AutoCloseable {
         val body = httpExchange.responseBody
         body.write(response)
         nextResponseServerError.set(false)
-      }
-      else {
+      } else {
         val data = SettableFuture.create<ClientAnalytics.LogRequest>()
         try {
           var body = httpExchange.requestBody
@@ -105,8 +100,7 @@ constructor() : HttpHandler, AutoCloseable {
           }
           data.set(ClientAnalytics.LogRequest.parseFrom(body))
           httpExchange.sendResponseHeaders(HTTP_OK, 0)
-        }
-        catch (e: IOException) {
+        } catch (e: IOException) {
           val response = "Bad Request".toByteArray(Charsets.UTF_8)
           httpExchange.sendResponseHeaders(HTTP_BAD_REQUEST, response.size.toLong())
           val body = httpExchange.responseBody
@@ -119,7 +113,7 @@ constructor() : HttpHandler, AutoCloseable {
     }
   }
 
-  /** Checks if the request body is gzipped.  */
+  /** Checks if the request body is gzipped. */
   private fun isZipped(httpExchange: HttpExchange): Boolean {
     if (!httpExchange.requestHeaders.containsKey("Content-Encoding")) {
       return false
@@ -127,8 +121,7 @@ constructor() : HttpHandler, AutoCloseable {
     val values = httpExchange.requestHeaders["Content-Encoding"]!!
     return if (values.size == 0) {
       false
-    }
-    else values[values.size - 1] == "gzip"
+    } else values[values.size - 1] == "gzip"
   }
 
   companion object {

@@ -18,7 +18,6 @@ package com.android.tools.analytics.stubs;
 import static org.junit.Assert.fail;
 
 import com.sun.management.OperatingSystemMXBean;
-
 import javax.management.ObjectName;
 
 /**
@@ -26,105 +25,105 @@ import javax.management.ObjectName;
  */
 public class StubOperatingSystemMXBean implements OperatingSystemMXBean {
 
-    @Override
-    public String getName() {
-        fail();
-        return null;
-    }
+  @Override
+  public String getName() {
+    fail();
+    return null;
+  }
 
-    @Override
-    public String getArch() {
-        fail();
-        return null;
-    }
+  @Override
+  public String getArch() {
+    fail();
+    return null;
+  }
 
-    @Override
-    public String getVersion() {
-        fail();
-        return null;
-    }
+  @Override
+  public String getVersion() {
+    fail();
+    return null;
+  }
 
-    @Override
-    public int getAvailableProcessors() {
-        fail();
-        return 0;
-    }
+  @Override
+  public int getAvailableProcessors() {
+    fail();
+    return 0;
+  }
 
-    @Override
-    public double getSystemLoadAverage() {
-        fail();
-        return 0;
-    }
+  @Override
+  public double getSystemLoadAverage() {
+    fail();
+    return 0;
+  }
 
-    @Override
-    public ObjectName getObjectName() {
-        fail();
-        return null;
-    }
+  @Override
+  public ObjectName getObjectName() {
+    fail();
+    return null;
+  }
 
-    @Override
-    public long getCommittedVirtualMemorySize() {
-        fail();
-        return 0;
-    }
+  @Override
+  public long getCommittedVirtualMemorySize() {
+    fail();
+    return 0;
+  }
 
-    @Override
-    public long getTotalSwapSpaceSize() {
-        fail();
-        return 0;
-    }
+  @Override
+  public long getTotalSwapSpaceSize() {
+    fail();
+    return 0;
+  }
 
-    @Override
-    public long getFreeSwapSpaceSize() {
-        fail();
-        return 0;
-    }
+  @Override
+  public long getFreeSwapSpaceSize() {
+    fail();
+    return 0;
+  }
 
-    @Override
-    public long getProcessCpuTime() {
-        fail();
-        return 0;
-    }
+  @Override
+  public long getProcessCpuTime() {
+    fail();
+    return 0;
+  }
 
-    @Override
-    public long getFreePhysicalMemorySize() {
-        fail();
-        return 0;
-    }
+  @Override
+  public long getFreePhysicalMemorySize() {
+    fail();
+    return 0;
+  }
 
-    @Override
-    public long getTotalPhysicalMemorySize() {
-        fail();
-        return 0;
-    }
+  @Override
+  public long getTotalPhysicalMemorySize() {
+    fail();
+    return 0;
+  }
 
-    @Override
-    public double getSystemCpuLoad() {
-        fail();
-        return 0;
-    }
+  @Override
+  public double getSystemCpuLoad() {
+    fail();
+    return 0;
+  }
 
-    @Override
-    public double getProcessCpuLoad() {
-        fail();
-        return 0;
-    }
+  @Override
+  public double getProcessCpuLoad() {
+    fail();
+    return 0;
+  }
 
-    //TODO add @Override annotation once migrated to java17
-    public long getFreeMemorySize() {
-        fail();
-        return 0;
-    }
+  // TODO add @Override annotation once migrated to java17
+  public long getFreeMemorySize() {
+    fail();
+    return 0;
+  }
 
-    //TODO add @Override annotation once migrated to java17
-    public long getTotalMemorySize() {
-        fail();
-        return 0;
-    }
+  // TODO add @Override annotation once migrated to java17
+  public long getTotalMemorySize() {
+    fail();
+    return 0;
+  }
 
-    //TODO add @Override annotation once migrated to java17
-    public double getCpuLoad() {
-        fail();
-        return 0;
-    }
+  // TODO add @Override annotation once migrated to java17
+  public double getCpuLoad() {
+    fail();
+    return 0;
+  }
 }

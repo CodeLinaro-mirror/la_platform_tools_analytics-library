@@ -16,14 +16,12 @@
 
 package com.android.tools.analytics.stubs
 
-import org.junit.Assert.fail
-
 import java.lang.management.GarbageCollectorMXBean
 import javax.management.ObjectName
+import org.junit.Assert.fail
 
 /**
- * A Stub implementation of [GarbageCollectorMXBean] for use in tests. By default fails on any
- * call.
+ * A Stub implementation of [GarbageCollectorMXBean] for use in tests. By default fails on any call.
  */
 open class StubGarbageCollectionBean : GarbageCollectorMXBean {
 
@@ -60,7 +58,7 @@ open class StubGarbageCollectionBean : GarbageCollectorMXBean {
   companion object {
 
     @JvmStatic
-      /** Creates a Stub [GarbageCollectorMXBean] using fixed values for provided arguments.  */
+    /** Creates a Stub [GarbageCollectorMXBean] using fixed values for provided arguments. */
     fun fixedValue(name: String, collections: Long, time: Long): GarbageCollectorMXBean {
       return object : StubGarbageCollectionBean() {
         override fun getName(): String? {

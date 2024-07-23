@@ -18,13 +18,12 @@ package com.android.tools.analytics
 import com.android.testutils.VirtualTimeScheduler
 import org.junit.rules.ExternalResource
 
-/**
- * A rule that facilitates testing of [UsageTracker]
- */
+/** A rule that facilitates testing of [UsageTracker] */
 class UsageTrackerRule : ExternalResource() {
   private val tracker = TestUsageTracker(VirtualTimeScheduler())
 
-  val usages: List<LoggedUsage> get() = tracker.usages
+  val usages: List<LoggedUsage>
+    get() = tracker.usages
 
   override fun before() {
     UsageTracker.setWriterForTest(tracker)

@@ -19,9 +19,9 @@ import com.google.protobuf.InvalidProtocolBufferException
 import com.google.wireless.android.play.playlog.proto.ClientAnalytics
 import com.google.wireless.android.sdk.stats.AndroidStudioEvent
 
-/** Describes a usage tracking event as captured by [TestUsageTracker]  */
-data class LoggedUsage @Throws(InvalidProtocolBufferException::class) constructor(
-    val timestamp: Long,
-    val logEvent: ClientAnalytics.LogEvent) {
+/** Describes a usage tracking event as captured by [TestUsageTracker] */
+data class LoggedUsage
+@Throws(InvalidProtocolBufferException::class)
+constructor(val timestamp: Long, val logEvent: ClientAnalytics.LogEvent) {
   val studioEvent: AndroidStudioEvent = AndroidStudioEvent.parseFrom(logEvent.sourceExtension)
 }
