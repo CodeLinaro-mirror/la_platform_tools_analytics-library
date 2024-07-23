@@ -40,12 +40,12 @@ import java.util.logging.Logger;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.StatusLine;
-import org.apache.http.client.HttpClient;
 import org.apache.http.client.HttpResponseException;
 import org.apache.http.client.entity.GzipCompressingEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
+import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 
@@ -69,7 +69,7 @@ public class GoogleCrashReporter implements CrashReporter {
   private static final String LOCALE = Locale.getDefault() == null ? "unknown" : Locale.getDefault().toString();
 
   private static final int REJECTED_UPLOAD_TRIGGER_COUNT = 20;
-  private static AtomicInteger ourRejectedExecutionCount = new AtomicInteger();
+  private final static AtomicInteger ourRejectedExecutionCount = new AtomicInteger();
 
   /**
    * Executor to use when uploading crash events. Earlier versions relied on the ForkJoin pool, but this causes
@@ -165,7 +165,7 @@ public class GoogleCrashReporter implements CrashReporter {
   @Override
   public CompletableFuture<String> submit(@NonNull Map<String, String> kv) {
     Map<String, String> parameters = getDefaultParameters();
-    kv.forEach(parameters::put);
+    parameters.putAll(kv);
     return submit(newMultipartEntityBuilderWithKv(parameters).build());
   }
 
@@ -176,9 +176,7 @@ public class GoogleCrashReporter implements CrashReporter {
 
     try {
       ourExecutor.submit(() -> {
-        try {
-          HttpClient client = HttpClients.createDefault();
-
+        try (CloseableHttpClient client = HttpClients.createSystem()) {
           HttpEntity entity = requestEntity;
           if (!isUnitTestMode) {
             // The test server used in testing doesn't handle gzip compression (netty requires jcraft jzlib for gzip decompression)
@@ -187,7 +185,6 @@ public class GoogleCrashReporter implements CrashReporter {
 
           HttpPost post = new HttpPost(crashUrl);
           post.setEntity(entity);
-
           HttpResponse response = client.execute(post);
           StatusLine statusLine = response.getStatusLine();
           if (statusLine.getStatusCode() >= 300) {
