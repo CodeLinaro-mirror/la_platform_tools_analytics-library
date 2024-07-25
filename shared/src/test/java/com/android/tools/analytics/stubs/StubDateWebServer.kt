@@ -25,29 +25,27 @@ import java.util.*
 import java.util.concurrent.Executors
 
 /**
- * A tiny webserver used to test [WebServerDateProvider]
- * Cannot use the [com.sun.net.httpserver.HttpServer] API
- * as that autogenerates the Date header.
+ * A tiny webserver used to test [WebServerDateProvider] Cannot use the
+ * [com.sun.net.httpserver.HttpServer] API as that autogenerates the Date header.
  */
 class StubDateWebServer {
   private val pattern = "EEE, dd MMM yyyy HH:mm:ss zzz"
   private val gmtTZ = TimeZone.getTimeZone("GMT")
-  private val dateFormat = SimpleDateFormat(pattern, Locale.US).apply {
-    timeZone = gmtTZ
-  }
+  private val dateFormat = SimpleDateFormat(pattern, Locale.US).apply { timeZone = gmtTZ }
 
   private val server = ServerSocket(0)
   private val executor = Executors.newSingleThreadExecutor()
 
   val url = URL("http://localhost:${server.localPort}")
 
-  private var reply = """
+  private var reply =
+    """
         HTTP/1.1 200 OK
         Date: Fri, 03 Aug 2018 19:59:10 GMT
 
         Hello World
-""".trimIndent()
-
+"""
+      .trimIndent()
 
   init {
 
@@ -70,35 +68,40 @@ class StubDateWebServer {
     }
   }
 
-  fun replyForDate(date : Date) {
+  fun replyForDate(date: Date) {
     val formatted = dateFormat.format(date)
-    reply = """
+    reply =
+      """
         HTTP/1.1 200 OK
         Date: $formatted
 
         Hello World
-        """.trimIndent()
+        """
+        .trimIndent()
   }
 
-  fun replyFreeFormDate(date : String) {
-    reply = """
+  fun replyFreeFormDate(date: String) {
+    reply =
+      """
         HTTP/1.1 200 OK
         Date: $date
 
         Hello World
-        """.trimIndent()
+        """
+        .trimIndent()
   }
 
   fun replyNoDate() {
-    reply = """
+    reply =
+      """
         HTTP/1.1 200 OK
 
         Hello World
-        """.trimIndent()
+        """
+        .trimIndent()
   }
 
   fun close() {
     server.close()
   }
 }
-

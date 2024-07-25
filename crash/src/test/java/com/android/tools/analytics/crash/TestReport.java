@@ -27,6 +27,5 @@ class TestReport extends CrashReport {
   }
 
   @Override
-  protected void serializeTo(@NonNull MultipartEntityBuilder builder) {
-  }
+  protected void serializeTo(@NonNull MultipartEntityBuilder builder) {}
 }

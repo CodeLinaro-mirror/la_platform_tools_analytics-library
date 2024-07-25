@@ -16,17 +16,16 @@
 
 package com.android.tools.analytics.stubs
 
-import org.junit.Assert.fail
-
 import java.awt.GraphicsConfiguration
 import java.awt.GraphicsDevice
 import java.awt.Rectangle
 import java.awt.geom.AffineTransform
 import java.awt.image.ColorModel
+import org.junit.Assert.fail
 
 /**
- * A Stub implementation of [StubGraphicsConfiguration] for use in tests. By default fails on
- * any call.
+ * A Stub implementation of [StubGraphicsConfiguration] for use in tests. By default fails on any
+ * call.
  */
 open class StubGraphicsConfiguration : GraphicsConfiguration() {
 

@@ -16,14 +16,13 @@
 
 package com.android.tools.analytics.stubs
 
-import org.junit.Assert.fail
 import java.awt.*
 import java.awt.image.BufferedImage
 import java.util.*
+import org.junit.Assert.fail
 
 /**
- * A Stub implementation of [GraphicsEnvironment] for use in tests. By default fails on any
- * call.
+ * A Stub implementation of [GraphicsEnvironment] for use in tests. By default fails on any call.
  */
 open class StubGraphicsEnvironment : GraphicsEnvironment() {
 

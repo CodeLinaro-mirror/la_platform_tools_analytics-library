@@ -17,13 +17,13 @@ package com.android.tools.analytics
 
 import com.android.tools.analytics.stubs.StubDateWebServer
 import com.google.common.truth.Truth.assertThat
-import org.junit.Test
 import java.io.IOException
 import java.util.*
+import org.junit.Test
 
 const val MILLI_TO_NANOS = 1_000_000
 
-/** Tests for @{link Anonymizer}.  */
+/** Tests for @{link Anonymizer}. */
 class WebServerDateProviderTest {
   @Test
   fun connectedTest() {
@@ -32,9 +32,10 @@ class WebServerDateProviderTest {
     try {
       val start = Date(Date.parse("Fri, 03 Aug 2018 19:59:10 GMT"))
       stub.replyForDate(start)
-      val dateProvider = object : WebServerDateProvider(stub.url) {
-        override fun nanoTime() = offset
-      }
+      val dateProvider =
+        object : WebServerDateProvider(stub.url) {
+          override fun nanoTime() = offset
+        }
 
       var now = dateProvider.now()
       assertThat(now.time).isEqualTo(start.time + (offset / MILLI_TO_NANOS))
@@ -48,7 +49,6 @@ class WebServerDateProviderTest {
 
       now = dateProvider.now()
       assertThat(now.time).isEqualTo(skewed.time + (offset / MILLI_TO_NANOS))
-
 
       stub.replyFreeFormDate("Dinsdag 31 Juli 2018")
       assertThat(dateProvider.updateServerTimestampWithHeadRequest(stub.url)).isFalse()
@@ -73,8 +73,8 @@ class WebServerDateProviderTest {
       stub.close()
       WebServerDateProvider(stub.url)
       throw RuntimeException("WebServer call should have failed")
-    } catch (_ : IOException) {
-     // expected
+    } catch (_: IOException) {
+      // expected
     }
   }
 }

@@ -16,16 +16,13 @@
 
 package com.android.tools.analytics.stubs
 
-import org.junit.Assert.fail
-
 import java.awt.GraphicsConfiguration
 import java.awt.GraphicsDevice
 import java.awt.Rectangle
 import java.awt.geom.AffineTransform
+import org.junit.Assert.fail
 
-/**
- * A Stub implementation of [GraphicsDevice] for use in tests. By default fails on any call.
- */
+/** A Stub implementation of [GraphicsDevice] for use in tests. By default fails on any call. */
 open class StubGraphicsDevice : GraphicsDevice() {
 
   override fun getType(): Int {
@@ -51,21 +48,22 @@ open class StubGraphicsDevice : GraphicsDevice() {
   companion object {
 
     @JvmStatic
-      /** Creates a GraphicsDevice with specified width & height.  */
+    /** Creates a GraphicsDevice with specified width & height. */
     fun withBounds(width: Int, height: Int): GraphicsDevice =
       StubGraphicsDeviceWithBounds(width, height)
 
-    private class StubGraphicsDeviceWithBounds constructor(
-      val width: Int,
-      val height: Int
-    ) : StubGraphicsDevice() {
+    private class StubGraphicsDeviceWithBounds constructor(val width: Int, val height: Int) :
+      StubGraphicsDevice() {
       override fun getDefaultConfiguration(): GraphicsConfiguration {
         return object : StubGraphicsConfiguration() {
           override fun getBounds() = Rectangle(width, height)
+
           override fun getDevice() = this@StubGraphicsDeviceWithBounds
+
           override fun getDefaultTransform() = AffineTransform()
         }
       }
+
       override fun getType(): Int = TYPE_RASTER_SCREEN
     }
   }

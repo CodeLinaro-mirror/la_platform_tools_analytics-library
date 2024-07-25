@@ -16,14 +16,11 @@
 
 package com.android.tools.analytics.stubs
 
-import org.junit.Assert.fail
-
 import java.lang.management.RuntimeMXBean
 import javax.management.ObjectName
+import org.junit.Assert.fail
 
-/**
- * A Stub implementation of [RuntimeMXBean] for use in tests. By default fails on any call.
- */
+/** A Stub implementation of [RuntimeMXBean] for use in tests. By default fails on any call. */
 open class StubRuntimeMXBean : RuntimeMXBean {
   override fun getName(): String? {
     fail()

@@ -712,6 +712,9 @@ message AndroidStudioEvent {
   optional WearTileAnimationToolingEvent wear_tile_animation_tooling_event = 197
       [lazy = true];
 
+  // set when kind = BACKUP_USAGE
+  optional BackupUsageEvent backup_usage_event = 198 [lazy = true];
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -1561,6 +1564,9 @@ message AndroidStudioEvent {
 
     // Event related to Wear Tile preview animation inspector
     WEAR_TILE_ANIMATION_TOOLING = 314;
+
+    // Event related to usage of the Backup/Restore App State feature
+    BACKUP_USAGE = 315;
   }
 
   // Represents different Performance Monitoring types.
@@ -14450,6 +14456,8 @@ message DirectAccessUsageEvent {
     SCOPE_CANCELLED = 2;
     // Studio project is closing
     PROJECT_CLOSING = 3;
+    // Quota exhausted for the cloud project
+    RESOURCE_EXHAUSTED = 4;
 
     // Disconnect Reasons
     // Device failed to connect to ADB
@@ -15560,4 +15568,65 @@ message FirebaseManagementEvent {
   // Set when type = CREATE_FIREBASE_PROJECT
   optional CreateFirebaseProjectDetails create_firebase_project_details = 3
       [lazy = true];
+}
+
+// Events raised by user interactions with Logcat tool windows
+message BackupUsageEvent {
+  // The event type
+  optional Type type = 1;
+
+  // A Backup action was invoked
+  optional BackupEvent backup = 2 [lazy = true];
+
+  // A Restore action was invoked
+  optional RestoreEvent restore = 3 [lazy = true];
+
+  // The type of event
+  enum Type {
+    UNKNOWN_EVENT_TYPE = 0;
+    BACKUP = 1;
+    RESTORE = 2;
+  }
+
+  // Where the action was invoked from
+  enum Source {
+    UNKNOWN_SOURCE = 0;
+    DEVICE_EXPLORER = 1;
+    RUN_MENU = 2;
+    PROJECT_VIEW = 3;
+  }
+
+  // Where the action was invoked from
+  enum Result {
+    UNKNOWN_RESULT = 0;
+    SUCCESS = 1;
+    CANNOT_ENABLE_BMGR = 2;
+    TRANSPORT_NOT_SELECTED = 3;
+    TRANSPORT_INIT_FAILED = 4;
+    GMSCORE_NOT_FOUND = 5;
+    GMSCORE_IS_TOO_OLD = 6;
+    BACKUP_FAILED = 7;
+    RESTORE_FAILED = 8;
+    INVALID_BACKUP_FILE = 9;
+    UNEXPECTED_ERROR = 10;
+  }
+
+  // A Backup event
+  message BackupEvent {
+    enum Type {
+      UNKNOWN_BACKUP_TYPE = 0;
+      D2D = 1;
+      CLOUD = 2;
+    }
+
+    optional Type type = 1;
+    optional Source source = 2;
+    optional Result result = 3;
+  }
+
+  // A Restore event
+  message RestoreEvent {
+    optional Source source = 1;
+    optional Result result = 2;
+  }
 }

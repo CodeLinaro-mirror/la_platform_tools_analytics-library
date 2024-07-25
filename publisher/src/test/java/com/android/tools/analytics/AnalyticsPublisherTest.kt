@@ -16,7 +16,6 @@
 
 package com.android.tools.analytics
 
-import com.android.testutils.AssumeUtil
 import com.android.testutils.SystemPropertyOverrides
 import com.android.testutils.VirtualTimeDateProvider
 import com.android.testutils.VirtualTimeScheduler
@@ -26,44 +25,36 @@ import com.google.wireless.android.play.playlog.proto.ClientAnalytics
 import com.google.wireless.android.sdk.stats.AndroidStudioEvent
 import com.google.wireless.android.sdk.stats.MetaMetrics
 import com.google.wireless.android.sdk.stats.StudioCrash
-import org.junit.Assert.*
-import org.junit.Before
-import org.junit.Ignore
-import org.junit.Rule
-import org.junit.Test
-import org.junit.rules.TemporaryFolder
-import org.junit.rules.Timeout
 import java.net.HttpURLConnection
 import java.net.URL
 import java.util.*
 import java.util.concurrent.Callable
 import java.util.concurrent.Future
 import java.util.concurrent.TimeUnit
+import org.junit.Assert.*
+import org.junit.Before
+import org.junit.Rule
+import org.junit.Test
+import org.junit.rules.TemporaryFolder
 
-
-/**
- * Tests for [AnalyticsPublisher] and [GoogleAnalyticsPublisher].
- */
+/** Tests for [AnalyticsPublisher] and [GoogleAnalyticsPublisher]. */
 class AnalyticsPublisherTest {
-  @get:Rule
-  val testSpoolDir = TemporaryFolder()
-  @get:Rule
-  val testConfigDir = TemporaryFolder()
+  @get:Rule val testSpoolDir = TemporaryFolder()
+  @get:Rule val testConfigDir = TemporaryFolder()
 
   @Before
   fun before() {
-      val analyticsSettings = AnalyticsSettingsData()
-      analyticsSettings.optedIn = true
-      analyticsSettings.userId = "f59e9566-2416-42a9-a159-b91fa484e4d7"
-      AnalyticsSettings.setInstanceForTest(analyticsSettings)
-    }
+    val analyticsSettings = AnalyticsSettingsData()
+    analyticsSettings.optedIn = true
+    analyticsSettings.userId = "f59e9566-2416-42a9-a159-b91fa484e4d7"
+    AnalyticsSettings.setInstanceForTest(analyticsSettings)
+  }
 
   @Test
   @Throws(Exception::class)
   fun testInitialValues() {
     // Configure the paths to use a temp directory for reading from and writing to.
-    EnvironmentFakes.setCustomAndroidPrefsRootEnvironment(
-      testConfigDir.root.toPath().toString())
+    EnvironmentFakes.setCustomAndroidPrefsRootEnvironment(testConfigDir.root.toPath().toString())
     // Start a stub webserver to publish to.
     try {
       ServerStub().use { stub ->
@@ -71,21 +62,19 @@ class AnalyticsPublisherTest {
         val vs = VirtualTimeScheduler()
 
         // Instantiate the publisher
-        val googleAnalyticsPublisher = GoogleAnalyticsPublisher(
-          vs, testSpoolDir.root.toPath(), "1.2.3.4")
+        val googleAnalyticsPublisher =
+          GoogleAnalyticsPublisher(vs, testSpoolDir.root.toPath(), "1.2.3.4")
         googleAnalyticsPublisher.setServerUrl(stub.url)
 
         // Ensure the publisher's initial values are as expected.
         assertEquals(stub.url, googleAnalyticsPublisher.getServerUrl())
-        assertEquals(
-          TimeUnit.MINUTES.toNanos(10), googleAnalyticsPublisher.publishInterval)
+        assertEquals(TimeUnit.MINUTES.toNanos(10), googleAnalyticsPublisher.publishInterval)
 
         // Ensure that the first publish job has been scheduled.
         assertEquals(1, vs.queue.size.toLong())
         assertEquals(TimeUnit.MINUTES.toNanos(10), vs.queue.peek().tick)
       }
-    }
-    finally {
+    } finally {
       cleanEnvironment()
     }
   }
@@ -99,8 +88,7 @@ class AnalyticsPublisherTest {
   @Throws(Exception::class)
   fun testBasics() {
     // Configure the paths to use a temp directory for reading from and writing to.
-    EnvironmentFakes.setCustomAndroidPrefsRootEnvironment(
-      testConfigDir.root.toPath().toString())
+    EnvironmentFakes.setCustomAndroidPrefsRootEnvironment(testConfigDir.root.toPath().toString())
     try {
       ServerStub().use { stub ->
         SystemPropertyOverrides().use { systemPropertyOverrides ->
@@ -116,7 +104,6 @@ class AnalyticsPublisherTest {
           vs.advanceBy(0)
           journalingUsageTracker.close()
 
-
           // Override the date provider to the publisher so we can reliably check if date based
           // properties are set correctly.
           val dateProvider = VirtualTimeDateProvider(vs)
@@ -130,7 +117,8 @@ class AnalyticsPublisherTest {
           systemPropertyOverrides.setProperty("os.name", "Linux")
           systemPropertyOverrides.setProperty("os.version", "3.13.0-85-generic")
 
-          val googleAnalyticsPublisher = GoogleAnalyticsPublisher(vs, testSpoolDir.root.toPath(), "1.2.3.4")
+          val googleAnalyticsPublisher =
+            GoogleAnalyticsPublisher(vs, testSpoolDir.root.toPath(), "1.2.3.4")
           googleAnalyticsPublisher.setServerUrl(stub.url)
 
           // advance time to make the publisher run its first publishing job.
@@ -147,11 +135,8 @@ class AnalyticsPublisherTest {
           // verify the retrieved proto is shaped as expected.
           assertEquals(660000, request.requestTimeMs)
 
-          assertEquals(
-            ClientAnalytics.LogRequest.LogSource.ANDROID_STUDIO, request.logSource)
-          assertEquals(
-            ClientAnalytics.ClientInfo.ClientType.DESKTOP,
-            request.clientInfo.clientType)
+          assertEquals(ClientAnalytics.LogRequest.LogSource.ANDROID_STUDIO, request.logSource)
+          assertEquals(ClientAnalytics.ClientInfo.ClientType.DESKTOP, request.clientInfo.clientType)
           val cdi = request.clientInfo.desktopClientInfo
           assertEquals(AnalyticsSettings.userId, cdi.loggingId)
           assertEquals("linux", cdi.os)
@@ -171,17 +156,18 @@ class AnalyticsPublisherTest {
                   .setFailedConnections(0)
                   .setFailedServerReplies(0)
                   .setBytesSentInLastUpload(0)
-                  .build())
+                  .build()
+              )
               .build(),
-            metaStudioEvent)
+            metaStudioEvent,
+          )
 
           val userEvent = request.getLogEvent(1)
           val retrieved = AndroidStudioEvent.parseFrom(userEvent.sourceExtension)
           assertEquals(logged.build(), retrieved)
         }
       }
-    }
-    finally {
+    } finally {
       AnalyticsSettings.dateProvider = DateProvider.SYSTEM
       cleanEnvironment()
     }
@@ -189,10 +175,7 @@ class AnalyticsPublisherTest {
     assertEquals(0, testSpoolDir.root.listFiles()!!.size.toLong())
   }
 
-  /**
-   * Helper that builds a [AndroidStudioEvent] with a marker to
-   * distinguish this message.
-   */
+  /** Helper that builds a [AndroidStudioEvent] with a marker to distinguish this message. */
   private fun createAndroidStudioEvent(marker: Long): AndroidStudioEvent.Builder {
     return AndroidStudioEvent.newBuilder()
       .setStudioSessionId(UsageTracker.sessionId)
@@ -206,8 +189,7 @@ class AnalyticsPublisherTest {
   @Throws(Exception::class)
   fun testBadConnection() {
     // Configure the paths to use a temp directory for reading from and writing to.
-    EnvironmentFakes.setCustomAndroidPrefsRootEnvironment(
-      testConfigDir.root.toPath().toString())
+    EnvironmentFakes.setCustomAndroidPrefsRootEnvironment(testConfigDir.root.toPath().toString())
     // Create a server
     try {
       ServerStub().use { stub ->
@@ -224,7 +206,8 @@ class AnalyticsPublisherTest {
         journalingUsageTracker.close()
 
         // Create helpers used to instantiate the publisher.
-        val googleAnalyticsPublisher = GoogleAnalyticsPublisher(vs, testSpoolDir.root.toPath(), "1.2.3.4")
+        val googleAnalyticsPublisher =
+          GoogleAnalyticsPublisher(vs, testSpoolDir.root.toPath(), "1.2.3.4")
 
         // set the url to publish to to a reserved port which we know the server cannot connect to.
         // https://www.iana.org/assignments/service-names-port-numbers/service-names-port-numbers.txt
@@ -266,12 +249,13 @@ class AnalyticsPublisherTest {
                 .setFailedConnections(1)
                 .setFailedServerReplies(0)
                 .setBytesSentInLastUpload(0)
-                .build())
+                .build()
+            )
             .build(),
-          metaStudioEvent)
+          metaStudioEvent,
+        )
       }
-    }
-    finally {
+    } finally {
       cleanEnvironment()
     }
   }
@@ -280,8 +264,7 @@ class AnalyticsPublisherTest {
   @Throws(Exception::class)
   fun testBadServer() {
     // Configure the paths to use a temp directory for reading from and writing to.
-    EnvironmentFakes.setCustomAndroidPrefsRootEnvironment(
-      testConfigDir.root.toPath().toString())
+    EnvironmentFakes.setCustomAndroidPrefsRootEnvironment(testConfigDir.root.toPath().toString())
     try {
       ServerStub().use { stub ->
         SystemPropertyOverrides().use { systemPropertyOverrides ->
@@ -312,14 +295,17 @@ class AnalyticsPublisherTest {
           systemPropertyOverrides.setProperty("os.name", "Linux")
           systemPropertyOverrides.setProperty("os.version", "3.13.0-85-generic")
 
-          val googleAnalyticsPublisher = GoogleAnalyticsPublisher(vs, testSpoolDir.root.toPath(), "1.2.3.4")
+          val googleAnalyticsPublisher =
+            GoogleAnalyticsPublisher(vs, testSpoolDir.root.toPath(), "1.2.3.4")
           googleAnalyticsPublisher.setServerUrl(stub.url)
-            googleAnalyticsPublisher.setCreateConnection(Callable {
-                val connection = stub.url.openConnection() as HttpURLConnection
-                connection.connectTimeout = 10000
-                connection.readTimeout = 10000
-                connection
-            })
+          googleAnalyticsPublisher.setCreateConnection(
+            Callable {
+              val connection = stub.url.openConnection() as HttpURLConnection
+              connection.connectTimeout = 10000
+              connection.readTimeout = 10000
+              connection
+            }
+          )
 
           // Instruct to make the server stub fail the http request in the next call.
           stub.makeNextResponseServerError(true)
@@ -363,15 +349,16 @@ class AnalyticsPublisherTest {
                   // meta metrics.
                   .setFailedServerReplies(1)
                   .setBytesSentInLastUpload(bytesSentInLastUpload)
-                  .build())
+                  .build()
+              )
               .build(),
-            metaStudioEvent)
+            metaStudioEvent,
+          )
 
           googleAnalyticsPublisher.close()
         }
       }
-    }
-    finally {
+    } finally {
       AnalyticsSettings.dateProvider = DateProvider.SYSTEM
       cleanEnvironment()
     }
@@ -381,8 +368,7 @@ class AnalyticsPublisherTest {
   @Throws(Exception::class)
   fun testEmptySpoolFile() {
     // Configure the paths to use a temp directory for reading from and writing to.
-    EnvironmentFakes.setCustomAndroidPrefsRootEnvironment(
-      testConfigDir.root.toPath().toString())
+    EnvironmentFakes.setCustomAndroidPrefsRootEnvironment(testConfigDir.root.toPath().toString())
     try {
       ServerStub().use { stub ->
         // Use the JournalingUsageTracker to place an empty .trk file in the spool directory.
@@ -391,7 +377,8 @@ class AnalyticsPublisherTest {
         journalingUsageTracker.close()
 
         // Create helpers used to instantiate the publisher.
-        val googleAnalyticsPublisher = GoogleAnalyticsPublisher(vs, testSpoolDir.root.toPath(), "1.2.3.4")
+        val googleAnalyticsPublisher =
+          GoogleAnalyticsPublisher(vs, testSpoolDir.root.toPath(), "1.2.3.4")
         googleAnalyticsPublisher.setServerUrl(stub.url)
 
         // Execute the first publish job.
@@ -405,8 +392,7 @@ class AnalyticsPublisherTest {
         val results = stub.results
         assertEquals(0, results.size.toLong())
       }
-    }
-    finally {
+    } finally {
       cleanEnvironment()
     }
   }
@@ -415,8 +401,7 @@ class AnalyticsPublisherTest {
   @Throws(Exception::class)
   fun testMultipleEvents() {
     // Configure the paths to use a temp directory for reading from and writing to.
-    EnvironmentFakes.setCustomAndroidPrefsRootEnvironment(
-      testConfigDir.root.toPath().toString())
+    EnvironmentFakes.setCustomAndroidPrefsRootEnvironment(testConfigDir.root.toPath().toString())
     try {
       // Create a few events to log.
       val logged1 = createAndroidStudioEvent(1)
@@ -445,7 +430,8 @@ class AnalyticsPublisherTest {
 
       // Create helpers used to instantiate the publisher.
       ServerStub().use { stub ->
-        val googleAnalyticsPublisher = GoogleAnalyticsPublisher(vs, testSpoolDir.root.toPath(), "1.2.3.4")
+        val googleAnalyticsPublisher =
+          GoogleAnalyticsPublisher(vs, testSpoolDir.root.toPath(), "1.2.3.4")
         googleAnalyticsPublisher.setServerUrl(stub.url)
 
         // Execute the first publish job.
@@ -478,8 +464,7 @@ class AnalyticsPublisherTest {
         // ensure all events that were sent are received, but don't care about the order.
         assertEquals(expected, actual)
       }
-    }
-    finally {
+    } finally {
       cleanEnvironment()
     }
   }
@@ -488,8 +473,7 @@ class AnalyticsPublisherTest {
   @Throws(Exception::class)
   fun testUpdateInterval() {
     // Configure the paths to use a temp directory for reading from and writing to.
-    EnvironmentFakes.setCustomAndroidPrefsRootEnvironment(
-      testConfigDir.root.toPath().toString())
+    EnvironmentFakes.setCustomAndroidPrefsRootEnvironment(testConfigDir.root.toPath().toString())
     try {
       ServerStub().use { stub ->
         // Create an event to log.
@@ -504,7 +488,8 @@ class AnalyticsPublisherTest {
         journalingUsageTracker.close()
 
         // Create helpers used to instantiate the publisher.
-        val googleAnalyticsPublisher = GoogleAnalyticsPublisher(vs, testSpoolDir.root.toPath(), "1.2.3.4")
+        val googleAnalyticsPublisher =
+          GoogleAnalyticsPublisher(vs, testSpoolDir.root.toPath(), "1.2.3.4")
         googleAnalyticsPublisher.setServerUrl(stub.url)
 
         // Ensure a job is queued to publish analytics.
@@ -531,8 +516,7 @@ class AnalyticsPublisherTest {
         val results = stub.results
         assertEquals(1, results.size.toLong())
       }
-    }
-    finally {
+    } finally {
       cleanEnvironment()
     }
   }
@@ -541,8 +525,7 @@ class AnalyticsPublisherTest {
   @Throws(Exception::class)
   fun testCustomConnection() {
     // Configure the paths to use a temp directory for reading from and writing to.
-    EnvironmentFakes.setCustomAndroidPrefsRootEnvironment(
-      testConfigDir.root.toPath().toString())
+    EnvironmentFakes.setCustomAndroidPrefsRootEnvironment(testConfigDir.root.toPath().toString())
     try {
       ServerStub().use { stub ->
         // Create an event to log.
@@ -557,8 +540,11 @@ class AnalyticsPublisherTest {
         journalingUsageTracker.close()
 
         // Create an instance of the publisher with a customized connection creation function.
-        val googleAnalyticsPublisher = GoogleAnalyticsPublisher(vs, testSpoolDir.root.toPath(), "1.2.3.4")
-        googleAnalyticsPublisher.setCreateConnection(Callable { stub.url.openConnection() as HttpURLConnection })
+        val googleAnalyticsPublisher =
+          GoogleAnalyticsPublisher(vs, testSpoolDir.root.toPath(), "1.2.3.4")
+        googleAnalyticsPublisher.setCreateConnection(
+          Callable { stub.url.openConnection() as HttpURLConnection }
+        )
         // set the url to publish to to a reserved port which we know the server cannot connect
         // to.
         // https://www.iana.org/assignments/service-names-port-numbers/service-names-port-numbers.txt
@@ -572,8 +558,7 @@ class AnalyticsPublisherTest {
         val results = stub.results
         assertEquals(1, results.size.toLong())
       }
-    }
-    finally {
+    } finally {
       cleanEnvironment()
     }
   }
@@ -581,16 +566,14 @@ class AnalyticsPublisherTest {
   @Test
   fun testUpdatePublisher() {
     // Configure the paths to use a temp directory for reading from and writing to.
-    EnvironmentFakes.setCustomAndroidPrefsRootEnvironment(
-      testConfigDir.root.toPath().toString())
+    EnvironmentFakes.setCustomAndroidPrefsRootEnvironment(testConfigDir.root.toPath().toString())
     try {
       // Create helpers used to instantiate the publisher.
       val vs = VirtualTimeScheduler()
       assertEquals(AnalyticsPublisher.instance, NullAnalyticsPublisher)
 
       // update the publisher, first call will initialize.
-      AnalyticsPublisher.updatePublisher(
-        StdLogger(StdLogger.Level.ERROR), vs,"1.2.3.4")
+      AnalyticsPublisher.updatePublisher(StdLogger(StdLogger.Level.ERROR), vs, "1.2.3.4")
       val afterFirstUpdate = AnalyticsPublisher.instance
       assertTrue(afterFirstUpdate is GoogleAnalyticsPublisher)
 
@@ -600,17 +583,14 @@ class AnalyticsPublisherTest {
 
       // update again, but now opt-ed out.
       AnalyticsSettings.optedIn = false
-      AnalyticsPublisher.updatePublisher(
-        StdLogger(StdLogger.Level.ERROR), vs, "1.2.3.4")
+      AnalyticsPublisher.updatePublisher(StdLogger(StdLogger.Level.ERROR), vs, "1.2.3.4")
       val afterSecondUpdate = AnalyticsPublisher.instance
       assertTrue(afterSecondUpdate is NullAnalyticsPublisher)
 
       // ensure job from first publisher has been canceled as part of update.
       assertTrue(job.isCancelled)
-    }
-    finally {
+    } finally {
       cleanEnvironment()
     }
   }
-
 }

@@ -16,13 +16,12 @@
 
 package com.android.tools.analytics.stubs
 
-import org.junit.Assert.fail
-
 import java.lang.management.MemoryMXBean
 import java.lang.management.MemoryUsage
 import javax.management.ObjectName
+import org.junit.Assert.fail
 
-/** A Stub implementation of [MemoryMXBean] for use in tests. By default fails on any call.  */
+/** A Stub implementation of [MemoryMXBean] for use in tests. By default fails on any call. */
 open class StubMemoryBean : MemoryMXBean {
 
   override fun getObjectPendingFinalizationCount(): Int {
