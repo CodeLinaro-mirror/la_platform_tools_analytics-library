@@ -2234,6 +2234,9 @@ message ProductDetails {
   repeated string experiment_id = 8;
   // The changelist used to generate the server flags for this installation
   optional int64 server_flags_changelist = 9;
+  // Set to true when Android Studio is running in an IDX docker container.
+  optional bool running_inside_idx = 10;
+
   // Various states in the software life cycle this software could be in.
   enum SoftwareLifeCycleChannel {
     UNKNOWN_LIFE_CYCLE_CHANNEL = 0;
@@ -12499,6 +12502,7 @@ message UpgradeAssistantComponentInfo {
     ANDROID_MANIFEST_USE_EMBEDDED_DEX = 29;
     SHADERS_DEFAULT = 30;
     MIGRATE_TEST_COVERAGE_ENABLED = 31;
+    USE_ANDROIDX_DEFAULT = 32;
   }
 
   message Java8DefaultProcessorSettings {
