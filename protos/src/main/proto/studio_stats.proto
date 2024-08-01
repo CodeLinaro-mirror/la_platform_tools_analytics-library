@@ -13889,6 +13889,9 @@ message AppQualityInsightsUsageEvent {
 
     // For tracking the number of events users view.
     EVENT_VIEWED = 12;
+
+    // Track user sentiment of AQI insights.
+    INSIGHT_SENTIMENT = 13;
   }
 
   enum CrashType {
@@ -14130,6 +14133,24 @@ message AppQualityInsightsUsageEvent {
     optional bool is_fetched = 3;
   }
 
+  message InsightSentiment {
+    enum Sentiment {
+      UNKNOWN_SENTIMENT = 0;
+      THUMBS_UP = 1;
+      THUMBS_DOWN = 2;
+    }
+    enum Experiment {
+      UNKNOWN_EXPERIMENT = 0;
+      CONTROL = 1;
+      TOP_SOURCE = 2;
+      TOP_THREE_SOURCES = 3;
+      ALL_SOURCES = 4;
+    }
+    optional Sentiment sentiment = 1;
+    optional Experiment experiment = 2;
+    optional CrashType crash_type = 3;
+  }
+
   // The app_id is the id for the user's android app
   // which we salt on the client (28 day rotation) then sha256
   // so it is anonymized and is unique per user, but has a 1-N relation.
@@ -14184,6 +14205,9 @@ message AppQualityInsightsUsageEvent {
 
   // set when type = EVENT_VIEWED
   optional EventDetails event_details = 16 [lazy = true];
+
+  // set when type = INSIGHT_SENTIMENT
+  optional InsightSentiment insight_sentiment = 17 [lazy = true];
 }
 
 message FastPreviewEvent {
