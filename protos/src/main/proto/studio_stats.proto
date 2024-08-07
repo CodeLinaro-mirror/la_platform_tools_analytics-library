@@ -15637,6 +15637,7 @@ message BackupUsageEvent {
     RESTORE_FAILED = 8;
     INVALID_BACKUP_FILE = 9;
     UNEXPECTED_ERROR = 10;
+    PLAY_STORE_NOT_INSTALLED = 11;
   }
 
   // A Backup event
