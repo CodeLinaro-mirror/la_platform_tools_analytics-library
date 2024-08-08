@@ -4383,6 +4383,9 @@ message GradleBuildProject {
   // The NDK version
   optional string ndk_version = 21;
 
+  // Set to true when user requests old variant api
+  optional bool old_variant_api_in_use = 22;
+
   enum PluginType {
     UNKNOWN_PLUGIN_TYPE = 0;
     // The 'com.android.application' or 'com.android.model.application' plugins.
