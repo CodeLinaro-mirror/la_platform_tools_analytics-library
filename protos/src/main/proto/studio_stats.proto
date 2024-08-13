@@ -1921,6 +1921,13 @@ message AndroidStudioEvent {
     GROOVY_COMPILATION_ERROR = 45;
     JAVA_COMPILATION_ERROR = 46;
     INVALID_TOML_DEFINITION = 47;
+    // Missing com.android.tools.build:gradle dependency
+    MISSING_DEPENDENCY_COM_ANDROID_TOOLS_BUILD_GRADLE = 48;
+    MISSING_DEPENDENCY_OTHER = 49;
+    // UNKNOWN_PLUGIN_* means org.gradle.api.plugins.UnknownPluginException when
+    // using plugins dsl.
+    UNKNOWN_PLUGIN_COM_ANDROID = 50;
+    UNKNOWN_PLUGIN_OTHER = 51;
   }
 
   // IDE brand containing the android plugin
