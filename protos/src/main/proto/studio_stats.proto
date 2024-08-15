@@ -1921,6 +1921,13 @@ message AndroidStudioEvent {
     GROOVY_COMPILATION_ERROR = 45;
     JAVA_COMPILATION_ERROR = 46;
     INVALID_TOML_DEFINITION = 47;
+    // Missing com.android.tools.build:gradle dependency
+    MISSING_DEPENDENCY_COM_ANDROID_TOOLS_BUILD_GRADLE = 48;
+    MISSING_DEPENDENCY_OTHER = 49;
+    // UNKNOWN_PLUGIN_* means org.gradle.api.plugins.UnknownPluginException when
+    // using plugins dsl.
+    UNKNOWN_PLUGIN_COM_ANDROID = 50;
+    UNKNOWN_PLUGIN_OTHER = 51;
   }
 
   // IDE brand containing the android plugin
@@ -4382,6 +4389,9 @@ message GradleBuildProject {
 
   // The NDK version
   optional string ndk_version = 21;
+
+  // Set to true when user requests old variant api
+  optional bool old_variant_api_in_use = 22;
 
   enum PluginType {
     UNKNOWN_PLUGIN_TYPE = 0;
@@ -15637,6 +15647,7 @@ message BackupUsageEvent {
     RESTORE_FAILED = 8;
     INVALID_BACKUP_FILE = 9;
     UNEXPECTED_ERROR = 10;
+    PLAY_STORE_NOT_INSTALLED = 11;
   }
 
   // A Backup event
