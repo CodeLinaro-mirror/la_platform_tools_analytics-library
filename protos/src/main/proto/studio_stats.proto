@@ -715,6 +715,9 @@ message AndroidStudioEvent {
   // set when kind = BACKUP_USAGE
   optional BackupUsageEvent backup_usage_event = 198 [lazy = true];
 
+  // set when kind = STARTUP_EVENT
+  optional StartupEvent startup_event = 199 [lazy = true];
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -1567,6 +1570,10 @@ message AndroidStudioEvent {
 
     // Event related to usage of the Backup/Restore App State feature
     BACKUP_USAGE = 315;
+
+    // Different phases of startup. Wrappers for IntelliJ Feature Usage
+    // Statistics data
+    STARTUP_EVENT = 316;
   }
 
   // Represents different Performance Monitoring types.
@@ -15676,5 +15683,21 @@ message BackupUsageEvent {
   message RestoreEvent {
     optional Source source = 1;
     optional Result result = 2;
+  }
+}
+
+message StartupEvent {
+  optional uint32 duration_ms = 1;
+  optional Type type = 2;
+
+  enum Type {
+    UNKNOWN_STARTUP_EVENT_TYPE = 0;
+    TOTAL_DURATION = 1;
+    SPLASH = 2;
+    BOOTSTRAP = 3;
+    APP_INIT = 4;
+    SPLASH_SHOWN = 5;
+    SPLASH_HIDDEN = 6;
+    PROJECT_FRAME_VISIBLE = 7;
   }
 }
