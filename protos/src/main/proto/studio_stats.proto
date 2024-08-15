@@ -2785,7 +2785,9 @@ message EmulatorFeatureFlagState {
     DEVICE_KEYBOARD_QT_RAW_INPUT = 108;
     UWB = 109;
     UX_TEST_2024 = 110;
-    // Next tag: 111
+    GUEST_ANGLE = 111;
+    ANDROID_VIRTUALIZATION_FRAMEWORK = 112;
+    // Next tag: 113
   }
   // Which features were enabled by default or through the server-side config.
   repeated EmulatorFeatureFlag attempted_enabled_feature_flags = 1;
@@ -6894,12 +6896,18 @@ message AppLinksAssistantEvent {
     MANUAL_FIX = 31;
     MANUAL_FIX_ROW = 32;
 
-    // Fix web checks page of new App Links Assistant.
+    // Fix all web checks page of new App Links Assistant.
     FIX_WEB_CHECKS_CREATE_JSON_BUTTON = 33;
     FIX_WEB_CHECKS_SAVE_JSON_BUTTON = 34;
+    FIX_WEB_CHECKS_PAGE = 36;
+    FIX_WEB_CHECKS_SINGLE_DOMAIN_DIFF_BUTTON = 37;
 
     // Event sources that are not tied to any particular UI.
     VALIDATION = 35;
+
+    // Single-domain JSON generation page of new App Links Assistant.
+    FIX_ONE_DOMAIN_PAGE = 38;
+    FIX_ONE_DOMAIN_WEB_CHECKS_SAVE_JSON_BUTTON = 39;
   }
 
   // The state list of UI event source.
@@ -12513,6 +12521,7 @@ message UpgradeAssistantComponentInfo {
     SHADERS_DEFAULT = 30;
     MIGRATE_TEST_COVERAGE_ENABLED = 31;
     USE_ANDROIDX_DEFAULT = 32;
+    EXCLUDE_LIBRARY_COMPONENTS_FROM_CONSTRAINTS_DEFAULT = 33;
   }
 
   message Java8DefaultProcessorSettings {
