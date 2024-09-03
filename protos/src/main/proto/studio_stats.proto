@@ -523,7 +523,8 @@ message AndroidStudioEvent {
   optional OSMetrics os_metrics = 141 [lazy = true];
 
   // set when kind is SDK_INDEX_LIBRARY_HAS_CRITICAL_ISSUES,
-  // SDK_INDEX_LIBRARY_IS_OUTDATED or SDK_INDEX_LIBRARY_IS_NON_COMPLIANT
+  // SDK_INDEX_LIBRARY_IS_OUTDATED, SDK_INDEX_LIBRARY_IS_NON_COMPLIANT
+  // or SDK_INDEX_LIBRARY_HAS_VULNERABILITIES
   optional SdkIndexLibraryDetails sdk_index_library_details = 142 [lazy = true];
 
   // set when kind = EDITOR_PICKER
@@ -737,6 +738,9 @@ message AndroidStudioEvent {
   // set when kind = UI_TOOLS_PREFERENCES
   optional UiToolsPreferencesEvent ui_tools_preferences_event = 204
       [lazy = true];
+
+  // set when kind = SDK_INDEX_PROJECT_STATS
+  optional SdkIndexProjectStats sdk_index_project_stats = 205 [lazy = true];
 
   enum EventCategory {
     // The event was not grouped into any specific category (default).
@@ -1603,6 +1607,11 @@ message AndroidStudioEvent {
 
     // Event related to UI tools preferences
     UI_TOOLS_PREFERENCES = 321;
+
+    // Library has vulnerability issues in the SDK Index
+    SDK_INDEX_LIBRARY_HAS_VULNERABILITY_ISSUES = 322;
+    // Event used to track SDK Index stats for a project
+    SDK_INDEX_PROJECT_STATS = 323;
   }
 
   // Represents different Performance Monitoring types.
@@ -2678,6 +2687,10 @@ message EmulatorAvdInfo {
     PIXEL_8 = 38;
     PIXEL_8_PRO = 39;
     PIXEL_8A = 40;
+    PIXEL_9 = 41;
+    PIXEL_9_PRO = 42;
+    PIXEL_9_PRO_XL = 43;
+    PIXEL_9_PRO_FOLD = 44;
   }
   // Name of the AVD. Deprecated as it could potentially contain PII.
   optional string name = 1 [deprecated = true];
@@ -7646,6 +7659,7 @@ message TaskMetadata {
     JAVA_KOTLIN_ALLOCATIONS = 7;
     LIVE_VIEW = 8;
     JAVA_KOTLIN_METHOD_RECORDING = 9;
+    LEAKCANARY = 10;
   }
 
   enum TaskDataOrigin {
@@ -15829,3 +15843,11 @@ message UiToolsPreferencesEvent {
   optional ResourceUsage resource_usage = 7;
 }
 
+message SdkIndexProjectStats {
+  optional uint32 num_errors_and_warnings = 1;
+  optional uint32 num_blocking_issues = 2;
+  optional uint32 num_policy_issues = 3;
+  optional uint32 num_critical_issues = 4;
+  optional uint32 num_outdated_issues = 5;
+  optional uint32 num_vulnerability_issues = 6;
+}
