@@ -14983,11 +14983,16 @@ message SmlTransformEvent {
     optional SmlResponseMetadata metadata = 1 [lazy = true];
   }
 
+  message TransformRejected {
+    optional SmlResponseMetadata metadata = 1 [lazy = true];
+  }
+
   oneof transform {
     TransformRequest request = 1 [lazy = true];
     TransformResponse response = 2 [lazy = true];
     TransformShown shown = 3 [lazy = true];
     TransformAccepted accepted = 4 [lazy = true];
+    TransformRejected rejected = 6 [lazy = true];
   }
 
   enum TransformKind {
