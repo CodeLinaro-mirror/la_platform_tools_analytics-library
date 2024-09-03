@@ -718,6 +718,22 @@ message AndroidStudioEvent {
   // set when kind = STARTUP_EVENT
   optional StartupEvent startup_event = 199 [lazy = true];
 
+  // set when kind = STARTUP_PERFORMANCE_FIRST_UI_SHOWN
+  optional StartupPerformanceFirstUiShownEvent
+      startup_performance_first_ui_shown_event = 200 [lazy = true];
+
+  // set when kind = STARTUP_PERFORMANCE_FRAME_BECAME_VISIBLE
+  optional StartupPerformanceFrameBecameVisibleEvent
+      startup_performance_frame_became_visible_event = 201 [lazy = true];
+
+  // set when kind = STARTUP_PERFORMANCE_FRAME_BECAME_INTERACTIVE
+  optional StartupPerformanceFrameBecameInteractiveEvent
+      startup_performance_frame_became_interactive_event = 202 [lazy = true];
+
+  // set when kind = STARTUP_PERFORMANCE_CODE_LOADED_AND_VISIBLE_IN_EDITOR
+  optional StartupPerformanceCodeLoadedAndVisibleInEditor
+      startup_performance_code_loaded_and_visible_in_editor = 203 [lazy = true];
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -1574,6 +1590,12 @@ message AndroidStudioEvent {
     // Different phases of startup. Wrappers for IntelliJ Feature Usage
     // Statistics data
     STARTUP_EVENT = 316;
+
+    // Startup performance metrics
+    STARTUP_PERFORMANCE_FIRST_UI_SHOWN = 317;
+    STARTUP_PERFORMANCE_FRAME_BECAME_VISIBLE = 318;
+    STARTUP_PERFORMANCE_FRAME_BECAME_INTERACTIVE = 319;
+    STARTUP_PERFORMANCE_CODE_LOADED_AND_VISIBLE_IN_EDITOR = 320;
   }
 
   // Represents different Performance Monitoring types.
@@ -15699,5 +15721,48 @@ message StartupEvent {
     SPLASH_SHOWN = 5;
     SPLASH_HIDDEN = 6;
     PROJECT_FRAME_VISIBLE = 7;
+  }
+}
+
+message StartupPerformanceFirstUiShownEvent {
+  optional uint32 duration_ms = 1;
+  optional UiResponseType type = 2;
+
+  enum UiResponseType {
+    UNKNOWN_UI_RESPONSE_TYPE = 0;
+    SPLASH = 1;
+    FRAME = 2;
+  }
+}
+
+message StartupPerformanceFrameBecameVisibleEvent {
+  optional uint32 duration_ms = 1;
+  optional bool has_settings = 2;
+  optional ProjectType project_type = 3;
+
+  enum ProjectType {
+    UNKNOWN_PROJECT_TYPE = 0;
+    REOPENED = 1;
+    FROM_FILES_TO_LOAD = 2;
+    FROM_ARGS = 3;
+  }
+}
+
+message StartupPerformanceFrameBecameInteractiveEvent {
+  optional uint32 duration_ms = 1;
+}
+
+message StartupPerformanceCodeLoadedAndVisibleInEditor {
+  optional uint32 duration_ms = 1;
+  optional string file_type = 2;
+  optional bool has_settings = 3;
+  optional bool loaded_cached_markup = 4;
+  optional bool no_editors_to_open = 5;
+  optional SourceOfSelectedEditor source_of_selected_editor = 6;
+
+  enum SourceOfSelectedEditor {
+    UNKNOWN_SOURCE_OF_SELECTED_EDITOR = 0;
+    TEXT_EDITOR = 1;
+    FOUND_README_FILE = 2;
   }
 }
