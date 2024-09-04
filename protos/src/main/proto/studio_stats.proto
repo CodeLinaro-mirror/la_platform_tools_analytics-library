@@ -734,6 +734,10 @@ message AndroidStudioEvent {
   optional StartupPerformanceCodeLoadedAndVisibleInEditor
       startup_performance_code_loaded_and_visible_in_editor = 203 [lazy = true];
 
+  // set when kind = UI_TOOLS_PREFERENCES
+  optional UiToolsPreferencesEvent ui_tools_preferences_event = 204
+      [lazy = true];
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -1398,9 +1402,9 @@ message AndroidStudioEvent {
     SDK_INDEX_LINK_FOLLOWED = 251;
     // Library has critical issues in the SDK Index
     SDK_INDEX_LIBRARY_HAS_CRITICAL_ISSUES = 252;
-    // Library has is marked as outdated in the SDK Index
+    // Library is marked as outdated in the SDK Index
     SDK_INDEX_LIBRARY_IS_OUTDATED = 253;
-    // Library has is marked as non compliant in the SDK Index
+    // Library is marked as non compliant in the SDK Index
     SDK_INDEX_LIBRARY_IS_NON_COMPLIANT = 254;
 
     // Event related to Pickers invoked from the Editor's gutter
@@ -1596,6 +1600,9 @@ message AndroidStudioEvent {
     STARTUP_PERFORMANCE_FRAME_BECAME_VISIBLE = 318;
     STARTUP_PERFORMANCE_FRAME_BECAME_INTERACTIVE = 319;
     STARTUP_PERFORMANCE_CODE_LOADED_AND_VISIBLE_IN_EDITOR = 320;
+
+    // Event related to UI tools preferences
+    UI_TOOLS_PREFERENCES = 321;
   }
 
   // Represents different Performance Monitoring types.
@@ -15766,3 +15773,59 @@ message StartupPerformanceCodeLoadedAndVisibleInEditor {
     FOUND_README_FILE = 2;
   }
 }
+
+// Events raised by user interactions with UI Tools preferences panel
+message UiToolsPreferencesEvent {
+  // Type of the view modes to show resources and code in the UI Tools.
+  // Can show code, design and a split view showing both code and design
+  enum ViewMode {
+    UNKNOWN_VIEW_MODE = 0;
+    CODE = 1;
+    SPLIT = 2;
+    DESIGN = 3;
+  }
+
+  // Type of layout used when showing a Preview in a file, it can show a preview
+  // organized on a grid layout, in a vertical list or gallery
+  // mode where only a preview at a time is shown.
+  enum LayoutMode {
+    UNKNOWN_LAYOUT_MODE = 0;
+    GRID = 1;
+    LIST = 2;
+    GALLERY = 3;
+  }
+
+  // Type of resource usage when using a Preview, essential is using the minimum
+  // possible resources to show the preview, default uses a regular amount of
+  // resources, resource usages can be a bit higher when default is enabled
+  // along with live updates
+  enum ResourceUsage {
+    DEFAULT = 0;
+    DEFAULT_WITHOUT_LIVE_UPDATES = 1;
+    ESSENTIAL = 2;
+  }
+
+  // View mode of the first opening of resources files. It can be code, split or
+  // design
+  optional ViewMode resources_view_mode = 1;
+
+  // Kotlin files view mode can be code, split or design
+  optional ViewMode editor_view_mode = 2;
+
+  // When true, it always shows the split mode whenever a code file contains
+  // @Preview annotations
+  optional bool show_split_mode_on_annotations = 3;
+
+  // The percentage of sensitivity level of the Trackpad, the value is in an
+  // interval between 0 and 100
+  optional int32 track_pad_sensitivity_level = 4;
+
+  // The layout mode of previews when its file is opened for the first time, it
+  // can be grid, list, or gallery.
+  optional LayoutMode preview_layout_mode = 6;
+
+  // Amount or resources used to show previews: can be default, default without
+  // live updates or essential
+  optional ResourceUsage resource_usage = 7;
+}
+
