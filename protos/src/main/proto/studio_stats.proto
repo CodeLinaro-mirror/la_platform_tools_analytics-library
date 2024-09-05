@@ -523,7 +523,8 @@ message AndroidStudioEvent {
   optional OSMetrics os_metrics = 141 [lazy = true];
 
   // set when kind is SDK_INDEX_LIBRARY_HAS_CRITICAL_ISSUES,
-  // SDK_INDEX_LIBRARY_IS_OUTDATED or SDK_INDEX_LIBRARY_IS_NON_COMPLIANT
+  // SDK_INDEX_LIBRARY_IS_OUTDATED, SDK_INDEX_LIBRARY_IS_NON_COMPLIANT
+  // or SDK_INDEX_LIBRARY_HAS_VULNERABILITIES
   optional SdkIndexLibraryDetails sdk_index_library_details = 142 [lazy = true];
 
   // set when kind = EDITOR_PICKER
@@ -717,6 +718,29 @@ message AndroidStudioEvent {
 
   // set when kind = STARTUP_EVENT
   optional StartupEvent startup_event = 199 [lazy = true];
+
+  // set when kind = STARTUP_PERFORMANCE_FIRST_UI_SHOWN
+  optional StartupPerformanceFirstUiShownEvent
+      startup_performance_first_ui_shown_event = 200 [lazy = true];
+
+  // set when kind = STARTUP_PERFORMANCE_FRAME_BECAME_VISIBLE
+  optional StartupPerformanceFrameBecameVisibleEvent
+      startup_performance_frame_became_visible_event = 201 [lazy = true];
+
+  // set when kind = STARTUP_PERFORMANCE_FRAME_BECAME_INTERACTIVE
+  optional StartupPerformanceFrameBecameInteractiveEvent
+      startup_performance_frame_became_interactive_event = 202 [lazy = true];
+
+  // set when kind = STARTUP_PERFORMANCE_CODE_LOADED_AND_VISIBLE_IN_EDITOR
+  optional StartupPerformanceCodeLoadedAndVisibleInEditor
+      startup_performance_code_loaded_and_visible_in_editor = 203 [lazy = true];
+
+  // set when kind = UI_TOOLS_PREFERENCES
+  optional UiToolsPreferencesEvent ui_tools_preferences_event = 204
+      [lazy = true];
+
+  // set when kind = SDK_INDEX_PROJECT_STATS
+  optional SdkIndexProjectStats sdk_index_project_stats = 205 [lazy = true];
 
   enum EventCategory {
     // The event was not grouped into any specific category (default).
@@ -1382,9 +1406,9 @@ message AndroidStudioEvent {
     SDK_INDEX_LINK_FOLLOWED = 251;
     // Library has critical issues in the SDK Index
     SDK_INDEX_LIBRARY_HAS_CRITICAL_ISSUES = 252;
-    // Library has is marked as outdated in the SDK Index
+    // Library is marked as outdated in the SDK Index
     SDK_INDEX_LIBRARY_IS_OUTDATED = 253;
-    // Library has is marked as non compliant in the SDK Index
+    // Library is marked as non compliant in the SDK Index
     SDK_INDEX_LIBRARY_IS_NON_COMPLIANT = 254;
 
     // Event related to Pickers invoked from the Editor's gutter
@@ -1574,6 +1598,20 @@ message AndroidStudioEvent {
     // Different phases of startup. Wrappers for IntelliJ Feature Usage
     // Statistics data
     STARTUP_EVENT = 316;
+
+    // Startup performance metrics
+    STARTUP_PERFORMANCE_FIRST_UI_SHOWN = 317;
+    STARTUP_PERFORMANCE_FRAME_BECAME_VISIBLE = 318;
+    STARTUP_PERFORMANCE_FRAME_BECAME_INTERACTIVE = 319;
+    STARTUP_PERFORMANCE_CODE_LOADED_AND_VISIBLE_IN_EDITOR = 320;
+
+    // Event related to UI tools preferences
+    UI_TOOLS_PREFERENCES = 321;
+
+    // Library has vulnerability issues in the SDK Index
+    SDK_INDEX_LIBRARY_HAS_VULNERABILITY_ISSUES = 322;
+    // Event used to track SDK Index stats for a project
+    SDK_INDEX_PROJECT_STATS = 323;
   }
 
   // Represents different Performance Monitoring types.
@@ -2649,6 +2687,10 @@ message EmulatorAvdInfo {
     PIXEL_8 = 38;
     PIXEL_8_PRO = 39;
     PIXEL_8A = 40;
+    PIXEL_9 = 41;
+    PIXEL_9_PRO = 42;
+    PIXEL_9_PRO_XL = 43;
+    PIXEL_9_PRO_FOLD = 44;
   }
   // Name of the AVD. Deprecated as it could potentially contain PII.
   optional string name = 1 [deprecated = true];
@@ -7617,6 +7659,7 @@ message TaskMetadata {
     JAVA_KOTLIN_ALLOCATIONS = 7;
     LIVE_VIEW = 8;
     JAVA_KOTLIN_METHOD_RECORDING = 9;
+    LEAKCANARY = 10;
   }
 
   enum TaskDataOrigin {
@@ -15700,4 +15743,111 @@ message StartupEvent {
     SPLASH_HIDDEN = 6;
     PROJECT_FRAME_VISIBLE = 7;
   }
+}
+
+message StartupPerformanceFirstUiShownEvent {
+  optional uint32 duration_ms = 1;
+  optional UiResponseType type = 2;
+
+  enum UiResponseType {
+    UNKNOWN_UI_RESPONSE_TYPE = 0;
+    SPLASH = 1;
+    FRAME = 2;
+  }
+}
+
+message StartupPerformanceFrameBecameVisibleEvent {
+  optional uint32 duration_ms = 1;
+  optional bool has_settings = 2;
+  optional ProjectType project_type = 3;
+
+  enum ProjectType {
+    UNKNOWN_PROJECT_TYPE = 0;
+    REOPENED = 1;
+    FROM_FILES_TO_LOAD = 2;
+    FROM_ARGS = 3;
+  }
+}
+
+message StartupPerformanceFrameBecameInteractiveEvent {
+  optional uint32 duration_ms = 1;
+}
+
+message StartupPerformanceCodeLoadedAndVisibleInEditor {
+  optional uint32 duration_ms = 1;
+  optional string file_type = 2;
+  optional bool has_settings = 3;
+  optional bool loaded_cached_markup = 4;
+  optional bool no_editors_to_open = 5;
+  optional SourceOfSelectedEditor source_of_selected_editor = 6;
+
+  enum SourceOfSelectedEditor {
+    UNKNOWN_SOURCE_OF_SELECTED_EDITOR = 0;
+    TEXT_EDITOR = 1;
+    FOUND_README_FILE = 2;
+  }
+}
+
+// Events raised by user interactions with UI Tools preferences panel
+message UiToolsPreferencesEvent {
+  // Type of the view modes to show resources and code in the UI Tools.
+  // Can show code, design and a split view showing both code and design
+  enum ViewMode {
+    UNKNOWN_VIEW_MODE = 0;
+    CODE = 1;
+    SPLIT = 2;
+    DESIGN = 3;
+  }
+
+  // Type of layout used when showing a Preview in a file, it can show a preview
+  // organized on a grid layout, in a vertical list or gallery
+  // mode where only a preview at a time is shown.
+  enum LayoutMode {
+    UNKNOWN_LAYOUT_MODE = 0;
+    GRID = 1;
+    LIST = 2;
+    GALLERY = 3;
+  }
+
+  // Type of resource usage when using a Preview, essential is using the minimum
+  // possible resources to show the preview, default uses a regular amount of
+  // resources, resource usages can be a bit higher when default is enabled
+  // along with live updates
+  enum ResourceUsage {
+    DEFAULT = 0;
+    DEFAULT_WITHOUT_LIVE_UPDATES = 1;
+    ESSENTIAL = 2;
+  }
+
+  // View mode of the first opening of resources files. It can be code, split or
+  // design
+  optional ViewMode resources_view_mode = 1;
+
+  // Kotlin files view mode can be code, split or design
+  optional ViewMode editor_view_mode = 2;
+
+  // When true, it always shows the split mode whenever a code file contains
+  // @Preview annotations
+  optional bool show_split_mode_on_annotations = 3;
+
+  // The percentage of sensitivity level of the Trackpad, the value is in an
+  // interval between 0 and 100
+  optional int32 track_pad_sensitivity_level = 4;
+
+  // The layout mode of previews when its file is opened for the first time, it
+  // can be grid, list, or gallery.
+  optional LayoutMode preview_layout_mode = 6;
+
+  // Amount or resources used to show previews: can be default, default without
+  // live updates or essential
+  optional ResourceUsage resource_usage = 7;
+}
+
+message SdkIndexProjectStats {
+  optional uint32 num_errors_and_warnings = 1;
+  optional uint32 num_blocking_issues = 2;
+  optional uint32 num_policy_issues = 3;
+  optional uint32 num_critical_issues = 4;
+  optional uint32 num_outdated_issues = 5;
+  optional uint32 num_vulnerability_issues = 6;
 }
