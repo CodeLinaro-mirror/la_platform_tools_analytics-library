@@ -11479,6 +11479,8 @@ message BuildAttributionStats {
     BUILD_FAILURE = 2;
     // Build analyzer failed during events processing or post-processing.
     ANALYSIS_FAILURE = 3;
+    // Build analyzer received cancellation exception during post-processing.
+    ANALYSIS_CANCELED = 4;
   }
   enum BuildType {
     UNKNOWN_BUILD_TYPE = 0;
