@@ -718,6 +718,32 @@ message AndroidStudioEvent {
   // set when kind = STARTUP_EVENT
   optional StartupEvent startup_event = 199 [lazy = true];
 
+  // set when kind = STARTUP_PERFORMANCE_FIRST_UI_SHOWN
+  optional StartupPerformanceFirstUiShownEvent
+      startup_performance_first_ui_shown_event = 200 [lazy = true];
+
+  // set when kind = STARTUP_PERFORMANCE_FRAME_BECAME_VISIBLE
+  optional StartupPerformanceFrameBecameVisibleEvent
+      startup_performance_frame_became_visible_event = 201 [lazy = true];
+
+  // set when kind = STARTUP_PERFORMANCE_FRAME_BECAME_INTERACTIVE
+  optional StartupPerformanceFrameBecameInteractiveEvent
+      startup_performance_frame_became_interactive_event = 202 [lazy = true];
+
+  // set when kind = STARTUP_PERFORMANCE_CODE_LOADED_AND_VISIBLE_IN_EDITOR
+  optional StartupPerformanceCodeLoadedAndVisibleInEditor
+      startup_performance_code_loaded_and_visible_in_editor = 203 [lazy = true];
+
+  // set when kind = UI_TOOLS_PREFERENCES
+  optional UiToolsPreferencesEvent ui_tools_preferences_event = 204
+      [lazy = true];
+
+  // set when kind = SDK_INDEX_PROJECT_STATS
+  optional SdkIndexProjectStats sdk_index_project_stats = 205 [lazy = true];
+
+  // set when kind = SOONG_RUN_EVENT
+  optional SoongRunEvent soong_run_event = 206 [lazy = true];
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -1574,6 +1600,23 @@ message AndroidStudioEvent {
     // Different phases of startup. Wrappers for IntelliJ Feature Usage
     // Statistics data
     STARTUP_EVENT = 316;
+
+    // Startup performance metrics
+    STARTUP_PERFORMANCE_FIRST_UI_SHOWN = 317;
+    STARTUP_PERFORMANCE_FRAME_BECAME_VISIBLE = 318;
+    STARTUP_PERFORMANCE_FRAME_BECAME_INTERACTIVE = 319;
+    STARTUP_PERFORMANCE_CODE_LOADED_AND_VISIBLE_IN_EDITOR = 320;
+
+    // Event related to UI tools preferences
+    UI_TOOLS_PREFERENCES = 321;
+
+    // Library has vulnerability issues in the SDK Index
+    SDK_INDEX_LIBRARY_HAS_VULNERABILITY_ISSUES = 322;
+    // Event used to track SDK Index stats for a project
+    SDK_INDEX_PROJECT_STATS = 323;
+
+    // Soong run event (in ASfP)
+    SOONG_RUN_EVENT = 324;
   }
 
   // Represents different Performance Monitoring types.
@@ -15444,6 +15487,24 @@ message SoongSyncStats {
     SUCCESS = 1;
     FAIL = 2;
     CANCELLED = 3;
+  }
+}
+
+message SoongRunEvent {
+  // Run command
+  optional Command command = 1;
+  // Run target (if any)
+  optional string run_target = 2;
+  // Lunch target
+  optional string lunch_target = 3;
+  // Whether or not command was run on a device (vs host)
+  optional bool on_device = 4;
+
+  enum Command {
+    UNKNOWN = 0;
+    ATEST = 1;
+    ADEVICE = 2;
+    FLASHALL = 3;
   }
 }
 
