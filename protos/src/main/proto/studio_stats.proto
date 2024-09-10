@@ -742,6 +742,9 @@ message AndroidStudioEvent {
   // set when kind = SDK_INDEX_PROJECT_STATS
   optional SdkIndexProjectStats sdk_index_project_stats = 205 [lazy = true];
 
+  // set when kind = SOONG_RUN_EVENT
+  optional SoongRunEvent soong_run_event = 206 [lazy = true];
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -1612,6 +1615,9 @@ message AndroidStudioEvent {
     SDK_INDEX_LIBRARY_HAS_VULNERABILITY_ISSUES = 322;
     // Event used to track SDK Index stats for a project
     SDK_INDEX_PROJECT_STATS = 323;
+
+    // Soong run event (in ASfP)
+    SOONG_RUN_EVENT = 324;
   }
 
   // Represents different Performance Monitoring types.
@@ -15502,6 +15508,24 @@ message SoongSyncStats {
     SUCCESS = 1;
     FAIL = 2;
     CANCELLED = 3;
+  }
+}
+
+message SoongRunEvent {
+  // Run command
+  optional Command command = 1;
+  // Run target (if any)
+  optional string run_target = 2;
+  // Lunch target
+  optional string lunch_target = 3;
+  // Whether or not command was run on a device (vs host)
+  optional bool on_device = 4;
+
+  enum Command {
+    UNKNOWN = 0;
+    ATEST = 1;
+    ADEVICE = 2;
+    FLASHALL = 3;
   }
 }
 
