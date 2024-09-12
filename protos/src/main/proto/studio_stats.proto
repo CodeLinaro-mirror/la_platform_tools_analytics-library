@@ -742,6 +742,9 @@ message AndroidStudioEvent {
   // set when kind = SDK_INDEX_PROJECT_STATS
   optional SdkIndexProjectStats sdk_index_project_stats = 205 [lazy = true];
 
+  // set when kind = SOONG_RUN_EVENT
+  optional SoongRunEvent soong_run_event = 206 [lazy = true];
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -1612,6 +1615,9 @@ message AndroidStudioEvent {
     SDK_INDEX_LIBRARY_HAS_VULNERABILITY_ISSUES = 322;
     // Event used to track SDK Index stats for a project
     SDK_INDEX_PROJECT_STATS = 323;
+
+    // Soong run event (in ASfP)
+    SOONG_RUN_EVENT = 324;
   }
 
   // Represents different Performance Monitoring types.
@@ -2691,6 +2697,14 @@ message EmulatorAvdInfo {
     PIXEL_9_PRO = 42;
     PIXEL_9_PRO_XL = 43;
     PIXEL_9_PRO_FOLD = 44;
+    AUTOMOTIVE_1080P_LANDSCAPE = 45;
+    AUTOMOTIVE_1408P_LANDSCAPE_WITH_PLAY = 46;
+    AUTOMOTIVE_1408P_LANDSCAPE_WITH_GOOGLE_APIS = 47;
+    AUTOMOTIVE_PORTRAIT = 48;
+    AUTOMOTIVE_DISTANT_DISPLAY = 49;
+    AUTOMOTIVE_DISTANT_DISPLAY_WITH_PLAY = 50;
+    AUTOMOTIVE_ULTRAWIDE_DISPLAY = 51;
+    AUTOMOTIVE_LARGE_PORTRAIT = 52;
   }
   // Name of the AVD. Deprecated as it could potentially contain PII.
   optional string name = 1 [deprecated = true];
@@ -11479,6 +11493,8 @@ message BuildAttributionStats {
     BUILD_FAILURE = 2;
     // Build analyzer failed during events processing or post-processing.
     ANALYSIS_FAILURE = 3;
+    // Build analyzer received cancellation exception during post-processing.
+    ANALYSIS_CANCELED = 4;
   }
   enum BuildType {
     UNKNOWN_BUILD_TYPE = 0;
@@ -14983,11 +14999,16 @@ message SmlTransformEvent {
     optional SmlResponseMetadata metadata = 1 [lazy = true];
   }
 
+  message TransformRejected {
+    optional SmlResponseMetadata metadata = 1 [lazy = true];
+  }
+
   oneof transform {
     TransformRequest request = 1 [lazy = true];
     TransformResponse response = 2 [lazy = true];
     TransformShown shown = 3 [lazy = true];
     TransformAccepted accepted = 4 [lazy = true];
+    TransformRejected rejected = 6 [lazy = true];
   }
 
   enum TransformKind {
@@ -15490,6 +15511,24 @@ message SoongSyncStats {
   }
 }
 
+message SoongRunEvent {
+  // Run command
+  optional Command command = 1;
+  // Run target (if any)
+  optional string run_target = 2;
+  // Lunch target
+  optional string lunch_target = 3;
+  // Whether or not command was run on a device (vs host)
+  optional bool on_device = 4;
+
+  enum Command {
+    UNKNOWN = 0;
+    ATEST = 1;
+    ADEVICE = 2;
+    FLASHALL = 3;
+  }
+}
+
 message IntelliJNewUISwitch {
   enum SwitchSource {
     SOURCE_UNKNOWN = 0;
@@ -15686,6 +15725,7 @@ message BackupUsageEvent {
   }
 
   // Where the action was invoked from
+  // Deprecated
   enum Source {
     UNKNOWN_SOURCE = 0;
     DEVICE_EXPLORER = 1;
@@ -15694,6 +15734,7 @@ message BackupUsageEvent {
   }
 
   // Where the action was invoked from
+  // Deprecated
   enum Result {
     UNKNOWN_RESULT = 0;
     SUCCESS = 1;
@@ -15711,21 +15752,32 @@ message BackupUsageEvent {
 
   // A Backup event
   message BackupEvent {
+    // Deprecated
     enum Type {
       UNKNOWN_BACKUP_TYPE = 0;
       D2D = 1;
       CLOUD = 2;
     }
 
-    optional Type type = 1;
-    optional Source source = 2;
-    optional Result result = 3;
+    // Deprecated: use type_value
+    optional Type type = 1 [deprecated = true];
+    // Deprecated: use source_value
+    optional Source source = 2 [deprecated = true];
+    // Deprecated: use result_value
+    optional Result result = 3 [deprecated = true];
+    optional int32 type_value = 4;
+    optional int32 source_value = 5;
+    optional int32 result_value = 6;
   }
 
   // A Restore event
   message RestoreEvent {
-    optional Source source = 1;
-    optional Result result = 2;
+    // Deprecated: use source_value
+    optional Source source = 1 [deprecated = true];
+    // Deprecated: use result_value
+    optional Result result = 2 [deprecated = true];
+    optional int32 source_value = 3;
+    optional int32 result_value = 4;
   }
 }
 
