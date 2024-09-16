@@ -13979,6 +13979,9 @@ message AppQualityInsightsUsageEvent {
 
     // Track user sentiment of AQI insights.
     INSIGHT_SENTIMENT = 13;
+
+    // Track AQI insight fetch.
+    INSIGHT_FETCH = 14;
   }
 
   enum CrashType {
@@ -14058,6 +14061,12 @@ message AppQualityInsightsUsageEvent {
       ALL_VISIBILITY = 1;
       USER_PERCEIVED = 2;
     }
+    enum AiInsightsOptInStatus {
+      UNKNOWN_STATUS = 0;
+      OPTED_IN = 1;
+      OPTED_OUT = 2;
+      GEMINI_DISABLED = 3;
+    }
 
     // The Time filter used for this fetch of crashes
     optional TimeFilter time_filter = 1;
@@ -14087,6 +14096,8 @@ message AppQualityInsightsUsageEvent {
     optional VisibilityFilter visibility_filter = 11;
     // The app vcs info got from this fetch.
     optional VcsIntegrationDetails vcs_integration_details = 12 [lazy = true];
+    // The AI Insights opt-in status for this fetch.
+    optional AiInsightsOptInStatus ai_insights_opt_in_status = 13;
   }
 
   message AppQualityInsightsCrashOpenDetails {
@@ -14220,22 +14231,28 @@ message AppQualityInsightsUsageEvent {
     optional bool is_fetched = 3;
   }
 
+  enum InsightExperiment {
+    UNKNOWN_EXPERIMENT = 0;
+    CONTROL = 1;
+
+    // Code context experiments
+    TOP_SOURCE = 2;
+    TOP_THREE_SOURCES = 3;
+    ALL_SOURCES = 4;
+  }
   message InsightSentiment {
     enum Sentiment {
       UNKNOWN_SENTIMENT = 0;
       THUMBS_UP = 1;
       THUMBS_DOWN = 2;
     }
-    enum Experiment {
-      UNKNOWN_EXPERIMENT = 0;
-      CONTROL = 1;
-      TOP_SOURCE = 2;
-      TOP_THREE_SOURCES = 3;
-      ALL_SOURCES = 4;
-    }
     optional Sentiment sentiment = 1;
-    optional Experiment experiment = 2;
+    optional InsightExperiment experiment = 2;
     optional CrashType crash_type = 3;
+  }
+  message InsightFetchDetails {
+    optional CrashType crash_type = 1;
+    optional InsightExperiment experiment = 2;
   }
 
   // The app_id is the id for the user's android app
@@ -14295,6 +14312,9 @@ message AppQualityInsightsUsageEvent {
 
   // set when type = INSIGHT_SENTIMENT
   optional InsightSentiment insight_sentiment = 17 [lazy = true];
+
+  // set when type = INSIGHT_FETCH
+  optional InsightFetchDetails insight_fetch_details = 18 [lazy = true];
 }
 
 message FastPreviewEvent {
