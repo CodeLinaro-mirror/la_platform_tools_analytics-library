@@ -9413,6 +9413,8 @@ message WhatsNewAssistantUpdateEvent {
       BUILD_ANALYZER_SHOW = 1;
       // App Inspection action button
       APP_INSPECTION_SHOW = 2;
+      // Get started with Gemini action button
+      GET_STARTED_WITH_GEMINI = 3;
     }
     // State of the action button, tracks what message is shown at the moment.
     // Each feature can define their own states if there are any.
@@ -15262,15 +15264,39 @@ message TestScenarioEvent {
   }
 
   message InconsistentCount {
-    // This is only logged if the number of test scenarios and actual test
-    // signatures do not match.
-    optional int32 test_scenarios_count = 1;
-    optional int32 test_signatures_count = 2;
+    // Deprecated. This is only logged if the number of test scenarios
+    // and actual test signatures do not match.
+    optional int32 test_scenarios_count = 1 [deprecated = true];
+    // Deprecated.
+    optional int32 test_signatures_count = 2 [deprecated = true];
+  }
+
+  // Specifies whether user is creating a new test file or adding tests to
+  // existing tests.
+  enum GenerationType {
+    GENERATION_TYPE_UNDEFINED = 0;
+    NEW_FILE = 1;
+    EXISTING_FILE = 2;
+  }
+
+  // Logged for every test scenario geneartion result
+  message TestScenarioResult {
+    // Number of misformatted model response
+    optional uint32 misformatted_response_count = 1;
+    // Indicates whether user is creating new tests or enhancing existing
+    // tests.
+    optional GenerationType generation_type = 2;
+    // Number of accepted test scenarios
+    optional uint32 num_accept = 3;
+    // Number of declined test scenarios
+    optional uint32 num_decline = 4;
   }
 
   oneof transform {
     TestScenarioRequest request = 1 [lazy = true];
-    InconsistentCount inconsistent_count = 2 [lazy = true];
+    // Deprecated this field is no longer necessary
+    InconsistentCount inconsistent_count = 2 [deprecated = true, lazy = true];
+    TestScenarioResult test_scenario_result = 3 [lazy = true];
   }
 }
 
