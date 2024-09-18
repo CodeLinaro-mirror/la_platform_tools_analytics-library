@@ -6978,6 +6978,9 @@ message AppLinksAssistantEvent {
     // Single-domain JSON generation page of new App Links Assistant.
     FIX_ONE_DOMAIN_PAGE = 38;
     FIX_ONE_DOMAIN_WEB_CHECKS_SAVE_JSON_BUTTON = 39;
+
+    // Intention action.
+    LAUNCH_APP_LINKS_ASSISTANT = 40;
   }
 
   // The state list of UI event source.
@@ -10446,6 +10449,7 @@ enum EditorFileType {
   CMAKE = 26;
   PROTO = 27;                 // .proto
   PROTO_WITHOUT_PLUGIN = 28;  // .proto (if Protocol Buffers plugin is missing)
+  DART = 29;
 }
 
 message TypingLatencyStats {
