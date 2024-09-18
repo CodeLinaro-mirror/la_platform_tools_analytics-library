@@ -749,6 +749,9 @@ message AndroidStudioEvent {
   optional StudioCoreGeminiActionsEvent
       android_studio_core_gemini_actions_event = 207 [lazy = true];
 
+  // set when kind = VIRTUALIZATION_EVENT
+  optional VirtualizationEvent virtualization_event = 208 [lazy = true];
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -1625,6 +1628,9 @@ message AndroidStudioEvent {
 
     // Event related to Gemini actions in Studio Core
     STUDIO_CORE_GEMINI_ACTIONS = 325;
+
+    // Event related to VM and container virtualization
+    VIRTUALIZATION_EVENT = 326;
   }
 
   // Represents different Performance Monitoring types.
@@ -13030,6 +13036,12 @@ message DeviceManagerEvent {
 
     // The Unpair device action under the Physical tab was clicked
     PHYSICAL_UNPAIR_DEVICE_ACTION = 16;
+
+    // An AVD was created
+    VIRTUAL_CREATE_ACTION = 17;
+
+    // A direct access device was selected
+    DIRECT_ACCESS_ADD_DEVICE_ACTION = 18;
   }
 }
 
@@ -15989,4 +16001,35 @@ message StudioCoreGeminiActionsEvent {
   optional uint32 latency_ms = 4;
   optional uint32 results_count = 5;
   optional uint32 results_taken = 6;
+}
+
+message VirtualizationEvent {
+  enum VmType {
+    VM_ERROR_TIMEOUT = -1;
+    VM_ERROR_CANNOT_DETECT = -2;
+    VM_NONE = 0;
+    VM_OTHER = 1;
+    VM_MICROSOFT = 2;
+    VM_VMWARE = 3;
+    VM_KVM = 4;
+    VM_AMAZON = 5;
+    VM_ORACLE = 6;
+    VM_POWERVM = 7;
+    VM_QNX = 8;
+    VM_APPLE = 9;
+    VM_GOOGLE = 10;
+    VM_UML = 11;
+  }
+
+  enum ContainerType {
+    CONTAINER_ERROR_TIMEOUT = -1;
+    CONTAINER_ERROR_CANNOT_DETECT = -2;
+    CONTAINER_NONE = 0;
+    CONTAINER_OTHER = 1;
+    CONTAINER_DOCKER = 2;
+    CONTAINER_WSL = 3;
+  }
+
+  optional VmType vm = 1;
+  optional ContainerType container = 2;
 }
