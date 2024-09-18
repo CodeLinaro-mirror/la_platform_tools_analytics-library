@@ -745,6 +745,10 @@ message AndroidStudioEvent {
   // set when kind = SOONG_RUN_EVENT
   optional SoongRunEvent soong_run_event = 206 [lazy = true];
 
+  // set when kind = STUDIO_CORE_GEMINI_ACTIONS
+  optional StudioCoreGeminiActionsEvent
+      android_studio_core_gemini_actions_event = 207 [lazy = true];
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -1618,6 +1622,9 @@ message AndroidStudioEvent {
 
     // Soong run event (in ASfP)
     SOONG_RUN_EVENT = 324;
+
+    // Event related to Gemini actions in Studio Core
+    STUDIO_CORE_GEMINI_ACTIONS = 325;
   }
 
   // Represents different Performance Monitoring types.
@@ -15962,4 +15969,20 @@ message SdkIndexProjectStats {
   optional uint32 num_critical_issues = 4;
   optional uint32 num_outdated_issues = 5;
   optional uint32 num_vulnerability_issues = 6;
+}
+
+message StudioCoreGeminiActionsEvent {
+  enum Action {
+    UNKNOWN = 0;
+    RENAME_VARIABLE = 1;
+    RETHINK_VARIABLE_NAMES = 2;
+    SUGGEST_COMMIT_MESSAGE = 3;
+  }
+
+  optional Action action = 1;
+  optional uint32 prompt_hash = 2;
+  optional uint32 prompt_size = 3;
+  optional uint32 latency_ms = 4;
+  optional uint32 results_count = 5;
+  optional uint32 results_taken = 6;
 }
