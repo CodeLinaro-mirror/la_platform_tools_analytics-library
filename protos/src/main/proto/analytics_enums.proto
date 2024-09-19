@@ -759,6 +759,7 @@ enum VariantMethodType {
     HOST_TEST_TYPE = 23;
     HOST_TEST_ENABLE_CODE_COVERAGE = 24;
     DEVICE_TEST_ENABLE_CODE_COVERAGE = 25;
+    DEVICE_TEST_DEBUGGABLE = 26;
 }
 
 enum VariantPropertiesMethodType {

@@ -22,12 +22,15 @@ import com.google.wireless.android.sdk.stats.DeviceInfo.ApplicationBinaryInterfa
 import com.sun.jna.Library
 import com.sun.jna.Memory
 import com.sun.jna.Pointer
+import com.sun.jna.platform.win32.Kernel32
+import com.sun.jna.platform.win32.WinBase
 import com.sun.jna.ptr.IntByReference
 import java.io.File
 import java.util.*
 import java.util.regex.Pattern
 
 private const val TRANSLATED = 1
+private const val PROCESSOR_ARCHITECTURE_ARM64 = 12
 
 /** Calculates common pieces of metrics data, used in various Android DevTools. */
 object CommonMetricsData {
@@ -65,19 +68,17 @@ object CommonMetricsData {
     get() {
       val jvmArchitecture = jvmArchitecture
       val os =
-        Environment.instance.getSystemProperty(Environment.SystemProperty.OS_NAME)!!.toLowerCase()
+        Environment.instance
+          .getSystemProperty(Environment.SystemProperty.OS_NAME)!!
+          .lowercase(Locale.getDefault())
 
-      // An x86 jvm running on an M1 chip will be translated to ARM using Rosetta. Checking for
-      // Rosetta
-      // requires jna. The current version of jna (net.java.dev.jna:jna-5.6.0)  will fail if we're
-      // running
-      // on an arm jvm. Only call isRosetta if we're using an x86 jvm
-      if (
-        jvmArchitecture == ProductDetails.CpuArchitecture.X86_64 &&
-          os.startsWith("mac") &&
-          isRosetta()
-      ) {
-        return ProductDetails.CpuArchitecture.X86_ON_ARM
+      if (jvmArchitecture == ProductDetails.CpuArchitecture.X86_64) {
+        // An x86 jvm running on an M1 chip will be translated to ARM using Rosetta. Checking for
+        // Rosetta requires jna. The current version of jna (net.java.dev.jna:jna-5.6.0)  will
+        // fail if we're running on an ARM jvm. Only call isRosetta if we're using an x86 jvm
+        if ((os.startsWith("mac") && isRosetta()) || (os.startsWith("win") && isWindowsArm64())) {
+          return ProductDetails.CpuArchitecture.X86_ON_ARM
+        }
       }
 
       if (jvmArchitecture == ProductDetails.CpuArchitecture.X86) {
@@ -416,4 +417,17 @@ fun isRosetta(): Boolean {
     }
 
   return errorCode == 0 && memory.getInt(0) == TRANSLATED
+}
+
+fun isWindowsArm64(): Boolean {
+  try {
+    // https://docs.microsoft.com/en-us/windows/win32/api/sysinfoapi/nf-sysinfoapi-getnativesysteminfo
+    val systemInfo = WinBase.SYSTEM_INFO()
+    Kernel32.INSTANCE.GetNativeSystemInfo(systemInfo)
+    // https://learn.microsoft.com/en-us/windows/win32/api/sysinfoapi/ns-sysinfoapi-system_info#members
+    return systemInfo.processorArchitecture.pi.wProcessorArchitecture.toInt() ==
+      PROCESSOR_ARCHITECTURE_ARM64
+  } catch (_: Throwable) {
+    return false
+  }
 }

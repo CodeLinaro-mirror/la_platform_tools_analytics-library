@@ -745,6 +745,13 @@ message AndroidStudioEvent {
   // set when kind = SOONG_RUN_EVENT
   optional SoongRunEvent soong_run_event = 206 [lazy = true];
 
+  // set when kind = STUDIO_CORE_GEMINI_ACTIONS
+  optional StudioCoreGeminiActionsEvent
+      android_studio_core_gemini_actions_event = 207 [lazy = true];
+
+  // set when kind = VIRTUALIZATION_EVENT
+  optional VirtualizationEvent virtualization_event = 208 [lazy = true];
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -1618,6 +1625,12 @@ message AndroidStudioEvent {
 
     // Soong run event (in ASfP)
     SOONG_RUN_EVENT = 324;
+
+    // Event related to Gemini actions in Studio Core
+    STUDIO_CORE_GEMINI_ACTIONS = 325;
+
+    // Event related to VM and container virtualization
+    VIRTUALIZATION_EVENT = 326;
   }
 
   // Represents different Performance Monitoring types.
@@ -6971,6 +6984,9 @@ message AppLinksAssistantEvent {
     // Single-domain JSON generation page of new App Links Assistant.
     FIX_ONE_DOMAIN_PAGE = 38;
     FIX_ONE_DOMAIN_WEB_CHECKS_SAVE_JSON_BUTTON = 39;
+
+    // Intention action.
+    LAUNCH_APP_LINKS_ASSISTANT = 40;
   }
 
   // The state list of UI event source.
@@ -9413,6 +9429,8 @@ message WhatsNewAssistantUpdateEvent {
       BUILD_ANALYZER_SHOW = 1;
       // App Inspection action button
       APP_INSPECTION_SHOW = 2;
+      // Get started with Gemini action button
+      GET_STARTED_WITH_GEMINI = 3;
     }
     // State of the action button, tracks what message is shown at the moment.
     // Each feature can define their own states if there are any.
@@ -10437,6 +10455,7 @@ enum EditorFileType {
   CMAKE = 26;
   PROTO = 27;                 // .proto
   PROTO_WITHOUT_PLUGIN = 28;  // .proto (if Protocol Buffers plugin is missing)
+  DART = 29;
 }
 
 message TypingLatencyStats {
@@ -13017,6 +13036,12 @@ message DeviceManagerEvent {
 
     // The Unpair device action under the Physical tab was clicked
     PHYSICAL_UNPAIR_DEVICE_ACTION = 16;
+
+    // An AVD was created
+    VIRTUAL_CREATE_ACTION = 17;
+
+    // A direct access device was selected
+    DIRECT_ACCESS_ADD_DEVICE_ACTION = 18;
   }
 }
 
@@ -13977,6 +14002,9 @@ message AppQualityInsightsUsageEvent {
 
     // Track user sentiment of AQI insights.
     INSIGHT_SENTIMENT = 13;
+
+    // Track AQI insight fetch.
+    INSIGHT_FETCH = 14;
   }
 
   enum CrashType {
@@ -14056,6 +14084,12 @@ message AppQualityInsightsUsageEvent {
       ALL_VISIBILITY = 1;
       USER_PERCEIVED = 2;
     }
+    enum AiInsightsOptInStatus {
+      UNKNOWN_STATUS = 0;
+      OPTED_IN = 1;
+      OPTED_OUT = 2;
+      GEMINI_DISABLED = 3;
+    }
 
     // The Time filter used for this fetch of crashes
     optional TimeFilter time_filter = 1;
@@ -14085,6 +14119,8 @@ message AppQualityInsightsUsageEvent {
     optional VisibilityFilter visibility_filter = 11;
     // The app vcs info got from this fetch.
     optional VcsIntegrationDetails vcs_integration_details = 12 [lazy = true];
+    // The AI Insights opt-in status for this fetch.
+    optional AiInsightsOptInStatus ai_insights_opt_in_status = 13;
   }
 
   message AppQualityInsightsCrashOpenDetails {
@@ -14218,22 +14254,28 @@ message AppQualityInsightsUsageEvent {
     optional bool is_fetched = 3;
   }
 
+  enum InsightExperiment {
+    UNKNOWN_EXPERIMENT = 0;
+    CONTROL = 1;
+
+    // Code context experiments
+    TOP_SOURCE = 2;
+    TOP_THREE_SOURCES = 3;
+    ALL_SOURCES = 4;
+  }
   message InsightSentiment {
     enum Sentiment {
       UNKNOWN_SENTIMENT = 0;
       THUMBS_UP = 1;
       THUMBS_DOWN = 2;
     }
-    enum Experiment {
-      UNKNOWN_EXPERIMENT = 0;
-      CONTROL = 1;
-      TOP_SOURCE = 2;
-      TOP_THREE_SOURCES = 3;
-      ALL_SOURCES = 4;
-    }
     optional Sentiment sentiment = 1;
-    optional Experiment experiment = 2;
+    optional InsightExperiment experiment = 2;
     optional CrashType crash_type = 3;
+  }
+  message InsightFetchDetails {
+    optional CrashType crash_type = 1;
+    optional InsightExperiment experiment = 2;
   }
 
   // The app_id is the id for the user's android app
@@ -14293,6 +14335,9 @@ message AppQualityInsightsUsageEvent {
 
   // set when type = INSIGHT_SENTIMENT
   optional InsightSentiment insight_sentiment = 17 [lazy = true];
+
+  // set when type = INSIGHT_FETCH
+  optional InsightFetchDetails insight_fetch_details = 18 [lazy = true];
 }
 
 message FastPreviewEvent {
@@ -15017,9 +15062,23 @@ message SmlTransformEvent {
     DOCUMENT = 2;
   }
 
+  enum TransformPhase {
+    UNKNOWN_PHASE = 0;
+    INITIAL_TRANSFORM = 1;
+    REFINE = 2;
+    REGENERATE = 3;
+  }
+
   // The kind of transform, which will be used to differentiate
   // metrics for Document action, Custom transforms etc.
   optional TransformKind transform_kind = 5;
+
+  // Session id is used to group all the events for a single transform session
+  // which could contain an initial transform and multiple refinements.
+  optional string session_id = 7;
+
+  // used to differentiate the initial transfrom and follow ups
+  optional TransformPhase transform_phase = 8;
 }
 
 message SmlChatBotEvent {
@@ -15248,15 +15307,39 @@ message TestScenarioEvent {
   }
 
   message InconsistentCount {
-    // This is only logged if the number of test scenarios and actual test
-    // signatures do not match.
-    optional int32 test_scenarios_count = 1;
-    optional int32 test_signatures_count = 2;
+    // Deprecated. This is only logged if the number of test scenarios
+    // and actual test signatures do not match.
+    optional int32 test_scenarios_count = 1 [deprecated = true];
+    // Deprecated.
+    optional int32 test_signatures_count = 2 [deprecated = true];
+  }
+
+  // Specifies whether user is creating a new test file or adding tests to
+  // existing tests.
+  enum GenerationType {
+    GENERATION_TYPE_UNDEFINED = 0;
+    NEW_FILE = 1;
+    EXISTING_FILE = 2;
+  }
+
+  // Logged for every test scenario geneartion result
+  message TestScenarioResult {
+    // Number of misformatted model response
+    optional uint32 misformatted_response_count = 1;
+    // Indicates whether user is creating new tests or enhancing existing
+    // tests.
+    optional GenerationType generation_type = 2;
+    // Number of accepted test scenarios
+    optional uint32 num_accept = 3;
+    // Number of declined test scenarios
+    optional uint32 num_decline = 4;
   }
 
   oneof transform {
     TestScenarioRequest request = 1 [lazy = true];
-    InconsistentCount inconsistent_count = 2 [lazy = true];
+    // Deprecated this field is no longer necessary
+    InconsistentCount inconsistent_count = 2 [deprecated = true, lazy = true];
+    TestScenarioResult test_scenario_result = 3 [lazy = true];
   }
 }
 
@@ -15902,4 +15985,51 @@ message SdkIndexProjectStats {
   optional uint32 num_critical_issues = 4;
   optional uint32 num_outdated_issues = 5;
   optional uint32 num_vulnerability_issues = 6;
+}
+
+message StudioCoreGeminiActionsEvent {
+  enum Action {
+    UNKNOWN = 0;
+    RENAME_VARIABLE = 1;
+    RETHINK_VARIABLE_NAMES = 2;
+    SUGGEST_COMMIT_MESSAGE = 3;
+  }
+
+  optional Action action = 1;
+  optional uint32 prompt_hash = 2;
+  optional uint32 prompt_size = 3;
+  optional uint32 latency_ms = 4;
+  optional uint32 results_count = 5;
+  optional uint32 results_taken = 6;
+}
+
+message VirtualizationEvent {
+  enum VmType {
+    VM_ERROR_TIMEOUT = -1;
+    VM_ERROR_CANNOT_DETECT = -2;
+    VM_NONE = 0;
+    VM_OTHER = 1;
+    VM_MICROSOFT = 2;
+    VM_VMWARE = 3;
+    VM_KVM = 4;
+    VM_AMAZON = 5;
+    VM_ORACLE = 6;
+    VM_POWERVM = 7;
+    VM_QNX = 8;
+    VM_APPLE = 9;
+    VM_GOOGLE = 10;
+    VM_UML = 11;
+  }
+
+  enum ContainerType {
+    CONTAINER_ERROR_TIMEOUT = -1;
+    CONTAINER_ERROR_CANNOT_DETECT = -2;
+    CONTAINER_NONE = 0;
+    CONTAINER_OTHER = 1;
+    CONTAINER_DOCKER = 2;
+    CONTAINER_WSL = 3;
+  }
+
+  optional VmType vm = 1;
+  optional ContainerType container = 2;
 }
