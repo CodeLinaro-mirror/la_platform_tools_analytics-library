@@ -8548,6 +8548,8 @@ message GradleSyncStats {
     TRIGGER_REFACTOR_MIGRATE_TO_NON_TRANSITIVE_R_CLASSES = 1204;
     // Migrate BuildConfig setting from gradle.properties to build files
     TRIGGER_REFACTOR_MIGRATE_BUILD_CONFIG_FROM_GRADLE_PROPERTIES = 1205;
+    // Migrate ResValues setting from gradle.properties to build files
+    TRIGGER_REFACTOR_MIGRATE_RES_VALUES_FROM_GRADLE_PROPERTIES = 1206;
     // Last marker for syncs caused by a refactor
     TRIGGER_REFACTOR_LAST_MARKER = 1299;
 
@@ -12626,6 +12628,7 @@ message UpgradeAssistantComponentInfo {
     MIGRATE_TEST_COVERAGE_ENABLED = 31;
     USE_ANDROIDX_DEFAULT = 32;
     EXCLUDE_LIBRARY_COMPONENTS_FROM_CONSTRAINTS_DEFAULT = 33;
+    RES_VALUES_DEFAULT = 34;
   }
 
   message Java8DefaultProcessorSettings {
