@@ -14276,6 +14276,7 @@ message AppQualityInsightsUsageEvent {
   message InsightFetchDetails {
     optional CrashType crash_type = 1;
     optional InsightExperiment experiment = 2;
+    optional bool is_cached = 3;
   }
 
   // The app_id is the id for the user's android app

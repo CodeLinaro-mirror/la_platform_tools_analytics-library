@@ -21,16 +21,20 @@ import com.google.wireless.android.sdk.stats.*
 import com.google.wireless.android.sdk.stats.DeviceInfo.ApplicationBinaryInterface
 import com.sun.jna.Library
 import com.sun.jna.Memory
+import com.sun.jna.Native
 import com.sun.jna.Pointer
 import com.sun.jna.platform.win32.Kernel32
-import com.sun.jna.platform.win32.WinBase
+import com.sun.jna.platform.win32.WinDef
+import com.sun.jna.platform.win32.WinNT
 import com.sun.jna.ptr.IntByReference
+import com.sun.jna.win32.StdCallLibrary
+import com.sun.jna.win32.W32APIOptions
 import java.io.File
 import java.util.*
 import java.util.regex.Pattern
 
 private const val TRANSLATED = 1
-private const val PROCESSOR_ARCHITECTURE_ARM64 = 12
+private const val IMAGE_FILE_MACHINE_ARM64 = 0xAA64
 
 /** Calculates common pieces of metrics data, used in various Android DevTools. */
 object CommonMetricsData {
@@ -421,13 +425,25 @@ fun isRosetta(): Boolean {
 
 fun isWindowsArm64(): Boolean {
   try {
-    // https://docs.microsoft.com/en-us/windows/win32/api/sysinfoapi/nf-sysinfoapi-getnativesysteminfo
-    val systemInfo = WinBase.SYSTEM_INFO()
-    Kernel32.INSTANCE.GetNativeSystemInfo(systemInfo)
-    // https://learn.microsoft.com/en-us/windows/win32/api/sysinfoapi/ns-sysinfoapi-system_info#members
-    return systemInfo.processorArchitecture.pi.wProcessorArchitecture.toInt() ==
-      PROCESSOR_ARCHITECTURE_ARM64
+    // https://learn.microsoft.com/en-us/windows/arm/apps-on-arm-x86-emulation#detecting-emulation
+    val pidHandle = Kernel32.INSTANCE.GetCurrentProcess()
+    val lib = Native.load("kernel32", NativeIsWow64::class.java, W32APIOptions.DEFAULT_OPTIONS);
+    val processMachine = WinDef.USHORTByReference()
+    val nativeMachine = WinDef.USHORTByReference()
+    val result = lib.IsWow64Process2(pidHandle, processMachine, nativeMachine)
+
+    // https://learn.microsoft.com/en-us/windows/win32/sysinfo/image-file-machine-constants
+    return result && (nativeMachine.value.toInt() == IMAGE_FILE_MACHINE_ARM64)
   } catch (_: Throwable) {
     return false
   }
+}
+
+private interface NativeIsWow64 : StdCallLibrary {
+
+  fun IsWow64Process2(
+    hProcess: WinNT.HANDLE,
+    processMachine: WinDef.USHORTByReference,
+    nativeMachine: WinDef.USHORTByReference
+  ): Boolean
 }
