@@ -14263,6 +14263,11 @@ message AppQualityInsightsUsageEvent {
     TOP_THREE_SOURCES = 3;
     ALL_SOURCES = 4;
   }
+  enum AiInsightSource {
+    UNKNOWN_SOURCE = 0;
+    AI_INSIGHT_SOURCE_STUDIO_BOT = 1;
+    AI_INSIGHT_SOURCE_CRASHLYTICS_TITAN = 2;
+  }
   message InsightSentiment {
     enum Sentiment {
       UNKNOWN_SENTIMENT = 0;
@@ -14272,11 +14277,13 @@ message AppQualityInsightsUsageEvent {
     optional Sentiment sentiment = 1;
     optional InsightExperiment experiment = 2;
     optional CrashType crash_type = 3;
+    optional AiInsightSource source = 4;
   }
   message InsightFetchDetails {
     optional CrashType crash_type = 1;
     optional InsightExperiment experiment = 2;
     optional bool is_cached = 3;
+    optional AiInsightSource source = 4;
   }
 
   // The app_id is the id for the user's android app
