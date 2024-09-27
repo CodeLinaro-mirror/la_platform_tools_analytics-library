@@ -5789,6 +5789,7 @@ message GcPauseInfo {
     CMS_OLD = 6;
     G1_YOUNG = 7;
     G1_OLD = 8;
+    G1_CONCURRENT = 9;
   }
   // The type of the garbage collector
   optional GcType collector_type = 1;
