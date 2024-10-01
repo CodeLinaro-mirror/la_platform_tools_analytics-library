@@ -14571,6 +14571,9 @@ message HeapReportEvent {
     REVIEW_DECLINED = 15;
     REPORT_UPLOADED = 16;
     REPORT_UPLOAD_FAILED = 17;
+    DISABLED_SYSTEM_PROPERTY = 18;
+    DISABLED_SERVER_FLAG = 19;
+    DISABLED_NOT_64_BIT = 20;
   }
   // mirrors com.android.tools.idea.diagnostic.report.MemoryReportReason
   enum Reason {
