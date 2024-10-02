@@ -752,6 +752,10 @@ message AndroidStudioEvent {
   // set when kind = VIRTUALIZATION_EVENT
   optional VirtualizationEvent virtualization_event = 208 [lazy = true];
 
+  // set when kind = DAEMON_CODE_ANALYZER_FINISHED_EVENT
+  optional DaemonCodeAnalyzerFinishedEvent daemon_code_analyzer_finished_event =
+      209 [lazy = true];
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -1631,6 +1635,11 @@ message AndroidStudioEvent {
 
     // Event related to VM and container virtualization
     VIRTUALIZATION_EVENT = 326;
+
+    // Event related to finishing of the DaemonCodeAnalyzer iteration.
+    // DaemonCodeAnalyzer manages the background highlighting and auto-import
+    // for files displayed in editors.
+    DAEMON_CODE_ANALYZER_FINISHED_EVENT = 327;
   }
 
   // Represents different Performance Monitoring types.
@@ -14006,6 +14015,9 @@ message AppQualityInsightsUsageEvent {
 
     // Track AQI insight fetch.
     INSIGHT_FETCH = 14;
+
+    // Track event fetch
+    EVENTS_FETCHED = 15;
   }
 
   enum CrashType {
@@ -14252,7 +14264,17 @@ message AppQualityInsightsUsageEvent {
     optional string event_id = 2;
     // Whether the viewing of this event triggered a network fetch, or was it
     // served from cache.
-    optional bool is_fetched = 3;
+    // Deprecated by EVENTS_FETCHED
+    optional bool is_fetched = 3 [deprecated = true];
+  }
+
+  message EventsFetched {
+    // Hashed string that uniquely identifies an issue.
+    optional string issue_id = 1;
+    // Fatality of the issue
+    optional CrashType crash_type = 2;
+    // Whether the fetch is for a new issue or next paginated response
+    optional bool is_first_fetch = 3;
   }
 
   enum InsightExperiment {
@@ -14347,6 +14369,9 @@ message AppQualityInsightsUsageEvent {
 
   // set when type = INSIGHT_FETCH
   optional InsightFetchDetails insight_fetch_details = 18 [lazy = true];
+
+  // set when type = EVENTS_FETCHED
+  optional EventsFetched events_fetched = 19 [lazy = true];
 }
 
 message FastPreviewEvent {
@@ -15466,7 +15491,36 @@ message AdbUsageEvent {
   oneof event {
     JdwpProcessPropertiesCollectorEvent process_properties_event = 1
         [lazy = true];
+    AdbDeviceStateChangeEvent device_state_change_event = 2 [lazy = true];
     // Add other types of events, e.g. attaching debugger, etc
+  }
+
+  message AdbDeviceStateChangeEvent {
+    enum DeviceState {
+      DEVICE_STATE_UNSPECIFIED = 0;
+
+      // Other than the state type listed below
+      OTHER = 1;
+
+      BOOTLOADER = 2;
+      AUTHORIZING = 3;
+      CONNECTING = 4;
+      OFFLINE = 5;
+      ONLINE = 6;
+      DISCONNECTED = 7;
+    }
+
+    // Current device state
+    optional DeviceState device_state = 1;
+
+    // Previously recorded device state
+    optional DeviceState previous_device_state = 2;
+
+    // Time since last online in milliseconds.
+    // Note that since we use a serial number to identify the device we may get
+    // a misleading value for anything other than a local physical devices (e.g.
+    // emulator serial number like `emulator-5554` can be reused).
+    optional int64 last_online_ms = 3;
   }
 
   message JdwpProcessPropertiesCollectorEvent {
@@ -15877,9 +15931,12 @@ message BackupUsageEvent {
 }
 
 message StartupEvent {
+  // Duration of the corresponding startup phase
   optional uint32 duration_ms = 1;
+  // Type of the startup phase
   optional Type type = 2;
 
+  // Type of the startup phase
   enum Type {
     UNKNOWN_STARTUP_EVENT_TYPE = 0;
     TOTAL_DURATION = 1;
@@ -15892,45 +15949,75 @@ message StartupEvent {
   }
 }
 
+// Event describing how long it takes to show the first UI element in the
+// startup flow. UI elements are either the splash screen or the main IDE frame.
 message StartupPerformanceFirstUiShownEvent {
+  // How long did it take to show the first UI element since the IDE startup.
   optional uint32 duration_ms = 1;
+  // Type of the first UI element shown.
   optional UiResponseType type = 2;
 
   enum UiResponseType {
     UNKNOWN_UI_RESPONSE_TYPE = 0;
+    // The splash screen was shown.
     SPLASH = 1;
+    // The main IDE frame was shown.
     FRAME = 2;
   }
 }
 
+// Event describing how long it takes for the main IDE frame to become visible.
 message StartupPerformanceFrameBecameVisibleEvent {
+  // How long did it take to show the main IDE frame since the IDE startup.
   optional uint32 duration_ms = 1;
+  // Shows if the opened project has settings to filter cases of importing which
+  // may need more resources.
   optional bool has_settings = 2;
+  // Type of the project opened.
   optional ProjectType project_type = 3;
 
   enum ProjectType {
     UNKNOWN_PROJECT_TYPE = 0;
+    // Project was reopened.
     REOPENED = 1;
+    // Files were specified to be loaded on IDE startup.
     FROM_FILES_TO_LOAD = 2;
+    // Project was specified in the arguments.
     FROM_ARGS = 3;
   }
 }
 
+// Event describing how long it takes for the main IDE frame to become
+// interactive.
 message StartupPerformanceFrameBecameInteractiveEvent {
+  // How long it takes for the main IDE frame to become interactive.
   optional uint32 duration_ms = 1;
 }
 
+// Event describing the duration from the user starting IDE till having single
+// project opened without Welcome Screen involved, and the editors in project
+// are reopened, or it's found that there are no editors to open. Does not wait
+// for highlighting/indexing/other initialization activities to finish.
 message StartupPerformanceCodeLoadedAndVisibleInEditor {
+  // How long did it take to load the code and show it in the editor.
   optional uint32 duration_ms = 1;
+  // Type of the file opened.
   optional string file_type = 2;
+  // Shows if the opened project has settings to filter cases of importing which
+  // may need more resources.
   optional bool has_settings = 3;
+  // While opening the file, the markup was loaded from the cache.
   optional bool loaded_cached_markup = 4;
+  // No editors were opened on the IDE startup.
   optional bool no_editors_to_open = 5;
+  // The reason why the selected editor was opened.
   optional SourceOfSelectedEditor source_of_selected_editor = 6;
 
   enum SourceOfSelectedEditor {
     UNKNOWN_SOURCE_OF_SELECTED_EDITOR = 0;
+    // A regular text editor was opened.
     TEXT_EDITOR = 1;
+    // README.md file was found in the project and opened as a default.
     FOUND_README_FILE = 2;
   }
 }
@@ -16044,4 +16131,28 @@ message VirtualizationEvent {
 
   optional VmType vm = 1;
   optional ContainerType container = 2;
+}
+
+// Event related to finishing of the DaemonCodeAnalyzer iteration.
+// DaemonCodeAnalyzer manages the background highlighting and auto-import
+// for files displayed in editors.
+message DaemonCodeAnalyzerFinishedEvent {
+  // Daemon highlighting segment duration until it was finished or restarted for
+  // some reason.
+  optional uint64 segment_duration_ms = 1;
+  // Full highlighting duration since the file was modified and/or dumb mode
+  // status changed. It should be equal to the sum of segments.
+  optional uint64 full_duration_since_started_ms = 2;
+  // Number of errors found by the DaemonCodeAnalyzer.
+  optional uint32 errors = 3;
+  // Number of warnings found by the DaemonCodeAnalyzer.
+  optional uint32 warnings = 4;
+  // Total number of lines analyzed by the DaemonCodeAnalyzer.
+  optional uint32 lines = 5;
+  // Type of the file that was analyzed.
+  optional string file_type = 6;
+  // Was the highlighting completed.
+  optional bool highlighting_completed = 7;
+  // Did the iteration happened while the IDE was in the dumb mode.
+  optional bool dumb_mode = 8;
 }
