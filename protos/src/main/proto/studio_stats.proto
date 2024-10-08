@@ -756,6 +756,9 @@ message AndroidStudioEvent {
   optional DaemonCodeAnalyzerFinishedEvent daemon_code_analyzer_finished_event =
       209 [lazy = true];
 
+  // set when kind = EDITING_METRICS_EVENT
+  optional EditingMetricsEvent editing_metrics_event = 210 [lazy = true];
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -1640,6 +1643,9 @@ message AndroidStudioEvent {
     // DaemonCodeAnalyzer manages the background highlighting and auto-import
     // for files displayed in editors.
     DAEMON_CODE_ANALYZER_FINISHED_EVENT = 327;
+
+    // Event related to general editing metrics
+    EDITING_METRICS_EVENT = 328;
   }
 
   // Represents different Performance Monitoring types.
@@ -16155,4 +16161,42 @@ message DaemonCodeAnalyzerFinishedEvent {
   optional bool highlighting_completed = 7;
   // Did the iteration happened while the IDE was in the dumb mode.
   optional bool dumb_mode = 8;
+}
+
+// Event containing metrics about the editing process and changes to files.
+message EditingMetricsEvent {
+  optional CharacterMetrics character_metrics = 1;
+
+  message CharacterMetrics {
+    repeated SourceCount chars_added = 1;
+    repeated SourceCount chars_deleted = 2;
+    // Duration of period during which the metrics were collected, in
+    // milliseconds.
+    optional uint64 duration_ms = 3;
+
+    enum Source {
+      UNKNOWN = 0;
+      // User modified the file by typing.
+      TYPING = 1;
+      // The IDE took an action that modified a file.
+      IDE_ACTION = 2;
+      // The user pasted text into a file.
+      PASTE = 3;
+      // The user used the IDE to refactor code.
+      REFACTORING = 4;
+      // The user accepted a deterministic IDE-generated code completion.
+      CODE_COMPLETION = 5;
+      // The user accepted an AI-generated code completion suggestion.
+      AI_CODE_COMPLETION = 6;
+      // The user accepted an AI-generated code transformation suggestion.
+      AI_CODE_TRANSFORMATION = 7;
+      // The user pasted text from an AI chat window into the file.
+      PASTE_FROM_AI_CHAT = 8;
+    }
+
+    message SourceCount {
+      optional Source source = 1;
+      optional uint64 count = 2;
+    }
+  }
 }
