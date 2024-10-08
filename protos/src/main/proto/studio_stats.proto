@@ -523,8 +523,8 @@ message AndroidStudioEvent {
   optional OSMetrics os_metrics = 141 [lazy = true];
 
   // set when kind is SDK_INDEX_LIBRARY_HAS_CRITICAL_ISSUES,
-  // SDK_INDEX_LIBRARY_IS_OUTDATED, SDK_INDEX_LIBRARY_IS_NON_COMPLIANT
-  // or SDK_INDEX_LIBRARY_HAS_VULNERABILITIES
+  // SDK_INDEX_LIBRARY_IS_OUTDATED, SDK_INDEX_LIBRARY_IS_NON_COMPLIANT,
+  // SDK_INDEX_LIBRARY_HAS_VULNERABILITIES, SDK_INDEX_LIBRARY_UPDATED
   optional SdkIndexLibraryDetails sdk_index_library_details = 142 [lazy = true];
 
   // set when kind = EDITOR_PICKER
@@ -1646,6 +1646,9 @@ message AndroidStudioEvent {
 
     // Event related to general editing metrics
     EDITING_METRICS_EVENT = 328;
+
+    // Library was updated with a SDK Index quick fix
+    SDK_INDEX_LIBRARY_UPDATED = 329;
   }
 
   // Represents different Performance Monitoring types.
@@ -13639,6 +13642,8 @@ message SdkIndexLibraryDetails {
   optional string version_string = 3;
   // Is this library reported as blocking publishing on Google Play?
   optional bool is_blocking = 4;
+  // Version this library was upgraded to (SDK_INDEX_LIBRARY_UPDATED)
+  optional string updated_version_string = 5;
 }
 
 message SdkIndexLoadingDetails {
