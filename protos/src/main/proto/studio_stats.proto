@@ -523,8 +523,8 @@ message AndroidStudioEvent {
   optional OSMetrics os_metrics = 141 [lazy = true];
 
   // set when kind is SDK_INDEX_LIBRARY_HAS_CRITICAL_ISSUES,
-  // SDK_INDEX_LIBRARY_IS_OUTDATED, SDK_INDEX_LIBRARY_IS_NON_COMPLIANT
-  // or SDK_INDEX_LIBRARY_HAS_VULNERABILITIES
+  // SDK_INDEX_LIBRARY_IS_OUTDATED, SDK_INDEX_LIBRARY_IS_NON_COMPLIANT,
+  // SDK_INDEX_LIBRARY_HAS_VULNERABILITIES, SDK_INDEX_LIBRARY_UPDATED
   optional SdkIndexLibraryDetails sdk_index_library_details = 142 [lazy = true];
 
   // set when kind = EDITOR_PICKER
@@ -755,6 +755,9 @@ message AndroidStudioEvent {
   // set when kind = DAEMON_CODE_ANALYZER_FINISHED_EVENT
   optional DaemonCodeAnalyzerFinishedEvent daemon_code_analyzer_finished_event =
       209 [lazy = true];
+
+  // set when kind = EDITING_METRICS_EVENT
+  optional EditingMetricsEvent editing_metrics_event = 210 [lazy = true];
 
   enum EventCategory {
     // The event was not grouped into any specific category (default).
@@ -1640,6 +1643,12 @@ message AndroidStudioEvent {
     // DaemonCodeAnalyzer manages the background highlighting and auto-import
     // for files displayed in editors.
     DAEMON_CODE_ANALYZER_FINISHED_EVENT = 327;
+
+    // Event related to general editing metrics
+    EDITING_METRICS_EVENT = 328;
+
+    // Library was updated with a SDK Index quick fix
+    SDK_INDEX_LIBRARY_UPDATED = 329;
   }
 
   // Represents different Performance Monitoring types.
@@ -8539,6 +8548,8 @@ message GradleSyncStats {
     TRIGGER_REFACTOR_MIGRATE_TO_NON_TRANSITIVE_R_CLASSES = 1204;
     // Migrate BuildConfig setting from gradle.properties to build files
     TRIGGER_REFACTOR_MIGRATE_BUILD_CONFIG_FROM_GRADLE_PROPERTIES = 1205;
+    // Migrate ResValues setting from gradle.properties to build files
+    TRIGGER_REFACTOR_MIGRATE_RES_VALUES_FROM_GRADLE_PROPERTIES = 1206;
     // Last marker for syncs caused by a refactor
     TRIGGER_REFACTOR_LAST_MARKER = 1299;
 
@@ -12617,6 +12628,7 @@ message UpgradeAssistantComponentInfo {
     MIGRATE_TEST_COVERAGE_ENABLED = 31;
     USE_ANDROIDX_DEFAULT = 32;
     EXCLUDE_LIBRARY_COMPONENTS_FROM_CONSTRAINTS_DEFAULT = 33;
+    RES_VALUES_DEFAULT = 34;
   }
 
   message Java8DefaultProcessorSettings {
@@ -13633,6 +13645,8 @@ message SdkIndexLibraryDetails {
   optional string version_string = 3;
   // Is this library reported as blocking publishing on Google Play?
   optional bool is_blocking = 4;
+  // Version this library was upgraded to (SDK_INDEX_LIBRARY_UPDATED)
+  optional string updated_version_string = 5;
 }
 
 message SdkIndexLoadingDetails {
@@ -16155,4 +16169,42 @@ message DaemonCodeAnalyzerFinishedEvent {
   optional bool highlighting_completed = 7;
   // Did the iteration happened while the IDE was in the dumb mode.
   optional bool dumb_mode = 8;
+}
+
+// Event containing metrics about the editing process and changes to files.
+message EditingMetricsEvent {
+  optional CharacterMetrics character_metrics = 1;
+
+  message CharacterMetrics {
+    repeated SourceCount chars_added = 1;
+    repeated SourceCount chars_deleted = 2;
+    // Duration of period during which the metrics were collected, in
+    // milliseconds.
+    optional uint64 duration_ms = 3;
+
+    enum Source {
+      UNKNOWN = 0;
+      // User modified the file by typing.
+      TYPING = 1;
+      // The IDE took an action that modified a file.
+      IDE_ACTION = 2;
+      // The user pasted text into a file.
+      PASTE = 3;
+      // The user used the IDE to refactor code.
+      REFACTORING = 4;
+      // The user accepted a deterministic IDE-generated code completion.
+      CODE_COMPLETION = 5;
+      // The user accepted an AI-generated code completion suggestion.
+      AI_CODE_COMPLETION = 6;
+      // The user accepted an AI-generated code transformation suggestion.
+      AI_CODE_TRANSFORMATION = 7;
+      // The user pasted text from an AI chat window into the file.
+      PASTE_FROM_AI_CHAT = 8;
+    }
+
+    message SourceCount {
+      optional Source source = 1;
+      optional uint64 count = 2;
+    }
+  }
 }
