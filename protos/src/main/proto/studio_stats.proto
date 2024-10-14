@@ -15936,9 +15936,15 @@ message BackupUsageEvent {
     optional Source source = 2 [deprecated = true];
     // Deprecated: use result_value
     optional Result result = 3 [deprecated = true];
-    optional int32 type_value = 4;
-    optional int32 source_value = 5;
-    optional int32 result_value = 6;
+    // Deprecated: use type_string
+    optional int32 type_value = 4 [deprecated = true];
+    // Deprecated: use source_string
+    optional int32 source_value = 5 [deprecated = true];
+    // Deprecated: use result_string
+    optional int32 result_value = 6 [deprecated = true];
+    optional string type_string = 7;    // e.g. CLOUD
+    optional string source_string = 8;  // e.g. DEVICE_EXPLORER
+    optional string result_string = 9;  // e.g. SUCCESS
   }
 
   // A Restore event
@@ -15947,8 +15953,12 @@ message BackupUsageEvent {
     optional Source source = 1 [deprecated = true];
     // Deprecated: use result_value
     optional Result result = 2 [deprecated = true];
-    optional int32 source_value = 3;
-    optional int32 result_value = 4;
+    // Deprecated: use source_value
+    optional int32 source_value = 3 [deprecated = true];
+    // Deprecated: use result_string
+    optional int32 result_value = 4 [deprecated = true];
+    optional string source_string = 5;  // e.g. DEVICE_EXPLORER
+    optional string result_string = 6;  // e.g. SUCCESS
   }
 }
 
