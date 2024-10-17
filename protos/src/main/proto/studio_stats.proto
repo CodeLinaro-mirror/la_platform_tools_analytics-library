@@ -759,6 +759,9 @@ message AndroidStudioEvent {
   // set when kind = EDITING_METRICS_EVENT
   optional EditingMetricsEvent editing_metrics_event = 210 [lazy = true];
 
+  // set when kind = STUDIO_LABS_EVENT
+  optional StudioLabsEvent studio_labs_event = 211 [lazy = true];
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -1649,6 +1652,9 @@ message AndroidStudioEvent {
 
     // Library was updated with a SDK Index quick fix
     SDK_INDEX_LIBRARY_UPDATED = 329;
+
+    // Event related to Android Studio Labs
+    STUDIO_LABS_EVENT = 330;
   }
 
   // Represents different Performance Monitoring types.
@@ -16225,4 +16231,18 @@ message EditingMetricsEvent {
       optional uint64 count = 2;
     }
   }
+}
+
+// Event created when the user interacts with the Studio Labs.
+message StudioLabsEvent {
+  enum PageInteraction {
+    UNKNOWN_INTERACTION = 0;
+    OPENED = 1;
+    APPLY_BUTTON_CLICKED = 2;
+    CANCEL_BUTTON_CLICKED = 3;
+    OK_BUTTON_CLICKED = 4;
+  }
+
+  // Logs user interaction with the Studio Labs settings page.
+  optional PageInteraction page_interaction = 2;
 }
