@@ -7006,6 +7006,12 @@ message AppLinksAssistantEvent {
 
     // Intention action.
     LAUNCH_APP_LINKS_ASSISTANT = 40;
+
+    // Play Dynamic Filters
+    PLAY_DYNAMIC_FILTERS_INSPECTION = 41;
+    PLAY_DYNAMIC_FILTERS_INSPECTION_DISABLE_IN_SETTINGS = 42;
+    PLAY_DYNAMIC_FILTERS_INSPECTION_DISABLE_FOR_FILE = 43;
+    PLAY_DYNAMIC_FILTERS_INSPECTION_DISABLE_FOR_TAG = 44;
   }
 
   // The state list of UI event source.
@@ -9771,6 +9777,8 @@ message RunEvent {
   optional bool apply_code_changes_fallback_to_run = 23;
   // Whether the user configured Run to disable overlay installs.
   optional bool run_always_install_with_pm = 24;
+  // Whether the user configured Run to take advantage of assume-verified.
+  optional bool use_assume_verified = 28;
 
   enum AppComponent {
     UNKNOWN = 0;
@@ -15928,9 +15936,15 @@ message BackupUsageEvent {
     optional Source source = 2 [deprecated = true];
     // Deprecated: use result_value
     optional Result result = 3 [deprecated = true];
-    optional int32 type_value = 4;
-    optional int32 source_value = 5;
-    optional int32 result_value = 6;
+    // Deprecated: use type_string
+    optional int32 type_value = 4 [deprecated = true];
+    // Deprecated: use source_string
+    optional int32 source_value = 5 [deprecated = true];
+    // Deprecated: use result_string
+    optional int32 result_value = 6 [deprecated = true];
+    optional string type_string = 7;    // e.g. CLOUD
+    optional string source_string = 8;  // e.g. DEVICE_EXPLORER
+    optional string result_string = 9;  // e.g. SUCCESS
   }
 
   // A Restore event
@@ -15939,8 +15953,12 @@ message BackupUsageEvent {
     optional Source source = 1 [deprecated = true];
     // Deprecated: use result_value
     optional Result result = 2 [deprecated = true];
-    optional int32 source_value = 3;
-    optional int32 result_value = 4;
+    // Deprecated: use source_value
+    optional int32 source_value = 3 [deprecated = true];
+    // Deprecated: use result_string
+    optional int32 result_value = 4 [deprecated = true];
+    optional string source_string = 5;  // e.g. DEVICE_EXPLORER
+    optional string result_string = 6;  // e.g. SUCCESS
   }
 }
 
