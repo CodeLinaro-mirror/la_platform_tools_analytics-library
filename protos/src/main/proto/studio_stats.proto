@@ -762,6 +762,9 @@ message AndroidStudioEvent {
   // set when kind = STUDIO_LABS_EVENT
   optional StudioLabsEvent studio_labs_event = 211 [lazy = true];
 
+  // set when kind = PROMPT_LIBRARY_EVENT
+  optional PromptLibraryEvent prompt_library_event = 212 [lazy = true];
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -1655,6 +1658,9 @@ message AndroidStudioEvent {
 
     // Event related to Android Studio Labs
     STUDIO_LABS_EVENT = 330;
+
+    // Event related to Gemini Prompt Library
+    PROMPT_LIBRARY_EVENT = 331;
   }
 
   // Represents different Performance Monitoring types.
@@ -16245,4 +16251,21 @@ message StudioLabsEvent {
 
   // Logs user interaction with the Studio Labs settings page.
   optional PageInteraction page_interaction = 2;
+}
+
+message PromptLibraryEvent {
+  optional Update update = 1;
+  optional Invoke invoke = 2;
+
+  // Updates to the prompt library settings: addting/removing prompt templates.
+  message Update {
+    // Total number of prompts in the library.
+    optional uint32 prompts_in_library = 1;
+  }
+
+  // User invoked a prompt from the library.
+  message Invoke {
+    // Type of the file, prompt was invoked from.
+    optional EditorFileType file_type = 2;
+  }
 }
