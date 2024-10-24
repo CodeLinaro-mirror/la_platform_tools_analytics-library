@@ -759,6 +759,15 @@ message AndroidStudioEvent {
   // set when kind = EDITING_METRICS_EVENT
   optional EditingMetricsEvent editing_metrics_event = 210 [lazy = true];
 
+  // set when kind = STUDIO_LABS_EVENT
+  optional StudioLabsEvent studio_labs_event = 211 [lazy = true];
+
+  // set when kind = PROMPT_LIBRARY_EVENT
+  optional PromptLibraryEvent prompt_library_event = 212 [lazy = true];
+
+  // set when kind = GRADLE_SYNC_FAILURE_DETAILS
+  optional GradleFailureDetails gradle_failure_details = 213 [lazy = true];
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -1649,6 +1658,12 @@ message AndroidStudioEvent {
 
     // Library was updated with a SDK Index quick fix
     SDK_INDEX_LIBRARY_UPDATED = 329;
+
+    // Event related to Android Studio Labs
+    STUDIO_LABS_EVENT = 330;
+
+    // Event related to Gemini Prompt Library
+    PROMPT_LIBRARY_EVENT = 331;
   }
 
   // Represents different Performance Monitoring types.
@@ -8789,6 +8804,26 @@ message GradleSyncIssue {
   optional AndroidStudioEvent.GradleSyncIssueType type = 1;
   // The list of quick-fixes offered to resolve the issue.
   repeated AndroidStudioEvent.GradleSyncQuickFix offered_quick_fixes = 2;
+}
+
+// Gradle failure details. This is used to store the information about the
+// exceptions that were thrown during the Gradle execution. Failure can contain
+// multiple errors because of multi-cause exceptions concept in Gradle.
+message GradleFailureDetails {
+  // Information about a single java exception object in a returned failure.
+  message GradleExceptionInfo {
+    // Full class name of the exception.
+    // There is an allowlist of tools this can come from (by package prefix).
+    optional string exception_class_name = 1;
+  }
+  // Information about a single 'caused by' chain of exceptions, presented as
+  // a list of exceptions. The first element is the top-level exception, the
+  // last element is the root cause.
+  message GradleErrorInfo {
+    repeated GradleExceptionInfo exceptions = 1;
+  }
+
+  repeated GradleErrorInfo errors = 1;
 }
 
 // Metrics for native workspace sync. The data is collected in Android Studio
@@ -16224,5 +16259,36 @@ message EditingMetricsEvent {
       optional Source source = 1;
       optional uint64 count = 2;
     }
+  }
+}
+
+// Event created when the user interacts with the Studio Labs.
+message StudioLabsEvent {
+  enum PageInteraction {
+    UNKNOWN_INTERACTION = 0;
+    OPENED = 1;
+    APPLY_BUTTON_CLICKED = 2;
+    CANCEL_BUTTON_CLICKED = 3;
+    OK_BUTTON_CLICKED = 4;
+  }
+
+  // Logs user interaction with the Studio Labs settings page.
+  optional PageInteraction page_interaction = 2;
+}
+
+message PromptLibraryEvent {
+  optional Update update = 1;
+  optional Invoke invoke = 2;
+
+  // Updates to the prompt library settings: addting/removing prompt templates.
+  message Update {
+    // Total number of prompts in the library.
+    optional uint32 prompts_in_library = 1;
+  }
+
+  // User invoked a prompt from the library.
+  message Invoke {
+    // Type of the file, prompt was invoked from.
+    optional EditorFileType file_type = 2;
   }
 }
