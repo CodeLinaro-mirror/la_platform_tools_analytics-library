@@ -14360,10 +14360,20 @@ message AppQualityInsightsUsageEvent {
     optional AiInsightSource source = 4;
   }
   message InsightFetchDetails {
+    message CodeContextDetails {
+      optional int64 file_count = 1;
+      optional int64 line_count = 2;
+      // This is the count of the characters not taking into account the
+      // context limit.
+      optional int64 char_count = 3;
+      optional int64 context_limit = 4;
+    }
+
     optional CrashType crash_type = 1;
     optional InsightExperiment experiment = 2;
     optional bool is_cached = 3;
     optional AiInsightSource source = 4;
+    optional CodeContextDetails code_context_details = 5 [lazy = true];
   }
 
   // The app_id is the id for the user's android app
