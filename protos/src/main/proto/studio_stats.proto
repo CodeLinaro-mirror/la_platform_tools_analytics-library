@@ -8815,6 +8815,18 @@ message GradleFailureDetails {
     // Full class name of the exception.
     // There is an allowlist of tools this can come from (by package prefix).
     optional string exception_class_name = 1;
+    // The first stack frame of the exception that is filtered by the allowlist.
+    optional GradleExceptionStackFrameInfo top_frame_info = 2;
+  }
+  // Information about a single stack frame in a returned failure.
+  // Frames are filtered by the same allowlist as GradleExceptionInfo.
+  message GradleExceptionStackFrameInfo {
+    optional string class_name = 1;
+    optional string method_name = 2;
+    optional string file_name = 3;
+    optional int32 line_number = 4;
+    // The index of the frame in the stack trace array.
+    optional int32 frame_index = 5;
   }
   // Information about a single 'caused by' chain of exceptions, presented as
   // a list of exceptions. The first element is the top-level exception, the
@@ -14360,10 +14372,20 @@ message AppQualityInsightsUsageEvent {
     optional AiInsightSource source = 4;
   }
   message InsightFetchDetails {
+    message CodeContextDetails {
+      optional int64 file_count = 1;
+      optional int64 line_count = 2;
+      // This is the count of the characters not taking into account the
+      // context limit.
+      optional int64 char_count = 3;
+      optional int64 context_limit = 4;
+    }
+
     optional CrashType crash_type = 1;
     optional InsightExperiment experiment = 2;
     optional bool is_cached = 3;
     optional AiInsightSource source = 4;
+    optional CodeContextDetails code_context_details = 5 [lazy = true];
   }
 
   // The app_id is the id for the user's android app
