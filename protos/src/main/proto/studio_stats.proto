@@ -15146,13 +15146,32 @@ message SmlTransformEvent {
   }
 
   message TransformError {
+    // Status code mapped to HTTP codes (see go/http-canonical-mapping).
     optional int32 status_code = 1;
+    enum FailureCause {
+      UNKNOWN_CAUSE = 0;
+      // Unexpected errors; should be converted to more specific causes.
+      RUNTIME_EXCEPTION = 1;
+      // gRPC, HTTP, or other backend and network errors.
+      BACKEND_ERROR = 2;
+      // The response was empty or identical to the input.
+      EMPTY_RESPONSE = 3;
+      // The response doesn't contain expected elements or cannot be parsed.
+      INVALID_FORMAT = 4;
+    }
+    optional FailureCause cause = 2;
+    // The name of the exception class, used to identify RUNTIME_EXCEPTION.
+    // Exception class names only contain compile-time information.
+    optional string exception_class_name = 3;
+    optional SmlResponseMetadata metadata = 4 [lazy = true];
   }
 
   message TransformResponse {
     oneof response {
       TransformResult result = 1 [lazy = true];
-      TransformError backend_error = 2 [lazy = true];
+      // Use failure instead to represent both backend and parsing errors.
+      TransformError backend_error = 2 [lazy = true, deprecated = true];
+      TransformError failure = 3 [lazy = true];
     }
   }
 
