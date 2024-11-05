@@ -1916,10 +1916,14 @@ message AndroidStudioEvent {
       // should be reliable to new Modules, but may not be possible to determine
       // for existing ones.
       optional ModuleType module_type = 1;
-      // Android Min SDK.
-      optional uint32 min_sdk = 2;
+      // Android Min SDK, superseded by min_sdk_version which includes preview
+      optional uint32 min_sdk = 2 [deprecated = true];
       // Java bytecode level - Used for Android libraries
       optional BytecodeLevel bytecode_level = 3;
+      // Android min sdk version (including preview)
+      optional ApiVersion min_sdk_version = 4 [lazy = true];
+      // Android target sdk version (including preview)
+      optional ApiVersion target_sdk_version = 5 [lazy = true];
 
       // All different Module Types that can be created.
       enum ModuleType {
