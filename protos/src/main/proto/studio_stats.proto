@@ -1797,6 +1797,7 @@ message AndroidStudioEvent {
     BASELINE_PROFILES_MODULE = 68;
     EXPERIMENTAL_ACTIVITY = 69;
     KOTLIN_MULTIPLATFORM_LIBRARY_MODULE = 70;
+    EXPERIMENTAL_ACTIVITY_2 = 71;
   }
 
   // Wizard Templates Usage (New Project, New Module and New Component)
@@ -1825,7 +1826,7 @@ message AndroidStudioEvent {
 
       // The different template components (eg Activities, Fragments, Services,
       // etc) the template engine could be asked to render
-      // Next ID: 63
+      // Next ID: 64
       enum TemplateType {
         UNKNOWN_TEMPLATE = 0;
         CUSTOM_TEMPLATE = 1;
@@ -1894,6 +1895,7 @@ message AndroidStudioEvent {
         SLICE_PROVIDER = 55;
         CONTENT_PROVIDER = 56;
         EXPERIMENTAL_ACTIVITY = 62;
+        EXPERIMENTAL_ACTIVITY_2 = 63;
       }
 
       // The UI context used by the user to make the Template render request
@@ -12684,6 +12686,8 @@ message UpgradeAssistantComponentInfo {
     USE_ANDROIDX_DEFAULT = 32;
     EXCLUDE_LIBRARY_COMPONENTS_FROM_CONSTRAINTS_DEFAULT = 33;
     RES_VALUES_DEFAULT = 34;
+    BLOCK_AIDL_PROPERTY_PRESENT = 35;
+    BLOCK_RENDER_SCRIPT_PROPERTY_PRESENT = 36;
   }
 
   message Java8DefaultProcessorSettings {
