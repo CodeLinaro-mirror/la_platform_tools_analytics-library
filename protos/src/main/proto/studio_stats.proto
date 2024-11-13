@@ -2440,6 +2440,10 @@ message DeviceInfo {
   // meaning (if any) of the id is defined by the device provisioner plugin.
   optional string connection_id = 14;
 
+  // If this is a remote physical device from a non-google lab, this is the
+  // name of the lab as reported in the device catalog.
+  optional string oem_lab_name = 15;
+
   // Describes tthe ABI of the device/emulator.
   enum ApplicationBinaryInterface {
     UNKNOWN_ABI = 0;
