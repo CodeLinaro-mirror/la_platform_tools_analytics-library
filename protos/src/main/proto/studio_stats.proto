@@ -1916,10 +1916,14 @@ message AndroidStudioEvent {
       // should be reliable to new Modules, but may not be possible to determine
       // for existing ones.
       optional ModuleType module_type = 1;
-      // Android Min SDK.
-      optional uint32 min_sdk = 2;
+      // Android Min SDK, superseded by min_sdk_version which includes preview
+      optional uint32 min_sdk = 2 [deprecated = true];
       // Java bytecode level - Used for Android libraries
       optional BytecodeLevel bytecode_level = 3;
+      // Android min sdk version (including preview)
+      optional ApiVersion min_sdk_version = 4 [lazy = true];
+      // Android target sdk version (including preview)
+      optional ApiVersion target_sdk_version = 5 [lazy = true];
 
       // All different Module Types that can be created.
       enum ModuleType {
@@ -2435,6 +2439,10 @@ message DeviceInfo {
   // period when the device was connected to Studio. The format and semantic
   // meaning (if any) of the id is defined by the device provisioner plugin.
   optional string connection_id = 14;
+
+  // If this is a remote physical device from a non-google lab, this is the
+  // name of the lab as reported in the device catalog.
+  optional string oem_lab_name = 15;
 
   // Describes tthe ABI of the device/emulator.
   enum ApplicationBinaryInterface {
@@ -9151,6 +9159,7 @@ message DynamicLayoutInspectorErrorInfo {
     APP_INSPECTION_COMPOSE_INSPECTOR_NOT_FOUND = 210;
     // Failed to download compose inspector from maven
     APP_INSPECTION_FAILED_MAVEN_DOWNLOAD = 211;
+    APP_INSPECTION_FORCEFULLY_DISPOSED = 212;
 
     // ----------------------------------
     // Error codes from Transport Layer
@@ -15146,13 +15155,32 @@ message SmlTransformEvent {
   }
 
   message TransformError {
+    // Status code mapped to HTTP codes (see go/http-canonical-mapping).
     optional int32 status_code = 1;
+    enum FailureCause {
+      UNKNOWN_CAUSE = 0;
+      // Unexpected errors; should be converted to more specific causes.
+      RUNTIME_EXCEPTION = 1;
+      // gRPC, HTTP, or other backend and network errors.
+      BACKEND_ERROR = 2;
+      // The response was empty or identical to the input.
+      EMPTY_RESPONSE = 3;
+      // The response doesn't contain expected elements or cannot be parsed.
+      INVALID_FORMAT = 4;
+    }
+    optional FailureCause cause = 2;
+    // The name of the exception class, used to identify RUNTIME_EXCEPTION.
+    // Exception class names only contain compile-time information.
+    optional string exception_class_name = 3;
+    optional SmlResponseMetadata metadata = 4 [lazy = true];
   }
 
   message TransformResponse {
     oneof response {
       TransformResult result = 1 [lazy = true];
-      TransformError backend_error = 2 [lazy = true];
+      // Use failure instead to represent both backend and parsing errors.
+      TransformError backend_error = 2 [lazy = true, deprecated = true];
+      TransformError failure = 3 [lazy = true];
     }
   }
 
