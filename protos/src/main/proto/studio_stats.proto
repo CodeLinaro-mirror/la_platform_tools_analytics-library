@@ -769,6 +769,9 @@ message AndroidStudioEvent {
   // set when kind = GRADLE_SYNC_FAILURE_DETAILS
   optional GradleFailureDetails gradle_failure_details = 213 [lazy = true];
 
+  // set when kind = ADB_DELEGATE_USAGE_EVENT
+  optional AdbDelegateUsageEvent adb_delegate_usage_event = 214 [lazy = true];
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -1668,6 +1671,9 @@ message AndroidStudioEvent {
 
     // Library is marked as deprecated in the SDK Index
     SDK_INDEX_LIBRARY_IS_DEPRECATED = 332;
+
+    // Event for tracking method calls to `AndroidDebugBridgeDelegate`
+    ADB_DELEGATE_USAGE_EVENT = 333;
   }
 
   // Represents different Performance Monitoring types.
@@ -15595,6 +15601,73 @@ message IDeviceUsageEvent {
   optional Method method = 1;
 
   // `IDevice` implementation
+  optional SourceType source_type = 2;
+
+  // Whether method threw an exception
+  optional bool is_exception = 3;
+}
+
+message AdbDelegateUsageEvent {
+  // Identifier of the `AndroidDebugBridgeDelegate` class method
+  enum Method {
+    METHOD_UNSPECIFIED = 0;
+    ADD_CLIENT_CHANGE_LISTENER = 1;
+    ADD_DEBUG_BRIDGE_CHANGE_LISTENER = 2;
+    ADD_DEVICE_CHANGE_LISTENER = 3;
+    CLIENT_CHANGED = 4;
+    CREATE_BRIDGE_1 = 5;
+    CREATE_BRIDGE_2 = 6;
+    CREATE_BRIDGE_3 = 7;
+    CREATE_BRIDGE_4 = 8;
+    DEVICE_CHANGED = 9;
+    DEVICE_CONNECTED = 10;
+    DEVICE_DISCONNECTED = 11;
+    DISABLE_FAKE_ADB_SERVER_MODE = 12;
+    DISCONNECT_BRIDGE_1 = 13;
+    DISCONNECT_BRIDGE_2 = 14;
+    ENABLE_FAKE_ADB_SERVER_MODE = 15;
+    GET_ADB_VERSION = 16;
+    GET_BRIDGE = 17;
+    GET_CLIENT_MANAGER = 18;
+    GET_CLIENT_SUPPORT = 19;
+    GET_CURRENT_ADB_VERSION = 20;
+    GET_DEBUG_BRIDGE_CHANGE_LISTENER_COUNT = 21;
+    GET_DEVICE_CHANGE_LISTENER_COUNT = 22;
+    GET_DEVICES = 23;
+    GET_IDEVICE_USAGE_TRACKER = 24;
+    GET_RAW_DEVICE_LIST = 25;
+    GET_SOCKET_ADDRESS = 26;
+    GET_VIRTUAL_DEVICE_ID = 27;
+    HAS_INITIAL_DEVICE_LIST = 28;
+    INIT_1 = 29;
+    INIT_2 = 30;
+    INIT_3 = 31;
+    INIT_IF_NEEDED = 32;
+    IS_CONNECTED = 33;
+    IS_USER_MANAGED_ADB_MODE = 34;
+    OPEN_CONNECTION = 35;
+    OPTIONS_CHANGED = 36;
+    REMOVE_CLIENT_CHANGE_LISTENER = 37;
+    REMOVE_DEBUG_BRIDGE_CHANGE_LISTENER = 38;
+    REMOVE_DEVICE_CHANGE_LISTENER = 39;
+    RESTART_1 = 40;
+    RESTART_2 = 41;
+    START_ADB = 42;
+    TERMINATE = 43;
+  }
+
+  // Whether this event is coming from `AndroidDebugBridgeImpl` or
+  // `AdbLibAndroidDebugBridge`
+  enum SourceType {
+    SOURCE_TYPE_UNSPECIFIED = 0;
+    ADB_IMPL = 1;
+    ADBLIB_ADB = 2;
+  }
+
+  // 'AndroidDebugBridgeDelegate' method
+  optional Method method = 1;
+
+  // `AndroidDebugBridgeDelegate` implementation
   optional SourceType source_type = 2;
 
   // Whether method threw an exception
