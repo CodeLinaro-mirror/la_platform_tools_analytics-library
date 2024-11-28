@@ -524,7 +524,8 @@ message AndroidStudioEvent {
 
   // set when kind is SDK_INDEX_LIBRARY_HAS_CRITICAL_ISSUES,
   // SDK_INDEX_LIBRARY_IS_OUTDATED, SDK_INDEX_LIBRARY_IS_NON_COMPLIANT,
-  // SDK_INDEX_LIBRARY_HAS_VULNERABILITIES, SDK_INDEX_LIBRARY_UPDATED
+  // SDK_INDEX_LIBRARY_HAS_VULNERABILITIES, SDK_INDEX_LIBRARY_UPDATED,
+  // SDK_INDEX_LIBRARY_IS_DEPRECATED
   optional SdkIndexLibraryDetails sdk_index_library_details = 142 [lazy = true];
 
   // set when kind = EDITOR_PICKER
@@ -1664,6 +1665,9 @@ message AndroidStudioEvent {
 
     // Event related to Gemini Prompt Library
     PROMPT_LIBRARY_EVENT = 331;
+
+    // Library is marked as deprecated in the SDK Index
+    SDK_INDEX_LIBRARY_IS_DEPRECATED = 332;
   }
 
   // Represents different Performance Monitoring types.
@@ -13709,7 +13713,7 @@ message SdkIndexLibraryDetails {
   optional string group_id = 1;
   // Artifact Id of library
   optional string artifact_id = 2;
-  // Version of library
+  // Version of library (can be empty for SDK_INDEX_LIBRARY_IS_DEPRECATED)
   optional string version_string = 3;
   // Is this library reported as blocking publishing on Google Play?
   optional bool is_blocking = 4;
@@ -15155,7 +15159,6 @@ message SmlTransformEvent {
   }
 
   message TransformError {
-    // Status code mapped to HTTP codes (see go/http-canonical-mapping).
     optional int32 status_code = 1;
     enum FailureCause {
       UNKNOWN_CAUSE = 0;
@@ -16205,6 +16208,7 @@ message SdkIndexProjectStats {
   optional uint32 num_critical_issues = 4;
   optional uint32 num_outdated_issues = 5;
   optional uint32 num_vulnerability_issues = 6;
+  optional uint32 num_deprecated_issues = 7;
 }
 
 message StudioCoreGeminiActionsEvent {
