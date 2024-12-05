@@ -10,7 +10,10 @@ maven_proto_library(
     notice = "NOTICE",
     pom_name = "Android Tools Analytics Protobufs",
     proto_java_runtime_library = [],
-    protoc_version = INTELLIJ_PLATFORM_PROTO_VERSION,
+    # ideally this should match the platform version, but the current version of
+    # protobuf-java referenced above (3.22.3) is incompatible with the current
+    # (newer) IntelliJ version of protoc (3.24.4).
+    # protoc_version = INTELLIJ_PLATFORM_PROTO_VERSION,
     resource_strip_prefix = "tools/analytics-library/protos/src/main/proto",
     resources = [
         "analytics_enums.proto",
