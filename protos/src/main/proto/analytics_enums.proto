@@ -935,6 +935,7 @@ enum VariantPropertiesMethodType {
     DEVICE_TEST_CODE_COVERAGE_ENABLED = 160;
     PROVIDE_APK_OUTPUT_TO_TASK = 161;
     MIN_SDK = 162;
+    GET_RESOLVABLE_CONFIGURATION = 163;
 }
 
 enum ModulePropertyKeys {
