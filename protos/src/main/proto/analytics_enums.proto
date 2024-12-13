@@ -939,6 +939,7 @@ enum VariantPropertiesMethodType {
     PROVIDE_APK_OUTPUT_TO_TASK = 161;
     MIN_SDK = 162;
     GET_RESOLVABLE_CONFIGURATION = 163;
+    REGISTER_APK_INSTALLATION = 164;
 }
 
 enum ModulePropertyKeys {
