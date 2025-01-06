@@ -2367,7 +2367,7 @@ message ProductDetails {
   optional bool running_inside_idx = 10;
   // List of experiments turned on for the installation of Android Studio this
   // log is sent for.
-  optional ActiveExperiment active_experiments = 11;
+  repeated ActiveExperiment active_experiments = 11;
 
   // Various states in the software life cycle this software could be in.
   enum SoftwareLifeCycleChannel {
