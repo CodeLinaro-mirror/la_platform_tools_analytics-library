@@ -16556,4 +16556,7 @@ message SetupWizardEvent {
 
   // Metrics related to the SDK installation step.
   optional SdkInstallationMetrics sdk_installation_metrics = 6;
+
+  // Whether the deprecated wizard was used.
+  optional bool is_deprecated_wizard = 7;
 }
