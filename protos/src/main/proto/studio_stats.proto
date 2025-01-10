@@ -1821,6 +1821,7 @@ message AndroidStudioEvent {
     EXPERIMENTAL_ACTIVITY = 69;
     KOTLIN_MULTIPLATFORM_LIBRARY_MODULE = 70;
     EXPERIMENTAL_ACTIVITY_2 = 71;
+    COMPOSE_NAVIGATION_UI_ACTIVITY = 72;
   }
 
   // Wizard Templates Usage (New Project, New Module and New Component)
@@ -1849,7 +1850,7 @@ message AndroidStudioEvent {
 
       // The different template components (eg Activities, Fragments, Services,
       // etc) the template engine could be asked to render
-      // Next ID: 64
+      // Next ID: 65
       enum TemplateType {
         UNKNOWN_TEMPLATE = 0;
         CUSTOM_TEMPLATE = 1;
@@ -1878,6 +1879,7 @@ message AndroidStudioEvent {
         GOOGLE_PAY_ACTIVITY = 58;
         CPP_GAME_ACTIVITY = 60;
         GOOGLE_WALLET_ACTIVITY = 61;
+        COMPOSE_NAVIGATION_UI_ACTIVITY = 64;
 
         FRAGMENT_LIST = 23;
         FRAGMENT_BLANK = 24;
