@@ -9203,6 +9203,8 @@ message DynamicLayoutInspectorErrorInfo {
     // Failed to download compose inspector from maven
     APP_INSPECTION_FAILED_MAVEN_DOWNLOAD = 211;
     APP_INSPECTION_FORCEFULLY_DISPOSED = 212;
+    // Failed to attach the transport agent.
+    APP_INSPECTION_UNATTACHABLE_AGENT = 213;
 
     // ----------------------------------
     // Error codes from Transport Layer
