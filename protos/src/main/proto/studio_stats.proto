@@ -12742,6 +12742,12 @@ message UpgradeAssistantComponentInfo {
     RES_VALUES_DEFAULT = 34;
     BLOCK_AIDL_PROPERTY_PRESENT = 35;
     BLOCK_RENDER_SCRIPT_PROPERTY_PRESENT = 36;
+    BLOCK_RESOURCE_OPTIMIZATIONS_PRESENT = 37;
+    BLOCK_EMULATOR_CONTROL_PRESENT = 38;
+    BLOCK_UNIFIED_TEST_PLATFORM_PRESENT = 39;
+    BLOCK_PRECISE_SHRINKING_PRESENT = 40;
+    BLOCK_MINIFY_LOCAL_DEPENDENCIES_LIBRARY_PRESENT = 41;
+    BLOCK_LINT_ANALYSIS_PER_COMPONENT_PRESENT = 42;
   }
 
   message Java8DefaultProcessorSettings {
@@ -16418,6 +16424,8 @@ message DaemonCodeAnalyzerFinishedEvent {
 // Event containing metrics about the editing process and changes to files.
 message EditingMetricsEvent {
   optional CharacterMetrics character_metrics = 1;
+  optional QuickDocEvent quick_doc_event = 2;
+  optional ExternalQuickDocEvent external_quick_doc_event = 3;
 
   message CharacterMetrics {
     repeated SourceCount chars_added = 1;
@@ -16450,6 +16458,39 @@ message EditingMetricsEvent {
       optional Source source = 1;
       optional uint64 count = 2;
     }
+  }
+
+  // Event containing metrics about quick documentation shown for all
+  // DocumentationTargets.
+  message QuickDocEvent {
+    // The type of file that the quick doc was shown for.
+    optional EditorFileType file_type = 1;
+    // The amount oftime the quick doc was shown to the user.
+    optional uint64 shown_duration_ms = 2;
+  }
+
+  // Event containing metrics about quick documentation requiring communication
+  // with an external server.
+  message ExternalQuickDocEvent {
+    // The type of file that the quick doc was shown for.
+    optional EditorFileType file_type = 1;
+    // The time it took to fetch the documentation from the server.
+    optional uint64 fetch_duration_ms = 2;
+    // The fetch was successful.
+    optional bool success = 3;
+    // Our local cache had a fresh copy of the documentation.
+    optional bool cache_hit = 4;
+    // The server returned a 304 ("Not Modified") response, so we used the
+    // cached copy, even if it was otherwise stale. (If this is true, but
+    // success is false, it means the server returned a 304, but we did not have
+    // a cached copy.)
+    optional bool server_not_modified = 5;
+    // How many bytes were fetched from the server.
+    optional uint64 num_bytes_fetched = 6;
+    // How many bytes were cached in the local cache as a result of this fetch.
+    optional uint64 num_bytes_cached = 7;
+    // How many bytes were actually displayed to the user.
+    optional uint64 num_bytes_displayed = 8;
   }
 }
 
