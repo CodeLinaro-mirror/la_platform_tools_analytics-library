@@ -9203,6 +9203,8 @@ message DynamicLayoutInspectorErrorInfo {
     // Failed to download compose inspector from maven
     APP_INSPECTION_FAILED_MAVEN_DOWNLOAD = 211;
     APP_INSPECTION_FORCEFULLY_DISPOSED = 212;
+    // Failed to attach the transport agent.
+    APP_INSPECTION_UNATTACHABLE_AGENT = 213;
 
     // ----------------------------------
     // Error codes from Transport Layer
@@ -15423,6 +15425,29 @@ message SmlChatBotEvent {
     optional bool did_timeout = 6;
   }
 
+  enum QueryBoxEventType {
+    QUERY_BOX_OTHER = 0;
+    COMPLETION_STARTED = 1;
+    COMPLETION_ACCEPTED = 2;
+    COMPLETION_DISMISSED = 3;
+    QUERY_WITH_CONTEXT_SUBMITTED = 4;
+    REFERENCE_DELETED = 5;
+  }
+
+  message QueryBoxEvent {
+    optional QueryBoxEventType event_type = 1;
+  }
+
+  enum ContextDrawerEventType {
+    CONTEXT_DRAWER_OTHER = 0;
+    CONTEXT_DRAWER_OPENED = 1;
+    CONTEXT_DRAWER_ITEM_REMOVED = 2;
+  }
+
+  message ContextDrawerEvent {
+    optional ContextDrawerEventType event_type = 1;
+  }
+
   oneof content {
     BotResponse response = 1 [lazy = true];
     UserFeedback user_feedback = 2 [lazy = true];
@@ -15433,6 +15458,8 @@ message SmlChatBotEvent {
     SlashAction slash_action = 7 [lazy = true];
     DependencySuggestion dependency_suggestion = 8 [lazy = true];
     HallucinationDetectorResult hallucination_detector_result = 9 [lazy = true];
+    QueryBoxEvent query_box_event = 10 [lazy = true];
+    ContextDrawerEvent context_drawer_event = 11 [lazy = true];
   }
 }
 
@@ -16556,4 +16583,7 @@ message SetupWizardEvent {
 
   // Metrics related to the SDK installation step.
   optional SdkInstallationMetrics sdk_installation_metrics = 6;
+
+  // Whether the deprecated wizard was used.
+  optional bool is_deprecated_wizard = 7;
 }
