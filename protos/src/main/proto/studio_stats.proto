@@ -13407,6 +13407,10 @@ message DeviceExplorerEvent {
     APPLICATION_ID_FILTER_TOGGLED_ON = 18;
     // The user toggled off application ID filtering
     APPLICATION_ID_FILTER_TOGGLED_OFF = 19;
+    // The user clicked on the "Backup App Data" button
+    BACKUP_APP_DATA_CLICKED = 20;
+    // The user clicked on the "Restore App Data" button
+    RESTORE_APP_DATA_CLICKED = 21;
   }
 }
 
