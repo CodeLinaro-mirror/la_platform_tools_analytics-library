@@ -15086,6 +15086,25 @@ message SmlResponseMetadata {
   repeated int32 server_experiment_ids = 2;
 }
 
+message SmlCitationInfo {
+  enum CitationAction {
+    UNKNOWN_ACTION = 0;
+    CITE_INDIRECT = 1;
+    CITE_DIRECT = 2;
+    BLOCK = 3;
+  }
+
+  enum CitationType {
+    UNKNOWN_TYPE = 0;
+    WEB = 1;
+    REMOTE_REPOSITORY = 2;
+    LOCAL_FILE = 3;
+  }
+
+  optional CitationAction action = 1;
+  optional CitationType type = 2;
+}
+
 message SmlCompletionEvent {
   // DEPRECATED Use CompletionAggregateEvent instead
   message CompletionRequest {
@@ -15207,6 +15226,7 @@ message SmlTransformEvent {
     optional SmlResponseMetadata metadata = 1 [lazy = true];
     optional uint64 latency_ms = 2;
     optional int32 num_transformations = 3;
+    repeated SmlCitationInfo citations = 4;
   }
 
   message TransformError {
@@ -15221,6 +15241,8 @@ message SmlTransformEvent {
       EMPTY_RESPONSE = 3;
       // The response doesn't contain expected elements or cannot be parsed.
       INVALID_FORMAT = 4;
+      // The response is blocked because it contains citations.
+      CITATIONS_BLOCKED = 5;
     }
     optional FailureCause cause = 2;
     // The name of the exception class, used to identify RUNTIME_EXCEPTION.
