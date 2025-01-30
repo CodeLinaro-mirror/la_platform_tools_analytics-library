@@ -13407,6 +13407,10 @@ message DeviceExplorerEvent {
     APPLICATION_ID_FILTER_TOGGLED_ON = 18;
     // The user toggled off application ID filtering
     APPLICATION_ID_FILTER_TOGGLED_OFF = 19;
+    // The user clicked on the "Backup App Data" button
+    BACKUP_APP_DATA_CLICKED = 20;
+    // The user clicked on the "Restore App Data" button
+    RESTORE_APP_DATA_CLICKED = 21;
   }
 }
 
@@ -15438,6 +15442,7 @@ message SmlChatBotEvent {
     COMPLETION_DISMISSED = 3;
     QUERY_WITH_CONTEXT_SUBMITTED = 4;
     REFERENCE_DELETED = 5;
+    IMAGE_ATTACHMENT_CLICKED = 6;
   }
 
   message QueryBoxEvent {
