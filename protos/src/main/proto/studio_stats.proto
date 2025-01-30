@@ -775,6 +775,9 @@ message AndroidStudioEvent {
   // set when kind = SETUP_WIZARD_EVENT
   optional SetupWizardEvent setup_wizard_event = 215 [lazy = true];
 
+  // set when kind = BROWSER_SURVEY_EVENT
+  optional BrowserSurveyEvent browser_survey_event = 216 [lazy = true];
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -1681,6 +1684,9 @@ message AndroidStudioEvent {
     // Event for tracking usages of the various setup Wizards (first run,
     // AEHD configuration, etc)
     SETUP_WIZARD_EVENT = 334;
+
+    // Event for tracking invocations of browser surveys
+    BROWSER_SURVEY_EVENT = 335;
   }
 
   // Represents different Performance Monitoring types.
@@ -16654,4 +16660,13 @@ message SetupWizardEvent {
 
   // Whether the deprecated wizard was used.
   optional bool is_deprecated_wizard = 7;
+}
+
+// This event indicates that the user clicked a hyperlink to invoke a browser
+// based survey.
+message BrowserSurveyEvent {
+  // The name of the survey that was invoked.
+  optional string name = 1;
+  // The unique identifier of this invocation.
+  optional string unique_id = 2;
 }
