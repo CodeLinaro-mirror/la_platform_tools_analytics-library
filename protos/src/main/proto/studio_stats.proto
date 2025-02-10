@@ -778,6 +778,13 @@ message AndroidStudioEvent {
   // set when kind = BROWSER_SURVEY_EVENT
   optional BrowserSurveyEvent browser_survey_event = 216 [lazy = true];
 
+  // set when kind = GRADLE_DAEMON_JVM_CRITERIA_ERROR_EVENT
+  optional GradleDaemonJvmCriteriaErrorEvent
+      gradle_daemon_jvm_criteria_error_event = 217 [lazy = true];
+
+  // set when kind = ALIGN16KB_EVENT
+  optional Align16kbEvent align16kb_event = 218 [lazy = true];
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -1687,6 +1694,13 @@ message AndroidStudioEvent {
 
     // Event for tracking invocations of browser surveys
     BROWSER_SURVEY_EVENT = 335;
+
+    // Event tracking errors related to Daemon JVM criteria
+
+    GRADLE_DAEMON_JVM_CRITERIA_ERROR_EVENT = 336;
+
+    // Event for 16 KB Alignment information.
+    ALIGN16KB_EVENT = 337;
   }
 
   // Represents different Performance Monitoring types.
@@ -2056,6 +2070,9 @@ message AndroidStudioEvent {
     // using plugins dsl.
     UNKNOWN_PLUGIN_COM_ANDROID = 50;
     UNKNOWN_PLUGIN_OTHER = 51;
+    // Failure setting up Gradle Daemon JVM to trigger sync given unable to
+    // locate or download matching toolchain
+    GRADLE_DAEMON_JVM_CRITERIA_ERROR = 52;
   }
 
   // IDE brand containing the android plugin
@@ -8436,6 +8453,20 @@ message ApkAnalyzerStats {
 
   // size of the APK after compression
   optional uint64 compressed_size = 2;
+
+  // 16 KB Alignment
+  enum ApkAnalyzerAlignNative16kbEventType {
+    UNKNOWN_TYPE = 0;
+
+    // Below here, the event is only sent if the app has native
+    // libraries---------------------
+    ALIGN_NATIVE_COMPLIANT_APK_ANALYZED =
+        1;  // When a 16 KB compliant app is analyzed by APK Analyzer
+    ALIGN_NATIVE_NON_COMPLIANT_APK_ANALYZED =
+        2;  // When a non-16 KB compliant app is analyzed by APK Analyzer
+  }
+
+  optional ApkAnalyzerAlignNative16kbEventType align16_type = 3;
 }
 
 // Gradle Plugin Upgrade Dialog Stats
@@ -12486,6 +12517,7 @@ message AvdLaunchEvent {
     TV = 3;
     AUTOMOTIVE = 4;
     WEARABLE = 5;
+    XR = 6;
   }
 }
 
@@ -13283,6 +13315,29 @@ message UiDeviceSettingsEvent {
   }
 }
 
+message GradleDaemonJvmCriteriaErrorEvent {
+  // Gradle build error linked to project defined Daemon JVM criteria
+  optional Error error = 1;
+
+  // List of different errors
+  enum Error {
+    // Unknown error
+    UNKNOWN_ERROR = 0;
+    // Invalid JVM criteria in gradle/gradle-daemon-jvm.properties project file
+    INVALID_DAEMON_JVM_CRITERIA = 1;
+    // Criteria not present in gradle/gradle-daemon-jvm.properties project file
+    UNDEFINED_DAEMON_JVM_CRITERIA = 2;
+    // Downloaded toolchain does not match JVM criteria
+    MISMATCH_DOWNLOADED_TOOLCHAIN_WITH_CRITERIA = 3;
+    // Failure to download and install toolchain from provided URL
+    FAILED_TO_DOWNLOAD_TOOLCHAIN = 4;
+    // Unable to locate locally installed toolchain matching criteria
+    NOT_FOUND_INSTALLED_TOOLCHAIN_MATCHING_CRITERIA = 5;
+    // Undefined toolchain download repository plugin in project
+    UNDEFINED_TOOLCHAIN_REPOSITORIES_PLUGIN = 6;
+  }
+}
+
 message GradleJdkInvalidEvent {
   // Reason to consider JDK as invalid
   optional InvalidJdkReason reason = 1;
@@ -13359,6 +13414,8 @@ message GradleJdkConfigurationEvent {
     STUDIO_GRADLE_JDK = 5;
     // Use jdk.table.xml entry defined under studio configuration directory
     JDK_TABLE_ENTRY = 6;
+    // Use criteria defined in gradle/gradle-daemon-jvm.properties project file
+    GRADLE_DAEMON_JVM_CRITERIA = 7;
   }
 }
 
@@ -16671,4 +16728,32 @@ message BrowserSurveyEvent {
   optional string name = 1;
   // The unique identifier of this invocation.
   optional string unique_id = 2;
+}
+
+// This event is logged with information relevant to 16 KB alignment
+message Align16kbEvent {
+  enum AlignNative16kbEventType {
+    UNKNOWN_TYPE = 0;
+
+    // Below here, the event is only sent if the app has native
+    // libraries---------------------
+    ALIGN_NATIVE_COMPLIANT_APP_DEPLOYED =
+        1;  // When a 16 KB compliant app is deployed
+    ALIGN_NATIVE_NON_COMPLIANT_APP_DEPLOYED =
+        2;  // When a non-16 KB compliant app is deployed
+    ALIGN_NATIVE_BUBBLE_LOAD_SECTIONS_DEPLOYED =
+        3;  // Saw warn bubble for non-compliant LOAD sections
+    ALIGN_NATIVE_BUBBLE_ZIP_OFFSET_DEPLOYED =
+        4;  // Saw warning bubble for non-compliant offset within zip
+  }
+  optional AlignNative16kbEventType type = 1;
+
+  // For deploy-related events, this is the ro.product.cpu.abilist for the
+  // associated device. For example, 'x86_64,arm64-v8a'
+  optional string product_cpu_abilist = 2;
+
+  // For deploy-related events, this is the ro.build.characteristics for the
+  // associated device. For example, 'emulator,nosdcard,watch' (From a Wear OS
+  // emulator)
+  optional string build_characteristics = 3;
 }
