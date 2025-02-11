@@ -15954,10 +15954,14 @@ message DebuggerEvent {
 
   optional FramesViewUpdated frames_view_updated = 3 [lazy = true];
 
+  optional SmartStepTargetFilteringPerformed
+      smart_step_target_filtering_performed = 4 [lazy = true];
+
   enum Type {
     UNKNOWN = 0;
     BREAKPOINT_ADDED_EVENT = 1;
     FRAMES_VIEW_UPDATED = 2;
+    SMART_STEP_TARGET_FILTERING = 3;
   }
 
   message BreakpointAdded {
@@ -15975,6 +15979,21 @@ message DebuggerEvent {
       optional string file_type = 1;
       optional int32 num_frames = 2;
     }
+  }
+
+  message SmartStepTargetFilteringPerformed {
+    enum DexSearchStatus {
+      UNKNOWN = 0;
+      APK_PROVIDER_NOT_AVAILABLE = 1;
+      MODULE_NOT_FOUND = 2;
+      DEVICES_NOT_RUNNING = 3;
+      APK_NOT_FOUND = 4;
+      DEX_NOT_FOUND = 5;
+      FOUND = 6;
+    }
+
+    optional uint64 dex_fetch_time_ms = 1;
+    optional DexSearchStatus status = 2;
   }
 }
 
