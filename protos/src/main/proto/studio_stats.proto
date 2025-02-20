@@ -4591,7 +4591,7 @@ message GradleBuildProject {
     // The 'com.android.dynamic-feature' plugin.
     DYNAMIC_FEATURE = 7;
     // The 'com.android.fused-library' plugin
-    FUSED_LIBRARIES = 8;
+    FUSED_LIBRARY = 8;
     // the 'com.android.privacy-sandbox-sdk' plugin
     PRIVACY_SANDBOX_SDK = 9;
     // The 'com.android.kotlin.multiplatform.library' plugin
