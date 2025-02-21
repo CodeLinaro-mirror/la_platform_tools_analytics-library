@@ -6417,6 +6417,10 @@ message EditorPickerEvent {
         TV = 5;
         GENERIC = 6;
         CUSTOM = 7;
+        AUTOMOTIVE = 8;
+        ADDITIONAL_DEVICE = 9;
+        CANONICAL_DEVICE = 10;
+        XR = 11;
       }
 
       // Value definition for a modification action, meant to represent relevant
