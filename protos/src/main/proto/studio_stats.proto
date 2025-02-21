@@ -785,6 +785,9 @@ message AndroidStudioEvent {
   // set when kind = ALIGN16KB_EVENT
   optional Align16kbEvent align16kb_event = 218 [lazy = true];
 
+  // set when kind = GC_PAUSE_EVENT
+  optional GcPauseEvent gc_pause_event = 219 [lazy = true];
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -1701,6 +1704,9 @@ message AndroidStudioEvent {
 
     // Event for 16 KB Alignment information.
     ALIGN16KB_EVENT = 337;
+
+    // Event describing an individual long GC pause
+    GC_PAUSE_EVENT = 338;
   }
 
   // Represents different Performance Monitoring types.
@@ -6679,6 +6685,8 @@ message LayoutEditorEvent {
     VISUAL_LINT = 52;
 
     UNIVERSAL_PROBLEMS_PANEL = 53;
+
+    COMPOSE_FILE_OPEN = 54;
   }
 
   // Type of event
@@ -16775,4 +16783,15 @@ message Align16kbEvent {
   // associated device. For example, 'emulator,nosdcard,watch' (From a Wear OS
   // emulator)
   optional string build_characteristics = 3;
+}
+
+message GcPauseEvent {
+  // The duration of the garbage collection pause
+  optional int64 pause_duration_ms = 1;
+  // Which collector caused the pause
+  optional GcPauseInfo.GcType gc_type = 2;
+  // Heap space consumed
+  optional int64 used_memory_mb = 3;
+  // Total available heap space
+  optional int64 total_memory_mb = 4;
 }
