@@ -434,6 +434,7 @@ enum GradleTaskExecutionType {
     ARTIFACTS_LOCATIONS_REPORT = 347;
     COLLECT_PACKAGES_FOR_R8 = 348;
     MERGE_PACKAGE_LISTS_FOR_R8 = 349;
+    TEST_SUITE_TEST = 350;
 }
 
 enum BooleanOption {
@@ -780,6 +781,7 @@ enum VariantMethodType {
     DEVICE_TEST_ENABLE_CODE_COVERAGE = 25;
     DEVICE_TEST_DEBUGGABLE = 26;
     VARIANT_BUILDER_DEBUGGABLE = 27;
+    JUNIT_ENGINE_SPEC_BUILDER = 28;
 }
 
 enum VariantPropertiesMethodType {
@@ -948,6 +950,7 @@ enum VariantPropertiesMethodType {
     MIN_SDK = 162;
     GET_RESOLVABLE_CONFIGURATION = 163;
     REGISTER_APK_INSTALLATION = 164;
+    JUNIT_ENGINE_SPEC = 165;
 }
 
 enum ModulePropertyKeys {
