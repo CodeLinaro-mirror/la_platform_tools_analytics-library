@@ -785,6 +785,9 @@ message AndroidStudioEvent {
   // set when kind = ALIGN16KB_EVENT
   optional Align16kbEvent align16kb_event = 218 [lazy = true];
 
+  // set when kind = GC_PAUSE_EVENT
+  optional GcPauseEvent gc_pause_event = 219 [lazy = true];
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -1701,6 +1704,9 @@ message AndroidStudioEvent {
 
     // Event for 16 KB Alignment information.
     ALIGN16KB_EVENT = 337;
+
+    // Event describing an individual long GC pause
+    GC_PAUSE_EVENT = 338;
   }
 
   // Represents different Performance Monitoring types.
@@ -4585,7 +4591,7 @@ message GradleBuildProject {
     // The 'com.android.dynamic-feature' plugin.
     DYNAMIC_FEATURE = 7;
     // The 'com.android.fused-library' plugin
-    FUSED_LIBRARIES = 8;
+    FUSED_LIBRARY = 8;
     // the 'com.android.privacy-sandbox-sdk' plugin
     PRIVACY_SANDBOX_SDK = 9;
     // The 'com.android.kotlin.multiplatform.library' plugin
@@ -6411,6 +6417,10 @@ message EditorPickerEvent {
         TV = 5;
         GENERIC = 6;
         CUSTOM = 7;
+        AUTOMOTIVE = 8;
+        ADDITIONAL_DEVICE = 9;
+        CANONICAL_DEVICE = 10;
+        XR = 11;
       }
 
       // Value definition for a modification action, meant to represent relevant
@@ -6679,6 +6689,8 @@ message LayoutEditorEvent {
     VISUAL_LINT = 52;
 
     UNIVERSAL_PROBLEMS_PANEL = 53;
+
+    COMPOSE_FILE_OPEN = 54;
   }
 
   // Type of event
@@ -16775,4 +16787,15 @@ message Align16kbEvent {
   // associated device. For example, 'emulator,nosdcard,watch' (From a Wear OS
   // emulator)
   optional string build_characteristics = 3;
+}
+
+message GcPauseEvent {
+  // The duration of the garbage collection pause
+  optional int64 pause_duration_ms = 1;
+  // Which collector caused the pause
+  optional GcPauseInfo.GcType gc_type = 2;
+  // Heap space consumed
+  optional int64 used_memory_mb = 3;
+  // Total available heap space
+  optional int64 total_memory_mb = 4;
 }
