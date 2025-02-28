@@ -788,6 +788,13 @@ message AndroidStudioEvent {
   // set when kind = GC_PAUSE_EVENT
   optional GcPauseEvent gc_pause_event = 219 [lazy = true];
 
+  // set when kind = AUTO_SYNC_SETTING_CHANGE
+  optional AutoSyncSettingChangeEvent auto_sync_setting_change_event = 220
+      [lazy = true];
+
+  // set when kind = SUPPRESSED_SYNC
+  optional SuppressedSyncEvent suppressed_sync_event = 221 [lazy = true];
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -1707,6 +1714,12 @@ message AndroidStudioEvent {
 
     // Event describing an individual long GC pause
     GC_PAUSE_EVENT = 338;
+
+    // Event describing a change to the Optional Auto-Sync feature
+    AUTO_SYNC_SETTING_CHANGE = 339;
+
+    // Event describing suppressed sync due to disabled Auto-Sync
+    SUPPRESSED_SYNC = 340;
   }
 
   // Represents different Performance Monitoring types.
@@ -4418,6 +4431,10 @@ message EmulatorHost {
   optional uint32 cpuid_type = 8;        // t: [13:12] CPU type
   optional uint32 cpuid_extmodel = 9;    // x: [19:16] extended model
   optional uint32 cpuid_extfamily = 10;  // y: [27:20] extended family
+  // CPU brand name, such as "Intel Core i9 14900K" and "Apple M1 Pro"
+  optional string cpu_brandname = 11;
+  // CPU Architecture, such as x86_64 and arm64.
+  optional string cpu_architecture = 12;
 }
 
 // Detailed profiling information for the gradle build.
@@ -16799,4 +16816,59 @@ message GcPauseEvent {
   optional int64 used_memory_mb = 3;
   // Total available heap space
   optional int64 total_memory_mb = 4;
+}
+
+// Indicates change of state of the Auto-Sync settings done either through
+// the IDE settings, Auto-Sync dialog or notification.
+message AutoSyncSettingChangeEvent {
+  // Which UI element does the change originate from
+  enum ChangeSource {
+    UNKNOWN_CHANGE_SOURCE = 0;
+    // IDE settings
+    SETTINGS = 1;
+    // Dialog (first reminder)
+    DIALOG = 2;
+    // Notification (consecutive reminders)
+    NOTIFICATION = 3;
+  }
+
+  // Whether the Auto-Sync got enabled or disabled
+  optional bool state = 1;
+  // Which UI element does the change originate from
+  optional ChangeSource change_source = 2;
+}
+
+// Indicates event of suppressed sync that might have resulted in UI element
+// (dialog or notification) followed by user action.
+message SuppressedSyncEvent {
+  // Which UI element was shown to the user
+  enum IndicatorType {
+    UNKNOWN_INDICATOR_TYPE = 0;
+    // The indicator was hidden due to snooze
+    HIDDEN_DUE_SNOOZE = 1;
+    // The dialog was shown
+    DIALOG = 2;
+    // The notification was shown
+    NOTIFICATION = 3;
+  }
+
+  // Which user action was selected
+  enum UserAction {
+    UNKNOWN_USER_ACTION = 0;
+    // As there was no UI indicator, there was also no action
+    NONE = 1;
+    // The dialog or notification was dismissed
+    CLOSED = 2;
+    // User clicked on the snooze button
+    SNOOZE = 3;
+    // User clicked on the enable Auto-Sync button
+    ENABLE_AUTO_SYNC = 4;
+    // User clicked on sync now button
+    SINGLE_SYNC = 5;
+  }
+
+  // The type of UI that was shown to the user
+  optional IndicatorType type = 1;
+  // The user action that was taken
+  optional UserAction action = 2;
 }
