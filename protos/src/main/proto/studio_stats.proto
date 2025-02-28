@@ -795,6 +795,10 @@ message AndroidStudioEvent {
   // set when kind = SUPPRESSED_SYNC
   optional SuppressedSyncEvent suppressed_sync_event = 221 [lazy = true];
 
+  // set when kind = RESIZE_COMPOSE_PREVIEW_EVENT
+  optional ResizeComposePreviewEvent resize_compose_preview_event = 222
+      [lazy = true];
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -1720,6 +1724,9 @@ message AndroidStudioEvent {
 
     // Event describing suppressed sync due to disabled Auto-Sync
     SUPPRESSED_SYNC = 340;
+
+    // Event describing a resize of the Compose Preview
+    RESIZE_COMPOSE_PREVIEW_EVENT = 341;
   }
 
   // Represents different Performance Monitoring types.
@@ -16871,4 +16878,39 @@ message SuppressedSyncEvent {
   optional IndicatorType type = 1;
   // The user action that was taken
   optional UserAction action = 2;
+}
+
+message ResizeComposePreviewEvent {
+  // The type of resize event.
+  enum EventType {
+    UNKNOWN_EVENT_TYPE = 0;
+    RESIZE_STOPPED = 1;  // User stops resizing, capturing an intermediate size.
+    RESIZE_SAVED = 2;    // User saves/applies the resized dimensions (by adding
+                         // @Preview annotation).
+    RESIZE_REVERTED = 3;  // User reverts back to the original preview settings
+                          // (file source of truth).
+  }
+
+  // The type of resize mode used.
+  enum ResizeMode {
+    UNKNOWN_RESIZE_MODE = 0;
+    DEVICE_RESIZE = 1;      // Resizing using device frame controls
+    COMPOSABLE_RESIZE = 2;  // Resizing composable layout parameters
+  }
+
+  // The specific type of resize event that occurred.
+  optional EventType event_type = 1;
+
+  // The mode of resizing used.
+  optional ResizeMode resize_mode = 2;
+
+  // Width and height when user stops resizing (relevant for RESIZE_STOPPED
+  // events).
+  optional int32 stopped_device_width = 3;
+  optional int32 stopped_device_height = 4;
+
+  // Width and height when user saves the resized state (relevant for
+  // RESIZE_SAVED events).
+  optional int32 saved_device_width = 5;
+  optional int32 saved_device_height = 6;
 }
