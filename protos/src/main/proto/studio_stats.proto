@@ -2324,6 +2324,11 @@ message AndroidStudioEvent {
     // Kotlin version is 2.0 or higher.
     TYPE_MISSING_COMPOSE_COMPILER_GRADLE_PLUGIN = 66;
 
+
+    // Disabling the library constraints results in better sync performance,
+    // this will be surfaced to the user via this issue.
+    TYPE_LIBRARY_CONSTRAINTS_SHOULD_BE_DISABLED = 67;
+
     // NOTE: When adding a new type here, increment the index by 1. This index
     // may not be consistent with the corresponding value in the Android Gradle
     // plugin (e.g., it could be higher by 1), because of an indexing issue in
@@ -2385,6 +2390,7 @@ message AndroidStudioEvent {
     OPEN_UPGRADE_ASSISTANT_HYPERLINK = 50;
     SUPPRESS_UNSUPPORTED_SDK_HYPERLINK = 51;
     ADD_COMPOSE_COMPILER_GRADLE_PLUGIN_HYPERLINK = 52;
+    DISABLE_LIBRARY_CONSTRAINTS_HYPERLINK = 53;
   }
 }
 
