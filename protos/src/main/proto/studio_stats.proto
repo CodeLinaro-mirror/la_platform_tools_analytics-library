@@ -14257,6 +14257,9 @@ message AppQualityInsightsUsageEvent {
 
     // Track event fetch
     EVENTS_FETCHED = 15;
+
+    // Track deprecation notification information
+    SERVICE_DEPRECATION = 16;
   }
 
   enum CrashType {
@@ -14621,6 +14624,10 @@ message AppQualityInsightsUsageEvent {
 
   // set when type = EVENTS_FETCHED
   optional EventsFetched events_fetched = 19 [lazy = true];
+
+  // set when type = SERVICE_DEPRECATION
+  optional DevServiceDeprecationInfo dev_service_deprecation_info = 20
+      [lazy = true];
 }
 
 message FastPreviewEvent {
@@ -14889,6 +14896,8 @@ message DirectAccessUsageEvent {
     END_RESERVATION = 5;
     // Device disconnected
     DISCONNECT_DEVICE = 6;
+    // Deprecation information shown to user
+    SERVICE_DEPRECATION = 7;
   }
 
   enum FailureReason {
@@ -15022,6 +15031,9 @@ message DirectAccessUsageEvent {
   optional FailureReason failure_reason = 8;
   // Set when type = DISCONNECT_DEVICE
   optional DisconnectDeviceDetails disconnect_device_details = 9 [lazy = true];
+  // Set when type = SERVICE_DEPRECATION
+  optional DevServiceDeprecationInfo dev_service_deprecation_info = 10
+      [lazy = true];
 }
 
 message SafeModeStatsEvent {
@@ -16913,4 +16925,41 @@ message ResizeComposePreviewEvent {
   // RESIZE_SAVED events).
   optional int32 saved_device_width = 5;
   optional int32 saved_device_height = 6;
+}
+
+// Message containing information about the deprecation notification shown to
+// the user for a dev service. This message does not have a standalone event
+// type in AndroidStudioEvent Usage:
+//   - Add this message to your feature's event message.
+//   - Service owners should log an event when the feature is deprecated
+//     and user is notified.
+message DevServiceDeprecationInfo {
+  enum DeprecationStatus {
+    UNKNOWN_STATUS = 0;
+    // The dev service is not supported by the current version of Studio
+    UNSUPPORTED = 1;
+  }
+
+  enum DeliveryType {
+    UNKNOWN_DELIVERY_TYPE = 0;
+    // A notification was shown to the user
+    NOTIFICATION = 1;
+    // A banner was shown to the user
+    BANNER = 2;
+    // A panel was shown to the user
+    PANEL = 3;
+  }
+
+  // The status of the deprecation
+  optional DeprecationStatus deprecation_status = 1;
+  // The type of delivery used to notify the user of the deprecation
+  optional DeliveryType delivery_type = 2;
+  // Whether the user was notified of the deprecation
+  optional bool user_notified = 3;
+  // Whether the user clicked the "More info" button
+  optional bool more_info_clicked = 4;
+  // Whether the user clicked the "Update" action
+  optional bool update_clicked = 5;
+  // Whether the deprecation was unplanned
+  optional bool is_deprecation_unplanned = 6;
 }
