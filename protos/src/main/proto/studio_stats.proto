@@ -788,6 +788,17 @@ message AndroidStudioEvent {
   // set when kind = GC_PAUSE_EVENT
   optional GcPauseEvent gc_pause_event = 219 [lazy = true];
 
+  // set when kind = AUTO_SYNC_SETTING_CHANGE
+  optional AutoSyncSettingChangeEvent auto_sync_setting_change_event = 220
+      [lazy = true];
+
+  // set when kind = SUPPRESSED_SYNC
+  optional SuppressedSyncEvent suppressed_sync_event = 221 [lazy = true];
+
+  // set when kind = RESIZE_COMPOSE_PREVIEW_EVENT
+  optional ResizeComposePreviewEvent resize_compose_preview_event = 222
+      [lazy = true];
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -1707,6 +1718,15 @@ message AndroidStudioEvent {
 
     // Event describing an individual long GC pause
     GC_PAUSE_EVENT = 338;
+
+    // Event describing a change to the Optional Auto-Sync feature
+    AUTO_SYNC_SETTING_CHANGE = 339;
+
+    // Event describing suppressed sync due to disabled Auto-Sync
+    SUPPRESSED_SYNC = 340;
+
+    // Event describing a resize of the Compose Preview
+    RESIZE_COMPOSE_PREVIEW_EVENT = 341;
   }
 
   // Represents different Performance Monitoring types.
@@ -4418,6 +4438,10 @@ message EmulatorHost {
   optional uint32 cpuid_type = 8;        // t: [13:12] CPU type
   optional uint32 cpuid_extmodel = 9;    // x: [19:16] extended model
   optional uint32 cpuid_extfamily = 10;  // y: [27:20] extended family
+  // CPU brand name, such as "Intel Core i9 14900K" and "Apple M1 Pro"
+  optional string cpu_brandname = 11;
+  // CPU Architecture, such as x86_64 and arm64.
+  optional string cpu_architecture = 12;
 }
 
 // Detailed profiling information for the gradle build.
@@ -11040,6 +11064,7 @@ message BuildErrorMessage {
     INVALID_TOML_DEFINITION = 12;
     CONFIGURATION_CACHE = 13;
     JAVA_NOT_SUPPORTED_LANGUAGE_LEVEL = 14;
+    INVALID_DECLARATIVE_DEFINITION = 15;
   }
 
   enum FileType {
@@ -14232,6 +14257,9 @@ message AppQualityInsightsUsageEvent {
 
     // Track event fetch
     EVENTS_FETCHED = 15;
+
+    // Track deprecation notification information
+    SERVICE_DEPRECATION = 16;
   }
 
   enum CrashType {
@@ -14596,6 +14624,10 @@ message AppQualityInsightsUsageEvent {
 
   // set when type = EVENTS_FETCHED
   optional EventsFetched events_fetched = 19 [lazy = true];
+
+  // set when type = SERVICE_DEPRECATION
+  optional DevServiceDeprecationInfo dev_service_deprecation_info = 20
+      [lazy = true];
 }
 
 message FastPreviewEvent {
@@ -14864,6 +14896,8 @@ message DirectAccessUsageEvent {
     END_RESERVATION = 5;
     // Device disconnected
     DISCONNECT_DEVICE = 6;
+    // Deprecation information shown to user
+    SERVICE_DEPRECATION = 7;
   }
 
   enum FailureReason {
@@ -14997,6 +15031,9 @@ message DirectAccessUsageEvent {
   optional FailureReason failure_reason = 8;
   // Set when type = DISCONNECT_DEVICE
   optional DisconnectDeviceDetails disconnect_device_details = 9 [lazy = true];
+  // Set when type = SERVICE_DEPRECATION
+  optional DevServiceDeprecationInfo dev_service_deprecation_info = 10
+      [lazy = true];
 }
 
 message SafeModeStatsEvent {
@@ -16798,4 +16835,131 @@ message GcPauseEvent {
   optional int64 used_memory_mb = 3;
   // Total available heap space
   optional int64 total_memory_mb = 4;
+}
+
+// Indicates change of state of the Auto-Sync settings done either through
+// the IDE settings, Auto-Sync dialog or notification.
+message AutoSyncSettingChangeEvent {
+  // Which UI element does the change originate from
+  enum ChangeSource {
+    UNKNOWN_CHANGE_SOURCE = 0;
+    // IDE settings
+    SETTINGS = 1;
+    // Dialog (first reminder)
+    DIALOG = 2;
+    // Notification (consecutive reminders)
+    NOTIFICATION = 3;
+  }
+
+  // Whether the Auto-Sync got enabled or disabled
+  optional bool state = 1;
+  // Which UI element does the change originate from
+  optional ChangeSource change_source = 2;
+}
+
+// Indicates event of suppressed sync that might have resulted in UI element
+// (dialog or notification) followed by user action.
+message SuppressedSyncEvent {
+  // Which UI element was shown to the user
+  enum IndicatorType {
+    UNKNOWN_INDICATOR_TYPE = 0;
+    // The indicator was hidden due to snooze
+    HIDDEN_DUE_SNOOZE = 1;
+    // The dialog was shown
+    DIALOG = 2;
+    // The notification was shown
+    NOTIFICATION = 3;
+  }
+
+  // Which user action was selected
+  enum UserAction {
+    UNKNOWN_USER_ACTION = 0;
+    // As there was no UI indicator, there was also no action
+    NONE = 1;
+    // The dialog or notification was dismissed
+    CLOSED = 2;
+    // User clicked on the snooze button
+    SNOOZE = 3;
+    // User clicked on the enable Auto-Sync button
+    ENABLE_AUTO_SYNC = 4;
+    // User clicked on sync now button
+    SINGLE_SYNC = 5;
+  }
+
+  // The type of UI that was shown to the user
+  optional IndicatorType type = 1;
+  // The user action that was taken
+  optional UserAction action = 2;
+}
+
+message ResizeComposePreviewEvent {
+  // The type of resize event.
+  enum EventType {
+    UNKNOWN_EVENT_TYPE = 0;
+    RESIZE_STOPPED = 1;  // User stops resizing, capturing an intermediate size.
+    RESIZE_SAVED = 2;    // User saves/applies the resized dimensions (by adding
+                         // @Preview annotation).
+    RESIZE_REVERTED = 3;  // User reverts back to the original preview settings
+                          // (file source of truth).
+  }
+
+  // The type of resize mode used.
+  enum ResizeMode {
+    UNKNOWN_RESIZE_MODE = 0;
+    DEVICE_RESIZE = 1;      // Resizing using device frame controls
+    COMPOSABLE_RESIZE = 2;  // Resizing composable layout parameters
+  }
+
+  // The specific type of resize event that occurred.
+  optional EventType event_type = 1;
+
+  // The mode of resizing used.
+  optional ResizeMode resize_mode = 2;
+
+  // Width and height when user stops resizing (relevant for RESIZE_STOPPED
+  // events).
+  optional int32 stopped_device_width = 3;
+  optional int32 stopped_device_height = 4;
+
+  // Width and height when user saves the resized state (relevant for
+  // RESIZE_SAVED events).
+  optional int32 saved_device_width = 5;
+  optional int32 saved_device_height = 6;
+}
+
+// Message containing information about the deprecation notification shown to
+// the user for a dev service. This message does not have a standalone event
+// type in AndroidStudioEvent Usage:
+//   - Add this message to your feature's event message.
+//   - Service owners should log an event when the feature is deprecated
+//     and user is notified.
+message DevServiceDeprecationInfo {
+  enum DeprecationStatus {
+    UNKNOWN_STATUS = 0;
+    // The dev service is not supported by the current version of Studio
+    UNSUPPORTED = 1;
+  }
+
+  enum DeliveryType {
+    UNKNOWN_DELIVERY_TYPE = 0;
+    // A notification was shown to the user
+    NOTIFICATION = 1;
+    // A banner was shown to the user
+    BANNER = 2;
+    // A panel was shown to the user
+    PANEL = 3;
+  }
+
+  // The status of the deprecation
+  optional DeprecationStatus deprecation_status = 1;
+  // The type of delivery used to notify the user of the deprecation
+  optional DeliveryType delivery_type = 2;
+  // Whether the user was notified of the deprecation
+  optional bool user_notified = 3;
+  // Whether the user clicked the "More info" button
+  optional bool more_info_clicked = 4;
+  // Whether the user clicked the "Update" action
+  optional bool update_clicked = 5;
+  // Whether the deprecation was unplanned
+  optional bool is_deprecation_unplanned = 6;
 }
