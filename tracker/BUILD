@@ -18,12 +18,12 @@ iml_module(
         "@intellij//:intellij-sdk",
         "@intellij//:com.intellij.java",
         "//tools/base/annotations:studio.android.sdktools.android-annotations",
-        "//tools/adt/idea/.idea/libraries:junit4[test]",
-        "//tools/adt/idea/.idea/libraries:truth[test]",
         "//tools/analytics-library/shared:analytics-shared",
-        "//tools/base/testutils:studio.android.sdktools.testutils[test]",
         "//tools/base/common:studio.android.sdktools.common",
         "//tools/adt/idea/.idea/libraries:studio-analytics-proto",
+        "//tools/adt/idea/.idea/libraries:junit4[test]",
+        "//tools/adt/idea/.idea/libraries:truth[test]",
+        "//tools/base/testutils:studio.android.sdktools.testutils[test]",
     ],
 )
 

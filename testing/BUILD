@@ -16,6 +16,7 @@ iml_module(
     deps = [
         "@intellij//:intellij-sdk",
         "@intellij//:com.intellij.java",
+        "//tools/adt/idea/.idea/libraries:studio-analytics-proto",
         "//tools/adt/idea/.idea/libraries:junit4[test]",
         "//tools/base/annotations:studio.android.sdktools.android-annotations[test]",
         "//tools/adt/idea/.idea/libraries:truth[test]",
@@ -23,7 +24,6 @@ iml_module(
         "//tools/base/common:studio.android.sdktools.common[test]",
         "//tools/analytics-library/shared:analytics-shared[test]",
         "//tools/analytics-library/tracker:analytics-tracker[test]",
-        "//tools/adt/idea/.idea/libraries:studio-analytics-proto",
     ],
 )
 
