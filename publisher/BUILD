@@ -9,6 +9,13 @@ iml_module(
     srcs = ["src/main/java"],
     iml_files = ["analytics-publisher.iml"],
     lint_baseline = "lint_baseline.xml",
+    # do not sort: must match IML order
+    test_deps = [
+        "//tools/adt/idea/.idea/libraries:junit4",
+        "//tools/adt/idea/.idea/libraries:truth",
+        "//tools/base/testutils:studio.android.sdktools.testutils",
+        "//tools/analytics-library/tracker:analytics-tracker",
+    ],
     test_srcs = ["src/test/java"],
     test_tags = ["noci:studio-win"],  # http://b/316139798
     visibility = ["//visibility:public"],
@@ -22,10 +29,6 @@ iml_module(
         "//tools/analytics-library/shared:analytics-shared",
         "//tools/base/common:studio.android.sdktools.common",
         "//tools/adt/idea/.idea/libraries:studio-analytics-proto",
-        "//tools/adt/idea/.idea/libraries:junit4[test]",
-        "//tools/adt/idea/.idea/libraries:truth[test]",
-        "//tools/base/testutils:studio.android.sdktools.testutils[test]",
-        "//tools/analytics-library/tracker:analytics-tracker[test]",
     ],
 )
 

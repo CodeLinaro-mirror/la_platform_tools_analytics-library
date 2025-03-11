@@ -7,6 +7,16 @@ load("//tools/base/common:version.bzl", "BASE_VERSION")
 iml_module(
     name = "android.sdktools.analytics-testing",
     iml_files = ["android.sdktools.analytics-testing.iml"],
+    # do not sort: must match IML order
+    test_deps = [
+        "//tools/adt/idea/.idea/libraries:junit4",
+        "//tools/base/annotations:studio.android.sdktools.android-annotations",
+        "//tools/adt/idea/.idea/libraries:truth",
+        "//tools/base/testutils:studio.android.sdktools.testutils",
+        "//tools/base/common:studio.android.sdktools.common",
+        "//tools/analytics-library/shared:analytics-shared",
+        "//tools/analytics-library/tracker:analytics-tracker",
+    ],
     test_srcs = [
         "src/main/java",
         "src/test/java",
@@ -17,13 +27,6 @@ iml_module(
         "@intellij//:intellij-sdk",
         "@intellij//:com.intellij.java",
         "//tools/adt/idea/.idea/libraries:studio-analytics-proto",
-        "//tools/adt/idea/.idea/libraries:junit4[test]",
-        "//tools/base/annotations:studio.android.sdktools.android-annotations[test]",
-        "//tools/adt/idea/.idea/libraries:truth[test]",
-        "//tools/base/testutils:studio.android.sdktools.testutils[test]",
-        "//tools/base/common:studio.android.sdktools.common[test]",
-        "//tools/analytics-library/shared:analytics-shared[test]",
-        "//tools/analytics-library/tracker:analytics-tracker[test]",
     ],
 )
 
