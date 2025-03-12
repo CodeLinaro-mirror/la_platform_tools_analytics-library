@@ -14560,6 +14560,16 @@ message AppQualityInsightsUsageEvent {
     optional AiInsightSource source = 4;
     optional CodeContextDetails code_context_details = 5 [lazy = true];
   }
+  message ServiceDeprecationInfo {
+    enum Panel {
+      UNKNOWN_PANEL = 0;
+      TAB_PANEL = 1;
+      INSIGHTS_PANEL = 2;
+    }
+
+    optional Panel panel = 1;
+    optional DevServiceDeprecationInfo dev_service_deprecation_info = 2;
+  }
 
   // The app_id is the id for the user's android app
   // which we salt on the client (28 day rotation) then sha256
@@ -14626,8 +14636,7 @@ message AppQualityInsightsUsageEvent {
   optional EventsFetched events_fetched = 19 [lazy = true];
 
   // set when type = SERVICE_DEPRECATION
-  optional DevServiceDeprecationInfo dev_service_deprecation_info = 20
-      [lazy = true];
+  optional ServiceDeprecationInfo service_deprecation_info = 20 [lazy = true];
 }
 
 message FastPreviewEvent {
