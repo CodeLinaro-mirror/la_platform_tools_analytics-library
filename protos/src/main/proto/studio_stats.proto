@@ -2324,6 +2324,11 @@ message AndroidStudioEvent {
     // Kotlin version is 2.0 or higher.
     TYPE_MISSING_COMPOSE_COMPILER_GRADLE_PLUGIN = 66;
 
+
+    // Disabling the library constraints results in better sync performance,
+    // this will be surfaced to the user via this issue.
+    TYPE_LIBRARY_CONSTRAINTS_SHOULD_BE_DISABLED = 67;
+
     // NOTE: When adding a new type here, increment the index by 1. This index
     // may not be consistent with the corresponding value in the Android Gradle
     // plugin (e.g., it could be higher by 1), because of an indexing issue in
@@ -2385,6 +2390,7 @@ message AndroidStudioEvent {
     OPEN_UPGRADE_ASSISTANT_HYPERLINK = 50;
     SUPPRESS_UNSUPPORTED_SDK_HYPERLINK = 51;
     ADD_COMPOSE_COMPILER_GRADLE_PLUGIN_HYPERLINK = 52;
+    DISABLE_LIBRARY_CONSTRAINTS_HYPERLINK = 53;
   }
 }
 
@@ -3420,6 +3426,57 @@ message EmulatorMultiDisplay {
   optional uint32 max_displays = 2;
 }
 
+message EmulatorCompatibilityInfo {
+  // Represents the compatibility status of an AVD (Android Virtual Device).
+  enum AvdCompatibilityStatus {
+    // The AVD compatibility is unknown.
+    AVD_COMPATIBILITY_STATUS_UNKNOWN = 0;
+    // The check succeeded; the AVD is fully compatible.
+    AVD_COMPATIBILITY_STATUS_OK = 1;
+    // The AVD can run, but with limited functionality. The user should be
+    // informed.
+    AVD_COMPATIBILITY_STATUS_WARNING = 2;
+    // The AVD cannot run with the current configuration.
+    AVD_COMPATIBILITY_STATUS_ERROR = 3;
+  }
+
+  enum AvdCompatibilityCheck {
+    AVD_COMPATIBILITY_CHECK_UNKNOWN = 0;
+    // No AVD was found to perform the check.
+    AVD_COMPATIBILITY_CHECK_NO_AVD = 1;
+    // Insufficient disk space is available to run the AVD.
+    AVD_COMPATIBILITY_CHECK_INSUFFICIENT_DISK_SPACE = 2;
+    // GPU checks are disabled.
+    AVD_COMPATIBILITY_CHECK_GPU_CHECK_DISABLED = 3;
+    // Vulkan is not supported on the host system.
+    AVD_COMPATIBILITY_CHECK_GPU_CHECK_NO_VULKAN = 4;
+    // The Vulkan version on the host system is not supported.
+    AVD_COMPATIBILITY_CHECK_GPU_CHECK_UNSUPPORTED_VULKAN_VERSION = 5;
+    // Insufficient GPU memory is available to run the AVD.
+    AVD_COMPATIBILITY_CHECK_GPU_CHECK_INSUFFICIENT_MEMORY = 6;
+    // System compatibility checks are skipped due to the
+    // ANDROID_EMU_SKIP_SYSTEM_CHECKS environment variable being set.
+    AVD_COMPATIBILITY_CHECK_SYSTEM_SKIP = 7;
+    // A system compatibility error is forced due to the
+    // ANDROID_EMU_ABORT_SYSTEM_CHECKS environment variable being set.
+    AVD_COMPATIBILITY_CHECK_SYSTEM_ABORT = 8;
+    // The host system has insufficient CPU cores to run the AVD.
+    AVD_COMPATIBILITY_CHECK_SYSTEM_CORE = 9;
+    // The host system has insufficient RAM to run the AVD.
+    AVD_COMPATIBILITY_CHECK_SYSTEM_MEMORY = 10;
+    // Skip the gpu compatibility checks
+    AVD_COMPATIBILITY_CHECK_GPU_CHECK_SKIP = 11;
+  }
+
+  optional AvdCompatibilityStatus status = 1;
+  optional AvdCompatibilityCheck check = 2;
+
+  // Generic string with system details. For example in the case of
+  // AVD_COMPATIBILITY_CHECK_GPU_CHECK_UNSUPPORTED_VULKAN_VERSION, this could
+  // contain the version string "GPU: Intel API: 1.2.3"
+  optional string details = 3;
+}
+
 // Metrics for resizable display details
 message EmulatorResizableDisplay {
   // Counts for different display size types
@@ -3555,7 +3612,9 @@ message EmulatorDetails {
   optional int32 qemu_pid = 38;
   // Vulkan backend.
   optional VulkanIcd vulkan_icd = 39;
-  // Next tag: 40
+  // Results of emulator compatibility checks.
+  optional EmulatorCompatibilityInfo emu_compat_info = 40;
+  // Next tag: 41
 
   // Emulator instance liveness as determined via adb connectivity.
   enum EmulatorAdbLiveness {
@@ -14560,6 +14619,16 @@ message AppQualityInsightsUsageEvent {
     optional AiInsightSource source = 4;
     optional CodeContextDetails code_context_details = 5 [lazy = true];
   }
+  message ServiceDeprecationInfo {
+    enum Panel {
+      UNKNOWN_PANEL = 0;
+      TAB_PANEL = 1;
+      INSIGHTS_PANEL = 2;
+    }
+
+    optional Panel panel = 1;
+    optional DevServiceDeprecationInfo dev_service_deprecation_info = 2;
+  }
 
   // The app_id is the id for the user's android app
   // which we salt on the client (28 day rotation) then sha256
@@ -14626,8 +14695,7 @@ message AppQualityInsightsUsageEvent {
   optional EventsFetched events_fetched = 19 [lazy = true];
 
   // set when type = SERVICE_DEPRECATION
-  optional DevServiceDeprecationInfo dev_service_deprecation_info = 20
-      [lazy = true];
+  optional ServiceDeprecationInfo service_deprecation_info = 20 [lazy = true];
 }
 
 message FastPreviewEvent {

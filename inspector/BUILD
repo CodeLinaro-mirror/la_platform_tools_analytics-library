@@ -8,6 +8,11 @@ iml_module(
     srcs = ["src/main/java"],
     iml_files = ["analytics-inspector.iml"],
     lint_baseline = "lint_baseline.xml",
+    # do not sort: must match IML order
+    test_deps = [
+        "//tools/adt/idea/.idea/libraries:truth",
+        "//tools/base/testutils:studio.android.sdktools.testutils",
+    ],
     visibility = ["//visibility:public"],
     # do not sort: must match IML order
     exports = ["//tools/base/annotations:studio.android.sdktools.android-annotations"],
@@ -16,9 +21,7 @@ iml_module(
         "@intellij//:intellij-sdk",
         "@intellij//:com.intellij.java",
         "//tools/base/annotations:studio.android.sdktools.android-annotations",
-        "//tools/adt/idea/.idea/libraries:truth[test]",
         "//tools/analytics-library/shared:analytics-shared",
-        "//tools/base/testutils:studio.android.sdktools.testutils[test]",
         "//tools/base/common:studio.android.sdktools.common",
         "//tools/adt/idea/.idea/libraries:studio-analytics-proto",
     ],
