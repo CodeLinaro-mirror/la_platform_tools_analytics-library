@@ -799,6 +799,9 @@ message AndroidStudioEvent {
   optional ResizeComposePreviewEvent resize_compose_preview_event = 222
       [lazy = true];
 
+  // set when kind = WIFI_PAIRING_EVENT
+  optional WifiPairingEvent wifi_pairing_event = 223 [lazy = true];
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -1727,6 +1730,9 @@ message AndroidStudioEvent {
 
     // Event describing a resize of the Compose Preview
     RESIZE_COMPOSE_PREVIEW_EVENT = 341;
+
+    // Even describing a Wi-Fi Pairing operation
+    WIFI_PAIRING_EVENT = 342;
   }
 
   // Represents different Performance Monitoring types.
@@ -2324,7 +2330,6 @@ message AndroidStudioEvent {
     // Kotlin version is 2.0 or higher.
     TYPE_MISSING_COMPOSE_COMPILER_GRADLE_PLUGIN = 66;
 
-
     // Disabling the library constraints results in better sync performance,
     // this will be surfaced to the user via this issue.
     TYPE_LIBRARY_CONSTRAINTS_SHOULD_BE_DISABLED = 67;
@@ -2847,6 +2852,7 @@ message EmulatorAvdInfo {
     AUTOMOTIVE_DISTANT_DISPLAY_WITH_PLAY = 50;
     AUTOMOTIVE_ULTRAWIDE_DISPLAY = 51;
     AUTOMOTIVE_LARGE_PORTRAIT = 52;
+    PIXEL_9A = 53;
   }
   // Name of the AVD. Deprecated as it could potentially contain PII.
   optional string name = 1 [deprecated = true];
@@ -15696,6 +15702,15 @@ message SmlConfigurationEvent {
 
   // User agrees to sending project context with queries
   optional bool project_context_enabled = 6;
+
+  // The product variant that was fetched by the LoadCodeAssist API
+  optional SmlProductVariant product_variant = 7;
+
+  enum SmlProductVariant {
+    PRODUCT_VARIANT_UNKNOWN = 0;
+    PRODUCT_VARIANT_FREE = 1;
+    PRODUCT_VARIANT_BUSINESS = 2;
+  }
 }
 
 message SmlAiExcludeEvent {
@@ -17030,4 +17045,26 @@ message DevServiceDeprecationInfo {
   optional bool update_clicked = 5;
   // Whether the deprecation was unplanned
   optional bool is_deprecation_unplanned = 6;
+}
+
+// Message containing information about a Wi-Fi pairing operation.
+message WifiPairingEvent {
+  enum PairingMethod {
+    UNKNOWN_PAIRING_METHOD = 0;
+    QR_CODE = 1;
+    PAIRING_CODE = 2;
+  }
+
+  enum PairingResult {
+    UNKNOWN_PAIRING_RESULT = 0;
+    SUCCESS = 1;
+    FAILURE = 2;
+  }
+
+  optional string adb_version = 1;
+  optional ApiVersion device_api_version = 2;
+  optional PairingMethod pairing_method = 3;
+  optional PairingResult pairing_result = 4;
+  repeated string exception_class_names = 5;
+  optional int64 elapsed_time_ms = 6;
 }
