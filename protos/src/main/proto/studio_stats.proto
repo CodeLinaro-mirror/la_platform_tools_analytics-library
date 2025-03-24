@@ -17001,13 +17001,24 @@ message ResizeComposePreviewEvent {
 
   // Width and height when user stops resizing (relevant for RESIZE_STOPPED
   // events).
-  optional int32 stopped_device_width = 3;
-  optional int32 stopped_device_height = 4;
+  optional int32 stopped_device_width = 3 [deprecated = true];
+  optional int32 stopped_device_height = 4 [deprecated = true];
 
   // Width and height when user saves the resized state (relevant for
   // RESIZE_SAVED events).
-  optional int32 saved_device_width = 5;
-  optional int32 saved_device_height = 6;
+  optional int32 saved_device_width = 5 [deprecated = true];
+  optional int32 saved_device_height = 6 [deprecated = true];
+
+  // Width when user stops resizing or saves the resized state (relevant for
+  // RESIZE_STOPPED and RESIZE_SAVED events). Unit: dp.
+  optional int32 device_width_dp = 7;
+
+  // Height when user stops resizing or saves the resized state (relevant for
+  // RESIZE_STOPPED and RESIZE_SAVED events). Unit: dp.
+  optional int32 device_height_dp = 8;
+
+  // The DPI of the device.
+  optional int32 dpi = 9;
 }
 
 // Message containing information about the deprecation notification shown to
