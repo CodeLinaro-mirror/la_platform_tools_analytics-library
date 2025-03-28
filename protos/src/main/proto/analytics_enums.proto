@@ -782,6 +782,7 @@ enum VariantMethodType {
     DEVICE_TEST_DEBUGGABLE = 26;
     VARIANT_BUILDER_DEBUGGABLE = 27;
     JUNIT_ENGINE_SPEC_BUILDER = 28;
+    TEST_SUITE_DEPENDENCIES = 29;
 }
 
 enum VariantPropertiesMethodType {
