@@ -802,6 +802,9 @@ message AndroidStudioEvent {
   // set when kind = WIFI_PAIRING_EVENT
   optional WifiPairingEvent wifi_pairing_event = 223 [lazy = true];
 
+  // set when kind = COMMIT_METRICS_EVENT
+  optional CommitMetricsEvent commit_metrics_event = 224 [lazy = true];
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -1733,6 +1736,9 @@ message AndroidStudioEvent {
 
     // Even describing a Wi-Fi Pairing operation
     WIFI_PAIRING_EVENT = 342;
+
+    // Event with a commit timestamps for developer productivity analysis
+    COMMIT_METRICS_EVENT = 343;
   }
 
   // Represents different Performance Monitoring types.
@@ -14063,6 +14069,9 @@ message LiveEditEvent {
 
     NO_COMPOSE_PLUGIN = 48;
     NO_IWI = 49;
+
+    MODULE_DISPOSED = 50;
+    INVALID_FILE = 51;
   }
 
   enum Mode {
@@ -17078,4 +17087,27 @@ message WifiPairingEvent {
   optional PairingResult pairing_result = 4;
   repeated string exception_class_names = 5;
   optional int64 elapsed_time_ms = 6;
+}
+
+message CommitMetricsEvent {
+  enum CommitType {
+    UNKNOWN_COMMIT_TYPE = 0;
+    // The commit was made in local branches
+    LOCAL = 1;
+    // The commit was pushed to the remote branch
+    REMOTE = 2;
+  }
+
+  message CommitInfo {
+    // Unix timestamp of the commit date
+    optional int64 commit_timestamp = 1;
+    // Unix timestamp of the author date
+    optional int64 author_timestamp = 2;
+    // Is this the first commit recorded since install
+    optional bool is_first_commit = 3;
+    // True if the commit is pushed to the remote branch
+    optional CommitType commit_type = 4;
+  }
+
+  repeated CommitInfo commit_info = 1;
 }
