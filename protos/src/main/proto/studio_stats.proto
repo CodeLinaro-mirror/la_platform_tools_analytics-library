@@ -15481,6 +15481,8 @@ message SmlTransformEvent {
     UNKNOWN = 0;
     CUSTOM = 1;
     DOCUMENT = 2;
+    // For Compose preview transform that includes both image and code.
+    MULTIMODAL_COMPOSE_PREVIEW = 3;
   }
 
   enum TransformPhase {
@@ -15719,6 +15721,7 @@ message SmlConfigurationEvent {
     PRODUCT_VARIANT_UNKNOWN = 0;
     PRODUCT_VARIANT_FREE = 1;
     PRODUCT_VARIANT_BUSINESS = 2;
+    PRODUCT_VARIANT_DASHER_USER_CHOICE = 3;
   }
 }
 
