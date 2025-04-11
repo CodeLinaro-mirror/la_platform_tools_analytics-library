@@ -1,1 +1,4 @@
+# Route bugs created from test failures to L2 triage.
+# Bug component: 166979
+# See go/studio-test-owners for more.
 per-file analytics_enums.proto=jedo@google.com,spollom@google.com,cmw@google.com
