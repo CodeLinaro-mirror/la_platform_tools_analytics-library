@@ -8670,6 +8670,8 @@ message GradleSyncStats {
     // Sync was done as part of Android Studio testing (should not be used since
     // logs from testing are stored in a different place)
     TRIGGER_TEST_REQUESTED = 7;
+    // Sync was requested by an Agent.
+    TRIGGER_AGENT_REQUESTED = 8;
 
     // First marker for user initiated syncs
     TRIGGER_USER_FIRST_MARKER = 100;
