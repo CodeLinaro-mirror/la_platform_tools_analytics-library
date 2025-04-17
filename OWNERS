@@ -1,3 +1,6 @@
+# Route bugs created from test failures to L2 triage.
+# Bug component: 166979
+# See go/studio-test-owners for more.
 # primary owner and TL
 mmoro@google.com
 # for LON/AAR timezone

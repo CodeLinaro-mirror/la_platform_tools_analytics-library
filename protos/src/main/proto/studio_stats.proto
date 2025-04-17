@@ -8670,6 +8670,8 @@ message GradleSyncStats {
     // Sync was done as part of Android Studio testing (should not be used since
     // logs from testing are stored in a different place)
     TRIGGER_TEST_REQUESTED = 7;
+    // Sync was requested by an Agent.
+    TRIGGER_AGENT_REQUESTED = 8;
 
     // First marker for user initiated syncs
     TRIGGER_USER_FIRST_MARKER = 100;
@@ -15481,6 +15483,10 @@ message SmlTransformEvent {
     UNKNOWN = 0;
     CUSTOM = 1;
     DOCUMENT = 2;
+    // For Compose preview transform that includes both image and code.
+    MULTIMODAL_COMPOSE_PREVIEW = 3;
+    // For Compose Preview generation action.
+    GENERATE_COMPOSE_PREVIEW = 4;
   }
 
   enum TransformPhase {
@@ -15719,6 +15725,7 @@ message SmlConfigurationEvent {
     PRODUCT_VARIANT_UNKNOWN = 0;
     PRODUCT_VARIANT_FREE = 1;
     PRODUCT_VARIANT_BUSINESS = 2;
+    PRODUCT_VARIANT_DASHER_USER_CHOICE = 3;
   }
 }
 
