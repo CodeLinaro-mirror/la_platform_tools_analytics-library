@@ -14129,6 +14129,8 @@ message GoogleLoginPluginEvent {
     COMBINED_LOGIN = 1;
     // A user signs in via the specific feature login flow.
     FEATURE_LOGIN = 2;
+    // A user signs in via the authentication error notification.
+    AUTH_ERROR_NOTIFICATION_LOGIN = 3;
   }
 
   message LoginFeatures {
