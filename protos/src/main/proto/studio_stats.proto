@@ -9543,6 +9543,10 @@ message DynamicLayoutInspectorAttachToProcess {
   // The time it took for attach to start and end.
   // It can end because of success, error or cancellation.
   optional int64 attach_duration_ms = 10;
+  // True if connected to a process running on an XR device.
+  optional bool is_xr = 11;
+  // True if on-device render is enabled for this session.
+  optional bool is_on_device_render_enabled = 12;
 
   // The Client type
   enum ClientType {
