@@ -1874,6 +1874,7 @@ message AndroidStudioEvent {
     KOTLIN_MULTIPLATFORM_LIBRARY_MODULE = 70;
     EXPERIMENTAL_ACTIVITY_2 = 71;
     COMPOSE_NAVIGATION_UI_ACTIVITY = 72;
+    JOURNEY_XML_FILE = 73;
   }
 
   // Wizard Templates Usage (New Project, New Module and New Component)
@@ -1902,7 +1903,7 @@ message AndroidStudioEvent {
 
       // The different template components (eg Activities, Fragments, Services,
       // etc) the template engine could be asked to render
-      // Next ID: 65
+      // Next ID: 66
       enum TemplateType {
         UNKNOWN_TEMPLATE = 0;
         CUSTOM_TEMPLATE = 1;
@@ -1963,6 +1964,7 @@ message AndroidStudioEvent {
         LAYOUT_XML_FILE = 48;
         VALUES_XML_FILE = 49;
         SHORTCUTS_XML_FILE = 59;
+        JOURNEY_XML_FILE = 65;
 
         CUSTOM_VIEW = 50;
         BROADCAST_RECEIVER = 51;
