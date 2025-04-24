@@ -9543,6 +9543,10 @@ message DynamicLayoutInspectorAttachToProcess {
   // The time it took for attach to start and end.
   // It can end because of success, error or cancellation.
   optional int64 attach_duration_ms = 10;
+  // True if connected to a process running on an XR device.
+  optional bool is_xr = 11;
+  // True if on-device render is enabled for this session.
+  optional bool is_on_device_render_enabled = 12;
 
   // The Client type
   enum ClientType {
@@ -14129,6 +14133,8 @@ message GoogleLoginPluginEvent {
     COMBINED_LOGIN = 1;
     // A user signs in via the specific feature login flow.
     FEATURE_LOGIN = 2;
+    // A user signs in via the authentication error notification.
+    AUTH_ERROR_NOTIFICATION_LOGIN = 3;
   }
 
   message LoginFeatures {
