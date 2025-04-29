@@ -14150,6 +14150,7 @@ message GoogleLoginPluginEvent {
   optional EventKind event = 1;
   optional LoginFeatures features = 2 [lazy = true];
   optional LoginType login_type = 3;
+  optional int32 total_user_count = 4;
 }
 
 message DeviceMirroringSession {
