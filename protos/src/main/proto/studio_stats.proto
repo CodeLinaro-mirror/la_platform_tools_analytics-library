@@ -15033,6 +15033,9 @@ message DirectAccessUsageEvent {
     // Time measured between the user clicking reserve (run) button and getting
     // a reserved device
     optional uint32 reserve_time_ms = 2;
+    // True if the reservation was made with the new endpoint of
+    // devicestreaming.googleapis.com.
+    optional bool devicestreaming_api = 3;
   }
 
   message ConnectDeviceDetails {
