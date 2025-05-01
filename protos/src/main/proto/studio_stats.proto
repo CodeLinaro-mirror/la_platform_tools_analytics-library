@@ -15503,6 +15503,8 @@ message SmlTransformEvent {
     MULTIMODAL_COMPOSE_PREVIEW = 3;
     // For Compose Preview generation action.
     GENERATE_COMPOSE_PREVIEW = 4;
+    // For Insight Suggested Fix generation action.
+    GENERATE_INSIGHT_SUGGESTED_FIX = 5;
   }
 
   enum TransformPhase {
