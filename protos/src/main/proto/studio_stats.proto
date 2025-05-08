@@ -12908,6 +12908,8 @@ message UpgradeAssistantComponentInfo {
     BLOCK_LINT_ANALYSIS_PER_COMPONENT_PRESENT = 42;
     USE_R8_STRICT_FULL_MODE_FOR_KEEP_RULES_DEFAULT = 43;
     BLOCK_R8_STRICT_FULL_MODE_FOR_KEEP_RULES_PRESENT = 44;
+    BLOCK_R8_INTEGRATED_RESOURCE_SHRINKING_PRESENT = 45;
+    BLOCK_R8_OPTIMIZED_SHRINKING_PRESENT = 46;
   }
 
   message Java8DefaultProcessorSettings {
@@ -15411,6 +15413,11 @@ message SmlCompletionEvent {
     optional uint32 completions_accepted = 5;
     optional Histogram latencies_ms = 6 [lazy = true];
     optional Histogram not_accepted_shown_durations_ms = 7 [lazy = true];
+    optional int32 completion_responses = 8;
+    optional int32 completion_responses_with_all_citations = 9;
+    optional int32 completion_responses_with_some_citations = 10;
+    optional int32 completion_responses_with_no_citations = 11;
+    optional Histogram suggestions_per_response = 12 [lazy = true];
   }
 
   oneof completion {
@@ -15503,6 +15510,8 @@ message SmlTransformEvent {
     MULTIMODAL_COMPOSE_PREVIEW = 3;
     // For Compose Preview generation action.
     GENERATE_COMPOSE_PREVIEW = 4;
+    // For Insight Suggested Fix generation action.
+    GENERATE_INSIGHT_SUGGESTED_FIX = 5;
   }
 
   enum TransformPhase {
