@@ -811,6 +811,13 @@ message AndroidStudioEvent {
   // set when kind = K2_MODE_EVENT
   optional K2ModeEvent k2_mode_event = 226 [lazy = true];
 
+  // set when kind = JOURNEY_FINISHED_EVENT
+  optional JourneyFinishedEvent journey_finished_event = 227 [lazy = true];
+
+  // set when kind = JOURNEY_ENGINE_ERROR_EVENT
+  optional JourneyEngineErrorEvent journey_engine_error_event = 228
+      [lazy = true];
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -1751,6 +1758,10 @@ message AndroidStudioEvent {
 
     // Event indicating a user is using K2 mode
     K2_MODE_EVENT = 345;
+
+    // Journeys for Gemini events
+    JOURNEY_FINISHED_EVENT = 346;
+    JOURNEY_ENGINE_ERROR_EVENT = 347;
   }
 
   // Represents different Performance Monitoring types.
@@ -17186,4 +17197,45 @@ message UserIdResetEvent {
 message K2ModeEvent {
   // Whether the K2 mode is enabled.
   optional bool is_enabled = 1;
+}
+
+// This event is logged when a Journey test run finishes
+message JourneyFinishedEvent {
+  enum TestResult {
+    UNKNOWN = 0;
+    // The test passed
+    PASSED = 1;
+    // The test failed
+    FAILED = 2;
+    // The test was aborted, e.g. due to engine failure
+    ABORTED = 3;
+    // The test was canceled
+    CANCELED = 4;
+  }
+
+  optional TestResult test_result = 1;
+}
+
+// This event is logged when there is an error in the Journey engine during a
+// test run
+message JourneyEngineErrorEvent {
+  enum ErrorType {
+    UNKNOWN = 0;
+    // Failed to install the crawler or test APK
+    ADB_INSTALL_FAILED = 1;
+    // Failed to setup ADB forwarding
+    ADB_FORWARDING_FAILED = 2;
+    // Failed to extract the Robo port
+    ROBO_PORT_EXTRACTION_FAILED = 3;
+    // Failed to run the instrumentation
+    INSTRUMENTATION_FAILED = 4;
+    // Failed to read the Journey file
+    JOURNEY_READ_FAILED = 5;
+    // Failed to authenticate with the Robo server
+    AUTHENTICATION_FAILED = 6;
+    // The engine failed to determine the error
+    UNKNOWN_ERROR = 7;
+  }
+
+  optional ErrorType error_type = 1;
 }
