@@ -818,6 +818,9 @@ message AndroidStudioEvent {
   optional JourneyEngineErrorEvent journey_engine_error_event = 228
       [lazy = true];
 
+  // set when kind = BACKUP_AND_SYNC_EVENT
+  optional BackupAndSyncEvent backup_and_sync_event = 229 [lazy = true];
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -1762,6 +1765,9 @@ message AndroidStudioEvent {
     // Journeys for Gemini events
     JOURNEY_FINISHED_EVENT = 346;
     JOURNEY_ENGINE_ERROR_EVENT = 347;
+
+    // Backup and Sync events
+    BACKUP_AND_SYNC_EVENT = 348;
   }
 
   // Represents different Performance Monitoring types.
@@ -17238,4 +17244,27 @@ message JourneyEngineErrorEvent {
   }
 
   optional ErrorType error_type = 1;
+}
+
+message BackupAndSyncEvent {
+  enum Provider {
+    UNKNOWN_PROVIDER = 0;
+    // Uses Google Drive to store the settings
+    GOOGLE = 1;
+    // Uses Jetbrains backend service to store the settings
+    JETBRAINS = 2;
+  }
+
+  enum EnablementFlow {
+    UNKNOWN_FLOW = 0;
+    // Enable via the unified sign-in flow
+    UNIFIED_SIGN_IN_FLOW = 1;
+    // Enable via the Google Accounts settings page (feature allow button)
+    ACCOUNT_SETTINGS_PAGE = 2;
+    // Enable via the Backup and Sync settings page
+    FEATURE_SETTINGS_PAGE = 3;
+  }
+
+  optional Provider provider_in_use = 1;
+  optional EnablementFlow enablement_flow = 2;
 }
