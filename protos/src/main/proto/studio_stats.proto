@@ -805,6 +805,9 @@ message AndroidStudioEvent {
   // set when kind = COMMIT_METRICS_EVENT
   optional CommitMetricsEvent commit_metrics_event = 224 [lazy = true];
 
+  // set when kind = K2_MODE_EVENT
+  optional K2ModeEvent k2_mode_event = 226 [lazy = true];
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -1739,6 +1742,9 @@ message AndroidStudioEvent {
 
     // Event with a commit timestamps for developer productivity analysis
     COMMIT_METRICS_EVENT = 343;
+
+    // Event indicating a user is using K2 mode
+    K2_MODE_EVENT = 345;
   }
 
   // Represents different Performance Monitoring types.
@@ -17142,4 +17148,9 @@ message CommitMetricsEvent {
   }
 
   repeated CommitInfo commit_info = 1;
+}
+
+message K2ModeEvent {
+  // Whether the K2 mode is enabled.
+  optional bool is_enabled = 1;
 }
