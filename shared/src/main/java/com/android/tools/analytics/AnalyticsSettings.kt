@@ -120,11 +120,9 @@ object AnalyticsSettings {
     }
 
   @JvmStatic
-  var popSentimentQuestionFrequency: Int
+  var popSentimentQuestionFrequency: Int?
     get() {
-      return runIfAnalyticsSettingsUsable(daysInYear()) {
-        instance?.popSentimentQuestionFrequency ?: daysInYear()
-      }
+      return runIfAnalyticsSettingsUsable(null) { instance?.popSentimentQuestionFrequency }
     }
     set(value) {
       runIfAnalyticsSettingsUsable(Unit) { instance?.popSentimentQuestionFrequency = value }
@@ -481,7 +479,7 @@ class AnalyticsSettingsData {
   var nextFeatureSurveyDate: Date? = null
   var nextFeatureSurveyDateMap: MutableMap<String, Date>? = null
   var lastOptinPromptVersion: String? = null
-  var popSentimentQuestionFrequency: Int = AnalyticsSettings.daysInYear()
+  var popSentimentQuestionFrequency: Int? = AnalyticsSettings.daysInYear()
 
   companion object {
 

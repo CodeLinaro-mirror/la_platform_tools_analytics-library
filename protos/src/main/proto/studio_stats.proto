@@ -805,6 +805,12 @@ message AndroidStudioEvent {
   // set when kind = COMMIT_METRICS_EVENT
   optional CommitMetricsEvent commit_metrics_event = 224 [lazy = true];
 
+  // set when kind = USER_ID_RESET_EVENT
+  optional UserIdResetEvent user_id_reset_event = 225 [lazy = true];
+
+  // set when kind = K2_MODE_EVENT
+  optional K2ModeEvent k2_mode_event = 226 [lazy = true];
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -1739,6 +1745,12 @@ message AndroidStudioEvent {
 
     // Event with a commit timestamps for developer productivity analysis
     COMMIT_METRICS_EVENT = 343;
+
+    // Event indicating an error caused a user ID to be reset
+    USER_ID_RESET_EVENT = 344;
+
+    // Event indicating a user is using K2 mode
+    K2_MODE_EVENT = 345;
   }
 
   // Represents different Performance Monitoring types.
@@ -2803,8 +2815,10 @@ message EmulatorAvdInfo {
     LAPTOP_AVD = 8;
     DESKTOP_AVD = 9;
     CHROMEOS = 10;
-    DEV_2024_AVD = 11;
-    // Next tag: 12
+    // Do not use this -- use XR_AVD below.
+    DEV_2024_AVD = 11 [deprecated = true];
+    XR_AVD = 12;
+    // Next tag: 13
   }
   enum EmulatorDeviceName {
     UNKNOWN_EMULATOR_DEVICE_NAME = 0;
@@ -3003,10 +3017,21 @@ message EmulatorFeatureFlagState {
     VULKAN_ALLOCATE_HOST_MEMORY = 107;
     DEVICE_KEYBOARD_QT_RAW_INPUT = 108;
     UWB = 109;
-    UX_TEST_2024 = 110;
+    // Do not use this -- use XR_MODE_UI below.
+    UX_TEST_2024 = 110 [deprecated = true];
     GUEST_ANGLE = 111;
     ANDROID_VIRTUALIZATION_FRAMEWORK = 112;
-    // Next tag: 113
+    BYPASS_VULKAN_DEVICE_FEATURE_OVERRIDES = 113;
+    VULKAN_DEBUG_UTILS = 114;
+    VULKAN_COMMAND_BUFFER_CHECKPOINTS = 115;
+    VULKAN_VIRTUAL_QUEUE = 116;
+    VULKAN_ROBUSTNESS = 117;
+    XR_MODE_UI = 118;
+    // Intentional gap to avoid merge conflicts.
+    VIRTIO_DUAL_MODE_MOUSE = 131;
+    DUAL_MODE_MOUSE_DISPLAY_HOST_CURSOR = 132;
+    ALL_APPS_FOR_HOME_TRAY = 133;
+    // Next tag: 134
   }
   // Which features were enabled by default or through the server-side config.
   repeated EmulatorFeatureFlag attempted_enabled_feature_flags = 1;
@@ -12910,6 +12935,7 @@ message UpgradeAssistantComponentInfo {
     BLOCK_R8_STRICT_FULL_MODE_FOR_KEEP_RULES_PRESENT = 44;
     BLOCK_R8_INTEGRATED_RESOURCE_SHRINKING_PRESENT = 45;
     BLOCK_R8_OPTIMIZED_SHRINKING_PRESENT = 46;
+    USE_R8_OPTIMIZED_SHRINKING_DEFAULT = 47;
   }
 
   message Java8DefaultProcessorSettings {
@@ -17142,4 +17168,22 @@ message CommitMetricsEvent {
   }
 
   repeated CommitInfo commit_info = 1;
+}
+
+message UserIdResetEvent {
+  enum Reason {
+    UNKNOWN = 0;
+    // No settings file existed.
+    NEW = 1;
+    // User did a manual reset.
+    MANUAL = 2;
+    // Exception occurred while reading settings file.
+    EXCEPTION = 3;
+  }
+  optional Reason reason = 1;
+}
+
+message K2ModeEvent {
+  // Whether the K2 mode is enabled.
+  optional bool is_enabled = 1;
 }
