@@ -821,6 +821,9 @@ message AndroidStudioEvent {
   // set when kind = BACKUP_AND_SYNC_EVENT
   optional BackupAndSyncEvent backup_and_sync_event = 229 [lazy = true];
 
+  // set when kind = SENTIMENT_SURVEY_EVENT
+  optional SentimentSurveyEvent sentiment_survey_event = 230 [lazy = true];
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -1768,6 +1771,9 @@ message AndroidStudioEvent {
 
     // Backup and Sync events
     BACKUP_AND_SYNC_EVENT = 348;
+
+    // Events related to the sentiment survey
+    SENTIMENT_SURVEY_EVENT = 349;
   }
 
   // Represents different Performance Monitoring types.
@@ -17267,4 +17273,21 @@ message BackupAndSyncEvent {
 
   optional Provider provider_in_use = 1;
   optional EnablementFlow enablement_flow = 2;
+}
+
+message SentimentSurveyEvent {
+  enum Type {
+    TYPE_UNKNOWN = 0;
+    // The survey was scheduled to be displayed
+    TYPE_SCHEDULED = 1;
+    // The survey dialog was displayed to the user
+    TYPE_DISPLAYED = 2;
+    // The user invoked the survey
+    TYPE_INVOKED = 3;
+    // The user cancelled the survey
+    TYPE_CANCELLED = 4;
+  }
+  // A guid scoped to a single survey instance
+  optional string id = 1;
+  optional Type type = 2;
 }
