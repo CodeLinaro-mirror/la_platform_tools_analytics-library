@@ -17128,6 +17128,8 @@ message DevServiceDeprecationInfo {
     UNKNOWN_STATUS = 0;
     // The dev service is not supported by the current version of Studio
     UNSUPPORTED = 1;
+    // The dev service is deprecated and will soon be UNSUPPORTED
+    DEPRECATED = 2;
   }
 
   enum DeliveryType {
@@ -17152,6 +17154,8 @@ message DevServiceDeprecationInfo {
   optional bool update_clicked = 5;
   // Whether the deprecation was unplanned
   optional bool is_deprecation_unplanned = 6;
+  // Whether the user dismissed the delivery type
+  optional bool delivery_dismissed = 7;
 }
 
 // Message containing information about a Wi-Fi pairing operation.
