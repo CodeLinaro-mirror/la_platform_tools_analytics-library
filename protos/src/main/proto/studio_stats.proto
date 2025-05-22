@@ -821,6 +821,12 @@ message AndroidStudioEvent {
   // set when kind = BACKUP_AND_SYNC_EVENT
   optional BackupAndSyncEvent backup_and_sync_event = 229 [lazy = true];
 
+  // set when kind = SENTIMENT_SURVEY_EVENT
+  optional SentimentSurveyEvent sentiment_survey_event = 230 [lazy = true];
+
+  // set when kind = GEMINI_ADVERTISER_EVENT
+  optional GeminiAdvertiserEvent gemini_advertiser_event = 231 [lazy = true];
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -1768,6 +1774,12 @@ message AndroidStudioEvent {
 
     // Backup and Sync events
     BACKUP_AND_SYNC_EVENT = 348;
+
+    // Events related to the sentiment survey
+    SENTIMENT_SURVEY_EVENT = 349;
+
+    // Gemini Advertiser (Sign in Dialog) events
+    GEMINI_ADVERTISER_EVENT = 350;
   }
 
   // Represents different Performance Monitoring types.
@@ -17116,6 +17128,8 @@ message DevServiceDeprecationInfo {
     UNKNOWN_STATUS = 0;
     // The dev service is not supported by the current version of Studio
     UNSUPPORTED = 1;
+    // The dev service is deprecated and will soon be UNSUPPORTED
+    DEPRECATED = 2;
   }
 
   enum DeliveryType {
@@ -17140,6 +17154,8 @@ message DevServiceDeprecationInfo {
   optional bool update_clicked = 5;
   // Whether the deprecation was unplanned
   optional bool is_deprecation_unplanned = 6;
+  // Whether the user dismissed the delivery type
+  optional bool delivery_dismissed = 7;
 }
 
 // Message containing information about a Wi-Fi pairing operation.
@@ -17267,4 +17283,59 @@ message BackupAndSyncEvent {
 
   optional Provider provider_in_use = 1;
   optional EnablementFlow enablement_flow = 2;
+}
+
+message SentimentSurveyEvent {
+  enum Type {
+    TYPE_UNKNOWN = 0;
+    // The survey was scheduled to be displayed
+    TYPE_SCHEDULED = 1;
+    // The survey dialog was displayed to the user
+    TYPE_DISPLAYED = 2;
+    // The user invoked the survey
+    TYPE_INVOKED = 3;
+    // The user cancelled the survey
+    TYPE_CANCELLED = 4;
+  }
+  // A guid scoped to a single survey instance
+  optional string id = 1;
+  optional Type type = 2;
+}
+
+message GeminiAdvertiserEvent {
+  enum Feature {
+    // Generic feature
+    UNKNOWN = 0;
+    // Generate new code snippets or structures.
+    GENERATE_CODE = 1;
+    // Create documentation for a given function or code block.
+    DOCUMENT_FUNCTION = 2;
+    // Provide an explanation of how a piece of code works.
+    EXPLAIN_CODE = 3;
+    // Suggest improvements for existing code.
+    SUGGEST_IMPROVEMENTS = 4;
+    // Analyze and suggest alternative naming or scoping for variables.
+    RETHINK_VARIABLES = 5;
+    // Generate scenarios for unit tests based on code.
+    GENERATE_UNIT_TEST_SCENARIOS = 6;
+    // Suggest a commit message based on code changes.
+    SUGGEST_COMMIT_MESSAGE = 7;
+    // Analyze and provide insights or solutions for build errors.
+    ANALYZE_BUILD_ERRORS = 8;
+    // Transform existing code from one form to another.
+    TRANSFORM_CODE = 9;
+  }
+
+  enum Action {
+    UNKNOWN_ACTION = 0;
+    // The dialog was shown
+    SHOW = 1;
+    // The dialog was closed
+    REJECTED = 2;
+    // The dialog was accepted
+    ACCEPTED = 3;
+  }
+
+  optional Feature feature = 1;
+  optional Action action = 2;
 }
