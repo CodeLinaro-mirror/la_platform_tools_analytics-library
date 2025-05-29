@@ -9477,6 +9477,9 @@ message DynamicLayoutInspectorSession {
       [lazy = true];
   // Session data around attachment to process
   optional DynamicLayoutInspectorAttachToProcess attach = 7 [lazy = true];
+
+  // Indicates whether the session had a fold event
+  optional bool has_fold_event = 8;
 }
 
 // Session data for dynamic layout inspector (inspector v2) around live mode
