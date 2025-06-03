@@ -12970,6 +12970,7 @@ message UpgradeAssistantComponentInfo {
     BLOCK_R8_OPTIMIZED_SHRINKING_PRESENT = 46;
     USE_R8_OPTIMIZED_SHRINKING_DEFAULT = 47;
     DEFAULT_TARGET_SDK_TO_COMPILE_SDK_IF_UNSET = 48;
+    ENABLE_APP_COMPILE_TIME_R_CLASS = 49;
   }
 
   message Java8DefaultProcessorSettings {
@@ -16860,6 +16861,12 @@ message PromptLibraryEvent {
   message Update {
     // Total number of prompts in the library.
     optional uint32 prompts_in_library = 1;
+    // Number of rules in the library.
+    optional int32 rules_count = 2;
+    // Number of overrides for built-in prompts.
+    optional int32 builtins_overrides_count = 3;
+    // Number of "Saved Prompts"
+    optional int32 user_prompts_count = 4;
   }
 
   // User invoked a prompt from the library.
