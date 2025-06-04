@@ -15595,6 +15595,13 @@ message SmlTransformEvent {
 }
 
 message SmlChatBotEvent {
+  enum ChatMode {
+    OTHER_MODE = 0;
+    CHAT = 1;
+    AGENT_MODE = 2;
+    VERSION_UPGRADE_AGENT = 3;
+  }
+
   message BotResponse {
     optional SmlResponseMetadata metadata = 1 [lazy = true];
     optional uint64 latency_ms = 2;
@@ -15606,6 +15613,8 @@ message SmlChatBotEvent {
     // have a trace id, so including it here allows us to associate it with the
     // chat event).
     optional uint64 retrieval_latency_ms = 3;
+
+    optional ChatMode chat_mode = 4;
   }
 
   message UserFeedback {
@@ -15770,6 +15779,32 @@ message SmlChatBotEvent {
     optional ContextDrawerEventType event_type = 1;
   }
 
+  message ToolCall {
+    optional string tool_name = 1;
+  }
+
+  enum ToolCallStatus {
+    OTHER_STATUS = 0;
+    // The tool requires permission, but the user had auto-accept
+    // on so it was automatically executed
+    AUTO_ACCEPTED = 1;
+    // The tool requires permission, and the user does not have auto-accept
+    // on for this tool, so it was proposed.
+    PROPOSED = 2;
+    // After being proposed, the tool call was accepted.
+    ACCEPTED_MANUALLY = 3;
+    // After being proposed, the tool call was rejected.
+    REJECTED = 4;
+    // After being accepted either manually or automatically, the tool
+    // call was reverted.
+    REVERTED = 5;
+  }
+
+  message ToolCallFollowUpEvent {
+    optional string tool_name = 1;
+    optional ToolCallStatus status = 2;
+  }
+
   oneof content {
     BotResponse response = 1 [lazy = true];
     UserFeedback user_feedback = 2 [lazy = true];
@@ -15782,6 +15817,8 @@ message SmlChatBotEvent {
     HallucinationDetectorResult hallucination_detector_result = 9 [lazy = true];
     QueryBoxEvent query_box_event = 10 [lazy = true];
     ContextDrawerEvent context_drawer_event = 11 [lazy = true];
+    ToolCall tool_call = 12 [lazy = true];
+    ToolCallFollowUpEvent tool_call_follow_up_event = 13 [lazy = true];
   }
 }
 
@@ -15806,6 +15843,9 @@ message SmlConfigurationEvent {
 
   // The product variant that was fetched by the LoadCodeAssist API
   optional SmlProductVariant product_variant = 7;
+
+  // User has auto-approve enabled for tool calls in agent mode
+  optional bool agent_auto_accept_enabled = 8;
 
   enum SmlProductVariant {
     PRODUCT_VARIANT_UNKNOWN = 0;
