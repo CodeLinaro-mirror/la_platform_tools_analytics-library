@@ -15781,6 +15781,7 @@ message SmlChatBotEvent {
 
   message ToolCall {
     optional string tool_name = 1;
+    optional SmlResponseMetadata metadata = 2 [lazy = true];
   }
 
   enum ToolCallStatus {
@@ -15798,6 +15799,16 @@ message SmlChatBotEvent {
     // After being accepted either manually or automatically, the tool
     // call was reverted.
     REVERTED = 5;
+    // A severe error occurred when parsing or executing the tool call. This
+    // should indicate that the model actually did something wrong, like trying
+    // to access a non-existent file, or replace non-existent text in a file.
+    ERROR_SEVERE = 6;
+    // An error occurred, but it may not be because that the model actually did
+    // anything wrong. For example, files being blocked by aiexclude,
+    // indices not being ready, or no document/PsiFile being available for a
+    // file should fall under this category, but it is somewhat up to
+    // interpretation.
+    ERROR_MINOR = 7;
   }
 
   message ToolCallFollowUpEvent {
