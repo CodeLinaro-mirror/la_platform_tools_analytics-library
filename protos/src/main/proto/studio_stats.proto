@@ -827,6 +827,10 @@ message AndroidStudioEvent {
   // set when kind = GEMINI_ADVERTISER_EVENT
   optional GeminiAdvertiserEvent gemini_advertiser_event = 231 [lazy = true];
 
+  // set when kind = STUDIO_DEPRECATION_NOTIFICATION_EVENT
+  optional StudioDeprecationNotificationEvent
+      studio_deprecation_notification_event = 232 [lazy = true];
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -1780,6 +1784,9 @@ message AndroidStudioEvent {
 
     // Gemini Advertiser (Sign in Dialog) events
     GEMINI_ADVERTISER_EVENT = 350;
+
+    // Studio deprecation notification events
+    STUDIO_DEPRECATION_NOTIFICATION_EVENT = 351;
   }
 
   // Represents different Performance Monitoring types.
@@ -12967,10 +12974,12 @@ message UpgradeAssistantComponentInfo {
     USE_R8_STRICT_FULL_MODE_FOR_KEEP_RULES_DEFAULT = 43;
     BLOCK_R8_STRICT_FULL_MODE_FOR_KEEP_RULES_PRESENT = 44;
     BLOCK_R8_INTEGRATED_RESOURCE_SHRINKING_PRESENT = 45;
-    BLOCK_R8_OPTIMIZED_SHRINKING_PRESENT = 46;
-    USE_R8_OPTIMIZED_SHRINKING_DEFAULT = 47;
+    BLOCK_R8_OPTIMIZED_SHRINKING_PRESENT = 46 [deprecated = true];
+    USE_R8_OPTIMIZED_SHRINKING_DEFAULT = 47 [deprecated = true];
     DEFAULT_TARGET_SDK_TO_COMPILE_SDK_IF_UNSET = 48;
     ENABLE_APP_COMPILE_TIME_R_CLASS = 49;
+    BLOCK_R8_OPTIMIZED_RESOURCE_SHRINKING_PRESENT = 50;
+    USE_R8_OPTIMIZED_RESOURCE_SHRINKING_DEFAULT = 51;
   }
 
   message Java8DefaultProcessorSettings {
@@ -17401,4 +17410,8 @@ message GeminiAdvertiserEvent {
 
   optional Feature feature = 1;
   optional Action action = 2;
+}
+
+message StudioDeprecationNotificationEvent {
+  optional DevServiceDeprecationInfo dev_service_deprecation_info = 1;
 }
