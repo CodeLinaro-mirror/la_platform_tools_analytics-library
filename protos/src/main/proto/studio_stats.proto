@@ -831,6 +831,10 @@ message AndroidStudioEvent {
   optional StudioDeprecationNotificationEvent
       studio_deprecation_notification_event = 232 [lazy = true];
 
+  // set when kind = DECLARATIVE_WATCH_FACE_EVENT
+  optional DeclarativeWatchFaceEvent declarative_watch_face_event = 233
+      [lazy = true];
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -1787,6 +1791,9 @@ message AndroidStudioEvent {
 
     // Studio deprecation notification events
     STUDIO_DEPRECATION_NOTIFICATION_EVENT = 351;
+
+    // Declarative watch face events
+    DECLARATIVE_WATCH_FACE_EVENT = 352;
   }
 
   // Represents different Performance Monitoring types.
@@ -17414,4 +17421,25 @@ message GeminiAdvertiserEvent {
 
 message StudioDeprecationNotificationEvent {
   optional DevServiceDeprecationInfo dev_service_deprecation_info = 1;
+}
+
+message DeclarativeWatchFaceEvent {
+  enum Type {
+    UNKNOWN = 0;
+    // An XML schema (XSD file) was used when opening a declarative watch face
+    // file in the editor.
+    XML_SCHEMA_USED = 1;
+  }
+
+  message WFFVersion {
+    optional string version = 1;  // e.g. "1"
+    // Whether or not the version being used is a fallback version. This happens
+    // when we are not able to resolve the version specified by the user, either
+    // because the user hasn't specified it, because it's invalid, or because
+    // the merged manifest hasn't run.
+    optional bool is_fallback = 2;
+  }
+
+  optional Type type = 1;
+  optional WFFVersion wff_version = 2;
 }
