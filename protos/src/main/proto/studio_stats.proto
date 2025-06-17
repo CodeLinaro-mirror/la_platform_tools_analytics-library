@@ -17443,6 +17443,8 @@ message GeminiAdvertiserEvent {
     ANALYZE_BUILD_ERRORS = 8;
     // Transform existing code from one form to another.
     TRANSFORM_CODE = 9;
+    // Use prompt library's prompts to invoke a built-in or custom action.
+    PROMPT_LIBRARY = 10;
   }
 
   enum Action {
