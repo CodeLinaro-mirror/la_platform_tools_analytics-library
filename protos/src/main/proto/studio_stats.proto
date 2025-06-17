@@ -835,6 +835,14 @@ message AndroidStudioEvent {
   optional DeclarativeWatchFaceEvent declarative_watch_face_event = 233
       [lazy = true];
 
+  // set when kind = ANDROID_VIEW_SHOW_BUILD_FILES_IN_MODULE_EVENT
+  optional AndroidViewShowBuildFilesInModuleEvent
+      android_view_show_build_files_in_module_event = 234 [lazy = true];
+
+  // set when kind = PROJECT_VIEW_DEFAULT_VIEW_EVENT
+  optional ProjectViewDefaultViewEvent project_view_default_view_event = 235
+      [lazy = true];
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -1794,6 +1802,14 @@ message AndroidStudioEvent {
 
     // Declarative watch face events
     DECLARATIVE_WATCH_FACE_EVENT = 352;
+
+    // Event tracking usage of the default project view setting in advanced
+    // settings
+    PROJECT_VIEW_DEFAULT_VIEW_EVENT = 353;
+
+    // Event tracking usage of setting to show build files in module in Android
+    // view
+    ANDROID_VIEW_SHOW_BUILD_FILES_IN_MODULE_EVENT = 354;
   }
 
   // Represents different Performance Monitoring types.
@@ -7195,6 +7211,11 @@ message AppLinksAssistantEvent {
   // The information of an interacted link collected for impact tracking.
   optional LinksRecord links_record = 14 [lazy = true];
 
+  // Info on whether the services are deprecated / unsupported and if that info
+  // is shown to the user.
+  optional DevServiceDeprecationInfo service_deprecation_info = 15
+      [lazy = true];
+
   // UI event source.
   enum EventSource {
     // Will be deprecated and replaced by NEW_LINK_CREATION_SIDE_PANEL.
@@ -7284,6 +7305,11 @@ message AppLinksAssistantEvent {
     ISSUES_TAB = 53;
     CREATE_NEW_LINK_TAB = 54;
     SEARCH_TAB = 55;
+
+    // Services Compatibility Warning
+    SERVICES_COMPATIBILITY_WARNING = 56;
+    SERVICES_COMPATIBILITY_WARNING_UPDATE_BUTTON = 57;
+    SERVICES_COMPATIBILITY_WARNING_MORE_INFO_BUTTON = 58;
   }
 
   // The state list of UI event source.
@@ -17154,7 +17180,7 @@ message ResizeComposePreviewEvent {
   // The type of resize event.
   enum EventType {
     UNKNOWN_EVENT_TYPE = 0;
-    RESIZE_STOPPED = 1;  // User stops resizing, capturing an intermediate size.
+    RESIZE_STOPPED = 1;  // User finished resizing.
     RESIZE_SAVED = 2;    // User saves/applies the resized dimensions (by adding
                          // @Preview annotation).
     RESIZE_REVERTED = 3;  // User reverts back to the original preview settings
@@ -17166,6 +17192,14 @@ message ResizeComposePreviewEvent {
     UNKNOWN_RESIZE_MODE = 0;
     DEVICE_RESIZE = 1;      // Resizing using device frame controls
     COMPOSABLE_RESIZE = 2;  // Resizing composable layout parameters
+  }
+
+  // The source of the resize event.
+  enum ResizeSource {
+    UNKNOWN_RESIZE_SOURCE = 0;
+    DRAG = 1;  // Logs only when user released drag handle.
+    DROPDOWN = 2;
+    TEXT_FIELD = 3;
   }
 
   // The specific type of resize event that occurred.
@@ -17194,6 +17228,12 @@ message ResizeComposePreviewEvent {
 
   // The DPI of the device.
   optional int32 dpi = 9;
+
+  // The source of the resize event. It's applicable only for RESIZE_STOPPED
+  optional ResizeSource resize_source = 10;
+
+  // The ID of the selected device (relevant for DROPDOWN events).
+  optional string device_id = 11;
 }
 
 // Message containing information about the deprecation notification shown to
@@ -17421,6 +17461,32 @@ message GeminiAdvertiserEvent {
 
 message StudioDeprecationNotificationEvent {
   optional DevServiceDeprecationInfo dev_service_deprecation_info = 1;
+}
+
+message AndroidViewShowBuildFilesInModuleEvent {
+  enum ShowBuildFilesInModule {
+    UNKNOWN = 0;
+    // Build configuration files are shown under each module in the Android
+    // view.
+    SHOW_BUILD_FILES_IN_MODULE = 1;
+    // Build configuration files are shown under the Project Gradle Files
+    // section in the Android view.
+    DO_NOT_SHOW_BUILD_FILES_IN_MODULE = 2;
+  }
+
+  optional ShowBuildFilesInModule show_build_files_in_module = 1;
+}
+
+message ProjectViewDefaultViewEvent {
+  enum DefaultView {
+    UNKNOWN_DEFAULT_VIEW = 0;
+    // The project view is the default view.
+    PROJECT_VIEW = 1;
+    // The Android view is the default view.
+    ANDROID_VIEW = 2;
+  }
+
+  optional DefaultView default_view = 1;
 }
 
 message DeclarativeWatchFaceEvent {
