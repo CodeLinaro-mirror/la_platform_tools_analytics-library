@@ -15404,6 +15404,9 @@ message SmlResponseMetadata {
 
   // AIDA server-side experiment ids.
   repeated int32 server_experiment_ids = 2;
+
+  // If the response was generated for an agent task, the associated task id.
+  optional string agent_task_id = 3;
 }
 
 message SmlCitationInfo {
@@ -15856,6 +15859,7 @@ message SmlChatBotEvent {
   message ToolCallFollowUpEvent {
     optional string tool_name = 1;
     optional ToolCallStatus status = 2;
+    optional SmlResponseMetadata metadata = 3 [lazy = true];
   }
 
   oneof content {
