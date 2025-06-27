@@ -13013,6 +13013,7 @@ message UpgradeAssistantComponentInfo {
     ENABLE_APP_COMPILE_TIME_R_CLASS = 49;
     BLOCK_R8_OPTIMIZED_RESOURCE_SHRINKING_PRESENT = 50;
     USE_R8_OPTIMIZED_RESOURCE_SHRINKING_DEFAULT = 51;
+    DAEMON_JVM_CRITERIA = 52;
   }
 
   message Java8DefaultProcessorSettings {
