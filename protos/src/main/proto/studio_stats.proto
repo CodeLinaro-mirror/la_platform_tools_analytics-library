@@ -17433,7 +17433,7 @@ message SentimentSurveyEvent {
 
 message GeminiAdvertiserEvent {
   enum Feature {
-    // Generic feature
+    // Unknown feature.
     UNKNOWN = 0;
     // Generate new code snippets or structures.
     GENERATE_CODE = 1;
@@ -17455,6 +17455,10 @@ message GeminiAdvertiserEvent {
     TRANSFORM_CODE = 9;
     // Use prompt library's prompts to invoke a built-in or custom action.
     PROMPT_LIBRARY = 10;
+    // Run or record Journey tests.
+    JOURNEYS = 11;
+    // Generic feature.
+    GENERIC = 12;
   }
 
   enum Action {
