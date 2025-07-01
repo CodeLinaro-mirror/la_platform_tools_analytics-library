@@ -648,6 +648,7 @@ enum BooleanOption {
     TEST_SUITE_SUPPORT = 207;
     R8_OPTIMIZED_RESOURCE_SHRINKING = 208;
     R8_MAIN_DEX_LIST_DISALLOWED = 209;
+    BUILT_IN_KOTLIN = 210;
 }
 
 enum OptionalBooleanOption {
