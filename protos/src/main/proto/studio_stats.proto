@@ -13013,6 +13013,7 @@ message UpgradeAssistantComponentInfo {
     ENABLE_APP_COMPILE_TIME_R_CLASS = 49;
     BLOCK_R8_OPTIMIZED_RESOURCE_SHRINKING_PRESENT = 50;
     USE_R8_OPTIMIZED_RESOURCE_SHRINKING_DEFAULT = 51;
+    DAEMON_JVM_CRITERIA = 52;
   }
 
   message Java8DefaultProcessorSettings {
@@ -17433,7 +17434,7 @@ message SentimentSurveyEvent {
 
 message GeminiAdvertiserEvent {
   enum Feature {
-    // Generic feature
+    // Unknown feature.
     UNKNOWN = 0;
     // Generate new code snippets or structures.
     GENERATE_CODE = 1;
@@ -17455,6 +17456,10 @@ message GeminiAdvertiserEvent {
     TRANSFORM_CODE = 9;
     // Use prompt library's prompts to invoke a built-in or custom action.
     PROMPT_LIBRARY = 10;
+    // Run or record Journey tests.
+    JOURNEYS = 11;
+    // Generic feature.
+    GENERIC = 12;
   }
 
   enum Action {
