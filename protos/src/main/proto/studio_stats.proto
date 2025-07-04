@@ -15869,6 +15869,48 @@ message SmlChatBotEvent {
     optional SmlResponseMetadata metadata = 3 [lazy = true];
   }
 
+  enum ToolCallResponseStatus {
+    UNKNOWN_RESPONSE_STATUS = 0;
+    // The tool call was successfully executed. Prefer more specific status
+    // where possible.
+    OK = 1;
+    // An error occurred when executing the tool call. Prefer more specific
+    // errors where possible.
+    ERROR_OCCURRED = 2;
+    // The file was not found.
+    ERR_FILE_NOT_FOUND = 3;
+    // The file was not accessible.
+    ERR_FILE_INACCESSIBLE = 4;
+    // The file was not in the project.
+    ERR_FILE_NOT_IN_PROJECT = 5;
+    // The file was blocked by AI exclude.
+    ERR_FILE_BLOCKED_BY_AI_EXCLUDE = 6;
+    // Encountered an IOException when executing the tool call.
+    ERR_IO_EXECPTION = 7;
+    // No occurrences were found to replace in the replace text tool.
+    ERR_REPLACE_TEXT_NO_OCCURRENCES_FOUND_TO_REPLACE = 8;
+    // The new text is identical to the current text.
+    ERR_WRITE_FILE_NEW_TEXT_IDENTICAL_TO_CURRENT = 9;
+    // The user rejected the tool call.
+    ERR_USER_REJECTED_PROPOSAL = 10;
+    // The build finished successfully.
+    BUILD_FINISHED_SUCCESSFULLY = 11;
+    // The build finished with errors.
+    // The output had "Build finished with errors" in it.
+    BUILD_FINISHED_WITH_ERRORS = 12;
+    // The build failed to finish. The output had "Build failed" in it.
+    BUILD_FAILED = 13;
+    // The build was interrupted.
+    BUILD_INTERRUPTED = 14;
+  }
+
+  message ToolCallResponse {
+    optional string tool_name = 1;
+    // The status of the tool call response.
+    optional ToolCallResponseStatus response_status = 2;
+    optional SmlResponseMetadata metadata = 3 [lazy = true];
+  }
+
   oneof content {
     BotResponse response = 1 [lazy = true];
     UserFeedback user_feedback = 2 [lazy = true];
@@ -15883,6 +15925,7 @@ message SmlChatBotEvent {
     ContextDrawerEvent context_drawer_event = 11 [lazy = true];
     ToolCall tool_call = 12 [lazy = true];
     ToolCallFollowUpEvent tool_call_follow_up_event = 13 [lazy = true];
+    ToolCallResponse tool_call_response = 14 [lazy = true];
   }
 }
 
