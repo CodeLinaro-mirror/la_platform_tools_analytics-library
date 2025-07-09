@@ -15902,6 +15902,20 @@ message SmlChatBotEvent {
     BUILD_FAILED = 13;
     // The build was interrupted.
     BUILD_INTERRUPTED = 14;
+    // Gradle tool could not find any modules in the project.
+    GRADLE_ERR_NO_MODULES = 15;
+    // Gradle tool could not run because project is not android.
+    GRADLE_ERR_NOT_ANDROID = 16;
+    // Gradle tool could not find the module.
+    GRADLE_ERR_MODULE_NOT_FOUND = 17;
+    // Gradle tool could not find the artifact.
+    GRADLE_ERR_ARTIFACT_NOT_FOUND = 18;
+    // Gradle tool could not find the variant.
+    GRADLE_ERR_VARIANT_NOT_FOUND = 19;
+    // Artifact provided to the Gradle tool was different type than expected.
+    GRADLE_ERR_WRONG_ARTIFACT = 20;
+    // Requested data was missing.
+    GRADLE_ERR_MISSING_DATA = 21;
   }
 
   message ToolCallResponse {
