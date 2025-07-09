@@ -1,4 +1,4 @@
-load("//tools/base/bazel:proto.bzl", "INTELLIJ_PLATFORM_PROTO_VERSION", "java_proto_library", "maven_proto_library")
+load("//tools/base/bazel:proto.bzl", "INTELLIJ_PLATFORM_PROTO_VERSION", "kotlin_proto_library", "maven_proto_library")
 load("//tools/base/common:version.bzl", "BASE_VERSION")
 
 maven_proto_library(
@@ -24,12 +24,9 @@ maven_proto_library(
     visibility = ["//visibility:public"],
 )
 
-java_proto_library(
-    name = "studio.proto",
+kotlin_proto_library(
+    name = "libstudio.proto",
     srcs = glob(["*.proto"]),
-    proto_java_runtime_library = [
-        "@intellij//:intellij-sdk",
-    ],
     protoc_version = INTELLIJ_PLATFORM_PROTO_VERSION,
     visibility = ["//visibility:public"],
 )

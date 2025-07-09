@@ -135,6 +135,12 @@ object UsageTracker {
     runIfUsageTrackerUsable { writer.logNow(studioEvent) }
   }
 
+  /** Logs usage data provided in the @{link AndroidStudioEvent}. */
+  @JvmStatic
+  fun log(studioEvent: AndroidStudioEvent) {
+    runIfUsageTrackerUsable { writer.logNow(studioEvent.toBuilder()) }
+  }
+
   /** Logs usage data provided in the @{link AndroidStudioEvent} with provided event time. */
   @JvmStatic
   fun log(eventTimeMs: Long, studioEvent: AndroidStudioEvent.Builder) {
