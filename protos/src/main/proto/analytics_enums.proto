@@ -795,6 +795,7 @@ enum VariantMethodType {
     VARIANT_BUILDER_DEBUGGABLE = 27;
     JUNIT_ENGINE_SPEC_BUILDER = 28;
     TEST_SUITE_DEPENDENCIES = 29;
+    TEST_SUITE_BUILDER_TARGETS = 30;
 }
 
 enum VariantPropertiesMethodType {
@@ -964,6 +965,7 @@ enum VariantPropertiesMethodType {
     GET_RESOLVABLE_CONFIGURATION = 163;
     REGISTER_APK_INSTALLATION = 164;
     JUNIT_ENGINE_SPEC = 165;
+    TEST_SUITE_TARGETS = 166;
 }
 
 enum ModulePropertyKeys {
