@@ -843,6 +843,10 @@ message AndroidStudioEvent {
   optional ProjectViewDefaultViewEvent project_view_default_view_event = 235
       [lazy = true];
 
+  // set when kind = PLAY_POLICY_INSIGHTS_USAGE
+  optional PlayPolicyInsightsUsageEvent play_policy_insights_usage_event = 236
+      [lazy = true];
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -1810,6 +1814,9 @@ message AndroidStudioEvent {
     // Event tracking usage of setting to show build files in module in Android
     // view
     ANDROID_VIEW_SHOW_BUILD_FILES_IN_MODULE_EVENT = 354;
+
+    // Event tracking usage of Play Policy Insights
+    PLAY_POLICY_INSIGHTS_USAGE_EVENT = 355;
   }
 
   // Represents different Performance Monitoring types.
@@ -14403,6 +14410,34 @@ message ComposePreviewCanvasEvent {
   optional EventType event_type = 1;
   // The chosen layout id in the compose preview canvas, i.e. ListLayout
   optional LayoutName layout_name = 2;
+}
+
+message PlayPolicyInsightsUsageEvent {
+  enum PlayPolicyInsightsUsageEventType {
+    UNKNOWN_EVENT = 0;
+    // Track deprecation notification information
+    SERVICE_DEPRECATION = 1;
+    // Track when the user clicks on the "Inspect Code For Play Policy Insights"
+    // memu item.
+    BATCH_INSPECTION = 2;
+  }
+
+  message ServiceDeprecationInfo {
+    optional DevServiceDeprecationInfo dev_service_deprecation_info = 1;
+  }
+
+  message BatchInspectionDetails {
+    optional int32 enabled_issue_count = 1;
+    optional int32 total_issue_count = 2;
+  }
+
+  optional PlayPolicyInsightsUsageEventType type = 1;
+
+  // set when type = SERVICE_DEPRECATION
+  optional ServiceDeprecationInfo service_deprecation_info = 2 [lazy = true];
+
+  // set when type = BATCH_INSPECTION
+  optional BatchInspectionDetails batch_inspection_details = 3 [lazy = true];
 }
 
 message AppQualityInsightsUsageEvent {
