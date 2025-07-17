@@ -652,6 +652,7 @@ enum BooleanOption {
     R8_MAIN_DEX_LIST_DISALLOWED = 209;
     BUILT_IN_KOTLIN = 210;
     USE_NEW_DSL_IMPLEMENTATIONS = 211;
+    ANDROID_BUILTIN_TEST_PLATFORM = 212;
 }
 
 enum OptionalBooleanOption {
