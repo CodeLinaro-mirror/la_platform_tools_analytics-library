@@ -435,8 +435,6 @@ enum GradleTaskExecutionType {
     COLLECT_PACKAGES_FOR_R8 = 348;
     MERGE_PACKAGE_LISTS_FOR_R8 = 349;
     TEST_SUITE_TEST = 350;
-    COMPILE_NAVIGATION_XML = 351;
-    PROCESS_NAVIGATION_XML = 352;
 }
 
 enum BooleanOption {
