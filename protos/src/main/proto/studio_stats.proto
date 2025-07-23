@@ -10849,6 +10849,9 @@ enum EditorFileType {
   PROTO = 27;                 // .proto
   PROTO_WITHOUT_PLUGIN = 28;  // .proto (if Protocol Buffers plugin is missing)
   DART = 29;
+  PYTHON = 30;
+  GO = 31;
+  RUST = 32;
 }
 
 message TypingLatencyStats {
