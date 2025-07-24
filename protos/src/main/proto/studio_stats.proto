@@ -15960,6 +15960,11 @@ message SmlChatBotEvent {
     optional SmlResponseMetadata metadata = 3 [lazy = true];
   }
 
+  message DeprecationShown {
+    optional DevServiceDeprecationInfo service_deprecation_info = 1
+        [lazy = true];
+  }
+
   oneof content {
     BotResponse response = 1 [lazy = true];
     UserFeedback user_feedback = 2 [lazy = true];
@@ -15975,6 +15980,7 @@ message SmlChatBotEvent {
     ToolCall tool_call = 12 [lazy = true];
     ToolCallFollowUpEvent tool_call_follow_up_event = 13 [lazy = true];
     ToolCallResponse tool_call_response = 14 [lazy = true];
+    DeprecationShown deprecation_shown = 15 [lazy = true];
   }
 }
 
