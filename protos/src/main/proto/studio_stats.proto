@@ -15142,6 +15142,8 @@ message DirectAccessUsageEvent {
     DISCONNECT_DEVICE = 6;
     // Deprecation information shown to user
     SERVICE_DEPRECATION = 7;
+    // OEM Lab dialog shown
+    OEM_LAB_DIALOG = 8;
   }
 
   enum FailureReason {
@@ -15257,6 +15259,27 @@ message DirectAccessUsageEvent {
     optional ConnectionMetrics connection_metrics = 6 [lazy = true];
   }
 
+  message OemLabDialogDetails {
+    enum AccessCheckResult {
+      UNKNOWN = 0;
+      // Unable to check
+      CHECK_FAILED = 1;
+      // User has access to EULA acceptance page
+      ACCESS = 2;
+      // User doesn't have access to EULA acceptance page
+      NO_ACCESS = 3;
+    }
+
+    optional AccessCheckResult access_check_result = 1;
+
+    // True if the user clicks the button to go to the console
+    optional bool clicked_cloud_console_button = 2;
+
+    // True if Studio received a callback from pantheon saying changes had been
+    // made.
+    optional bool received_callback = 3;
+  }
+
   // Type of event
   optional DirectAccessUsageEventType type = 1;
   // Session ID of current reservation/session for tracking events
@@ -15281,6 +15304,8 @@ message DirectAccessUsageEvent {
   // Set when type = SERVICE_DEPRECATION
   optional DevServiceDeprecationInfo dev_service_deprecation_info = 10
       [lazy = true];
+  // set when type = OEM_LAB_DIALOG
+  optional OemLabDialogDetails oem_lab_dialog_details = 11 [lazy = true];
 }
 
 message SafeModeStatsEvent {
