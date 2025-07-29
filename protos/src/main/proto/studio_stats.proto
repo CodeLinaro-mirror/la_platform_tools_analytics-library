@@ -14212,6 +14212,10 @@ message LiveEditEvent {
     MANUAL = 2;
     // The LiveEdit push was triggered by the user on save.
     ON_SAVE = 3;
+    // The LiveEdit push was triggered by an AI agent without a prompt.
+    AGENT = 4;
+    // The LiveEdit push was triggered by an AI agent with a prompt.
+    AGENT_VIBE = 5;
   }
 
   // Result of the LiveEdit device push
