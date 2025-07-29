@@ -16303,6 +16303,8 @@ message AdbUsageEvent {
     JdwpProcessPropertiesCollectorEvent process_properties_event = 1
         [lazy = true];
     AdbDeviceStateChangeEvent device_state_change_event = 2 [lazy = true];
+    AppInfoProcessPropertiesCollectorEvent app_info_process_properties_event = 3
+        [lazy = true];
     // Add other types of events, e.g. attaching debugger, etc
   }
 
@@ -16371,6 +16373,32 @@ message AdbUsageEvent {
     // If a property collection previously failed, specifies the type of the
     // last failure
     optional FailureType previous_failure_type = 4;
+  }
+
+  message AppInfoProcessPropertiesCollectorEvent {
+    // The type of event
+    enum EventType {
+      EVENT_TYPE_UNSPECIFIED = 0;
+
+      // We collected process value using track-app service
+      TRACK_APP_VALUE_COLLECTED = 1;
+
+      // We retrieved a VmInfo value
+      VM_INFO_VALUE_COLLECTED = 2;
+
+      // track-app service encountered an error
+      TRACK_APP_IO_EXCEPTION = 3;
+
+      // track-app service encountered an error
+      TRACK_APP_OTHER_EXCEPTION = 4;
+
+      // Failed to get a VmInfo value
+      VM_INFO_IO_EXCEPTION = 5;
+
+      // Failed to get a VmInfo value
+      VM_INFO_OTHER_EXCEPTION = 6;
+    }
+    optional EventType event_type = 1;
   }
 }
 
