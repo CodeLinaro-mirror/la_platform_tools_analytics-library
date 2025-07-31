@@ -15886,8 +15886,42 @@ message SmlChatBotEvent {
     IMAGE_ATTACHMENT_CLICKED = 6;
   }
 
+  message QueryBoxEventMetadata {
+    // Information about a file that was used as context for a query.
+    message ContextFileStats {
+      enum ContextProvider {
+        UNKNOWN_CONTEXT_PROVIDER = 0;
+        AGENT_MD = 1;
+        RECENT_FILE = 2;
+        CURRENT_FILE = 3;
+        ATTACHED_BY_USER = 4;
+      }
+      // The provider of the context file.
+      optional ContextProvider context_provider = 1;
+      // The size of the file in bytes.
+      optional int64 file_size = 2;
+    }
+
+    enum AttachmentType {
+      UNKNOWN = 0;
+      FILES = 1;
+      FOLDERS = 2;
+      TOOLS = 3;
+      PROMPT_LIBRARY = 4;
+      REMOTE_CONTEXT = 5;
+    }
+    // The type of attachment, e.g. "FILES, FOLDERS, TOOLS, PROMPT_LIBRARY,
+    // REMOTE_CONTEXT"
+    optional AttachmentType attachment_type = 1;
+    // The number of attachments of the given type.
+    optional int32 attachment_count = 2;
+    // Only valid when attachment_type is "FILES".
+    repeated ContextFileStats context_file_stats = 3;
+  }
+
   message QueryBoxEvent {
     optional QueryBoxEventType event_type = 1;
+    optional QueryBoxEventMetadata event_metadata = 2;
   }
 
   enum ContextDrawerEventType {
