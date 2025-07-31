@@ -247,7 +247,7 @@ object AnalyticsSettings {
           }
         }
       } catch (e: OverlappingFileLockException) {
-        logger.warning("Unable to lock settings file %s: %s", file.toString(), e)
+        logger.warning("Unable to lock settings file %s: %s", file.toString(), e.message)
 
         val newSettings = AnalyticsSettingsData()
         newSettings.userId = UUID.randomUUID().toString()
