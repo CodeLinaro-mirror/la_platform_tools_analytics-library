@@ -7224,6 +7224,8 @@ message AppLinksAssistantEvent {
       [lazy = true];
 
   // UI event source.
+  // Next ID: 60
+  // Note: Not a properly sequentially incrementing ID (200 & 201 are used)
   enum EventSource {
     // Will be deprecated and replaced by NEW_LINK_CREATION_SIDE_PANEL.
     ASSISTANT_SIDE_PANEL = 1;
@@ -7242,6 +7244,7 @@ message AppLinksAssistantEvent {
     CODE_INSERT_DIALOG = 9;
     CODE_INSERT_DIALOG_INSERT_BUTTON = 10;
     CODE_INSERT_DIALOG_LIST_SELECTION = 11;
+    CODE_INSERT_DIALOG_GEMINI_BUTTON = 59;
 
     // UI elements of DAL generation panel.
     DAL_PANEL = 12;
