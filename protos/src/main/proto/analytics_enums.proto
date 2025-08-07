@@ -655,6 +655,7 @@ enum BooleanOption {
     ANDROID_BUILTIN_TEST_PLATFORM = 212;
     R8_GRADUAL_API = 213;
     ENABLE_LEGACY_VARIANT_API = 214;
+    DISALLOW_USES_SDK_IN_MANIFEST = 215;
 }
 
 enum OptionalBooleanOption {
