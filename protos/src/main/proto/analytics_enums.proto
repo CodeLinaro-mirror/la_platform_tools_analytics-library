@@ -656,6 +656,7 @@ enum BooleanOption {
     R8_GRADUAL_API = 213;
     ENABLE_LEGACY_VARIANT_API = 214;
     DISALLOW_USES_SDK_IN_MANIFEST = 215;
+    CUSTOM_SHADER_PATH_REQUIRED = 216;
 }
 
 enum OptionalBooleanOption {
