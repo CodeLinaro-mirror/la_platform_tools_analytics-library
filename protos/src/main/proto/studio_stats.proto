@@ -847,6 +847,9 @@ message AndroidStudioEvent {
   optional PlayPolicyInsightsUsageEvent play_policy_insights_usage_event = 236
       [lazy = true];
 
+  // set when kind = MODEL_PROVIDER_EVENT
+  optional ModelProviderEvent model_provider_event = 237 [lazy = true];
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -1817,6 +1820,9 @@ message AndroidStudioEvent {
 
     // Event tracking usage of Play Policy Insights
     PLAY_POLICY_INSIGHTS_USAGE_EVENT = 355;
+
+    // Event related to Model Providers
+    MODEL_PROVIDER_EVENT = 356;
   }
 
   // Represents different Performance Monitoring types.
@@ -17180,6 +17186,20 @@ message PromptLibraryEvent {
   message Invoke {
     // Type of the file, prompt was invoked from.
     optional EditorFileType file_type = 2;
+  }
+}
+
+message ModelProviderEvent {
+  optional Update update = 1;
+
+  // Updates to the model provider settings: adding/removing model providers.
+  message Update {
+    // Total number of local model providers.
+    optional int32 local_model_providers_count = 1;
+    // Total number of remote model providers.
+    optional int32 remote_model_providers_count = 2;
+    // Total number of gemini model providers available for the given API key.
+    optional int32 gemini_model_providers_count = 3;
   }
 }
 
