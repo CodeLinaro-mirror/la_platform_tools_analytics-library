@@ -13039,6 +13039,7 @@ message UpgradeAssistantComponentInfo {
     BLOCK_DISALLOW_USES_SDK_IN_MANIFEST_PRESENT = 56;
     JCENTER_TO_MAVEN_CENTRAL = 57;
     REMOVE_DEPRECATED_LIBRARY_TARGET_SDK = 58;
+    UNIQUE_PACKAGE_NAMES = 59;
   }
 
   message Java8DefaultProcessorSettings {
