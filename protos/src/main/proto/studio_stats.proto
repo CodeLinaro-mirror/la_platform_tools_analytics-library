@@ -13728,6 +13728,10 @@ message DeviceExplorerEvent {
     BACKUP_APP_DATA_CLICKED = 20;
     // The user clicked on the "Restore App Data" button
     RESTORE_APP_DATA_CLICKED = 21;
+    // The user clicked on the "Clear App Data" button
+    CLEAR_APP_DATA_CLICKED = 22;
+    // The user clicked on the "Uninstall App" button
+    UNINSTALL_APP_CLICKED = 23;
   }
 }
 
