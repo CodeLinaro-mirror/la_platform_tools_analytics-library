@@ -847,6 +847,9 @@ message AndroidStudioEvent {
   optional PlayPolicyInsightsUsageEvent play_policy_insights_usage_event = 236
       [lazy = true];
 
+  // set when kind = MODEL_PROVIDER_EVENT
+  optional ModelProviderEvent model_provider_event = 237 [lazy = true];
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -1817,6 +1820,9 @@ message AndroidStudioEvent {
 
     // Event tracking usage of Play Policy Insights
     PLAY_POLICY_INSIGHTS_USAGE_EVENT = 355;
+
+    // Event related to Model Providers
+    MODEL_PROVIDER_EVENT = 356;
   }
 
   // Represents different Performance Monitoring types.
@@ -13030,6 +13036,10 @@ message UpgradeAssistantComponentInfo {
     USES_SDK_IN_MANIFEST_DISALLOWED_DEFAULT = 53;
     BLOCK_BUILD_FEATURE_BUILD_CONFIG_PRESENT = 54;
     ONLY_ENABLE_UNIT_TEST_BY_DEFAULT_FOR_THE_TESTED_BUILD_TYPE = 55;
+    BLOCK_DISALLOW_USES_SDK_IN_MANIFEST_PRESENT = 56;
+    JCENTER_TO_MAVEN_CENTRAL = 57;
+    REMOVE_DEPRECATED_LIBRARY_TARGET_SDK = 58;
+    UNIQUE_PACKAGE_NAMES = 59;
   }
 
   message Java8DefaultProcessorSettings {
@@ -13718,6 +13728,10 @@ message DeviceExplorerEvent {
     BACKUP_APP_DATA_CLICKED = 20;
     // The user clicked on the "Restore App Data" button
     RESTORE_APP_DATA_CLICKED = 21;
+    // The user clicked on the "Clear App Data" button
+    CLEAR_APP_DATA_CLICKED = 22;
+    // The user clicked on the "Uninstall App" button
+    UNINSTALL_APP_CLICKED = 23;
   }
 }
 
@@ -17177,6 +17191,20 @@ message PromptLibraryEvent {
   message Invoke {
     // Type of the file, prompt was invoked from.
     optional EditorFileType file_type = 2;
+  }
+}
+
+message ModelProviderEvent {
+  optional Update update = 1;
+
+  // Updates to the model provider settings: adding/removing model providers.
+  message Update {
+    // Total number of local model providers.
+    optional int32 local_model_providers_count = 1;
+    // Total number of remote model providers.
+    optional int32 remote_model_providers_count = 2;
+    // Total number of gemini model providers available for the given API key.
+    optional int32 gemini_model_providers_count = 3;
   }
 }
 
