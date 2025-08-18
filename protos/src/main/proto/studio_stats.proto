@@ -15955,6 +15955,9 @@ message SmlChatBotEvent {
   message ToolCall {
     optional string tool_name = 1;
     optional SmlResponseMetadata metadata = 2 [lazy = true];
+    // This id should uniquely identify a tool call and be shared with all
+    // of its subsequent events (response, follow-up, etc.)
+    optional string tool_call_id = 3;
   }
 
   enum ToolCallStatus {
@@ -15988,6 +15991,7 @@ message SmlChatBotEvent {
     optional string tool_name = 1;
     optional ToolCallStatus status = 2;
     optional SmlResponseMetadata metadata = 3 [lazy = true];
+    optional string tool_call_id = 4;
   }
 
   enum ToolCallResponseStatus {
@@ -16044,6 +16048,7 @@ message SmlChatBotEvent {
     // The status of the tool call response.
     optional ToolCallResponseStatus response_status = 2;
     optional SmlResponseMetadata metadata = 3 [lazy = true];
+    optional string tool_call_id = 4;
   }
 
   message DeprecationShown {
