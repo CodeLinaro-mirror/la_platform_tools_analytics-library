@@ -10861,6 +10861,8 @@ enum EditorFileType {
   PYTHON = 30;
   GO = 31;
   RUST = 32;
+  TYPESCRIPT = 33;
+  JAVASCRIPT = 34;
 }
 
 message TypingLatencyStats {
