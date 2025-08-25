@@ -850,6 +850,9 @@ message AndroidStudioEvent {
   // set when kind = MODEL_PROVIDER_EVENT
   optional ModelProviderEvent model_provider_event = 237 [lazy = true];
 
+  // set when kind = MARKETING_EMAIL_EVENT
+  optional MarketingEmailEvent marketing_email_event = 238 [lazy = true];
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -1823,6 +1826,9 @@ message AndroidStudioEvent {
 
     // Event related to Model Providers
     MODEL_PROVIDER_EVENT = 356;
+
+    // Event related to marketing emails
+    MARKETING_EMAIL_EVENT = 357;
   }
 
   // Represents different Performance Monitoring types.
@@ -17762,4 +17768,17 @@ message DeclarativeWatchFaceEvent {
 
   optional Type type = 1;
   optional WFFVersion wff_version = 2;
+}
+
+message MarketingEmailEvent {
+  enum EventSource {
+    UNKNOWN = 0;
+    // The marketing dialog which is shown after the sign-in flow.
+    MARKETING_DIALOG = 1;
+  }
+
+  // Users opt in status to marketing emails.
+  optional bool opted_in = 1;
+  // The source of the event.
+  optional EventSource event_source = 2;
 }
