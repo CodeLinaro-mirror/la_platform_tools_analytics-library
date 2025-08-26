@@ -17705,6 +17705,9 @@ message GeminiAdvertiserEvent {
     JOURNEYS = 11;
     // Generic feature.
     GENERIC = 12;
+    // Features related to UI tools, such as compose preview generation, fix
+    // render issues, transform preview, etc.
+    UI_TOOLS = 13;
   }
 
   enum Action {
