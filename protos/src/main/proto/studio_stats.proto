@@ -13050,6 +13050,7 @@ message UpgradeAssistantComponentInfo {
     REMOVE_DEPRECATED_LIBRARY_TARGET_SDK = 58;
     UNIQUE_PACKAGE_NAMES = 59;
     DEPENDENCY_CONSTRAINTS_DEFAULT = 60;
+    BUILT_IN_KOTLIN_DEFAULT = 61;
   }
 
   message Java8DefaultProcessorSettings {
