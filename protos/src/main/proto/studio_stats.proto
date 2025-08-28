@@ -3260,6 +3260,31 @@ message EmulatorSnapshot {
   // Next tag: 18
 }
 
+message EmulatorDownloadableSnapshotLoad {
+  optional uint64 snapshot_source = 1;
+  optional uint64 snapshot_copy_duration_ms = 2;
+  enum EmulatorDownloadableSnapshotLoadState {
+    EMULATOR_DOWNLOADABLE_SNAPSHOT_LOAD_UNSPECIFIED = 0;
+    EMULATOR_DOWNLOADABLE_SNAPSHOT_LOAD_SUCCEEDED = 1;
+    // failed but not sure why
+    EMULATOR_DOWNLOADABLE_SNAPSHOT_LOAD_FAILED = 2;
+    // failed because incompatible avd config
+    EMULATOR_DOWNLOADABLE_SNAPSHOT_LOAD_FAILED_INCOMPATIBLE_AVD = 3;
+    EMULATOR_DOWNLOADABLE_SNAPSHOT_LOAD_FAILED_TO_COPY_AVD = 4;
+  }
+  optional EmulatorDownloadableSnapshotLoadState state = 3;
+}
+
+message EmulatorDownloadableSnapshotSave {
+  optional uint64 snapshot_copy_duration_ms = 1;
+  enum EmulatorDownloadableSnapshotSaveState {
+    EMULATOR_DOWNLOADABLE_SNAPSHOT_SAVE_UNSPECIFIED = 0;
+    EMULATOR_DOWNLOADABLE_SAVE_SUCCEEDED = 1;
+    EMULATOR_DOWNLOADABLE_SAVE_FAILED = 2;
+  }
+  optional EmulatorDownloadableSnapshotSaveState state = 2;
+}
+
 // Description of emulator's quickboot load.
 message EmulatorQuickbootLoad {
   // List of possible states of a load operation.
@@ -3297,7 +3322,8 @@ message EmulatorQuickbootLoad {
   optional bool on_demand_ram_enabled = 4;
   // ADB connection retries.
   optional uint32 adb_connection_retries = 6;
-  // Next tag: 7
+  optional EmulatorDownloadableSnapshotLoad downloadable_load = 7;
+  // Next tag: 8
 }
 
 // Description of emulator's quickboot saving.
@@ -3333,6 +3359,7 @@ message EmulatorQuickbootSave {
   optional EmulatorSnapshot snapshot = 3 [lazy = true];
   // What was the guest session uptime at the time of saving.
   optional uint64 sesion_uptime_ms = 4;
+  optional EmulatorDownloadableSnapshotSave downloadable_save = 5;
 }
 
 // Track whether a GLES1 command is used or not
@@ -3807,6 +3834,7 @@ message EmulatorDetails {
     HARDWARE_VK = 1;
     SWIFTSHADER_VK = 2;  // Swiftshader software renderer
     MOLTEN_VK = 3;       // Mac only
+    LAVAPIPE_VK = 4;     // Lavapipe software renderer
   }
 }
 
