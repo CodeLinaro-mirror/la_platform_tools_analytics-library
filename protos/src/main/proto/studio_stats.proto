@@ -850,6 +850,9 @@ message AndroidStudioEvent {
   // set when kind = MODEL_PROVIDER_EVENT
   optional ModelProviderEvent model_provider_event = 237 [lazy = true];
 
+  // set when kind = MARKETING_EMAIL_EVENT
+  optional MarketingEmailEvent marketing_email_event = 238 [lazy = true];
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -1823,6 +1826,9 @@ message AndroidStudioEvent {
 
     // Event related to Model Providers
     MODEL_PROVIDER_EVENT = 356;
+
+    // Event related to marketing emails
+    MARKETING_EMAIL_EVENT = 357;
   }
 
   // Represents different Performance Monitoring types.
@@ -3099,6 +3105,7 @@ message EmulatorFeatureFlagState {
     VULKAN_VIRTUAL_QUEUE = 116;
     VULKAN_ROBUSTNESS = 117;
     XR_MODE_UI = 118;
+    XR_MODE_GLASSES_UI = 119;
     // Intentional gap to avoid merge conflicts.
     VIRTIO_DUAL_MODE_MOUSE = 131;
     DUAL_MODE_MOUSE_DISPLAY_HOST_CURSOR = 132;
@@ -10861,6 +10868,8 @@ enum EditorFileType {
   PYTHON = 30;
   GO = 31;
   RUST = 32;
+  TYPESCRIPT = 33;
+  JAVASCRIPT = 34;
 }
 
 message TypingLatencyStats {
@@ -13042,6 +13051,7 @@ message UpgradeAssistantComponentInfo {
     REMOVE_DEPRECATED_LIBRARY_TARGET_SDK = 58;
     UNIQUE_PACKAGE_NAMES = 59;
     DEPENDENCY_CONSTRAINTS_DEFAULT = 60;
+    BUILT_IN_KOTLIN_DEFAULT = 61;
   }
 
   message Java8DefaultProcessorSettings {
@@ -17695,6 +17705,9 @@ message GeminiAdvertiserEvent {
     JOURNEYS = 11;
     // Generic feature.
     GENERIC = 12;
+    // Features related to UI tools, such as compose preview generation, fix
+    // render issues, transform preview, etc.
+    UI_TOOLS = 13;
   }
 
   enum Action {
@@ -17760,4 +17773,17 @@ message DeclarativeWatchFaceEvent {
 
   optional Type type = 1;
   optional WFFVersion wff_version = 2;
+}
+
+message MarketingEmailEvent {
+  enum EventSource {
+    UNKNOWN = 0;
+    // The marketing dialog which is shown after the sign-in flow.
+    MARKETING_DIALOG = 1;
+  }
+
+  // Users opt in status to marketing emails.
+  optional bool opted_in = 1;
+  // The source of the event.
+  optional EventSource event_source = 2;
 }
