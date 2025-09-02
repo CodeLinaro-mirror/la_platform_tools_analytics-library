@@ -13902,6 +13902,9 @@ message LogcatUsageEvent {
   // A Logcat panel was added
   optional LogcatPanelEvent panel_added = 5 [lazy = true];
 
+  // A stack trace was (or was attempted) to retrace automatically
+  optional StackRetraceEvent stack_retrace = 6 [lazy = true];
+
   // The type of event
   enum Type {
     // Default
@@ -13916,6 +13919,9 @@ message LogcatUsageEvent {
 
     // A Logcat panel was added
     PANEL_ADDED = 3;
+
+    // A stack trace was (or was attempted) to retrace automatically
+    STACK_RETRACED = 4;
   }
 
   // The state of a Logcat format dialog when applied
@@ -14067,6 +14073,23 @@ message LogcatUsageEvent {
 
     // The buffer size.
     optional int32 buffer_size = 4;
+  }
+
+  message StackRetraceEvent {
+    // A string representing the result of the retrace operation.
+    // This can be a constant (SUCCESS, FAIL etc) or a class name of an
+    // exception thrown by the code.
+    optional string result_string = 1;
+
+    // Time in milliseconds it took to retrace
+    optional int64 retrace_time_ms = 2;
+
+    // Size in bytes of the mapping file
+    optional int64 mapping_file_size = 3;
+
+    // true if the mapping file was cached. Implies that retrace_time_ms
+    // includes initializing the retrace data structures from the file.
+    optional bool is_mapping_cached = 4;
   }
 }
 
