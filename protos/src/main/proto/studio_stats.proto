@@ -16580,17 +16580,30 @@ message DebuggerEvent {
 
   message SmartStepTargetFilteringPerformed {
     enum DexSearchStatus {
+      // Statistics V1
       UNKNOWN = 0;
       APK_PROVIDER_NOT_AVAILABLE = 1;
       MODULE_NOT_FOUND = 2;
       DEVICES_NOT_RUNNING = 3;
       APK_NOT_FOUND = 4;
+
+      // Statistics V2
       DEX_NOT_FOUND = 5;
       FOUND = 6;
+      DEX_FILE_TOO_LARGE = 7;
+      ERROR = 8;
+    }
+
+    enum DexSearchMode {
+      UNSPECIFIED = 0;
+      APK_PROVIDER = 1;
+      DEVICE_FALLBACK = 2;
+      DEVICE = 3;
     }
 
     optional uint64 dex_fetch_time_ms = 1;
     optional DexSearchStatus status = 2;
+    optional DexSearchMode mode = 3;
   }
 }
 
