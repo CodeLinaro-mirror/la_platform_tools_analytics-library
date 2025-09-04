@@ -3835,6 +3835,7 @@ message EmulatorDetails {
     SWIFTSHADER_VK = 2;  // Swiftshader software renderer
     MOLTEN_VK = 3;       // Mac only
     LAVAPIPE_VK = 4;     // Lavapipe software renderer
+    KOSMICKRISP_VK = 5;  // Mac only, mesa based vulkan driver
   }
 }
 
