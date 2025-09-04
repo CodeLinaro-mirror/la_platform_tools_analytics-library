@@ -17738,9 +17738,19 @@ message SentimentSurveyEvent {
     // The user cancelled the survey
     TYPE_CANCELLED = 4;
   }
+
+  enum SurveyType {
+    SURVEY_TYPE_UNKNOWN = 0;
+    // This indicates the legacy in-product survey
+    SURVEY_TYPE_IN_PRODUCT = 1;
+    // This indicates the browser-based survey
+    SURVEY_TYPE_BROWSER = 2;
+  }
+
   // A guid scoped to a single survey instance
   optional string id = 1;
   optional Type type = 2;
+  optional SurveyType survey_type = 3;
 }
 
 message GeminiAdvertiserEvent {
