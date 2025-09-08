@@ -986,6 +986,7 @@ enum VariantPropertiesMethodType {
     JUNIT_ENGINE_SPEC = 165;
     TEST_SUITE_TARGETS = 166;
     CONSUMER_PROGUARD_FILES = 167;
+    CONFIGURE_JAVA_COMPILE_TASK = 168;
 }
 
 enum ModulePropertyKeys {
