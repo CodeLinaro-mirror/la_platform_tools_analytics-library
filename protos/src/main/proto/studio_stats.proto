@@ -13089,6 +13089,8 @@ message UpgradeAssistantComponentInfo {
     UNIQUE_PACKAGE_NAMES = 59;
     DEPENDENCY_CONSTRAINTS_DEFAULT = 60;
     BUILT_IN_KOTLIN_DEFAULT = 61;
+    NEWDSL_DEFAULT = 62;
+    KOTLIN20_COMPOSE = 63;
   }
 
   message Java8DefaultProcessorSettings {
