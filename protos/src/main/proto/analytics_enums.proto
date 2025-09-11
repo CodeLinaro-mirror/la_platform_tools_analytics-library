@@ -780,6 +780,7 @@ enum VariantApiArtifactType {
     PROJECT_CLASSES = 11;
     MERGED_NATIVE_LIBS = 12;
     RUNTIME_SYMBOL_LIST = 13;
+    VERSION_CONTROL_INFO_FILE = 14;
 }
 
 enum VariantMethodType {
