@@ -781,6 +781,7 @@ enum VariantApiArtifactType {
     MERGED_NATIVE_LIBS = 12;
     RUNTIME_SYMBOL_LIST = 13;
     VERSION_CONTROL_INFO_FILE = 14;
+    OBFUSCATION_MAPPING_PARTITION_FILE = 15;
 }
 
 enum VariantMethodType {
