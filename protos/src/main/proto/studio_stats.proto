@@ -857,6 +857,9 @@ message AndroidStudioEvent {
   optional AdvertiserNotificationEvent advertiser_notification_event = 239
       [lazy = true];
 
+  // set when kind = ASSET_STUDIO_WIZARD_EVENT
+  optional AssetStudioWizardEvent asset_studio_wizard_event = 240 [lazy = true];
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -1836,6 +1839,9 @@ message AndroidStudioEvent {
 
     // Event related to Gemini Advertiser notifications
     ADVERTISER_NOTIFICATION_EVENT = 358;
+
+    // Event related to Asset Studio Wizard
+    ASSET_STUDIO_WIZARD_EVENT = 359;
   }
 
   // Represents different Performance Monitoring types.
@@ -17897,5 +17903,24 @@ message AdvertiserNotificationEvent {
   }
 
   optional Type type = 1;
+  optional Action action = 2;
+}
+
+message AssetStudioWizardEvent {
+  enum Type {
+    UNKNOWN_TYPE = 0;
+    // The Asset Studio Wizard is generating an adaptive launcher icon.
+    ADAPTIVE_LAUNCHER_ICON = 1;
+  }
+
+  enum Action {
+    UNKNOWN = 0;
+    // A monochrome icon was created.
+    MONOCHROME_ICON_CREATED = 1;
+  }
+
+  // The type of asset that the Asset Studio Wizard is generating.
+  optional Type type = 1;
+  // The action that was performed by the Asset Studio Wizard.
   optional Action action = 2;
 }
