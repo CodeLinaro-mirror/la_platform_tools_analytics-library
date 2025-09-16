@@ -1,11 +1,11 @@
 /*
- * Copyright (C) 2016 The Android Open Source Project
+ * Copyright (C) 2025 The Android Open Source Project
  *
- * Licensed under the Eclipse Public License, Version 1.0 (the "License");
+ * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *      http://www.eclipse.org/org/documents/epl-v10.php
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -39,6 +39,7 @@ import org.junit.rules.TemporaryFolder
 
 /** Tests for [AnalyticsPublisher] and [GoogleAnalyticsPublisher]. */
 class AnalyticsPublisherTest {
+
   @get:Rule val testSpoolDir = TemporaryFolder()
   @get:Rule val testConfigDir = TemporaryFolder()
 
@@ -81,7 +82,7 @@ class AnalyticsPublisherTest {
 
   private fun cleanEnvironment() {
     EnvironmentFakes.setSystemEnvironment()
-    AnalyticsPublisher.setInstanceForTest(NullAnalyticsPublisher)
+    AnalyticsPublisher.setAnonymousInstanceForTest(NullAnalyticsPublisher())
   }
 
   @Test
@@ -130,7 +131,7 @@ class AnalyticsPublisherTest {
           assertEquals(1, results.size.toLong())
           val result = results[0]
           assertEquals(true, result.isDone)
-          val request = result.get()
+          val request = result.get().logRequest
 
           // verify the retrieved proto is shaped as expected.
           assertEquals(660000, request.requestTimeMs)
@@ -171,7 +172,74 @@ class AnalyticsPublisherTest {
       AnalyticsSettings.dateProvider = DateProvider.SYSTEM
       cleanEnvironment()
     }
-    // ensure the spool directory is empty after succesfully publishing the analytics.
+    // ensure the spool directory is empty after successfully publishing the analytics.
+    assertEquals(0, testSpoolDir.root.listFiles()!!.size.toLong())
+  }
+
+  @Test
+  @Throws(Exception::class)
+  fun testCredentials() {
+    // Configure the paths to use a temp directory for reading from and writing to.
+    EnvironmentFakes.setCustomAndroidPrefsRootEnvironment(testConfigDir.root.toPath().toString())
+    val credentials = "credentials"
+    try {
+      ServerStub().use { stub ->
+        SystemPropertyOverrides().use { systemPropertyOverrides ->
+
+          // Create an event to log.
+          val logged = createAndroidStudioEvent(5)
+
+          // Use the JournalingUsageTracker to place some .trk files with events in the spool
+          // directory.
+          val vs = VirtualTimeScheduler()
+          val journalingUsageTracker = JournalingUsageTracker(vs, testSpoolDir.root.toPath())
+          journalingUsageTracker.logNow(logged)
+          vs.advanceBy(0)
+          journalingUsageTracker.close()
+
+          // Override the date provider to the publisher so we can reliably check if date based
+          // properties are set correctly.
+          val dateProvider = VirtualTimeDateProvider(vs)
+          AnalyticsSettings.dateProvider = dateProvider
+
+          // move the scheduler ahead so we get non zero values for the date provider.
+          vs.advanceBy(1, TimeUnit.MINUTES)
+
+          // override the os.* system properties so the test runs reliably no matter which
+          // it is run on.
+          systemPropertyOverrides.setProperty("os.name", "Linux")
+          systemPropertyOverrides.setProperty("os.version", "3.13.0-85-generic")
+
+          val googleAnalyticsPublisher =
+            GoogleAnalyticsPublisher(vs, testSpoolDir.root.toPath(), "1.2.3.4") { credentials }
+          googleAnalyticsPublisher.setServerUrl(stub.url)
+
+          // advance time to make the publisher run its first publishing job.
+          vs.advanceBy(10, TimeUnit.MINUTES)
+          googleAnalyticsPublisher.close()
+
+          // retrieve results from the webserver stub.
+          val results = stub.results
+          assertEquals(1, results.size.toLong())
+          val result = results[0]
+          assertEquals(true, result.isDone)
+
+          val request = result.get().logRequest
+          assertEquals(ClientAnalytics.LogRequest.LogSource.UNKNOWN, request.logSource)
+
+          val headers = result.get().authorizationHeaders
+          assertNotNull(headers)
+          headers?.let {
+            assertEquals(1, headers.count())
+            assertEquals(credentials, headers.firstOrNull())
+          }
+        }
+      }
+    } finally {
+      AnalyticsSettings.dateProvider = DateProvider.SYSTEM
+      cleanEnvironment()
+    }
+    // ensure the spool directory is empty after successfully publishing the analytics.
     assertEquals(0, testSpoolDir.root.listFiles()!!.size.toLong())
   }
 
@@ -233,7 +301,7 @@ class AnalyticsPublisherTest {
         assertEquals(1, results.size.toLong())
         val result = results[0]
         assertEquals(true, result.isDone)
-        val request = result.get()
+        val request = result.get().logRequest
 
         assertEquals(2, request.logEventCount.toLong())
         val metaEvent = request.getLogEvent(0)
@@ -325,11 +393,11 @@ class AnalyticsPublisherTest {
           vs.advanceBy(20, TimeUnit.MINUTES)
 
           // Ensure that the results do come in now.
-          var results: List<Future<ClientAnalytics.LogRequest>> = stub.results
+          var results: List<Future<PublishResult>> = stub.results
           assertEquals(1, results.size.toLong())
-          var result: Future<ClientAnalytics.LogRequest> = results[0]
+          var result: Future<PublishResult> = results[0]
           assertEquals(true, result.isDone)
-          var request: ClientAnalytics.LogRequest = result.get()
+          var request: ClientAnalytics.LogRequest = result.get().logRequest
 
           assertEquals(2, request.logEventCount.toLong())
           var metaEvent: ClientAnalytics.LogEvent = request.getLogEvent(0)
@@ -446,7 +514,7 @@ class AnalyticsPublisherTest {
 
         // each request contains 3 events (1 meta and two data events).
         val result1 = results[0]
-        val request1 = result1.get()
+        val request1 = result1.get().logRequest
         assertEquals(3, request1.logEventCount.toLong())
         val received1 = AndroidStudioEvent.parseFrom(request1.getLogEvent(1).sourceExtension)
         actual.add(received1)
@@ -454,7 +522,7 @@ class AnalyticsPublisherTest {
         actual.add(received2)
 
         val result2 = results[1]
-        val request2 = result2.get()
+        val request2 = result2.get().logRequest
         assertEquals(3, request2.logEventCount.toLong())
         val received3 = AndroidStudioEvent.parseFrom(request2.getLogEvent(1).sourceExtension)
         actual.add(received3)
@@ -570,7 +638,7 @@ class AnalyticsPublisherTest {
     try {
       // Create helpers used to instantiate the publisher.
       val vs = VirtualTimeScheduler()
-      assertEquals(AnalyticsPublisher.instance, NullAnalyticsPublisher)
+      assertTrue(AnalyticsPublisher.instance is NullAnalyticsPublisher)
 
       // update the publisher, first call will initialize.
       AnalyticsPublisher.updatePublisher(StdLogger(StdLogger.Level.ERROR), vs, "1.2.3.4")
