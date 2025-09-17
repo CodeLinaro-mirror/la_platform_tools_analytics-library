@@ -13050,7 +13050,7 @@ message UpgradeAssistantComponentInfo {
     REMOVE_IMPLEMENTATION_PROPERTIES = 11;
     GRADLE_PLUGINS = 12;
     MIGRATE_TO_INSTALLATION = 13;
-    MIGRATE_TO_EMULATOR_SNAPSHOTS = 14;
+    MIGRATE_TO_EMULATOR_SNAPSHOTS = 14 [deprecated = true];
     MIGRATE_TO_TEST_COVERAGE = 15;
     MIGRATE_PACKAGING_OPTIONS = 16;
     MIGRATE_TO_LINT = 17;
@@ -13101,6 +13101,7 @@ message UpgradeAssistantComponentInfo {
     BUILT_IN_KOTLIN_DEFAULT = 61;
     NEWDSL_DEFAULT = 62;
     KOTLIN20_COMPOSE = 63;
+    REMOVE_EMULATOR_SNAPSHOTS = 64;
   }
 
   message Java8DefaultProcessorSettings {
