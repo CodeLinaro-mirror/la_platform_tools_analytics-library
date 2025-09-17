@@ -16,9 +16,9 @@
 
 package com.android.tools.analytics
 
+import com.google.protobuf.GeneratedMessageV3
 import com.google.wireless.android.play.playlog.proto.ClientAnalytics
 import com.google.wireless.android.sdk.stats.AndroidStudioEvent
-import com.google.wireless.android.sdk.stats.ProductDetails
 import java.io.Flushable
 
 /**
@@ -28,30 +28,18 @@ import java.io.Flushable
  * The tracker has an API to logDetails usage (in the form of protobuf messages). A separate system
  * called the Analytics Publisher takes the logs and sends them to Google's servers for analysis.
  */
-abstract class UsageTrackerWriter : AutoCloseable, Flushable {
+abstract class UsageTrackerWriter<T : GeneratedMessageV3.Builder<T>> : AutoCloseable, Flushable {
 
   open fun scheduleJournalTimeout(maxJournalTime: Long) {}
 
   /** Logs usage data provided in the [AndroidStudioEvent]. */
-  fun logNow(studioEvent: AndroidStudioEvent.Builder) {
+  fun logNow(studioEvent: T) {
     logAt(AnalyticsSettings.dateProvider.now().time, studioEvent)
   }
 
   /** Logs usage data provided in the [AndroidStudioEvent] with provided event time. */
-  fun logAt(eventTimeMs: Long, studioEvent: AndroidStudioEvent.Builder) {
-    studioEvent.studioSessionId = UsageTracker.sessionId
-    studioEvent.ideBrand = UsageTracker.ideBrand
-
-    if (UsageTracker.version != null && !studioEvent.hasProductDetails()) {
-      studioEvent.setProductDetails(ProductDetails.newBuilder().setVersion(UsageTracker.version!!))
-    }
-
-    if (UsageTracker.ideaIsInternal) {
-      studioEvent.ideaIsInternal = true
-    }
-
-    UsageTracker.listener(studioEvent)
-
+  fun logAt(eventTimeMs: Long, studioEvent: T) {
+    processMessage(eventTimeMs, studioEvent)
     logDetails(
       ClientAnalytics.LogEvent.newBuilder()
         .setEventTimeMs(eventTimeMs)
@@ -64,4 +52,6 @@ abstract class UsageTrackerWriter : AutoCloseable, Flushable {
    * please talk to this code's author if you need [.logDetails] instead.
    */
   abstract fun logDetails(logEvent: ClientAnalytics.LogEvent.Builder)
+
+  abstract fun processMessage(eventTimeMs: Long, studioEvent: T)
 }

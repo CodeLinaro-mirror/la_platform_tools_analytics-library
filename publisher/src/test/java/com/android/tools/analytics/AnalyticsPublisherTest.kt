@@ -100,7 +100,7 @@ class AnalyticsPublisherTest {
           // Use the JournalingUsageTracker to place some .trk files with events in the spool
           // directory.
           val vs = VirtualTimeScheduler()
-          val journalingUsageTracker = JournalingUsageTracker(vs, testSpoolDir.root.toPath())
+          val journalingUsageTracker = AnonymousUsageTrackerWriter(vs, testSpoolDir.root.toPath())
           journalingUsageTracker.logNow(logged)
           vs.advanceBy(0)
           journalingUsageTracker.close()
@@ -192,7 +192,7 @@ class AnalyticsPublisherTest {
           // Use the JournalingUsageTracker to place some .trk files with events in the spool
           // directory.
           val vs = VirtualTimeScheduler()
-          val journalingUsageTracker = JournalingUsageTracker(vs, testSpoolDir.root.toPath())
+          val journalingUsageTracker = AnonymousUsageTrackerWriter(vs, testSpoolDir.root.toPath())
           journalingUsageTracker.logNow(logged)
           vs.advanceBy(0)
           journalingUsageTracker.close()
@@ -265,10 +265,10 @@ class AnalyticsPublisherTest {
         // Create an event to log.
         val logged = createAndroidStudioEvent(3)
 
-        // Use the JournalingUsageTracker to place some .trk files with events in the spool
+        // Use the AnonymousUsageTrackerWriter to place some .trk files with events in the spool
         // directory.
         val vs = VirtualTimeScheduler()
-        val journalingUsageTracker = JournalingUsageTracker(vs, testSpoolDir.root.toPath())
+        val journalingUsageTracker = AnonymousUsageTrackerWriter(vs, testSpoolDir.root.toPath())
         journalingUsageTracker.logNow(logged)
         vs.advanceBy(0)
         journalingUsageTracker.close()
@@ -340,7 +340,7 @@ class AnalyticsPublisherTest {
           // Create an event to log.
           val logged = createAndroidStudioEvent(3)
 
-          // Use the JournalingUsageTracker to place some .trk files with events in the spool
+          // Use the AnonymousUsageTrackerWriter to place some .trk files with events in the spool
           // directory.
           val vs = VirtualTimeScheduler()
 
@@ -352,7 +352,7 @@ class AnalyticsPublisherTest {
           val dateProvider = VirtualTimeDateProvider(vs)
           AnalyticsSettings.dateProvider = dateProvider
 
-          var journalingUsageTracker = JournalingUsageTracker(vs, testSpoolDir.root.toPath())
+          var journalingUsageTracker = AnonymousUsageTrackerWriter(vs, testSpoolDir.root.toPath())
 
           journalingUsageTracker.logNow(logged)
           vs.advanceBy(0)
@@ -439,9 +439,9 @@ class AnalyticsPublisherTest {
     EnvironmentFakes.setCustomAndroidPrefsRootEnvironment(testConfigDir.root.toPath().toString())
     try {
       ServerStub().use { stub ->
-        // Use the JournalingUsageTracker to place an empty .trk file in the spool directory.
+        // Use the AnonymousUsageTrackerWriter to place an empty .trk file in the spool directory.
         val vs = VirtualTimeScheduler()
-        val journalingUsageTracker = JournalingUsageTracker(vs, testSpoolDir.root.toPath())
+        val journalingUsageTracker = AnonymousUsageTrackerWriter(vs, testSpoolDir.root.toPath())
         journalingUsageTracker.close()
 
         // Create helpers used to instantiate the publisher.
@@ -483,10 +483,10 @@ class AnalyticsPublisherTest {
       expected.add(logged3.build())
       expected.add(logged4.build())
 
-      // Use the JournalingUsageTracker to place several .trk files with events in the spool
+      // Use the AnonymousUsageTrackerWriter to place several .trk files with events in the spool
       // directory.
       val vs = VirtualTimeScheduler()
-      val journalingUsageTracker = JournalingUsageTracker(vs, testSpoolDir.root.toPath())
+      val journalingUsageTracker = AnonymousUsageTrackerWriter(vs, testSpoolDir.root.toPath())
       UsageTracker.maxJournalSize = 2
       journalingUsageTracker.logNow(logged1)
       journalingUsageTracker.logNow(logged2)
@@ -547,10 +547,10 @@ class AnalyticsPublisherTest {
         // Create an event to log.
         val logged = createAndroidStudioEvent(5)
 
-        // Use the JournalingUsageTracker to place some .trk files with events in the spool
+        // Use the AnonymousUsageTrackerWriter to place some .trk files with events in the spool
         // directory.
         val vs = VirtualTimeScheduler()
-        val journalingUsageTracker = JournalingUsageTracker(vs, testSpoolDir.root.toPath())
+        val journalingUsageTracker = AnonymousUsageTrackerWriter(vs, testSpoolDir.root.toPath())
         journalingUsageTracker.logNow(logged)
         vs.advanceBy(0)
         journalingUsageTracker.close()
@@ -599,10 +599,10 @@ class AnalyticsPublisherTest {
         // Create an event to log.
         val logged = createAndroidStudioEvent(5)
 
-        // Use the JournalingUsageTracker to place some .trk files with events in the spool
+        // Use the AnonymousUsageTrackerWriter to place some .trk files with events in the spool
         // directory.
         val vs = VirtualTimeScheduler()
-        val journalingUsageTracker = JournalingUsageTracker(vs, testSpoolDir.root.toPath())
+        val journalingUsageTracker = AnonymousUsageTrackerWriter(vs, testSpoolDir.root.toPath())
         journalingUsageTracker.logNow(logged)
         vs.advanceBy(0)
         journalingUsageTracker.close()

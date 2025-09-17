@@ -12,26 +12,4 @@
             column="26"/>
     </issue>
 
-    <issue
-        id="VisibleForTests"
-        message="This method should only be accessed from tests or within private scope"
-        errorLine1="        studioEvent.studioSessionId = UsageTracker.sessionId"
-        errorLine2="                                                   ~~~~~~~~~">
-        <location
-            file="src/main/java/com/android/tools/analytics/UsageTrackerWriter.kt"
-            line="43"
-            column="52"/>
-    </issue>
-
-    <issue
-        id="VisibleForTests"
-        message="This method should only be accessed from tests or within private scope"
-        errorLine1="        studioEvent.studioSessionId = UsageTracker.sessionId"
-        errorLine2="                                                   ~~~~~~~~~">
-        <location
-            file="src/main/java/com/android/tools/analytics/UsageTrackerWriter.kt"
-            line="43"
-            column="52"/>
-    </issue>
-
 </issues>
