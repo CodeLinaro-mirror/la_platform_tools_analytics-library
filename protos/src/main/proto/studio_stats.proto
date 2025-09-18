@@ -2909,7 +2909,8 @@ message EmulatorAvdInfo {
     // Do not use this -- use XR_AVD below.
     DEV_2024_AVD = 11 [deprecated = true];
     XR_AVD = 12;
-    // Next tag: 13
+    XR_GLASSES_AVD = 13;
+    // Next tag: 14
   }
   enum EmulatorDeviceName {
     UNKNOWN_EMULATOR_DEVICE_NAME = 0;
