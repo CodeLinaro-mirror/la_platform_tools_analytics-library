@@ -781,6 +781,7 @@ enum VariantApiArtifactType {
     MERGED_NATIVE_LIBS = 12;
     RUNTIME_SYMBOL_LIST = 13;
     VERSION_CONTROL_INFO_FILE = 14;
+    OBFUSCATION_MAPPING_PARTITION_FILE = 15;
 }
 
 enum VariantMethodType {
@@ -986,6 +987,7 @@ enum VariantPropertiesMethodType {
     JUNIT_ENGINE_SPEC = 165;
     TEST_SUITE_TARGETS = 166;
     CONSUMER_PROGUARD_FILES = 167;
+    CONFIGURE_JAVA_COMPILE_TASK = 168;
 }
 
 enum ModulePropertyKeys {
