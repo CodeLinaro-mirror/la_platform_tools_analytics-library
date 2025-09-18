@@ -860,6 +860,10 @@ message AndroidStudioEvent {
   // set when kind = ASSET_STUDIO_WIZARD_EVENT
   optional AssetStudioWizardEvent asset_studio_wizard_event = 240 [lazy = true];
 
+  // set when kind = NEXT_EDIT_PREDICTION_EVENT
+  optional NextEditPredictionEvent next_edit_prediction_event = 241
+      [lazy = true];
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -1842,6 +1846,9 @@ message AndroidStudioEvent {
 
     // Event related to Asset Studio Wizard
     ASSET_STUDIO_WIZARD_EVENT = 359;
+
+    // Event related to Next Edit Prediction
+    NEXT_EDIT_PREDICTION_EVENT = 360;
   }
 
   // Represents different Performance Monitoring types.
@@ -17925,4 +17932,24 @@ message AssetStudioWizardEvent {
   optional Type type = 1;
   // The action that was performed by the Asset Studio Wizard.
   optional Action action = 2;
+}
+
+message NextEditPredictionEvent {
+  message PredictionShown {
+    // Add fields specific to the SHOWN event here, if any.
+  }
+
+  message PredictionAccepted {
+    // Add fields specific to the ACCEPTED event here, if any.
+  }
+
+  message PredictionRejected {
+    // Add fields specific to the REJECTED event here, if any.
+  }
+
+  oneof next_edit_prediction {
+    PredictionShown shown = 1 [lazy = true];
+    PredictionAccepted accepted = 2 [lazy = true];
+    PredictionRejected rejected = 3 [lazy = true];
+  }
 }
