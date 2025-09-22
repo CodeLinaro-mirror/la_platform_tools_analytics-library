@@ -2834,6 +2834,31 @@ message EmulatorGuestGlInfo {
   optional string version = 3;
 }
 
+// Emulator: VK GPU info.
+message EmulatorGpuVkInfo {
+  // Represents VkPhysicalDeviceType, offset by 1 (0 is
+  // UNKNOWN_PHYSICAL_DEVICE_TYPE as per proto best practices)
+  enum PhysicalDeviceType {
+    UNKNOWN_PHYSICAL_DEVICE_TYPE = 0;
+    PHYSICAL_DEVICE_TYPE_OTHER = 1;
+    PHYSICAL_DEVICE_TYPE_INTEGRATED_GPU = 2;
+    PHYSICAL_DEVICE_TYPE_DISCRETE_GPU = 3;
+    PHYSICAL_DEVICE_TYPE_VIRTUAL_GPU = 4;
+    PHYSICAL_DEVICE_TYPE_CPU = 5;
+  }
+
+  optional int32 api_version = 1;
+  optional int32 driver_version = 2;
+  optional int32 vendor_id = 3;
+  optional int32 device_id = 4;
+  // The type of the GPU device. Matches VkPhysicalDeviceType.
+  optional PhysicalDeviceType device_type = 5;
+  optional string device_name = 6;
+  // Memory size of the GPU in bytes.
+  optional int64 gpu_memory = 7;
+  optional string driver_info = 8;
+}
+
 // Emulator: Host GPU info.
 message EmulatorGpuInfo {
   // Make of the Graphics card.
@@ -3785,7 +3810,9 @@ message EmulatorDetails {
   optional VulkanIcd vulkan_icd = 39;
   // Results of emulator compatibility checks.
   optional EmulatorCompatibilityInfo emu_compat_info = 40;
-  // Next tag: 41
+  // In-use Vulkan GPU
+  optional EmulatorGpuVkInfo active_vulkan_host_gpu = 41;
+  // Next tag: 42
 
   // Emulator instance liveness as determined via adb connectivity.
   enum EmulatorAdbLiveness {
