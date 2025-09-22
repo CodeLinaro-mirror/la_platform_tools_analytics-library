@@ -17732,6 +17732,18 @@ message JourneyEngineErrorEvent {
 }
 
 message BackupAndSyncEvent {
+  enum Type {
+    TYPE_UNKNOWN = 0;
+    // Settings were synced (logged once per session)
+    TYPE_SYNC = 1;
+    // Sync was enabled
+    TYPE_ENABLED = 2;
+    // Sync was disabled
+    TYPE_DISABLED = 3;
+    // The user changed the synced categories
+    TYPE_CHANGE_CATEGORIES = 4;
+  }
+
   enum Provider {
     UNKNOWN_PROVIDER = 0;
     // Uses Google Drive to store the settings
@@ -17752,6 +17764,7 @@ message BackupAndSyncEvent {
 
   optional Provider provider_in_use = 1;
   optional EnablementFlow enablement_flow = 2;
+  optional Type type = 3;
 }
 
 message SentimentSurveyEvent {
