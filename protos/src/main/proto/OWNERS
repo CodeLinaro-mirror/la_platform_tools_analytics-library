@@ -2,3 +2,4 @@
 # Bug component: 166979
 # See go/studio-test-owners for more.
 per-file analytics_enums.proto=jedo@google.com,cmw@google.com
+per-file studio_stats.proto=copybara-worker-blackhole@google.com
