@@ -3884,11 +3884,15 @@ message EmulatorDetails {
   // Vulkan backend
   enum VulkanIcd {
     UNKNOWN_VK = 0;
-    HARDWARE_VK = 1;
-    SWIFTSHADER_VK = 2;  // Swiftshader software renderer
-    MOLTEN_VK = 3;       // Mac only
-    LAVAPIPE_VK = 4;     // Lavapipe software renderer
-    KOSMICKRISP_VK = 5;  // Mac only, mesa based vulkan driver
+    // Deprecated, use HOST_DEFAULT_VK instead.
+    HARDWARE_VK = 1 [deprecated = true];
+    SWIFTSHADER_VK = 2;   // Swiftshader software renderer
+    MOLTEN_VK = 3;        // Mac only
+    LAVAPIPE_VK = 4;      // Lavapipe software renderer
+    KOSMICKRISP_VK = 5;   // Mac only, mesa based vulkan driver
+    DISABLED_VK = 6;      // Vulkan is disabled
+    HOST_DEFAULT_VK = 7;  // Host Vulkan ICD
+    // Next tag: 8
   }
 }
 
