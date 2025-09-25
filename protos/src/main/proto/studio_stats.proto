@@ -857,6 +857,13 @@ message AndroidStudioEvent {
   optional AdvertiserNotificationEvent advertiser_notification_event = 239
       [lazy = true];
 
+  // set when kind = ASSET_STUDIO_WIZARD_EVENT
+  optional AssetStudioWizardEvent asset_studio_wizard_event = 240 [lazy = true];
+
+  // set when kind = NEXT_EDIT_PREDICTION_EVENT
+  optional NextEditPredictionEvent next_edit_prediction_event = 241
+      [lazy = true];
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -1836,6 +1843,12 @@ message AndroidStudioEvent {
 
     // Event related to Gemini Advertiser notifications
     ADVERTISER_NOTIFICATION_EVENT = 358;
+
+    // Event related to Asset Studio Wizard
+    ASSET_STUDIO_WIZARD_EVENT = 359;
+
+    // Event related to Next Edit Prediction
+    NEXT_EDIT_PREDICTION_EVENT = 360;
   }
 
   // Represents different Performance Monitoring types.
@@ -2821,6 +2834,31 @@ message EmulatorGuestGlInfo {
   optional string version = 3;
 }
 
+// Emulator: VK GPU info.
+message EmulatorGpuVkInfo {
+  // Represents VkPhysicalDeviceType, offset by 1 (0 is
+  // UNKNOWN_PHYSICAL_DEVICE_TYPE as per proto best practices)
+  enum PhysicalDeviceType {
+    UNKNOWN_PHYSICAL_DEVICE_TYPE = 0;
+    PHYSICAL_DEVICE_TYPE_OTHER = 1;
+    PHYSICAL_DEVICE_TYPE_INTEGRATED_GPU = 2;
+    PHYSICAL_DEVICE_TYPE_DISCRETE_GPU = 3;
+    PHYSICAL_DEVICE_TYPE_VIRTUAL_GPU = 4;
+    PHYSICAL_DEVICE_TYPE_CPU = 5;
+  }
+
+  optional int32 api_version = 1;
+  optional int32 driver_version = 2;
+  optional int32 vendor_id = 3;
+  optional int32 device_id = 4;
+  // The type of the GPU device. Matches VkPhysicalDeviceType.
+  optional PhysicalDeviceType device_type = 5;
+  optional string device_name = 6;
+  // Memory size of the GPU in bytes.
+  optional int64 gpu_memory = 7;
+  optional string driver_info = 8;
+}
+
 // Emulator: Host GPU info.
 message EmulatorGpuInfo {
   // Make of the Graphics card.
@@ -2903,7 +2941,8 @@ message EmulatorAvdInfo {
     // Do not use this -- use XR_AVD below.
     DEV_2024_AVD = 11 [deprecated = true];
     XR_AVD = 12;
-    // Next tag: 13
+    XR_GLASSES_AVD = 13;
+    // Next tag: 14
   }
   enum EmulatorDeviceName {
     UNKNOWN_EMULATOR_DEVICE_NAME = 0;
@@ -3771,7 +3810,9 @@ message EmulatorDetails {
   optional VulkanIcd vulkan_icd = 39;
   // Results of emulator compatibility checks.
   optional EmulatorCompatibilityInfo emu_compat_info = 40;
-  // Next tag: 41
+  // In-use Vulkan GPU
+  optional EmulatorGpuVkInfo active_vulkan_host_gpu = 41;
+  // Next tag: 42
 
   // Emulator instance liveness as determined via adb connectivity.
   enum EmulatorAdbLiveness {
@@ -3843,11 +3884,15 @@ message EmulatorDetails {
   // Vulkan backend
   enum VulkanIcd {
     UNKNOWN_VK = 0;
-    HARDWARE_VK = 1;
-    SWIFTSHADER_VK = 2;  // Swiftshader software renderer
-    MOLTEN_VK = 3;       // Mac only
-    LAVAPIPE_VK = 4;     // Lavapipe software renderer
-    KOSMICKRISP_VK = 5;  // Mac only, mesa based vulkan driver
+    // Deprecated, use HOST_DEFAULT_VK instead.
+    HARDWARE_VK = 1 [deprecated = true];
+    SWIFTSHADER_VK = 2;   // Swiftshader software renderer
+    MOLTEN_VK = 3;        // Mac only
+    LAVAPIPE_VK = 4;      // Lavapipe software renderer
+    KOSMICKRISP_VK = 5;   // Mac only, mesa based vulkan driver
+    DISABLED_VK = 6;      // Vulkan is disabled
+    HOST_DEFAULT_VK = 7;  // Host Vulkan ICD
+    // Next tag: 8
   }
 }
 
@@ -13044,7 +13089,7 @@ message UpgradeAssistantComponentInfo {
     REMOVE_IMPLEMENTATION_PROPERTIES = 11;
     GRADLE_PLUGINS = 12;
     MIGRATE_TO_INSTALLATION = 13;
-    MIGRATE_TO_EMULATOR_SNAPSHOTS = 14;
+    MIGRATE_TO_EMULATOR_SNAPSHOTS = 14 [deprecated = true];
     MIGRATE_TO_TEST_COVERAGE = 15;
     MIGRATE_PACKAGING_OPTIONS = 16;
     MIGRATE_TO_LINT = 17;
@@ -13095,6 +13140,7 @@ message UpgradeAssistantComponentInfo {
     BUILT_IN_KOTLIN_DEFAULT = 61;
     NEWDSL_DEFAULT = 62;
     KOTLIN20_COMPOSE = 63;
+    REMOVE_EMULATOR_SNAPSHOTS = 64;
   }
 
   message Java8DefaultProcessorSettings {
@@ -17717,6 +17763,22 @@ message JourneyEngineErrorEvent {
 }
 
 message BackupAndSyncEvent {
+  enum Type {
+    TYPE_UNKNOWN = 0;
+    // Settings were synced (logged once per session)
+    TYPE_SYNC = 1;
+    // Sync was enabled (through any mechanism). This will always be logged on
+    // enablement.
+    TYPE_ENABLED = 2;
+    // Sync was disabled
+    TYPE_DISABLED = 3;
+    // Sync was enabled through the Studio-specific flows, where the onboarding
+    // wizard is shown. Note an event with TYPE_ENABLED will also be logged.
+    TYPE_ENABLED_THROUGH_WIZARD = 4;
+    // The user changed the synced categories
+    TYPE_CHANGE_CATEGORIES = 5;
+  }
+
   enum Provider {
     UNKNOWN_PROVIDER = 0;
     // Uses Google Drive to store the settings
@@ -17731,12 +17793,14 @@ message BackupAndSyncEvent {
     UNIFIED_SIGN_IN_FLOW = 1;
     // Enable via the Google Accounts settings page (feature allow button)
     ACCOUNT_SETTINGS_PAGE = 2;
-    // Enable via the Backup and Sync settings page
+    // Enable via the Backup and Sync settings page. Currently unused since
+    // there's no appropriate hook in JB code to log in this situation.
     FEATURE_SETTINGS_PAGE = 3;
   }
 
   optional Provider provider_in_use = 1;
   optional EnablementFlow enablement_flow = 2;
+  optional Type type = 3;
 }
 
 message SentimentSurveyEvent {
@@ -17898,4 +17962,43 @@ message AdvertiserNotificationEvent {
 
   optional Type type = 1;
   optional Action action = 2;
+}
+
+message AssetStudioWizardEvent {
+  enum Type {
+    UNKNOWN_TYPE = 0;
+    // The Asset Studio Wizard is generating an adaptive launcher icon.
+    ADAPTIVE_LAUNCHER_ICON = 1;
+  }
+
+  enum Action {
+    UNKNOWN = 0;
+    // A monochrome icon was created.
+    MONOCHROME_ICON_CREATED = 1;
+  }
+
+  // The type of asset that the Asset Studio Wizard is generating.
+  optional Type type = 1;
+  // The action that was performed by the Asset Studio Wizard.
+  optional Action action = 2;
+}
+
+message NextEditPredictionEvent {
+  message PredictionShown {
+    // Add fields specific to the SHOWN event here, if any.
+  }
+
+  message PredictionAccepted {
+    // Add fields specific to the ACCEPTED event here, if any.
+  }
+
+  message PredictionRejected {
+    // Add fields specific to the REJECTED event here, if any.
+  }
+
+  oneof next_edit_prediction {
+    PredictionShown shown = 1 [lazy = true];
+    PredictionAccepted accepted = 2 [lazy = true];
+    PredictionRejected rejected = 3 [lazy = true];
+  }
 }
