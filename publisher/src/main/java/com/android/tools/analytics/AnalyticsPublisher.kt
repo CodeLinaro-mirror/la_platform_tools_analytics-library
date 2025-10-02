@@ -1,11 +1,11 @@
 /*
- * Copyright (C) 2016 The Android Open Source Project
+ * Copyright (C) 2025 The Android Open Source Project
  *
- * Licensed under the Eclipse Public License, Version 1.0 (the "License");
+ * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *      http://www.eclipse.org/org/documents/epl-v10.php
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -28,6 +28,7 @@ import java.util.concurrent.TimeUnit
  * never get published for users who opt out.
  */
 abstract class AnalyticsPublisher protected constructor() : AutoCloseable {
+
   /** Gets the interval in nano-seconds used for scheduling jobs to publish metrics. */
   var publishInterval = TimeUnit.MINUTES.toNanos(10)
     private set
@@ -38,13 +39,14 @@ abstract class AnalyticsPublisher protected constructor() : AutoCloseable {
   }
 
   companion object {
-    private var instance_: AnalyticsPublisher = NullAnalyticsPublisher
+
+    private var anonymousInstance_: AnalyticsPublisher = NullAnalyticsPublisher()
+    private var loginInstance_: AnalyticsPublisher = NullAnalyticsPublisher()
     private val gate = Any()
 
     /**
      * Initializes the publisher retrieved by [.getInstance]
      *
-     * @param analyticsSettings used to check opt-in vs opt-out status.
      * @param scheduler used to schedule jobs for publishing.
      * @param applicationBuild version information about the app publishing analytics.
      */
@@ -55,16 +57,16 @@ abstract class AnalyticsPublisher protected constructor() : AutoCloseable {
     ): AnalyticsPublisher {
       synchronized(gate) {
         if (AnalyticsSettings.optedIn && !AnalyticsSettings.debugDisablePublishing) {
-          instance_ =
+          anonymousInstance_ =
             GoogleAnalyticsPublisher(
               scheduler,
               Paths.get(AnalyticsPaths.spoolDirectory),
               applicationBuild,
             )
         } else {
-          instance_ = NullAnalyticsPublisher
+          anonymousInstance_ = NullAnalyticsPublisher()
         }
-        return instance_
+        return anonymousInstance_
       }
     }
 
@@ -73,7 +75,7 @@ abstract class AnalyticsPublisher protected constructor() : AutoCloseable {
     val instance: AnalyticsPublisher
       get() =
         synchronized(gate) {
-          return instance_
+          return anonymousInstance_
         }
 
     /** Closes the current publisher and creates a new instance. */
@@ -94,9 +96,63 @@ abstract class AnalyticsPublisher protected constructor() : AutoCloseable {
       initialize(scheduler, applicationBuild)
     }
 
+    /**
+     * Sets the instance of the publisher that sends messages with authorized headers
+     *
+     * @param logger used for logging errors
+     * @param scheduler used to schedule periodic checks for data in the spool file using the
+     *   publishing interval set on the publisher
+     * @param applicationBuild application build used on the loq request
+     * @param storeLocationId A unique id derived from the user's email address. Used to create the
+     *   spool directory for that address
+     * @param credentialsCallback callback to retrieve the authorization credentials
+     */
+    @JvmStatic
+    fun setLoggedInPublisher(
+      logger: ILogger,
+      scheduler: ScheduledExecutorService,
+      applicationBuild: String,
+      storeLocationId: String,
+      credentialsCallback: () -> String?,
+    ) {
+      updateLoggedInPublisher(
+        GoogleAnalyticsPublisher(
+          scheduler,
+          Paths.get(AnalyticsPaths.spoolDirectory, storeLocationId),
+          applicationBuild,
+          credentialsCallback,
+        ),
+        logger,
+      )
+    }
+
+    /**
+     * Clears the instance of the publisher that sends messages with authorized headers
+     *
+     * @param logger used for logging errors
+     */
+    @JvmStatic
+    fun clearLoggedInPublisher(logger: ILogger) {
+      updateLoggedInPublisher(NullAnalyticsPublisher(), logger)
+    }
+
+    @JvmStatic
+    private fun updateLoggedInPublisher(newPublisher: AnalyticsPublisher, logger: ILogger) {
+      val oldLoginPublisher: AnalyticsPublisher
+      synchronized(gate) {
+        oldLoginPublisher = loginInstance_
+        loginInstance_ = newPublisher
+      }
+      try {
+        oldLoginPublisher.close()
+      } catch (e: Exception) {
+        logger.error(e, "Unable to close existing authorizing analytics publisher")
+      }
+    }
+
     @VisibleForTesting
-    fun setInstanceForTest(instance: AnalyticsPublisher) {
-      this.instance_ = instance
+    fun setAnonymousInstanceForTest(instance: AnalyticsPublisher) {
+      this.anonymousInstance_ = instance
     }
   }
 }

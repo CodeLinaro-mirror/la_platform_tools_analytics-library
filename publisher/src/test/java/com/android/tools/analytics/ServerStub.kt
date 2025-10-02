@@ -1,11 +1,11 @@
 /*
- * Copyright (C) 2016 The Android Open Source Project
+ * Copyright (C) 2025 The Android Open Source Project
  *
- * Licensed under the Eclipse Public License, Version 1.0 (the "License");
+ * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *      http://www.eclipse.org/org/documents/epl-v10.php
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -32,6 +32,11 @@ import java.util.concurrent.Future
 import java.util.concurrent.atomic.AtomicBoolean
 import java.util.zip.GZIPInputStream
 
+data class PublishResult(
+  val logRequest: ClientAnalytics.LogRequest,
+  val authorizationHeaders: List<String>?,
+)
+
 /** A tiny webserver used to stub out the Google Analytics server in tests. */
 class ServerStub
 /**
@@ -40,7 +45,8 @@ class ServerStub
  */
 @Throws(IOException::class)
 constructor() : HttpHandler, AutoCloseable {
-  private val results_ = ArrayList<Future<ClientAnalytics.LogRequest>>()
+
+  private val results_ = ArrayList<Future<PublishResult>>()
   private val address: InetSocketAddress
   private val server: HttpServer = HttpServer.create(InetSocketAddress(0), 0)
   private val nextResponseServerError = AtomicBoolean(false)
@@ -55,7 +61,7 @@ constructor() : HttpHandler, AutoCloseable {
    * (a [ClientAnalytics.LogRequest]) and failed (an exception) requests.
    */
   // Synchronized to ensure no results are in flight to avoid test flakeyness.
-  val results: List<Future<ClientAnalytics.LogRequest>>
+  val results: List<Future<PublishResult>>
     get() =
       synchronized(server) {
         return results_
@@ -92,13 +98,15 @@ constructor() : HttpHandler, AutoCloseable {
         body.write(response)
         nextResponseServerError.set(false)
       } else {
-        val data = SettableFuture.create<ClientAnalytics.LogRequest>()
+        val data = SettableFuture.create<PublishResult>()
         try {
           var body = httpExchange.requestBody
           if (isZipped(httpExchange)) {
             body = GZIPInputStream(body)
           }
-          data.set(ClientAnalytics.LogRequest.parseFrom(body))
+          val request = ClientAnalytics.LogRequest.parseFrom(body)
+          val authorizationHeaders = httpExchange.requestHeaders["Authorization"]
+          data.set(PublishResult(request, authorizationHeaders))
           httpExchange.sendResponseHeaders(HTTP_OK, 0)
         } catch (e: IOException) {
           val response = "Bad Request".toByteArray(Charsets.UTF_8)
@@ -125,6 +133,7 @@ constructor() : HttpHandler, AutoCloseable {
   }
 
   companion object {
+
     const val HTTP_OK = 200
     const val HTTP_BAD_REQUEST = 404
     const val HTTP_INTERNAL_SERVER_ERROR = 500

@@ -17,6 +17,7 @@
 package com.android.tools.analytics
 
 import com.google.common.annotations.VisibleForTesting
+import com.google.protobuf.GeneratedMessageV3
 import com.google.wireless.android.play.playlog.proto.ClientAnalytics
 import java.io.IOException
 import java.io.OutputStream
@@ -52,7 +53,7 @@ import kotlin.concurrent.withLock
  * generated, use the JournalingUsageTracker.
  */
 @VisibleForTesting
-class JournalingUsageTracker
+abstract class JournalingUsageTracker<T : GeneratedMessageV3.Builder<T>>
 /**
  * Creates an instance of JournalingUsageTracker. Ensures spool location is available and locks the
  * first journaling file.
@@ -64,7 +65,7 @@ class JournalingUsageTracker
   /** Gets the scheduler used by this tracker. */
   val scheduler: ScheduledExecutorService,
   private val spoolLocation: Path,
-) : UsageTrackerWriter() {
+) : UsageTrackerWriter<T>() {
 
   // lock for blocking flush calls. To avoid deadlocks, the order of
   // locking is: flushLock (if needed), gate.

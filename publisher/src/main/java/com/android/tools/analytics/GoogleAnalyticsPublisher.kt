@@ -1,11 +1,11 @@
 /*
- * Copyright (C) 2016 The Android Open Source Project
+ * Copyright (C) 2025 The Android Open Source Project
  *
- * Licensed under the Eclipse Public License, Version 1.0 (the "License");
+ * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *      http://www.eclipse.org/org/documents/epl-v10.php
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -20,6 +20,7 @@ import com.android.utils.ILogger
 import com.android.utils.StdLogger
 import com.google.common.io.CountingOutputStream
 import com.google.wireless.android.play.playlog.proto.ClientAnalytics
+import com.google.wireless.android.play.playlog.proto.ClientAnalytics.LogRequest.LogSource
 import com.google.wireless.android.sdk.stats.AndroidStudioEvent
 import com.google.wireless.android.sdk.stats.MetaMetrics
 import java.io.BufferedOutputStream
@@ -49,14 +50,16 @@ class GoogleAnalyticsPublisher
 /**
  * Creates a new instance for publishing metrics
  *
- * @param analyticsSettings used for sending pseudoanonymous ID along with the analytics.
- * @param spoolLocation location to look for .trk files to upload.
  * @param scheduler used for scheduling periodic checks of the spool location.
+ * @param spoolLocation location to look for .trk files to upload.
+ * @param applicationBuild application build used on the log request
+ * @param credentialsCallback optional callback for retrieving authorization credentials.
  */
 internal constructor(
   private val scheduler: ScheduledExecutorService,
   private val spoolLocation: Path,
   applicationBuild: String,
+  private val credentialsCallback: (() -> String?)? = null,
 ) : AnalyticsPublisher() {
 
   private val baseLogRequest: ClientAnalytics.LogRequest =
@@ -75,9 +78,11 @@ internal constructor(
               )
           )
       )
-      // Set the log source for the Clearcut service. This will be always the
-      // same no matter what Android devtool we're logging from.
-      .setLogSource(ClientAnalytics.LogRequest.LogSource.ANDROID_STUDIO)
+      // Set the log source for the Clearcut service. This will depend on whether we are attaching
+      // the authorization header.
+      // TODO(b/438539118): Use the authorization enum value instead of UNKNOWN when it becomes
+      // available
+      .setLogSource(credentialsCallback?.let { LogSource.UNKNOWN } ?: LogSource.ANDROID_STUDIO)
       .build()
 
   private var publishJob: ScheduledFuture<*>? = null
@@ -169,8 +174,13 @@ internal constructor(
             entries.add(0, getMetaMetric(now))
             val request = buildLogRequest(entries, now)
 
+            // if the credentials callback has been specified but returns null, this means the
+            // credentials have expired or been revoked. Return a failure but leave the file
+            // present for future publishing.
+            val credentials = credentialsCallback?.let { credentialsCallback() ?: return false }
+
             // Send the analytics to the specified server.
-            val responseCode = trySendToServer(request)
+            val responseCode = trySendToServer(request, credentials)
             success = isSuccess(responseCode)
             if (success) {
               // only if publishing succeeded, delete the file, otherwise we'll try again.
@@ -233,7 +243,7 @@ internal constructor(
    * @return http status code from the request.
    */
   @Throws(IOException::class)
-  private fun trySendToServer(request: ClientAnalytics.LogRequest): Int {
+  private fun trySendToServer(request: ClientAnalytics.LogRequest, credentials: String?): Int {
     val connection =
       try {
         createConnection_.call()
@@ -248,6 +258,10 @@ internal constructor(
 
     // GZip the content to save bandwidth.
     connection.setRequestProperty("Content-Encoding", "gzip")
+
+    // Set the authorization header if the callback has been provided
+    credentials?.let { connection.setRequestProperty("Authorization", credentials) }
+
     val requestBytes = request.toByteArray()
     connection.outputStream.use { output ->
       BufferedOutputStream(output).use { buffered ->

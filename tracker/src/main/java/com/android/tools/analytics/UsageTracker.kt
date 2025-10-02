@@ -44,7 +44,9 @@ object UsageTracker {
 
   @VisibleForTesting @JvmStatic var sessionId = UUID.randomUUID().toString()
 
-  @JvmStatic @VisibleForTesting var writer: UsageTrackerWriter = NullUsageTracker
+  @JvmStatic
+  @VisibleForTesting
+  var writer: UsageTrackerWriter<AndroidStudioEvent.Builder> = NullUsageTracker
   private var isTesting: Boolean = false
 
   /**
@@ -87,7 +89,7 @@ object UsageTracker {
    * UsageTrackerWriter implementation. NOTE: Should only be used from Usage Tracker tests.
    */
   @JvmStatic
-  val writerForTest: UsageTrackerWriter
+  val writerForTest: UsageTrackerWriter<AndroidStudioEvent.Builder>
     @VisibleForTesting
     get() {
       synchronized(gate) {
@@ -161,7 +163,9 @@ object UsageTracker {
    * other settings.
    */
   @JvmStatic
-  fun initialize(scheduler: ScheduledExecutorService): UsageTrackerWriter {
+  fun initialize(
+    scheduler: ScheduledExecutorService
+  ): UsageTrackerWriter<AndroidStudioEvent.Builder> {
     if (isTesting) {
       // @coverage:off
       return writer
@@ -189,7 +193,9 @@ object UsageTracker {
    * re-initialize in the same process if the user changes the opt in settings.
    */
   @JvmStatic
-  fun initializeIfNotPresent(scheduler: ScheduledExecutorService): UsageTrackerWriter {
+  fun initializeIfNotPresent(
+    scheduler: ScheduledExecutorService
+  ): UsageTrackerWriter<AndroidStudioEvent.Builder> {
     synchronized(gate) {
       if (initialized) {
         return writer
@@ -231,7 +237,9 @@ object UsageTracker {
    */
   @VisibleForTesting
   @JvmStatic
-  fun setWriterForTest(tracker: UsageTrackerWriter): UsageTrackerWriter {
+  fun setWriterForTest(
+    tracker: UsageTrackerWriter<AndroidStudioEvent.Builder>
+  ): UsageTrackerWriter<AndroidStudioEvent.Builder> {
     synchronized(gate) {
       isTesting = true
       initialized = true
@@ -258,7 +266,7 @@ object UsageTracker {
   private fun initializeTrackerWriter(scheduler: ScheduledExecutorService) {
     if (AnalyticsSettings.optedIn) {
       try {
-        writer = JournalingUsageTracker(scheduler, Paths.get(AnalyticsPaths.spoolDirectory))
+        writer = AnonymousUsageTrackerWriter(scheduler, Paths.get(AnalyticsPaths.spoolDirectory))
       } catch (ex: RuntimeException) {
         writer = NullUsageTracker
         throw ex

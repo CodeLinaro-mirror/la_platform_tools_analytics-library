@@ -1,11 +1,11 @@
 /*
- * Copyright (C) 2016 The Android Open Source Project
+ * Copyright (C) 2025 The Android Open Source Project
  *
- * Licensed under the Eclipse Public License, Version 1.0 (the "License");
+ * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *      http://www.eclipse.org/org/documents/epl-v10.php
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -17,6 +17,6 @@
 package com.android.tools.analytics
 
 /** A publisher that never publishes metrics. Used to ensure opt-out users never publish metrics. */
-object NullAnalyticsPublisher : AnalyticsPublisher() {
+class NullAnalyticsPublisher : AnalyticsPublisher() {
   @Throws(Exception::class) override fun close() {}
 }

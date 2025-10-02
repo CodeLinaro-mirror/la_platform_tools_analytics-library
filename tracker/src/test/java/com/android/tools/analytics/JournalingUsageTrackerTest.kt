@@ -55,7 +55,7 @@ class JournalingUsageTrackerTest {
       //  virtual time scheduler.
       val virtualTimeScheduler = VirtualTimeScheduler()
       val journalingUsageTracker =
-        JournalingUsageTracker(virtualTimeScheduler, testSpoolDir.root.toPath())
+        AnonymousUsageTrackerWriter(virtualTimeScheduler, testSpoolDir.root.toPath())
 
       // Create a log entry and log it.
       val logEntry = createAndroidStudioEvent(42)
@@ -103,7 +103,7 @@ class JournalingUsageTrackerTest {
       //  virtual time scheduler.
       val virtualTimeScheduler = VirtualTimeScheduler()
       val journalingUsageTracker =
-        JournalingUsageTracker(virtualTimeScheduler, testSpoolDir.root.toPath())
+        AnonymousUsageTrackerWriter(virtualTimeScheduler, testSpoolDir.root.toPath())
 
       // Set version on the usage tracker.
       UsageTracker.version = "1.2.3.4"
@@ -155,7 +155,7 @@ class JournalingUsageTrackerTest {
       // virtual time scheduler.
       val virtualTimeScheduler = VirtualTimeScheduler()
       val journalingUsageTracker =
-        JournalingUsageTracker(virtualTimeScheduler, testSpoolDir.root.toPath())
+        AnonymousUsageTrackerWriter(virtualTimeScheduler, testSpoolDir.root.toPath())
       UsageTracker.setWriterForTest(journalingUsageTracker)
 
       // Set a timeout of 1 minute for closing the current spool file.
@@ -241,7 +241,7 @@ class JournalingUsageTrackerTest {
       // virtual time scheduler.
       val virtualTimeScheduler = VirtualTimeScheduler()
       val journalingUsageTracker =
-        JournalingUsageTracker(virtualTimeScheduler, testSpoolDir.root.toPath())
+        AnonymousUsageTrackerWriter(virtualTimeScheduler, testSpoolDir.root.toPath())
       UsageTracker.setWriterForTest(journalingUsageTracker)
 
       // Set a timeout of 1 minute for closing the current spool file.
@@ -282,7 +282,7 @@ class JournalingUsageTrackerTest {
       // virtual time scheduler.
       val virtualTimeScheduler = VirtualTimeScheduler()
       val journalingUsageTracker =
-        JournalingUsageTracker(virtualTimeScheduler, testSpoolDir.root.toPath())
+        AnonymousUsageTrackerWriter(virtualTimeScheduler, testSpoolDir.root.toPath())
 
       // Restrict the max amount of logs per spool file to 3.
       UsageTracker.maxJournalSize = 3
@@ -370,7 +370,7 @@ class JournalingUsageTrackerTest {
       // virtual time scheduler.
       val virtualTimeScheduler = VirtualTimeScheduler()
       val journalingUsageTracker =
-        JournalingUsageTracker(virtualTimeScheduler, testSpoolDir.root.toPath())
+        AnonymousUsageTrackerWriter(virtualTimeScheduler, testSpoolDir.root.toPath())
       UsageTracker.setWriterForTest(journalingUsageTracker)
 
       // Write an event to ensure track file switch is triggered.
@@ -426,7 +426,7 @@ class JournalingUsageTrackerTest {
     AnalyticsSettings.dateProvider = dateProvider
     try {
       val journalingUsageTracker =
-        JournalingUsageTracker(virtualTimeScheduler, testSpoolDir.root.toPath())
+        AnonymousUsageTrackerWriter(virtualTimeScheduler, testSpoolDir.root.toPath())
 
       UsageTracker.setWriterForTest(journalingUsageTracker)
       // move time ahead by two minutes after creating the usage tracker to use as current time of
@@ -500,7 +500,7 @@ class JournalingUsageTrackerTest {
       //  virtual time scheduler.
       val virtualTimeScheduler = VirtualTimeScheduler()
       val journalingUsageTracker =
-        JournalingUsageTracker(virtualTimeScheduler, testSpoolDir.root.toPath())
+        AnonymousUsageTrackerWriter(virtualTimeScheduler, testSpoolDir.root.toPath())
 
       // Create a log entry and log it, but don't allow the scheduler to run the write action.
       val logEntry = createAndroidStudioEvent(42)
@@ -547,7 +547,7 @@ class JournalingUsageTrackerTest {
       //  virtual time scheduler.
       val virtualTimeScheduler = VirtualTimeScheduler()
       val journalingUsageTracker =
-        JournalingUsageTracker(virtualTimeScheduler, testSpoolDir.root.toPath())
+        AnonymousUsageTrackerWriter(virtualTimeScheduler, testSpoolDir.root.toPath())
 
       // Create a log entry and log it, but don't allow the scheduler to run the write action.
       val logEntry = createAndroidStudioEvent(42)
