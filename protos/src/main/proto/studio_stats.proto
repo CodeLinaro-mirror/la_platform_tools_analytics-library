@@ -17955,6 +17955,8 @@ message MarketingEmailEvent {
     UNKNOWN = 0;
     // The marketing dialog which is shown after the sign-in flow.
     MARKETING_DIALOG = 1;
+    // Checkbox in settings.
+    SETTINGS = 2;
   }
 
   // Users opt in status to marketing emails.
