@@ -2847,10 +2847,10 @@ message EmulatorGpuVkInfo {
     PHYSICAL_DEVICE_TYPE_CPU = 5;
   }
 
-  optional int32 api_version = 1;
-  optional int32 driver_version = 2;
-  optional int32 vendor_id = 3;
-  optional int32 device_id = 4;
+  optional uint32 api_version = 1;
+  optional uint32 driver_version = 2;
+  optional uint32 vendor_id = 3;
+  optional uint32 device_id = 4;
   // The type of the GPU device. Matches VkPhysicalDeviceType.
   optional PhysicalDeviceType device_type = 5;
   optional string device_name = 6;
