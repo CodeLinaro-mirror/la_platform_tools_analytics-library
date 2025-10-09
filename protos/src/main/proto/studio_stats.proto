@@ -16880,6 +16880,8 @@ message ScreenshotTestComposePreviewEvent {
     TYPE_UNKNOWN = 0;
     PREVIEW_DISCOVERY = 1;
     PREVIEW_RENDERING = 2;
+    VALIDATE_CLICKED = 3;
+    UPDATE_CLICKED = 4;
   }
 
   optional Type type = 1;
