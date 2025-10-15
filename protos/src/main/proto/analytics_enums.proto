@@ -1013,6 +1013,7 @@ enum VariantPropertiesMethodType {
     TEST_SUITE_TARGET_TARGET_DEVICES = 174;
     TEST_SUITES = 175;
     TEST_SUITE_ANDROID_RESOURCES_ENABLED = 176;
+    TEST_SUITE_CODE_COVERAGE = 177;
 }
 
 enum ModulePropertyKeys {
