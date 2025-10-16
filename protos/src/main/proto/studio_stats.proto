@@ -14137,6 +14137,12 @@ message LogcatUsageEvent {
   }
 
   message StackRetraceEvent {
+    enum MappingType {
+      UNKNOWN_MAPPING_TYPE = 0;
+      TEXT = 1;
+      PARTITIONED = 2;
+    }
+
     // A string representing the result of the retrace operation.
     // This can be a constant (SUCCESS, FAIL etc) or a class name of an
     // exception thrown by the code.
@@ -14151,6 +14157,8 @@ message LogcatUsageEvent {
     // true if the mapping file was cached. Implies that retrace_time_ms
     // includes initializing the retrace data structures from the file.
     optional bool is_mapping_cached = 4;
+
+    optional MappingType mapping_type = 5;
   }
 }
 
