@@ -790,6 +790,7 @@ enum VariantApiArtifactType {
     MULTIDEX_KEEP_PROGUARD = 16;
     NATIVE_DEBUG_METADATA = 17;
     NATIVE_SYMBOL_TABLES = 18;
+    PRE_COMPILATION_CLASSES = 19;
 }
 
 enum VariantMethodType {
