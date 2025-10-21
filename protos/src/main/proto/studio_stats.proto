@@ -864,6 +864,9 @@ message AndroidStudioEvent {
   optional NextEditPredictionEvent next_edit_prediction_event = 241
       [lazy = true];
 
+  // set when kind = SML_RAG_EVENT
+  optional SmlRagEvent sml_rag_event = 242 [lazy = true];
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -1849,6 +1852,9 @@ message AndroidStudioEvent {
 
     // Event related to Next Edit Prediction
     NEXT_EDIT_PREDICTION_EVENT = 360;
+
+    // Event related to SML RAG
+    SML_RAG_EVENT = 361;
   }
 
   // Represents different Performance Monitoring types.
@@ -16299,6 +16305,80 @@ message SmlGeolocationEvent {
 message SmlCompletionRequestErrorEvent {
   optional string model_id = 1;
   optional int32 grpc_error_response_code = 3;
+}
+
+// Event for metrics related to Retrieval Augmented Generation (RAG).
+message SmlRagEvent {
+  message RagIndexerMetrics {
+    // The type of indexer like "bm25" or "embeddings" and its version.
+    optional string indexer_type = 1;
+    optional uint32 index_version = 2;
+    // The exception it encountered during RAG indexing.
+    optional string index_exception = 3;
+    // The number of indexed files.
+    optional uint32 indexed_files = 4;
+    // The number of indexed Kotlin/Java files.
+    optional uint32 indexed_kt_files = 5;
+    optional uint32 indexed_java_files = 6;
+    // The number of indexed files from out/ and builds/.
+    optional uint32 generated_files = 7;
+    // The time in milliseconds to index
+    optional uint64 indexing_time_ms = 8;
+  }
+
+  message RagToolMetrics {
+    // The exception the code_search encountered.
+    // We will use "IndexerInactive" to indicate the indexer is not active.
+    optional string search_exception = 1;
+    // The number of files in code_search
+    optional uint32 result_count = 2;
+    // The number of resource files code_search returned.
+    optional uint32 resource_count = 3;
+    // The number of files from out/ and builds/ that code_search returned.
+    optional uint32 generated_files = 4;
+    // The time in milliseconds for code_search.
+    optional uint64 search_time_ms = 5;
+  }
+
+  // We merged the original find_files with file path search based on BM25.
+  // "find_files result" means the file search result of the original
+  // find_files. "bm25 file search" means the file search result based on BM25.
+  message FindFileMetrics {
+    // Comma separated exceptions from the BM25 find_files tool call like
+    // "java.io.FileNotFoundException,java.io.IOException,IndexerInactive".
+    // We will use "IndexerInactive" to indicate the indexer is not active.
+    optional string find_files_exception = 1;
+    // The number of files in the combined file search result.
+    optional uint32 combined_result_count = 2;
+    // The number of files in the bm25 file search result.
+    optional uint32 bm25_search_count = 3;
+  }
+
+  message GrepMetrics {
+    // The number of files in the grep result.
+    optional uint32 result_count = 1;
+    // Whether the query contains any regex of ".\*+?^$|(){}" or not.
+    optional bool regex_query = 2;
+  }
+
+  message KbRagIndexerMetrics {
+    // The exception that occurred during KB RAG indexing.
+    optional string index_exception = 1;
+
+    // The time in milliseconds to index.
+    optional uint64 indexing_time_ms = 2;
+
+    // Whether it indexed the downloaded docs (from Lorry) or not.
+    optional bool index_downloaded_docs = 3;
+  }
+
+  oneof content {
+    RagIndexerMetrics rag_index = 1 [lazy = true];
+    RagToolMetrics rag_tool = 2 [lazy = true];
+    FindFileMetrics find_file = 3 [lazy = true];
+    GrepMetrics grep = 4 [lazy = true];
+    KbRagIndexerMetrics kb_rag = 5 [lazy = true];
+  }
 }
 
 message TestScenarioEvent {
