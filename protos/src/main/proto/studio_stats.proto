@@ -8586,6 +8586,8 @@ message AndroidProfilerEvent {
     PROFILER_INITIALIZATION_FAILED = 9;
     // Triggered when the transport daemon is started.
     TRANSPORT_DAEMON_STARTED = 10;
+    // Triggered when the profiler tool window is created successfully.
+    PROFILER_TOOL_WINDOW_CREATED = 11;
 
     /// General
 
