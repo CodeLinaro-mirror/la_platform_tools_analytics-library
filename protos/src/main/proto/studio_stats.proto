@@ -13151,6 +13151,7 @@ message UpgradeAssistantComponentInfo {
     NEWDSL_DEFAULT = 62;
     KOTLIN20_COMPOSE = 63;
     REMOVE_EMULATOR_SNAPSHOTS = 64;
+    DYNAMIC_FEATURE_CONSUMER_PROGUARD_FILES = 65;
   }
 
   message Java8DefaultProcessorSettings {
