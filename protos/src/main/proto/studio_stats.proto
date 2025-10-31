@@ -867,6 +867,9 @@ message AndroidStudioEvent {
   // set when kind = SML_RAG_EVENT
   optional SmlRagEvent sml_rag_event = 242 [lazy = true];
 
+  // set when kind = GLASSES_PAIRING_EVENT
+  optional GlassesPairingEvent glasses_pairing_event = 243 [lazy = true];
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -1855,6 +1858,9 @@ message AndroidStudioEvent {
 
     // Event related to SML RAG
     SML_RAG_EVENT = 361;
+
+    // Event related to AI Glasses Pairing
+    GLASSES_PAIRING_EVENT = 362;
   }
 
   // Represents different Performance Monitoring types.
@@ -13587,6 +13593,24 @@ message DeviceManagerEvent {
 
     // A direct access device was selected
     DIRECT_ACCESS_ADD_DEVICE_ACTION = 18;
+  }
+}
+
+// Event related to Glasses emulator pairing assistant
+message GlassesPairingEvent {
+  // The kind of GlassesPairingEvent
+  optional EventKind kind = 1;
+
+  // The kind of GlassesPairingEvent
+  enum EventKind {
+    // Default kind
+    UNSPECIFIED = 0;
+    // Pairing assistant was launched
+    PAIRING_ASSISTANT_LAUNCHED = 1;
+    // Failed pairing screen is displayed
+    SHOW_FAILED_PAIRING = 2;
+    // "Successful Pairing" screen is displayed
+    SHOW_SUCCESSFUL_PAIRING = 3;
   }
 }
 
