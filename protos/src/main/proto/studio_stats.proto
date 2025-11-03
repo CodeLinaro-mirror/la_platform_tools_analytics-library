@@ -9645,6 +9645,8 @@ message DynamicLayoutInspectorSession {
 
   // Indicates whether the session had a fold event
   optional bool has_fold_event = 8;
+  // Session data around state reads
+  optional DynamicLayoutInspectorStateReads state_reads = 9 [lazy = true];
 }
 
 // Session data for dynamic layout inspector (inspector v2) around live mode
@@ -9785,6 +9787,30 @@ message DynamicLayoutInspectorAttachToProcess {
     // Data loaded from a file
     SNAPSHOT_CLIENT = 3;
   }
+}
+
+message DynamicLayoutInspectorStateReads {
+  // The number of times the user selected "Observe All" composable
+  optional uint32 observing_all_selected = 1;
+  // The number of times the user selected "Start/Stop Observing Node"
+  optional uint32 observing_node_by_id_selected = 2;
+  // The number of times the user selected "Start/Stop Observing Subtree"
+  optional uint32 observing_sub_tree_by_id_selected = 3;
+
+  // The state read pages shown while observing all
+  optional uint32 pages_shown_observing_all = 4;
+  // The state read pages shown while observing by id
+  optional uint32 pages_shown_observing_by_id = 5;
+
+  // The number of times the user selected next recomposition
+  optional uint32 next_recomposition_chosen = 6;
+  // The number of times the user selected previous recomposition
+  optional uint32 prev_recomposition_chosen = 7;
+
+  // The number of times the user clicked on a stack trace link
+  optional uint32 stack_trace_links_clicked = 8;
+  // The number of times the user clicked on AI link
+  optional uint32 ai_links_clicked = 9;
 }
 
 // Kotlin support information
