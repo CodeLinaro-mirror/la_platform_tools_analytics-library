@@ -16149,6 +16149,63 @@ message SmlChatBotEvent {
     optional ContextDrawerEventType event_type = 1;
   }
 
+  // A "change" is a diff to a file that is put up for review by the user.
+  // A change is made up of one or more diff chunks which can be resolved by
+  // accepting or rejecting them individually, or all at once.
+  // A change is "resolved" when all of the chunks are resolved, and this
+  // event should be logged when that happens.
+  message ChangeResolved {
+    // The total number of chunks that were proposed in this change.
+    // Should be equal to:
+    // total_chunks_accepted + total_chunks_rejected + chunks_iterated
+    optional int32 total_chunks = 1;
+
+    // Chunks can be accepted/rejected either from the editor or from the
+    // drawer UI.
+    optional int32 chunks_rejected_in_editor_count = 2;
+    optional int32 chunks_rejected_in_drawer_count = 3;
+    optional int32 chunks_accepted_in_editor_count = 4;
+    optional int32 chunks_accepted_in_drawer_count = 5;
+
+    // When multiple rounds of changes are made to a file, some chunks may
+    // be overwritten before they can be accepted or rejected. We count those
+    // in this field.
+    optional int32 chunks_iterated = 6;
+
+    // Chunks can be resolved from the drawer UI, either on a file-by-file
+    // basis or en-masse.
+    enum FinalResolutionAction {
+      UNKNOWN = 0;
+      // This change was resolved from the editor.
+      RESOLVED_IN_EDITOR = 1;
+      // This change was resolved by the user clicking the accept button
+      // for this change
+      ACCEPT_INDIVIDUAL = 2;
+      // This change was resolved by the user clicking the accept all button
+      ACCEPT_ALL = 3;
+      // This change was resolved by the user clicking the reject button
+      // for this change
+      REJECT_INDIVIDUAL = 4;
+      // This change was resolved by the user clicking the reject all button
+      // for this change
+      REJECT_ALL = 5;
+      // Switching sessions (threads) will accept all the changes
+      ACCEPT_ALL_SWITCHED_SESSION = 6;
+      // The user closed the IDE, which accepts all the pending changes
+      ACCEPT_ALL_CLOSED_IDE = 7;
+    }
+
+    optional FinalResolutionAction resolution_action = 7;
+
+    // One change might be the result of more than one tool call, and
+    // this is the list of all of them.
+    repeated string tool_call_ids = 8;
+  }
+
+  message ChangesDrawerEvent {
+    optional ChangeResolved change_resolved = 1;
+  }
+
   message ToolCall {
     optional string tool_name = 1;
     optional SmlResponseMetadata metadata = 2 [lazy = true];
@@ -16376,6 +16433,7 @@ message SmlChatBotEvent {
     BotResponseError bot_response_error = 16 [lazy = true];
     SessionManagerEvent session_manager_event = 17 [lazy = true];
     RecentChatsEvent recent_chats_event = 18 [lazy = true];
+    ChangesDrawerEvent changes_drawer_event = 19 [lazy = true];
   }
 }
 
