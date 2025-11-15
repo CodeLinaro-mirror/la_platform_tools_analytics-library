@@ -793,6 +793,7 @@ enum VariantApiArtifactType {
     NATIVE_DEBUG_METADATA = 17;
     NATIVE_SYMBOL_TABLES = 18;
     PRE_COMPILATION_CLASSES = 19;
+    POST_COMPILATION_CLASSES = 20;
 }
 
 enum VariantMethodType {
