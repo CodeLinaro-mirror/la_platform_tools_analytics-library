@@ -16502,18 +16502,18 @@ message SmlRagEvent {
   message RagIndexerMetrics {
     // The type of indexer like "bm25" or "embeddings" and its version.
     optional string indexer_type = 1;
-    optional uint32 index_version = 2;
+    optional int32 index_version = 2;
     // The exception it encountered during RAG indexing.
     optional string index_exception = 3;
     // The number of indexed files.
-    optional uint32 indexed_files = 4;
+    optional int32 indexed_files = 4;
     // The number of indexed Kotlin/Java files.
-    optional uint32 indexed_kt_files = 5;
-    optional uint32 indexed_java_files = 6;
+    optional int32 indexed_kt_files = 5;
+    optional int32 indexed_java_files = 6;
     // The number of indexed files from out/ and builds/.
-    optional uint32 generated_files = 7;
+    optional int32 generated_files = 7;
     // The time in milliseconds to index
-    optional uint64 indexing_time_ms = 8;
+    optional int64 indexing_time_ms = 8;
   }
 
   message RagToolMetrics {
@@ -16521,13 +16521,13 @@ message SmlRagEvent {
     // We will use "IndexerInactive" to indicate the indexer is not active.
     optional string search_exception = 1;
     // The number of files in code_search
-    optional uint32 result_count = 2;
+    optional int32 result_count = 2;
     // The number of resource files code_search returned.
-    optional uint32 resource_count = 3;
+    optional int32 resource_count = 3;
     // The number of files from out/ and builds/ that code_search returned.
-    optional uint32 generated_files = 4;
+    optional int32 generated_files = 4;
     // The time in milliseconds for code_search.
-    optional uint64 search_time_ms = 5;
+    optional int64 search_time_ms = 5;
   }
 
   // We merged the original find_files with file path search based on BM25.
@@ -16539,16 +16539,22 @@ message SmlRagEvent {
     // We will use "IndexerInactive" to indicate the indexer is not active.
     optional string find_files_exception = 1;
     // The number of files in the combined file search result.
-    optional uint32 combined_result_count = 2;
+    optional int32 combined_result_count = 2;
     // The number of files in the bm25 file search result.
-    optional uint32 bm25_search_count = 3;
+    optional int32 bm25_search_count = 3;
+    // The number of files in the original find_files search result.
+    optional int32 found_files_count = 4;
   }
 
   message GrepMetrics {
     // The number of files in the grep result.
-    optional uint32 result_count = 1;
+    optional int32 result_count = 1;
     // Whether the query contains any regex of ".\*+?^$|(){}" or not.
     optional bool regex_query = 2;
+    // The number of files in the grep BM25 backend result.
+    optional int32 bm25_result_count = 3;
+    // The number of files in the original grep backend result.
+    optional int32 grep_result_count = 4;
   }
 
   message KbRagIndexerMetrics {
@@ -16556,7 +16562,7 @@ message SmlRagEvent {
     optional string index_exception = 1;
 
     // The time in milliseconds to index.
-    optional uint64 indexing_time_ms = 2;
+    optional int64 indexing_time_ms = 2;
 
     // Whether it indexed the downloaded docs (from Lorry) or not.
     optional bool index_downloaded_docs = 3;
