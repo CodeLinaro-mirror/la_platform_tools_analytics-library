@@ -13626,7 +13626,6 @@ message DeviceManagerEvent {
 message GlassesPairingEvent {
   // The kind of GlassesPairingEvent
   optional EventKind kind = 1;
-
   // The kind of GlassesPairingEvent
   enum EventKind {
     // Default kind
@@ -13637,6 +13636,30 @@ message GlassesPairingEvent {
     SHOW_FAILED_PAIRING = 2;
     // "Successful Pairing" screen is displayed
     SHOW_SUCCESSFUL_PAIRING = 3;
+    // User selected a device to pair
+    PAIRING_DEVICE_SELECTED = 4;
+    // User clicked "Next" to initiate pairing
+    PAIRING_INITIATED = 5;
+    // Wizard started launching emulators
+    PAIRING_LAUNCH_STARTED = 6;
+    // Wizard is awaiting user authorization on the phone
+    PAIRING_AWAITING_AUTHORIZATION = 7;
+    // Error: Timeout waiting for devices to start
+    PAIRING_ERROR_TIMEOUT = 8;
+    // Error: Device launch failed
+    PAIRING_ERROR_LAUNCH_FAILED = 9;
+    // Error: Glasses are already paired
+    PAIRING_ERROR_ALREADY_PAIRED = 10;
+    // Error: Companion app is missing on the phone
+    PAIRING_ERROR_NO_COMPANION_APP = 11;
+    // Error: Bluetooth address conflict or failure
+    PAIRING_ERROR_BLUETOOTH_ADDRESS = 12;
+    // Error: Pairing bond failed
+    PAIRING_ERROR_BOND_FAILED = 13;
+    // Error: Pairing connection failed
+    PAIRING_ERROR_CONNECTION_FAILED = 14;
+    // Warning: Phone already has paired devices, pairing might fail
+    PAIRING_WARNING_PHONE_ALREADY_PAIRED = 15;
   }
 }
 
