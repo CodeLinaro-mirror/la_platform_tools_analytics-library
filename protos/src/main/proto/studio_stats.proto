@@ -15702,6 +15702,15 @@ message BuildOutputDownloadsInfoEvent {
   optional uint32 ms_since_build_start = 4;
 }
 
+// The type of agent used to generate an Sml response.
+enum SmlAgentType {
+  AGENT_TYPE_UNSPECIFIED = 0;
+  AGENT_TYPE_GENERIC = 1;
+  AGENT_TYPE_UPGRADE_AGENT = 2;
+  AGENT_TYPE_NEW_PROJECT_AGENT = 3;
+  AGENT_TYPE_DEEP_LINK_LOGIC_AGENT = 4;
+}
+
 message SmlResponseMetadata {
   // Trace id (provided by the server) for this response
   optional int64 rpc_global_id = 1;
@@ -15721,6 +15730,9 @@ message SmlResponseMetadata {
   // If the response was generated within the Chat Timeline, the ID of the
   // thread/session the response was generated for.
   optional string thread_id = 6;
+
+  // The type of the agent that generated the response.
+  optional SmlAgentType agent_type = 7;
 }
 
 message SmlCitationInfo {
@@ -16001,6 +16013,8 @@ message SmlChatBotEvent {
     CRASHLYTICS = 9;
     PLAY_VITALS = 10;
     LOGCAT = 11;
+    REFACTORING_MENU = 12;
+    UPDATE_DEPENDENCY_ACTION = 13;
   }
 
   message BotInvoked {
