@@ -7337,7 +7337,7 @@ message AppLinksAssistantEvent {
       [lazy = true];
 
   // UI event source.
-  // Next ID: 60
+  // Next ID: 61
   // Note: Not a properly sequentially incrementing ID (200 & 201 are used)
   enum EventSource {
     // Will be deprecated and replaced by NEW_LINK_CREATION_SIDE_PANEL.
@@ -7357,7 +7357,6 @@ message AppLinksAssistantEvent {
     CODE_INSERT_DIALOG = 9;
     CODE_INSERT_DIALOG_INSERT_BUTTON = 10;
     CODE_INSERT_DIALOG_LIST_SELECTION = 11;
-    CODE_INSERT_DIALOG_GEMINI_BUTTON = 59;
 
     // UI elements of DAL generation panel.
     DAL_PANEL = 12;
@@ -7433,6 +7432,10 @@ message AppLinksAssistantEvent {
     SERVICES_COMPATIBILITY_WARNING = 56;
     SERVICES_COMPATIBILITY_WARNING_UPDATE_BUTTON = 57;
     SERVICES_COMPATIBILITY_WARNING_MORE_INFO_BUTTON = 58;
+
+    // Deep Link AI
+    CODE_INSERT_DIALOG_GEMINI_BUTTON = 59;
+    DLLA_APP_SCREEN_OPEN_CONFIRMATION = 60;
   }
 
   // The state list of UI event source.
