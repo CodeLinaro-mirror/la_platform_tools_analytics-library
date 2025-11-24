@@ -16565,6 +16565,9 @@ message SmlRagEvent {
     optional int32 generated_files = 4;
     // The time in milliseconds for code_search.
     optional int64 search_time_ms = 5;
+    // The number of docs (a doc is a file in the current RAG indexer) that are
+    // indexed.
+    optional int32 total_indexed_docs = 6;
   }
 
   // We merged the original find_files with file path search based on BM25.
@@ -16581,6 +16584,9 @@ message SmlRagEvent {
     optional int32 bm25_search_count = 3;
     // The number of files in the original find_files search result.
     optional int32 found_files_count = 4;
+    // The number of docs (a doc is a file in the current RAG indexer) that are
+    // indexed.
+    optional int32 total_indexed_docs = 5;
   }
 
   message GrepMetrics {
@@ -16592,6 +16598,9 @@ message SmlRagEvent {
     optional int32 bm25_result_count = 3;
     // The number of files in the original grep backend result.
     optional int32 grep_result_count = 4;
+    // The number of docs (a doc is a file in the current RAG indexer) that are
+    // indexed.
+    optional int32 total_indexed_docs = 5;
   }
 
   message KbRagIndexerMetrics {
