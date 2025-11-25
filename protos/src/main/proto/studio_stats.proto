@@ -3175,7 +3175,9 @@ message EmulatorFeatureFlagState {
     ALL_APPS_FOR_HOME_TRAY = 133;
     FORCE_LAVAPIPE = 134;
     FORCE_LAVAPIPE_FOR_SOFTWARE_RENDERING = 135;
-    // Next tag: 136
+    FORCE_GPU_HOST = 136;
+    FORCE_GPU_SOFTWARE = 137;
+    // Next tag: 138
   }
   // Which features were enabled by default or through the server-side config.
   repeated EmulatorFeatureFlag attempted_enabled_feature_flags = 1;
