@@ -3015,6 +3015,9 @@ message EmulatorAvdInfo {
     PIXEL_10_PRO = 55;
     PIXEL_10_PRO_XL = 56;
     PIXEL_10_PRO_FOLD = 57;
+    XR_HEADSET_DEVICE = 58;
+    XR_GLASSES_DEVICE = 59;
+    AI_GLASSES_DEVICE = 60;
   }
   // Name of the AVD. Deprecated as it could potentially contain PII.
   optional string name = 1 [deprecated = true];
@@ -3828,7 +3831,10 @@ message EmulatorDetails {
   optional EmulatorCompatibilityInfo emu_compat_info = 40;
   // In-use Vulkan GPU
   optional EmulatorGpuVkInfo active_vulkan_host_gpu = 41;
-  // Next tag: 42
+  // True if the emulator is running with high privileges (e.g. as
+  // administrator on Windows or as root on Linux).
+  optional bool has_elevated_privileges = 42;
+  // Next tag: 43
 
   // Emulator instance liveness as determined via adb connectivity.
   enum EmulatorAdbLiveness {
@@ -3873,15 +3879,16 @@ message EmulatorDetails {
   enum EmulatorRenderer {
     UNKNOWN_EMULATOR_RENDERER = 0;
     HOST = 1;
-    OFF = 2;
-    GUEST = 3;
-    MESA = 4;
-    SWIFTSHADER = 5;
-    ANGLE = 6;
-    ANGLE9 = 7;
+    OFF = 2 [deprecated = true];
+    GUEST = 3 [deprecated = true];
+    MESA = 4 [deprecated = true];
+    SWIFTSHADER = 5 [deprecated = true];
+    ANGLE = 6 [deprecated = true];
+    ANGLE9 = 7 [deprecated = true];
     SWIFTSHADER_INDIRECT = 8;
     ANGLE_INDIRECT = 9;
-    ANGLE9_INDIRECT = 10;
+    ANGLE9_INDIRECT = 10 [deprecated = true];
+    LAVAPIPE = 11;
     ERROR_IN_EMULATOR_RENDERER = 255;
   }
 
