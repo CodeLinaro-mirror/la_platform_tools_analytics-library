@@ -3187,7 +3187,8 @@ message EmulatorFeatureFlagState {
     FORCE_LAVAPIPE_FOR_SOFTWARE_RENDERING = 135;
     FORCE_GPU_HOST = 136;
     FORCE_GPU_SOFTWARE = 137;
-    // Next tag: 138
+    QEMU_CAMERA_SENSOR_ORIENTATION = 138;
+    // Next tag: 139
   }
   // Which features were enabled by default or through the server-side config.
   repeated EmulatorFeatureFlag attempted_enabled_feature_flags = 1;
