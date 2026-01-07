@@ -16470,6 +16470,25 @@ message SmlChatBotEvent {
       NewChat new_chat = 3;
     }
   }
+  enum ConversationAction {
+    UNKNOWN_ACTION = 0;
+    // Delete a conversation(request and response pairs).
+    DELETE = 1;
+    // Edit and resend a request.
+    EDIT = 2;
+    // Regenerate the response for the same request.
+    REGENERATE = 3;
+  }
+  message ConversationActionInvoked {
+    // Metadata about the conversation on which action is being performed on.
+    optional SmlResponseMetadata metadata = 1 [lazy = true];
+    // The action performed by the user on a chat bot conversation (e.g. edit,
+    // delete).
+    optional ConversationAction conversation_action = 2;
+    // The chat mode (e.g. chat, agent etc) the user was in when performing the
+    // action.
+    optional ChatMode chat_mode = 3;
+  }
 
   oneof content {
     BotResponse response = 1 [lazy = true];
@@ -16491,6 +16510,7 @@ message SmlChatBotEvent {
     SessionManagerEvent session_manager_event = 17 [lazy = true];
     RecentChatsEvent recent_chats_event = 18 [lazy = true];
     ChangesDrawerEvent changes_drawer_event = 19 [lazy = true];
+    ConversationActionInvoked conversation_action_invoked = 20 [lazy = true];
   }
 }
 
