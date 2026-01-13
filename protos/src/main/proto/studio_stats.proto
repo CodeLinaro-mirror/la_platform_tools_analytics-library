@@ -16162,6 +16162,7 @@ message SmlChatBotEvent {
     QUERY_WITH_CONTEXT_SUBMITTED = 4;
     REFERENCE_DELETED = 5;
     IMAGE_ATTACHMENT_CLICKED = 6;
+    QUERY_STOPPED = 7;
   }
 
   message QueryBoxEventMetadata {
