@@ -1028,6 +1028,7 @@ enum VariantPropertiesMethodType {
     TEST_SUITE_SOURCE_RESOURCES = 182;
     TEST_SUITE_SOURCE_ASSETS = 183;
     TEST_SUITE_SOURCE_MANIFEST_FILE = 184;
+    SOURCES_KEEP_RULES_ACCESS = 185;
 }
 
 enum ModulePropertyKeys {
