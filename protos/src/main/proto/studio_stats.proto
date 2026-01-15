@@ -18497,9 +18497,20 @@ message NextEditPredictionEvent {
     // Add fields specific to the REJECTED event here, if any.
   }
 
+  message EnabledStatus {
+    enum Status {
+      UNKNOWN_STATUS = 0;
+      ENABLED = 1;
+      DISABLED = 2;
+      PAUSED = 3;
+    }
+    optional Status status = 1;
+  }
+
   oneof next_edit_prediction {
     PredictionShown shown = 1 [lazy = true];
     PredictionAccepted accepted = 2 [lazy = true];
     PredictionRejected rejected = 3 [lazy = true];
+    EnabledStatus enabled_status = 4 [lazy = true];
   }
 }
