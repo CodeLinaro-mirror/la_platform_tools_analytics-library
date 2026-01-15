@@ -7360,7 +7360,7 @@ message AppLinksAssistantEvent {
       [lazy = true];
 
   // UI event source.
-  // Next ID: 61
+  // Next ID: 67
   // Note: Not a properly sequentially incrementing ID (200 & 201 are used)
   enum EventSource {
     // Will be deprecated and replaced by NEW_LINK_CREATION_SIDE_PANEL.
@@ -7459,6 +7459,14 @@ message AppLinksAssistantEvent {
     // Deep Link AI
     CODE_INSERT_DIALOG_GEMINI_BUTTON = 59;
     DLLA_APP_SCREEN_OPEN_CONFIRMATION = 60;
+
+    // The secondary tab for viewing missing URLs info.
+    MISSING_URL_OVERVIEW_TABLE = 61;
+    MISSING_URL_OVERVIEW_TABLE_DETAILS_BUTTON = 62;
+    MISSING_URL_OVERVIEW_TABLE_FIX_ALL_APP_CHECKS_BUTTON = 63;
+    MISSING_URL_OVERVIEW_TABLE_FIX_ALL_WEB_CHECKS_BUTTON = 64;
+    MISSING_URL_OVERVIEW_TABLE_SEARCH_BOX = 65;
+    MISSING_URL_OVERVIEW_TABLE_FILTERS = 66;
   }
 
   // The state list of UI event source.
