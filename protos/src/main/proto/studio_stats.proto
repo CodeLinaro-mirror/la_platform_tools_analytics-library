@@ -13680,12 +13680,24 @@ message GlassesPairingEvent {
     PAIRING_ERROR_NO_COMPANION_APP = 11;
     // Error: Bluetooth address conflict or failure
     PAIRING_ERROR_BLUETOOTH_ADDRESS = 12;
-    // Error: Pairing bond failed
+    // Error: Pairing bluetooth bond failed
     PAIRING_ERROR_BOND_FAILED = 13;
     // Error: Pairing connection failed
     PAIRING_ERROR_CONNECTION_FAILED = 14;
     // Warning: Phone already has paired devices, pairing might fail
     PAIRING_WARNING_PHONE_ALREADY_PAIRED = 15;
+    // Error: Pairing worker cancelled
+    PAIRING_ERROR_WORKER_CANCELLED = 16;
+    // Error: Polling for pairing state failed (timeout)
+    PAIRING_ERROR_POLLING_FAILED = 17;
+    // Error: Companion CDM association failed
+    PAIRING_ERROR_COMPANION_CDM_FAILED = 18;
+    // Error: Shell command failed execution (e.g., pm grant, am broadcast)
+    PAIRING_ERROR_SHELL_COMMAND = 19;
+    // Error: IO error when interacting with the device
+    PAIRING_ERROR_IO_FAILED = 20;
+    // Error: Generic or unknown pairing error
+    PAIRING_ERROR_GENERIC = 21;
   }
 }
 
