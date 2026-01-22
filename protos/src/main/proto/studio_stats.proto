@@ -13657,6 +13657,7 @@ message DeviceManagerEvent {
 }
 
 // Event related to Glasses emulator pairing assistant
+// Next ID: 24
 message GlassesPairingEvent {
   // The kind of GlassesPairingEvent
   optional EventKind kind = 1;
@@ -13678,6 +13679,10 @@ message GlassesPairingEvent {
     PAIRING_LAUNCH_STARTED = 6;
     // Wizard is awaiting user authorization on the phone
     PAIRING_AWAITING_AUTHORIZATION = 7;
+    // Wizard is connecting glassesto the glasses core on the phone
+    PAIRING_GLASSES_CORE_CONNECTING = 22;
+    // Wizard is connecting to the glasses core on the phone
+    PAIRING_GLASSES_CORE_CONNECTED = 23;
     // Error: Timeout waiting for devices to start
     PAIRING_ERROR_TIMEOUT = 8;
     // Error: Device launch failed
