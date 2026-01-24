@@ -17310,6 +17310,9 @@ message ScreenshotTestComposePreviewEvent {
     PREVIEW_RENDERING = 2;
     VALIDATE_CLICKED = 3;
     UPDATE_CLICKED = 4;
+    SCREENSHOT_DIALOG_OPEN = 5;
+    SCREENSHOT_DIALOG_CLOSE = 6;
+    SCREENSHOT_DIALOG_ALREADY_OPEN = 7;
   }
 
   optional Type type = 1;
