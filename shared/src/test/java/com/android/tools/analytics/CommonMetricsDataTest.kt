@@ -33,14 +33,8 @@ class CommonMetricsDataTest {
 
   @Test
   fun cpuArchitectureFromStringTest() {
-    assertEquals(
-      CpuArchitecture.UNKNOWN_CPU_ARCHITECTURE,
-      CommonMetricsData.cpuArchitectureFromString(null),
-    )
-    assertEquals(
-      CpuArchitecture.UNKNOWN_CPU_ARCHITECTURE,
-      CommonMetricsData.cpuArchitectureFromString(""),
-    )
+    assertEquals(CpuArchitecture.UNKNOWN_CPU_ARCHITECTURE, CommonMetricsData.cpuArchitectureFromString(null))
+    assertEquals(CpuArchitecture.UNKNOWN_CPU_ARCHITECTURE, CommonMetricsData.cpuArchitectureFromString(""))
     assertEquals(CpuArchitecture.X86_64, CommonMetricsData.cpuArchitectureFromString("x86_64"))
     assertEquals(CpuArchitecture.X86_64, CommonMetricsData.cpuArchitectureFromString("ia64"))
     assertEquals(CpuArchitecture.X86_64, CommonMetricsData.cpuArchitectureFromString("amd64"))
@@ -48,14 +42,8 @@ class CommonMetricsDataTest {
     assertEquals(CpuArchitecture.X86, CommonMetricsData.cpuArchitectureFromString("i586"))
     assertEquals(CpuArchitecture.X86, CommonMetricsData.cpuArchitectureFromString("i686"))
     assertEquals(CpuArchitecture.X86, CommonMetricsData.cpuArchitectureFromString("x86"))
-    assertEquals(
-      CpuArchitecture.UNKNOWN_CPU_ARCHITECTURE,
-      CommonMetricsData.cpuArchitectureFromString("x96"),
-    )
-    assertEquals(
-      CpuArchitecture.UNKNOWN_CPU_ARCHITECTURE,
-      CommonMetricsData.cpuArchitectureFromString("i6869"),
-    )
+    assertEquals(CpuArchitecture.UNKNOWN_CPU_ARCHITECTURE, CommonMetricsData.cpuArchitectureFromString("x96"))
+    assertEquals(CpuArchitecture.UNKNOWN_CPU_ARCHITECTURE, CommonMetricsData.cpuArchitectureFromString("i6869"))
   }
 
   @Test
@@ -164,54 +152,18 @@ class CommonMetricsDataTest {
 
   @Test
   fun applicationBinaryInterfaceFromStringTest() {
-    assertEquals(
-      ApplicationBinaryInterface.ARME_ABI,
-      CommonMetricsData.applicationBinaryInterfaceFromString("armeabi"),
-    )
-    assertEquals(
-      ApplicationBinaryInterface.ARME_ABI_V6J,
-      CommonMetricsData.applicationBinaryInterfaceFromString("armeabi-v6j"),
-    )
-    assertEquals(
-      ApplicationBinaryInterface.ARME_ABI_V6L,
-      CommonMetricsData.applicationBinaryInterfaceFromString("armeabi-v6l"),
-    )
-    assertEquals(
-      ApplicationBinaryInterface.ARME_ABI_V7A,
-      CommonMetricsData.applicationBinaryInterfaceFromString("armeabi-v7a"),
-    )
-    assertEquals(
-      ApplicationBinaryInterface.ARM64_V8A_ABI,
-      CommonMetricsData.applicationBinaryInterfaceFromString("arm64-v8a"),
-    )
-    assertEquals(
-      ApplicationBinaryInterface.MIPS_ABI,
-      CommonMetricsData.applicationBinaryInterfaceFromString("mips"),
-    )
-    assertEquals(
-      ApplicationBinaryInterface.MIPS_R2_ABI,
-      CommonMetricsData.applicationBinaryInterfaceFromString("mips-r2"),
-    )
-    assertEquals(
-      ApplicationBinaryInterface.X86_ABI,
-      CommonMetricsData.applicationBinaryInterfaceFromString("x86"),
-    )
-    assertEquals(
-      ApplicationBinaryInterface.X86_64_ABI,
-      CommonMetricsData.applicationBinaryInterfaceFromString("x86_64"),
-    )
-    assertEquals(
-      ApplicationBinaryInterface.UNKNOWN_ABI,
-      CommonMetricsData.applicationBinaryInterfaceFromString(null),
-    )
-    assertEquals(
-      ApplicationBinaryInterface.UNKNOWN_ABI,
-      CommonMetricsData.applicationBinaryInterfaceFromString(""),
-    )
-    assertEquals(
-      ApplicationBinaryInterface.UNKNOWN_ABI,
-      CommonMetricsData.applicationBinaryInterfaceFromString("my_custom_abi"),
-    )
+    assertEquals(ApplicationBinaryInterface.ARME_ABI, CommonMetricsData.applicationBinaryInterfaceFromString("armeabi"))
+    assertEquals(ApplicationBinaryInterface.ARME_ABI_V6J, CommonMetricsData.applicationBinaryInterfaceFromString("armeabi-v6j"))
+    assertEquals(ApplicationBinaryInterface.ARME_ABI_V6L, CommonMetricsData.applicationBinaryInterfaceFromString("armeabi-v6l"))
+    assertEquals(ApplicationBinaryInterface.ARME_ABI_V7A, CommonMetricsData.applicationBinaryInterfaceFromString("armeabi-v7a"))
+    assertEquals(ApplicationBinaryInterface.ARM64_V8A_ABI, CommonMetricsData.applicationBinaryInterfaceFromString("arm64-v8a"))
+    assertEquals(ApplicationBinaryInterface.MIPS_ABI, CommonMetricsData.applicationBinaryInterfaceFromString("mips"))
+    assertEquals(ApplicationBinaryInterface.MIPS_R2_ABI, CommonMetricsData.applicationBinaryInterfaceFromString("mips-r2"))
+    assertEquals(ApplicationBinaryInterface.X86_ABI, CommonMetricsData.applicationBinaryInterfaceFromString("x86"))
+    assertEquals(ApplicationBinaryInterface.X86_64_ABI, CommonMetricsData.applicationBinaryInterfaceFromString("x86_64"))
+    assertEquals(ApplicationBinaryInterface.UNKNOWN_ABI, CommonMetricsData.applicationBinaryInterfaceFromString(null))
+    assertEquals(ApplicationBinaryInterface.UNKNOWN_ABI, CommonMetricsData.applicationBinaryInterfaceFromString(""))
+    assertEquals(ApplicationBinaryInterface.UNKNOWN_ABI, CommonMetricsData.applicationBinaryInterfaceFromString("my_custom_abi"))
   }
 
   @Test
@@ -227,10 +179,7 @@ class CommonMetricsDataTest {
     assertEquals(10L * 1024 * 1024 * 1024, CommonMetricsData.parseVmOptionSize("10G"))
     assertEquals(2L * 1024 * 1024 * 1024 * 1024, CommonMetricsData.parseVmOptionSize("2T"))
     assertEquals(CommonMetricsData.NO_DIGITS.toLong(), CommonMetricsData.parseVmOptionSize("G"))
-    assertEquals(
-      CommonMetricsData.INVALID_POSTFIX.toLong(),
-      CommonMetricsData.parseVmOptionSize("10Z"),
-    )
+    assertEquals(CommonMetricsData.INVALID_POSTFIX.toLong(), CommonMetricsData.parseVmOptionSize("10Z"))
     assertEquals(
       CommonMetricsData.INVALID_NUMBER.toLong(),
       CommonMetricsData.parseVmOptionSize(java.lang.Long.toString(java.lang.Long.MAX_VALUE) + 0),
@@ -263,8 +212,7 @@ class CommonMetricsDataTest {
 
     try {
       // Test getJvmDetails w/o any VM options specified.
-      val expectedNoOptions =
-        JvmDetails.newBuilder().setName(VM_NAME).setVendor(VM_VENDOR).setVersion(VM_VERSION).build()
+      val expectedNoOptions = JvmDetails.newBuilder().setName(VM_NAME).setVendor(VM_VENDOR).setVersion(VM_VERSION).build()
       val resultNoOptions = CommonMetricsData.jvmDetails
       assertEquals(expectedNoOptions, resultNoOptions)
 
@@ -318,19 +266,9 @@ class CommonMetricsDataTest {
           StubGarbageCollectionBean.fixedValue(SECOND_GC, 404, 512),
         )
 
-      val firstExpected =
-        GarbageCollectionStats.newBuilder()
-          .setName(FIRST_GC)
-          .setGcCollections(100)
-          .setGcTime(123)
-          .build()
+      val firstExpected = GarbageCollectionStats.newBuilder().setName(FIRST_GC).setGcCollections(100).setGcTime(123).build()
 
-      val secondExpected =
-        GarbageCollectionStats.newBuilder()
-          .setName(SECOND_GC)
-          .setGcCollections(404)
-          .setGcTime(512)
-          .build()
+      val secondExpected = GarbageCollectionStats.newBuilder().setName(SECOND_GC).setGcCollections(404).setGcTime(512).build()
 
       val results1 = CommonMetricsData.garbageCollectionStats
       Assert.assertEquals(2, results1.size.toLong())
@@ -346,19 +284,9 @@ class CommonMetricsDataTest {
         )
 
       // We expect results to be a diff instead of commulative of above values.
-      val thirdExpected =
-        GarbageCollectionStats.newBuilder()
-          .setName(FIRST_GC)
-          .setGcCollections(100)
-          .setGcTime(111)
-          .build()
+      val thirdExpected = GarbageCollectionStats.newBuilder().setName(FIRST_GC).setGcCollections(100).setGcTime(111).build()
 
-      val fourthExpected =
-        GarbageCollectionStats.newBuilder()
-          .setName(SECOND_GC)
-          .setGcCollections(97)
-          .setGcTime(512)
-          .build()
+      val fourthExpected = GarbageCollectionStats.newBuilder().setName(SECOND_GC).setGcCollections(97).setGcTime(512).build()
 
       val results2 = CommonMetricsData.garbageCollectionStats
       Assert.assertEquals(2, results2.size.toLong())
@@ -415,20 +343,8 @@ class CommonMetricsDataTest {
           .setHeapMemoryUsage(2)
           .setNonHeapMemoryUsage(6)
           .setLoadedClassCount(100)
-          .addGarbageCollectionStats(
-            GarbageCollectionStats.newBuilder()
-              .setName(FIRST_GC)
-              .setGcCollections(100)
-              .setGcTime(123)
-              .build()
-          )
-          .addGarbageCollectionStats(
-            GarbageCollectionStats.newBuilder()
-              .setName(SECOND_GC)
-              .setGcCollections(404)
-              .setGcTime(512)
-              .build()
-          )
+          .addGarbageCollectionStats(GarbageCollectionStats.newBuilder().setName(FIRST_GC).setGcCollections(100).setGcTime(123).build())
+          .addGarbageCollectionStats(GarbageCollectionStats.newBuilder().setName(SECOND_GC).setGcCollections(404).setGcTime(512).build())
           .setThreadCount(5)
           .build()
 

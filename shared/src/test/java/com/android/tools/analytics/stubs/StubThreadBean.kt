@@ -146,19 +146,12 @@ open class StubThreadBean : ThreadMXBean {
     return false
   }
 
-  override fun getThreadInfo(
-    ids: LongArray,
-    lockedMonitors: Boolean,
-    lockedSynchronizers: Boolean,
-  ): Array<ThreadInfo> {
+  override fun getThreadInfo(ids: LongArray, lockedMonitors: Boolean, lockedSynchronizers: Boolean): Array<ThreadInfo> {
     fail()
     return arrayOf()
   }
 
-  override fun dumpAllThreads(
-    lockedMonitors: Boolean,
-    lockedSynchronizers: Boolean,
-  ): Array<ThreadInfo> {
+  override fun dumpAllThreads(lockedMonitors: Boolean, lockedSynchronizers: Boolean): Array<ThreadInfo> {
     fail()
     return arrayOf()
   }

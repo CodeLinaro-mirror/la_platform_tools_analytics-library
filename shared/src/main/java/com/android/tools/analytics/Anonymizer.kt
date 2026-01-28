@@ -19,8 +19,8 @@ import com.google.common.base.Charsets
 import com.google.common.hash.Hashing
 
 /**
- * Anonymizes strings for analytics reporting. Each string is sha256 encoded with a salt that is
- * unique per user and rotated every 28 days with a predictable time window.
+ * Anonymizes strings for analytics reporting. Each string is sha256 encoded with a salt that is unique per user and rotated every 28 days
+ * with a predictable time window.
  */
 object Anonymizer {
   /** Anonymizes a string. Returns null if the salt is not initialized in AnalyticsSettings. */

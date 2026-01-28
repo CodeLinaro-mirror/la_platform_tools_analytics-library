@@ -20,9 +20,7 @@ import java.lang.management.GarbageCollectorMXBean
 import javax.management.ObjectName
 import org.junit.Assert.fail
 
-/**
- * A Stub implementation of [GarbageCollectorMXBean] for use in tests. By default fails on any call.
- */
+/** A Stub implementation of [GarbageCollectorMXBean] for use in tests. By default fails on any call. */
 open class StubGarbageCollectionBean : GarbageCollectorMXBean {
 
   override fun getCollectionCount(): Long {

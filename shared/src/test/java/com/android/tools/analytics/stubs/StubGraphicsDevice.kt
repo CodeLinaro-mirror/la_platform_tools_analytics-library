@@ -49,11 +49,9 @@ open class StubGraphicsDevice : GraphicsDevice() {
 
     @JvmStatic
     /** Creates a GraphicsDevice with specified width & height. */
-    fun withBounds(width: Int, height: Int): GraphicsDevice =
-      StubGraphicsDeviceWithBounds(width, height)
+    fun withBounds(width: Int, height: Int): GraphicsDevice = StubGraphicsDeviceWithBounds(width, height)
 
-    private class StubGraphicsDeviceWithBounds constructor(val width: Int, val height: Int) :
-      StubGraphicsDevice() {
+    private class StubGraphicsDeviceWithBounds constructor(val width: Int, val height: Int) : StubGraphicsDevice() {
       override fun getDefaultConfiguration(): GraphicsConfiguration {
         return object : StubGraphicsConfiguration() {
           override fun getBounds() = Rectangle(width, height)

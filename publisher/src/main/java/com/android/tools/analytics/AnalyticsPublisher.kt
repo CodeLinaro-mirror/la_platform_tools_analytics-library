@@ -23,9 +23,8 @@ import java.util.concurrent.ScheduledExecutorService
 import java.util.concurrent.TimeUnit
 
 /**
- * Base class for publishing analytics. This class has two subclasses, one that publishes analytics
- * to Google's servers for users who opted in to metrics and one that is a Noop to ensure metrics
- * never get published for users who opt out.
+ * Base class for publishing analytics. This class has two subclasses, one that publishes analytics to Google's servers for users who opted
+ * in to metrics and one that is a Noop to ensure metrics never get published for users who opt out.
  */
 abstract class AnalyticsPublisher protected constructor() : AutoCloseable {
 
@@ -51,18 +50,10 @@ abstract class AnalyticsPublisher protected constructor() : AutoCloseable {
      * @param applicationBuild version information about the app publishing analytics.
      */
     @JvmStatic
-    fun initialize(
-      scheduler: ScheduledExecutorService,
-      applicationBuild: String,
-    ): AnalyticsPublisher {
+    fun initialize(scheduler: ScheduledExecutorService, applicationBuild: String): AnalyticsPublisher {
       synchronized(gate) {
         if (AnalyticsSettings.optedIn && !AnalyticsSettings.debugDisablePublishing) {
-          anonymousInstance_ =
-            GoogleAnalyticsPublisher(
-              scheduler,
-              Paths.get(AnalyticsPaths.spoolDirectory),
-              applicationBuild,
-            )
+          anonymousInstance_ = GoogleAnalyticsPublisher(scheduler, Paths.get(AnalyticsPaths.spoolDirectory), applicationBuild)
         } else {
           anonymousInstance_ = NullAnalyticsPublisher()
         }
@@ -80,11 +71,7 @@ abstract class AnalyticsPublisher protected constructor() : AutoCloseable {
 
     /** Closes the current publisher and creates a new instance. */
     @JvmStatic
-    fun updatePublisher(
-      logger: ILogger,
-      scheduler: ScheduledExecutorService,
-      applicationBuild: String,
-    ) {
+    fun updatePublisher(logger: ILogger, scheduler: ScheduledExecutorService, applicationBuild: String) {
       AnalyticsSettings.initialize(logger, scheduler)
       val current = instance
       try {
@@ -100,11 +87,9 @@ abstract class AnalyticsPublisher protected constructor() : AutoCloseable {
      * Sets the instance of the publisher that sends messages with authorized headers
      *
      * @param logger used for logging errors
-     * @param scheduler used to schedule periodic checks for data in the spool file using the
-     *   publishing interval set on the publisher
+     * @param scheduler used to schedule periodic checks for data in the spool file using the publishing interval set on the publisher
      * @param applicationBuild application build used on the loq request
-     * @param storeLocationId A unique id derived from the user's email address. Used to create the
-     *   spool directory for that address
+     * @param storeLocationId A unique id derived from the user's email address. Used to create the spool directory for that address
      * @param credentialsCallback callback to retrieve the authorization credentials
      */
     @JvmStatic

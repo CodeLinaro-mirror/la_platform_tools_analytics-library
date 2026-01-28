@@ -30,18 +30,10 @@ private val setters =
       put("androidx.test", "orchestrator", Builder::setTestOrchestratorVersion)
       put("androidx.test", "rules", Builder::setTestRulesVersion)
       put("androidx.test", "runner", Builder::setTestRunnerVersion)
-      put(
-        "androidx.test.espresso",
-        "espresso-accessibility",
-        Builder::setEspressoAccessibilityVersion,
-      )
+      put("androidx.test.espresso", "espresso-accessibility", Builder::setEspressoAccessibilityVersion)
       put("androidx.test.espresso", "espresso-contrib", Builder::setEspressoContribVersion)
       put("androidx.test.espresso", "espresso-core", Builder::setEspressoVersion)
-      put(
-        "androidx.test.espresso",
-        "espresso-idling-resource",
-        Builder::setEspressoIdlingResourceVersion,
-      )
+      put("androidx.test.espresso", "espresso-idling-resource", Builder::setEspressoIdlingResourceVersion)
       put("androidx.test.espresso", "espresso-intents", Builder::setEspressoIntentsVersion)
       put("androidx.test.espresso", "espresso-web", Builder::setEspressoWebVersion)
       put("androidx.test.espresso", "espresso-device", Builder::setEspressoDeviceVersion)
@@ -53,36 +45,12 @@ private val setters =
       put("com.android.support.test", "orchestrator", Builder::setTestSupportOrchestratorVersion)
       put("com.android.support.test", "rules", Builder::setTestSupportRulesVersion)
       put("com.android.support.test", "runner", Builder::setTestSupportLibraryVersion)
-      put(
-        "com.android.support.test.espresso",
-        "espresso-accessibility",
-        Builder::setTestSupportEspressoAccessibilityVersion,
-      )
-      put(
-        "com.android.support.test.espresso",
-        "espresso-contrib",
-        Builder::setTestSupportEspressoContribVersion,
-      )
-      put(
-        "com.android.support.test.espresso",
-        "espresso-core",
-        Builder::setTestSupportEspressoVersion,
-      )
-      put(
-        "com.android.support.test.espresso",
-        "espresso-idling-resource",
-        Builder::setTestSupportEspressoIdlingResourceVersion,
-      )
-      put(
-        "com.android.support.test.espresso",
-        "espresso-intents",
-        Builder::setTestSupportEspressoIntentsVersion,
-      )
-      put(
-        "com.android.support.test.espresso",
-        "espresso-web",
-        Builder::setTestSupportEspressoWebVersion,
-      )
+      put("com.android.support.test.espresso", "espresso-accessibility", Builder::setTestSupportEspressoAccessibilityVersion)
+      put("com.android.support.test.espresso", "espresso-contrib", Builder::setTestSupportEspressoContribVersion)
+      put("com.android.support.test.espresso", "espresso-core", Builder::setTestSupportEspressoVersion)
+      put("com.android.support.test.espresso", "espresso-idling-resource", Builder::setTestSupportEspressoIdlingResourceVersion)
+      put("com.android.support.test.espresso", "espresso-intents", Builder::setTestSupportEspressoIntentsVersion)
+      put("com.android.support.test.espresso", "espresso-web", Builder::setTestSupportEspressoWebVersion)
       put("com.google.truth", "truth", Builder::setTruthVersion)
       put("junit", "junit", Builder::setJunitVersion)
       put("org.mockito", "mockito-core", Builder::setMockitoVersion)

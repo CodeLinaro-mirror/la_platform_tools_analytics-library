@@ -41,11 +41,7 @@ class AnalyticsPathsTest {
     // Test picking the default path ~/.android/ when no environment variable exists.
     EnvironmentFakes.setNoEnvironmentVariable()
     assertEquals(
-      Paths.get(
-          Environment.instance.getSystemProperty(Environment.SystemProperty.USER_HOME)!!,
-          ".android",
-        )
-        .toString(),
+      Paths.get(Environment.instance.getSystemProperty(Environment.SystemProperty.USER_HOME)!!, ".android").toString(),
       AnalyticsPaths.getAndEnsureAndroidSettingsHome(),
     )
 
@@ -83,22 +79,13 @@ class AnalyticsPathsTest {
     // Test picking the default path under ~/.android/ when no environment variable exists.
     EnvironmentFakes.setNoEnvironmentVariable()
     assertEquals(
-      Paths.get(
-          Environment.instance.getSystemProperty(Environment.SystemProperty.USER_HOME)!!,
-          ".android",
-          "metrics",
-          "spool",
-        )
-        .toString(),
+      Paths.get(Environment.instance.getSystemProperty(Environment.SystemProperty.USER_HOME)!!, ".android", "metrics", "spool").toString(),
       AnalyticsPaths.spoolDirectory,
     )
 
     // Test using the ANDROID_PREFS_ROOT environment variable.
     val customRoot = "/a/b/c"
     EnvironmentFakes.setCustomAndroidPrefsRootEnvironment(customRoot)
-    assertEquals(
-      Paths.get(customRoot, "metrics", "spool").toString(),
-      AnalyticsPaths.spoolDirectory,
-    )
+    assertEquals(Paths.get(customRoot, "metrics", "spool").toString(), AnalyticsPaths.spoolDirectory)
   }
 }

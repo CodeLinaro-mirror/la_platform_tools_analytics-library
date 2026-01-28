@@ -26,11 +26,10 @@ import java.util.logging.Level
 import java.util.logging.Logger
 
 /**
- * UsageTracker is an api to report usage of features. This data is used to improve future versions
- * of Android Studio and related tools.
+ * UsageTracker is an api to report usage of features. This data is used to improve future versions of Android Studio and related tools.
  *
- * The tracker has an API to logDetails usage (in the form of protobuf messages). A separate system
- * called the Analytics Publisher takes the logs and sends them to Google's servers for analysis.
+ * The tracker has an API to logDetails usage (in the form of protobuf messages). A separate system called the Analytics Publisher takes the
+ * logs and sends them to Google's servers for analysis.
  */
 object UsageTracker {
 
@@ -44,14 +43,12 @@ object UsageTracker {
 
   @VisibleForTesting @JvmStatic var sessionId = UUID.randomUUID().toString()
 
-  @JvmStatic
-  @VisibleForTesting
-  var writer: UsageTrackerWriter<AndroidStudioEvent.Builder> = NullUsageTracker
+  @JvmStatic @VisibleForTesting var writer: UsageTrackerWriter<AndroidStudioEvent.Builder> = NullUsageTracker
   private var isTesting: Boolean = false
 
   /**
-   * Indicates whether this UsageTracker has a maximum size at which point logs need to be flushed.
-   * Zero or less indicates no maximum size at which to flush.
+   * Indicates whether this UsageTracker has a maximum size at which point logs need to be flushed. Zero or less indicates no maximum size
+   * at which to flush.
    */
   /*
    * Sets a maximum size at which point logs need to be flushed. Zero or less indicates no
@@ -60,8 +57,7 @@ object UsageTracker {
   @JvmStatic var maxJournalSize: Int = 0
 
   /**
-   * Indicates whether this UsageTracker has a timeout at which point logs need to be flushed. Zero
-   * or less indicates no timeout is set.
+   * Indicates whether this UsageTracker has a timeout at which point logs need to be flushed. Zero or less indicates no timeout is set.
    *
    * @return timeout in nano-seconds.
    */
@@ -70,9 +66,9 @@ object UsageTracker {
     private set
 
   /**
-   * The version specified for this UsageTracker. This version when specified is used to populate
-   * the product_details.version field of AndroidStudioEvent at time of logging As the version of
-   * the product generating the event can be different of the version uploading the event.
+   * The version specified for this UsageTracker. This version when specified is used to populate the product_details.version field of
+   * AndroidStudioEvent at time of logging As the version of the product generating the event can be different of the version uploading the
+   * event.
    */
   @JvmStatic var version: String? = null
 
@@ -81,12 +77,11 @@ object UsageTracker {
   var ideaIsInternal = false
 
   /** IDE brand specified for this UsageTracker. */
-  @JvmStatic
-  var ideBrand: AndroidStudioEvent.IdeBrand = AndroidStudioEvent.IdeBrand.UNKNOWN_IDE_BRAND
+  @JvmStatic var ideBrand: AndroidStudioEvent.IdeBrand = AndroidStudioEvent.IdeBrand.UNKNOWN_IDE_BRAND
 
   /**
-   * Gets the global writer to the provided tracker writer so tests can provide their own
-   * UsageTrackerWriter implementation. NOTE: Should only be used from Usage Tracker tests.
+   * Gets the global writer to the provided tracker writer so tests can provide their own UsageTrackerWriter implementation. NOTE: Should
+   * only be used from Usage Tracker tests.
    */
   @JvmStatic
   val writerForTest: UsageTrackerWriter<AndroidStudioEvent.Builder>
@@ -97,10 +92,7 @@ object UsageTracker {
       }
     }
 
-  /**
-   * Sets a timeout at which point logs need to be flushed. Zero or less indicates no timeout should
-   * be used.
-   */
+  /** Sets a timeout at which point logs need to be flushed. Zero or less indicates no timeout should be used. */
   @JvmStatic
   fun setMaxJournalTime(duration: Long, unit: TimeUnit) {
     runIfUsageTrackerUsable {
@@ -158,14 +150,9 @@ object UsageTracker {
     }
   }
 
-  /**
-   * Initializes a [UsageTrackerWriter] for use throughout this process based on user opt-in and
-   * other settings.
-   */
+  /** Initializes a [UsageTrackerWriter] for use throughout this process based on user opt-in and other settings. */
   @JvmStatic
-  fun initialize(
-    scheduler: ScheduledExecutorService
-  ): UsageTrackerWriter<AndroidStudioEvent.Builder> {
+  fun initialize(scheduler: ScheduledExecutorService): UsageTrackerWriter<AndroidStudioEvent.Builder> {
     if (isTesting) {
       // @coverage:off
       return writer
@@ -186,16 +173,13 @@ object UsageTracker {
   }
 
   /**
-   * Compared with [initialize], this function avoids re-initialize [UsageTracker] when it is
-   * already initialized.
+   * Compared with [initialize], this function avoids re-initialize [UsageTracker] when it is already initialized.
    *
-   * Note this function should not be used by Studio because Studio needs to be able to
-   * re-initialize in the same process if the user changes the opt in settings.
+   * Note this function should not be used by Studio because Studio needs to be able to re-initialize in the same process if the user
+   * changes the opt in settings.
    */
   @JvmStatic
-  fun initializeIfNotPresent(
-    scheduler: ScheduledExecutorService
-  ): UsageTrackerWriter<AndroidStudioEvent.Builder> {
+  fun initializeIfNotPresent(scheduler: ScheduledExecutorService): UsageTrackerWriter<AndroidStudioEvent.Builder> {
     synchronized(gate) {
       if (initialized) {
         return writer
@@ -232,14 +216,12 @@ object UsageTracker {
   }
 
   /**
-   * Sets the global writer to the provided tracker so tests can provide their own UsageTracker
-   * implementation. NOTE: Should only be used from tests.
+   * Sets the global writer to the provided tracker so tests can provide their own UsageTracker implementation. NOTE: Should only be used
+   * from tests.
    */
   @VisibleForTesting
   @JvmStatic
-  fun setWriterForTest(
-    tracker: UsageTrackerWriter<AndroidStudioEvent.Builder>
-  ): UsageTrackerWriter<AndroidStudioEvent.Builder> {
+  fun setWriterForTest(tracker: UsageTrackerWriter<AndroidStudioEvent.Builder>): UsageTrackerWriter<AndroidStudioEvent.Builder> {
     synchronized(gate) {
       isTesting = true
       initialized = true
@@ -250,10 +232,7 @@ object UsageTracker {
     }
   }
 
-  /**
-   * resets the global writer to the null usage tracker, to clean state in tests. NOTE: Should only
-   * be used from tests.
-   */
+  /** resets the global writer to the null usage tracker, to clean state in tests. NOTE: Should only be used from tests. */
   @VisibleForTesting
   @JvmStatic
   fun cleanAfterTesting() {

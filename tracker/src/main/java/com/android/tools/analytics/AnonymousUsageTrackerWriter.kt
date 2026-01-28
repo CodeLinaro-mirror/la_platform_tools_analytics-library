@@ -35,9 +35,7 @@ class AnonymousUsageTrackerWriter(scheduler: ScheduledExecutorService, spoolLoca
       studioEvent.ideBrand = UsageTracker.ideBrand
 
       if (UsageTracker.version != null && !studioEvent.hasProductDetails()) {
-        studioEvent.setProductDetails(
-          ProductDetails.newBuilder().setVersion(UsageTracker.version!!)
-        )
+        studioEvent.setProductDetails(ProductDetails.newBuilder().setVersion(UsageTracker.version!!))
       }
 
       if (UsageTracker.ideaIsInternal) {
