@@ -877,6 +877,9 @@ message AndroidStudioEvent {
   // set when kind = USER_TIER_UPGRADE_EVENT
   optional UserTierUpgradeEvent user_tier_upgrade_event = 245 [lazy = true];
 
+  // set when kind = RENDER_TOOL_EVENT
+  optional RenderToolEvent render_tool_event = 246 [lazy = true];
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -1874,6 +1877,9 @@ message AndroidStudioEvent {
 
     // Event related to consumer user tier upgrade flow.
     USER_TIER_UPGRADE_EVENT = 364;
+
+    // Event related to the Render Tool API.
+    RENDER_TOOL_EVENT = 365;
   }
 
   // Represents different Performance Monitoring types.
@@ -12470,6 +12476,35 @@ message VsPluginEvent {
       EXECUTE_COMMAND = 14;
     }
   }
+}
+
+message RenderToolEvent {
+  // Top-level success status
+  optional bool is_success = 1;
+
+  enum RenderError {
+    UNKNOWN_RENDER_ERROR = 0;
+    ERROR_FILE_NOT_FOUND = 1;
+    ERROR_BLOCKED_BY_AI_EXCLUDE = 2;
+    ERROR_MODULE_NOT_FOUND = 3;
+    ERROR_COMPONENT_NOT_FOUND = 4;
+    // Failures during rendering
+    ERROR_COMPILATION_FAILED = 5;
+    ERROR_RENDER_FAILED = 6;  // RenderResult contained errors
+    ERROR_UNEXPECTED = 7;     // Generic exceptions
+  }
+
+  // The specific error if is_success is false
+  optional RenderError render_error = 2;
+
+  // Parameters
+  optional bool is_compilation_requested = 3;
+  optional bool is_layout_scanner_requested = 4;
+  optional bool show_decorations = 5;
+  optional int64 compilation_duration_ms = 6;
+
+  // Total time from Tool start to Tool finish (includes compilation + overhead)
+  optional int64 total_latency_ms = 7;
 }
 
 message AppInspectionEvent {
