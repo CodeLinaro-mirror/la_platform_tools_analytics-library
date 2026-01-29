@@ -22,11 +22,11 @@ import com.google.wireless.android.sdk.stats.AndroidStudioEvent
 import java.io.Flushable
 
 /**
- * UsageTrackerWriter is an api to report usage of features. This data is used to improve future
- * versions of Android Studio and related tools.
+ * UsageTrackerWriter is an api to report usage of features. This data is used to improve future versions of Android Studio and related
+ * tools.
  *
- * The tracker has an API to logDetails usage (in the form of protobuf messages). A separate system
- * called the Analytics Publisher takes the logs and sends them to Google's servers for analysis.
+ * The tracker has an API to logDetails usage (in the form of protobuf messages). A separate system called the Analytics Publisher takes the
+ * logs and sends them to Google's servers for analysis.
  */
 abstract class UsageTrackerWriter<T : GeneratedMessageV3.Builder<T>> : AutoCloseable, Flushable {
 
@@ -40,16 +40,12 @@ abstract class UsageTrackerWriter<T : GeneratedMessageV3.Builder<T>> : AutoClose
   /** Logs usage data provided in the [AndroidStudioEvent] with provided event time. */
   fun logAt(eventTimeMs: Long, studioEvent: T) {
     processMessage(eventTimeMs, studioEvent)
-    logDetails(
-      ClientAnalytics.LogEvent.newBuilder()
-        .setEventTimeMs(eventTimeMs)
-        .setSourceExtension(studioEvent.build().toByteString())
-    )
+    logDetails(ClientAnalytics.LogEvent.newBuilder().setEventTimeMs(eventTimeMs).setSourceExtension(studioEvent.build().toByteString()))
   }
 
   /**
-   * Logs usage data provided in the [ClientAnalytics.LogEvent]. Normally using {#log} is preferred
-   * please talk to this code's author if you need [.logDetails] instead.
+   * Logs usage data provided in the [ClientAnalytics.LogEvent]. Normally using {#log} is preferred please talk to this code's author if you
+   * need [.logDetails] instead.
    */
   abstract fun logDetails(logEvent: ClientAnalytics.LogEvent.Builder)
 

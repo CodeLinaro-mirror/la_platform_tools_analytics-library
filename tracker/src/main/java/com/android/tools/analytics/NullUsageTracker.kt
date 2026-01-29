@@ -20,10 +20,7 @@ import com.google.protobuf.GeneratedMessageV3
 import com.google.wireless.android.play.playlog.proto.ClientAnalytics
 import com.google.wireless.android.sdk.stats.AndroidStudioEvent
 
-/**
- * A [UsageTracker] that does not report any logs. Used when the user opts-out of reporting usage
- * analytics to Google.
- */
+/** A [UsageTracker] that does not report any logs. Used when the user opts-out of reporting usage analytics to Google. */
 abstract class NullUsageTrackerBase<T : GeneratedMessageV3.Builder<T>> : UsageTrackerWriter<T>() {
 
   override fun logDetails(logEvent: ClientAnalytics.LogEvent.Builder) {}

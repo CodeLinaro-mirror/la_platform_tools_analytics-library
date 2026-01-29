@@ -18,10 +18,7 @@ package com.android.tools.analytics
 
 import com.google.common.annotations.VisibleForTesting
 
-/**
- * Used in tests to fake out the Environment code used in production to allow injecting custom
- * environment variable values.
- */
+/** Used in tests to fake out the Environment code used in production to allow injecting custom environment variable values. */
 @VisibleForTesting
 object EnvironmentFakes {
   /** Helper to fake the ANDROID_PREFS_ROOT environment variable to be set to `path`. */

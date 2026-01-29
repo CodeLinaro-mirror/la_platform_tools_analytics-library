@@ -31,9 +31,7 @@ object Counters {
   @JvmStatic fun getAll(): Collection<Counter> = synchronized(counters) { counters.values.toList() }
 
   // Gets or creates a new [Counter] named [name].
-  @JvmStatic
-  fun get(name: String): Counter =
-    synchronized(counters) { counters.getOrPut(name) { Counter(name) } }
+  @JvmStatic fun get(name: String): Counter = synchronized(counters) { counters.getOrPut(name) { Counter(name) } }
 }
 
 /**

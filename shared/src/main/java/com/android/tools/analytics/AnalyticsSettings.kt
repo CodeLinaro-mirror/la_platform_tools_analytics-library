@@ -50,10 +50,7 @@ import java.util.concurrent.ScheduledExecutorService
 import java.util.logging.Level
 import java.util.logging.Logger
 
-/**
- * Settings related to analytics reporting. These settings are stored in
- * ~/.android/analytics.settings as a json file.
- */
+/** Settings related to analytics reporting. These settings are stored in ~/.android/analytics.settings as a json file. */
 object AnalyticsSettings {
   private const val DAYS_IN_LEAP_YEAR = 366
   private const val DAYS_IN_NON_LEAP_YEAR = 365
@@ -185,8 +182,8 @@ object AnalyticsSettings {
   @JvmStatic private var instance: AnalyticsSettingsData? = null
 
   /**
-   * Gets the current salt skew, this is used by [.getSalt] to update the salt every 28 days with a
-   * consistent window. This window size allows 4 week and 1 week analyses.
+   * Gets the current salt skew, this is used by [.getSalt] to update the salt every 28 days with a consistent window. This window size
+   * allows 4 week and 1 week analyses.
    */
   @VisibleForTesting
   @JvmStatic
@@ -201,10 +198,7 @@ object AnalyticsSettings {
    * for this major release
    */
   @JvmStatic
-  public fun hasUserBeenPromptedForOptin(
-    currentMajorVersion: String,
-    currentMinorVersion: String,
-  ): Boolean {
+  public fun hasUserBeenPromptedForOptin(currentMajorVersion: String, currentMinorVersion: String): Boolean {
     val currentMajor = currentMajorVersion.toIntOrNull() ?: return true
     val currentMinor = currentMinorVersion.toIntOrNull() ?: return true
 
@@ -225,9 +219,8 @@ object AnalyticsSettings {
   }
 
   /**
-   * Loads an existing settings file from disk, or creates a new valid settings object if none
-   * exists. In case of the latter, will try to load uid.txt for maintaining the same uid with
-   * previous metrics reporting.
+   * Loads an existing settings file from disk, or creates a new valid settings object if none exists. In case of the latter, will try to
+   * load uid.txt for maintaining the same uid with previous metrics reporting.
    *
    * @throws IOException if there are any issues reading the settings file.
    */
@@ -266,8 +259,8 @@ object AnalyticsSettings {
   }
 
   /**
-   * Creates a new settings object and writes it to disk. Will try to load uid.txt for maintaining
-   * the same uid with previous metrics reporting.
+   * Creates a new settings object and writes it to disk. Will try to load uid.txt for maintaining the same uid with previous metrics
+   * reporting.
    *
    * @throws IOException if there are any issues writing the settings file.
    */
@@ -306,11 +299,7 @@ object AnalyticsSettings {
    */
   @JvmStatic
   @JvmOverloads
-  fun initialize(
-    logger: ILogger,
-    scheduler: ScheduledExecutorService? = null,
-    environment: Environment? = null,
-  ) {
+  fun initialize(logger: ILogger, scheduler: ScheduledExecutorService? = null, environment: Environment? = null) {
     synchronized(gate) {
       try {
         environment?.let { Environment.instance = environment }
@@ -336,9 +325,7 @@ object AnalyticsSettings {
         dateProvider = gp
         googlePlayDateProvider = gp
       } catch (_: IOException) {
-        logger.warning(
-          "Unable to get current time from Google's servers, using local system time instead."
-        )
+        logger.warning("Unable to get current time from Google's servers, using local system time instead.")
       }
     }
   }
@@ -354,9 +341,7 @@ object AnalyticsSettings {
     }
   }
 
-  /**
-   * Allows test to set a custom version of the AnalyticsSettings to test different setting states.
-   */
+  /** Allows test to set a custom version of the AnalyticsSettings to test different setting states. */
   @VisibleForTesting
   @JvmStatic
   fun setInstanceForTest(settings: AnalyticsSettingsData?) {
@@ -369,17 +354,11 @@ object AnalyticsSettings {
 
   private const val ANALYTICS_SETTINGS = "analytics.settings"
 
-  /**
-   * Helper to get the file to read/write settings from based on the configured android settings
-   * home.
-   */
+  /** Helper to get the file to read/write settings from based on the configured android settings home. */
   internal val settingsFile: File
     get() = Paths.get(AnalyticsPaths.getAndEnsureAndroidSettingsHome(), ANALYTICS_SETTINGS).toFile()
 
-  /**
-   * Gets a binary blob to ensure per user anonymization. Gets automatically rotated every 28 days.
-   * Primarily used by [Anonymizer].
-   */
+  /** Gets a binary blob to ensure per user anonymization. Gets automatically rotated every 28 days. Primarily used by [Anonymizer]. */
   val salt: ByteArray
     @Throws(IOException::class)
     get() =
@@ -417,16 +396,13 @@ object AnalyticsSettings {
 
   /** Checks if the AnalyticsSettings object is in a valid state. */
   internal fun isValid(settings: AnalyticsSettingsData): Boolean {
-    return settings.userId != null &&
-      (settings.saltSkew == AnalyticsSettings.SALT_SKEW_NOT_INITIALIZED ||
-        settings.saltValue != null)
+    return settings.userId != null && (settings.saltSkew == AnalyticsSettings.SALT_SKEW_NOT_INITIALIZED || settings.saltValue != null)
   }
 
   fun daysInYear(): Int {
     val calendar = Calendar.getInstance()
     calendar.time = dateProvider.now()
-    return if (GregorianCalendar().isLeapYear(calendar[Calendar.YEAR])) DAYS_IN_LEAP_YEAR
-    else DAYS_IN_NON_LEAP_YEAR
+    return if (GregorianCalendar().isLeapYear(calendar[Calendar.YEAR])) DAYS_IN_LEAP_YEAR else DAYS_IN_NON_LEAP_YEAR
   }
 }
 
@@ -483,11 +459,7 @@ class AnalyticsSettingsData {
 
   companion object {
 
-    fun parseSettingsData(
-      channel: FileChannel,
-      file: File,
-      logger: ILogger? = null,
-    ): AnalyticsSettingsData? {
+    fun parseSettingsData(channel: FileChannel, file: File, logger: ILogger? = null): AnalyticsSettingsData? {
       if (channel.size() == 0L) return null
       val inputStream = Channels.newInputStream(channel)
       return try {
@@ -512,9 +484,7 @@ class AnalyticsSettingsData {
       writer.name("debugDisablePublishing").value(data.debugDisablePublishing)
       writer.name("saltValue").value(data.saltValue)
       writer.name("saltSkew").value(data.saltSkew)
-      data.lastSentimentQuestionDate?.let {
-        writer.name("lastSentimentQuestionDate").value(format(it))
-      }
+      data.lastSentimentQuestionDate?.let { writer.name("lastSentimentQuestionDate").value(format(it)) }
       data.lastSentimentAnswerDate?.let { writer.name("lastSentimentAnswerDate").value(format(it)) }
       data.nextFeatureSurveyDate?.let { writer.name("lastFeatureSurveyDate").value(format(it)) }
       data.nextFeatureSurveyDateMap?.let {
@@ -543,8 +513,7 @@ class AnalyticsSettingsData {
           "debugDisablePublishing" -> data.debugDisablePublishing = reader.nextBoolean()
           "saltValue" -> data.saltValue = BigInteger(reader.nextString())
           "saltSkew" -> data.saltSkew = reader.nextInt()
-          "lastSentimentQuestionDate" ->
-            data.lastSentimentQuestionDate = parseDate(reader.nextString())
+          "lastSentimentQuestionDate" -> data.lastSentimentQuestionDate = parseDate(reader.nextString())
           "lastSentimentAnswerDate" -> data.lastSentimentAnswerDate = parseDate(reader.nextString())
           "lastFeatureSurveyDate" -> data.nextFeatureSurveyDate = parseDate(reader.nextString())
           "lastFeatureSurveyDateMap" -> {

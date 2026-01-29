@@ -25,8 +25,8 @@ import java.util.*
 import java.util.concurrent.Executors
 
 /**
- * A tiny webserver used to test [WebServerDateProvider] Cannot use the
- * [com.sun.net.httpserver.HttpServer] API as that autogenerates the Date header.
+ * A tiny webserver used to test [WebServerDateProvider] Cannot use the [com.sun.net.httpserver.HttpServer] API as that autogenerates the
+ * Date header.
  */
 class StubDateWebServer {
   private val pattern = "EEE, dd MMM yyyy HH:mm:ss zzz"
@@ -40,11 +40,11 @@ class StubDateWebServer {
 
   private var reply =
     """
-        HTTP/1.1 200 OK
-        Date: Fri, 03 Aug 2018 19:59:10 GMT
+    HTTP/1.1 200 OK
+    Date: Fri, 03 Aug 2018 19:59:10 GMT
 
-        Hello World
-"""
+    Hello World
+    """
       .trimIndent()
 
   init {
@@ -94,10 +94,10 @@ class StubDateWebServer {
   fun replyNoDate() {
     reply =
       """
-        HTTP/1.1 200 OK
+      HTTP/1.1 200 OK
 
-        Hello World
-        """
+      Hello World
+      """
         .trimIndent()
   }
 

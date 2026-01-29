@@ -41,10 +41,9 @@ import java.util.concurrent.TimeUnit
 import java.util.zip.GZIPOutputStream
 
 /**
- * Publish collected analytics to Google's servers. Uses the provided [ScheduleExecutorService] to
- * periodically (10 mins by default), scan the provided spool location for new .trk files. If it
- * finds any it parses the .trk files and uploads the parsed events to Google's servers along with
- * additional metadata such as meta metrics, client info and timing information..
+ * Publish collected analytics to Google's servers. Uses the provided [ScheduleExecutorService] to periodically (10 mins by default), scan
+ * the provided spool location for new .trk files. If it finds any it parses the .trk files and uploads the parsed events to Google's
+ * servers along with additional metadata such as meta metrics, client info and timing information..
  */
 class GoogleAnalyticsPublisher
 /**
@@ -73,9 +72,7 @@ internal constructor(
               .setApplicationBuild(applicationBuild)
               .setOs(CommonMetricsData.osName)
               .setOsMajorVersion(CommonMetricsData.majorOsVersion!!)
-              .setOsFullVersion(
-                Environment.instance.getSystemProperty(Environment.SystemProperty.OS_VERSION)
-              )
+              .setOsFullVersion(Environment.instance.getSystemProperty(Environment.SystemProperty.OS_VERSION))
           )
       )
       // Set the log source for the Clearcut service. This will depend on whether we are attaching
@@ -115,10 +112,7 @@ internal constructor(
     }
   }
 
-  /**
-   * Looks for any .trk files queued up in the spool directory and if so tries to publish them to
-   * Google's servers.
-   */
+  /** Looks for any .trk files queued up in the spool directory and if so tries to publish them to Google's servers. */
   private fun publishQueuedAnalytics() {
     try {
       Files.newDirectoryStream(spoolLocation, "*.trk").use { stream ->
@@ -140,8 +134,8 @@ internal constructor(
   /**
    * Tries to publish analytics for the specified track file.
    *
-   * @return true if file was uploaded successfully, skipped as it was locked or had zero events,
-   *   false if uploading failed (connection or server error).
+   * @return true if file was uploaded successfully, skipped as it was locked or had zero events, false if uploading failed (connection or
+   *   server error).
    */
   private fun tryPublishAnalytics(trackFile: Path): Boolean {
     val file = trackFile.toFile()
@@ -230,8 +224,8 @@ internal constructor(
   }
 
   /**
-   * Allows hosts of the publisher to plug in custom connections. E.g. to configure the connection
-   * to go over a proxy server specified in the host of the publisher.
+   * Allows hosts of the publisher to plug in custom connections. E.g. to configure the connection to go over a proxy server specified in
+   * the host of the publisher.
    */
   fun setCreateConnection(createConnection: Callable<HttpURLConnection>) {
     createConnection_ = createConnection
@@ -277,9 +271,7 @@ internal constructor(
     // Use headers from result to update our dateProvider to avoid clock skew (e.g. from the user
     // changing the clock).
     if (AnalyticsSettings.googlePlayDateProvider != null) {
-      AnalyticsSettings.googlePlayDateProvider!!.updateServerTimestampFromExistingConnection(
-        connection
-      )
+      AnalyticsSettings.googlePlayDateProvider!!.updateServerTimestampFromExistingConnection(connection)
     }
 
     val responseCode = connection.responseCode
@@ -295,10 +287,7 @@ internal constructor(
   }
 
   /** Builds a [ClientAnalytics.LogRequest] proto based on the provided entries and time. */
-  private fun buildLogRequest(
-    entries: List<ClientAnalytics.LogEvent>,
-    time: Long,
-  ): ClientAnalytics.LogRequest {
+  private fun buildLogRequest(entries: List<ClientAnalytics.LogEvent>, time: Long): ClientAnalytics.LogRequest {
     return ClientAnalytics.LogRequest.newBuilder(baseLogRequest)
       .apply { clientInfoBuilder.desktopClientInfoBuilder.setLoggingId(AnalyticsSettings.userId) }
       .setRequestTimeMs(time)
@@ -306,10 +295,7 @@ internal constructor(
       .build()
   }
 
-  /**
-   * Creates [ClientAnalytics.LogEvent] with meta metrics, used to measure the health of our metrics
-   * reporting system.
-   */
+  /** Creates [ClientAnalytics.LogEvent] with meta metrics, used to measure the health of our metrics reporting system. */
   private fun getMetaMetric(time: Long): ClientAnalytics.LogEvent {
     return ClientAnalytics.LogEvent.newBuilder()
       .setEventTimeMs(time)
@@ -330,8 +316,8 @@ internal constructor(
   }
 
   /**
-   * Schedules the job that looks for .trk files and publishes them to Google's servers. Needs to be
-   * called while locked on [.gate]. NOTE: this method is self-rescheduling.
+   * Schedules the job that looks for .trk files and publishes them to Google's servers. Needs to be called while locked on [.gate]. NOTE:
+   * this method is self-rescheduling.
    */
   private fun schedulePublish(publishIntervalNanoSeconds: Long) {
     val currentScheduleVersion = ++scheduleVersion
@@ -376,10 +362,7 @@ internal constructor(
     // on multiple variables or access members of those variables (e.g. method calls).
     private val gate = Any()
 
-    /**
-     * A helper to set the default server URL in the constructor, removes exception from the
-     * signature that we know cannot be thrown.
-     */
+    /** A helper to set the default server URL in the constructor, removes exception from the signature that we know cannot be thrown. */
     private val defaultServerUrl: URL
       get() {
         try {

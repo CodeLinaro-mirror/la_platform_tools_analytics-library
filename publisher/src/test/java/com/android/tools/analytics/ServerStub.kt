@@ -32,17 +32,11 @@ import java.util.concurrent.Future
 import java.util.concurrent.atomic.AtomicBoolean
 import java.util.zip.GZIPInputStream
 
-data class PublishResult(
-  val logRequest: ClientAnalytics.LogRequest,
-  val authorizationHeaders: List<String>?,
-)
+data class PublishResult(val logRequest: ClientAnalytics.LogRequest, val authorizationHeaders: List<String>?)
 
 /** A tiny webserver used to stub out the Google Analytics server in tests. */
 class ServerStub
-/**
- * Creates an instance of the webserver and starts listening on an unused port in the ephemeral
- * range.
- */
+/** Creates an instance of the webserver and starts listening on an unused port in the ephemeral range. */
 @Throws(IOException::class)
 constructor() : HttpHandler, AutoCloseable {
 
@@ -53,12 +47,11 @@ constructor() : HttpHandler, AutoCloseable {
 
   /** Builds a url for the server stub that can be used in testing [AnalyticsPublisher]. */
   val url: URL
-    @Throws(MalformedURLException::class)
-    get() = URL(String.format("http://localhost:%d/log?format=raw", address.port))
+    @Throws(MalformedURLException::class) get() = URL(String.format("http://localhost:%d/log?format=raw", address.port))
 
   /**
-   * Gets results for calls to this webserver since it was started. The future represents successful
-   * (a [ClientAnalytics.LogRequest]) and failed (an exception) requests.
+   * Gets results for calls to this webserver since it was started. The future represents successful (a [ClientAnalytics.LogRequest]) and
+   * failed (an exception) requests.
    */
   // Synchronized to ensure no results are in flight to avoid test flakeyness.
   val results: List<Future<PublishResult>>
@@ -75,10 +68,7 @@ constructor() : HttpHandler, AutoCloseable {
     this.address = server.address
   }
 
-  /**
-   * iff true, instructs the webserver to send an internal server error as the response to the next
-   * request made to this server.
-   */
+  /** iff true, instructs the webserver to send an internal server error as the response to the next request made to this server. */
   fun makeNextResponseServerError(nextRequestBad: Boolean) {
     this.nextResponseServerError.set(nextRequestBad)
   }

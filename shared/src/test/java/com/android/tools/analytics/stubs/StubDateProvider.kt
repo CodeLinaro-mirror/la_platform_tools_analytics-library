@@ -21,13 +21,11 @@ import java.time.ZoneOffset
 import java.util.*
 
 /**
- * A [DateProvider] that can be set to a specific date for use in tests. NOTE: months are 0-11 while
- * days are 1-31 range.
+ * A [DateProvider] that can be set to a specific date for use in tests. NOTE: months are 0-11 while days are 1-31 range.
  *
  * Uses UTC as time zone.
  */
-class StubDateProvider(private val year: Int, private val month: Int, private val day: Int) :
-  DateProvider {
+class StubDateProvider(private val year: Int, private val month: Int, private val day: Int) : DateProvider {
 
   override fun now(): Date {
     val calendar = GregorianCalendar(year, month, day)

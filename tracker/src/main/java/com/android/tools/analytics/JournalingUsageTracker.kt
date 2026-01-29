@@ -39,27 +39,22 @@ import java.util.concurrent.locks.ReentrantLock
 import kotlin.concurrent.withLock
 
 /**
- * a UsageTracker that uses a spool to journal the logs tracked. This tracker can be used in both
- * long-running as well as short-lived command-line tooling to track usage analytics. All analytics
- * get written out to a well-known spool location and will be processed by a separate service in
- * Android Studio for publication. Normal usage calls [UsageTracker.getInstance] to get access to
- * the UsageTracker. This will automatically be set to the correct instance based on the user
- * choosing to opt-in to reporting usage analytics to Google or not.
+ * a UsageTracker that uses a spool to journal the logs tracked. This tracker can be used in both long-running as well as short-lived
+ * command-line tooling to track usage analytics. All analytics get written out to a well-known spool location and will be processed by a
+ * separate service in Android Studio for publication. Normal usage calls [UsageTracker.getInstance] to get access to the UsageTracker. This
+ * will automatically be set to the correct instance based on the user choosing to opt-in to reporting usage analytics to Google or not.
  *
- * Spool files are binary files protobuf using delimited streams
- * https://developers.google.com/protocol-buffers/docs/techniques#streaming
+ * Spool files are binary files protobuf using delimited streams https://developers.google.com/protocol-buffers/docs/techniques#streaming
  *
- * For unittests please use TestUsageTracker. Only for integration tests that need .trk files to be
- * generated, use the JournalingUsageTracker.
+ * For unittests please use TestUsageTracker. Only for integration tests that need .trk files to be generated, use the
+ * JournalingUsageTracker.
  */
 @VisibleForTesting
 abstract class JournalingUsageTracker<T : GeneratedMessageV3.Builder<T>>
 /**
- * Creates an instance of JournalingUsageTracker. Ensures spool location is available and locks the
- * first journaling file.
+ * Creates an instance of JournalingUsageTracker. Ensures spool location is available and locks the first journaling file.
  *
- * @param scheduler used for scheduling writing logs and closing & starting new files on
- *   timeout/size limits.
+ * @param scheduler used for scheduling writing logs and closing & starting new files on timeout/size limits.
  */
 (
   /** Gets the scheduler used by this tracker. */
@@ -80,8 +75,7 @@ abstract class JournalingUsageTracker<T : GeneratedMessageV3.Builder<T>>
 
   @Volatile private var state = State.Open
   private val flushScheduled = AtomicBoolean(false)
-  private val pendingEvents: Queue<ClientAnalytics.LogEvent.Builder> =
-    ConcurrentLinkedQueue<ClientAnalytics.LogEvent.Builder>()
+  private val pendingEvents: Queue<ClientAnalytics.LogEvent.Builder> = ConcurrentLinkedQueue<ClientAnalytics.LogEvent.Builder>()
 
   private enum class State {
     Open,
@@ -103,13 +97,7 @@ abstract class JournalingUsageTracker<T : GeneratedMessageV3.Builder<T>>
     val spoolFile = Paths.get(spoolLocation.toString(), UUID.randomUUID().toString() + ".trk")
     Files.createDirectories(spoolFile.parent)
 
-    channel =
-      FileChannel.open(
-        spoolFile,
-        StandardOpenOption.WRITE,
-        StandardOpenOption.CREATE,
-        StandardOpenOption.DSYNC,
-      )
+    channel = FileChannel.open(spoolFile, StandardOpenOption.WRITE, StandardOpenOption.CREATE, StandardOpenOption.DSYNC)
     outputStream = Channels.newOutputStream(channel!!)
 
     try {
@@ -253,11 +241,10 @@ abstract class JournalingUsageTracker<T : GeneratedMessageV3.Builder<T>>
   }
 
   /**
-   * Closes the trackfile currently used for writing and creates a brand new one and opens that one
-   * for writing. <br></br>
+   * Closes the trackfile currently used for writing and creates a brand new one and opens that one for writing. <br></br>
    *
-   * @return `true` when succeeds, otherwise `false`. If there was an error during the switch,
-   *   JournalingUsageTracker is left in `Broken` state and stops logging/reporting any new events.
+   * @return `true` when succeeds, otherwise `false`. If there was an error during the switch, JournalingUsageTracker is left in `Broken`
+   *   state and stops logging/reporting any new events.
    */
   private fun switchTrackFile(): Boolean {
     try {
@@ -271,8 +258,8 @@ abstract class JournalingUsageTracker<T : GeneratedMessageV3.Builder<T>>
   }
 
   /**
-   * Closes the UsageTracker (closes current tracker file, disables scheduling of timeout, drops any
-   * pending logs and disables new logs from being posted).
+   * Closes the UsageTracker (closes current tracker file, disables scheduling of timeout, drops any pending logs and disables new logs from
+   * being posted).
    */
   @Throws(Exception::class)
   override fun close() {
