@@ -17321,6 +17321,8 @@ message AdbServerStatus {
     TYPE_MDNS_DEFAULT = 1;
     TYPE_BONJOUR = 2;
     TYPE_OPENSCREEN = 3;
+    TYPE_LIBADBMDNS = 4;
+    TYPE_MDNS_DISABLED = 5;
   }
 
   enum USBBackend {
@@ -17328,6 +17330,7 @@ message AdbServerStatus {
     TYPE_USB_DEFAULT = 1;
     TYPE_LIBUSB = 2;
     TYPE_NATIVE = 3;
+    TYPE_USB_DISABLED = 4;
   }
 
   optional bool is_managed = 1;
@@ -18375,6 +18378,8 @@ message GeminiAdvertiserEvent {
     // Features related to UI tools, such as compose preview generation, fix
     // render issues, transform preview, etc.
     UI_TOOLS = 13;
+    // Update dependencies to latest versions.
+    UPDATE_DEPENDENCIES = 14;
   }
 
   enum Action {
