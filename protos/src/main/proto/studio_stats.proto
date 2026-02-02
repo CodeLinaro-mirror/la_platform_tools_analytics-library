@@ -1880,6 +1880,9 @@ message AndroidStudioEvent {
 
     // Event related to the Render Tool API.
     RENDER_TOOL_EVENT = 365;
+
+    // Event related to onboarding triggered by the quick-edit feature.
+    QUICK_EDIT_ONBOARDING = 366;
   }
 
   // Represents different Performance Monitoring types.
@@ -16057,6 +16060,7 @@ message SmlChatBotEvent {
     CHAT = 1;
     AGENT_MODE = 2;
     VERSION_UPGRADE_AGENT = 3;
+    QUICK_EDIT = 4;
   }
 
   message BotResponse {
