@@ -880,6 +880,9 @@ message AndroidStudioEvent {
   // set when kind = RENDER_TOOL_EVENT
   optional RenderToolEvent render_tool_event = 246 [lazy = true];
 
+  // set when kind = EMULATOR_CONSOLE_EVENTS
+  repeated EmulatorConsoleEvent emulator_console_events = 247;
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -1883,6 +1886,9 @@ message AndroidStudioEvent {
 
     // Event related to onboarding triggered by the quick-edit feature.
     QUICK_EDIT_ONBOARDING = 366;
+
+    // Event related to console emulator events.
+    EMULATOR_CONSOLE_EVENTS = 367;
   }
 
   // Represents different Performance Monitoring types.
@@ -3989,6 +3995,19 @@ message EmulatorUiEvent {
     EXTENDED_SETTINGS_TAB = 13;
     EXTENDED_HELP_TAB = 14;
   }
+}
+// Describes a user sending a command to the Emulator Console.
+message EmulatorConsoleEvent {
+  // The command that was used.
+  optional string command = 1;
+  // The source of the command.
+  enum Source {
+    UNKNOWN = 0;
+    TELNET = 1;
+  }
+  optional Source source = 2;
+  // How many times it was used.
+  optional int64 value = 3;
 }
 
 message EmulatorPercentileEstimator {
