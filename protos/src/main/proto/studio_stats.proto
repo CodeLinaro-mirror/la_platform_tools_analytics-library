@@ -883,6 +883,10 @@ message AndroidStudioEvent {
   // set when kind = EMULATOR_CONSOLE_EVENTS
   repeated EmulatorConsoleEvent emulator_console_events = 247;
 
+  // set when kind = STUDIO_BOT_TOOL_WINDOW_AUTO_OPEN_EVENT
+  optional StudioBotToolWindowAutoOpenEvent
+      studio_bot_tool_window_auto_open_event = 248 [lazy = true];
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -1889,6 +1893,9 @@ message AndroidStudioEvent {
 
     // Event related to console emulator events.
     EMULATOR_CONSOLE_EVENTS = 367;
+
+    // Event related to auto opening the Studio Bot tool window on first run.
+    STUDIO_BOT_TOOL_WINDOW_AUTO_OPEN_EVENT = 368;
   }
 
   // Represents different Performance Monitoring types.
@@ -18604,4 +18611,15 @@ message NextEditPredictionEvent {
     PredictionRejected rejected = 3 [lazy = true];
     EnabledStatus enabled_status = 4 [lazy = true];
   }
+}
+
+message StudioBotToolWindowAutoOpenEvent {
+  enum Type {
+    UNKNOWN_TYPE = 0;
+    // Agent/Chat tool window is automatically opened the first time after
+    // installation/upgrade.
+    AUTO_OPEN = 1;
+  }
+
+  optional Type type = 1;
 }
