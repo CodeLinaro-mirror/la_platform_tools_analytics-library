@@ -16,7 +16,7 @@
 
 package com.android.tools.analytics
 
-import com.google.protobuf.GeneratedMessageV3
+import com.google.protobuf.Message.Builder
 import com.google.wireless.android.play.playlog.proto.ClientAnalytics
 import com.google.wireless.android.sdk.stats.AndroidStudioEvent
 import java.io.Flushable
@@ -28,19 +28,19 @@ import java.io.Flushable
  * The tracker has an API to logDetails usage (in the form of protobuf messages). A separate system called the Analytics Publisher takes the
  * logs and sends them to Google's servers for analysis.
  */
-abstract class UsageTrackerWriter<T : GeneratedMessageV3.Builder<T>> : AutoCloseable, Flushable {
+abstract class UsageTrackerWriter : AutoCloseable, Flushable {
 
   open fun scheduleJournalTimeout(maxJournalTime: Long) {}
 
   /** Logs usage data provided in the [AndroidStudioEvent]. */
-  fun logNow(studioEvent: T) {
+  fun logNow(studioEvent: AndroidStudioEvent.Builder) {
     logAt(AnalyticsSettings.dateProvider.now().time, studioEvent)
   }
 
   /** Logs usage data provided in the [AndroidStudioEvent] with provided event time. */
-  fun logAt(eventTimeMs: Long, studioEvent: T) {
-    processMessage(eventTimeMs, studioEvent)
-    logDetails(ClientAnalytics.LogEvent.newBuilder().setEventTimeMs(eventTimeMs).setSourceExtension(studioEvent.build().toByteString()))
+  fun logAt(eventTimeMs: Long, studioEvent: AndroidStudioEvent.Builder) {
+    val event = processEvent(studioEvent) ?: return
+    logDetails(ClientAnalytics.LogEvent.newBuilder().setEventTimeMs(eventTimeMs).setSourceExtension(event.build().toByteString()))
   }
 
   /**
@@ -49,5 +49,7 @@ abstract class UsageTrackerWriter<T : GeneratedMessageV3.Builder<T>> : AutoClose
    */
   abstract fun logDetails(logEvent: ClientAnalytics.LogEvent.Builder)
 
-  abstract fun processMessage(eventTimeMs: Long, studioEvent: T)
+  open fun processEvent(studioEvent: AndroidStudioEvent.Builder): Builder? {
+    return studioEvent
+  }
 }
