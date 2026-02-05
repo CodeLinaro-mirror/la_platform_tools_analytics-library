@@ -18595,6 +18595,19 @@ message NextEditPredictionEvent {
     // Add fields specific to the REJECTED event here, if any.
   }
 
+  message PredictionFailure {
+    enum Reason {
+      UNKNOWN = 0;
+      // The content lines surrounding an edit do not match the document.
+      CONTENT_LINE_MISMATCH = 1;
+      // The line to be replaced was not found in the document.
+      EXPECTED_LINE_NOT_FOUND = 2;
+      // The prediction response was invalid and could not be parsed.
+      INVALID_RESPONSE = 3;
+    }
+    optional Reason reason = 1;
+  }
+
   message EnabledStatus {
     enum Status {
       UNKNOWN_STATUS = 0;
@@ -18610,6 +18623,7 @@ message NextEditPredictionEvent {
     PredictionAccepted accepted = 2 [lazy = true];
     PredictionRejected rejected = 3 [lazy = true];
     EnabledStatus enabled_status = 4 [lazy = true];
+    PredictionFailure failure = 5 [lazy = true];
   }
 }
 
