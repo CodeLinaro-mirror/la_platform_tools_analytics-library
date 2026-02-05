@@ -1,0 +1,335 @@
+syntax = "proto2";
+
+package android_studio;
+
+option java_package = "com.google.wireless.android.sdk.stats";
+option java_outer_classname = "AndroidStudioStatsLoggedIn";
+option java_multiple_files = true;
+
+message AndroidStudioEventLoggedIn {
+  optional UIActionStatsLoggedIn ui_action_stats = 34 [lazy = true];
+  optional AppLinksAssistantEventLoggedIn app_links_assistant_event = 43
+      [lazy = true];
+  optional AppQualityInsightsUsageEventLoggedIn
+      app_quality_insights_usage_event = 147 [lazy = true];
+  optional DirectAccessUsageEventLoggedIn direct_access_usage_event = 158
+      [lazy = true];
+  optional SmlCompletionEventLoggedIn sml_completion_event = 167 [lazy = true];
+  optional SmlTransformEventLoggedIn sml_transform_event = 168 [lazy = true];
+  optional SmlChatBotEventLoggedIn sml_chat_bot_event = 169 [lazy = true];
+  optional SmlConfigurationEventLoggedIn sml_configuration_event = 170
+      [lazy = true];
+  optional DeviceConnectedNotificationEventLoggedIn device_connected = 191
+      [lazy = true];
+  optional TestScenarioEventLoggedIn test_scenario_event = 193 [lazy = true];
+  optional StudioCoreGeminiActionsEventLoggedIn
+      android_studio_core_gemini_actions_event = 207 [lazy = true];
+  optional StudioLabsEventLoggedIn studio_labs_event = 211 [lazy = true];
+  optional PromptLibraryEventLoggedIn prompt_library_event = 212 [lazy = true];
+  optional PlayPolicyInsightsUsageEventLoggedIn
+      play_policy_insights_usage_event = 236 [lazy = true];
+}
+
+// Reports aggregated information about how users invoke available UI actions.
+message UIActionStatsLoggedIn {
+  // java class name (our code, not customer) of the UI Action reported on
+  // e.g. 'com.android.build.instant_run.HotSwapBuildAction'
+  optional string action_class_name = 1;
+}
+
+// App links assistant user event detail.
+message AppLinksAssistantEventLoggedIn {
+  // The UI element source of event.
+  optional EventSource event_source = 3;
+  optional ValidationSummary validation_summary = 11 [lazy = true];
+
+  optional IntentFilterFix intent_filter_fix = 12 [lazy = true];
+
+  // UI event source.
+  enum EventSource {
+    UNKNOWN_SOURCE = 0;
+    // The new link creation panel.
+    NEW_LINK_CREATION_SIDE_PANEL = 20;
+
+    // Intention action.
+    LAUNCH_APP_LINKS_ASSISTANT = 40;
+  }
+
+  // Message to be sent when validation is run.
+  message ValidationSummary {}
+
+  message IntentFilterFix {}
+}
+
+message AppQualityInsightsUsageEventLoggedIn {
+  enum AiInsightSource {
+    UNKNOWN_SOURCE = 0;
+    AI_INSIGHT_SOURCE_STUDIO_BOT = 1;
+    AI_INSIGHT_SOURCE_CRASHLYTICS_TITAN = 2;
+  }
+
+  message InsightFetchDetails {
+    optional AiInsightSource source = 4;
+  }
+
+  optional InsightFetchDetails insight_fetch_details = 18 [lazy = true];
+}
+
+message DirectAccessUsageEventLoggedIn {
+  enum DirectAccessUsageEventType {
+    UNKNOWN_EVENT = 0;
+    // User requested to reserve a device
+    RESERVE_DEVICE = 1;
+    // Connect during initial reservation or user requested to reconnect
+    CONNECT_DEVICE = 2;
+    // Video stream started from device
+    STREAM_STARTED = 3;
+    // User requested to extend current device reservation
+    EXTEND_RESERVATION = 4;
+    // User requested to end reservation
+    END_RESERVATION = 5;
+    // Device disconnected
+    DISCONNECT_DEVICE = 6;
+    // Deprecation information shown to user
+    SERVICE_DEPRECATION = 7;
+    // OEM Lab dialog shown
+    OEM_LAB_DIALOG = 8;
+  }
+
+  message ReserveDeviceDetails {
+    // True if reserve device request succeeded
+    optional bool success = 1;
+  }
+
+  message ConnectDeviceDetails {
+    // True if connect device request succeeded
+    optional bool success = 1;
+  }
+
+  message StreamStartedDetails {
+    // True if studio successfully received video stream from device
+    optional bool success = 1;
+  }
+
+  // Type of event
+  optional DirectAccessUsageEventType type = 1;
+  // set when type = RESERVE_DEVICE
+  optional ReserveDeviceDetails reserve_device_details = 3 [lazy = true];
+  // set when type = CONNECT_DEVICE
+  optional ConnectDeviceDetails connect_device_details = 4 [lazy = true];
+  // set when type = STREAM_STARTED
+  optional StreamStartedDetails stream_started_details = 5 [lazy = true];
+}
+
+message SmlCompletionEventLoggedIn {
+  message CompletionAggregateEvent {
+    optional int32 completions_shown = 4;
+    optional int32 completions_accepted = 5;
+  }
+
+  oneof completion {
+    CompletionAggregateEvent aggregate = 5 [lazy = true];
+  }
+}
+
+message SmlTransformEventLoggedIn {
+  message TransformRequest {}
+
+  message TransformResponse {}
+
+  message TransformShown {}
+
+  message TransformAccepted {}
+
+  message TransformRejected {}
+
+  oneof transform {
+    TransformRequest request = 1 [lazy = true];
+    TransformResponse response = 2 [lazy = true];
+    TransformShown shown = 3 [lazy = true];
+    TransformAccepted accepted = 4 [lazy = true];
+  }
+
+  enum TransformKind {
+    UNKNOWN = 0;
+    CUSTOM = 1;
+    DOCUMENT = 2;
+    // For Compose preview transform that includes both image and code.
+    MULTIMODAL_COMPOSE_PREVIEW = 3;
+    // For Compose Preview generation action.
+    GENERATE_COMPOSE_PREVIEW = 4;
+    // For Insight Suggested Fix generation action.
+    GENERATE_INSIGHT_SUGGESTED_FIX = 5;
+  }
+
+  // The kind of transform, which will be used to differentiate
+  // metrics for Document action, Custom transforms etc.
+  optional TransformKind transform_kind = 5;
+}
+
+message SmlChatBotEventLoggedIn {
+  enum ChatMode {
+    OTHER_MODE = 0;
+    CHAT = 1;
+    AGENT_MODE = 2;
+    VERSION_UPGRADE_AGENT = 3;
+  }
+
+  message BotResponse {
+    optional ChatMode chat_mode = 4;
+  }
+
+  enum Action {
+    INVALID = 0;
+    MOVE_TO_EDITOR = 1;
+    MOVE_TO_CARET = 2;
+    MOVE_TO_NEW_FILE = 3;
+    ADD_DEPENDENCY = 4;
+    BROWSE_TOPIC = 5;
+    EXPLORE_IN_PLAYGROUND = 6;
+    MERGE_MANIFEST = 7;
+    MERGE_SUGGESTION = 9;
+    INSERT_RESOURCES = 10;
+    INSERT_NAME_SUGGESTIONS = 11;
+    COPY_BUTTON = 12;
+    COPY_MANUAL = 13;
+  }
+
+  message ActionInvoked {
+    optional Action action = 2;
+  }
+
+  oneof content {
+    BotResponse response = 1 [lazy = true];
+    ActionInvoked action_invoked = 3 [lazy = true];
+  }
+}
+
+message SmlConfigurationEventLoggedIn {
+  // Whether SML features are available to this user.
+  optional bool sml_available = 1;
+
+  // Whether this user has started Studio Bot onboarding.
+  optional bool bot_onboarding_started = 4;
+
+  // Whether this user has completed Studio Bot onboarding.
+  optional bool bot_onboarding_completed = 5;
+
+  // User has ML completion enabled.
+  optional bool completion_enabled = 2;
+
+  // User has ML based fixes enabled.
+  optional bool transform_enabled = 3;
+
+  // User agrees to sending project context with queries
+  optional bool project_context_enabled = 6;
+
+  // The product variant that was fetched by the LoadCodeAssist API
+  optional SmlProductVariant product_variant = 7;
+
+  // User has auto-approve enabled for tool calls in agent mode
+  optional bool agent_auto_accept_enabled = 8;
+
+  enum SmlProductVariant {
+    PRODUCT_VARIANT_UNKNOWN = 0;
+    PRODUCT_VARIANT_FREE = 1;
+    PRODUCT_VARIANT_BUSINESS = 2;
+    PRODUCT_VARIANT_DASHER_USER_CHOICE = 3 [deprecated = true];
+    PRODUCT_VARIANT_DASHER_FREE = 4;
+    PRODUCT_VARIANT_DASHER_BUSINESS = 5;
+  }
+}
+
+message TestScenarioEventLoggedIn {
+  // Logged for every test scenario model invocation
+  message TestScenarioRequest {}
+
+  // Specifies whether user is creating a new test file or adding tests to
+  // existing tests.
+  enum GenerationType {
+    GENERATION_TYPE_UNDEFINED = 0;
+    NEW_FILE = 1;
+    EXISTING_FILE = 2;
+  }
+
+  // Logged for every test scenario geneartion result
+  message TestScenarioResult {
+    // Number of misformatted model response
+    optional int32 misformatted_response_count = 1;
+    // Indicates whether user is creating new tests or enhancing existing
+    // tests.
+    optional GenerationType generation_type = 2;
+    // Number of accepted test scenarios
+    optional int32 num_accept = 3;
+    // Number of declined test scenarios
+    optional int32 num_decline = 4;
+  }
+
+  oneof transform {
+    TestScenarioRequest request = 1 [lazy = true];
+    TestScenarioResult test_scenario_result = 3 [lazy = true];
+  }
+}
+
+message DeviceConnectedNotificationEventLoggedIn {}
+
+message StudioCoreGeminiActionsEventLoggedIn {
+  enum Action {
+    UNKNOWN = 0;
+    RENAME_VARIABLE = 1;
+    RETHINK_VARIABLE_NAMES = 2;
+    SUGGEST_COMMIT_MESSAGE = 3;
+  }
+
+  optional Action action = 1;
+  optional int32 results_count = 5;
+  optional int32 results_taken = 6;
+}
+
+// Event created when the user interacts with the Studio Labs.
+message StudioLabsEventLoggedIn {
+  enum PageInteraction {
+    UNKNOWN_INTERACTION = 0;
+    OPENED = 1;
+    APPLY_BUTTON_CLICKED = 2;
+    CANCEL_BUTTON_CLICKED = 3;
+    OK_BUTTON_CLICKED = 4;
+  }
+
+  // Logs user interaction with the Studio Labs settings page.
+  optional PageInteraction page_interaction = 2;
+}
+
+message PromptLibraryEventLoggedIn {
+  optional Update update = 1;
+  optional Invoke invoke = 2;
+
+  // Updates to the prompt library settings: addting/removing prompt
+  // templates.
+  message Update {
+    // Total number of prompts in the library.
+    optional int32 prompts_in_library = 1;
+    // Number of rules in the library.
+    optional int32 rules_count = 2;
+    // Number of overrides for built-in prompts.
+    optional int32 builtins_overrides_count = 3;
+    // Number of "Saved Prompts"
+    optional int32 user_prompts_count = 4;
+  }
+
+  // User invoked a prompt from the library.
+  message Invoke {}
+}
+
+message PlayPolicyInsightsUsageEventLoggedIn {
+  enum PlayPolicyInsightsUsageEventType {
+    UNKNOWN_EVENT = 0;
+    // Track deprecation notification information
+    SERVICE_DEPRECATION = 1;
+    // Track when the user clicks on the "Inspect Code For Play Policy
+    // Insights" memu item.
+    BATCH_INSPECTION = 2;
+  }
+
+  optional PlayPolicyInsightsUsageEventType type = 1;
+}

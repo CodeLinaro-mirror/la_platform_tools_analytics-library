@@ -877,6 +877,16 @@ message AndroidStudioEvent {
   // set when kind = USER_TIER_UPGRADE_EVENT
   optional UserTierUpgradeEvent user_tier_upgrade_event = 245 [lazy = true];
 
+  // set when kind = RENDER_TOOL_EVENT
+  optional RenderToolEvent render_tool_event = 246 [lazy = true];
+
+  // set when kind = EMULATOR_CONSOLE_EVENTS
+  repeated EmulatorConsoleEvent emulator_console_events = 247;
+
+  // set when kind = STUDIO_BOT_TOOL_WINDOW_AUTO_OPEN_EVENT
+  optional StudioBotToolWindowAutoOpenEvent
+      studio_bot_tool_window_auto_open_event = 248 [lazy = true];
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -1874,6 +1884,18 @@ message AndroidStudioEvent {
 
     // Event related to consumer user tier upgrade flow.
     USER_TIER_UPGRADE_EVENT = 364;
+
+    // Event related to the Render Tool API.
+    RENDER_TOOL_EVENT = 365;
+
+    // Event related to onboarding triggered by the quick-edit feature.
+    QUICK_EDIT_ONBOARDING = 366;
+
+    // Event related to console emulator events.
+    EMULATOR_CONSOLE_EVENTS = 367;
+
+    // Event related to auto opening the Studio Bot tool window on first run.
+    STUDIO_BOT_TOOL_WINDOW_AUTO_OPEN_EVENT = 368;
   }
 
   // Represents different Performance Monitoring types.
@@ -3980,6 +4002,19 @@ message EmulatorUiEvent {
     EXTENDED_SETTINGS_TAB = 13;
     EXTENDED_HELP_TAB = 14;
   }
+}
+// Describes a user sending a command to the Emulator Console.
+message EmulatorConsoleEvent {
+  // The command that was used.
+  optional string command = 1;
+  // The source of the command.
+  enum Source {
+    UNKNOWN = 0;
+    TELNET = 1;
+  }
+  optional Source source = 2;
+  // How many times it was used.
+  optional int64 value = 3;
 }
 
 message EmulatorPercentileEstimator {
@@ -12472,6 +12507,35 @@ message VsPluginEvent {
   }
 }
 
+message RenderToolEvent {
+  // Top-level success status
+  optional bool is_success = 1;
+
+  enum RenderError {
+    UNKNOWN_RENDER_ERROR = 0;
+    ERROR_FILE_NOT_FOUND = 1;
+    ERROR_BLOCKED_BY_AI_EXCLUDE = 2;
+    ERROR_MODULE_NOT_FOUND = 3;
+    ERROR_COMPONENT_NOT_FOUND = 4;
+    // Failures during rendering
+    ERROR_COMPILATION_FAILED = 5;
+    ERROR_RENDER_FAILED = 6;  // RenderResult contained errors
+    ERROR_UNEXPECTED = 7;     // Generic exceptions
+  }
+
+  // The specific error if is_success is false
+  optional RenderError render_error = 2;
+
+  // Parameters
+  optional bool is_compilation_requested = 3;
+  optional bool is_layout_scanner_requested = 4;
+  optional bool show_decorations = 5;
+  optional int64 compilation_duration_ms = 6;
+
+  // Total time from Tool start to Tool finish (includes compilation + overhead)
+  optional int64 total_latency_ms = 7;
+}
+
 message AppInspectionEvent {
   enum Type {
     UNKNOWN_EVENT_TYPE = 0;
@@ -16022,6 +16086,7 @@ message SmlChatBotEvent {
     CHAT = 1;
     AGENT_MODE = 2;
     VERSION_UPGRADE_AGENT = 3;
+    QUICK_EDIT = 4;
   }
 
   message BotResponse {
@@ -17286,6 +17351,8 @@ message AdbServerStatus {
     TYPE_MDNS_DEFAULT = 1;
     TYPE_BONJOUR = 2;
     TYPE_OPENSCREEN = 3;
+    TYPE_LIBADBMDNS = 4;
+    TYPE_MDNS_DISABLED = 5;
   }
 
   enum USBBackend {
@@ -17293,6 +17360,7 @@ message AdbServerStatus {
     TYPE_USB_DEFAULT = 1;
     TYPE_LIBUSB = 2;
     TYPE_NATIVE = 3;
+    TYPE_USB_DISABLED = 4;
   }
 
   optional bool is_managed = 1;
@@ -18340,6 +18408,8 @@ message GeminiAdvertiserEvent {
     // Features related to UI tools, such as compose preview generation, fix
     // render issues, transform preview, etc.
     UI_TOOLS = 13;
+    // Update dependencies to latest versions.
+    UPDATE_DEPENDENCIES = 14;
   }
 
   enum Action {
@@ -18541,4 +18611,15 @@ message NextEditPredictionEvent {
     PredictionRejected rejected = 3 [lazy = true];
     EnabledStatus enabled_status = 4 [lazy = true];
   }
+}
+
+message StudioBotToolWindowAutoOpenEvent {
+  enum Type {
+    UNKNOWN_TYPE = 0;
+    // Agent/Chat tool window is automatically opened the first time after
+    // installation/upgrade.
+    AUTO_OPEN = 1;
+  }
+
+  optional Type type = 1;
 }
