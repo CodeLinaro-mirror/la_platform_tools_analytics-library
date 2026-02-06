@@ -14848,6 +14848,9 @@ message AppQualityInsightsUsageEvent {
 
     // Track deprecation notification information
     SERVICE_DEPRECATION = 16;
+
+    // Track when an aiplugin-provided action is taken
+    AGENT_ACTION = 17;
   }
 
   enum CrashType {
@@ -15148,6 +15151,14 @@ message AppQualityInsightsUsageEvent {
     optional AiInsightSource source = 4;
     optional CodeContextDetails code_context_details = 5 [lazy = true];
   }
+  message AgentActionDetails {
+    enum ActionType {
+      UNKNOWN_ACTION = 0;
+      SHOW_MORE = 1;
+      FIX = 2;
+    }
+    optional ActionType action_type = 1;
+  }
   message ServiceDeprecationInfo {
     enum Panel {
       UNKNOWN_PANEL = 0;
@@ -15225,6 +15236,9 @@ message AppQualityInsightsUsageEvent {
 
   // set when type = SERVICE_DEPRECATION
   optional ServiceDeprecationInfo service_deprecation_info = 20 [lazy = true];
+
+  // set when type = AGENT_ACTION
+  optional AgentActionDetails agent_action_details = 21 [lazy = true];
 }
 
 message FastPreviewEvent {
