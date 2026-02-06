@@ -15158,6 +15158,7 @@ message AppQualityInsightsUsageEvent {
       FIX = 2;
     }
     optional ActionType action_type = 1;
+    optional CrashType crash_type = 2;
   }
   message ServiceDeprecationInfo {
     enum Panel {
