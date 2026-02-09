@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 The Android Open Source Project
+ * Copyright (C) 2026 The Android Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,34 +15,17 @@
  */
 package com.android.tools.analytics
 
+import com.google.common.annotations.VisibleForTesting
 import com.google.protobuf.Message.Builder
 import com.google.wireless.android.sdk.stats.AndroidStudioEvent
-import com.google.wireless.android.sdk.stats.ProductDetails
 import java.nio.file.Path
 import java.util.concurrent.ScheduledExecutorService
 
-class AnonymousUsageTrackerWriter(scheduler: ScheduledExecutorService, spoolLocation: Path) :
+@VisibleForTesting
+/** A journaling usage tracker that tracks a */
+class LoggedInUsageTrackerWriter(scheduler: ScheduledExecutorService, spoolLocation: Path) :
   JournalingUsageTracker(scheduler, spoolLocation) {
-
   override fun processEvent(studioEvent: AndroidStudioEvent.Builder): Builder? {
-    AnonymousUsageTrackerWriter.processEvent(studioEvent)
-    return super.processEvent(studioEvent)
-  }
-
-  companion object {
-    fun processEvent(studioEvent: AndroidStudioEvent.Builder) {
-      studioEvent.studioSessionId = UsageTracker.sessionId
-      studioEvent.ideBrand = UsageTracker.ideBrand
-
-      if (UsageTracker.version != null && !studioEvent.hasProductDetails()) {
-        studioEvent.setProductDetails(ProductDetails.newBuilder().setVersion(UsageTracker.version!!))
-      }
-
-      if (UsageTracker.ideaIsInternal) {
-        studioEvent.ideaIsInternal = true
-      }
-
-      UsageTracker.listener(studioEvent)
-    }
+    return EventTranslator.translate(studioEvent)
   }
 }

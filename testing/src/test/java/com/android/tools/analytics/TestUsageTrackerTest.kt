@@ -33,7 +33,7 @@ class TestUsageTrackerTest {
   @Before
   fun before() {
     // first ensure our default is the NullUsageTracker.
-    var tracker = UsageTracker.writerForTest
+    var tracker = UsageTracker.anonymousWriterForTest
     assertSame(NullUsageTracker::class.java, tracker.javaClass)
 
     scheduler = VirtualTimeScheduler()
@@ -46,7 +46,7 @@ class TestUsageTrackerTest {
     UsageTracker.setWriterForTest(testUsageTracker)
 
     // ensure the global instance is the one we just set.
-    tracker = UsageTracker.writerForTest
+    tracker = UsageTracker.anonymousWriterForTest
     assertEquals(testUsageTracker, tracker)
   }
 
@@ -54,7 +54,7 @@ class TestUsageTrackerTest {
   fun after() {
     // ensure that cleaning the instance puts us back in the initial state.
     UsageTracker.cleanAfterTesting()
-    val tracker = UsageTracker.writerForTest
+    val tracker = UsageTracker.anonymousWriterForTest
     assertSame(NullUsageTracker::class.java, tracker.javaClass)
   }
 

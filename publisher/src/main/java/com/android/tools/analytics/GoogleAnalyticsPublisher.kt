@@ -77,9 +77,7 @@ internal constructor(
       )
       // Set the log source for the Clearcut service. This will depend on whether we are attaching
       // the authorization header.
-      // TODO(b/438539118): Use the authorization enum value instead of UNKNOWN when it becomes
-      // available
-      .setLogSource(credentialsCallback?.let { LogSource.UNKNOWN } ?: LogSource.ANDROID_STUDIO)
+      .setLogSource(credentialsCallback?.let { LogSource.ANDROID_STUDIO_EVENT_LOGGED_IN } ?: LogSource.ANDROID_STUDIO)
       .build()
 
   private var publishJob: ScheduledFuture<*>? = null
@@ -254,7 +252,7 @@ internal constructor(
     connection.setRequestProperty("Content-Encoding", "gzip")
 
     // Set the authorization header if the callback has been provided
-    credentials?.let { connection.setRequestProperty("Authorization", credentials) }
+    credentials?.let { connection.setRequestProperty("Authorization", "Bearer $credentials") }
 
     val requestBytes = request.toByteArray()
     connection.outputStream.use { output ->

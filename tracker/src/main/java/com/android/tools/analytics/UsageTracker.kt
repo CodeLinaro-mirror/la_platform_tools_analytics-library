@@ -1,11 +1,11 @@
 /*
- * Copyright (C) 2016 The Android Open Source Project
+ * Copyright (C) 2026 The Android Open Source Project
  *
- * Licensed under the Eclipse Public License, Version 1.0 (the "License");
+ * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *      http://www.eclipse.org/org/documents/epl-v10.php
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.android.tools.analytics
 
+import com.android.tools.analytics.UsageTracker.initialize
 import com.google.common.annotations.VisibleForTesting
 import com.google.wireless.android.sdk.stats.AndroidStudioEvent
 import java.nio.file.Paths
@@ -24,6 +24,7 @@ import java.util.concurrent.ScheduledExecutorService
 import java.util.concurrent.TimeUnit
 import java.util.logging.Level
 import java.util.logging.Logger
+import org.jetbrains.annotations.TestOnly
 
 /**
  * UsageTracker is an api to report usage of features. This data is used to improve future versions of Android Studio and related tools.
@@ -32,20 +33,18 @@ import java.util.logging.Logger
  * logs and sends them to Google's servers for analysis.
  */
 object UsageTracker {
-
   private val gate = Any()
   private val LOG = Logger.getLogger(UsageTracker.javaClass.name)
-
   var initialized = false
     private set
 
+  private lateinit var scheduler: ScheduledExecutorService
+
   private var exceptionThrown = false
-
-  @VisibleForTesting @JvmStatic var sessionId = UUID.randomUUID().toString()
-
-  @JvmStatic @VisibleForTesting var writer: UsageTrackerWriter = NullUsageTracker
+  @JvmStatic var sessionId = UUID.randomUUID().toString()
+  @JvmStatic @VisibleForTesting var anonymousWriter: UsageTrackerWriter = NullUsageTracker
+  @JvmStatic @VisibleForTesting var loggedInWriter: UsageTrackerWriter = NullUsageTracker
   private var isTesting: Boolean = false
-
   /**
    * Indicates whether this UsageTracker has a maximum size at which point logs need to be flushed. Zero or less indicates no maximum size
    * at which to flush.
@@ -55,11 +54,10 @@ object UsageTracker {
    * flushing until @{link #close()} is called.
    */
   @JvmStatic var maxJournalSize: Int = 0
-
   /**
    * Indicates whether this UsageTracker has a timeout at which point logs need to be flushed. Zero or less indicates no timeout is set.
    *
-   * @return timeout in nano-seconds.
+   * @return timeout in nanoseconds.
    */
   @JvmStatic
   var maxJournalTime: Long = 0
@@ -71,11 +69,9 @@ object UsageTracker {
    * event.
    */
   @JvmStatic var version: String? = null
-
   @JvmStatic
   /** Set when Android Studio is running in development mode. */
   var ideaIsInternal = false
-
   /** IDE brand specified for this UsageTracker. */
   @JvmStatic var ideBrand: AndroidStudioEvent.IdeBrand = AndroidStudioEvent.IdeBrand.UNKNOWN_IDE_BRAND
 
@@ -84,11 +80,11 @@ object UsageTracker {
    * only be used from Usage Tracker tests.
    */
   @JvmStatic
-  val writerForTest: UsageTrackerWriter
-    @VisibleForTesting
+  val anonymousWriterForTest: UsageTrackerWriter
+    @TestOnly
     get() {
       synchronized(gate) {
-        return writer
+        return anonymousWriter
       }
     }
 
@@ -97,7 +93,8 @@ object UsageTracker {
   fun setMaxJournalTime(duration: Long, unit: TimeUnit) {
     runIfUsageTrackerUsable {
       maxJournalTime = unit.toNanos(duration)
-      writer.scheduleJournalTimeout(maxJournalTime)
+      anonymousWriter.scheduleJournalTimeout(maxJournalTime)
+      loggedInWriter.scheduleJournalTimeout(maxJournalTime)
     }
   }
 
@@ -126,19 +123,22 @@ object UsageTracker {
   /** Logs usage data provided in the @{link AndroidStudioEvent}. */
   @JvmStatic
   fun log(studioEvent: AndroidStudioEvent.Builder) {
-    runIfUsageTrackerUsable { writer.logNow(studioEvent) }
+    log(AnalyticsSettings.dateProvider.now().time, studioEvent)
   }
 
   /** Logs usage data provided in the @{link AndroidStudioEvent}. */
   @JvmStatic
   fun log(studioEvent: AndroidStudioEvent) {
-    runIfUsageTrackerUsable { writer.logNow(studioEvent.toBuilder()) }
+    log(studioEvent.toBuilder())
   }
 
   /** Logs usage data provided in the @{link AndroidStudioEvent} with provided event time. */
   @JvmStatic
   fun log(eventTimeMs: Long, studioEvent: AndroidStudioEvent.Builder) {
-    runIfUsageTrackerUsable { writer.logAt(eventTimeMs, studioEvent) }
+    runIfUsageTrackerUsable() {
+      anonymousWriter.logAt(eventTimeMs, studioEvent)
+      loggedInWriter.logAt(eventTimeMs, studioEvent)
+    }
   }
 
   private fun ensureInitialized() {
@@ -155,20 +155,19 @@ object UsageTracker {
   fun initialize(scheduler: ScheduledExecutorService): UsageTrackerWriter {
     if (isTesting) {
       // @coverage:off
-      return writer
+      return anonymousWriter
       // @coverage:on
     }
     synchronized(gate) {
-      val oldInstance = writer
-      initializeTrackerWriter(scheduler)
+      val oldInstance = anonymousWriter
+      initializeAnonymousTrackerWriter(scheduler)
       try {
         oldInstance.close()
       } catch (ex: Exception) {
         throw RuntimeException("Unable to close usage tracker", ex)
       }
-
       initialized = true
-      return writer
+      return anonymousWriter
     }
   }
 
@@ -176,19 +175,46 @@ object UsageTracker {
    * Compared with [initialize], this function avoids re-initialize [UsageTracker] when it is already initialized.
    *
    * Note this function should not be used by Studio because Studio needs to be able to re-initialize in the same process if the user
-   * changes the opt in settings.
+   * changes the opt-in settings.
    */
   @JvmStatic
   fun initializeIfNotPresent(scheduler: ScheduledExecutorService): UsageTrackerWriter {
     synchronized(gate) {
       if (initialized) {
-        return writer
+        return anonymousWriter
       }
-      initializeTrackerWriter(scheduler)
-
+      initializeAnonymousTrackerWriter(scheduler)
       initialized = true
-      return writer
+      return anonymousWriter
     }
+  }
+
+  @JvmStatic
+  fun initializeLoggedInWriter(spoolLocationId: String): UsageTrackerWriter {
+    return updateLoggedInWriter(LoggedInUsageTrackerWriter(scheduler, Paths.get(AnalyticsPaths.spoolDirectory, spoolLocationId)))
+  }
+
+  @JvmStatic
+  fun clearLoggedInWriter(): UsageTrackerWriter {
+    return updateLoggedInWriter(NullUsageTracker)
+  }
+
+  @JvmStatic
+  private fun updateLoggedInWriter(newWriter: UsageTrackerWriter): UsageTrackerWriter {
+    ensureInitialized()
+
+    var oldInstance: UsageTrackerWriter = NullUsageTracker
+    synchronized(gate) {
+      oldInstance = loggedInWriter
+      loggedInWriter = newWriter
+    }
+    try {
+      oldInstance.flush()
+      oldInstance.close()
+    } catch (ex: Exception) {
+      throw RuntimeException("Unable to close usage tracker", ex)
+    }
+    return oldInstance
   }
 
   /** initializes or updates AnalyticsSettings into a disabled state. */
@@ -205,12 +231,12 @@ object UsageTracker {
       try {
         // The writer may have pending events which will be dropped by close
         // call flush() to write them before closing.
-        writer.flush()
-        writer.close()
+        anonymousWriter.flush()
+        anonymousWriter.close()
       } catch (ex: Exception) {
         throw RuntimeException("Unable to close usage tracker", ex)
       } finally {
-        writer = NullUsageTracker
+        anonymousWriter = NullUsageTracker
       }
     }
   }
@@ -219,39 +245,40 @@ object UsageTracker {
    * Sets the global writer to the provided tracker so tests can provide their own UsageTracker implementation. NOTE: Should only be used
    * from tests.
    */
-  @VisibleForTesting
+  @TestOnly
   @JvmStatic
   fun setWriterForTest(tracker: UsageTrackerWriter): UsageTrackerWriter {
     synchronized(gate) {
       isTesting = true
       initialized = true
       exceptionThrown = false
-      val old = writer
-      writer = tracker
+      val old = anonymousWriter
+      anonymousWriter = tracker
       return old
     }
   }
 
   /** resets the global writer to the null usage tracker, to clean state in tests. NOTE: Should only be used from tests. */
-  @VisibleForTesting
+  @TestOnly
   @JvmStatic
   fun cleanAfterTesting() {
     isTesting = false
-    writer = NullUsageTracker
+    anonymousWriter = NullUsageTracker
     initialized = false
     exceptionThrown = false
   }
 
-  private fun initializeTrackerWriter(scheduler: ScheduledExecutorService) {
+  private fun initializeAnonymousTrackerWriter(scheduler: ScheduledExecutorService) {
+    this.scheduler = scheduler
     if (AnalyticsSettings.optedIn) {
       try {
-        writer = AnonymousUsageTrackerWriter(scheduler, Paths.get(AnalyticsPaths.spoolDirectory))
+        anonymousWriter = AnonymousUsageTrackerWriter(scheduler, Paths.get(AnalyticsPaths.spoolDirectory))
       } catch (ex: RuntimeException) {
-        writer = NullUsageTracker
+        anonymousWriter = NullUsageTracker
         throw ex
       }
     } else {
-      writer = NullUsageTracker
+      anonymousWriter = NullUsageTracker
     }
   }
 

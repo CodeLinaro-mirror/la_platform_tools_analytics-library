@@ -37,6 +37,7 @@ message LogRequest {
   enum LogSource {
     UNKNOWN = -1;
     ANDROID_STUDIO = 302;
+    ANDROID_STUDIO_EVENT_LOGGED_IN = 2878;
   }
   optional int64 request_time_ms = 4;
   optional ClientInfo client_info = 1;

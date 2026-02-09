@@ -81,7 +81,7 @@ class AnalyticsPublisherTest {
 
   private fun cleanEnvironment() {
     EnvironmentFakes.setSystemEnvironment()
-    AnalyticsPublisher.setAnonymousInstanceForTest(NullAnalyticsPublisher())
+    AnalyticsPublisher.setAnonymousInstanceForTest(NullAnalyticsPublisher)
   }
 
   @Test
@@ -218,13 +218,13 @@ class AnalyticsPublisherTest {
           assertEquals(true, result.isDone)
 
           val request = result.get().logRequest
-          assertEquals(ClientAnalytics.LogRequest.LogSource.UNKNOWN, request.logSource)
+          assertEquals(ClientAnalytics.LogRequest.LogSource.ANDROID_STUDIO_EVENT_LOGGED_IN, request.logSource)
 
           val headers = result.get().authorizationHeaders
           assertNotNull(headers)
           headers?.let {
             assertEquals(1, headers.count())
-            assertEquals(credentials, headers.firstOrNull())
+            assertEquals("Bearer $credentials", headers.firstOrNull())
           }
         }
       }

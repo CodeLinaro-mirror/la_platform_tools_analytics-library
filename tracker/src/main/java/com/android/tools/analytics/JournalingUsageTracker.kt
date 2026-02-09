@@ -16,7 +16,6 @@
 
 package com.android.tools.analytics
 
-import com.google.common.annotations.VisibleForTesting
 import com.google.wireless.android.play.playlog.proto.ClientAnalytics
 import java.io.IOException
 import java.io.OutputStream
@@ -48,7 +47,6 @@ import kotlin.concurrent.withLock
  * For unittests please use TestUsageTracker. Only for integration tests that need .trk files to be generated, use the
  * JournalingUsageTracker.
  */
-@VisibleForTesting
 abstract class JournalingUsageTracker
 /**
  * Creates an instance of JournalingUsageTracker. Ensures spool location is available and locks the first journaling file.
