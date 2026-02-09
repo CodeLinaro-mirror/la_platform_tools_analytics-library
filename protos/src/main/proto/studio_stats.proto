@@ -18653,12 +18653,69 @@ message NextEditPredictionEvent {
     optional Status status = 1;
   }
 
+  // Represents a complete prediction session, containing multiple events
+  // that describe the session's lifecycle.
+  message Session {
+    optional int64 start_wall_time_ms = 1;
+    optional string model_id = 2;
+    optional string language = 3;
+    // True if the prediction was forced by a user action (e.g., a specific
+    // keyboard shortcut), as opposed to being triggered automatically.
+    optional bool forced = 4;
+
+    message SessionEvent {
+      enum EventType {
+        UNKNOWN_EVENT_TYPE = 0;
+        REQUEST_SENT = 1;
+        // The prediction response was received from the model.
+        RESPONSE_RECEIVED = 2;
+        // The prediction was shown to the user. A single prediction can contain
+        // multiple controls (e.g., diff chunks).
+        PREDICTION_SHOWN = 3;
+        // The prediction was accepted by the user (i.e., at least one
+        // code-modifying control was accepted).
+        PREDICTION_ACCEPTED = 4;
+        // The prediction was rejected by the user (i.e., all code-modifying
+        // controls were rejected or dismissed).
+        PREDICTION_REJECTED = 5;
+        SESSION_CANCELLED = 6;
+        // A specific control within the prediction was shown to the user.
+        // A single prediction can have multiple controls.
+        CONTROL_SHOWN = 7;
+        // A specific control was accepted by the user.
+        CONTROL_ACCEPTED = 8;
+        // A specific control was rejected by the user.
+        CONTROL_REJECTED = 9;
+        // A specific control was hidden from the user.
+        CONTROL_HIDDEN = 10;
+      }
+      optional EventType type = 1;
+      // The time of this event relative to Session.start_wall_time_ms.
+      optional int64 relative_time_ms = 2;
+      optional int32 offset = 3;
+      optional int32 original_length = 4;
+      optional int32 new_length = 5;
+
+      message MetadataEntry {
+        optional string key = 1;
+        oneof value {
+          string string_value = 2;
+          int64 int_value = 3;
+          double double_value = 4;
+        }
+      }
+      repeated MetadataEntry metadata = 6;
+    }
+    repeated SessionEvent events = 5;
+  }
+
   oneof next_edit_prediction {
     PredictionShown shown = 1 [lazy = true];
     PredictionAccepted accepted = 2 [lazy = true];
     PredictionRejected rejected = 3 [lazy = true];
     EnabledStatus enabled_status = 4 [lazy = true];
     PredictionFailure failure = 5 [lazy = true];
+    Session session = 6 [lazy = true];
   }
 }
 
