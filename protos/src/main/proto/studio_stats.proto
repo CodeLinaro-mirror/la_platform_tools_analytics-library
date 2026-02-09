@@ -17391,11 +17391,31 @@ message ScreenshotTestComposePreviewEvent {
     TYPE_UNKNOWN = 0;
     PREVIEW_DISCOVERY = 1;
     PREVIEW_RENDERING = 2;
+    // Number of times the screenshot tests were run.
     VALIDATE_CLICKED = 3;
+    // Number of times the update action was successfully
+    // completed from the dialog.
     UPDATE_CLICKED = 4;
+    // Number of times the dialog was opened.
     SCREENSHOT_DIALOG_OPEN = 5;
+    // Number of times the dialog was closed without
+    // completing the update flow.
     SCREENSHOT_DIALOG_CLOSE = 6;
+    // Number of times the user tried to open the dialog
+    // when it was already open.
     SCREENSHOT_DIALOG_ALREADY_OPEN = 7;
+    // Number of times the copying of reference images
+    // action failed after clicking the 'Add' button.
+    SCREENSHOT_DIALOG_UPDATE_ACTION_FAILURE = 8;
+    // Number of times an image failed to load or
+    // render within the preview details panel of the dialog.
+    SCREENSHOT_DIALOG_RENDER_FAILURE = 9;
+    // Number of times when the test suite finished execution
+    // but no screenshot test results were discovered.
+    SCREENSHOT_DIALOG_TEST_RESULTS_EMPTY = 10;
+    // Number of times the build failed before the dialog
+    // can be populated with any test results.
+    SCREENSHOT_DIALOG_BUILD_FAILURE = 11;
   }
 
   optional Type type = 1;
