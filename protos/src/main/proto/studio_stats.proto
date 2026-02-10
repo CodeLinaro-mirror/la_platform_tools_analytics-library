@@ -887,6 +887,9 @@ message AndroidStudioEvent {
   optional StudioBotToolWindowAutoOpenEvent
       studio_bot_tool_window_auto_open_event = 248 [lazy = true];
 
+  // set when kind = SKILLS_EVENT
+  optional SkillsEvent skills_event = 249 [lazy = true];
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -1896,6 +1899,9 @@ message AndroidStudioEvent {
 
     // Event related to auto opening the Studio Bot tool window on first run.
     STUDIO_BOT_TOOL_WINDOW_AUTO_OPEN_EVENT = 368;
+
+    // Event related to Skills
+    SKILLS_EVENT = 369;
   }
 
   // Represents different Performance Monitoring types.
@@ -18728,4 +18734,50 @@ message StudioBotToolWindowAutoOpenEvent {
   }
 
   optional Type type = 1;
+}
+
+// Event for capturing skills metrics.
+message SkillsEvent {
+  // Common metadata for all skills events.
+  optional SmlResponseMetadata metadata = 1 [lazy = true];
+
+  oneof event {
+    Activation activation = 2 [lazy = true];
+    Discovery discovery = 3 [lazy = true];
+  }
+
+  // Details about the skill activated by the agent.
+  message Activation {
+    optional SkillType type = 1;
+    // Status of reading skill file.
+    optional SmlChatBotEvent.ToolCallResponseStatus status = 2;
+    // Name of the pre-built skill being activated.
+    optional SkillName skill_name = 3;
+  }
+
+  // Metrics for discovering and parsing skills.
+  message Discovery {
+    // Latency in milliseconds for finding and reading skill definition files.
+    optional int64 latency_ms = 1;
+    // Number of skills successfully parsed.
+    optional int32 parsed_successful_count = 2;
+    // Number of skills that failed to parse.
+    optional int32 parsed_failed_count = 3;
+    // Token count of parsed skills.
+    optional int64 token_count = 4;
+  }
+
+  // The type of skill.
+  enum SkillType {
+    UNKNOWN = 0;
+    // Curated skills from DAC.
+    PRE_BUILT = 1;
+    // Local project skills directory.
+    USER_DEFINED = 2;
+  }
+
+  // Pre-built skill names.
+  enum SkillName {
+    UNKNOWN_SKILL_NAME = 0;
+  }
 }
