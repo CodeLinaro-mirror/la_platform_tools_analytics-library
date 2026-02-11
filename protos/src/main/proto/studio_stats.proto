@@ -16301,9 +16301,10 @@ message SmlChatBotEvent {
       TOOLS = 3;
       PROMPT_LIBRARY = 4;
       REMOTE_CONTEXT = 5;
+      SKILLS = 6;
     }
     // The type of attachment, e.g. "FILES, FOLDERS, TOOLS, PROMPT_LIBRARY,
-    // REMOTE_CONTEXT"
+    // REMOTE_CONTEXT, SKILLS"
     optional AttachmentType attachment_type = 1;
     // The number of attachments of the given type.
     optional int32 attachment_count = 2;
