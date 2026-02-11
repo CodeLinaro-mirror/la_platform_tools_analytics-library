@@ -18697,6 +18697,8 @@ message NextEditPredictionEvent {
         CONTROL_REJECTED = 9;
         // A specific control was hidden from the user.
         CONTROL_HIDDEN = 10;
+        // The prediction attempt failed.
+        PREDICTION_FAILED = 11;
       }
       message ControlDetails {
         enum ControlType {
@@ -18708,6 +18710,21 @@ message NextEditPredictionEvent {
         optional int32 offset = 2;
         optional int32 original_length = 3;
         optional int32 new_length = 4;
+      }
+      message FailureDetails {
+        enum FailureReason {
+          UNKNOWN_FAILURE_REASON = 0;
+          NO_HISTORY = 1;
+          MODEL_ERROR = 2;
+          PARSE_ERROR = 3;
+          REPAIR_ERROR = 4;
+          APPLY_ERROR = 5;
+          EMPTY_RESPONSE = 6;
+          CONTENT_LINE_MISMATCH = 7;
+          EXPECTED_LINE_NOT_FOUND = 8;
+          OUTDATED_PREDICTION = 9;
+        }
+        optional FailureReason reason = 1;
       }
       optional EventType type = 1;
       // The time of this event relative to Session.start_wall_time_ms.
@@ -18731,6 +18748,7 @@ message NextEditPredictionEvent {
       repeated MetadataEntry metadata = 6 [deprecated = true];
 
       optional ControlDetails control_details = 7;
+      optional FailureDetails failure_details = 8;
     }
     repeated SessionEvent events = 5;
   }
