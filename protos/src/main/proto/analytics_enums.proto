@@ -442,6 +442,8 @@ enum GradleTaskExecutionType {
     NEW_INCREMENTAL_GLOBAL = 355;
     CODE_COVERAGE_COLLECTION = 356;
     CODE_COVERAGE_REPORT = 357;
+    TEST_REPORT = 358;
+    TEST_RESULTS_COLLECTION = 359;
 }
 
 enum BooleanOption {

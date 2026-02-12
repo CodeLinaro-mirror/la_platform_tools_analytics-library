@@ -16,6 +16,7 @@
 package com.android.tools.analytics
 
 import com.google.common.annotations.VisibleForTesting
+import com.google.protobuf.Message.Builder
 import com.google.wireless.android.sdk.stats.AndroidStudioEvent
 import com.google.wireless.android.sdk.stats.ProductDetails
 import java.nio.file.Path
@@ -23,14 +24,15 @@ import java.util.concurrent.ScheduledExecutorService
 
 @VisibleForTesting
 class AnonymousUsageTrackerWriter(scheduler: ScheduledExecutorService, spoolLocation: Path) :
-  JournalingUsageTracker<AndroidStudioEvent.Builder>(scheduler, spoolLocation) {
+  JournalingUsageTracker(scheduler, spoolLocation) {
 
-  override fun processMessage(eventTimeMs: Long, studioEvent: AndroidStudioEvent.Builder) {
-    AnonymousUsageTrackerWriter.processMessage(eventTimeMs, studioEvent)
+  override fun processEvent(studioEvent: AndroidStudioEvent.Builder): Builder? {
+    AnonymousUsageTrackerWriter.processEvent(studioEvent)
+    return super.processEvent(studioEvent)
   }
 
   companion object {
-    fun processMessage(eventTimeMs: Long, studioEvent: AndroidStudioEvent.Builder) {
+    fun processEvent(studioEvent: AndroidStudioEvent.Builder) {
       studioEvent.studioSessionId = UsageTracker.sessionId
       studioEvent.ideBrand = UsageTracker.ideBrand
 

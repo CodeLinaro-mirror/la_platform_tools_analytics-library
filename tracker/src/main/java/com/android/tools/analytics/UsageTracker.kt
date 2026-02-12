@@ -43,7 +43,7 @@ object UsageTracker {
 
   @VisibleForTesting @JvmStatic var sessionId = UUID.randomUUID().toString()
 
-  @JvmStatic @VisibleForTesting var writer: UsageTrackerWriter<AndroidStudioEvent.Builder> = NullUsageTracker
+  @JvmStatic @VisibleForTesting var writer: UsageTrackerWriter = NullUsageTracker
   private var isTesting: Boolean = false
 
   /**
@@ -84,7 +84,7 @@ object UsageTracker {
    * only be used from Usage Tracker tests.
    */
   @JvmStatic
-  val writerForTest: UsageTrackerWriter<AndroidStudioEvent.Builder>
+  val writerForTest: UsageTrackerWriter
     @VisibleForTesting
     get() {
       synchronized(gate) {
@@ -152,7 +152,7 @@ object UsageTracker {
 
   /** Initializes a [UsageTrackerWriter] for use throughout this process based on user opt-in and other settings. */
   @JvmStatic
-  fun initialize(scheduler: ScheduledExecutorService): UsageTrackerWriter<AndroidStudioEvent.Builder> {
+  fun initialize(scheduler: ScheduledExecutorService): UsageTrackerWriter {
     if (isTesting) {
       // @coverage:off
       return writer
@@ -179,7 +179,7 @@ object UsageTracker {
    * changes the opt in settings.
    */
   @JvmStatic
-  fun initializeIfNotPresent(scheduler: ScheduledExecutorService): UsageTrackerWriter<AndroidStudioEvent.Builder> {
+  fun initializeIfNotPresent(scheduler: ScheduledExecutorService): UsageTrackerWriter {
     synchronized(gate) {
       if (initialized) {
         return writer
@@ -221,7 +221,7 @@ object UsageTracker {
    */
   @VisibleForTesting
   @JvmStatic
-  fun setWriterForTest(tracker: UsageTrackerWriter<AndroidStudioEvent.Builder>): UsageTrackerWriter<AndroidStudioEvent.Builder> {
+  fun setWriterForTest(tracker: UsageTrackerWriter): UsageTrackerWriter {
     synchronized(gate) {
       isTesting = true
       initialized = true

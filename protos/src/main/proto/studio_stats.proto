@@ -887,6 +887,9 @@ message AndroidStudioEvent {
   optional StudioBotToolWindowAutoOpenEvent
       studio_bot_tool_window_auto_open_event = 248 [lazy = true];
 
+  // set when kind = SKILLS_EVENT
+  optional SkillsEvent skills_event = 249 [lazy = true];
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -1896,6 +1899,9 @@ message AndroidStudioEvent {
 
     // Event related to auto opening the Studio Bot tool window on first run.
     STUDIO_BOT_TOOL_WINDOW_AUTO_OPEN_EVENT = 368;
+
+    // Event related to Skills
+    SKILLS_EVENT = 369;
   }
 
   // Represents different Performance Monitoring types.
@@ -3551,6 +3557,8 @@ message EmulatorCameraSession {
     EMULATOR_CAMERA_TYPE_VIRTUAL_SCENE = 2;
     // Camera source is the video playback camera.
     EMULATOR_CAMERA_TYPE_VIDEO_PLAYBACK = 3;
+    // Camera source is the virtual scene defined by the environment.
+    EMULATOR_CAMERA_TYPE_ENVIRONMENT = 4;
   }
 
   // List of possible camera directions.
@@ -14848,6 +14856,9 @@ message AppQualityInsightsUsageEvent {
 
     // Track deprecation notification information
     SERVICE_DEPRECATION = 16;
+
+    // Track when an aiplugin-provided action is taken
+    AGENT_ACTION = 17;
   }
 
   enum CrashType {
@@ -15148,6 +15159,15 @@ message AppQualityInsightsUsageEvent {
     optional AiInsightSource source = 4;
     optional CodeContextDetails code_context_details = 5 [lazy = true];
   }
+  message AgentActionDetails {
+    enum ActionType {
+      UNKNOWN_ACTION = 0;
+      SHOW_MORE = 1;
+      FIX = 2;
+    }
+    optional ActionType action_type = 1;
+    optional CrashType crash_type = 2;
+  }
   message ServiceDeprecationInfo {
     enum Panel {
       UNKNOWN_PANEL = 0;
@@ -15225,6 +15245,9 @@ message AppQualityInsightsUsageEvent {
 
   // set when type = SERVICE_DEPRECATION
   optional ServiceDeprecationInfo service_deprecation_info = 20 [lazy = true];
+
+  // set when type = AGENT_ACTION
+  optional AgentActionDetails agent_action_details = 21 [lazy = true];
 }
 
 message FastPreviewEvent {
@@ -16278,9 +16301,10 @@ message SmlChatBotEvent {
       TOOLS = 3;
       PROMPT_LIBRARY = 4;
       REMOTE_CONTEXT = 5;
+      SKILLS = 6;
     }
     // The type of attachment, e.g. "FILES, FOLDERS, TOOLS, PROMPT_LIBRARY,
-    // REMOTE_CONTEXT"
+    // REMOTE_CONTEXT, SKILLS"
     optional AttachmentType attachment_type = 1;
     // The number of attachments of the given type.
     optional int32 attachment_count = 2;
@@ -17376,11 +17400,31 @@ message ScreenshotTestComposePreviewEvent {
     TYPE_UNKNOWN = 0;
     PREVIEW_DISCOVERY = 1;
     PREVIEW_RENDERING = 2;
+    // Number of times the screenshot tests were run.
     VALIDATE_CLICKED = 3;
+    // Number of times the update action was successfully
+    // completed from the dialog.
     UPDATE_CLICKED = 4;
+    // Number of times the dialog was opened.
     SCREENSHOT_DIALOG_OPEN = 5;
+    // Number of times the dialog was closed without
+    // completing the update flow.
     SCREENSHOT_DIALOG_CLOSE = 6;
+    // Number of times the user tried to open the dialog
+    // when it was already open.
     SCREENSHOT_DIALOG_ALREADY_OPEN = 7;
+    // Number of times the copying of reference images
+    // action failed after clicking the 'Add' button.
+    SCREENSHOT_DIALOG_UPDATE_ACTION_FAILURE = 8;
+    // Number of times an image failed to load or
+    // render within the preview details panel of the dialog.
+    SCREENSHOT_DIALOG_RENDER_FAILURE = 9;
+    // Number of times when the test suite finished execution
+    // but no screenshot test results were discovered.
+    SCREENSHOT_DIALOG_TEST_RESULTS_EMPTY = 10;
+    // Number of times the build failed before the dialog
+    // can be populated with any test results.
+    SCREENSHOT_DIALOG_BUILD_FAILURE = 11;
   }
 
   optional Type type = 1;
@@ -18595,6 +18639,19 @@ message NextEditPredictionEvent {
     // Add fields specific to the REJECTED event here, if any.
   }
 
+  message PredictionFailure {
+    enum Reason {
+      UNKNOWN = 0;
+      // The content lines surrounding an edit do not match the document.
+      CONTENT_LINE_MISMATCH = 1;
+      // The line to be replaced was not found in the document.
+      EXPECTED_LINE_NOT_FOUND = 2;
+      // The prediction response was invalid and could not be parsed.
+      INVALID_RESPONSE = 3;
+    }
+    optional Reason reason = 1;
+  }
+
   message EnabledStatus {
     enum Status {
       UNKNOWN_STATUS = 0;
@@ -18605,11 +18662,104 @@ message NextEditPredictionEvent {
     optional Status status = 1;
   }
 
+  // Represents a complete prediction session, containing multiple events
+  // that describe the session's lifecycle.
+  message Session {
+    optional int64 start_wall_time_ms = 1;
+    optional string model_id = 2;
+    optional string language = 3;
+    // True if the prediction was forced by a user action (e.g., a specific
+    // keyboard shortcut), as opposed to being triggered automatically.
+    optional bool forced = 4;
+
+    message SessionEvent {
+      enum EventType {
+        UNKNOWN_EVENT_TYPE = 0;
+        REQUEST_SENT = 1;
+        // The prediction response was received from the model.
+        RESPONSE_RECEIVED = 2;
+        // The prediction was shown to the user. A single prediction can contain
+        // multiple controls (e.g., diff chunks).
+        PREDICTION_SHOWN = 3;
+        // The prediction was accepted by the user (i.e., at least one
+        // code-modifying control was accepted).
+        PREDICTION_ACCEPTED = 4;
+        // The prediction was rejected by the user (i.e., all code-modifying
+        // controls were rejected or dismissed).
+        PREDICTION_REJECTED = 5;
+        SESSION_CANCELLED = 6;
+        // A specific control within the prediction was shown to the user.
+        // A single prediction can have multiple controls.
+        CONTROL_SHOWN = 7;
+        // A specific control was accepted by the user.
+        CONTROL_ACCEPTED = 8;
+        // A specific control was rejected by the user.
+        CONTROL_REJECTED = 9;
+        // A specific control was hidden from the user.
+        CONTROL_HIDDEN = 10;
+        // The prediction attempt failed.
+        PREDICTION_FAILED = 11;
+      }
+      message ControlDetails {
+        enum ControlType {
+          UNKNOWN_CONTROL_TYPE = 0;
+          MODIFICATION = 1;
+          NAVIGATION = 2;
+        }
+        optional ControlType type = 1;
+        optional int32 offset = 2;
+        optional int32 original_length = 3;
+        optional int32 new_length = 4;
+      }
+      message FailureDetails {
+        enum FailureReason {
+          UNKNOWN_FAILURE_REASON = 0;
+          NO_HISTORY = 1;
+          MODEL_ERROR = 2;
+          PARSE_ERROR = 3;
+          REPAIR_ERROR = 4;
+          APPLY_ERROR = 5;
+          EMPTY_RESPONSE = 6;
+          CONTENT_LINE_MISMATCH = 7;
+          EXPECTED_LINE_NOT_FOUND = 8;
+          OUTDATED_PREDICTION = 9;
+        }
+        optional FailureReason reason = 1;
+      }
+      optional EventType type = 1;
+      // The time of this event relative to Session.start_wall_time_ms.
+      optional int64 relative_time_ms = 2;
+
+      // Deprecated in CL/868211533
+      optional int32 offset = 3 [deprecated = true];
+      optional int32 original_length = 4 [deprecated = true];
+      optional int32 new_length = 5 [deprecated = true];
+
+      message MetadataEntry {
+        option deprecated = true;
+
+        optional string key = 1;
+        oneof value {
+          string string_value = 2;
+          int64 int_value = 3;
+          double double_value = 4;
+        }
+      }
+      repeated MetadataEntry metadata = 6 [deprecated = true];
+
+      optional ControlDetails control_details = 7;
+      optional FailureDetails failure_details = 8;
+    }
+    repeated SessionEvent events = 5;
+  }
+
   oneof next_edit_prediction {
     PredictionShown shown = 1 [lazy = true];
     PredictionAccepted accepted = 2 [lazy = true];
     PredictionRejected rejected = 3 [lazy = true];
     EnabledStatus enabled_status = 4 [lazy = true];
+    PredictionFailure failure = 5 [lazy = true];
+    Session session = 6 [lazy = true];
   }
 }
 
@@ -18622,4 +18772,50 @@ message StudioBotToolWindowAutoOpenEvent {
   }
 
   optional Type type = 1;
+}
+
+// Event for capturing skills metrics.
+message SkillsEvent {
+  // Common metadata for all skills events.
+  optional SmlResponseMetadata metadata = 1 [lazy = true];
+
+  oneof event {
+    Activation activation = 2 [lazy = true];
+    Discovery discovery = 3 [lazy = true];
+  }
+
+  // Details about the skill activated by the agent.
+  message Activation {
+    optional SkillType type = 1;
+    // Status of reading skill file.
+    optional SmlChatBotEvent.ToolCallResponseStatus status = 2;
+    // Name of the pre-built skill being activated.
+    optional SkillName skill_name = 3;
+  }
+
+  // Metrics for discovering and parsing skills.
+  message Discovery {
+    // Latency in milliseconds for finding and reading skill definition files.
+    optional int64 latency_ms = 1;
+    // Number of skills successfully parsed.
+    optional int32 parsed_successful_count = 2;
+    // Number of skills that failed to parse.
+    optional int32 parsed_failed_count = 3;
+    // Token count of parsed skills.
+    optional int64 token_count = 4;
+  }
+
+  // The type of skill.
+  enum SkillType {
+    UNKNOWN = 0;
+    // Curated skills from DAC.
+    PRE_BUILT = 1;
+    // Local project skills directory.
+    USER_DEFINED = 2;
+  }
+
+  // Pre-built skill names.
+  enum SkillName {
+    UNKNOWN_SKILL_NAME = 0;
+  }
 }

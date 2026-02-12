@@ -5,6 +5,7 @@ import com.android.testutils.VirtualTimeScheduler
 import com.android.utils.FileUtils
 import com.google.common.io.Files
 import com.google.protobuf.InvalidProtocolBufferException
+import com.google.protobuf.Message.Builder
 import com.google.wireless.android.play.playlog.proto.ClientAnalytics
 import com.google.wireless.android.sdk.stats.AndroidStudioEvent
 import java.io.File
@@ -16,7 +17,7 @@ import java.util.logging.Logger
  * An implementation of [UsageTracker] for use in tests. Allows introspection of the logged usages via [TestUsageTracker.usages] and
  * [TestUsageTracker.listener].
  */
-class TestUsageTracker(val scheduler: VirtualTimeScheduler) : UsageTrackerWriter<AndroidStudioEvent.Builder>() {
+class TestUsageTracker(val scheduler: VirtualTimeScheduler) : UsageTrackerWriter() {
   /**
    * All the recorded usages. The elements might *not* be sorted chronologically. You should check [LoggedUsage.timestamp] and sort manually
    * if needed.
@@ -71,8 +72,9 @@ class TestUsageTracker(val scheduler: VirtualTimeScheduler) : UsageTrackerWriter
 
   override fun flush() {}
 
-  override fun processMessage(eventTimeMs: Long, studioEvent: AndroidStudioEvent.Builder) {
-    AnonymousUsageTrackerWriter.processMessage(eventTimeMs, studioEvent)
+  override fun processEvent(studioEvent: AndroidStudioEvent.Builder): Builder? {
+    AnonymousUsageTrackerWriter.processEvent(studioEvent)
+    return super.processEvent(studioEvent)
   }
 }
 
