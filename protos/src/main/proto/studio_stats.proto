@@ -18703,6 +18703,8 @@ message NextEditPredictionEvent {
         CONTROL_HIDDEN = 10;
         // The prediction attempt failed.
         PREDICTION_FAILED = 11;
+        // A specific control was disposed before being shown to the user.
+        CONTROL_DISPOSED_UNSEEN = 12;
       }
       message ControlDetails {
         enum ControlType {
