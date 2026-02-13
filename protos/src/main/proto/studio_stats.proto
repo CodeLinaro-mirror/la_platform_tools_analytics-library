@@ -16154,6 +16154,7 @@ message SmlChatBotEvent {
     LOGCAT = 11;
     REFACTORING_MENU = 12;
     UPDATE_DEPENDENCY_ACTION = 13;
+    QUICK_EDIT_ACTION = 14;
   }
 
   message BotInvoked {
