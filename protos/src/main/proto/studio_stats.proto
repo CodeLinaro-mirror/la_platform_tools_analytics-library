@@ -17426,6 +17426,17 @@ message ScreenshotTestComposePreviewEvent {
     // Number of times the build failed before the dialog
     // can be populated with any test results.
     SCREENSHOT_DIALOG_BUILD_FAILURE = 11;
+    // Number of times the user switched the view type.
+    SCREENSHOT_VIEW_TYPE_CHANGED = 12;
+    // Number of times the user viewed the attributes
+    // panel in the test panel.
+    SCREENSHOT_ATTRIBUTES_VIEWED = 13;
+    // Number of times the user opened the dialog from
+    // the test results.
+    SCREENSHOT_DIALOG_SOURCE_TEST_RESULTS = 14;
+    // Number of times the user clicked the toolbar
+    // action in the test panel.
+    SCREENSHOT_TOOLBAR_ACTION = 15;
   }
 
   optional Type type = 1;
