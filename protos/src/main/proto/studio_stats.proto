@@ -9055,6 +9055,8 @@ message GradleSyncStats {
     TRIGGER_QF_MIN_COMPILE_SDK_UPDATED = 430;
     // Compose Compiler Gradle plugin is added using a quickfix
     TRIGGER_QF_ADD_COMPOSE_COMPILER_GRADLE_PLUGIN = 431;
+    // Gradle JVM is set to a compatible version using a quickfix
+    TRIGGER_QF_APPLY_COMPATIBLE_GRADLE_JVM = 432;
     // Last marker for syncs caused by quickfixes
     TRIGGER_QF_LAST_MARKER = 999;
 
