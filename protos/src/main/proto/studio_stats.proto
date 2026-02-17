@@ -18747,6 +18747,7 @@ message NextEditPredictionEvent {
           CONTENT_LINE_MISMATCH = 7;
           EXPECTED_LINE_NOT_FOUND = 8;
           OUTDATED_PREDICTION = 9;
+          NO_MODEL = 10;
         }
         optional FailureReason reason = 1;
       }
