@@ -2276,6 +2276,9 @@ message AndroidStudioEvent {
     // Failure setting up Gradle Daemon JVM to trigger sync given unable to
     // locate or download matching toolchain
     GRADLE_DAEMON_JVM_CRITERIA_ERROR = 52;
+    // Failure because Gradle JVM is not compatible with a project's dependency
+    // required JVM runtime version
+    GRADLE_JVM_NOT_COMPATIBLE_WITH_DEPENDENCY = 53;
   }
 
   // IDE brand containing the android plugin
