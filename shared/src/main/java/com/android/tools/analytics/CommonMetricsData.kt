@@ -59,22 +59,17 @@ object CommonMetricsData {
   const val OS_NAME_WINDOWS = "windows"
   const val OS_NAME_CHROMIUM = "chromium"
 
-  @VisibleForTesting
-  @JvmStatic
-  val garbageCollectionStatsCache: HashMap<String, GarbageCollectionStatsDiffs> = HashMap()
+  @VisibleForTesting @JvmStatic val garbageCollectionStatsCache: HashMap<String, GarbageCollectionStatsDiffs> = HashMap()
 
   /**
-   * Detects and returns the OS architecture: x86, x86_64, ppc, arm, or arm on jvm. This may differ
-   * or be equal to the JVM architecture in the sense that a 64-bit OS can run a 32-bit JVM.
+   * Detects and returns the OS architecture: x86, x86_64, ppc, arm, or arm on jvm. This may differ or be equal to the JVM architecture in
+   * the sense that a 64-bit OS can run a 32-bit JVM.
    */
   @JvmStatic
   val osArchitecture: ProductDetails.CpuArchitecture
     get() {
       val jvmArchitecture = jvmArchitecture
-      val os =
-        Environment.instance
-          .getSystemProperty(Environment.SystemProperty.OS_NAME)!!
-          .lowercase(Locale.getDefault())
+      val os = Environment.instance.getSystemProperty(Environment.SystemProperty.OS_NAME)!!.lowercase(Locale.getDefault())
 
       if (jvmArchitecture == ProductDetails.CpuArchitecture.X86_64) {
         // An x86 jvm running on an M1 chip will be translated to ARM using Rosetta. Checking for
@@ -88,8 +83,7 @@ object CommonMetricsData {
       if (jvmArchitecture == ProductDetails.CpuArchitecture.X86) {
 
         if (os.startsWith("win")) {
-          val w6432 =
-            Environment.instance.getVariable(Environment.EnvironmentVariable.PROCESSOR_ARCHITEW6432)
+          val w6432 = Environment.instance.getVariable(Environment.EnvironmentVariable.PROCESSOR_ARCHITEW6432)
           // This is the misleading case: the JVM is 32-bit but the OS
           // might be either 32 or 64. We can't tell just from this
           // property.
@@ -111,8 +105,8 @@ object CommonMetricsData {
     }
 
   /**
-   * Gets the JVM Architecture, NOTE this might not be the same as OS architecture. See
-   * [ ][.getOsArchitecture] if OS architecture is needed.
+   * Gets the JVM Architecture, NOTE this might not be the same as OS architecture. See [ ][.getOsArchitecture] if OS architecture is
+   * needed.
    */
   @JvmStatic
   val jvmArchitecture: ProductDetails.CpuArchitecture
@@ -205,8 +199,8 @@ object CommonMetricsData {
     }
 
   /**
-   * Gets stats about the current process' Garbage Collectors. Instead of returning cumulative data
-   * since process was started, it reports stats since the last call to this method.
+   * Gets stats about the current process' Garbage Collectors. Instead of returning cumulative data since process was started, it reports
+   * stats since the last call to this method.
    */
   @JvmStatic
   @VisibleForTesting
@@ -227,13 +221,7 @@ object CommonMetricsData {
         val timeDiff = current.time - previous.time
         garbageCollectionStatsCache[name] = current
 
-        stats.add(
-          GarbageCollectionStats.newBuilder()
-            .setName(gc.name)
-            .setGcCollections(collectionsDiff)
-            .setGcTime(timeDiff)
-            .build()
-        )
+        stats.add(GarbageCollectionStats.newBuilder().setName(gc.name).setGcCollections(collectionsDiff).setGcTime(timeDiff).build())
       }
       return stats
     }
@@ -245,10 +233,7 @@ object CommonMetricsData {
     @Volatile var time: Long = 0
   }
 
-  /**
-   * Builds a [ProductDetails.CpuArchitecture] instance based on the provided string (e.g.
-   * "x86_64").
-   */
+  /** Builds a [ProductDetails.CpuArchitecture] instance based on the provided string (e.g. "x86_64"). */
   @JvmStatic
   fun cpuArchitectureFromString(cpuArchitecture: String?): ProductDetails.CpuArchitecture {
     if (cpuArchitecture == null || cpuArchitecture.isEmpty()) {
@@ -271,9 +256,7 @@ object CommonMetricsData {
       return ProductDetails.CpuArchitecture.ARM
     }
 
-    return if (
-      cpuArchitecture.length == 4 && cpuArchitecture[0] == 'i' && cpuArchitecture.indexOf("86") == 2
-    ) {
+    return if (cpuArchitecture.length == 4 && cpuArchitecture[0] == 'i' && cpuArchitecture.indexOf("86") == 2) {
       // Any variation of iX86 counts as x86 (i386, i486, i686).
       ProductDetails.CpuArchitecture.X86
     } else ProductDetails.CpuArchitecture.UNKNOWN_CPU_ARCHITECTURE
@@ -302,27 +285,20 @@ object CommonMetricsData {
   @JvmStatic
   private fun parseVmOption(vmOption: String, builder: JvmDetails.Builder) {
     when {
-      vmOption.startsWith(VM_OPTION_XMS) ->
-        builder.minimumHeapSize = parseVmOptionSize(vmOption.substring(VM_OPTION_XMS.length))
-      vmOption.startsWith(VM_OPTION_XMX) ->
-        builder.maximumHeapSize = parseVmOptionSize(vmOption.substring(VM_OPTION_XMX.length))
+      vmOption.startsWith(VM_OPTION_XMS) -> builder.minimumHeapSize = parseVmOptionSize(vmOption.substring(VM_OPTION_XMS.length))
+      vmOption.startsWith(VM_OPTION_XMX) -> builder.maximumHeapSize = parseVmOptionSize(vmOption.substring(VM_OPTION_XMX.length))
       vmOption.startsWith(VM_OPTION_MAX_PERM_SIZE) ->
-        builder.maximumPermanentSpaceSize =
-          parseVmOptionSize(vmOption.substring(VM_OPTION_MAX_PERM_SIZE.length))
+        builder.maximumPermanentSpaceSize = parseVmOptionSize(vmOption.substring(VM_OPTION_MAX_PERM_SIZE.length))
       vmOption.startsWith(VM_OPTION_RESERVED_CODE_CACHE_SIZE) ->
-        builder.maximumCodeCacheSize =
-          parseVmOptionSize(vmOption.substring(VM_OPTION_RESERVED_CODE_CACHE_SIZE.length))
+        builder.maximumCodeCacheSize = parseVmOptionSize(vmOption.substring(VM_OPTION_RESERVED_CODE_CACHE_SIZE.length))
       vmOption.startsWith(VM_OPTION_SOFT_REF_LRU_POLICY_MS_PER_MB) ->
-        builder.softReferenceLruPolicy =
-          parseVmOptionSize(vmOption.substring(VM_OPTION_SOFT_REF_LRU_POLICY_MS_PER_MB.length))
+        builder.softReferenceLruPolicy = parseVmOptionSize(vmOption.substring(VM_OPTION_SOFT_REF_LRU_POLICY_MS_PER_MB.length))
     }
 
     when (vmOption) {
-      "-XX:+UseConcMarkSweepGC" ->
-        builder.garbageCollector = JvmDetails.GarbageCollector.CONCURRENT_MARK_SWEEP_GC
+      "-XX:+UseConcMarkSweepGC" -> builder.garbageCollector = JvmDetails.GarbageCollector.CONCURRENT_MARK_SWEEP_GC
       "-XX:+UseParallelGC" -> builder.garbageCollector = JvmDetails.GarbageCollector.PARALLEL_GC
-      "-XX:+UseParallelOldGC" ->
-        builder.garbageCollector = JvmDetails.GarbageCollector.PARALLEL_OLD_GC
+      "-XX:+UseParallelOldGC" -> builder.garbageCollector = JvmDetails.GarbageCollector.PARALLEL_OLD_GC
       "-XX:+UseSerialGC" -> builder.garbageCollector = JvmDetails.GarbageCollector.SERIAL_GC
       "-XX:+UseG1GC" -> builder.garbageCollector = JvmDetails.GarbageCollector.SERIAL_GC
     }
@@ -367,8 +343,7 @@ object CommonMetricsData {
 /**
  * Determines if the current process is being translated to ARM by Rosetta.
  *
- * Processes running under Rosetta translation return 1 when sysctlbyname is called with
- * sysctl.proc_translated ref:
+ * Processes running under Rosetta translation return 1 when sysctlbyname is called with sysctl.proc_translated ref:
  * https://developer.apple.com/documentation/apple_silicon/about_the_rosetta_translation_environment
  */
 fun isRosetta(): Boolean {
@@ -427,7 +402,7 @@ fun isWindowsArm64(): Boolean {
   try {
     // https://learn.microsoft.com/en-us/windows/arm/apps-on-arm-x86-emulation#detecting-emulation
     val pidHandle = Kernel32.INSTANCE.GetCurrentProcess()
-    val lib = Native.load("kernel32", NativeIsWow64::class.java, W32APIOptions.DEFAULT_OPTIONS);
+    val lib = Native.load("kernel32", NativeIsWow64::class.java, W32APIOptions.DEFAULT_OPTIONS)
     val processMachine = WinDef.USHORTByReference()
     val nativeMachine = WinDef.USHORTByReference()
     val result = lib.IsWow64Process2(pidHandle, processMachine, nativeMachine)
@@ -441,9 +416,5 @@ fun isWindowsArm64(): Boolean {
 
 private interface NativeIsWow64 : StdCallLibrary {
 
-  fun IsWow64Process2(
-    hProcess: WinNT.HANDLE,
-    processMachine: WinDef.USHORTByReference,
-    nativeMachine: WinDef.USHORTByReference
-  ): Boolean
+  fun IsWow64Process2(hProcess: WinNT.HANDLE, processMachine: WinDef.USHORTByReference, nativeMachine: WinDef.USHORTByReference): Boolean
 }

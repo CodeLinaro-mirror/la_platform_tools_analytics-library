@@ -25,12 +25,11 @@ import java.util.*
 const val MILLI_TO_NANOS = 1_000_000
 
 /**
- * Uses the "Date" response header from a http request to a webserver to provide a consistent notion
- * of time. Uses System.nanoTime() to provide a monotonic increase of time since the last
- * webrequest.
+ * Uses the "Date" response header from a http request to a webserver to provide a consistent notion of time. Uses System.nanoTime() to
+ * provide a monotonic increase of time since the last webrequest.
  *
- * This DateProvider can be used instead of thee System one if a network connection is present and
- * it is suspected that the local clock might be set incorrectly.
+ * This DateProvider can be used instead of thee System one if a network connection is present and it is suspected that the local clock
+ * might be set incorrectly.
  */
 open class WebServerDateProvider(initialUrl: URL) : DateProvider {
 
@@ -39,18 +38,14 @@ open class WebServerDateProvider(initialUrl: URL) : DateProvider {
 
   init {
     if (!updateServerTimestampWithHeadRequest(initialUrl)) {
-      throw IOException(
-        "Unable to initializeWebServerDateProvider based on ${initialUrl}, unable to parse 'Date' response header"
-      )
+      throw IOException("Unable to initializeWebServerDateProvider based on ${initialUrl}, unable to parse 'Date' response header")
     }
   }
 
   private fun readDateHeaderWithHeadRequest(url: URL): HttpURLConnection {
     val connection = url.openConnection()
     if (connection !is HttpURLConnection) {
-      throw RuntimeException(
-        "Unexpected HttpConnection type: ${connection.javaClass.canonicalName}"
-      )
+      throw RuntimeException("Unexpected HttpConnection type: ${connection.javaClass.canonicalName}")
     }
     connection.requestMethod = "HEAD"
     connection.connect()

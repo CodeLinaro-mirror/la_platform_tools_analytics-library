@@ -23,10 +23,7 @@ import java.awt.geom.AffineTransform
 import java.awt.image.ColorModel
 import org.junit.Assert.fail
 
-/**
- * A Stub implementation of [StubGraphicsConfiguration] for use in tests. By default fails on any
- * call.
- */
+/** A Stub implementation of [StubGraphicsConfiguration] for use in tests. By default fails on any call. */
 open class StubGraphicsConfiguration : GraphicsConfiguration() {
 
   override fun getDevice(): GraphicsDevice? {

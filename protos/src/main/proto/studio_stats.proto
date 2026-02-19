@@ -870,6 +870,26 @@ message AndroidStudioEvent {
   // set when kind = GLASSES_PAIRING_EVENT
   optional GlassesPairingEvent glasses_pairing_event = 243 [lazy = true];
 
+  // set when kind = SERVER_PUSH_NOTIFICATION_EVENT
+  optional ServerPushNotificationEvent server_push_notification_event = 244
+      [lazy = true];
+
+  // set when kind = USER_TIER_UPGRADE_EVENT
+  optional UserTierUpgradeEvent user_tier_upgrade_event = 245 [lazy = true];
+
+  // set when kind = RENDER_TOOL_EVENT
+  optional RenderToolEvent render_tool_event = 246 [lazy = true];
+
+  // set when kind = EMULATOR_CONSOLE_EVENTS
+  repeated EmulatorConsoleEvent emulator_console_events = 247;
+
+  // set when kind = STUDIO_BOT_TOOL_WINDOW_AUTO_OPEN_EVENT
+  optional StudioBotToolWindowAutoOpenEvent
+      studio_bot_tool_window_auto_open_event = 248 [lazy = true];
+
+  // set when kind = SKILLS_EVENT
+  optional SkillsEvent skills_event = 249 [lazy = true];
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -1861,6 +1881,27 @@ message AndroidStudioEvent {
 
     // Event related to AI Glasses Pairing
     GLASSES_PAIRING_EVENT = 362;
+
+    // Event related to server push notifications.
+    SERVER_PUSH_NOTIFICATION_EVENT = 363;
+
+    // Event related to consumer user tier upgrade flow.
+    USER_TIER_UPGRADE_EVENT = 364;
+
+    // Event related to the Render Tool API.
+    RENDER_TOOL_EVENT = 365;
+
+    // Event related to onboarding triggered by the quick-edit feature.
+    QUICK_EDIT_ONBOARDING = 366;
+
+    // Event related to console emulator events.
+    EMULATOR_CONSOLE_EVENTS = 367;
+
+    // Event related to auto opening the Studio Bot tool window on first run.
+    STUDIO_BOT_TOOL_WINDOW_AUTO_OPEN_EVENT = 368;
+
+    // Event related to Skills
+    SKILLS_EVENT = 369;
   }
 
   // Represents different Performance Monitoring types.
@@ -3180,7 +3221,8 @@ message EmulatorFeatureFlagState {
     FORCE_LAVAPIPE_FOR_SOFTWARE_RENDERING = 135;
     FORCE_GPU_HOST = 136;
     FORCE_GPU_SOFTWARE = 137;
-    // Next tag: 138
+    QEMU_CAMERA_SENSOR_ORIENTATION = 138;
+    // Next tag: 139
   }
   // Which features were enabled by default or through the server-side config.
   repeated EmulatorFeatureFlag attempted_enabled_feature_flags = 1;
@@ -3515,6 +3557,8 @@ message EmulatorCameraSession {
     EMULATOR_CAMERA_TYPE_VIRTUAL_SCENE = 2;
     // Camera source is the video playback camera.
     EMULATOR_CAMERA_TYPE_VIDEO_PLAYBACK = 3;
+    // Camera source is the virtual scene defined by the environment.
+    EMULATOR_CAMERA_TYPE_ENVIRONMENT = 4;
   }
 
   // List of possible camera directions.
@@ -3831,7 +3875,10 @@ message EmulatorDetails {
   optional EmulatorCompatibilityInfo emu_compat_info = 40;
   // In-use Vulkan GPU
   optional EmulatorGpuVkInfo active_vulkan_host_gpu = 41;
-  // Next tag: 42
+  // True if the emulator is running with high privileges (e.g. as
+  // administrator on Windows or as root on Linux).
+  optional bool has_elevated_privileges = 42;
+  // Next tag: 43
 
   // Emulator instance liveness as determined via adb connectivity.
   enum EmulatorAdbLiveness {
@@ -3876,15 +3923,16 @@ message EmulatorDetails {
   enum EmulatorRenderer {
     UNKNOWN_EMULATOR_RENDERER = 0;
     HOST = 1;
-    OFF = 2;
-    GUEST = 3;
-    MESA = 4;
-    SWIFTSHADER = 5;
-    ANGLE = 6;
-    ANGLE9 = 7;
+    OFF = 2 [deprecated = true];
+    GUEST = 3 [deprecated = true];
+    MESA = 4 [deprecated = true];
+    SWIFTSHADER = 5 [deprecated = true];
+    ANGLE = 6 [deprecated = true];
+    ANGLE9 = 7 [deprecated = true];
     SWIFTSHADER_INDIRECT = 8;
     ANGLE_INDIRECT = 9;
-    ANGLE9_INDIRECT = 10;
+    ANGLE9_INDIRECT = 10 [deprecated = true];
+    LAVAPIPE = 11;
     ERROR_IN_EMULATOR_RENDERER = 255;
   }
 
@@ -3962,6 +4010,19 @@ message EmulatorUiEvent {
     EXTENDED_SETTINGS_TAB = 13;
     EXTENDED_HELP_TAB = 14;
   }
+}
+// Describes a user sending a command to the Emulator Console.
+message EmulatorConsoleEvent {
+  // The command that was used.
+  optional string command = 1;
+  // The source of the command.
+  enum Source {
+    UNKNOWN = 0;
+    TELNET = 1;
+  }
+  optional Source source = 2;
+  // How many times it was used.
+  optional int64 value = 3;
 }
 
 message EmulatorPercentileEstimator {
@@ -7342,7 +7403,7 @@ message AppLinksAssistantEvent {
       [lazy = true];
 
   // UI event source.
-  // Next ID: 61
+  // Next ID: 67
   // Note: Not a properly sequentially incrementing ID (200 & 201 are used)
   enum EventSource {
     // Will be deprecated and replaced by NEW_LINK_CREATION_SIDE_PANEL.
@@ -7441,6 +7502,14 @@ message AppLinksAssistantEvent {
     // Deep Link AI
     CODE_INSERT_DIALOG_GEMINI_BUTTON = 59;
     DLLA_APP_SCREEN_OPEN_CONFIRMATION = 60;
+
+    // The secondary tab for viewing missing URLs info.
+    MISSING_URL_OVERVIEW_TABLE = 61;
+    MISSING_URL_OVERVIEW_TABLE_DETAILS_BUTTON = 62;
+    MISSING_URL_OVERVIEW_TABLE_FIX_ALL_APP_CHECKS_BUTTON = 63;
+    MISSING_URL_OVERVIEW_TABLE_FIX_ALL_WEB_CHECKS_BUTTON = 64;
+    MISSING_URL_OVERVIEW_TABLE_SEARCH_BOX = 65;
+    MISSING_URL_OVERVIEW_TABLE_FILTERS = 66;
   }
 
   // The state list of UI event source.
@@ -12446,6 +12515,35 @@ message VsPluginEvent {
   }
 }
 
+message RenderToolEvent {
+  // Top-level success status
+  optional bool is_success = 1;
+
+  enum RenderError {
+    UNKNOWN_RENDER_ERROR = 0;
+    ERROR_FILE_NOT_FOUND = 1;
+    ERROR_BLOCKED_BY_AI_EXCLUDE = 2;
+    ERROR_MODULE_NOT_FOUND = 3;
+    ERROR_COMPONENT_NOT_FOUND = 4;
+    // Failures during rendering
+    ERROR_COMPILATION_FAILED = 5;
+    ERROR_RENDER_FAILED = 6;  // RenderResult contained errors
+    ERROR_UNEXPECTED = 7;     // Generic exceptions
+  }
+
+  // The specific error if is_success is false
+  optional RenderError render_error = 2;
+
+  // Parameters
+  optional bool is_compilation_requested = 3;
+  optional bool is_layout_scanner_requested = 4;
+  optional bool show_decorations = 5;
+  optional int64 compilation_duration_ms = 6;
+
+  // Total time from Tool start to Tool finish (includes compilation + overhead)
+  optional int64 total_latency_ms = 7;
+}
+
 message AppInspectionEvent {
   enum Type {
     UNKNOWN_EVENT_TYPE = 0;
@@ -13631,6 +13729,7 @@ message DeviceManagerEvent {
 }
 
 // Event related to Glasses emulator pairing assistant
+// Next ID: 24
 message GlassesPairingEvent {
   // The kind of GlassesPairingEvent
   optional EventKind kind = 1;
@@ -13652,6 +13751,10 @@ message GlassesPairingEvent {
     PAIRING_LAUNCH_STARTED = 6;
     // Wizard is awaiting user authorization on the phone
     PAIRING_AWAITING_AUTHORIZATION = 7;
+    // Wizard is connecting glassesto the glasses core on the phone
+    PAIRING_GLASSES_CORE_CONNECTING = 22;
+    // Wizard is connecting to the glasses core on the phone
+    PAIRING_GLASSES_CORE_CONNECTED = 23;
     // Error: Timeout waiting for devices to start
     PAIRING_ERROR_TIMEOUT = 8;
     // Error: Device launch failed
@@ -13662,12 +13765,24 @@ message GlassesPairingEvent {
     PAIRING_ERROR_NO_COMPANION_APP = 11;
     // Error: Bluetooth address conflict or failure
     PAIRING_ERROR_BLUETOOTH_ADDRESS = 12;
-    // Error: Pairing bond failed
+    // Error: Pairing bluetooth bond failed
     PAIRING_ERROR_BOND_FAILED = 13;
     // Error: Pairing connection failed
     PAIRING_ERROR_CONNECTION_FAILED = 14;
     // Warning: Phone already has paired devices, pairing might fail
     PAIRING_WARNING_PHONE_ALREADY_PAIRED = 15;
+    // Error: Pairing worker cancelled
+    PAIRING_ERROR_WORKER_CANCELLED = 16;
+    // Error: Polling for pairing state failed (timeout)
+    PAIRING_ERROR_POLLING_FAILED = 17;
+    // Error: Companion CDM association failed
+    PAIRING_ERROR_COMPANION_CDM_FAILED = 18;
+    // Error: Shell command failed execution (e.g., pm grant, am broadcast)
+    PAIRING_ERROR_SHELL_COMMAND = 19;
+    // Error: IO error when interacting with the device
+    PAIRING_ERROR_IO_FAILED = 20;
+    // Error: Generic or unknown pairing error
+    PAIRING_ERROR_GENERIC = 21;
   }
 }
 
@@ -14741,6 +14856,9 @@ message AppQualityInsightsUsageEvent {
 
     // Track deprecation notification information
     SERVICE_DEPRECATION = 16;
+
+    // Track when an aiplugin-provided action is taken
+    AGENT_ACTION = 17;
   }
 
   enum CrashType {
@@ -15041,6 +15159,15 @@ message AppQualityInsightsUsageEvent {
     optional AiInsightSource source = 4;
     optional CodeContextDetails code_context_details = 5 [lazy = true];
   }
+  message AgentActionDetails {
+    enum ActionType {
+      UNKNOWN_ACTION = 0;
+      SHOW_MORE = 1;
+      FIX = 2;
+    }
+    optional ActionType action_type = 1;
+    optional CrashType crash_type = 2;
+  }
   message ServiceDeprecationInfo {
     enum Panel {
       UNKNOWN_PANEL = 0;
@@ -15118,6 +15245,9 @@ message AppQualityInsightsUsageEvent {
 
   // set when type = SERVICE_DEPRECATION
   optional ServiceDeprecationInfo service_deprecation_info = 20 [lazy = true];
+
+  // set when type = AGENT_ACTION
+  optional AgentActionDetails agent_action_details = 21 [lazy = true];
 }
 
 message FastPreviewEvent {
@@ -15979,6 +16109,7 @@ message SmlChatBotEvent {
     CHAT = 1;
     AGENT_MODE = 2;
     VERSION_UPGRADE_AGENT = 3;
+    QUICK_EDIT = 4;
   }
 
   message BotResponse {
@@ -16144,6 +16275,7 @@ message SmlChatBotEvent {
     QUERY_WITH_CONTEXT_SUBMITTED = 4;
     REFERENCE_DELETED = 5;
     IMAGE_ATTACHMENT_CLICKED = 6;
+    QUERY_STOPPED = 7;
   }
 
   message QueryBoxEventMetadata {
@@ -16169,9 +16301,10 @@ message SmlChatBotEvent {
       TOOLS = 3;
       PROMPT_LIBRARY = 4;
       REMOTE_CONTEXT = 5;
+      SKILLS = 6;
     }
     // The type of attachment, e.g. "FILES, FOLDERS, TOOLS, PROMPT_LIBRARY,
-    // REMOTE_CONTEXT"
+    // REMOTE_CONTEXT, SKILLS"
     optional AttachmentType attachment_type = 1;
     // The number of attachments of the given type.
     optional int32 attachment_count = 2;
@@ -16458,6 +16591,25 @@ message SmlChatBotEvent {
       NewChat new_chat = 3;
     }
   }
+  enum ConversationAction {
+    UNKNOWN_ACTION = 0;
+    // Delete a conversation(request and response pairs).
+    DELETE = 1;
+    // Edit and resend a request.
+    EDIT = 2;
+    // Regenerate the response for the same request.
+    REGENERATE = 3;
+  }
+  message ConversationActionInvoked {
+    // Metadata about the conversation on which action is being performed on.
+    optional SmlResponseMetadata metadata = 1 [lazy = true];
+    // The action performed by the user on a chat bot conversation (e.g. edit,
+    // delete).
+    optional ConversationAction conversation_action = 2;
+    // The chat mode (e.g. chat, agent etc) the user was in when performing the
+    // action.
+    optional ChatMode chat_mode = 3;
+  }
 
   oneof content {
     BotResponse response = 1 [lazy = true];
@@ -16479,6 +16631,7 @@ message SmlChatBotEvent {
     SessionManagerEvent session_manager_event = 17 [lazy = true];
     RecentChatsEvent recent_chats_event = 18 [lazy = true];
     ChangesDrawerEvent changes_drawer_event = 19 [lazy = true];
+    ConversationActionInvoked conversation_action_invoked = 20 [lazy = true];
   }
 }
 
@@ -16501,11 +16654,23 @@ message SmlConfigurationEvent {
   // User agrees to sending project context with queries
   optional bool project_context_enabled = 6;
 
-  // The product variant that was fetched by the LoadCodeAssist API
-  optional SmlProductVariant product_variant = 7;
+  // Deprecated. The existing SmlProductVariant was a combined enum to identify
+  // both user account type and license type. Use UserAccountType and
+  // LicenseType instead. The product variant that was fetched by the
+  // LoadCodeAssist API
+  optional SmlProductVariant product_variant = 7 [deprecated = true];
 
   // User has auto-approve enabled for tool calls in agent mode
   optional bool agent_auto_accept_enabled = 8;
+
+  // details.
+  optional string tier_name = 9;
+
+  // The license type that was fetched by the LoadCodeAssist API.
+  optional LicenseType license_type = 10;
+
+  // The user account type that was fetched by the LoadCodeAssist API.
+  optional UserAccountType user_account_type = 11;
 
   enum SmlProductVariant {
     PRODUCT_VARIANT_UNKNOWN = 0;
@@ -16514,6 +16679,18 @@ message SmlConfigurationEvent {
     PRODUCT_VARIANT_DASHER_USER_CHOICE = 3 [deprecated = true];
     PRODUCT_VARIANT_DASHER_FREE = 4;
     PRODUCT_VARIANT_DASHER_BUSINESS = 5;
+  }
+
+  enum UserAccountType {
+    USER_ACCOUNT_TYPE_UNKNOWN = 0;
+    USER_ACCOUNT_TYPE_CONSUMER = 1;
+    USER_ACCOUNT_TYPE_DASHER = 2;
+  }
+
+  enum LicenseType {
+    LICENSE_TYPE_UNKNOWN = 0;
+    LICENSE_TYPE_CONSUMER = 1;
+    LICENSE_TYPE_BUSINESS = 2;
   }
 }
 
@@ -17198,6 +17375,8 @@ message AdbServerStatus {
     TYPE_MDNS_DEFAULT = 1;
     TYPE_BONJOUR = 2;
     TYPE_OPENSCREEN = 3;
+    TYPE_LIBADBMDNS = 4;
+    TYPE_MDNS_DISABLED = 5;
   }
 
   enum USBBackend {
@@ -17205,6 +17384,7 @@ message AdbServerStatus {
     TYPE_USB_DEFAULT = 1;
     TYPE_LIBUSB = 2;
     TYPE_NATIVE = 3;
+    TYPE_USB_DISABLED = 4;
   }
 
   optional bool is_managed = 1;
@@ -17220,8 +17400,31 @@ message ScreenshotTestComposePreviewEvent {
     TYPE_UNKNOWN = 0;
     PREVIEW_DISCOVERY = 1;
     PREVIEW_RENDERING = 2;
+    // Number of times the screenshot tests were run.
     VALIDATE_CLICKED = 3;
+    // Number of times the update action was successfully
+    // completed from the dialog.
     UPDATE_CLICKED = 4;
+    // Number of times the dialog was opened.
+    SCREENSHOT_DIALOG_OPEN = 5;
+    // Number of times the dialog was closed without
+    // completing the update flow.
+    SCREENSHOT_DIALOG_CLOSE = 6;
+    // Number of times the user tried to open the dialog
+    // when it was already open.
+    SCREENSHOT_DIALOG_ALREADY_OPEN = 7;
+    // Number of times the copying of reference images
+    // action failed after clicking the 'Add' button.
+    SCREENSHOT_DIALOG_UPDATE_ACTION_FAILURE = 8;
+    // Number of times an image failed to load or
+    // render within the preview details panel of the dialog.
+    SCREENSHOT_DIALOG_RENDER_FAILURE = 9;
+    // Number of times when the test suite finished execution
+    // but no screenshot test results were discovered.
+    SCREENSHOT_DIALOG_TEST_RESULTS_EMPTY = 10;
+    // Number of times the build failed before the dialog
+    // can be populated with any test results.
+    SCREENSHOT_DIALOG_BUILD_FAILURE = 11;
   }
 
   optional Type type = 1;
@@ -18249,6 +18452,8 @@ message GeminiAdvertiserEvent {
     // Features related to UI tools, such as compose preview generation, fix
     // render issues, transform preview, etc.
     UI_TOOLS = 13;
+    // Update dependencies to latest versions.
+    UPDATE_DEPENDENCIES = 14;
   }
 
   enum Action {
@@ -18331,6 +18536,54 @@ message MarketingEmailEvent {
   optional EventSource event_source = 2;
 }
 
+message ServerPushNotificationEvent {
+  enum EventType {
+    UNKNOWN_EVENT_TYPE = 0;
+    SHOWN = 1;
+    DISMISSED = 2;
+    ACTION_CLICKED = 3;
+  }
+
+  enum NotificationType {
+    UNKNOWN_NOTIFICATION_TYPE = 0;
+    // https://plugins.jetbrains.com/docs/intellij/got-it-tooltip.html
+    GOT_IT_TOOLTIP_NOTIFICATION = 1;
+    // https://plugins.jetbrains.com/docs/intellij/balloon.html
+    BALLOON_NOTIFICATION = 2;
+  }
+
+  // The type of event that occurred around the push notification.
+  optional EventType event_type = 1;
+  // The unique identifier of the notification.
+  optional string notification_id = 2;
+  // The type of notification that occurred. Currently, we are supporting only
+  // got-it tooltips and balloon notifications.
+  optional NotificationType notification_type = 3;
+  // The title of the action button that's clicked by the user. This will only
+  // be set if the event_type is ACTION_CLICKED.
+  optional string action_title = 4;
+}
+
+message UserTierUpgradeEvent {
+  // The flow via which user tried to upgrade the user tier.
+  enum UpgradeFlow {
+    UNKNOWN_UPGRADE_FLOW = 0;
+    SETTINGS = 1;
+    MODEL_PICKER = 2;
+    TIER_CHIP = 3;
+    EXHAUSTIVE_NOTIFICATION = 4;
+  }
+
+  // The user tier before going through the upgrade flow.
+  optional string previous_tier_name = 1;
+
+  // The user tier after returning back to studio post going through the upgrade
+  // flow.
+  optional string current_tier_name = 2;
+
+  optional UpgradeFlow upgrade_flow = 3;
+}
+
 message AdvertiserNotificationEvent {
   enum Type {
     UNKNOWN_TYPE = 0;
@@ -18386,9 +18639,183 @@ message NextEditPredictionEvent {
     // Add fields specific to the REJECTED event here, if any.
   }
 
+  message PredictionFailure {
+    enum Reason {
+      UNKNOWN = 0;
+      // The content lines surrounding an edit do not match the document.
+      CONTENT_LINE_MISMATCH = 1;
+      // The line to be replaced was not found in the document.
+      EXPECTED_LINE_NOT_FOUND = 2;
+      // The prediction response was invalid and could not be parsed.
+      INVALID_RESPONSE = 3;
+    }
+    optional Reason reason = 1;
+  }
+
+  message EnabledStatus {
+    enum Status {
+      UNKNOWN_STATUS = 0;
+      ENABLED = 1;
+      DISABLED = 2;
+      PAUSED = 3;
+    }
+    optional Status status = 1;
+  }
+
+  // Represents a complete prediction session, containing multiple events
+  // that describe the session's lifecycle.
+  message Session {
+    optional int64 start_wall_time_ms = 1;
+    optional string model_id = 2;
+    optional string language = 3;
+    // True if the prediction was forced by a user action (e.g., a specific
+    // keyboard shortcut), as opposed to being triggered automatically.
+    optional bool forced = 4;
+
+    message SessionEvent {
+      enum EventType {
+        UNKNOWN_EVENT_TYPE = 0;
+        REQUEST_SENT = 1;
+        // The prediction response was received from the model.
+        RESPONSE_RECEIVED = 2;
+        // The prediction was shown to the user. A single prediction can contain
+        // multiple controls (e.g., diff chunks).
+        PREDICTION_SHOWN = 3;
+        // The prediction was accepted by the user (i.e., at least one
+        // code-modifying control was accepted).
+        PREDICTION_ACCEPTED = 4;
+        // The prediction was rejected by the user (i.e., all code-modifying
+        // controls were rejected or dismissed).
+        PREDICTION_REJECTED = 5;
+        SESSION_CANCELLED = 6;
+        // A specific control within the prediction was shown to the user.
+        // A single prediction can have multiple controls.
+        CONTROL_SHOWN = 7;
+        // A specific control was accepted by the user.
+        CONTROL_ACCEPTED = 8;
+        // A specific control was rejected by the user.
+        CONTROL_REJECTED = 9;
+        // A specific control was hidden from the user.
+        CONTROL_HIDDEN = 10;
+        // The prediction attempt failed.
+        PREDICTION_FAILED = 11;
+      }
+      message ControlDetails {
+        enum ControlType {
+          UNKNOWN_CONTROL_TYPE = 0;
+          MODIFICATION = 1;
+          NAVIGATION = 2;
+        }
+        optional ControlType type = 1;
+        optional int32 offset = 2;
+        optional int32 original_length = 3;
+        optional int32 new_length = 4;
+      }
+      message FailureDetails {
+        enum FailureReason {
+          UNKNOWN_FAILURE_REASON = 0;
+          NO_HISTORY = 1;
+          MODEL_ERROR = 2;
+          PARSE_ERROR = 3;
+          REPAIR_ERROR = 4;
+          APPLY_ERROR = 5;
+          EMPTY_RESPONSE = 6;
+          CONTENT_LINE_MISMATCH = 7;
+          EXPECTED_LINE_NOT_FOUND = 8;
+          OUTDATED_PREDICTION = 9;
+        }
+        optional FailureReason reason = 1;
+      }
+      optional EventType type = 1;
+      // The time of this event relative to Session.start_wall_time_ms.
+      optional int64 relative_time_ms = 2;
+
+      // Deprecated in CL/868211533
+      optional int32 offset = 3 [deprecated = true];
+      optional int32 original_length = 4 [deprecated = true];
+      optional int32 new_length = 5 [deprecated = true];
+
+      message MetadataEntry {
+        option deprecated = true;
+
+        optional string key = 1;
+        oneof value {
+          string string_value = 2;
+          int64 int_value = 3;
+          double double_value = 4;
+        }
+      }
+      repeated MetadataEntry metadata = 6 [deprecated = true];
+
+      optional ControlDetails control_details = 7;
+      optional FailureDetails failure_details = 8;
+    }
+    repeated SessionEvent events = 5;
+  }
+
   oneof next_edit_prediction {
     PredictionShown shown = 1 [lazy = true];
     PredictionAccepted accepted = 2 [lazy = true];
     PredictionRejected rejected = 3 [lazy = true];
+    EnabledStatus enabled_status = 4 [lazy = true];
+    PredictionFailure failure = 5 [lazy = true];
+    Session session = 6 [lazy = true];
+  }
+}
+
+message StudioBotToolWindowAutoOpenEvent {
+  enum Type {
+    UNKNOWN_TYPE = 0;
+    // Agent/Chat tool window is automatically opened the first time after
+    // installation/upgrade.
+    AUTO_OPEN = 1;
+  }
+
+  optional Type type = 1;
+}
+
+// Event for capturing skills metrics.
+message SkillsEvent {
+  // Common metadata for all skills events.
+  optional SmlResponseMetadata metadata = 1 [lazy = true];
+
+  oneof event {
+    Activation activation = 2 [lazy = true];
+    Discovery discovery = 3 [lazy = true];
+  }
+
+  // Details about the skill activated by the agent.
+  message Activation {
+    optional SkillType type = 1;
+    // Status of reading skill file.
+    optional SmlChatBotEvent.ToolCallResponseStatus status = 2;
+    // Name of the pre-built skill being activated.
+    optional SkillName skill_name = 3;
+  }
+
+  // Metrics for discovering and parsing skills.
+  message Discovery {
+    // Latency in milliseconds for finding and reading skill definition files.
+    optional int64 latency_ms = 1;
+    // Number of skills successfully parsed.
+    optional int32 parsed_successful_count = 2;
+    // Number of skills that failed to parse.
+    optional int32 parsed_failed_count = 3;
+    // Token count of parsed skills.
+    optional int64 token_count = 4;
+  }
+
+  // The type of skill.
+  enum SkillType {
+    UNKNOWN = 0;
+    // Curated skills from DAC.
+    PRE_BUILT = 1;
+    // Local project skills directory.
+    USER_DEFINED = 2;
+  }
+
+  // Pre-built skill names.
+  enum SkillName {
+    UNKNOWN_SKILL_NAME = 0;
   }
 }

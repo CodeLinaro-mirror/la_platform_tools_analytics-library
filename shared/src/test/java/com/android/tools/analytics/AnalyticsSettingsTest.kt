@@ -118,8 +118,7 @@ class AnalyticsSettingsTest {
   @Throws(Exception::class)
   fun loadExistingSettingsTest() {
     // Write a json settings file.
-    analyticsSettingsFileContent =
-      "{ userId: \"a4d47d92-8d4c-44bb-a8a4-d2483b6e0c16\", hasOptedIn: true }"
+    analyticsSettingsFileContent = "{ userId: \"a4d47d92-8d4c-44bb-a8a4-d2483b6e0c16\", hasOptedIn: true }"
 
     // read settings just written.
     AnalyticsSettings.setInstanceForTest(null)
@@ -130,8 +129,7 @@ class AnalyticsSettingsTest {
     assertTrue(AnalyticsSettings.optedIn)
 
     // Write another json settings file
-    analyticsSettingsFileContent =
-      "{ userId: \"06120264-c9e7-492f-a39c-89c3cbee57c5\", hasOptedIn: false }"
+    analyticsSettingsFileContent = "{ userId: \"06120264-c9e7-492f-a39c-89c3cbee57c5\", hasOptedIn: false }"
     // read settings just written.
     AnalyticsSettings.setInstanceForTest(null)
     AnalyticsSettings.initialize(failureLogger)
@@ -271,8 +269,7 @@ class AnalyticsSettingsTest {
   @Throws(Exception::class)
   fun changeSettingsTest() {
     // Start with an existing config on disk.
-    analyticsSettingsFileContent =
-      "{ userId: \"a4d47d92-8d4c-44bb-a8a4-d2483b6e0c16\", hasOptedIn: true }"
+    analyticsSettingsFileContent = "{ userId: \"a4d47d92-8d4c-44bb-a8a4-d2483b6e0c16\", hasOptedIn: true }"
 
     AnalyticsSettings.setInstanceForTest(null)
     AnalyticsSettings.initialize(failureLogger)
@@ -367,17 +364,14 @@ class AnalyticsSettingsTest {
     File(AnalyticsPaths.getAndEnsureAndroidSettingsHome(), "analytics.settings")
       .writeText(
         """
-      {"userId":"user-id","hasOptedIn":false,"debugDisablePublishing":false,"saltValue":12345,"saltSkew":683}
-      """
+        {"userId":"user-id","hasOptedIn":false,"debugDisablePublishing":false,"saltValue":12345,"saltSkew":683}
+        """
           .trimIndent()
       )
     val saltFromDisk = AnalyticsSettings.salt
     assertNotNull(saltFromDisk)
     assertEquals(24, saltFromDisk.size.toLong())
-    assertEquals(
-      ByteString.copyFrom(BigInteger("12345").toByteArrayOfLength24()),
-      ByteString.copyFrom(saltFromDisk),
-    )
+    assertEquals(ByteString.copyFrom(BigInteger("12345").toByteArrayOfLength24()), ByteString.copyFrom(saltFromDisk))
   }
 
   @Test
@@ -471,14 +465,9 @@ class AnalyticsSettingsTest {
     analyticsSettingsFileContent = allFieldsSettingsContent
 
     val settingsData =
-      FileChannel.open(analyticsSettingsFile, StandardOpenOption.READ, StandardOpenOption.WRITE)
-        .use { channel ->
-          AnalyticsSettingsData.parseSettingsData(
-            channel,
-            analyticsSettingsFile.toFile(),
-            failureLogger,
-          )!!
-        }
+      FileChannel.open(analyticsSettingsFile, StandardOpenOption.READ, StandardOpenOption.WRITE).use { channel ->
+        AnalyticsSettingsData.parseSettingsData(channel, analyticsSettingsFile.toFile(), failureLogger)!!
+      }
     assertEquals("db3dd15b-053a-4066-ac93-04c50585edc2", settingsData.userId)
     assertEquals(true, settingsData.optedIn)
     assertEquals(true, settingsData.debugDisablePublishing)
@@ -487,10 +476,7 @@ class AnalyticsSettingsTest {
     assertEquals(Date(115, 4, 17, 14, 23, 45), settingsData.lastSentimentQuestionDate)
     assertEquals(Date(115, 4, 18, 14, 23, 45), settingsData.lastSentimentAnswerDate)
     assertEquals(Date(115, 4, 19, 14, 23, 45), settingsData.nextFeatureSurveyDate)
-    assertEquals(
-      mapOf("survey1" to Date(115, 4, 20, 14, 23, 45)),
-      settingsData.nextFeatureSurveyDateMap,
-    )
+    assertEquals(mapOf("survey1" to Date(115, 4, 20, 14, 23, 45)), settingsData.nextFeatureSurveyDateMap)
     assertEquals("2020.3.4", settingsData.lastOptinPromptVersion)
 
     settingsData.saveSettings(failureLogger)
@@ -500,9 +486,7 @@ class AnalyticsSettingsTest {
 
   @Test
   fun testResetUserId() {
-    AnalyticsSettings.setInstanceForTest(
-      AnalyticsSettingsData().apply { userId = "db3dd15b-053a-4066-ac93-04c50585edc2" }
-    )
+    AnalyticsSettings.setInstanceForTest(AnalyticsSettingsData().apply { userId = "db3dd15b-053a-4066-ac93-04c50585edc2" })
     AnalyticsSettings.saveSettings()
     AnalyticsSettings.resetUserId()
     // We can't check the actual value because the new value is a randomly generated UUID
@@ -516,17 +500,11 @@ class AnalyticsSettingsTest {
   }
 
   private fun String.normalizeUserid(): String {
-    return this.replace(
-      regex = Regex("[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"),
-      replacement = "<uuid>",
-    )
+    return this.replace(regex = Regex("[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"), replacement = "<uuid>")
   }
 
   private fun String.normalizeSalt(): String {
-    return this.replace(
-        regex = Regex(""""saltValue":-?\d{2,}"""),
-        replacement = "\"saltValue\":<saltValue>",
-      )
+    return this.replace(regex = Regex(""""saltValue":-?\d{2,}"""), replacement = "\"saltValue\":<saltValue>")
       .replace(regex = Regex(""""saltSkew":\d{2,}"""), replacement = "\"saltSkew\":<saltSkew>")
   }
 }

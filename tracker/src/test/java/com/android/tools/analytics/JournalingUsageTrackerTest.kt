@@ -54,8 +54,7 @@ class JournalingUsageTrackerTest {
       // Setup up an instance of the JournalingUsageTracker using a temp spool directory and
       //  virtual time scheduler.
       val virtualTimeScheduler = VirtualTimeScheduler()
-      val journalingUsageTracker =
-        AnonymousUsageTrackerWriter(virtualTimeScheduler, testSpoolDir.root.toPath())
+      val journalingUsageTracker = AnonymousUsageTrackerWriter(virtualTimeScheduler, testSpoolDir.root.toPath())
 
       // Create a log entry and log it.
       val logEntry = createAndroidStudioEvent(42)
@@ -102,8 +101,7 @@ class JournalingUsageTrackerTest {
       // Setup up an instance of the JournalingUsageTracker using a temp spool directory and
       //  virtual time scheduler.
       val virtualTimeScheduler = VirtualTimeScheduler()
-      val journalingUsageTracker =
-        AnonymousUsageTrackerWriter(virtualTimeScheduler, testSpoolDir.root.toPath())
+      val journalingUsageTracker = AnonymousUsageTrackerWriter(virtualTimeScheduler, testSpoolDir.root.toPath())
 
       // Set version on the usage tracker.
       UsageTracker.version = "1.2.3.4"
@@ -154,8 +152,7 @@ class JournalingUsageTrackerTest {
       // Setup up an instance of the JournalingUsageTracker using a temp spool directory and
       // virtual time scheduler.
       val virtualTimeScheduler = VirtualTimeScheduler()
-      val journalingUsageTracker =
-        AnonymousUsageTrackerWriter(virtualTimeScheduler, testSpoolDir.root.toPath())
+      val journalingUsageTracker = AnonymousUsageTrackerWriter(virtualTimeScheduler, testSpoolDir.root.toPath())
       UsageTracker.setWriterForTest(journalingUsageTracker)
 
       // Set a timeout of 1 minute for closing the current spool file.
@@ -240,8 +237,7 @@ class JournalingUsageTrackerTest {
       // Setup up an instance of the JournalingUsageTracker using a temp spool directory and
       // virtual time scheduler.
       val virtualTimeScheduler = VirtualTimeScheduler()
-      val journalingUsageTracker =
-        AnonymousUsageTrackerWriter(virtualTimeScheduler, testSpoolDir.root.toPath())
+      val journalingUsageTracker = AnonymousUsageTrackerWriter(virtualTimeScheduler, testSpoolDir.root.toPath())
       UsageTracker.setWriterForTest(journalingUsageTracker)
 
       // Set a timeout of 1 minute for closing the current spool file.
@@ -281,8 +277,7 @@ class JournalingUsageTrackerTest {
       // Setup up an instance of the JournalingUsageTracker using a temp spool directory and
       // virtual time scheduler.
       val virtualTimeScheduler = VirtualTimeScheduler()
-      val journalingUsageTracker =
-        AnonymousUsageTrackerWriter(virtualTimeScheduler, testSpoolDir.root.toPath())
+      val journalingUsageTracker = AnonymousUsageTrackerWriter(virtualTimeScheduler, testSpoolDir.root.toPath())
 
       // Restrict the max amount of logs per spool file to 3.
       UsageTracker.maxJournalSize = 3
@@ -369,8 +364,7 @@ class JournalingUsageTrackerTest {
       // Setup up an instance of the JournalingUsageTracker using a temp spool directory and
       // virtual time scheduler.
       val virtualTimeScheduler = VirtualTimeScheduler()
-      val journalingUsageTracker =
-        AnonymousUsageTrackerWriter(virtualTimeScheduler, testSpoolDir.root.toPath())
+      val journalingUsageTracker = AnonymousUsageTrackerWriter(virtualTimeScheduler, testSpoolDir.root.toPath())
       UsageTracker.setWriterForTest(journalingUsageTracker)
 
       // Write an event to ensure track file switch is triggered.
@@ -425,8 +419,7 @@ class JournalingUsageTrackerTest {
     val dateProvider = VirtualTimeDateProvider(virtualTimeScheduler)
     AnalyticsSettings.dateProvider = dateProvider
     try {
-      val journalingUsageTracker =
-        AnonymousUsageTrackerWriter(virtualTimeScheduler, testSpoolDir.root.toPath())
+      val journalingUsageTracker = AnonymousUsageTrackerWriter(virtualTimeScheduler, testSpoolDir.root.toPath())
 
       UsageTracker.setWriterForTest(journalingUsageTracker)
       // move time ahead by two minutes after creating the usage tracker to use as current time of
@@ -460,17 +453,13 @@ class JournalingUsageTrackerTest {
   @Test
   fun uninitializedTest() {
     // without the idea.is.internal property UsageTracker should noop when uninitialized
-    UsageTracker.log(
-      AndroidStudioEvent.newBuilder().setKind(AndroidStudioEvent.EventKind.EMULATOR_PING)
-    )
+    UsageTracker.log(AndroidStudioEvent.newBuilder().setKind(AndroidStudioEvent.EventKind.EMULATOR_PING))
 
     // with the idea.is.internal property, UsageTracker should throw when uninitialized
     System.setProperty("idea.is.internal", "true")
     try {
       // without the idea.is.internal property UsageTracker should noop when uninitialized
-      UsageTracker.log(
-        AndroidStudioEvent.newBuilder().setKind(AndroidStudioEvent.EventKind.EMULATOR_PING)
-      )
+      UsageTracker.log(AndroidStudioEvent.newBuilder().setKind(AndroidStudioEvent.EventKind.EMULATOR_PING))
       fail("should have thrown RuntimeException")
     } catch (_: RuntimeException) {
       // expected
@@ -478,15 +467,11 @@ class JournalingUsageTrackerTest {
 
     // with the idea.is.internal property but usage tracker disabled, calls should be made as normal
     UsageTracker.disable()
-    UsageTracker.log(
-      AndroidStudioEvent.newBuilder().setKind(AndroidStudioEvent.EventKind.EMULATOR_PING)
-    )
+    UsageTracker.log(AndroidStudioEvent.newBuilder().setKind(AndroidStudioEvent.EventKind.EMULATOR_PING))
 
     // with the idea.is.internal property but initialized, calls should be made as normal
     UsageTracker.setWriterForTest(NullUsageTracker)
-    UsageTracker.log(
-      AndroidStudioEvent.newBuilder().setKind(AndroidStudioEvent.EventKind.EMULATOR_PING)
-    )
+    UsageTracker.log(AndroidStudioEvent.newBuilder().setKind(AndroidStudioEvent.EventKind.EMULATOR_PING))
   }
 
   @Test
@@ -499,8 +484,7 @@ class JournalingUsageTrackerTest {
       // Setup up an instance of the JournalingUsageTracker using a temp spool directory and
       //  virtual time scheduler.
       val virtualTimeScheduler = VirtualTimeScheduler()
-      val journalingUsageTracker =
-        AnonymousUsageTrackerWriter(virtualTimeScheduler, testSpoolDir.root.toPath())
+      val journalingUsageTracker = AnonymousUsageTrackerWriter(virtualTimeScheduler, testSpoolDir.root.toPath())
 
       // Create a log entry and log it, but don't allow the scheduler to run the write action.
       val logEntry = createAndroidStudioEvent(42)
@@ -546,8 +530,7 @@ class JournalingUsageTrackerTest {
       // Setup up an instance of the JournalingUsageTracker using a temp spool directory and
       //  virtual time scheduler.
       val virtualTimeScheduler = VirtualTimeScheduler()
-      val journalingUsageTracker =
-        AnonymousUsageTrackerWriter(virtualTimeScheduler, testSpoolDir.root.toPath())
+      val journalingUsageTracker = AnonymousUsageTrackerWriter(virtualTimeScheduler, testSpoolDir.root.toPath())
 
       // Create a log entry and log it, but don't allow the scheduler to run the write action.
       val logEntry = createAndroidStudioEvent(42)
@@ -594,18 +577,12 @@ class JournalingUsageTrackerTest {
     return AndroidStudioEvent.newBuilder()
       .setCategory(AndroidStudioEvent.EventCategory.META)
       .setKind(AndroidStudioEvent.EventKind.META_METRICS)
-      .setMetaMetrics(
-        MetaMetrics.newBuilder()
-          .setBytesSentInLastUpload(marker)
-          .setFailedConnections(0)
-          .setFailedServerReplies(0)
-      )
+      .setMetaMetrics(MetaMetrics.newBuilder().setBytesSentInLastUpload(marker).setFailedConnections(0).setFailedServerReplies(0))
   }
 
   /**
-   * Helper that examins the provided spool directory and reports on locked vs completed spool
-   * files. For completed spool files, it parses the contents and provides the protobuf messages in
-   * that spool file.
+   * Helper that examins the provided spool directory and reports on locked vs completed spool files. For completed spool files, it parses
+   * the contents and provides the protobuf messages in that spool file.
    */
   @Throws(IOException::class)
   private fun getSpoolDetails(testSpoolDir: Path): SpoolDetails {
