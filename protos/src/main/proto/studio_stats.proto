@@ -2276,6 +2276,9 @@ message AndroidStudioEvent {
     // Failure setting up Gradle Daemon JVM to trigger sync given unable to
     // locate or download matching toolchain
     GRADLE_DAEMON_JVM_CRITERIA_ERROR = 52;
+    // Failure because Gradle JVM is not compatible with a project's dependency
+    // required JVM runtime version
+    GRADLE_JVM_NOT_COMPATIBLE_WITH_DEPENDENCY = 53;
   }
 
   // IDE brand containing the android plugin
@@ -9055,6 +9058,8 @@ message GradleSyncStats {
     TRIGGER_QF_MIN_COMPILE_SDK_UPDATED = 430;
     // Compose Compiler Gradle plugin is added using a quickfix
     TRIGGER_QF_ADD_COMPOSE_COMPILER_GRADLE_PLUGIN = 431;
+    // Gradle JVM is set to a compatible version using a quickfix
+    TRIGGER_QF_APPLY_COMPATIBLE_GRADLE_JVM = 432;
     // Last marker for syncs caused by quickfixes
     TRIGGER_QF_LAST_MARKER = 999;
 
@@ -16154,6 +16159,7 @@ message SmlChatBotEvent {
     LOGCAT = 11;
     REFACTORING_MENU = 12;
     UPDATE_DEPENDENCY_ACTION = 13;
+    QUICK_EDIT_ACTION = 14;
   }
 
   message BotInvoked {
@@ -16473,6 +16479,8 @@ message SmlChatBotEvent {
     GRADLE_ERR_WRONG_ARTIFACT = 20;
     // Requested data was missing.
     GRADLE_ERR_MISSING_DATA = 21;
+    // The build task was not found.
+    BUILD_TASK_NOT_FOUND = 22;
   }
 
   message ToolCallResponse {
@@ -17425,6 +17433,17 @@ message ScreenshotTestComposePreviewEvent {
     // Number of times the build failed before the dialog
     // can be populated with any test results.
     SCREENSHOT_DIALOG_BUILD_FAILURE = 11;
+    // Number of times the user switched the view type.
+    SCREENSHOT_VIEW_TYPE_CHANGED = 12;
+    // Number of times the user viewed the attributes
+    // panel in the test panel.
+    SCREENSHOT_ATTRIBUTES_VIEWED = 13;
+    // Number of times the user opened the dialog from
+    // the test results.
+    SCREENSHOT_DIALOG_SOURCE_TEST_RESULTS = 14;
+    // Number of times the user clicked the toolbar
+    // action in the test panel.
+    SCREENSHOT_TOOLBAR_ACTION = 15;
   }
 
   optional Type type = 1;
@@ -18667,10 +18686,13 @@ message NextEditPredictionEvent {
   message Session {
     optional int64 start_wall_time_ms = 1;
     optional string model_id = 2;
-    optional string language = 3;
+    // Deprecated. Use editor_file_type instead.
+    optional string language = 3 [deprecated = true];
     // True if the prediction was forced by a user action (e.g., a specific
     // keyboard shortcut), as opposed to being triggered automatically.
     optional bool forced = 4;
+    repeated SessionEvent events = 5;
+    optional EditorFileType editor_file_type = 6;
 
     message SessionEvent {
       enum EventType {
@@ -18699,6 +18721,8 @@ message NextEditPredictionEvent {
         CONTROL_HIDDEN = 10;
         // The prediction attempt failed.
         PREDICTION_FAILED = 11;
+        // A specific control was disposed before being shown to the user.
+        CONTROL_DISPOSED_UNSEEN = 12;
       }
       message ControlDetails {
         enum ControlType {
@@ -18723,6 +18747,7 @@ message NextEditPredictionEvent {
           CONTENT_LINE_MISMATCH = 7;
           EXPECTED_LINE_NOT_FOUND = 8;
           OUTDATED_PREDICTION = 9;
+          NO_MODEL = 10;
         }
         optional FailureReason reason = 1;
       }
@@ -18745,12 +18770,12 @@ message NextEditPredictionEvent {
           double double_value = 4;
         }
       }
+      // Deprecated. Do not use.
       repeated MetadataEntry metadata = 6 [deprecated = true];
 
       optional ControlDetails control_details = 7;
       optional FailureDetails failure_details = 8;
     }
-    repeated SessionEvent events = 5;
   }
 
   oneof next_edit_prediction {
