@@ -2297,6 +2297,8 @@ message AndroidStudioEvent {
     ANDROID_STUDIO_FOR_PLATFORM = 7;
     // Android Studio for Platform (ASfP) - Internal
     ANDROID_STUDIO_FOR_PLATFORM_INTERNAL = 8;
+    // Standalone Android Studio profiler (codename Sherlock)
+    SHERLOCK = 9;
   }
 
   // Gradle sync issue type.
