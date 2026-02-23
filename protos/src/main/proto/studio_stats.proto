@@ -16483,6 +16483,11 @@ message SmlChatBotEvent {
     GRADLE_ERR_MISSING_DATA = 21;
     // The build task was not found.
     BUILD_TASK_NOT_FOUND = 22;
+    // This is a successful response from a sub-agent call and embedded in the
+    // response is the result of the sub-agent call.
+    SUB_AGENT_RESULT = 23;
+    // Sub-agent terminated without a proper response.
+    SUB_AGENT_ENDED_WITHOUT_RESPONSE = 24;
   }
 
   message ToolCallResponse {
