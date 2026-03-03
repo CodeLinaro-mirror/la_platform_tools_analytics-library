@@ -890,6 +890,10 @@ message AndroidStudioEvent {
   // set when kind = SKILLS_EVENT
   optional SkillsEvent skills_event = 249 [lazy = true];
 
+  // set when kind = EMULATOR_WINDOWS_HYPERVISOR_MIGRATION_EVENT
+  optional EmulatorWindowsHypervisorMigrationEvent
+      emulator_windows_hypervisor_migration_event = 250 [lazy = true];
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -1902,6 +1906,9 @@ message AndroidStudioEvent {
 
     // Event related to Skills
     SKILLS_EVENT = 369;
+
+    // Event related to emulator Windows Hypervisor migration.
+    EMULATOR_WINDOWS_HYPERVISOR_MIGRATION_EVENT = 370;
   }
 
   // Represents different Performance Monitoring types.
@@ -19053,4 +19060,25 @@ message SkillsEvent {
   enum SkillName {
     UNKNOWN_SKILL_NAME = 0;
   }
+}
+
+// Metrics for the emulator windows hypervisor migration.
+message EmulatorWindowsHypervisorMigrationEvent {
+  enum Action {
+    UNKNOWN_ACTION = 0;
+    // The banner was shown
+    BANNER_SHOW = 1;
+    // The WHPX update dialog was shown
+    WHPX_UPDATE_DIALOG_SHOW = 2;
+    // User accepted the WHPX update suggestion
+    WHPX_UPDATE_ACCEPTED = 3;
+    // User rejected the WHPX update suggestion
+    WHPX_UPDATE_REJECTED = 4;
+    // emulator-check enable-whpx succeeded
+    ENABLE_WHPX_SUCCESS = 5;
+    // emulator-check enable-whpx failed
+    ENABLE_WHPX_FAILURE = 6;
+  }
+
+  optional Action action = 1;
 }
