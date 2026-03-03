@@ -963,6 +963,8 @@ message AndroidStudioEvent {
     LOGCAT = 29;
     // The event is related to Google Play SDK Index
     GOOGLE_PLAY_SDK_INDEX = 30;
+    // The event is related to Gradle JVM incompatible dialog
+    GRADLE_JVM_INCOMPATIBLE_DIALOG = 31;
   }
 
   // Specific kind of event, primary separation key of all Android Studio
@@ -1909,6 +1911,11 @@ message AndroidStudioEvent {
 
     // Event related to emulator Windows Hypervisor migration.
     EMULATOR_WINDOWS_HYPERVISOR_MIGRATION_EVENT = 370;
+
+    // Events related to Gradle JVM incompatible dialog
+    GRADLE_JVM_INCOMPATIBLE_DIALOG_APPLY_COMPATIBLE_JVM = 371;
+    GRADLE_JVM_INCOMPATIBLE_DIALOG_OPEN_SETTINGS = 372;
+    GRADLE_JVM_INCOMPATIBLE_DIALOG_CANCEL = 373;
   }
 
   // Represents different Performance Monitoring types.
