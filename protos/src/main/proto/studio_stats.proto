@@ -890,6 +890,10 @@ message AndroidStudioEvent {
   // set when kind = SKILLS_EVENT
   optional SkillsEvent skills_event = 249 [lazy = true];
 
+  // set when kind = EMULATOR_WINDOWS_HYPERVISOR_MIGRATION_EVENT
+  optional EmulatorWindowsHypervisorMigrationEvent
+      emulator_windows_hypervisor_migration_event = 250 [lazy = true];
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -959,6 +963,8 @@ message AndroidStudioEvent {
     LOGCAT = 29;
     // The event is related to Google Play SDK Index
     GOOGLE_PLAY_SDK_INDEX = 30;
+    // The event is related to Gradle JVM incompatible dialog
+    GRADLE_JVM_INCOMPATIBLE_DIALOG = 31;
   }
 
   // Specific kind of event, primary separation key of all Android Studio
@@ -1902,6 +1908,14 @@ message AndroidStudioEvent {
 
     // Event related to Skills
     SKILLS_EVENT = 369;
+
+    // Event related to emulator Windows Hypervisor migration.
+    EMULATOR_WINDOWS_HYPERVISOR_MIGRATION_EVENT = 370;
+
+    // Events related to Gradle JVM incompatible dialog
+    GRADLE_JVM_INCOMPATIBLE_DIALOG_APPLY_COMPATIBLE_JVM = 371;
+    GRADLE_JVM_INCOMPATIBLE_DIALOG_OPEN_SETTINGS = 372;
+    GRADLE_JVM_INCOMPATIBLE_DIALOG_CANCEL = 373;
   }
 
   // Represents different Performance Monitoring types.
@@ -2509,6 +2523,209 @@ message AndroidStudioEvent {
     // Disabling the library constraints results in better sync performance,
     // this will be surfaced to the user via this issue.
     TYPE_LIBRARY_CONSTRAINTS_SHOULD_BE_DISABLED = 67;
+
+    // Project uses RenderScript which is not supported on Riscv.
+    TYPE_RENDERSCRIPT_NOT_SUPPORTED_ON_RISCV = 68;
+
+    // Using kotlin.sourceSets DSL to add Kotlin sources is not allowed with
+    // built-in Kotlin.
+    TYPE_KOTLIN_SOURCE_SET_NOT_ALLOWED = 69;
+
+    // Found non-apk file in a configuration that should only contain apks.
+    TYPE_NON_APK_RUNTIME_DEP = 70;
+
+    // Unable to find connectedCheck task name for a component.
+    TYPE_CONNECTED_CHECK_TASK_NOT_FOUND = 71;
+
+    // Failed to parse XML in manifest.
+    TYPE_MANIFEST_PARSE_FAILED = 72;
+
+    // User is using me.tatarka.retrolambda which is deprecated.
+    TYPE_RETROLAMBDA_USED = 73;
+
+    // User is using FlatDirectoryArtifactRepository which is discouraged.
+    TYPE_FLAT_DIR_REPOSITORY_USED = 74;
+
+    // Access to deprecated legacy model requires compatibility mode.
+    TYPE_ACCESSING_DEPRECATED_LEGACY_MODEL = 75;
+
+    // Property cannot be set on a mergedFlavor directly.
+    TYPE_CANNOT_SET_ON_MERGED_FLAVOR = 76;
+
+    // Invalid value for compileSdkPreview or compileSdkMinor.
+    TYPE_COMPILE_SDK_PREVIEW_INVALID = 77;
+
+    // Invalid value for namespace.
+    TYPE_NAMESPACE_INVALID = 78;
+
+    // Invalid Proguard file provided.
+    TYPE_PROGUARD_FILE_INVALID = 79;
+
+    // targetSdk is set in testOptions for non-library module.
+    TYPE_TEST_OPTIONS_TARGET_SDK_INVALID = 80;
+
+    // KGP is loaded in a different classloader than AGP.
+    TYPE_KGP_LOADED_IN_DIFFERENT_CLASSLOADER = 81;
+
+    // Selected execution profile does not exist or none selected.
+    TYPE_UNSUPPORTED_EXECUTION_PROFILE = 82;
+
+    // Invalid value for lint version override.
+    TYPE_LINT_VERSION_OVERRIDE_INVALID = 83;
+
+    // Namespace and testNamespace have the same value.
+    TYPE_NAMESPACE_CONFLICT = 84;
+
+    // Invalid value for version code.
+    TYPE_INVALID_VERSION_CODE = 85;
+
+    // Pure splits are not supported.
+    TYPE_PURE_SPLITS_NOT_SUPPORTED = 86;
+
+    // Minify is enabled in dynamic feature module.
+    TYPE_MINIFY_ENABLED_IN_DYNAMIC_FEATURE = 87;
+
+    // ABI filters are declared in dynamic feature module.
+    TYPE_ABI_FILTERS_IN_DYNAMIC_FEATURE = 88;
+
+    // Invalid publishing configuration.
+    TYPE_INVALID_PUBLISHING_CONFIG = 89;
+
+    // Resource shrinking is not supported for this component type.
+    TYPE_RESOURCE_SHRINK_NOT_SUPPORTED = 90;
+
+    // resValue is being replaced.
+    TYPE_RES_VALUE_REPLACED = 91;
+
+    // BuildConfig is used when the feature is disabled.
+    TYPE_BUILD_CONFIG_USED_WHEN_DISABLED = 92;
+
+    // resource values are used when the feature is disabled.
+    TYPE_RES_VALUES_USED_WHEN_DISABLED = 93;
+
+    // Unrecognized SourceSet name.
+    TYPE_UNRECOGNIZED_SOURCE_SET = 94;
+
+    // applicationIdSuffix is ignored because applicationId is null.
+    TYPE_APPLICATION_ID_SUFFIX_IGNORED = 95;
+
+    // applicationId is set in library project.
+    TYPE_APPLICATION_ID_NOT_ALLOWED_IN_LIBRARY = 96;
+
+    // applicationIdSuffix is set in library project.
+    TYPE_APPLICATION_ID_SUFFIX_NOT_ALLOWED_IN_LIBRARY = 97;
+
+    // Conflicting ABI configuration.
+    TYPE_CONFLICTING_ABI_CONFIG = 98;
+
+    // Cannot build selected target ABI.
+    TYPE_CANNOT_BUILD_SELECTED_TARGET_ABI = 99;
+
+    // BuildType is both debuggable and has minifyEnabled set to true.
+    TYPE_DEBUGGABLE_AND_MINIFIED_ENABLED = 100;
+
+    // minSdkVersion is greater than targetSdkVersion.
+    TYPE_MIN_SDK_VERSION_GREATER_THAN_TARGET_SDK = 101;
+
+    // Test suite ignored because variant does not support it.
+    TYPE_TEST_SUITE_IGNORED = 102;
+
+    // Java 9+ compilation requires compileSdkVersion 30 or above.
+    TYPE_JAVA9_COMPILATION_REQUIRES_COMPILE_SDK30 = 103;
+
+    // '--release' option for JavaCompile is not supported.
+    TYPE_JAVA_COMPILE_RELEASE_OPTION_NOT_SUPPORTED = 104;
+
+    // Java compiler has deprecated or removed support for source/target
+    // version.
+    TYPE_JAVA_COMPILE_DEPRECATED_SOURCE_TARGET = 105;
+
+    // Problems found when resolving SDK location.
+    TYPE_SDK_RESOLUTION_WARNING = 106;
+
+    // Unable to find matching projects for Asset Packs.
+    TYPE_ASSET_PACK_PROJECT_NOT_FOUND = 107;
+
+    // R8 version mismatch.
+    TYPE_R8_VERSION_MISMATCH = 108;
+
+    // R8 gradual API flag required.
+    TYPE_R8_GRADUAL_API_FLAG_REQUIRED = 109;
+
+    // Unable to find matching projects for Dynamic Features.
+    TYPE_DYNAMIC_FEATURE_PROJECT_NOT_FOUND = 110;
+
+    // Fused Library Plugin is using Publication Only Mode.
+    TYPE_FUSED_LIBRARY_PUBLICATION_ONLY_MODE = 111;
+
+    // Invalid asset pack bundle configuration.
+    TYPE_ASSET_PACK_BUNDLE_INVALID_CONFIG = 112;
+
+    // Test suite support is experimental.
+    TYPE_TEST_SUITE_SUPPORT_EXPERIMENTAL = 113;
+
+    // lint.targetSdk is smaller than android.targetSdk.
+    TYPE_LINT_TARGET_SDK_LESS_THAN_ANDROID_TARGET_SDK = 114;
+
+    // Access to deprecated legacy API requires compatibility mode.
+    TYPE_ACCESS_TO_DEPRECATED_LEGACY_API_REQUIRES_COMPATIBILITY_MODE = 115;
+
+    // Unknown SourceKind value.
+    TYPE_UNKNOWN_SOURCE_KIND = 116;
+
+    // variant.getApplicationId() is not supported by dynamic-feature plugins.
+    TYPE_GET_APPLICATION_ID_NOT_SUPPORTED_IN_DYNAMIC_FEATURE = 117;
+
+    // aidl support is disabled via buildFeatures.
+    TYPE_AIDL_DISABLED_VIA_BUILD_FEATURES = 118;
+
+    // renderscript support is disabled via buildFeatures.
+    TYPE_RENDERSCRIPT_DISABLED_VIA_BUILD_FEATURES = 119;
+
+    // android.dataBinding.addKtx has no effect.
+    TYPE_DATABINDING_KTX_NO_EFFECT = 120;
+
+    // Data Binding annotation processor version mismatch.
+    TYPE_DATABINDING_ANNOTATION_PROCESSOR_VERSION_MISMATCH = 121;
+
+    // Multidex library is not needed.
+    TYPE_MULTIDEX_NOT_NEEDED = 122;
+
+    // Relative path is not supported in outputFileName.
+    TYPE_RELATIVE_PATH_NOT_SUPPORTED_IN_OUTPUT_FILE_NAME = 123;
+
+    // Core library desugaring requires D8 or R8.
+    TYPE_CORE_LIBRARY_DESUGARING_REQUIRES_D8_OR_R8 = 124;
+
+    // Core library desugaring requires multidex.
+    TYPE_CORE_LIBRARY_DESUGARING_REQUIRES_MULTIDEX = 125;
+
+    // Default Proguard file should not be specified in non-base module.
+    TYPE_DEFAULT_PROGUARD_FILE_IN_NON_BASE_MODULE = 126;
+
+    // Default Proguard file should not be used as consumer configuration file.
+    TYPE_DEFAULT_PROGUARD_FILE_AS_CONSUMER_FILE = 127;
+
+    // Resource shrinking requires code shrinking to be turned on.
+    TYPE_RESOURCE_SHRINK_REQUIRES_CODE_SHRINK = 128;
+
+    // Multiple identical calls to Android Components API is not supported.
+    TYPE_MULTIPLE_IDENTICAL_CALLS_TO_ANDROID_COMPONENTS_API = 129;
+
+    // Proguard android-optimize.txt is disallowed.
+    TYPE_PROGUARD_ANDROID_OPTIMIZE_TXT_DISALLOWED = 130;
+
+    // Unknown Proguard file.
+    TYPE_UNKNOWN_PROGUARD_FILE = 131;
+
+    // Variant can only have debuggable or profileable enabled.
+    TYPE_DEBUGGABLE_AND_PROFILEABLE_ENABLED = 132;
+
+    // androidTest test suite not defined for this variant.
+    TYPE_ANDROID_TEST_NOT_DEFINED = 133;
+
+    // Native multidex is always used for dynamic features.
+    TYPE_DYNAMIC_FEATURE_MULTIDEX_SET_IN_DSL = 134;
 
     // NOTE: When adding a new type here, increment the index by 1. This index
     // may not be consistent with the corresponding value in the Android Gradle
@@ -18850,4 +19067,25 @@ message SkillsEvent {
   enum SkillName {
     UNKNOWN_SKILL_NAME = 0;
   }
+}
+
+// Metrics for the emulator windows hypervisor migration.
+message EmulatorWindowsHypervisorMigrationEvent {
+  enum Action {
+    UNKNOWN_ACTION = 0;
+    // The banner was shown
+    BANNER_SHOW = 1;
+    // The WHPX update dialog was shown
+    WHPX_UPDATE_DIALOG_SHOW = 2;
+    // User accepted the WHPX update suggestion
+    WHPX_UPDATE_ACCEPTED = 3;
+    // User rejected the WHPX update suggestion
+    WHPX_UPDATE_REJECTED = 4;
+    // emulator-check enable-whpx succeeded
+    ENABLE_WHPX_SUCCESS = 5;
+    // emulator-check enable-whpx failed
+    ENABLE_WHPX_FAILURE = 6;
+  }
+
+  optional Action action = 1;
 }
