@@ -444,6 +444,7 @@ enum GradleTaskExecutionType {
     CODE_COVERAGE_REPORT = 357;
     TEST_REPORT = 358;
     TEST_RESULTS_COLLECTION = 359;
+    COMPRESS_JAVA_RES = 360;
 }
 
 enum BooleanOption {
