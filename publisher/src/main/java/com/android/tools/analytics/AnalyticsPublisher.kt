@@ -67,7 +67,7 @@ abstract class AnalyticsPublisher protected constructor() : AutoCloseable {
         AnalyticsPublisher.applicationBuild = applicationBuild
         anonymousInstance_ =
           if (AnalyticsSettings.optedIn && !AnalyticsSettings.debugDisablePublishing) {
-            GoogleAnalyticsPublisher(scheduler, Paths.get(AnalyticsPaths.spoolDirectory), applicationBuild)
+            AnonymousAnalyticsPublisher(scheduler, Paths.get(AnalyticsPaths.spoolDirectory), applicationBuild)
           } else {
             NullAnalyticsPublisher
           }
@@ -115,7 +115,7 @@ abstract class AnalyticsPublisher protected constructor() : AutoCloseable {
       }
 
       updateLoggedInPublisher(
-        GoogleAnalyticsPublisher(
+        LoggedInAnalyticsPublisher(
           scheduler,
           Paths.get(AnalyticsPaths.spoolDirectory, storeLocationId),
           applicationBuild,
