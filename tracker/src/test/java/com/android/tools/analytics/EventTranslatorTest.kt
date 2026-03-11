@@ -72,9 +72,7 @@ class EventTranslatorTest {
         .setAppLinksAssistantEvent(
           AppLinksAssistantEventLoggedIn.newBuilder()
             .setEventSource(AppLinksAssistantEventLoggedIn.EventSource.NEW_LINK_CREATION_SIDE_PANEL)
-            .setValidationSummary(
-              AppLinksAssistantEventLoggedIn.ValidationSummary.getDefaultInstance()
-            )
+            .setValidationSummary(AppLinksAssistantEventLoggedIn.ValidationSummary.getDefaultInstance())
             .setIntentFilterFix(AppLinksAssistantEventLoggedIn.IntentFilterFix.getDefaultInstance())
             .build()
         )
@@ -89,9 +87,7 @@ class EventTranslatorTest {
         .setAppQualityInsightsUsageEvent(
           AppQualityInsightsUsageEvent.newBuilder()
             .setInsightFetchDetails(
-              AppQualityInsightsUsageEvent.InsightFetchDetails.newBuilder()
-                .setSource(AiInsightSource.AI_INSIGHT_SOURCE_STUDIO_BOT)
-                .build()
+              AppQualityInsightsUsageEvent.InsightFetchDetails.newBuilder().setSource(AiInsightSource.AI_INSIGHT_SOURCE_STUDIO_BOT).build()
             )
             .build()
         )
@@ -119,15 +115,9 @@ class EventTranslatorTest {
         .setDirectAccessUsageEvent(
           DirectAccessUsageEvent.newBuilder()
             .setType(DirectAccessUsageEvent.DirectAccessUsageEventType.RESERVE_DEVICE)
-            .setReserveDeviceDetails(
-              DirectAccessUsageEvent.ReserveDeviceDetails.newBuilder().setSuccess(true).build()
-            )
-            .setConnectDeviceDetails(
-              DirectAccessUsageEvent.ConnectDeviceDetails.newBuilder().setSuccess(false).build()
-            )
-            .setStreamStartedDetails(
-              DirectAccessUsageEvent.StreamStartedDetails.newBuilder().setSuccess(true).build()
-            )
+            .setReserveDeviceDetails(DirectAccessUsageEvent.ReserveDeviceDetails.newBuilder().setSuccess(true).build())
+            .setConnectDeviceDetails(DirectAccessUsageEvent.ConnectDeviceDetails.newBuilder().setSuccess(false).build())
+            .setStreamStartedDetails(DirectAccessUsageEvent.StreamStartedDetails.newBuilder().setSuccess(true).build())
             .build()
         )
     val actual = EventTranslator.translate(event)
@@ -137,21 +127,9 @@ class EventTranslatorTest {
         .setDirectAccessUsageEvent(
           DirectAccessUsageEventLoggedIn.newBuilder()
             .setType(DirectAccessUsageEventLoggedIn.DirectAccessUsageEventType.RESERVE_DEVICE)
-            .setReserveDeviceDetails(
-              DirectAccessUsageEventLoggedIn.ReserveDeviceDetails.newBuilder()
-                .setSuccess(true)
-                .build()
-            )
-            .setConnectDeviceDetails(
-              DirectAccessUsageEventLoggedIn.ConnectDeviceDetails.newBuilder()
-                .setSuccess(false)
-                .build()
-            )
-            .setStreamStartedDetails(
-              DirectAccessUsageEventLoggedIn.StreamStartedDetails.newBuilder()
-                .setSuccess(true)
-                .build()
-            )
+            .setReserveDeviceDetails(DirectAccessUsageEventLoggedIn.ReserveDeviceDetails.newBuilder().setSuccess(true).build())
+            .setConnectDeviceDetails(DirectAccessUsageEventLoggedIn.ConnectDeviceDetails.newBuilder().setSuccess(false).build())
+            .setStreamStartedDetails(DirectAccessUsageEventLoggedIn.StreamStartedDetails.newBuilder().setSuccess(true).build())
             .build()
         )
     assertEquals(expected.build(), actual?.build())
@@ -165,10 +143,7 @@ class EventTranslatorTest {
         .setSmlCompletionEvent(
           SmlCompletionEvent.newBuilder()
             .setAggregate(
-              SmlCompletionEvent.CompletionAggregateEvent.newBuilder()
-                .setCompletionsShown(10)
-                .setCompletionsAccepted(2)
-                .build()
+              SmlCompletionEvent.CompletionAggregateEvent.newBuilder().setCompletionsShown(10).setCompletionsAccepted(2).build()
             )
             .build()
         )
@@ -179,10 +154,7 @@ class EventTranslatorTest {
         .setSmlCompletionEvent(
           SmlCompletionEventLoggedIn.newBuilder()
             .setAggregate(
-              SmlCompletionEventLoggedIn.CompletionAggregateEvent.newBuilder()
-                .setCompletionsShown(10)
-                .setCompletionsAccepted(2)
-                .build()
+              SmlCompletionEventLoggedIn.CompletionAggregateEvent.newBuilder().setCompletionsShown(10).setCompletionsAccepted(2).build()
             )
             .build()
         )
@@ -220,11 +192,7 @@ class EventTranslatorTest {
         .setKind(EventKind.SML_CHATBOT_EVENT)
         .setSmlChatBotEvent(
           SmlChatBotEvent.newBuilder()
-            .setResponse(
-              SmlChatBotEvent.BotResponse.newBuilder()
-                .setChatMode(SmlChatBotEvent.ChatMode.AGENT_MODE)
-                .build()
-            )
+            .setResponse(SmlChatBotEvent.BotResponse.newBuilder().setChatMode(SmlChatBotEvent.ChatMode.AGENT_MODE).build())
             .build()
         )
     val actual = EventTranslator.translate(event)
@@ -233,11 +201,7 @@ class EventTranslatorTest {
       AndroidStudioEventLoggedIn.newBuilder()
         .setSmlChatBotEvent(
           SmlChatBotEventLoggedIn.newBuilder()
-            .setResponse(
-              SmlChatBotEventLoggedIn.BotResponse.newBuilder()
-                .setChatMode(SmlChatBotEventLoggedIn.ChatMode.AGENT_MODE)
-                .build()
-            )
+            .setResponse(SmlChatBotEventLoggedIn.BotResponse.newBuilder().setChatMode(SmlChatBotEventLoggedIn.ChatMode.AGENT_MODE).build())
             .build()
         )
     assertEquals(expected.build(), actual?.build())
@@ -250,11 +214,7 @@ class EventTranslatorTest {
         .setKind(EventKind.SML_CHATBOT_EVENT)
         .setSmlChatBotEvent(
           SmlChatBotEvent.newBuilder()
-            .setActionInvoked(
-              SmlChatBotEvent.ActionInvoked.newBuilder()
-                .setAction(SmlChatBotEvent.Action.MOVE_TO_EDITOR)
-                .build()
-            )
+            .setActionInvoked(SmlChatBotEvent.ActionInvoked.newBuilder().setAction(SmlChatBotEvent.Action.MOVE_TO_EDITOR).build())
             .build()
         )
     val actual = EventTranslator.translate(event)
@@ -264,9 +224,7 @@ class EventTranslatorTest {
         .setSmlChatBotEvent(
           SmlChatBotEventLoggedIn.newBuilder()
             .setActionInvoked(
-              SmlChatBotEventLoggedIn.ActionInvoked.newBuilder()
-                .setAction(SmlChatBotEventLoggedIn.Action.MOVE_TO_EDITOR)
-                .build()
+              SmlChatBotEventLoggedIn.ActionInvoked.newBuilder().setAction(SmlChatBotEventLoggedIn.Action.MOVE_TO_EDITOR).build()
             )
             .build()
         )
@@ -303,9 +261,7 @@ class EventTranslatorTest {
             .setTransformEnabled(false)
             .setProjectContextEnabled(true)
             .setAgentAutoAcceptEnabled(false)
-            .setProductVariant(
-              SmlConfigurationEventLoggedIn.SmlProductVariant.PRODUCT_VARIANT_BUSINESS
-            )
+            .setProductVariant(SmlConfigurationEventLoggedIn.SmlProductVariant.PRODUCT_VARIANT_BUSINESS)
             .build()
         )
     assertEquals(expected.build(), actual?.build())
@@ -316,19 +272,13 @@ class EventTranslatorTest {
     val event =
       AndroidStudioEvent.newBuilder()
         .setKind(EventKind.TEST_SCENARIO_EVENT)
-        .setTestScenarioEvent(
-          TestScenarioEvent.newBuilder()
-            .setRequest(TestScenarioEvent.TestScenarioRequest.getDefaultInstance())
-            .build()
-        )
+        .setTestScenarioEvent(TestScenarioEvent.newBuilder().setRequest(TestScenarioEvent.TestScenarioRequest.getDefaultInstance()).build())
     val actual = EventTranslator.translate(event)
     assertNotNull(actual)
     val expected =
       AndroidStudioEventLoggedIn.newBuilder()
         .setTestScenarioEvent(
-          TestScenarioEventLoggedIn.newBuilder()
-            .setRequest(TestScenarioEventLoggedIn.TestScenarioRequest.getDefaultInstance())
-            .build()
+          TestScenarioEventLoggedIn.newBuilder().setRequest(TestScenarioEventLoggedIn.TestScenarioRequest.getDefaultInstance()).build()
         )
     assertEquals(expected.build(), actual?.build())
   }
@@ -400,19 +350,13 @@ class EventTranslatorTest {
     val event =
       AndroidStudioEvent.newBuilder()
         .setKind(EventKind.STUDIO_LABS_EVENT)
-        .setStudioLabsEvent(
-          StudioLabsEvent.newBuilder()
-            .setPageInteraction(StudioLabsEvent.PageInteraction.APPLY_BUTTON_CLICKED)
-            .build()
-        )
+        .setStudioLabsEvent(StudioLabsEvent.newBuilder().setPageInteraction(StudioLabsEvent.PageInteraction.APPLY_BUTTON_CLICKED).build())
     val actual = EventTranslator.translate(event)
     assertNotNull(actual)
     val expected =
       AndroidStudioEventLoggedIn.newBuilder()
         .setStudioLabsEvent(
-          StudioLabsEventLoggedIn.newBuilder()
-            .setPageInteraction(StudioLabsEventLoggedIn.PageInteraction.APPLY_BUTTON_CLICKED)
-            .build()
+          StudioLabsEventLoggedIn.newBuilder().setPageInteraction(StudioLabsEventLoggedIn.PageInteraction.APPLY_BUTTON_CLICKED).build()
         )
     assertEquals(expected.build(), actual?.build())
   }
@@ -458,19 +402,13 @@ class EventTranslatorTest {
     val event =
       AndroidStudioEvent.newBuilder()
         .setKind(EventKind.PROMPT_LIBRARY_EVENT)
-        .setPromptLibraryEvent(
-          PromptLibraryEvent.newBuilder()
-            .setInvoke(PromptLibraryEvent.Invoke.getDefaultInstance())
-            .build()
-        )
+        .setPromptLibraryEvent(PromptLibraryEvent.newBuilder().setInvoke(PromptLibraryEvent.Invoke.getDefaultInstance()).build())
     val actual = EventTranslator.translate(event)
     assertNotNull(actual)
     val expected =
       AndroidStudioEventLoggedIn.newBuilder()
         .setPromptLibraryEvent(
-          PromptLibraryEventLoggedIn.newBuilder()
-            .setInvoke(PromptLibraryEventLoggedIn.Invoke.getDefaultInstance())
-            .build()
+          PromptLibraryEventLoggedIn.newBuilder().setInvoke(PromptLibraryEventLoggedIn.Invoke.getDefaultInstance()).build()
         )
     assertEquals(expected.build(), actual?.build())
   }
@@ -491,9 +429,7 @@ class EventTranslatorTest {
       AndroidStudioEventLoggedIn.newBuilder()
         .setPlayPolicyInsightsUsageEvent(
           PlayPolicyInsightsUsageEventLoggedIn.newBuilder()
-            .setType(
-              PlayPolicyInsightsUsageEventLoggedIn.PlayPolicyInsightsUsageEventType.BATCH_INSPECTION
-            )
+            .setType(PlayPolicyInsightsUsageEventLoggedIn.PlayPolicyInsightsUsageEventType.BATCH_INSPECTION)
             .build()
         )
     assertEquals(expected.build(), actual?.build())
@@ -504,19 +440,23 @@ class EventTranslatorTest {
     val event =
       AndroidStudioEvent.newBuilder()
         .setKind(EventKind.STUDIO_UI_ACTION_STATS)
-        .setUiActionStats(
-          UIActionStats.newBuilder().setActionClassName("GenerateComposePreviewAction").build()
-        )
+        .setUiActionStats(UIActionStats.newBuilder().setActionClassName("GenerateComposePreviewAction").build())
     val actual = EventTranslator.translate(event)
     assertNotNull(actual)
     val expected =
       AndroidStudioEventLoggedIn.newBuilder()
-        .setUiActionStats(
-          UIActionStatsLoggedIn.newBuilder()
-            .setActionClassName("GenerateComposePreviewAction")
-            .build()
-        )
+        .setUiActionStats(UIActionStatsLoggedIn.newBuilder().setActionClassName("GenerateComposePreviewAction").build())
     assertEquals(expected.build(), actual?.build())
+  }
+
+  @Test
+  fun testTranslateUIActionStatsNull() {
+    val event =
+      AndroidStudioEvent.newBuilder()
+        .setKind(EventKind.STUDIO_UI_ACTION_STATS)
+        .setUiActionStats(UIActionStats.newBuilder().setActionClassName("Other").build())
+    val actual = EventTranslator.translate(event)
+    assertNull(actual)
   }
 
   @Test

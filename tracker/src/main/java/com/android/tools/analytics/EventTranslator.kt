@@ -61,18 +61,15 @@ object EventTranslator {
     val builder = AndroidStudioEventLoggedIn.newBuilder()
     when (event.kind) {
       EventKind.APP_LINKS_ASSISTANT_STATS -> {
-        builder.appLinksAssistantEvent =
-          translateAppLinksAssistantEvent(event.appLinksAssistantEvent)
+        builder.appLinksAssistantEvent = translateAppLinksAssistantEvent(event.appLinksAssistantEvent)
       }
 
       EventKind.APP_QUALITY_INSIGHTS_USAGE -> {
-        builder.appQualityInsightsUsageEvent =
-          translateAppQualityInsightUsageEvent(event.appQualityInsightsUsageEvent)
+        builder.appQualityInsightsUsageEvent = translateAppQualityInsightUsageEvent(event.appQualityInsightsUsageEvent)
       }
 
       EventKind.DIRECT_ACCESS_USAGE_EVENT -> {
-        builder.directAccessUsageEvent =
-          translateDirectAccessUsageEvent(event.directAccessUsageEvent)
+        builder.directAccessUsageEvent = translateDirectAccessUsageEvent(event.directAccessUsageEvent)
       }
 
       EventKind.SML_COMPLETION_EVENT -> {
@@ -96,8 +93,7 @@ object EventTranslator {
       }
 
       EventKind.STUDIO_CORE_GEMINI_ACTIONS -> {
-        builder.androidStudioCoreGeminiActionsEvent =
-          translateStudioCoreGeminiActionsEvent(event.androidStudioCoreGeminiActionsEvent)
+        builder.androidStudioCoreGeminiActionsEvent = translateStudioCoreGeminiActionsEvent(event.androidStudioCoreGeminiActionsEvent)
       }
 
       EventKind.STUDIO_LABS_EVENT -> {
@@ -109,12 +105,11 @@ object EventTranslator {
       }
 
       EventKind.PLAY_POLICY_INSIGHTS_USAGE_EVENT -> {
-        builder.playPolicyInsightsUsageEvent =
-          translatePlayPolicyInsightsUsageEvent(event.playPolicyInsightsUsageEvent)
+        builder.playPolicyInsightsUsageEvent = translatePlayPolicyInsightsUsageEvent(event.playPolicyInsightsUsageEvent)
       }
 
       EventKind.STUDIO_UI_ACTION_STATS -> {
-        builder.uiActionStats = translateUIActionStats(event.uiActionStats)
+        translateUIActionStats(event.uiActionStats)?.let { builder.uiActionStats = it } ?: return null
       }
 
       else -> {
@@ -124,20 +119,16 @@ object EventTranslator {
     return builder
   }
 
-  private fun translateAppQualityInsightUsageEvent(
-    event: AppQualityInsightsUsageEvent
-  ): AppQualityInsightsUsageEventLoggedIn {
+  private fun translateAppQualityInsightUsageEvent(event: AppQualityInsightsUsageEvent): AppQualityInsightsUsageEventLoggedIn {
     val builder = AppQualityInsightsUsageEventLoggedIn.newBuilder()
     if (event.hasInsightFetchDetails()) {
       val detailsBuilder = AppQualityInsightsUsageEventLoggedIn.InsightFetchDetails.newBuilder()
       if (event.insightFetchDetails.hasSource()) {
         detailsBuilder.source =
           when (event.insightFetchDetails.source) {
-            AiInsightSource.AI_INSIGHT_SOURCE_STUDIO_BOT ->
-              AiInsightSourceLoggedIn.AI_INSIGHT_SOURCE_STUDIO_BOT
+            AiInsightSource.AI_INSIGHT_SOURCE_STUDIO_BOT -> AiInsightSourceLoggedIn.AI_INSIGHT_SOURCE_STUDIO_BOT
 
-            AiInsightSource.AI_INSIGHT_SOURCE_CRASHLYTICS_TITAN ->
-              AiInsightSourceLoggedIn.AI_INSIGHT_SOURCE_CRASHLYTICS_TITAN
+            AiInsightSource.AI_INSIGHT_SOURCE_CRASHLYTICS_TITAN -> AiInsightSourceLoggedIn.AI_INSIGHT_SOURCE_CRASHLYTICS_TITAN
 
             else -> AiInsightSourceLoggedIn.UNKNOWN_SOURCE
           }
@@ -147,9 +138,7 @@ object EventTranslator {
     return builder.build()
   }
 
-  private fun translateAppLinksAssistantEvent(
-    event: AppLinksAssistantEvent
-  ): AppLinksAssistantEventLoggedIn {
+  private fun translateAppLinksAssistantEvent(event: AppLinksAssistantEvent): AppLinksAssistantEventLoggedIn {
     val builder = AppLinksAssistantEventLoggedIn.newBuilder()
     if (event.hasEventSource()) {
       builder.eventSource =
@@ -164,8 +153,7 @@ object EventTranslator {
         }
     }
     if (event.hasValidationSummary()) {
-      builder.validationSummary =
-        AppLinksAssistantEventLoggedIn.ValidationSummary.getDefaultInstance()
+      builder.validationSummary = AppLinksAssistantEventLoggedIn.ValidationSummary.getDefaultInstance()
     }
     if (event.hasIntentFilterFix()) {
       builder.intentFilterFix = AppLinksAssistantEventLoggedIn.IntentFilterFix.getDefaultInstance()
@@ -173,9 +161,7 @@ object EventTranslator {
     return builder.build()
   }
 
-  private fun translateDirectAccessUsageEvent(
-    event: DirectAccessUsageEvent
-  ): DirectAccessUsageEventLoggedIn {
+  private fun translateDirectAccessUsageEvent(event: DirectAccessUsageEvent): DirectAccessUsageEventLoggedIn {
     val builder = DirectAccessUsageEventLoggedIn.newBuilder()
     if (event.hasType()) {
       builder.type =
@@ -251,30 +237,23 @@ object EventTranslator {
   private fun translateSmlTransformEvent(event: SmlTransformEvent): SmlTransformEventLoggedIn {
     val builder = SmlTransformEventLoggedIn.newBuilder()
     when {
-      event.hasRequest() ->
-        builder.request = SmlTransformEventLoggedIn.TransformRequest.getDefaultInstance()
+      event.hasRequest() -> builder.request = SmlTransformEventLoggedIn.TransformRequest.getDefaultInstance()
 
-      event.hasResponse() ->
-        builder.response = SmlTransformEventLoggedIn.TransformResponse.getDefaultInstance()
+      event.hasResponse() -> builder.response = SmlTransformEventLoggedIn.TransformResponse.getDefaultInstance()
 
-      event.hasShown() ->
-        builder.shown = SmlTransformEventLoggedIn.TransformShown.getDefaultInstance()
+      event.hasShown() -> builder.shown = SmlTransformEventLoggedIn.TransformShown.getDefaultInstance()
 
-      event.hasAccepted() ->
-        builder.accepted = SmlTransformEventLoggedIn.TransformAccepted.getDefaultInstance()
+      event.hasAccepted() -> builder.accepted = SmlTransformEventLoggedIn.TransformAccepted.getDefaultInstance()
     }
     if (event.hasTransformKind()) {
       builder.transformKind =
         when (event.transformKind) {
           SmlTransformEvent.TransformKind.CUSTOM -> SmlTransformEventLoggedIn.TransformKind.CUSTOM
-          SmlTransformEvent.TransformKind.DOCUMENT ->
-            SmlTransformEventLoggedIn.TransformKind.DOCUMENT
+          SmlTransformEvent.TransformKind.DOCUMENT -> SmlTransformEventLoggedIn.TransformKind.DOCUMENT
 
-          SmlTransformEvent.TransformKind.MULTIMODAL_COMPOSE_PREVIEW ->
-            SmlTransformEventLoggedIn.TransformKind.MULTIMODAL_COMPOSE_PREVIEW
+          SmlTransformEvent.TransformKind.MULTIMODAL_COMPOSE_PREVIEW -> SmlTransformEventLoggedIn.TransformKind.MULTIMODAL_COMPOSE_PREVIEW
 
-          SmlTransformEvent.TransformKind.GENERATE_COMPOSE_PREVIEW ->
-            SmlTransformEventLoggedIn.TransformKind.GENERATE_COMPOSE_PREVIEW
+          SmlTransformEvent.TransformKind.GENERATE_COMPOSE_PREVIEW -> SmlTransformEventLoggedIn.TransformKind.GENERATE_COMPOSE_PREVIEW
 
           SmlTransformEvent.TransformKind.GENERATE_INSIGHT_SUGGESTED_FIX ->
             SmlTransformEventLoggedIn.TransformKind.GENERATE_INSIGHT_SUGGESTED_FIX
@@ -295,8 +274,7 @@ object EventTranslator {
             when (event.response.chatMode) {
               SmlChatBotEvent.ChatMode.CHAT -> SmlChatBotEventLoggedIn.ChatMode.CHAT
               SmlChatBotEvent.ChatMode.AGENT_MODE -> SmlChatBotEventLoggedIn.ChatMode.AGENT_MODE
-              SmlChatBotEvent.ChatMode.VERSION_UPGRADE_AGENT ->
-                SmlChatBotEventLoggedIn.ChatMode.VERSION_UPGRADE_AGENT
+              SmlChatBotEvent.ChatMode.VERSION_UPGRADE_AGENT -> SmlChatBotEventLoggedIn.ChatMode.VERSION_UPGRADE_AGENT
 
               else -> SmlChatBotEventLoggedIn.ChatMode.OTHER_MODE
             }
@@ -311,23 +289,18 @@ object EventTranslator {
             when (event.actionInvoked.action) {
               SmlChatBotEvent.Action.MOVE_TO_EDITOR -> SmlChatBotEventLoggedIn.Action.MOVE_TO_EDITOR
               SmlChatBotEvent.Action.MOVE_TO_CARET -> SmlChatBotEventLoggedIn.Action.MOVE_TO_CARET
-              SmlChatBotEvent.Action.MOVE_TO_NEW_FILE ->
-                SmlChatBotEventLoggedIn.Action.MOVE_TO_NEW_FILE
+              SmlChatBotEvent.Action.MOVE_TO_NEW_FILE -> SmlChatBotEventLoggedIn.Action.MOVE_TO_NEW_FILE
 
               SmlChatBotEvent.Action.ADD_DEPENDENCY -> SmlChatBotEventLoggedIn.Action.ADD_DEPENDENCY
               SmlChatBotEvent.Action.BROWSE_TOPIC -> SmlChatBotEventLoggedIn.Action.BROWSE_TOPIC
-              SmlChatBotEvent.Action.EXPLORE_IN_PLAYGROUND ->
-                SmlChatBotEventLoggedIn.Action.EXPLORE_IN_PLAYGROUND
+              SmlChatBotEvent.Action.EXPLORE_IN_PLAYGROUND -> SmlChatBotEventLoggedIn.Action.EXPLORE_IN_PLAYGROUND
 
               SmlChatBotEvent.Action.MERGE_MANIFEST -> SmlChatBotEventLoggedIn.Action.MERGE_MANIFEST
-              SmlChatBotEvent.Action.MERGE_SUGGESTION ->
-                SmlChatBotEventLoggedIn.Action.MERGE_SUGGESTION
+              SmlChatBotEvent.Action.MERGE_SUGGESTION -> SmlChatBotEventLoggedIn.Action.MERGE_SUGGESTION
 
-              SmlChatBotEvent.Action.INSERT_RESOURCES ->
-                SmlChatBotEventLoggedIn.Action.INSERT_RESOURCES
+              SmlChatBotEvent.Action.INSERT_RESOURCES -> SmlChatBotEventLoggedIn.Action.INSERT_RESOURCES
 
-              SmlChatBotEvent.Action.INSERT_NAME_SUGGESTIONS ->
-                SmlChatBotEventLoggedIn.Action.INSERT_NAME_SUGGESTIONS
+              SmlChatBotEvent.Action.INSERT_NAME_SUGGESTIONS -> SmlChatBotEventLoggedIn.Action.INSERT_NAME_SUGGESTIONS
 
               SmlChatBotEvent.Action.COPY_BUTTON -> SmlChatBotEventLoggedIn.Action.COPY_BUTTON
               SmlChatBotEvent.Action.COPY_MANUAL -> SmlChatBotEventLoggedIn.Action.COPY_MANUAL
@@ -340,20 +313,15 @@ object EventTranslator {
     return builder.build()
   }
 
-  private fun translateSmlConfigurationEvent(
-    event: SmlConfigurationEvent
-  ): SmlConfigurationEventLoggedIn {
+  private fun translateSmlConfigurationEvent(event: SmlConfigurationEvent): SmlConfigurationEventLoggedIn {
     val builder = SmlConfigurationEventLoggedIn.newBuilder()
     if (event.hasSmlAvailable()) builder.smlAvailable = event.smlAvailable
     if (event.hasBotOnboardingStarted()) builder.botOnboardingStarted = event.botOnboardingStarted
-    if (event.hasBotOnboardingCompleted())
-      builder.botOnboardingCompleted = event.botOnboardingCompleted
+    if (event.hasBotOnboardingCompleted()) builder.botOnboardingCompleted = event.botOnboardingCompleted
     if (event.hasCompletionEnabled()) builder.completionEnabled = event.completionEnabled
     if (event.hasTransformEnabled()) builder.transformEnabled = event.transformEnabled
-    if (event.hasProjectContextEnabled())
-      builder.projectContextEnabled = event.projectContextEnabled
-    if (event.hasAgentAutoAcceptEnabled())
-      builder.agentAutoAcceptEnabled = event.agentAutoAcceptEnabled
+    if (event.hasProjectContextEnabled()) builder.projectContextEnabled = event.projectContextEnabled
+    if (event.hasAgentAutoAcceptEnabled()) builder.agentAutoAcceptEnabled = event.agentAutoAcceptEnabled
     if (event.hasProductVariant()) {
       builder.productVariant =
         when (event.productVariant) {
@@ -385,17 +353,14 @@ object EventTranslator {
       event.hasTestScenarioResult() -> {
         val resultBuilder = TestScenarioEventLoggedIn.TestScenarioResult.newBuilder()
         if (event.testScenarioResult.hasMisformattedResponseCount()) {
-          resultBuilder.misformattedResponseCount =
-            event.testScenarioResult.misformattedResponseCount
+          resultBuilder.misformattedResponseCount = event.testScenarioResult.misformattedResponseCount
         }
         if (event.testScenarioResult.hasGenerationType()) {
           resultBuilder.generationType =
             when (event.testScenarioResult.generationType) {
-              TestScenarioEvent.GenerationType.NEW_FILE ->
-                TestScenarioEventLoggedIn.GenerationType.NEW_FILE
+              TestScenarioEvent.GenerationType.NEW_FILE -> TestScenarioEventLoggedIn.GenerationType.NEW_FILE
 
-              TestScenarioEvent.GenerationType.EXISTING_FILE ->
-                TestScenarioEventLoggedIn.GenerationType.EXISTING_FILE
+              TestScenarioEvent.GenerationType.EXISTING_FILE -> TestScenarioEventLoggedIn.GenerationType.EXISTING_FILE
 
               else -> TestScenarioEventLoggedIn.GenerationType.GENERATION_TYPE_UNDEFINED
             }
@@ -412,21 +377,16 @@ object EventTranslator {
     return builder.build()
   }
 
-  private fun translateStudioCoreGeminiActionsEvent(
-    event: StudioCoreGeminiActionsEvent
-  ): StudioCoreGeminiActionsEventLoggedIn {
+  private fun translateStudioCoreGeminiActionsEvent(event: StudioCoreGeminiActionsEvent): StudioCoreGeminiActionsEventLoggedIn {
     val builder = StudioCoreGeminiActionsEventLoggedIn.newBuilder()
     if (event.hasAction()) {
       builder.action =
         when (event.action) {
-          StudioCoreGeminiActionsEvent.Action.RENAME_VARIABLE ->
-            StudioCoreGeminiActionsEventLoggedIn.Action.RENAME_VARIABLE
+          StudioCoreGeminiActionsEvent.Action.RENAME_VARIABLE -> StudioCoreGeminiActionsEventLoggedIn.Action.RENAME_VARIABLE
 
-          StudioCoreGeminiActionsEvent.Action.RETHINK_VARIABLE_NAMES ->
-            StudioCoreGeminiActionsEventLoggedIn.Action.RETHINK_VARIABLE_NAMES
+          StudioCoreGeminiActionsEvent.Action.RETHINK_VARIABLE_NAMES -> StudioCoreGeminiActionsEventLoggedIn.Action.RETHINK_VARIABLE_NAMES
 
-          StudioCoreGeminiActionsEvent.Action.SUGGEST_COMMIT_MESSAGE ->
-            StudioCoreGeminiActionsEventLoggedIn.Action.SUGGEST_COMMIT_MESSAGE
+          StudioCoreGeminiActionsEvent.Action.SUGGEST_COMMIT_MESSAGE -> StudioCoreGeminiActionsEventLoggedIn.Action.SUGGEST_COMMIT_MESSAGE
 
           else -> StudioCoreGeminiActionsEventLoggedIn.Action.UNKNOWN
         }
@@ -442,14 +402,11 @@ object EventTranslator {
       builder.pageInteraction =
         when (event.pageInteraction) {
           StudioLabsEvent.PageInteraction.OPENED -> StudioLabsEventLoggedIn.PageInteraction.OPENED
-          StudioLabsEvent.PageInteraction.APPLY_BUTTON_CLICKED ->
-            StudioLabsEventLoggedIn.PageInteraction.APPLY_BUTTON_CLICKED
+          StudioLabsEvent.PageInteraction.APPLY_BUTTON_CLICKED -> StudioLabsEventLoggedIn.PageInteraction.APPLY_BUTTON_CLICKED
 
-          StudioLabsEvent.PageInteraction.CANCEL_BUTTON_CLICKED ->
-            StudioLabsEventLoggedIn.PageInteraction.CANCEL_BUTTON_CLICKED
+          StudioLabsEvent.PageInteraction.CANCEL_BUTTON_CLICKED -> StudioLabsEventLoggedIn.PageInteraction.CANCEL_BUTTON_CLICKED
 
-          StudioLabsEvent.PageInteraction.OK_BUTTON_CLICKED ->
-            StudioLabsEventLoggedIn.PageInteraction.OK_BUTTON_CLICKED
+          StudioLabsEvent.PageInteraction.OK_BUTTON_CLICKED -> StudioLabsEventLoggedIn.PageInteraction.OK_BUTTON_CLICKED
 
           else -> StudioLabsEventLoggedIn.PageInteraction.UNKNOWN_INTERACTION
         }
@@ -461,14 +418,12 @@ object EventTranslator {
     val builder = PromptLibraryEventLoggedIn.newBuilder()
     if (event.hasUpdate()) {
       val updateBuilder = PromptLibraryEventLoggedIn.Update.newBuilder()
-      if (event.update.hasPromptsInLibrary())
-        updateBuilder.promptsInLibrary = event.update.promptsInLibrary
+      if (event.update.hasPromptsInLibrary()) updateBuilder.promptsInLibrary = event.update.promptsInLibrary
       if (event.update.hasRulesCount()) updateBuilder.rulesCount = event.update.rulesCount
       if (event.update.hasBuiltinsOverridesCount()) {
         updateBuilder.builtinsOverridesCount = event.update.builtinsOverridesCount
       }
-      if (event.update.hasUserPromptsCount())
-        updateBuilder.userPromptsCount = event.update.userPromptsCount
+      if (event.update.hasUserPromptsCount()) updateBuilder.userPromptsCount = event.update.userPromptsCount
       builder.update = updateBuilder.build()
     }
     if (event.hasInvoke()) {
@@ -477,22 +432,18 @@ object EventTranslator {
     return builder.build()
   }
 
-  private fun translatePlayPolicyInsightsUsageEvent(
-    event: PlayPolicyInsightsUsageEvent
-  ): PlayPolicyInsightsUsageEventLoggedIn {
+  private fun translatePlayPolicyInsightsUsageEvent(event: PlayPolicyInsightsUsageEvent): PlayPolicyInsightsUsageEventLoggedIn {
     val builder = PlayPolicyInsightsUsageEventLoggedIn.newBuilder()
     if (event.hasType()) {
       builder.type =
         when (event.type) {
           PlayPolicyInsightsUsageEvent.PlayPolicyInsightsUsageEventType.SERVICE_DEPRECATION ->
-            PlayPolicyInsightsUsageEventLoggedIn.PlayPolicyInsightsUsageEventType
-              .SERVICE_DEPRECATION
+            PlayPolicyInsightsUsageEventLoggedIn.PlayPolicyInsightsUsageEventType.SERVICE_DEPRECATION
 
           PlayPolicyInsightsUsageEvent.PlayPolicyInsightsUsageEventType.BATCH_INSPECTION ->
             PlayPolicyInsightsUsageEventLoggedIn.PlayPolicyInsightsUsageEventType.BATCH_INSPECTION
 
-          else ->
-            PlayPolicyInsightsUsageEventLoggedIn.PlayPolicyInsightsUsageEventType.UNKNOWN_EVENT
+          else -> PlayPolicyInsightsUsageEventLoggedIn.PlayPolicyInsightsUsageEventType.UNKNOWN_EVENT
         }
     }
     return builder.build()
