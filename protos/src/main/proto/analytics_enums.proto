@@ -867,6 +867,7 @@ enum VariantMethodType {
     TEST_SUITE_TARGET_BUILDER_TARGET_DEVICES = 36;
     TEST_SUITE_BUILDER = 37;
     TEST_SUITE_INCLUDE_ANDROID_RESOURCES = 38;
+    ENABLE_LINT = 39;
 }
 
 enum VariantPropertiesMethodType {
