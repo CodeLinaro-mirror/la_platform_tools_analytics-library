@@ -110,6 +110,11 @@ internal constructor(
     }
   }
 
+  /** Immediately uploads any queued .trk files to Google's servers, blocking until done. */
+  override fun publishNow() {
+    publishQueuedAnalytics()
+  }
+
   /** Looks for any .trk files queued up in the spool directory and if so tries to publish them to Google's servers. */
   private fun publishQueuedAnalytics() {
     try {

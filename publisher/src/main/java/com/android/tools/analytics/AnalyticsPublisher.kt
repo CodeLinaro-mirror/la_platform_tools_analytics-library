@@ -37,6 +37,12 @@ abstract class AnalyticsPublisher protected constructor() : AutoCloseable {
     publishInterval = unit.toNanos(interval)
   }
 
+  /**
+   * Immediately scans the spool directory and uploads any queued analytics to Google's servers. Blocks until the upload attempt completes.
+   * Used by the `upload-metrics` subcommand to perform a synchronous flush rather than waiting for the next scheduled publishing window.
+   */
+  abstract fun publishNow()
+
   companion object {
 
     private var anonymousInstance_: AnalyticsPublisher = NullAnalyticsPublisher

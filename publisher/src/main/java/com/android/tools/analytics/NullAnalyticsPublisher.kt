@@ -19,4 +19,6 @@ package com.android.tools.analytics
 /** A publisher that never publishes metrics. Used to ensure opt-out users never publish metrics. */
 object NullAnalyticsPublisher : AnalyticsPublisher() {
   @Throws(Exception::class) override fun close() {}
+
+  override fun publishNow() {}
 }
