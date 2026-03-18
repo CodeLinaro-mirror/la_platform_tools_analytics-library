@@ -894,6 +894,9 @@ message AndroidStudioEvent {
   optional EmulatorWindowsHypervisorMigrationEvent
       emulator_windows_hypervisor_migration_event = 250 [lazy = true];
 
+  // set when kind = ANDROID_CLI_INVOCATION
+  optional AndroidCliInvocation android_cli_invocation = 251 [lazy = true];
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -1916,6 +1919,8 @@ message AndroidStudioEvent {
     GRADLE_JVM_INCOMPATIBLE_DIALOG_APPLY_COMPATIBLE_JVM = 371;
     GRADLE_JVM_INCOMPATIBLE_DIALOG_OPEN_SETTINGS = 372;
     GRADLE_JVM_INCOMPATIBLE_DIALOG_CANCEL = 373;
+
+    ANDROID_CLI_INVOCATION = 374;
   }
 
   // Represents different Performance Monitoring types.
@@ -2313,6 +2318,8 @@ message AndroidStudioEvent {
     ANDROID_STUDIO_FOR_PLATFORM_INTERNAL = 8;
     // Standalone Android Studio profiler (codename Sherlock)
     SHERLOCK = 9;
+    // Android CLI
+    ANDROID_CLI = 10;
   }
 
   // Gradle sync issue type.
@@ -17625,6 +17632,13 @@ message AdbServerStatus {
   optional USBBackend usb_backend = 4;
   optional bool is_mdns_backend_forced = 5;
   optional bool is_usb_backend_forced = 6;
+}
+
+message AndroidCliInvocation {
+  // Note that we only log the command and sub-command name, and not the entire
+  // command line to avoid logging user data.
+  optional string command_name = 1;
+  optional string sub_command_name = 2;
 }
 
 message ScreenshotTestComposePreviewEvent {
