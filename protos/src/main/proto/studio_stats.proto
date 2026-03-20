@@ -897,6 +897,10 @@ message AndroidStudioEvent {
   // set when kind = ANDROID_CLI_INVOCATION
   optional AndroidCliInvocation android_cli_invocation = 251 [lazy = true];
 
+  // set when kind = UNIT_TEST_GENERATION_EVENT
+  optional UnitTestGenerationEvent unit_test_generation_event = 252
+      [lazy = true];
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -1921,6 +1925,9 @@ message AndroidStudioEvent {
     GRADLE_JVM_INCOMPATIBLE_DIALOG_CANCEL = 373;
 
     ANDROID_CLI_INVOCATION = 374;
+
+    // Event related to unit test generation.
+    UNIT_TEST_GENERATION_EVENT = 375;
   }
 
   // Represents different Performance Monitoring types.
@@ -17131,6 +17138,54 @@ message SmlRagEvent {
     GrepMetrics grep = 4 [lazy = true];
     KbRagIndexerMetrics kb_rag = 5 [lazy = true];
   }
+}
+
+// Tracks AI-powered unit test generation in Android Studio.
+message UnitTestGenerationEvent {
+  // UI entry point for test generation.
+  enum EntryPoint {
+    UNKNOWN_ENTRY_POINT = 0;
+    // Triggered via editor right-click context menu.
+    RIGHT_CLICK_MENU = 1;
+    // Triggered via Gemini chat or agent.
+    AGENT_WINDOW = 2;
+  }
+  // UI element used to initiate test generation.
+  optional EntryPoint entry_point = 1;
+
+  // Execution mode selected by the user.
+  enum UserMode {
+    UNKNOWN_USER_MODE = 0;
+    // Tests generated via chat response.
+    CHAT = 1;
+    // Tests generated via fast mode.
+    FAST = 2;
+    // Tests generated via planning mode.
+    PLANNING = 3;
+  }
+  // User-selected mode (e.g., Fast, Planning, Chat).
+  optional UserMode user_mode = 2;
+  // Number of AI attempts to fix compilation errors. Zero if the first
+  // attempt compiled successfully.
+  optional int32 self_correction_loops = 3;
+  // True if generated code compiled successfully.
+  optional bool build_success = 4;
+  // Number of generated tests that passed.
+  optional int32 tests_passed_count = 5;
+  // Number of generated tests that failed.
+  optional int32 tests_failed_count = 6;
+  // Total test methods presented to user.
+  optional int32 total_chunks_generated = 7;
+  // Number of test methods accepted by user.
+  optional int32 chunks_accepted = 8;
+  // Number of test methods rejected by user.
+  optional int32 chunks_rejected = 9;
+  // True if user accepted all tests without edits.
+  optional bool accepted_all = 10;
+  // Latency (ms) to first token of generated code.
+  optional int64 latency_to_first_token_ms = 11;
+  // Total workflow duration (ms) from trigger to resolution.
+  optional int64 total_workflow_duration_ms = 12;
 }
 
 message TestScenarioEvent {
