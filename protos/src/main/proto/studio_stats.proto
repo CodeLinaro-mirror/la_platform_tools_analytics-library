@@ -8478,6 +8478,7 @@ message TaskMetadata {
           [lazy = true];
       NativeAllocationsTaskConfig native_allocations_task_config = 4
           [lazy = true];
+      LeakCanaryTaskConfig leakcanary_task_config = 5 [lazy = true];
     }
   }
 
@@ -8496,6 +8497,16 @@ message TaskMetadata {
 
   message NativeAllocationsTaskConfig {
     optional int32 sample_interval_bytes = 1;
+  }
+
+  message LeakCanaryTaskConfig {
+    enum ExecutionMode {
+      UNKNOWN_MODE = 0;
+      ON_HOST = 1;
+      ON_DEVICE = 2;
+    }
+    optional ExecutionMode execution_mode = 1;
+    optional int32 selected_threshold = 2;
   }
 }
 
@@ -8548,6 +8559,7 @@ message TaskFailedMetadata {
       TraceStartStatus trace_start_status = 1 [lazy = true];
       AllocationTrackStatus track_status = 2 [lazy = true];
       HeapDumpStatus heap_dump_start_status = 3 [lazy = true];
+      LeakCanaryStartStatus leakcanary_start_status = 4 [lazy = true];
     }
   }
 
@@ -8556,11 +8568,47 @@ message TaskFailedMetadata {
       CpuCaptureMetadata cpu_capture_metadata = 1 [lazy = true];
       TraceStopStatus trace_stop_status = 2 [lazy = true];
       AllocationTrackStatus track_status = 3 [lazy = true];
+      LeakCanaryStopStatus leakcanary_stop_status = 4 [lazy = true];
     }
   }
 
   message TaskProcessingFailedMetadata {
     optional CpuCaptureMetadata cpu_capture_metadata = 1 [lazy = true];
+    optional LeakCanaryProcessingStatus leakcanary_processing_status = 2
+        [lazy = true];
+  }
+
+  message LeakCanaryStartStatus {
+    enum ErrorCode {
+      UNKNOWN_ERROR = 0;
+      AGENT_ATTACH_FAILED = 1;
+      APP_CONTEXT_NULL = 2;
+      LIBRARY_NOT_INSTALLED_TIMEOUT = 3;
+      TRANSPORT_TIMEOUT = 4;
+    }
+    optional ErrorCode error_code = 1;
+  }
+
+  message LeakCanaryProcessingStatus {
+    enum ErrorCode {
+      UNKNOWN_ERROR = 0;
+      BROADCAST_DELIVERY_FAILED = 1;
+      HEAP_DUMP_GENERATION_FAILED = 2;
+      HPROF_DOWNLOAD_FAILED = 3;
+      SHARK_ANALYSIS_OOM = 4;
+      SHARK_ANALYSIS_EXCEPTION = 5;
+      PARSING_FAILURE = 6;
+      RACE_CONDITION_DATA_LOSS = 7;
+    }
+    optional ErrorCode error_code = 1;
+  }
+
+  message LeakCanaryStopStatus {
+    enum ErrorCode {
+      UNKNOWN_ERROR = 0;
+      ZOMBIE_TRACKING_STOP_FAILED = 1;
+    }
+    optional ErrorCode error_code = 1;
   }
 
   message TraceStartStatus {
@@ -8736,6 +8784,39 @@ message TaskFailedMetadata {
   }
 }
 
+message LeakCanaryTaskMetadata {
+  optional int64 task_id = 1;
+  optional bool auto_inject_popup_shown = 2;
+
+  enum UiAction {
+    UNKNOWN_ACTION = 0;
+    FORCE_DUMP_CLICKED = 1;
+    STOP_RECORDING_CLICKED = 2;
+    GO_TO_DECLARATION_CLICKED = 3;
+    COPY_TRACE_CLICKED = 4;
+    EXPAND_ALL_NODES_CLICKED = 5;
+    COLLAPSE_ALL_NODES_CLICKED = 6;
+    NEW_LEAK_SELECTED = 7;
+    CANCELLED_DURING_ANALYSIS = 8;
+  }
+  optional UiAction ui_action = 3;
+
+  message LeakAnalysis {
+    optional int32 retained_objects_count = 1;
+    optional int32 occurrences_count = 2;
+    optional int64 estimated_memory_leaked_bytes = 3;
+    optional int32 leaking_no_rows = 4;
+    optional int32 leaking_maybe_rows = 5;
+    optional int32 leaking_yes_rows = 6;
+    optional int64 heap_dump_analysis_time_ms = 7;
+    optional int64 total_recording_time_ms = 8;
+    optional bool is_library_leak = 9;
+    optional int64 hprof_file_size_bytes = 10;
+    optional int64 hprof_download_duration_ms = 11;
+  }
+  optional LeakAnalysis leak_analysis = 4;
+}
+
 // Android Profiler metrics
 message AndroidProfilerEvent {
   // The current stage we're on when this event was generated
@@ -8842,6 +8923,9 @@ message AndroidProfilerEvent {
 
   // Set if |type| is |TASK_SETTINGS_OPENED|
   optional bool is_task_settings_changed = 31;
+
+  // Set if |type| is related to LeakCanary tasks
+  optional LeakCanaryTaskMetadata leakcanary_metadata = 32 [lazy = true];
 
   enum Stage {
     UNKNOWN_STAGE = 0;
@@ -9018,6 +9102,8 @@ message AndroidProfilerEvent {
 
     // Task Configuration Stats
     TASK_SETTINGS_OPENED = 810;
+
+    LEAK_CANARY_EVENT = 820;
   }
 
   message Loading {
