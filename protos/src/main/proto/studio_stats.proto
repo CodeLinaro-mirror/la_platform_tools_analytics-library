@@ -30,7 +30,8 @@ message AndroidStudioEvent {
   // or kind = EMULATOR_PING
   // or kind = TEST_RUN
   // or kind = GAME_TOOLS_PING
-  // or kind = AGDE_PING.
+  // or kind = AGDE_PING
+  // or kind = SHERLOCK_PING
   // The version field is set for most messages.
   optional ProductDetails product_details = 4 [lazy = true];
 
@@ -150,10 +151,10 @@ message AndroidStudioEvent {
   // set when kind = STUDIO_UI_ACTION_STATS
   optional UIActionStats ui_action_stats = 34 [lazy = true];
 
-  // set when kind = STUDIO_PING
+  // set when kind = STUDIO_PING or SHERLOCK_PING.
   optional MachineDetails machine_details = 35 [lazy = true];
 
-  // set when kind = STUDIO_PING
+  // set when kind = STUDIO_PING or SHERLOCK_PING.
   optional JvmDetails jvm_details = 36 [lazy = true];
 
   // set when kind = STUDIO_PROCESS_STATS
@@ -1928,6 +1929,9 @@ message AndroidStudioEvent {
 
     // Event related to unit test generation.
     UNIT_TEST_GENERATION_EVENT = 375;
+
+    // Start time and daily Sherlock ping with version & os details.
+    SHERLOCK_PING = 376;
   }
 
   // Represents different Performance Monitoring types.
@@ -2857,6 +2861,7 @@ message ProductDetails {
     STUDIO_PATCH_UPDATER = 5;
     VS_PLUGIN = 6;
     GAME_TOOLS = 7;
+    SHERLOCK = 8;
   }
 
   // Chip the software is running on.
