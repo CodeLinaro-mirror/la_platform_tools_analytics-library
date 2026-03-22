@@ -15188,6 +15188,9 @@ message AppQualityInsightsUsageEvent {
 
     // Track when an aiplugin-provided action is taken
     AGENT_ACTION = 17;
+
+    // Track when user interacts with insight generation
+    GENERATE_INSIGHTS_ACTION = 18;
   }
 
   enum CrashType {
@@ -15508,6 +15511,17 @@ message AppQualityInsightsUsageEvent {
     optional DevServiceDeprecationInfo dev_service_deprecation_info = 2;
   }
 
+  message GenerateInsightsAction {
+    enum Action {
+      UNKNOWN_ACTION = 0;
+      GENERATE_ONCE = 1;
+      ENABLE_AUTO_GENERATE = 2;
+      DISABLE_AUTO_GENERATE = 3;
+    }
+
+    optional Action action = 1;
+  }
+
   // The app_id is the id for the user's android app
   // which we salt on the client (28 day rotation) then sha256
   // so it is anonymized and is unique per user, but has a 1-N relation.
@@ -15577,6 +15591,9 @@ message AppQualityInsightsUsageEvent {
 
   // set when type = AGENT_ACTION
   optional AgentActionDetails agent_action_details = 21 [lazy = true];
+
+  // set when type = GENERATE_INSIGHTS_ACTION
+  optional GenerateInsightsAction generate_insights_action = 22 [lazy = true];
 }
 
 message FastPreviewEvent {
