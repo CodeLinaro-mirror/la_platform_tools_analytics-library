@@ -8580,7 +8580,6 @@ message TaskFailedMetadata {
       CpuCaptureMetadata cpu_capture_metadata = 1 [lazy = true];
       TraceStopStatus trace_stop_status = 2 [lazy = true];
       AllocationTrackStatus track_status = 3 [lazy = true];
-      LeakCanaryStopStatus leakcanary_stop_status = 4 [lazy = true];
     }
   }
 
@@ -8610,15 +8609,6 @@ message TaskFailedMetadata {
       SHARK_ANALYSIS_OOM = 4;
       SHARK_ANALYSIS_EXCEPTION = 5;
       PARSING_FAILURE = 6;
-      RACE_CONDITION_DATA_LOSS = 7;
-    }
-    optional ErrorCode error_code = 1;
-  }
-
-  message LeakCanaryStopStatus {
-    enum ErrorCode {
-      UNKNOWN_ERROR = 0;
-      ZOMBIE_TRACKING_STOP_FAILED = 1;
     }
     optional ErrorCode error_code = 1;
   }
@@ -9115,7 +9105,7 @@ message AndroidProfilerEvent {
     // Task Configuration Stats
     TASK_SETTINGS_OPENED = 810;
 
-    LEAK_CANARY_EVENT = 820;
+    LEAKCANARY_EVENT = 820;
   }
 
   message Loading {
