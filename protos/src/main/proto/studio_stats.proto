@@ -17624,6 +17624,7 @@ message DebuggerEvent {
       APK_PROVIDER = 1;
       DEVICE_FALLBACK = 2;
       DEVICE = 3;
+      FILES = 4;
     }
 
     optional uint64 dex_fetch_time_ms = 1;
