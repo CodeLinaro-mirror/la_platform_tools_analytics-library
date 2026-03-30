@@ -16817,6 +16817,10 @@ message SmlChatBotEvent {
     SUB_AGENT_RESULT = 23;
     // Sub-agent terminated without a proper response.
     SUB_AGENT_ENDED_WITHOUT_RESPONSE = 24;
+    // The arguments provided to the tool call were invalid.
+    ERR_INVALID_ARGUMENTS = 25;
+    // The URL provided to the tool call was invalid.
+    ERR_INVALID_URL = 26;
   }
 
   message ToolCallResponse {
