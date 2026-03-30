@@ -17016,6 +17016,13 @@ message SmlConfigurationEvent {
   // The user account type that was fetched by the LoadCodeAssist API.
   optional UserAccountType user_account_type = 11;
 
+  // The tier ID of the onboarded user.
+  optional string tier_id = 12;
+
+  // Timestamp in ms. Can be used by various configuration events (for instance
+  // onboarding completion time)
+  optional int64 configuration_time_ms = 13;
+
   enum SmlProductVariant {
     PRODUCT_VARIANT_UNKNOWN = 0;
     PRODUCT_VARIANT_FREE = 1;
