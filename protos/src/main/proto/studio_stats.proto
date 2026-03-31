@@ -17804,6 +17804,8 @@ message AndroidCliInvocation {
   // command line to avoid logging user data.
   optional string command_name = 1;
   optional string sub_command_name = 2;
+  repeated string global_flags = 3;
+  repeated string flags = 4;
 }
 
 message ScreenshotTestComposePreviewEvent {
