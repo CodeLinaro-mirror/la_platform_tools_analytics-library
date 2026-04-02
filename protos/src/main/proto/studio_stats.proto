@@ -13710,6 +13710,10 @@ message InteractivePreviewEvent {
     UNKNOWN_EVENT_TYPE = 0;
     REPORT_FPS = 1;
     REPORT_STARTUP_TIME = 2;
+    NAVIGATION_PANEL_BACK_PRESS = 3;
+    NAVIGATION_PANEL_PROGRESS_PRESS = 4;
+    NAVIGATION_PANEL_VISIBILITY_CHANGE = 5;
+    NAVIGATION_PANEL_EDGE_DROPDOWN_PRESS = 6;
   }
 
   // Type of event
@@ -13725,6 +13729,8 @@ message InteractivePreviewEvent {
   // Number of the previews on the surface the preview for this interactive
   // session belongs to
   optional int32 peer_previews = 6;
+  // Boolean to check if the interactive preview navigation panel is shown
+  optional bool navigation_panel_shown = 7;
 }
 
 // A user's response to a survey
