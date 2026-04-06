@@ -17812,6 +17812,17 @@ message AndroidCliInvocation {
   optional string sub_command_name = 2;
   repeated string global_flags = 3;
   repeated string flags = 4;
+  // The name of the agent invoking android-cli
+  optional Agent agent_name = 5;
+
+  enum Agent {
+    UNKNOWN = 0;
+    AGY = 1;
+    GEMINI_CLI = 2;
+    CLAUDE_CODE = 3;
+    ANDROID_STUDIO = 4;
+    OTHER = 5;
+  }
 }
 
 message ScreenshotTestComposePreviewEvent {
