@@ -14054,7 +14054,7 @@ message DeviceManagerEvent {
 }
 
 // Event related to Glasses emulator pairing assistant
-// Next ID: 24
+// Next ID: 32
 message GlassesPairingEvent {
   // The kind of GlassesPairingEvent
   optional EventKind kind = 1;
@@ -14108,6 +14108,22 @@ message GlassesPairingEvent {
     PAIRING_ERROR_IO_FAILED = 20;
     // Error: Generic or unknown pairing error
     PAIRING_ERROR_GENERIC = 21;
+    // Reconciliation found a bond that was not tracked
+    RECONCILIATION_BOND_DISCOVERED = 24;
+    // Reconciliation removed a bond that was no longer valid
+    RECONCILIATION_BOND_REMOVED = 25;
+    // Reconciliation resolved asymmetric state between devices
+    RECONCILIATION_ASYMMETRIC_STATE_RESOLVED = 26;
+    // User clicked unpair action
+    UNPAIR_ACTION_CLICKED = 27;
+    // Unpair successful
+    UNPAIR_SUCCESSFUL = 28;
+    // Unpair failed
+    UNPAIR_FAILED = 29;
+    // Cascading wipe initiated
+    CASCADING_WIPE_INITIATED = 30;
+    // Orphaned pairing purged
+    ORPHANED_PAIRING_PURGED = 31;
   }
 }
 
