@@ -17822,6 +17822,7 @@ message AndroidCliInvocation {
     CLAUDE_CODE = 3;
     ANDROID_STUDIO = 4;
     OTHER = 5;
+    CODEX = 6;
   }
 }
 
