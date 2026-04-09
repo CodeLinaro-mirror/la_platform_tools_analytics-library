@@ -16468,6 +16468,7 @@ message SmlChatBotEvent {
     AGENT_MODE = 2;
     VERSION_UPGRADE_AGENT = 3;
     QUICK_EDIT = 4;
+    PLANNING = 5;
   }
 
   message BotResponse {
@@ -16981,6 +16982,30 @@ message SmlChatBotEvent {
     optional ChatMode chat_mode = 3;
   }
 
+  message PlanningModeEvent {
+    // The implementation plan for this task was created for the first time
+    message PlanCreated {}
+    // The user approved the implementation plan.
+    message PlanApproved {}
+    // The user sent comments on the implementation plan
+    message CommentsSent {
+      optional int32 comments_count = 1;
+    }
+    // An artifact (implementation_plan, task_list, walkthrough, etc.) was
+    // edited by the agent.
+    message ArtifactEdited {
+      optional string artifact_name = 1;
+    }
+    // The conversation session this event happened in.
+    optional string session_id = 1;
+    oneof event {
+      PlanCreated plan_created = 2;
+      PlanApproved plan_approved = 3;
+      CommentsSent comments_sent = 4;
+      ArtifactEdited artifact_edited = 5;
+    }
+  }
+
   oneof content {
     BotResponse response = 1 [lazy = true];
     UserFeedback user_feedback = 2 [lazy = true];
@@ -17002,6 +17027,7 @@ message SmlChatBotEvent {
     RecentChatsEvent recent_chats_event = 18 [lazy = true];
     ChangesDrawerEvent changes_drawer_event = 19 [lazy = true];
     ConversationActionInvoked conversation_action_invoked = 20 [lazy = true];
+    PlanningModeEvent planning_mode_event = 21 [lazy = true];
   }
 }
 
