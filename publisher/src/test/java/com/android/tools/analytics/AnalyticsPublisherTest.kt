@@ -63,7 +63,7 @@ class AnalyticsPublisherTest {
         val vs = VirtualTimeScheduler()
 
         // Instantiate the publisher
-        val googleAnalyticsPublisher = GoogleAnalyticsPublisher(vs, testSpoolDir.root.toPath(), "1.2.3.4")
+        val googleAnalyticsPublisher = AnonymousAnalyticsPublisher(vs, testSpoolDir.root.toPath(), "1.2.3.4")
         googleAnalyticsPublisher.setServerUrl(stub.url)
 
         // Ensure the publisher's initial values are as expected.
@@ -117,7 +117,7 @@ class AnalyticsPublisherTest {
           systemPropertyOverrides.setProperty("os.name", "Linux")
           systemPropertyOverrides.setProperty("os.version", "3.13.0-85-generic")
 
-          val googleAnalyticsPublisher = GoogleAnalyticsPublisher(vs, testSpoolDir.root.toPath(), "1.2.3.4")
+          val googleAnalyticsPublisher = AnonymousAnalyticsPublisher(vs, testSpoolDir.root.toPath(), "1.2.3.4")
           googleAnalyticsPublisher.setServerUrl(stub.url)
 
           // advance time to make the publisher run its first publishing job.
@@ -204,7 +204,7 @@ class AnalyticsPublisherTest {
           systemPropertyOverrides.setProperty("os.name", "Linux")
           systemPropertyOverrides.setProperty("os.version", "3.13.0-85-generic")
 
-          val googleAnalyticsPublisher = GoogleAnalyticsPublisher(vs, testSpoolDir.root.toPath(), "1.2.3.4") { credentials }
+          val googleAnalyticsPublisher = LoggedInAnalyticsPublisher(vs, testSpoolDir.root.toPath(), "1.2.3.4") { credentials }
           googleAnalyticsPublisher.setServerUrl(stub.url)
 
           // advance time to make the publisher run its first publishing job.
@@ -267,7 +267,7 @@ class AnalyticsPublisherTest {
         journalingUsageTracker.close()
 
         // Create helpers used to instantiate the publisher.
-        val googleAnalyticsPublisher = GoogleAnalyticsPublisher(vs, testSpoolDir.root.toPath(), "1.2.3.4")
+        val googleAnalyticsPublisher = AnonymousAnalyticsPublisher(vs, testSpoolDir.root.toPath(), "1.2.3.4")
 
         // set the url to publish to to a reserved port which we know the server cannot connect to.
         // https://www.iana.org/assignments/service-names-port-numbers/service-names-port-numbers.txt
@@ -355,7 +355,7 @@ class AnalyticsPublisherTest {
           systemPropertyOverrides.setProperty("os.name", "Linux")
           systemPropertyOverrides.setProperty("os.version", "3.13.0-85-generic")
 
-          val googleAnalyticsPublisher = GoogleAnalyticsPublisher(vs, testSpoolDir.root.toPath(), "1.2.3.4")
+          val googleAnalyticsPublisher = AnonymousAnalyticsPublisher(vs, testSpoolDir.root.toPath(), "1.2.3.4")
           googleAnalyticsPublisher.setServerUrl(stub.url)
           googleAnalyticsPublisher.setCreateConnection(
             Callable {
@@ -436,7 +436,7 @@ class AnalyticsPublisherTest {
         journalingUsageTracker.close()
 
         // Create helpers used to instantiate the publisher.
-        val googleAnalyticsPublisher = GoogleAnalyticsPublisher(vs, testSpoolDir.root.toPath(), "1.2.3.4")
+        val googleAnalyticsPublisher = AnonymousAnalyticsPublisher(vs, testSpoolDir.root.toPath(), "1.2.3.4")
         googleAnalyticsPublisher.setServerUrl(stub.url)
 
         // Execute the first publish job.
@@ -488,7 +488,7 @@ class AnalyticsPublisherTest {
 
       // Create helpers used to instantiate the publisher.
       ServerStub().use { stub ->
-        val googleAnalyticsPublisher = GoogleAnalyticsPublisher(vs, testSpoolDir.root.toPath(), "1.2.3.4")
+        val googleAnalyticsPublisher = AnonymousAnalyticsPublisher(vs, testSpoolDir.root.toPath(), "1.2.3.4")
         googleAnalyticsPublisher.setServerUrl(stub.url)
 
         // Execute the first publish job.
@@ -545,7 +545,7 @@ class AnalyticsPublisherTest {
         journalingUsageTracker.close()
 
         // Create helpers used to instantiate the publisher.
-        val googleAnalyticsPublisher = GoogleAnalyticsPublisher(vs, testSpoolDir.root.toPath(), "1.2.3.4")
+        val googleAnalyticsPublisher = AnonymousAnalyticsPublisher(vs, testSpoolDir.root.toPath(), "1.2.3.4")
         googleAnalyticsPublisher.setServerUrl(stub.url)
 
         // Ensure a job is queued to publish analytics.
@@ -596,7 +596,7 @@ class AnalyticsPublisherTest {
         journalingUsageTracker.close()
 
         // Create an instance of the publisher with a customized connection creation function.
-        val googleAnalyticsPublisher = GoogleAnalyticsPublisher(vs, testSpoolDir.root.toPath(), "1.2.3.4")
+        val googleAnalyticsPublisher = AnonymousAnalyticsPublisher(vs, testSpoolDir.root.toPath(), "1.2.3.4")
         googleAnalyticsPublisher.setCreateConnection(Callable { stub.url.openConnection() as HttpURLConnection })
         // set the url to publish to to a reserved port which we know the server cannot connect
         // to.

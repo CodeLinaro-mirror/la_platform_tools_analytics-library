@@ -30,7 +30,8 @@ message AndroidStudioEvent {
   // or kind = EMULATOR_PING
   // or kind = TEST_RUN
   // or kind = GAME_TOOLS_PING
-  // or kind = AGDE_PING.
+  // or kind = AGDE_PING
+  // or kind = SHERLOCK_PING
   // The version field is set for most messages.
   optional ProductDetails product_details = 4 [lazy = true];
 
@@ -150,10 +151,10 @@ message AndroidStudioEvent {
   // set when kind = STUDIO_UI_ACTION_STATS
   optional UIActionStats ui_action_stats = 34 [lazy = true];
 
-  // set when kind = STUDIO_PING
+  // set when kind = STUDIO_PING or SHERLOCK_PING.
   optional MachineDetails machine_details = 35 [lazy = true];
 
-  // set when kind = STUDIO_PING
+  // set when kind = STUDIO_PING or SHERLOCK_PING.
   optional JvmDetails jvm_details = 36 [lazy = true];
 
   // set when kind = STUDIO_PROCESS_STATS
@@ -896,6 +897,10 @@ message AndroidStudioEvent {
 
   // set when kind = ANDROID_CLI_INVOCATION
   optional AndroidCliInvocation android_cli_invocation = 251 [lazy = true];
+
+  // set when kind = UNIT_TEST_GENERATION_EVENT
+  optional UnitTestGenerationEvent unit_test_generation_event = 252
+      [lazy = true];
 
   enum EventCategory {
     // The event was not grouped into any specific category (default).
@@ -1921,6 +1926,12 @@ message AndroidStudioEvent {
     GRADLE_JVM_INCOMPATIBLE_DIALOG_CANCEL = 373;
 
     ANDROID_CLI_INVOCATION = 374;
+
+    // Event related to unit test generation.
+    UNIT_TEST_GENERATION_EVENT = 375;
+
+    // Start time and daily Sherlock ping with version & os details.
+    SHERLOCK_PING = 376;
   }
 
   // Represents different Performance Monitoring types.
@@ -2850,6 +2861,7 @@ message ProductDetails {
     STUDIO_PATCH_UPDATER = 5;
     VS_PLUGIN = 6;
     GAME_TOOLS = 7;
+    SHERLOCK = 8;
   }
 
   // Chip the software is running on.
@@ -8478,6 +8490,7 @@ message TaskMetadata {
           [lazy = true];
       NativeAllocationsTaskConfig native_allocations_task_config = 4
           [lazy = true];
+      LeakCanaryTaskConfig leakcanary_task_config = 5 [lazy = true];
     }
   }
 
@@ -8496,6 +8509,16 @@ message TaskMetadata {
 
   message NativeAllocationsTaskConfig {
     optional int32 sample_interval_bytes = 1;
+  }
+
+  message LeakCanaryTaskConfig {
+    enum ExecutionMode {
+      UNKNOWN_MODE = 0;
+      ON_HOST = 1;
+      ON_DEVICE = 2;
+    }
+    optional ExecutionMode execution_mode = 1;
+    optional int32 selected_threshold = 2;
   }
 }
 
@@ -8548,6 +8571,7 @@ message TaskFailedMetadata {
       TraceStartStatus trace_start_status = 1 [lazy = true];
       AllocationTrackStatus track_status = 2 [lazy = true];
       HeapDumpStatus heap_dump_start_status = 3 [lazy = true];
+      LeakCanaryStartStatus leakcanary_start_status = 4 [lazy = true];
     }
   }
 
@@ -8561,6 +8585,32 @@ message TaskFailedMetadata {
 
   message TaskProcessingFailedMetadata {
     optional CpuCaptureMetadata cpu_capture_metadata = 1 [lazy = true];
+    optional LeakCanaryProcessingStatus leakcanary_processing_status = 2
+        [lazy = true];
+  }
+
+  message LeakCanaryStartStatus {
+    enum ErrorCode {
+      UNKNOWN_ERROR = 0;
+      AGENT_ATTACH_FAILED = 1;
+      APP_CONTEXT_NULL = 2;
+      LIBRARY_NOT_INSTALLED_TIMEOUT = 3;
+      TRANSPORT_TIMEOUT = 4;
+    }
+    optional ErrorCode error_code = 1;
+  }
+
+  message LeakCanaryProcessingStatus {
+    enum ErrorCode {
+      UNKNOWN_ERROR = 0;
+      BROADCAST_DELIVERY_FAILED = 1;
+      HEAP_DUMP_GENERATION_FAILED = 2;
+      HPROF_DOWNLOAD_FAILED = 3;
+      SHARK_ANALYSIS_OOM = 4;
+      SHARK_ANALYSIS_EXCEPTION = 5;
+      PARSING_FAILURE = 6;
+    }
+    optional ErrorCode error_code = 1;
   }
 
   message TraceStartStatus {
@@ -8736,6 +8786,39 @@ message TaskFailedMetadata {
   }
 }
 
+message LeakCanaryTaskMetadata {
+  optional int64 task_id = 1;
+  optional bool auto_inject_popup_shown = 2;
+
+  enum UiAction {
+    UNKNOWN_ACTION = 0;
+    FORCE_DUMP_CLICKED = 1;
+    STOP_RECORDING_CLICKED = 2;
+    GO_TO_DECLARATION_CLICKED = 3;
+    COPY_TRACE_CLICKED = 4;
+    EXPAND_ALL_NODES_CLICKED = 5;
+    COLLAPSE_ALL_NODES_CLICKED = 6;
+    NEW_LEAK_SELECTED = 7;
+    CANCELLED_DURING_ANALYSIS = 8;
+  }
+  optional UiAction ui_action = 3;
+
+  message LeakAnalysis {
+    optional int32 retained_objects_count = 1;
+    optional int32 occurrences_count = 2;
+    optional int64 estimated_memory_leaked_bytes = 3;
+    optional int32 leaking_no_rows = 4;
+    optional int32 leaking_maybe_rows = 5;
+    optional int32 leaking_yes_rows = 6;
+    optional int64 heap_dump_analysis_time_ms = 7;
+    optional int64 total_recording_time_ms = 8;
+    optional bool is_library_leak = 9;
+    optional int64 hprof_file_size_bytes = 10;
+    optional int64 hprof_download_duration_ms = 11;
+  }
+  optional LeakAnalysis leak_analysis = 4;
+}
+
 // Android Profiler metrics
 message AndroidProfilerEvent {
   // The current stage we're on when this event was generated
@@ -8842,6 +8925,9 @@ message AndroidProfilerEvent {
 
   // Set if |type| is |TASK_SETTINGS_OPENED|
   optional bool is_task_settings_changed = 31;
+
+  // Set if |type| is related to LeakCanary tasks
+  optional LeakCanaryTaskMetadata leakcanary_metadata = 32 [lazy = true];
 
   enum Stage {
     UNKNOWN_STAGE = 0;
@@ -9018,6 +9104,8 @@ message AndroidProfilerEvent {
 
     // Task Configuration Stats
     TASK_SETTINGS_OPENED = 810;
+
+    LEAKCANARY_EVENT = 820;
   }
 
   message Loading {
@@ -13622,6 +13710,10 @@ message InteractivePreviewEvent {
     UNKNOWN_EVENT_TYPE = 0;
     REPORT_FPS = 1;
     REPORT_STARTUP_TIME = 2;
+    NAVIGATION_PANEL_BACK_PRESS = 3;
+    NAVIGATION_PANEL_PROGRESS_PRESS = 4;
+    NAVIGATION_PANEL_VISIBILITY_CHANGE = 5;
+    NAVIGATION_PANEL_EDGE_DROPDOWN_PRESS = 6;
   }
 
   // Type of event
@@ -13637,6 +13729,8 @@ message InteractivePreviewEvent {
   // Number of the previews on the surface the preview for this interactive
   // session belongs to
   optional int32 peer_previews = 6;
+  // Boolean to check if the interactive preview navigation panel is shown
+  optional bool navigation_panel_shown = 7;
 }
 
 // A user's response to a survey
@@ -13960,7 +14054,7 @@ message DeviceManagerEvent {
 }
 
 // Event related to Glasses emulator pairing assistant
-// Next ID: 24
+// Next ID: 32
 message GlassesPairingEvent {
   // The kind of GlassesPairingEvent
   optional EventKind kind = 1;
@@ -14014,6 +14108,22 @@ message GlassesPairingEvent {
     PAIRING_ERROR_IO_FAILED = 20;
     // Error: Generic or unknown pairing error
     PAIRING_ERROR_GENERIC = 21;
+    // Reconciliation found a bond that was not tracked
+    RECONCILIATION_BOND_DISCOVERED = 24;
+    // Reconciliation removed a bond that was no longer valid
+    RECONCILIATION_BOND_REMOVED = 25;
+    // Reconciliation resolved asymmetric state between devices
+    RECONCILIATION_ASYMMETRIC_STATE_RESOLVED = 26;
+    // User clicked unpair action
+    UNPAIR_ACTION_CLICKED = 27;
+    // Unpair successful
+    UNPAIR_SUCCESSFUL = 28;
+    // Unpair failed
+    UNPAIR_FAILED = 29;
+    // Cascading wipe initiated
+    CASCADING_WIPE_INITIATED = 30;
+    // Orphaned pairing purged
+    ORPHANED_PAIRING_PURGED = 31;
   }
 }
 
@@ -15090,6 +15200,9 @@ message AppQualityInsightsUsageEvent {
 
     // Track when an aiplugin-provided action is taken
     AGENT_ACTION = 17;
+
+    // Track when user interacts with insight generation
+    GENERATE_INSIGHTS_ACTION = 18;
   }
 
   enum CrashType {
@@ -15410,6 +15523,17 @@ message AppQualityInsightsUsageEvent {
     optional DevServiceDeprecationInfo dev_service_deprecation_info = 2;
   }
 
+  message GenerateInsightsAction {
+    enum Action {
+      UNKNOWN_ACTION = 0;
+      GENERATE_ONCE = 1;
+      ENABLE_AUTO_GENERATE = 2;
+      DISABLE_AUTO_GENERATE = 3;
+    }
+
+    optional Action action = 1;
+  }
+
   // The app_id is the id for the user's android app
   // which we salt on the client (28 day rotation) then sha256
   // so it is anonymized and is unique per user, but has a 1-N relation.
@@ -15479,6 +15603,9 @@ message AppQualityInsightsUsageEvent {
 
   // set when type = AGENT_ACTION
   optional AgentActionDetails agent_action_details = 21 [lazy = true];
+
+  // set when type = GENERATE_INSIGHTS_ACTION
+  optional GenerateInsightsAction generate_insights_action = 22 [lazy = true];
 }
 
 message FastPreviewEvent {
@@ -16712,6 +16839,10 @@ message SmlChatBotEvent {
     SUB_AGENT_RESULT = 23;
     // Sub-agent terminated without a proper response.
     SUB_AGENT_ENDED_WITHOUT_RESPONSE = 24;
+    // The arguments provided to the tool call were invalid.
+    ERR_INVALID_ARGUMENTS = 25;
+    // The URL provided to the tool call was invalid.
+    ERR_INVALID_URL = 26;
   }
 
   message ToolCallResponse {
@@ -16911,6 +17042,13 @@ message SmlConfigurationEvent {
   // The user account type that was fetched by the LoadCodeAssist API.
   optional UserAccountType user_account_type = 11;
 
+  // The tier ID of the onboarded user.
+  optional string tier_id = 12;
+
+  // Timestamp in ms. Can be used by various configuration events (for instance
+  // onboarding completion time)
+  optional int64 configuration_time_ms = 13;
+
   enum SmlProductVariant {
     PRODUCT_VARIANT_UNKNOWN = 0;
     PRODUCT_VARIANT_FREE = 1;
@@ -17045,6 +17183,54 @@ message SmlRagEvent {
     GrepMetrics grep = 4 [lazy = true];
     KbRagIndexerMetrics kb_rag = 5 [lazy = true];
   }
+}
+
+// Tracks AI-powered unit test generation in Android Studio.
+message UnitTestGenerationEvent {
+  // UI entry point for test generation.
+  enum EntryPoint {
+    UNKNOWN_ENTRY_POINT = 0;
+    // Triggered via editor right-click context menu.
+    RIGHT_CLICK_MENU = 1;
+    // Triggered via Gemini chat or agent.
+    AGENT_WINDOW = 2;
+  }
+  // UI element used to initiate test generation.
+  optional EntryPoint entry_point = 1;
+
+  // Execution mode selected by the user.
+  enum UserMode {
+    UNKNOWN_USER_MODE = 0;
+    // Tests generated via chat response.
+    CHAT = 1;
+    // Tests generated via fast mode.
+    FAST = 2;
+    // Tests generated via planning mode.
+    PLANNING = 3;
+  }
+  // User-selected mode (e.g., Fast, Planning, Chat).
+  optional UserMode user_mode = 2;
+  // Number of AI attempts to fix compilation errors. Zero if the first
+  // attempt compiled successfully.
+  optional int32 self_correction_loops = 3;
+  // True if generated code compiled successfully.
+  optional bool build_success = 4;
+  // Number of generated tests that passed.
+  optional int32 tests_passed_count = 5;
+  // Number of generated tests that failed.
+  optional int32 tests_failed_count = 6;
+  // Total test methods presented to user.
+  optional int32 total_chunks_generated = 7;
+  // Number of test methods accepted by user.
+  optional int32 chunks_accepted = 8;
+  // Number of test methods rejected by user.
+  optional int32 chunks_rejected = 9;
+  // True if user accepted all tests without edits.
+  optional bool accepted_all = 10;
+  // Latency (ms) to first token of generated code.
+  optional int64 latency_to_first_token_ms = 11;
+  // Total workflow duration (ms) from trigger to resolution.
+  optional int64 total_workflow_duration_ms = 12;
 }
 
 message TestScenarioEvent {
@@ -17471,6 +17657,7 @@ message DebuggerEvent {
       APK_PROVIDER = 1;
       DEVICE_FALLBACK = 2;
       DEVICE = 3;
+      FILES = 4;
     }
 
     optional uint64 dex_fetch_time_ms = 1;
@@ -17639,6 +17826,20 @@ message AndroidCliInvocation {
   // command line to avoid logging user data.
   optional string command_name = 1;
   optional string sub_command_name = 2;
+  repeated string global_flags = 3;
+  repeated string flags = 4;
+  // The name of the agent invoking android-cli
+  optional Agent agent_name = 5;
+
+  enum Agent {
+    UNKNOWN = 0;
+    AGY = 1;
+    GEMINI_CLI = 2;
+    CLAUDE_CODE = 3;
+    ANDROID_STUDIO = 4;
+    OTHER = 5;
+    CODEX = 6;
+  }
 }
 
 message ScreenshotTestComposePreviewEvent {
@@ -18711,6 +18912,8 @@ message GeminiAdvertiserEvent {
     UI_TOOLS = 13;
     // Update dependencies to latest versions.
     UPDATE_DEPENDENCIES = 14;
+    // AI insights in AQI
+    APP_QUALITY_INSIGHTS = 15;
   }
 
   enum Action {
