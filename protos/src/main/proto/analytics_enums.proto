@@ -447,6 +447,7 @@ enum GradleTaskExecutionType {
     COMPRESS_JAVA_RES = 360;
     LEGACY_REPORTING_TEST_SUITE_TEST = 361;
     GLOBAL_SYNTHETICS_GENERATOR = 362;
+    ANDROID_TEST_DISCOVERY = 363;
 }
 
 enum BooleanOption {
