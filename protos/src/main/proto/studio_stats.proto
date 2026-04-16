@@ -902,6 +902,9 @@ message AndroidStudioEvent {
   optional UnitTestGenerationEvent unit_test_generation_event = 252
       [lazy = true];
 
+  // set when kind = SHERLOCK_EVENT
+  optional SherlockEvent sherlock_event = 253 [lazy = true];
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -1932,6 +1935,9 @@ message AndroidStudioEvent {
 
     // Start time and daily Sherlock ping with version & os details.
     SHERLOCK_PING = 376;
+
+    // Sherlock event.
+    SHERLOCK_EVENT = 377;
   }
 
   // Represents different Performance Monitoring types.
@@ -9168,6 +9174,249 @@ message AndroidProfilerDbStats {
   optional uint32 total_disk_mb = 2;
   // Entries for each table in our DB
   repeated AndroidProfilerDbTable tables = 3;
+}
+
+// Sherlock metrics.
+// These events will be logged by both Standalone Sherlock and Android Studio.
+// Use IdeBrand/IdeKind to distinguish between the two.
+message SherlockEvent {
+  // The detailed type of this event.
+  optional Type type = 1;
+
+  // Set if |type| is |SHERLOCK_PROJECT_OPENED| or |SHERLOCK_PROJECT_CLOSED|
+  optional SherlockProjectChange sherlock_project_change = 2 [lazy = true];
+
+  // Set if |type| is |DEVICE_INITIALIZED|
+  optional DeviceInitializedMetadata device_initialized_metadata = 3
+      [lazy = true];
+
+  // Set if |type| is |NEW_CAPTURE_DIALOG_PROCEED|
+  optional NewCaptureDialogMetadata new_capture_dialog_metadata = 4
+      [lazy = true];
+
+  // Set if |type| is |PERFETTO_TRACE_OPENED|
+  optional PerfettoTraceOpenedMetadata perfetto_trace_opened_metadata = 5
+      [lazy = true];
+
+  // Set if |type| is |PERFETTO_SQL_QUERY_EXECUTED|
+  optional PerfettoSqlQueryMetadata perfetto_sql_query_metadata = 6
+      [lazy = true];
+
+  enum Type {
+    UNKNOWN_TYPE = 0;
+
+    /// General.
+    DEVICE_INITIALIZED = 101;
+    SHERLOCK_PROJECT_OPENED = 102;
+    SHERLOCK_PROJECT_CLOSED = 103;
+
+    /// System Trace recording.
+
+    // Fired when the user interacts with the new system trace capture dialog.
+    NEW_CAPTURE_DIALOG_OPENED = 201;
+    NEW_CAPTURE_DIALOG_CANCELLED = 202;
+    NEW_CAPTURE_DIALOG_PROCEED = 203;
+
+    // Fired when perfetto trace recording is completed.
+    PERFETTO_TRACE_RECORDED = 204;
+
+    // Fired when the user clicks to enable/disable custom perfetto config.
+    NEW_CAPTURE_DIALOG_CUSTOM_PERFETTO_CONFIG_ENABLED = 211;
+    NEW_CAPTURE_DIALOG_CUSTOM_PERFETTO_CONFIG_DISABLED = 212;
+
+    // Fired when the user clicks to open/close the GPU counter selection
+    // dialog.
+    GPU_COUNTER_SELECTION_DIALOG_OPENED = 221;
+    GPU_COUNTER_SELECTION_DIALOG_CANCELLED = 222;
+    GPU_COUNTER_SELECTION_DIALOG_PROCEED = 223;
+
+    /// System Profiler (Perfetto) trace viewer.
+
+    // Fired when the user opens any perfetto trace file in the viewer.
+    PERFETTO_TRACE_OPENED = 301;
+
+    // Fired when the user executes a SQL query in the viewer.
+    PERFETTO_SQL_QUERY_EXECUTED = 302;
+  }
+
+  // Details around user opening or closing projects.
+  message SherlockProjectChange {
+    // Number of projects open in same Sherlock instance.
+    optional int32 projects_open = 1;
+  }
+
+  // Extended device info that includes basic device info and GPU info.
+  message ExtendedDeviceInfo {
+    // Basic information about the device.
+    optional DeviceInfo device_info = 1;
+
+    // Information about the GPU on the device.
+    optional GpuInfo gpu_info = 2;
+
+    // GPU profiling capabilities of the device.
+    optional GpuProfilingCapabilities gpu_profiling_capabilities = 3;
+
+    message GpuInfo {
+      optional string gpu_vendor = 1;
+      optional string gpu_name = 2;
+      optional string gpu_driver_version = 3;
+    }
+
+    message GpuProfilingCapabilities {
+      optional bool has_gpu_counters = 1;
+      optional int32 num_gpu_counters = 2;
+      optional int32 num_gpu_counters_selected_by_default = 3;
+      optional int32 num_gpu_counter_groups = 4;
+      optional bool has_render_stage = 5;
+      optional bool has_gpu_mem_total = 6;
+      optional bool has_frame_lifecycle = 7;
+    }
+  }
+
+  // Metadata for the |DEVICE_INITIALIZED| event.
+  message DeviceInitializedMetadata {
+    optional DeviceInitializationStatus status = 1;
+
+    // Generic information about the device.
+    optional ExtendedDeviceInfo extended_device_info = 2;
+
+    // Status of the device initialization process.
+    enum DeviceInitializationStatus {
+      DEVICE_INITIALIZATION_STATUS_UNKNOWN = 0;
+      DEVICE_INITIALIZATION_STATUS_SUCCESS = 1;
+      DEVICE_INITIALIZATION_STATUS_CANCELLED = 2;
+      DEVICE_INITIALIZATION_STATUS_ERROR = 3;
+    }
+  }
+
+  // Metadata for the |NEW_CAPTURE_DIALOG_PROCEED| event.
+  // Details when starting a new system profiler trace recording.
+  message NewCaptureDialogMetadata {
+    optional ExtendedDeviceInfo extended_device_info = 1;
+
+    // Mode of the recording: e.g., launch or attach.
+    optional LaunchMode launch_mode = 2;
+
+    // Type of activity:  e.g., default or user-selected.
+    optional ActivityType activity_type = 3;
+
+    // Whether the user provided any additional launch arguments when starting
+    // the app.
+    optional bool additional_launch_args_provided = 4;
+
+    // The trigger used to start the recording.
+    optional StartTrigger start_trigger = 5;
+
+    // The trigger used to stop the recording.
+    optional StopTrigger stop_trigger = 6;
+
+    // Details of the Perfetto config used in the recording.
+    optional TraceConfig trace_config = 7;
+
+    // Details of the Vulkan layers used in the recording.
+    optional VulkanLayers vulkan_layers = 8;
+
+    enum LaunchMode {
+      LAUNCH_MODE_UNKNOWN = 0;
+      LAUNCH_MODE_LAUNCH = 1;
+      LAUNCH_MODE_ATTACH = 2;
+    }
+
+    enum ActivityType {
+      ACTIVITY_TYPE_UNKNOWN = 0;
+      ACTIVITY_TYPE_DEFAULT = 1;
+      ACTIVITY_TYPE_USER_SELECTED = 2;
+    }
+
+    enum StartTrigger {
+      START_TRIGGER_UNKNOWN = 0;
+      START_TRIGGER_MANUAL = 1;
+      START_TRIGGER_ON_STARTUP = 2;
+      START_TRIGGER_ON_STARTUP_WITH_DELAY = 3;
+    }
+
+    enum StopTrigger {
+      STOP_TRIGGER_UNKNOWN = 0;
+      STOP_TRIGGER_MANUAL = 1;
+      STOP_TRIGGER_DURATION = 2;
+    }
+
+    // Details of the trace configuration used in recording.
+    message TraceConfig {
+      // Whether the recording used custom Perfetto config.
+      optional bool custom_perfetto_config_enabled = 1;
+
+      // CPU config.
+
+      // Whether the recording enabled these CPU data sources.
+      optional bool cpu_frequency_enabled = 11;
+      optional bool cpu_scheduling_enabled = 12;
+      optional bool cpu_syscalls_enabled = 13;
+      optional bool cpu_thread_slices_enabled = 14;
+
+      // GPU config.
+
+      // Whether the recording enabled these GPU data sources.
+      optional bool gpu_frequency_enabled = 21;
+      optional bool gpu_memory_enabled = 22;
+      optional bool gpu_work_period_enabled = 23;
+      optional bool gpu_frame_lifecycle_enabled = 24;
+      optional bool gpu_counters_enabled = 25;
+      // How many GPU counters were selected. Only applies when
+      // gpu_counters_enabled is true.
+      optional int32 num_gpu_counters_selected = 26;
+    }
+
+    // Details of the Vulkan layers used in recording.
+    message VulkanLayers {
+      // Whether the CPUTiming vulkan layer was enabled.
+      optional bool cputiming_layer_enabled = 1;
+
+      // Whether the DebugMarker vulkan layer was enabled.
+      optional bool debug_marker_layer_enabled = 2;
+
+      // Whether the Screenshot vulkan layer was enabled.
+      optional bool screenshot_layer_enabled = 3;
+
+      // If the Screenshot layer was enabled, the frequency at which frames were
+      // captured.
+      optional int32 screenshot_layer_every_n_frames = 4;
+    }
+  }
+
+  // Metadata for the |PERFETTO_TRACE_OPENED| event.
+  message PerfettoTraceOpenedMetadata {
+    // Whether the trace was from the current project or opened from an external
+    // source.
+    optional PerfettoTraceOrigin trace_origin = 1;
+
+    enum PerfettoTraceOrigin {
+      PERFETTO_TRACE_ORIGIN_UNKNOWN = 0;
+      PERFETTO_TRACE_ORIGIN_PROJECT = 1;
+      PERFETTO_TRACE_ORIGIN_EXTERNAL = 2;
+    }
+  }
+
+  // Metadata for the |PERFETTO_SQL_QUERY_EXECUTED| event.
+  message PerfettoSqlQueryMetadata {
+    // Whether the SQL query was executed successfully.
+    optional PerfettoSqlQueryStatus status = 1;
+
+    // The amount of time the SQL query took to execute in milliseconds.
+    optional int64 query_execution_time_ms = 2;
+
+    // The number of rows returned by the SQL query.
+    optional int64 query_result_num_rows = 3;
+
+    // The number of columns returned by the SQL query.
+    optional int32 query_result_num_columns = 4;
+
+    enum PerfettoSqlQueryStatus {
+      PERFETTO_SQL_QUERY_STATUS_UNKNOWN = 0;
+      PERFETTO_SQL_QUERY_STATUS_SUCCESS = 1;
+      PERFETTO_SQL_QUERY_STATUS_FAILURE = 2;
+    }
+  }
 }
 
 // APK Analyzer stats
@@ -16468,6 +16717,7 @@ message SmlChatBotEvent {
     AGENT_MODE = 2;
     VERSION_UPGRADE_AGENT = 3;
     QUICK_EDIT = 4;
+    PLANNING = 5;
   }
 
   message BotResponse {
@@ -16981,6 +17231,30 @@ message SmlChatBotEvent {
     optional ChatMode chat_mode = 3;
   }
 
+  message PlanningModeEvent {
+    // The implementation plan for this task was created for the first time
+    message PlanCreated {}
+    // The user approved the implementation plan.
+    message PlanApproved {}
+    // The user sent comments on the implementation plan
+    message CommentsSent {
+      optional int32 comments_count = 1;
+    }
+    // An artifact (implementation_plan, task_list, walkthrough, etc.) was
+    // edited by the agent.
+    message ArtifactEdited {
+      optional string artifact_name = 1;
+    }
+    // The conversation session this event happened in.
+    optional string session_id = 1;
+    oneof event {
+      PlanCreated plan_created = 2;
+      PlanApproved plan_approved = 3;
+      CommentsSent comments_sent = 4;
+      ArtifactEdited artifact_edited = 5;
+    }
+  }
+
   oneof content {
     BotResponse response = 1 [lazy = true];
     UserFeedback user_feedback = 2 [lazy = true];
@@ -17002,6 +17276,7 @@ message SmlChatBotEvent {
     RecentChatsEvent recent_chats_event = 18 [lazy = true];
     ChangesDrawerEvent changes_drawer_event = 19 [lazy = true];
     ConversationActionInvoked conversation_action_invoked = 20 [lazy = true];
+    PlanningModeEvent planning_mode_event = 21 [lazy = true];
   }
 }
 
