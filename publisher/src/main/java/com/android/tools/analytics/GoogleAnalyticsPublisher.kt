@@ -38,6 +38,7 @@ import java.util.concurrent.ScheduledExecutorService
 import java.util.concurrent.ScheduledFuture
 import java.util.concurrent.TimeUnit
 import java.util.zip.GZIPOutputStream
+import org.jetbrains.annotations.TestOnly
 
 /**
  * Publish collected analytics to Google's servers. Uses the provided [ScheduleExecutorService] to periodically (10 mins by default), scan
@@ -365,6 +366,11 @@ internal constructor(
   fun setServerUrl(serverUrl: URL): GoogleAnalyticsPublisher {
     synchronized(gate) { this.serverUrl = serverUrl }
     return this
+  }
+
+  @TestOnly
+  override fun isScheduled(): Boolean {
+    return publishJob?.isCancelled == false
   }
 
   companion object {
