@@ -15,21 +15,19 @@
  */
 package com.android.tools.analytics
 
-import com.google.common.truth.Truth
+import com.google.common.truth.Truth.assertThat
 import java.util.UUID
 import java.util.prefs.Preferences
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
-import org.mockito.kotlin.any
-import org.mockito.kotlin.argThat
-import org.mockito.kotlin.doReturn
-import org.mockito.kotlin.eq
-import org.mockito.kotlin.mock
-import org.mockito.kotlin.never
-import org.mockito.kotlin.stub
-import org.mockito.kotlin.verify
-import org.mockito.kotlin.whenever
+import org.mockito.ArgumentMatchers.argThat
+import org.mockito.Mockito.anyString
+import org.mockito.Mockito.eq
+import org.mockito.Mockito.mock
+import org.mockito.Mockito.never
+import org.mockito.Mockito.verify
+import org.mockito.Mockito.`when`
 
 private const val NODE_NAME = "google"
 private const val INSTALLATION_ID_KEY = "user_id_on_machine"
@@ -37,51 +35,51 @@ private const val INSTALLATION_ID_KEY = "user_id_on_machine"
 @RunWith(JUnit4::class)
 class InstallationIdTest {
 
-  private val mockUserRootPrefs = mock<Preferences>()
-  private val mockNodePrefs = mock<Preferences>()
+  private val mockUserRootPrefs = mock(Preferences::class.java)
+  private val mockNodePrefs = mock(Preferences::class.java)
 
   @Test
   fun get_existingValidId_returnsExistingId() {
     val existingUuid = UUID.randomUUID().toString()
-    whenever(mockUserRootPrefs.node(NODE_NAME)).thenReturn(mockNodePrefs)
-    mockNodePrefs.stub { on { get(eq(INSTALLATION_ID_KEY), any()) } doReturn existingUuid }
+    `when`(mockUserRootPrefs.node(NODE_NAME)).thenReturn(mockNodePrefs)
+    `when`(mockNodePrefs.get(eq(INSTALLATION_ID_KEY), anyString())).thenReturn(existingUuid)
 
     val result = InstallationId.get(mockUserRootPrefs)
 
-    Truth.assertThat(result).isEqualTo(existingUuid)
+    assertThat(result).isEqualTo(existingUuid)
     verify(mockUserRootPrefs).node(NODE_NAME)
     verify(mockNodePrefs).get(INSTALLATION_ID_KEY, "")
-    verify(mockNodePrefs, never()).put(any(), any())
+    verify(mockNodePrefs, never()).put(anyString(), anyString())
   }
 
   @Test
   fun get_noExistingId_generatesAndSavesNewId() {
-    whenever(mockUserRootPrefs.node(NODE_NAME)).thenReturn(mockNodePrefs)
-    mockNodePrefs.stub { on { get(eq(INSTALLATION_ID_KEY), any()) } doReturn "" }
+    `when`(mockUserRootPrefs.node(NODE_NAME)).thenReturn(mockNodePrefs)
+    `when`(mockNodePrefs.get(eq(INSTALLATION_ID_KEY), anyString())).thenReturn("")
 
     val result = InstallationId.get(mockUserRootPrefs)
 
-    Truth.assertThat(result).isNotEmpty()
-    Truth.assertThat(result.isValidUuid()).isTrue() // Check if the result is a valid UUID
+    assertThat(result).isNotEmpty()
+    assertThat(result.isValidUuid()).isTrue() // Check if the result is a valid UUID
     verify(mockUserRootPrefs).node(NODE_NAME)
     verify(mockNodePrefs).get(INSTALLATION_ID_KEY, "")
-    verify(mockNodePrefs).put(eq(INSTALLATION_ID_KEY), argThat { isValidUuid() })
+    verify(mockNodePrefs).put(eq(INSTALLATION_ID_KEY), argThat { it.isValidUuid() })
   }
 
   @Test
   fun get_invalidExistingId_generatesAndSavesNewId() {
     val invalidUuid = "not-a-valid-uuid"
-    whenever(mockUserRootPrefs.node(NODE_NAME)).thenReturn(mockNodePrefs)
-    mockNodePrefs.stub { on { get(eq(INSTALLATION_ID_KEY), any()) } doReturn invalidUuid }
+    `when`(mockUserRootPrefs.node(NODE_NAME)).thenReturn(mockNodePrefs)
+    `when`(mockNodePrefs.get(eq(INSTALLATION_ID_KEY), anyString())).thenReturn(invalidUuid)
 
     val result = InstallationId.get(mockUserRootPrefs)
 
-    Truth.assertThat(result).isNotEmpty()
-    Truth.assertThat(result).isNotEqualTo(invalidUuid)
-    Truth.assertThat(result.isValidUuid()).isTrue() // Check if the result is a valid UUID
+    assertThat(result).isNotEmpty()
+    assertThat(result).isNotEqualTo(invalidUuid)
+    assertThat(result.isValidUuid()).isTrue() // Check if the result is a valid UUID
     verify(mockUserRootPrefs).node(NODE_NAME)
     verify(mockNodePrefs).get(INSTALLATION_ID_KEY, "")
-    verify(mockNodePrefs).put(eq(INSTALLATION_ID_KEY), argThat { isValidUuid() })
+    verify(mockNodePrefs).put(eq(INSTALLATION_ID_KEY), argThat { it.isValidUuid() })
   }
 
   private fun String.isValidUuid(): Boolean {
