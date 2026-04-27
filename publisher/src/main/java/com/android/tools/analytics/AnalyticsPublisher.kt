@@ -100,24 +100,28 @@ abstract class AnalyticsPublisher protected constructor() : AutoCloseable {
     @JvmStatic
     fun initialize(logger: ILogger, scheduler: ScheduledExecutorService, applicationBuild: String): AnalyticsPublisher {
       AnalyticsSettings.initialize(logger, scheduler)
-      synchronized(gate) {
-        if (job != null) {
-          throw RuntimeException("initialize called more than once")
-        }
 
+      val oldPublishers: Publishers
+      var oldJob: Job? = null
+
+      synchronized(gate) {
         AnalyticsPublisher.logger = logger
         AnalyticsPublisher.scheduler = scheduler
         AnalyticsPublisher.applicationBuild = applicationBuild
 
         // setPublishers is called so that the instances are set by the time initialize returns.
         // This is required by some callers such as Lint.
+        oldPublishers = getPublishers()
         setPublishers(AnalyticsStateManager.analyticsStateFlow.value)
 
+        oldJob = job
         val scope = CoroutineScope(scheduler.asCoroutineDispatcher())
         job = AnalyticsStateManager.analyticsStateFlow.onEach { stateChanged(it) }.launchIn(scope)
-
-        return anonymousInstance
       }
+
+      oldPublishers.use { oldJob?.cancel() }
+
+      return anonymousInstance
     }
 
     /**

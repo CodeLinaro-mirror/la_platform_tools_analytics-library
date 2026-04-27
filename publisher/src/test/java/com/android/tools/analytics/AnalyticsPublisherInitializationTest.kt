@@ -53,6 +53,27 @@ class AnalyticsPublisherInitializationTest {
   }
 
   @Test
+  fun testMultipleInitializations() {
+    AnalyticsStateManager.dataSharing = false
+    AnalyticsPublisher.initialize(logger, scheduledExecutorService, applicationBuild)
+
+    assertDoesNotHaveAnonymousPublisher()
+    assertDoesNotHaveLoggedInPublisher()
+
+    AnalyticsStateManager.dataSharing = true
+    AnalyticsPublisher.initialize(logger, scheduledExecutorService, applicationBuild)
+
+    assertHasAnonymousPublisher()
+    assertDoesNotHaveLoggedInPublisher()
+
+    AnalyticsStateManager.dataSharing = false
+    AnalyticsPublisher.initialize(logger, scheduledExecutorService, applicationBuild)
+
+    assertDoesNotHaveAnonymousPublisher()
+    assertDoesNotHaveLoggedInPublisher()
+  }
+
+  @Test
   fun testLoggedInPublisher() {
     AnalyticsStateManager.dataSharing = true
     AnalyticsPublisher.initialize(logger, scheduledExecutorService, applicationBuild)
