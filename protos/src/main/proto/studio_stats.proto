@@ -17407,6 +17407,15 @@ message SmlRagEvent {
     optional int32 total_indexed_docs = 6;
   }
 
+  message FindDeclarationMetrics {
+    // The exception the find_declaration tool encountered.
+    optional string exception = 1;
+    // The number of files in the find_declaration.
+    optional int32 result_count = 2;
+    // The time in milliseconds for find_declaration.
+    optional int64 find_declaration_time_ms = 3;
+  }
+
   // We merged the original find_files with file path search based on BM25.
   // "find_files result" means the file search result of the original
   // find_files. "bm25 file search" means the file search result based on BM25.
@@ -17424,6 +17433,15 @@ message SmlRagEvent {
     // The number of docs (a doc is a file in the current RAG indexer) that are
     // indexed.
     optional int32 total_indexed_docs = 5;
+  }
+
+  message FindUsagesMetrics {
+    // The exception the find_usages tool encountered.
+    optional string exception = 1;
+    // The number of files in the find_usages.
+    optional int32 result_count = 2;
+    // The time in milliseconds for find_usages.
+    optional int64 find_usages_time_ms = 3;
   }
 
   message GrepMetrics {
@@ -17457,6 +17475,8 @@ message SmlRagEvent {
     FindFileMetrics find_file = 3 [lazy = true];
     GrepMetrics grep = 4 [lazy = true];
     KbRagIndexerMetrics kb_rag = 5 [lazy = true];
+    FindDeclarationMetrics find_declaration = 6 [lazy = true];
+    FindUsagesMetrics find_usages = 7 [lazy = true];
   }
 }
 
