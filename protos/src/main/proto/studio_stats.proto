@@ -17373,6 +17373,23 @@ message SmlCompletionRequestErrorEvent {
 
 // Event for metrics related to Retrieval Augmented Generation (RAG).
 message SmlRagEvent {
+  message SearchArguments {
+    // Number of lines to show after the match (like grep -A).
+    optional int32 lines_after = 1;
+    // Number of lines to show before the match (like grep -B).
+    optional int32 lines_before = 2;
+    // Number of lines to show around the match (like grep -C).
+    optional int32 lines_context = 3;
+    // Pattern to filter results (like grep -E).
+    optional string filter = 4;
+    // Type to search, e.g., "all" kinds, function "call", etc.
+    optional string type = 5;
+    // Glob-like patterns to filter in results.
+    optional string include_pattern = 6;
+    // Glob-like patterns to filter out results.
+    optional string exclude_pattern = 7;
+  }
+
   message RagIndexerMetrics {
     // The type of indexer like "bm25" or "embeddings" and its version.
     optional string indexer_type = 1;
@@ -17414,6 +17431,8 @@ message SmlRagEvent {
     optional int32 result_count = 2;
     // The time in milliseconds for find_declaration.
     optional int64 find_declaration_time_ms = 3;
+    // The search arguments used for find_declaration.
+    optional SearchArguments search_arguments = 4;
   }
 
   // We merged the original find_files with file path search based on BM25.
@@ -17442,6 +17461,8 @@ message SmlRagEvent {
     optional int32 result_count = 2;
     // The time in milliseconds for find_usages.
     optional int64 find_usages_time_ms = 3;
+    // The search arguments used for find_usages.
+    optional SearchArguments search_arguments = 4;
   }
 
   message GrepMetrics {
@@ -17456,6 +17477,8 @@ message SmlRagEvent {
     // The number of docs (a doc is a file in the current RAG indexer) that are
     // indexed.
     optional int32 total_indexed_docs = 5;
+    // The search arguments used for grep.
+    optional SearchArguments search_arguments = 6;
   }
 
   message KbRagIndexerMetrics {
