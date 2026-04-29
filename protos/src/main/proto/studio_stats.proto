@@ -3469,7 +3469,9 @@ message EmulatorFeatureFlagState {
     FORCE_GPU_HOST = 136;
     FORCE_GPU_SOFTWARE = 137;
     QEMU_CAMERA_SENSOR_ORIENTATION = 138;
-    // Next tag: 139
+    VULKAN_PROTECTED_MEMORY_EMULATION = 139;
+    XR_DIMMING = 140;
+    // Next tag: 141
   }
   // Which features were enabled by default or through the server-side config.
   repeated EmulatorFeatureFlag attempted_enabled_feature_flags = 1;
