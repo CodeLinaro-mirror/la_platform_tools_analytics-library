@@ -9204,6 +9204,10 @@ message SherlockEvent {
   optional PerfettoSqlQueryMetadata perfetto_sql_query_metadata = 6
       [lazy = true];
 
+  // Set if |type| is |PERFETTO_TRACE_LOADED|
+  optional PerfettoTraceLoadedMetadata perfetto_trace_loaded_metadata = 7
+      [lazy = true];
+
   enum Type {
     UNKNOWN_TYPE = 0;
 
@@ -9239,6 +9243,9 @@ message SherlockEvent {
 
     // Fired when the user executes a SQL query in the viewer.
     PERFETTO_SQL_QUERY_EXECUTED = 302;
+
+    // Fired when trace loading into the viewer is finished (success or error).
+    PERFETTO_TRACE_LOADED = 303;
   }
 
   // Details around user opening or closing projects.
@@ -9417,6 +9424,44 @@ message SherlockEvent {
       PERFETTO_SQL_QUERY_STATUS_UNKNOWN = 0;
       PERFETTO_SQL_QUERY_STATUS_SUCCESS = 1;
       PERFETTO_SQL_QUERY_STATUS_FAILURE = 2;
+    }
+  }
+
+  // Metadata for the |PERFETTO_TRACE_LOADED| event.
+  message PerfettoTraceLoadedMetadata {
+    // The final status of the trace loading operation.
+    optional TraceLoadStatus trace_load_status = 1;
+
+    // Time taken to start the trace processor process and establish the RPC
+    // connection.
+    optional int64 rpc_client_init_duration_ms = 2;
+    // Time taken by the trace processor to parse the trace file.
+    optional int64 capture_parsing_duration_ms = 3;
+    // Time taken to query the trace processor and populate the model with
+    // summary data (e.g., threads, processes, counters).
+    optional int64 overview_data_loading_duration_ms = 4;
+
+    // Duration of the trace in nanoseconds.
+    optional int64 trace_duration_ns = 5;
+    // Duration of the initial calculated visible time range in nanoseconds.
+    optional int64 calculated_view_duration_ns = 6;
+
+    // Size of the trace file in bytes.
+    optional int64 trace_file_size_bytes = 7;
+
+    // Number of threads in the trace.
+    optional int32 trace_threads_count = 8;
+    // Number of processes in the trace.
+    optional int32 trace_processes_count = 9;
+    // Number of counters in the trace.
+    optional int32 trace_counters_count = 10;
+
+    enum TraceLoadStatus {
+      TRACE_LOAD_STATUS_UNKNOWN = 0;
+      TRACE_LOAD_STATUS_SUCCESS = 1;
+      TRACE_LOAD_STATUS_TIMEOUT = 2;
+      TRACE_LOAD_STATUS_IO_ERROR = 3;
+      TRACE_LOAD_STATUS_SERVER_UNAVAILABLE = 4;
     }
   }
 }
