@@ -9208,6 +9208,17 @@ message SherlockEvent {
   optional PerfettoTraceLoadedMetadata perfetto_trace_loaded_metadata = 7
       [lazy = true];
 
+  // Set if |type| is |TRACK_ITEM_SELECTED|
+  optional TrackItemSelectedMetadata track_item_selected_metadata = 8
+      [lazy = true];
+
+  // Set if |type| is |TRACK_PIN_TOGGLED|
+  optional TrackPinToggledMetadata track_pin_toggled_metadata = 9 [lazy = true];
+
+  // Set if |type| is |TRACK_GROUP_TOGGLED|
+  optional TrackGroupToggledMetadata track_group_toggled_metadata = 10
+      [lazy = true];
+
   enum Type {
     UNKNOWN_TYPE = 0;
 
@@ -9246,6 +9257,16 @@ message SherlockEvent {
 
     // Fired when trace loading into the viewer is finished (success or error).
     PERFETTO_TRACE_LOADED = 303;
+
+    // Fired when a track item (e.g., a slice, a counter value) is selected in
+    // the viewer.
+    TRACK_ITEM_SELECTED = 304;
+
+    // Fired when a user pins or unpins a track in the viewer.
+    TRACK_PIN_TOGGLED = 305;
+
+    // Fired when a user expands or collapses a track group in the viewer.
+    TRACK_GROUP_TOGGLED = 306;
   }
 
   // Details around user opening or closing projects.
@@ -9463,6 +9484,78 @@ message SherlockEvent {
       TRACE_LOAD_STATUS_IO_ERROR = 3;
       TRACE_LOAD_STATUS_SERVER_UNAVAILABLE = 4;
     }
+  }
+
+  // Metadata for the |TRACK_ITEM_SELECTED| event.
+  message TrackItemSelectedMetadata {
+    message Selection {
+      optional int32 num_items = 1;
+      optional SelectionKind selection_kind = 2;
+    }
+
+    enum SelectionKind {
+      SELECTION_KIND_UNKNOWN = 0;
+      SELECTION_KIND_THREAD = 1;
+      SELECTION_KIND_THREAD_STATE = 2;
+      SELECTION_KIND_CPU = 3;
+      SELECTION_KIND_ASYNC = 4;
+      SELECTION_KIND_GPU = 5;
+      SELECTION_KIND_VULKAN_EVENT = 6;
+      SELECTION_KIND_COUNTER = 7;
+      SELECTION_KIND_FRAME_EVENTS = 8;
+      SELECTION_KIND_MEMORY = 9;
+      SELECTION_KIND_BATTERY = 10;
+      SELECTION_KIND_PROCESS_MEMORY = 11;
+    }
+
+    repeated Selection selections = 1;
+  }
+
+  // Metadata for the |TRACK_PIN_TOGGLED| event.
+  message TrackPinToggledMetadata {
+    // True if the track was pinned, false if it was unpinned.
+    optional bool is_pinned = 1;
+    // The type of the track or track group that was pinned or unpinned.
+    optional TrackKind track_kind = 2;
+    // True if the pinned item was a group, false if it was a track.
+    optional bool is_group = 3;
+  }
+
+  // Metadata for the |TRACK_GROUP_TOGGLED| event.
+  message TrackGroupToggledMetadata {
+    // True if the group was expanded, false if it was collapsed.
+    optional bool is_expanded = 1;
+    // The type of the track group that was expanded or collapsed.
+    optional TrackKind group_kind = 2;
+  }
+
+  // The type of track or track group.
+  enum TrackKind {
+    TRACK_KIND_UNKNOWN = 0;
+
+    // CPU Kinds
+    TRACK_KIND_CPU_SCHED = 1;
+    TRACK_KIND_CPU_FREQ = 2;
+    TRACK_KIND_CPU_UTIL = 3;
+    TRACK_KIND_CPU_UTIL_SUMMARY = 4;
+
+    // GPU Kinds
+    TRACK_KIND_GPU_MEMORY = 5;
+    TRACK_KIND_GPU_QUEUE = 6;
+    TRACK_KIND_GPU_COUNTER = 7;
+    TRACK_KIND_VULKAN_EVENT = 8;
+
+    // Process & Thread Kinds
+    TRACK_KIND_PROCESS_SUMMARY = 9;
+    TRACK_KIND_PROCESS_MEMORY = 10;
+    TRACK_KIND_PROCESS_COUNTER = 11;
+    TRACK_KIND_ASYNC_EVENT = 12;
+    TRACK_KIND_THREAD = 13;
+    TRACK_KIND_TIMELINE = 14;
+
+    // Generic/Other Kinds
+    TRACK_KIND_BATTERY = 15;
+    TRACK_KIND_POWER = 16;
   }
 }
 
