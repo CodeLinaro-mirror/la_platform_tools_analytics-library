@@ -9219,6 +9219,9 @@ message SherlockEvent {
   optional TrackGroupToggledMetadata track_group_toggled_metadata = 10
       [lazy = true];
 
+  // Set if |type| is |CAPTURE_EVENT|
+  optional CaptureEventMetadata capture_event_metadata = 11 [lazy = true];
+
   enum Type {
     UNKNOWN_TYPE = 0;
 
@@ -9236,6 +9239,10 @@ message SherlockEvent {
 
     // Fired when perfetto trace recording is completed.
     PERFETTO_TRACE_RECORDED = 204;
+
+    // Fired when something happens during a capture (trace recording, replay,
+    // benchmarking).
+    CAPTURE_EVENT = 205;
 
     // Fired when the user clicks to enable/disable custom perfetto config.
     NEW_CAPTURE_DIALOG_CUSTOM_PERFETTO_CONFIG_ENABLED = 211;
@@ -9556,6 +9563,55 @@ message SherlockEvent {
     // Generic/Other Kinds
     TRACK_KIND_BATTERY = 15;
     TRACK_KIND_POWER = 16;
+  }
+
+  // Metadata for the |CAPTURE_EVENT| event.
+  message CaptureEventMetadata {
+    // The type of capture event.
+    optional CaptureType capture_type = 1;
+
+    oneof result {
+      // The capture was attempted.
+      Attempt attempt = 2;
+      // The capture was successful.
+      Success success = 3;
+      // The capture failed.
+      Failure failure = 4;
+    }
+
+    enum CaptureType {
+      CAPTURE_TYPE_UNKNOWN = 0;
+      CAPTURE_TYPE_PERFETTO = 1;
+      CAPTURE_TYPE_GFXR = 2;
+    }
+
+    enum CaptureStage {
+      CAPTURE_STAGE_UNKNOWN = 0;
+      CAPTURE_STAGE_PREPARE = 1;
+      CAPTURE_STAGE_CAPTURE_IN_PROGRESS = 2;
+      CAPTURE_STAGE_PULL = 3;
+      CAPTURE_STAGE_CLEANUP = 4;
+    }
+
+    message Attempt {}
+
+    message Success {}
+
+    message Failure {
+      // The stage of the capture that the event failed at.
+      optional CaptureStage capture_stage = 1;
+
+      // The reason for the capture stage failure.
+      optional FailureReason failure_reason = 2;
+
+      // TODO: Add more failure reasons.
+      enum FailureReason {
+        CAPTURE_FAILURE_REASON_UNKNOWN = 0;
+        CAPTURE_FAILURE_REASON_CANCELLATION = 1;
+        CAPTURE_FAILURE_REASON_DEVICE_DISCONNECTED = 2;
+        CAPTURE_FAILURE_REASON_NO_RESULT_FOUND = 3;
+      }
+    }
   }
 }
 
