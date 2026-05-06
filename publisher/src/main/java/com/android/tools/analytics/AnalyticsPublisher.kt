@@ -211,7 +211,10 @@ abstract class AnalyticsPublisher protected constructor() : AutoCloseable {
     }
 
     private fun createAnonymousPublisher(level: AnalyticsLevel): AnalyticsPublisher {
-      return if (level == AnalyticsLevel.NONE || AnalyticsSettings.debugDisablePublishing) {
+      // Create an anonymous publisher if AnalyticsSettings.optedIn is true
+      // This is to support Sherlock while it is in the process of migrating to use AnalyticsStateManager
+      // TODO(b/438541344): Remove the AnalyticsSettings.optedIn condition
+      return if ((level == AnalyticsLevel.NONE || AnalyticsSettings.debugDisablePublishing) && !AnalyticsSettings.optedIn) {
         NullAnalyticsPublisher
       } else {
         val path = Paths.get(AnalyticsPaths.spoolDirectory)

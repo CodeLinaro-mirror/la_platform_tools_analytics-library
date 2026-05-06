@@ -81,7 +81,6 @@ class AnalyticsPublisherTest {
 
   private fun cleanEnvironment() {
     EnvironmentFakes.setSystemEnvironment()
-    AnalyticsPublisher.reset()
   }
 
   @Test
@@ -623,7 +622,6 @@ class AnalyticsPublisherTest {
     try {
       // Create helpers used to instantiate the publisher.
       val vs = VirtualTimeScheduler()
-      assertTrue(AnalyticsPublisher.anonymousInstance is NullAnalyticsPublisher)
 
       // update the publisher, first call will initialize.
       AnalyticsPublisher.updatePublisher(StdLogger(StdLogger.Level.ERROR), vs, "1.2.3.4")
