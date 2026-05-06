@@ -9595,7 +9595,12 @@ message SherlockEvent {
 
     message Attempt {}
 
-    message Success {}
+    message Success {
+      // The duration (in milliseconds) that it took to actually stop the trace
+      // after the user clicked the stop button. This is only populated for
+      // manual stops. See b/507460819 for context.
+      optional int32 time_to_stop_ms = 1;
+    }
 
     message Failure {
       // The stage of the capture that the event failed at.
