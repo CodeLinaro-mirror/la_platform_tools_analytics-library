@@ -17456,6 +17456,27 @@ message SmlChatBotEvent {
     }
   }
 
+  // Event related to banners displayed in the chat timeline.
+  message TimelineBannerEvent {
+    enum BannerType {
+      BANNER_TYPE_UNKNOWN = 0;
+      RESOURCE_EXHAUSTED_ERROR_BANNER = 1;
+    }
+
+    enum EventType {
+      UNKNOWN_EVENT = 0;
+      // The banner was shown.
+      SHOWN = 1;
+      // User dismissed the banner.
+      DISMISSED = 2;
+    }
+
+    // Metadata about a Bot conversation.
+    optional SmlResponseMetadata metadata = 1 [lazy = true];
+    optional BannerType banner_type = 2;
+    optional EventType event_type = 3;
+  }
+
   oneof content {
     BotResponse response = 1 [lazy = true];
     UserFeedback user_feedback = 2 [lazy = true];
@@ -17478,6 +17499,7 @@ message SmlChatBotEvent {
     ChangesDrawerEvent changes_drawer_event = 19 [lazy = true];
     ConversationActionInvoked conversation_action_invoked = 20 [lazy = true];
     PlanningModeEvent planning_mode_event = 21 [lazy = true];
+    TimelineBannerEvent timeline_banner_event = 22 [lazy = true];
   }
 }
 
