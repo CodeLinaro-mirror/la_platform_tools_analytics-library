@@ -15,8 +15,8 @@
  */
 package com.android.tools.analytics
 
-import com.android.tools.analytics.UsageTracker.initialize
 import com.google.common.annotations.VisibleForTesting
+import com.google.common.hash.Hashing
 import com.google.wireless.android.sdk.stats.AndroidStudioEvent
 import java.nio.file.Paths
 import java.util.UUID
@@ -24,6 +24,11 @@ import java.util.concurrent.ScheduledExecutorService
 import java.util.concurrent.TimeUnit
 import java.util.logging.Level
 import java.util.logging.Logger
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.asCoroutineDispatcher
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import org.jetbrains.annotations.TestOnly
 
 /**
@@ -33,10 +38,55 @@ import org.jetbrains.annotations.TestOnly
  * logs and sends them to Google's servers for analysis.
  */
 object UsageTracker {
+  private data class Writers(val anonymous: UsageTrackerWriter, val loggedIn: UsageTrackerWriter) : AutoCloseable {
+    override fun close() {
+      val operations: Array<() -> Unit> = arrayOf(anonymous::flush, anonymous::close, loggedIn::flush, loggedIn::close)
+
+      var exception: Exception? = null
+      try {
+        anonymous.flush()
+      } catch (e: Exception) {
+        exception = e
+      }
+
+      try {
+        anonymous.close()
+      } catch (e: Exception) {
+        exception = exception ?: e
+      }
+
+      try {
+        loggedIn.flush()
+      } catch (e: Exception) {
+        exception = exception ?: e
+      }
+
+      try {
+        loggedIn.close()
+      } catch (e: Exception) {
+        exception = exception ?: e
+      }
+
+      if (exception != null) {
+        throw RuntimeException("Unable to close usage tracker", exception)
+      }
+    }
+  }
+
+  enum class Mode {
+    // Logging will throw, indicating a bug in the calling code.
+    UNINITIALIZED,
+    // Logging will succeed.
+    INITIALIZED_ENABLED,
+    // Logging will be a no-op.
+    INITIALIZED_DISABLED,
+  }
+
   private val gate = Any()
   private val LOG = Logger.getLogger(UsageTracker.javaClass.name)
-  var initialized = false
-    private set
+  private var mode = Mode.UNINITIALIZED
+  val initialized
+    get() = mode != Mode.UNINITIALIZED
 
   private lateinit var scheduler: ScheduledExecutorService
 
@@ -74,6 +124,8 @@ object UsageTracker {
   var ideaIsInternal = false
   /** IDE brand specified for this UsageTracker. */
   @JvmStatic var ideBrand: AndroidStudioEvent.IdeBrand = AndroidStudioEvent.IdeBrand.UNKNOWN_IDE_BRAND
+
+  private var job: Job? = null
 
   /**
    * Gets the global writer to the provided tracker writer so tests can provide their own UsageTrackerWriter implementation. NOTE: Should
@@ -158,87 +210,21 @@ object UsageTracker {
       return anonymousWriter
       // @coverage:on
     }
-    synchronized(gate) {
-      val oldInstance = anonymousWriter
-      initializeAnonymousTrackerWriter(scheduler)
-      try {
-        oldInstance.close()
-      } catch (ex: Exception) {
-        throw RuntimeException("Unable to close usage tracker", ex)
-      }
-      initialized = true
-      return anonymousWriter
-    }
-  }
 
-  /**
-   * Compared with [initialize], this function avoids re-initialize [UsageTracker] when it is already initialized.
-   *
-   * Note this function should not be used by Studio because Studio needs to be able to re-initialize in the same process if the user
-   * changes the opt-in settings.
-   */
-  @JvmStatic
-  fun initializeIfNotPresent(scheduler: ScheduledExecutorService): UsageTrackerWriter {
-    synchronized(gate) {
-      if (initialized) {
-        return anonymousWriter
-      }
-      initializeAnonymousTrackerWriter(scheduler)
-      initialized = true
-      return anonymousWriter
-    }
-  }
+    modeChanged(Mode.INITIALIZED_ENABLED, scheduler)
 
-  @JvmStatic
-  fun initializeLoggedInWriter(spoolLocationId: String): UsageTrackerWriter {
-    return updateLoggedInWriter(LoggedInUsageTrackerWriter(scheduler, Paths.get(AnalyticsPaths.spoolDirectory, spoolLocationId)))
-  }
-
-  @JvmStatic
-  fun clearLoggedInWriter(): UsageTrackerWriter {
-    return updateLoggedInWriter(NullUsageTracker)
-  }
-
-  @JvmStatic
-  private fun updateLoggedInWriter(newWriter: UsageTrackerWriter): UsageTrackerWriter {
-    ensureInitialized()
-
-    var oldInstance: UsageTrackerWriter = NullUsageTracker
-    synchronized(gate) {
-      oldInstance = loggedInWriter
-      loggedInWriter = newWriter
-    }
-    try {
-      oldInstance.flush()
-      oldInstance.close()
-    } catch (ex: Exception) {
-      throw RuntimeException("Unable to close usage tracker", ex)
-    }
-    return oldInstance
+    return anonymousWriter
   }
 
   /** initializes or updates AnalyticsSettings into a disabled state. */
   @JvmStatic
   fun disable() {
-    deinitialize()
-    initialized = true
+    modeChanged(Mode.INITIALIZED_DISABLED)
   }
 
   @JvmStatic
   fun deinitialize() {
-    synchronized(gate) {
-      initialized = false
-      try {
-        // The writer may have pending events which will be dropped by close
-        // call flush() to write them before closing.
-        anonymousWriter.flush()
-        anonymousWriter.close()
-      } catch (ex: Exception) {
-        throw RuntimeException("Unable to close usage tracker", ex)
-      } finally {
-        anonymousWriter = NullUsageTracker
-      }
-    }
+    modeChanged(Mode.UNINITIALIZED)
   }
 
   /**
@@ -250,7 +236,7 @@ object UsageTracker {
   fun setWriterForTest(tracker: UsageTrackerWriter): UsageTrackerWriter {
     synchronized(gate) {
       isTesting = true
-      initialized = true
+      mode = Mode.INITIALIZED_ENABLED
       exceptionThrown = false
       val old = anonymousWriter
       anonymousWriter = tracker
@@ -264,21 +250,89 @@ object UsageTracker {
   fun cleanAfterTesting() {
     isTesting = false
     anonymousWriter = NullUsageTracker
-    initialized = false
+    mode = Mode.UNINITIALIZED
     exceptionThrown = false
   }
 
-  private fun initializeAnonymousTrackerWriter(scheduler: ScheduledExecutorService) {
-    this.scheduler = scheduler
-    if (AnalyticsSettings.optedIn) {
-      try {
-        anonymousWriter = AnonymousUsageTrackerWriter(scheduler, Paths.get(AnalyticsPaths.spoolDirectory))
-      } catch (ex: RuntimeException) {
-        anonymousWriter = NullUsageTracker
-        throw ex
-      }
+  @TestOnly
+  fun updateState() {
+    stateChanged(AnalyticsStateManager.analyticsStateFlow.value)
+  }
+
+  private fun stateChanged(state: AnalyticsState) {
+    if (state.level == AnalyticsLevel.LOGGED_IN) {
+      require(state.loggedInUser != null) { "A user is required to enable logged in metrics." }
+    }
+
+    val oldWriters: Writers
+
+    synchronized(gate) {
+      oldWriters = getWriters()
+      setWriters(state)
+    }
+
+    oldWriters.close()
+  }
+
+  private fun modeChanged(mode: Mode, scheduler: ScheduledExecutorService? = null) {
+    if (mode == Mode.INITIALIZED_ENABLED) {
+      require(scheduler != null) { "Initializing the usage tracker requires a scheduler." }
     } else {
-      anonymousWriter = NullUsageTracker
+      require(scheduler == null) { "A scheduler should only be provided during initialization." }
+    }
+
+    val oldWriters: Writers
+    var oldJob: Job? = null
+
+    synchronized(gate) {
+      oldJob = job
+      if (mode == Mode.INITIALIZED_ENABLED) {
+        this.scheduler = scheduler!!
+        val scope = CoroutineScope(this.scheduler.asCoroutineDispatcher())
+        job = AnalyticsStateManager.analyticsStateFlow.onEach { stateChanged(it) }.launchIn(scope)
+      } else {
+        job = null
+      }
+
+      this.mode = mode
+
+      oldWriters = getWriters()
+      setWriters(AnalyticsStateManager.analyticsStateFlow.value)
+    }
+
+    oldWriters.use { oldJob?.cancel() }
+  }
+
+  private fun getWriters(): Writers {
+    return Writers(anonymousWriter, loggedInWriter)
+  }
+
+  private fun setWriters(state: AnalyticsState) {
+    anonymousWriter = createAnonymousWriter(state.level)
+    loggedInWriter = createLoggedInWriter(state)
+  }
+
+  private fun createAnonymousWriter(level: AnalyticsLevel): UsageTrackerWriter {
+    // Create an anonymous writer if AnalyticsSettings.optedIn is true
+    // This is to support Sherlock while it is in the process of migrating to use AnalyticsStateManager
+    // TODO(b/438541344): Remove the AnalyticsSettings.optedIn condition
+    return if (mode == Mode.INITIALIZED_ENABLED && (level != AnalyticsLevel.NONE || AnalyticsSettings.optedIn)) {
+      AnonymousUsageTrackerWriter(scheduler, Paths.get(AnalyticsPaths.spoolDirectory))
+    } else {
+      NullUsageTracker
+    }
+  }
+
+  private fun createLoggedInWriter(state: AnalyticsState): UsageTrackerWriter {
+    val level = state.level
+
+    return if (mode == Mode.INITIALIZED_ENABLED && level == AnalyticsLevel.LOGGED_IN) {
+      val loggedInUser = state.loggedInUser!!
+      val spoolLocationId = Hashing.farmHashFingerprint64().hashUnencodedChars(loggedInUser.emailAddress.lowercase()).toString()
+      val path = Paths.get(AnalyticsPaths.spoolDirectory, spoolLocationId)
+      LoggedInUsageTrackerWriter(scheduler, path)
+    } else {
+      NullUsageTracker
     }
   }
 

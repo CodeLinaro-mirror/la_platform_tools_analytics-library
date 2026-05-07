@@ -81,7 +81,6 @@ class AnalyticsPublisherTest {
 
   private fun cleanEnvironment() {
     EnvironmentFakes.setSystemEnvironment()
-    AnalyticsPublisher.setAnonymousInstanceForTest(NullAnalyticsPublisher)
   }
 
   @Test
@@ -623,11 +622,10 @@ class AnalyticsPublisherTest {
     try {
       // Create helpers used to instantiate the publisher.
       val vs = VirtualTimeScheduler()
-      assertTrue(AnalyticsPublisher.instance is NullAnalyticsPublisher)
 
       // update the publisher, first call will initialize.
       AnalyticsPublisher.updatePublisher(StdLogger(StdLogger.Level.ERROR), vs, "1.2.3.4")
-      val afterFirstUpdate = AnalyticsPublisher.instance
+      val afterFirstUpdate = AnalyticsPublisher.anonymousInstance
       assertTrue(afterFirstUpdate is GoogleAnalyticsPublisher)
 
       // ensure a job is scheduled for the first publisher.
@@ -637,7 +635,7 @@ class AnalyticsPublisherTest {
       // update again, but now opt-ed out.
       AnalyticsSettings.optedIn = false
       AnalyticsPublisher.updatePublisher(StdLogger(StdLogger.Level.ERROR), vs, "1.2.3.4")
-      val afterSecondUpdate = AnalyticsPublisher.instance
+      val afterSecondUpdate = AnalyticsPublisher.anonymousInstance
       assertTrue(afterSecondUpdate is NullAnalyticsPublisher)
 
       // ensure job from first publisher has been canceled as part of update.

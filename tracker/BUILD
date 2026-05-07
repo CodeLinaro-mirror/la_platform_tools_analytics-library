@@ -53,6 +53,7 @@ maven_library(
         "@maven//:com.google.guava.guava",
         "@maven//:com.google.protobuf.protobuf-java",
         "@maven//:org.jetbrains.kotlin.kotlin-stdlib-jdk8",
+        "@maven//:org.jetbrains.kotlinx.kotlinx-coroutines-core",
     ],
 )
 

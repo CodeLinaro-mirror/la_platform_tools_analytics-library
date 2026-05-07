@@ -13,6 +13,7 @@ iml_module(
     test_deps = [
         "//tools/adt/idea/.idea/libraries:junit4",
         "//tools/adt/idea/.idea/libraries:truth",
+        "//tools/adt/idea/.idea/libraries:mockito",
         "//tools/base/testutils:studio.android.sdktools.testutils",
     ],
     test_srcs = ["src/test/java"],
@@ -76,5 +77,6 @@ kotlin_test(
         "@maven//:org.jetbrains.kotlin.kotlin-stdlib",
         "@maven//:org.jetbrains.kotlin.kotlin-stdlib-jdk7",
         "@maven//:org.jetbrains.kotlinx.kotlinx-coroutines-core",
+        "@maven//:org.mockito.mockito-core",
     ],
 )

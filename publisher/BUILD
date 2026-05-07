@@ -1,5 +1,4 @@
 load("//tools/base/bazel:bazel.bzl", "iml_module")
-load("//tools/base/bazel:kotlin.bzl", "kotlin_test")
 load("//tools/base/bazel:maven.bzl", "maven_library")
 load("//tools/base/common:version.bzl", "BASE_VERSION")
 
@@ -55,5 +54,6 @@ maven_library(
         "//tools/base/common:tools.common",
         "@maven//:com.google.guava.guava",
         "@maven//:com.google.protobuf.protobuf-java",
+        "@maven//:org.jetbrains.kotlinx.kotlinx-coroutines-core",
     ],
 )
