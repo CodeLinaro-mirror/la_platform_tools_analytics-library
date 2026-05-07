@@ -313,10 +313,7 @@ object UsageTracker {
   }
 
   private fun createAnonymousWriter(level: AnalyticsLevel): UsageTrackerWriter {
-    // Create an anonymous writer if AnalyticsSettings.optedIn is true
-    // This is to support Sherlock while it is in the process of migrating to use AnalyticsStateManager
-    // TODO(b/438541344): Remove the AnalyticsSettings.optedIn condition
-    return if (mode == Mode.INITIALIZED_ENABLED && (level != AnalyticsLevel.NONE || AnalyticsSettings.optedIn)) {
+    return if (mode == Mode.INITIALIZED_ENABLED && level != AnalyticsLevel.NONE) {
       AnonymousUsageTrackerWriter(scheduler, Paths.get(AnalyticsPaths.spoolDirectory))
     } else {
       NullUsageTracker

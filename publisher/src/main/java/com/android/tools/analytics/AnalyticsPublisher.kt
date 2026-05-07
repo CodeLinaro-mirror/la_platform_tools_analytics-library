@@ -124,36 +124,6 @@ abstract class AnalyticsPublisher protected constructor() : AutoCloseable {
       return anonymousInstance
     }
 
-    /**
-     * updatePublisher is only present to maintain backwards compatibility with Sherlock. All other clients should use initialize(...)
-     * instead.
-     *
-     * TODO(b/438541344): remove this once Sherlock has been updated
-     */
-    @JvmStatic
-    fun updatePublisher(logger: ILogger, scheduler: ScheduledExecutorService, applicationBuild: String) {
-      AnalyticsSettings.initialize(logger, scheduler)
-      val oldPublishers: Publishers
-
-      synchronized(gate) {
-        AnalyticsPublisher.logger = logger
-        AnalyticsPublisher.scheduler = scheduler
-        AnalyticsPublisher.applicationBuild = applicationBuild
-
-        val level =
-          if (AnalyticsSettings.optedIn && !AnalyticsSettings.debugDisablePublishing) {
-            AnalyticsLevel.ANONYMOUS
-          } else {
-            AnalyticsLevel.NONE
-          }
-
-        oldPublishers = getPublishers()
-        setPublishers(AnalyticsState(level, null))
-      }
-
-      oldPublishers.close()
-    }
-
     private fun stateChanged(state: AnalyticsState) {
       if (state.level == AnalyticsLevel.LOGGED_IN) {
         require(state.loggedInUser != null) { "A user is required to enable logged in metrics." }
@@ -184,23 +154,6 @@ abstract class AnalyticsPublisher protected constructor() : AutoCloseable {
       publishers.publish()
     }
 
-    @TestOnly
-    fun reset() {
-      val oldPublishers: Publishers
-      val oldJob: Job?
-
-      synchronized(gate) {
-        oldJob = job
-        job = null
-
-        oldPublishers = getPublishers()
-        stateChanged(AnalyticsState(AnalyticsLevel.NONE, null))
-      }
-
-      oldJob?.cancel()
-      oldPublishers.close()
-    }
-
     private fun getPublishers(): Publishers {
       return Publishers(anonymousInstance, loggedInInstance)
     }
@@ -211,10 +164,7 @@ abstract class AnalyticsPublisher protected constructor() : AutoCloseable {
     }
 
     private fun createAnonymousPublisher(level: AnalyticsLevel): AnalyticsPublisher {
-      // Create an anonymous publisher if AnalyticsSettings.optedIn is true
-      // This is to support Sherlock while it is in the process of migrating to use AnalyticsStateManager
-      // TODO(b/438541344): Remove the AnalyticsSettings.optedIn condition
-      return if ((level == AnalyticsLevel.NONE || AnalyticsSettings.debugDisablePublishing) && !AnalyticsSettings.optedIn) {
+      return if (level == AnalyticsLevel.NONE || AnalyticsSettings.debugDisablePublishing) {
         NullAnalyticsPublisher
       } else {
         val path = Paths.get(AnalyticsPaths.spoolDirectory)
