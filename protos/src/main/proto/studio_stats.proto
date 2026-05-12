@@ -9517,6 +9517,7 @@ message SherlockEvent {
       SELECTION_KIND_MEMORY = 9;
       SELECTION_KIND_BATTERY = 10;
       SELECTION_KIND_PROCESS_MEMORY = 11;
+      SELECTION_KIND_JANK_CUJ = 12;
     }
 
     repeated Selection selections = 1;
