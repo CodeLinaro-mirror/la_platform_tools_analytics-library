@@ -9518,6 +9518,7 @@ message SherlockEvent {
       SELECTION_KIND_BATTERY = 10;
       SELECTION_KIND_PROCESS_MEMORY = 11;
       SELECTION_KIND_JANK_CUJ = 12;
+      SELECTION_KIND_APP_STARTUP = 13;
     }
 
     repeated Selection selections = 1;
