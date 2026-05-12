@@ -363,7 +363,7 @@ internal constructor(
   }
 
   /** Updates the server used to publish analytics to. */
-  fun setServerUrl(serverUrl: URL): GoogleAnalyticsPublisher {
+  override fun setServerUrl(serverUrl: URL): GoogleAnalyticsPublisher {
     synchronized(gate) { this.serverUrl = serverUrl }
     return this
   }
