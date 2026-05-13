@@ -905,6 +905,9 @@ message AndroidStudioEvent {
   // set when kind = SHERLOCK_EVENT
   optional SherlockEvent sherlock_event = 253 [lazy = true];
 
+  // set when kind = MCP_ENABLEMENT_EVENT
+  optional McpEnablementEvent mcp_enablement_event = 254 [lazy = true];
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -1938,6 +1941,9 @@ message AndroidStudioEvent {
 
     // Sherlock event.
     SHERLOCK_EVENT = 377;
+
+    // Mcp enablement event.
+    MCP_ENABLEMENT_EVENT = 378;
   }
 
   // Represents different Performance Monitoring types.
@@ -13288,6 +13294,14 @@ message VsPluginEvent {
       EXECUTE_COMMAND = 14;
     }
   }
+}
+
+// Metrics on which (MCPs) are enabled or disabled by users in the IDE.
+message McpEnablementEvent {
+  // The name of the MCP being enabled or disabled.
+  optional string mcp_name = 1;
+  // Whether the MCP is being enabled or disabled.
+  optional bool enabled = 2;
 }
 
 message RenderToolEvent {
