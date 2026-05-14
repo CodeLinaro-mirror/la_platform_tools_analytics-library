@@ -46,9 +46,9 @@ class AnalyticsPublisherTest {
   @Before
   fun before() {
     val analyticsSettings = AnalyticsSettingsData()
-    analyticsSettings.optedIn = true
     analyticsSettings.userId = "f59e9566-2416-42a9-a159-b91fa484e4d7"
     AnalyticsSettings.setInstanceForTest(analyticsSettings)
+    AnalyticsStateManager.dataSharing = true
   }
 
   @Test
@@ -616,7 +616,7 @@ class AnalyticsPublisherTest {
   }
 
   @Test
-  fun testUpdatePublisher() {
+  fun testInitializePublisher() {
     // Configure the paths to use a temp directory for reading from and writing to.
     EnvironmentFakes.setCustomAndroidPrefsRootEnvironment(testConfigDir.root.toPath().toString())
     try {
@@ -624,22 +624,21 @@ class AnalyticsPublisherTest {
       val vs = VirtualTimeScheduler()
 
       // update the publisher, first call will initialize.
-      AnalyticsPublisher.updatePublisher(StdLogger(StdLogger.Level.ERROR), vs, "1.2.3.4")
+      AnalyticsPublisher.initialize(StdLogger(StdLogger.Level.ERROR), vs, "1.2.3.4")
       val afterFirstUpdate = AnalyticsPublisher.anonymousInstance
       assertTrue(afterFirstUpdate is GoogleAnalyticsPublisher)
 
       // ensure a job is scheduled for the first publisher.
-      val job = vs.queue.peek()
-      assertNotNull(job)
+      assertTrue(afterFirstUpdate.isScheduled())
 
       // update again, but now opt-ed out.
-      AnalyticsSettings.optedIn = false
-      AnalyticsPublisher.updatePublisher(StdLogger(StdLogger.Level.ERROR), vs, "1.2.3.4")
+      AnalyticsStateManager.dataSharing = false
+      AnalyticsPublisher.initialize(StdLogger(StdLogger.Level.ERROR), vs, "1.2.3.4")
       val afterSecondUpdate = AnalyticsPublisher.anonymousInstance
       assertTrue(afterSecondUpdate is NullAnalyticsPublisher)
 
       // ensure job from first publisher has been canceled as part of update.
-      assertTrue(job.isCancelled)
+      assertFalse(afterFirstUpdate.isScheduled())
     } finally {
       cleanEnvironment()
     }

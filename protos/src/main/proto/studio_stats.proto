@@ -7652,7 +7652,7 @@ message AppLinksAssistantEvent {
       [lazy = true];
 
   // UI event source.
-  // Next ID: 67
+  // Next ID: 71
   // Note: Not a properly sequentially incrementing ID (200 & 201 are used)
   enum EventSource {
     // Will be deprecated and replaced by NEW_LINK_CREATION_SIDE_PANEL.
@@ -7672,6 +7672,9 @@ message AppLinksAssistantEvent {
     CODE_INSERT_DIALOG = 9;
     CODE_INSERT_DIALOG_INSERT_BUTTON = 10;
     CODE_INSERT_DIALOG_LIST_SELECTION = 11;
+    CODE_INSERT_DIALOG_V2 = 67;
+    CODE_INSERT_DIALOG_INSERT_BUTTON_V2 = 68;
+    CODE_INSERT_DIALOG_LIST_SELECTION_V2 = 69;
 
     // UI elements of DAL generation panel.
     DAL_PANEL = 12;
@@ -7689,6 +7692,7 @@ message AppLinksAssistantEvent {
 
     // The new link creation panel.
     NEW_LINK_CREATION_SIDE_PANEL = 20;
+    NEW_LINK_CREATION_SIDE_PANEL_V2 = 70;
 
     // The main page of the new App Links Assistant.
     OVERVIEW_TABLE = 22;
@@ -9595,7 +9599,12 @@ message SherlockEvent {
 
     message Attempt {}
 
-    message Success {}
+    message Success {
+      // The duration (in milliseconds) that it took to actually stop the trace
+      // after the user clicked the stop button. This is only populated for
+      // manual stops. See b/507460819 for context.
+      optional int32 time_to_stop_ms = 1;
+    }
 
     message Failure {
       // The stage of the capture that the event failed at.
@@ -17451,6 +17460,27 @@ message SmlChatBotEvent {
     }
   }
 
+  // Event related to banners displayed in the chat timeline.
+  message TimelineBannerEvent {
+    enum BannerType {
+      BANNER_TYPE_UNKNOWN = 0;
+      RESOURCE_EXHAUSTED_ERROR_BANNER = 1;
+    }
+
+    enum EventType {
+      UNKNOWN_EVENT = 0;
+      // The banner was shown.
+      SHOWN = 1;
+      // User dismissed the banner.
+      DISMISSED = 2;
+    }
+
+    // Metadata about a Bot conversation.
+    optional SmlResponseMetadata metadata = 1 [lazy = true];
+    optional BannerType banner_type = 2;
+    optional EventType event_type = 3;
+  }
+
   oneof content {
     BotResponse response = 1 [lazy = true];
     UserFeedback user_feedback = 2 [lazy = true];
@@ -17473,6 +17503,7 @@ message SmlChatBotEvent {
     ChangesDrawerEvent changes_drawer_event = 19 [lazy = true];
     ConversationActionInvoked conversation_action_invoked = 20 [lazy = true];
     PlanningModeEvent planning_mode_event = 21 [lazy = true];
+    TimelineBannerEvent timeline_banner_event = 22 [lazy = true];
   }
 }
 

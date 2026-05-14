@@ -19,20 +19,13 @@ import com.google.common.truth.Truth
 import java.util.concurrent.Executors
 import org.junit.After
 import org.junit.Before
-import org.junit.Rule
 import org.junit.Test
-import org.junit.rules.TemporaryFolder
 
 class UsageTrackerInitializationTest {
-  private val analyticsSettingsData = AnalyticsSettingsData()
   private val scheduledExecutorService = Executors.newScheduledThreadPool(1)
-  @get:Rule val temporaryFolder = TemporaryFolder()
 
   @Before
   fun setUp() {
-    analyticsSettingsData.optedIn = false
-    AnalyticsSettings.setInstanceForTest(analyticsSettingsData)
-    AnalyticsPaths.overrideAndroidSettingsHomeDirectory(temporaryFolder.newFolder().absolutePath)
     AnalyticsStateManager.dataSharing = false
     AnalyticsStateManager.emailConsent = false
     AnalyticsStateManager.loggedInUser = null
@@ -40,9 +33,8 @@ class UsageTrackerInitializationTest {
   }
 
   @After
-  fun restoreAndroidSettingsHomeDirectory() {
+  fun cleanUp() {
     UsageTracker.cleanAfterTesting()
-    AnalyticsPaths.restoreAndroidSettingsHomeDirectory()
   }
 
   @Test
