@@ -18567,14 +18567,28 @@ message AdbServerStatus {
 }
 
 message AndroidCliInvocation {
-  // Note that we only log the command and sub-command name, and not the entire
-  // command line to avoid logging user data.
-  optional string command_name = 1;
-  optional string sub_command_name = 2;
-  repeated string global_flags = 3;
-  repeated string flags = 4;
+  // Deprecated. Subsumed by "args" field.
+  optional string command_name = 1 [deprecated = true];
+  // Deprecated. Subsumed by "args" field.
+  optional string sub_command_name = 2 [deprecated = true];
+  // Deprecated. Subsumed by "args" field.
+  repeated string global_flags = 3 [deprecated = true];
+  // Deprecated. Subsumed by "args" field.
+  repeated string flags = 4 [deprecated = true];
+
   // The name of the agent invoking android-cli
   optional Agent agent_name = 5;
+
+  message Arg {
+    optional string flag = 1;
+    // Non-user-generated values only.
+    optional string value = 2;
+  }
+
+  // The commands and arguments passed to android-cli. Flags names
+  // (with "--"" prefix) are Arg.flag. Positional arguments, commands, and flag
+  // values are Arg.value. User-generated values are redacted.
+  repeated Arg args = 6;
 
   enum Agent {
     UNKNOWN = 0;
