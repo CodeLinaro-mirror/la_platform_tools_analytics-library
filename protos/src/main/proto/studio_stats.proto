@@ -905,6 +905,12 @@ message AndroidStudioEvent {
   // set when kind = SHERLOCK_EVENT
   optional SherlockEvent sherlock_event = 253 [lazy = true];
 
+  // set when kind = MCP_ENABLEMENT_EVENT
+  optional McpEnablementEvent mcp_enablement_event = 254 [lazy = true];
+
+  // set when kind = GEMINI_TELEMETRY_EVENT
+  optional GeminiTelemetryEvent gemini_telemetry_event = 255 [lazy = true];
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -1938,6 +1944,12 @@ message AndroidStudioEvent {
 
     // Sherlock event.
     SHERLOCK_EVENT = 377;
+
+    // Mcp enablement event.
+    MCP_ENABLEMENT_EVENT = 378;
+
+    // Gemini telemetry event.
+    GEMINI_TELEMETRY_EVENT = 379;
   }
 
   // Represents different Performance Monitoring types.
@@ -9517,6 +9529,8 @@ message SherlockEvent {
       SELECTION_KIND_MEMORY = 9;
       SELECTION_KIND_BATTERY = 10;
       SELECTION_KIND_PROCESS_MEMORY = 11;
+      SELECTION_KIND_JANK_CUJ = 12;
+      SELECTION_KIND_APP_STARTUP = 13;
     }
 
     repeated Selection selections = 1;
@@ -13286,6 +13300,14 @@ message VsPluginEvent {
       EXECUTE_COMMAND = 14;
     }
   }
+}
+
+// Metrics on which (MCPs) are enabled or disabled by users in the IDE.
+message McpEnablementEvent {
+  // The name of the MCP being enabled or disabled.
+  optional string mcp_name = 1;
+  // Whether the MCP is being enabled or disabled.
+  optional bool enabled = 2;
 }
 
 message RenderToolEvent {
@@ -17507,6 +17529,184 @@ message SmlChatBotEvent {
   }
 }
 
+message GeminiTelemetryEvent {
+  // The envelope holds metadata about the event, such as the model ID,
+  // provider Id, etc.,
+  optional EventEnvelope envelope = 1;
+
+  oneof domain {
+    // Server call events, such as requests, responses, etc.
+    ServerEvent server_event = 2;
+    // UI events holding user interactions, notifications, etc.
+    UiEvent ui_event = 3;
+    // Events related to the agent, such as tool calls etc.
+    AgentEvent agent_event = 4;
+  }
+
+  message EventEnvelope {
+    // Trajectory id of the event.
+    optional string trajectory_id = 1;
+    // Subagents fill this, empty for top-level trajectories
+    optional string parent_trajectory_id = 2;
+    // root trajectory_id for this trajectory. Same as conversation_id.
+    optional string root_trajectory_id = 3;
+    // true if visible in chat history
+    optional bool is_chat_thread = 4;
+
+    // Server request/response cycle identifier.
+    optional string request_id = 5;
+    // Backend trace identifier
+    optional string server_trace_id = 6;
+
+    // Provider ID of the model used for this event.
+    optional string model_provider_id = 7;
+    // Model ID of the model used for this event.
+    optional string model_id = 8;
+    // Whether the model is the default model.
+    optional bool is_default_model = 9;
+  }
+
+  message ServerEvent {}
+
+  message UiEvent {}
+
+  message AgentEvent {
+    // A single, comprehensive log for the entire tool lifecycle
+    optional ToolExecutionSpan tool_execution_span = 1;
+
+    message ToolExecutionSpan {
+      // Tool Identity
+      optional string tool_name = 1;
+      optional string tool_call_id = 2;
+
+      // Timing Metrics
+      // Timestamp when the tool execution started.
+      optional int64 start_timestamp_ms = 3;
+      // computation time
+      optional int64 active_ms = 4;
+      // Calculates the time from when the model requested the tool until it
+      // finished. Includes waiting for user input if any.
+      optional int64 total_ms = 5;
+
+      // Execution status of the tool call infrastructure.
+      // Tracks the lifecycle of the execution (e.g. if it crashed or was
+      // cancelled) rather than the semantic result of the tool itself.
+      optional ExecutionStatus execution_status = 6;
+
+      // Semantic outcome of the tool call.
+      // While ExecutionStatus tracks if the tool ran, ResponseStatus tracks
+      // the logical result (e.g. "file not found" or "build success").
+      optional ResponseStatus response_status = 7;
+
+      // Tool-Specific Metadata
+      oneof tool_specific_metadata {
+        // Data for a find declaration tool call.
+        FindDeclarationToolCallData find_declaration_tool_call_data = 8;
+      }
+
+      message FindDeclarationToolCallData {
+        // The exception the find_declaration tool encountered.
+        optional string exception = 1;
+        // The number of files in the find_declaration.
+        optional int32 result_count = 2;
+      }
+
+      // Execution status of the tool call infrastructure.
+      // Tracks the lifecycle of the execution (e.g. if it crashed or was
+      // cancelled) rather than the semantic result of the tool itself.
+      enum ExecutionStatus {
+        // Status is unknown or not set.
+        UNKNOWN_STATUS = 0;
+        // The tool infrastructure completed the execution successfully.
+        SUCCESS = 1;
+        // The execution was interrupted (e.g. by user cancellation or timeout).
+        INTERRUPTED = 2;
+        // The tool infrastructure encountered an internal error or crash.
+        INTERNAL_ERROR = 3;
+      }
+
+      // Semantic outcome of the tool call.
+      // While ExecutionStatus tracks if the tool ran, ResponseStatus tracks
+      // the logical result (e.g. "file not found" or "build success").
+      enum ResponseStatus {
+        // Status is unknown or not set.
+        UNKNOWN_RESPONSE_STATUS = 0;
+        // The tool call was successfully executed. Prefer more specific status
+        // where possible.
+        OK = 1;
+        // A generic error occurred during tool execution. Prefer more specific
+        // errors where possible.
+        ERROR_OCCURRED = 2;
+        // The target file was not found.
+        ERR_FILE_NOT_FOUND = 3;
+        // The target file was not accessible due to permissions or locks.
+        ERR_FILE_INACCESSIBLE = 4;
+        // The target file is not part of the current project.
+        ERR_FILE_NOT_IN_PROJECT = 5;
+        // The operation was blocked by AI exclusion rules (e.g. .aiexclude).
+        ERR_FILE_BLOCKED_BY_AI_EXCLUDE = 6;
+        // Encountered an unexpected IOException when executing the tool call.
+        ERR_IO_EXCEPTION = 7;
+        // The replacement tool could not find any matches for the provided
+        // pattern.
+        ERR_REPLACE_TEXT_NO_OCCURRENCES_FOUND_TO_REPLACE = 8;
+        // The user rejected the tool's proposed action or change.
+        ERR_USER_REJECTED_PROPOSAL = 9;
+        // The build process finished successfully.
+        BUILD_FINISHED_SUCCESSFULLY = 10;
+        // The build process finished but the output contained errors.
+        BUILD_FINISHED_WITH_ERRORS = 11;
+        // The build process failed to finish (e.g. "Build failed" in output).
+        BUILD_FAILED = 12;
+        // The build was interrupted before completion.
+        BUILD_INTERRUPTED = 13;
+        // The Gradle tool could not find any modules in the project.
+        GRADLE_ERR_NO_MODULES = 14;
+        // The Gradle tool could not run because the project is not an Android
+        // project.
+        GRADLE_ERR_NOT_ANDROID = 15;
+        // The specified Gradle module was not found.
+        GRADLE_ERR_MODULE_NOT_FOUND = 16;
+        // The specified build artifact was not found.
+        GRADLE_ERR_ARTIFACT_NOT_FOUND = 17;
+        // The specified build variant was not found.
+        GRADLE_ERR_VARIANT_NOT_FOUND = 18;
+        // The artifact provided was of a different type than expected by the
+        // tool.
+        GRADLE_ERR_WRONG_ARTIFACT = 19;
+        // Required data for the Gradle operation was missing from the project
+        // state.
+        GRADLE_ERR_MISSING_DATA = 20;
+        // The requested build task was not found.
+        BUILD_TASK_NOT_FOUND = 21;
+        // A successful response from a sub-agent call. The result is
+        // embedded in the response.
+        SUB_AGENT_RESULT = 22;
+        // The sub-agent terminated without providing a valid response.
+        SUB_AGENT_ENDED_WITHOUT_RESPONSE = 23;
+        // The arguments provided to the tool call were invalid or malformed.
+        ERR_INVALID_ARGUMENTS = 24;
+        // The URL provided to the tool call was invalid.
+        ERR_INVALID_URL = 25;
+        // The file was blocked by AI exclude via a gitignore file.
+        ERR_FILE_BLOCKED_BY_GIT_IGNORE = 26;
+        // The file critic timed out during analysis returning null as output.
+        ERR_FILE_CRITIC_TIMED_OUT = 27;
+        // The file is a directory.
+        ERR_FILE_IS_DIRECTORY = 28;
+        // Invalid line range to read file from.
+        ERR_INVALID_LINE_RANGE = 29;
+        // The file was modified by someone else since it was last read.
+        ERR_FILE_MODIFIED_BY_SOMEONE_ELSE = 30;
+        // The tool call was malformatted or invalid.
+        MALFORMATTED_TOOL_CALL = 31;
+        // The tool execution was interrupted. Used by the shell command tool.
+        TOOL_EXECUTION_INTERRUPTED = 32;
+      }
+    }
+  }
+}
+
 message SmlConfigurationEvent {
   // Whether SML features are available to this user.
   optional bool sml_available = 1;
@@ -18367,14 +18567,28 @@ message AdbServerStatus {
 }
 
 message AndroidCliInvocation {
-  // Note that we only log the command and sub-command name, and not the entire
-  // command line to avoid logging user data.
-  optional string command_name = 1;
-  optional string sub_command_name = 2;
-  repeated string global_flags = 3;
-  repeated string flags = 4;
+  // Deprecated. Subsumed by "args" field.
+  optional string command_name = 1 [deprecated = true];
+  // Deprecated. Subsumed by "args" field.
+  optional string sub_command_name = 2 [deprecated = true];
+  // Deprecated. Subsumed by "args" field.
+  repeated string global_flags = 3 [deprecated = true];
+  // Deprecated. Subsumed by "args" field.
+  repeated string flags = 4 [deprecated = true];
+
   // The name of the agent invoking android-cli
   optional Agent agent_name = 5;
+
+  message Arg {
+    optional string flag = 1;
+    // Non-user-generated values only.
+    optional string value = 2;
+  }
+
+  // The commands and arguments passed to android-cli. Flags names
+  // (with "--"" prefix) are Arg.flag. Positional arguments, commands, and flag
+  // values are Arg.value. User-generated values are redacted.
+  repeated Arg args = 6;
 
   enum Agent {
     UNKNOWN = 0;

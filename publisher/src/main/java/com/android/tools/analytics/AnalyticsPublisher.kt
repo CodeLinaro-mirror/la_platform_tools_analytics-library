@@ -72,6 +72,9 @@ abstract class AnalyticsPublisher protected constructor() : AutoCloseable {
     publishInterval = unit.toNanos(interval)
   }
 
+  /** Updates the server used to publish analytics to. No-op by default. */
+  open fun setServerUrl(serverUrl: java.net.URL): AnalyticsPublisher = this
+
   /**
    * Immediately scans the spool directory and uploads any queued analytics to Google's servers. Blocks until the upload attempt completes.
    * Used by the `upload-metrics` subcommand to perform a synchronous flush rather than waiting for the next scheduled publishing window.
