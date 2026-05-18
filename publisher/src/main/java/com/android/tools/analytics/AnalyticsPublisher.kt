@@ -90,6 +90,7 @@ abstract class AnalyticsPublisher protected constructor() : AutoCloseable {
     private lateinit var applicationBuild: String
     private lateinit var scheduler: ScheduledExecutorService
     private lateinit var logger: ILogger
+    private var hasAnonymousPublisher = false
 
     private val gate = Any()
     private var job: Job? = null
@@ -114,8 +115,7 @@ abstract class AnalyticsPublisher protected constructor() : AutoCloseable {
 
         // setPublishers is called so that the instances are set by the time initialize returns.
         // This is required by some callers such as Lint.
-        oldPublishers = getPublishers()
-        setPublishers(AnalyticsStateManager.analyticsStateFlow.value)
+        oldPublishers = updatePublishers(AnalyticsStateManager.analyticsStateFlow.value)
 
         oldJob = job
         val scope = CoroutineScope(scheduler.asCoroutineDispatcher())
@@ -134,10 +134,7 @@ abstract class AnalyticsPublisher protected constructor() : AutoCloseable {
 
       val oldPublishers: Publishers
 
-      synchronized(gate) {
-        oldPublishers = getPublishers()
-        setPublishers(state)
-      }
+      synchronized(gate) { oldPublishers = updatePublishers(state) }
 
       oldPublishers.close()
     }
@@ -152,40 +149,63 @@ abstract class AnalyticsPublisher protected constructor() : AutoCloseable {
     fun publish() {
       val publishers: Publishers
 
-      synchronized(gate) { publishers = getPublishers() }
+      synchronized(gate) { publishers = Publishers(anonymousInstance, loggedInInstance) }
 
       publishers.publish()
     }
 
-    private fun getPublishers(): Publishers {
-      return Publishers(anonymousInstance, loggedInInstance)
-    }
-
-    private fun setPublishers(state: AnalyticsState) {
-      anonymousInstance = createAnonymousPublisher(state.level)
-      loggedInInstance = createLoggedInPublisher(state)
-    }
-
-    private fun createAnonymousPublisher(level: AnalyticsLevel): AnalyticsPublisher {
-      return if (level == AnalyticsLevel.NONE || AnalyticsSettings.debugDisablePublishing) {
-        NullAnalyticsPublisher
-      } else {
-        val path = Paths.get(AnalyticsPaths.spoolDirectory)
-        AnonymousAnalyticsPublisher(scheduler, path, applicationBuild)
+    private fun updatePublishers(state: AnalyticsState): Publishers {
+      if (state.level == AnalyticsLevel.LOGGED_IN) {
+        require(state.loggedInUser != null) { "A user is required to enable logged in metrics." }
       }
+
+      val shouldCreate = shouldCreateAnonymousPublisher(state.level)
+
+      val oldAnonymousPublisher =
+        if (shouldCreate && hasAnonymousPublisher) {
+          // optimization to prevent unnecessary creation
+          NullAnalyticsPublisher
+        } else {
+          anonymousInstance
+        }
+
+      if (shouldCreate && !hasAnonymousPublisher) {
+        anonymousInstance = createAnonymousPublisher()
+      } else if (!shouldCreate) {
+        anonymousInstance = NullAnalyticsPublisher
+      }
+
+      hasAnonymousPublisher = shouldCreate
+
+      val oldLoggedInWriter = loggedInInstance
+      val user = state.loggedInUser
+      loggedInInstance =
+        if (user != null && shouldCreateLoggedInPublisher(state.level)) {
+          createLoggedInPublisher(user)
+        } else {
+          NullAnalyticsPublisher
+        }
+
+      return Publishers(oldAnonymousPublisher, oldLoggedInWriter)
     }
 
-    private fun createLoggedInPublisher(state: AnalyticsState): AnalyticsPublisher {
-      val level = state.level
-      val loggedInUser = state.loggedInUser
+    private fun shouldCreateAnonymousPublisher(level: AnalyticsLevel): Boolean {
+      return level != AnalyticsLevel.NONE && !AnalyticsSettings.debugDisablePublishing
+    }
 
-      return if (level == AnalyticsLevel.LOGGED_IN && loggedInUser != null && !AnalyticsSettings.debugDisablePublishing) {
-        val spoolLocationId = Hashing.farmHashFingerprint64().hashUnencodedChars(loggedInUser.emailAddress.lowercase()).toString()
-        val path = Paths.get(AnalyticsPaths.spoolDirectory, spoolLocationId)
-        LoggedInAnalyticsPublisher(scheduler, path, applicationBuild, loggedInUser.callback)
-      } else {
-        NullAnalyticsPublisher
-      }
+    private fun shouldCreateLoggedInPublisher(level: AnalyticsLevel): Boolean {
+      return level == AnalyticsLevel.LOGGED_IN && !AnalyticsSettings.debugDisablePublishing
+    }
+
+    private fun createAnonymousPublisher(): AnalyticsPublisher {
+      val path = Paths.get(AnalyticsPaths.spoolDirectory)
+      return AnonymousAnalyticsPublisher(scheduler, path, applicationBuild)
+    }
+
+    private fun createLoggedInPublisher(user: LoggedInUser): AnalyticsPublisher {
+      val spoolLocationId = Hashing.farmHashFingerprint64().hashUnencodedChars(user.emailAddress.lowercase()).toString()
+      val path = Paths.get(AnalyticsPaths.spoolDirectory, spoolLocationId)
+      return LoggedInAnalyticsPublisher(scheduler, path, applicationBuild, user.callback)
     }
   }
 }
