@@ -40,8 +40,6 @@ import org.jetbrains.annotations.TestOnly
 object UsageTracker {
   private data class Writers(val anonymous: UsageTrackerWriter, val loggedIn: UsageTrackerWriter) : AutoCloseable {
     override fun close() {
-      val operations: Array<() -> Unit> = arrayOf(anonymous::flush, anonymous::close, loggedIn::flush, loggedIn::close)
-
       var exception: Exception? = null
       try {
         anonymous.flush()
@@ -84,6 +82,7 @@ object UsageTracker {
 
   private val gate = Any()
   private val LOG = Logger.getLogger(UsageTracker.javaClass.name)
+  private var hasAnonymousWriter = false
   private var mode = Mode.UNINITIALIZED
   val initialized
     get() = mode != Mode.UNINITIALIZED
@@ -260,16 +259,9 @@ object UsageTracker {
   }
 
   private fun stateChanged(state: AnalyticsState) {
-    if (state.level == AnalyticsLevel.LOGGED_IN) {
-      require(state.loggedInUser != null) { "A user is required to enable logged in metrics." }
-    }
-
     val oldWriters: Writers
 
-    synchronized(gate) {
-      oldWriters = getWriters()
-      setWriters(state)
-    }
+    synchronized(gate) { oldWriters = updateWriters((AnalyticsStateManager.analyticsStateFlow.value)) }
 
     oldWriters.close()
   }
@@ -295,42 +287,63 @@ object UsageTracker {
       }
 
       this.mode = mode
-
-      oldWriters = getWriters()
-      setWriters(AnalyticsStateManager.analyticsStateFlow.value)
+      oldWriters = updateWriters((AnalyticsStateManager.analyticsStateFlow.value))
     }
 
     oldWriters.use { oldJob?.cancel() }
   }
 
-  private fun getWriters(): Writers {
-    return Writers(anonymousWriter, loggedInWriter)
-  }
-
-  private fun setWriters(state: AnalyticsState) {
-    anonymousWriter = createAnonymousWriter(state.level)
-    loggedInWriter = createLoggedInWriter(state)
-  }
-
-  private fun createAnonymousWriter(level: AnalyticsLevel): UsageTrackerWriter {
-    return if (mode == Mode.INITIALIZED_ENABLED && level != AnalyticsLevel.NONE) {
-      AnonymousUsageTrackerWriter(scheduler, Paths.get(AnalyticsPaths.spoolDirectory))
-    } else {
-      NullUsageTracker
+  private fun updateWriters(state: AnalyticsState): Writers {
+    if (state.level == AnalyticsLevel.LOGGED_IN) {
+      require(state.loggedInUser != null) { "A user is required to enable logged in metrics." }
     }
+
+    val shouldCreate = shouldCreateAnonymousWriter(state.level)
+
+    val oldAnonymousWriter =
+      if (shouldCreate && hasAnonymousWriter) {
+        // optimization to prevent unnecessary creation
+        NullUsageTracker
+      } else {
+        anonymousWriter
+      }
+
+    if (shouldCreate && !hasAnonymousWriter) {
+      anonymousWriter = createAnonymousWriter()
+    } else if (!shouldCreate) {
+      anonymousWriter = NullUsageTracker
+    }
+
+    hasAnonymousWriter = shouldCreate
+
+    val oldLoggedInWriter = loggedInWriter
+    val user = state.loggedInUser
+    loggedInWriter =
+      if (user != null && shouldCreateLoggedWriter(state.level)) {
+        createLoggedInWriter(user)
+      } else {
+        NullUsageTracker
+      }
+
+    return Writers(oldAnonymousWriter, oldLoggedInWriter)
   }
 
-  private fun createLoggedInWriter(state: AnalyticsState): UsageTrackerWriter {
-    val level = state.level
+  private fun shouldCreateAnonymousWriter(level: AnalyticsLevel): Boolean {
+    return mode == Mode.INITIALIZED_ENABLED && level != AnalyticsLevel.NONE
+  }
 
-    return if (mode == Mode.INITIALIZED_ENABLED && level == AnalyticsLevel.LOGGED_IN) {
-      val loggedInUser = state.loggedInUser!!
-      val spoolLocationId = Hashing.farmHashFingerprint64().hashUnencodedChars(loggedInUser.emailAddress.lowercase()).toString()
-      val path = Paths.get(AnalyticsPaths.spoolDirectory, spoolLocationId)
-      LoggedInUsageTrackerWriter(scheduler, path)
-    } else {
-      NullUsageTracker
-    }
+  private fun shouldCreateLoggedWriter(level: AnalyticsLevel): Boolean {
+    return mode == Mode.INITIALIZED_ENABLED && level == AnalyticsLevel.LOGGED_IN
+  }
+
+  private fun createAnonymousWriter(): UsageTrackerWriter {
+    return AnonymousUsageTrackerWriter(scheduler, Paths.get(AnalyticsPaths.spoolDirectory))
+  }
+
+  private fun createLoggedInWriter(user: LoggedInUser): UsageTrackerWriter {
+    val spoolLocationId = Hashing.farmHashFingerprint64().hashUnencodedChars(user.emailAddress.lowercase()).toString()
+    val path = Paths.get(AnalyticsPaths.spoolDirectory, spoolLocationId)
+    return LoggedInUsageTrackerWriter(scheduler, path)
   }
 
   var listener: (event: AndroidStudioEvent.Builder) -> Unit = {}
