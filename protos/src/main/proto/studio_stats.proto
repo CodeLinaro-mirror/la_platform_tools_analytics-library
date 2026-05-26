@@ -17817,6 +17817,13 @@ message SmlRagEvent {
     optional string exclude_pattern = 7;
   }
 
+  message SearchResponse {
+    // The number of characters in the final response.
+    optional int32 response_length = 1;
+    // The number of characters in the search results before path deduplication.
+    optional int32 raw_result_length = 2;
+  }
+
   message RagIndexerMetrics {
     // The type of indexer like "bm25" or "embeddings" and its version.
     optional string indexer_type = 1;
@@ -17849,6 +17856,8 @@ message SmlRagEvent {
     // The number of docs (a doc is a file in the current RAG indexer) that are
     // indexed.
     optional int32 total_indexed_docs = 6;
+    // The search response.
+    optional SearchResponse response = 7;
   }
 
   message FindDeclarationMetrics {
@@ -17860,6 +17869,8 @@ message SmlRagEvent {
     optional int64 find_declaration_time_ms = 3;
     // The search arguments used for find_declaration.
     optional SearchArguments search_arguments = 4;
+    // The search response.
+    optional SearchResponse response = 5;
   }
 
   // We merged the original find_files with file path search based on BM25.
@@ -17879,6 +17890,8 @@ message SmlRagEvent {
     // The number of docs (a doc is a file in the current RAG indexer) that are
     // indexed.
     optional int32 total_indexed_docs = 5;
+    // The search response.
+    optional SearchResponse response = 6;
   }
 
   message FindUsagesMetrics {
@@ -17890,6 +17903,8 @@ message SmlRagEvent {
     optional int64 find_usages_time_ms = 3;
     // The search arguments used for find_usages.
     optional SearchArguments search_arguments = 4;
+    // The search response.
+    optional SearchResponse response = 5;
   }
 
   message GrepMetrics {
@@ -17906,6 +17921,8 @@ message SmlRagEvent {
     optional int32 total_indexed_docs = 5;
     // The search arguments used for grep.
     optional SearchArguments search_arguments = 6;
+    // The search response.
+    optional SearchResponse response = 7;
   }
 
   message KbRagIndexerMetrics {
