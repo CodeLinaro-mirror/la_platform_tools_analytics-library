@@ -911,6 +911,9 @@ message AndroidStudioEvent {
   // set when kind = GEMINI_TELEMETRY_EVENT
   optional GeminiTelemetryEvent gemini_telemetry_event = 255 [lazy = true];
 
+  // set when kind = PLAY_PUBLISHING_EVENT
+  optional PlayPublishingEvent play_publishing_event = 256 [lazy = true];
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -1950,6 +1953,9 @@ message AndroidStudioEvent {
 
     // Gemini telemetry event.
     GEMINI_TELEMETRY_EVENT = 379;
+
+    // Play publishing event.
+    PLAY_PUBLISHING_EVENT = 380;
   }
 
   // Represents different Performance Monitoring types.
@@ -20081,4 +20087,107 @@ message EmulatorWindowsHypervisorMigrationEvent {
   }
 
   optional Action action = 1;
+}
+
+// Metrics for Play Publishing
+message PlayPublishingEvent {
+  enum PlayPublishingEventType {
+    UNKNOWN_EVENT = 0;
+    // Events related to showing the Play Publishing wizard.
+    WIZARD_SHOWN = 1;
+    // Events related to choosing a bundle to upload.
+    CHOOSE_BUNDLE = 2;
+    // Events related to creating an app record on Google Play.
+    CREATE_APP = 3;
+    // Events related to creating a release on Google Play.
+    CREATE_RELEASE = 4;
+  }
+
+  message WizardShownDetails {
+    enum WizardInvocationSource {
+      UNKNOWN_INVOCATION_SOURCE = 0;
+      // The wizard was invoked from the Export Signed Package wizard.
+      EXPORT_SIGNED_PACKAGE_WIZARD = 1;
+      // The wizard was invoked from the Build menu.
+      BUILD_MENU = 2;
+    }
+    optional WizardInvocationSource invocation_source = 1;
+  }
+
+  message ChooseBundleDetails {
+    // Whether the package name is registered on Google Play.
+    optional bool package_registered = 1;
+    // Whether the app name was read from the bundle.
+    optional bool app_name_read = 2;
+    // Whether the package name was read from the bundle.
+    optional bool package_name_read = 3;
+    // Whether the version code was read from the bundle.
+    optional bool version_code_read = 4;
+    // Whether the version name was read from the bundle.
+    optional bool version_name_read = 5;
+  }
+
+  message CreateAppDetails {
+    enum CreateAppResult {
+      UNKNOWN_CREATE_APP_RESULT = 0;
+      // App creation succeeded.
+      SUCCESS = 1;
+      // The package name is not available.
+      FAILED_PACKAGE_NAME_NOT_AVAILABLE = 2;
+      // No developer accounts were found.
+      FAILED_NO_DEVELOPER_ACCOUNTS = 3;
+      // Failed to list developer accounts.
+      FAILED_LIST_DEVELOPER_ACCOUNTS_FAILED = 4;
+    }
+
+    // Result of the app creation attempt.
+    optional CreateAppResult create_app_result = 1;
+  }
+
+  message CreateReleaseDetails {
+    enum CreateReleaseResult {
+      UNKNOWN_CREATE_RELEASE_RESULT = 0;
+      // Release creation succeeded.
+      SUCCESS = 1;
+      // Failed to list tracks.
+      FAILED_TO_LIST_TRACKS = 2;
+      // Bundle with version code already uploaded.
+      FAILED_VERSION_CODE_ALREADY_EXISTS = 3;
+      // Failed to upload the bundle.
+      FAILED_TO_UPLOAD_BUNDLE = 4;
+      // Release is not allowed on the track.
+      FAILED_RELEASE_NOT_ALLOWED_ON_TRACK = 5;
+    }
+
+    enum TrackType {
+      UNKNOWN_TRACK_TYPE = 0;
+      // The release was created for the internal track.
+      INTERNAL_TESTING = 1;
+      // The release was created for the alpha track.
+      ALPHA = 2;
+      // The release was created for the beta track.
+      BETA = 3;
+      // The release was created for the production track.
+      PRODUCTION = 4;
+      // The release was created for a custom track.
+      CUSTOM = 5;
+    }
+
+    // Result of the release creation attempt.
+    optional CreateReleaseResult create_release_result = 1;
+    // The track type of the release.
+    optional TrackType track_type = 2;
+    // Time to upload the bundle in milliseconds.
+    optional int32 time_to_upload_bundle_ms = 3;
+  }
+
+  optional PlayPublishingEventType event_type = 1;
+  // set when event_type is WIZARD_SHOWN.
+  optional WizardShownDetails wizard_shown_details = 2 [lazy = true];
+  // set when event_type is CHOOSE_BUNDLE.
+  optional ChooseBundleDetails choose_bundle_details = 3 [lazy = true];
+  // set when event_type is CREATE_APP.
+  optional CreateAppDetails create_app_details = 4 [lazy = true];
+  // set when event_type is CREATE_RELEASE.
+  optional CreateReleaseDetails create_release_details = 5 [lazy = true];
 }
