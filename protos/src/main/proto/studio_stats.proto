@@ -243,6 +243,9 @@ message AndroidStudioEvent {
   optional WhatsNewAssistantEvent whats_new_assistant_event = 60
       [deprecated = true, lazy = true];
 
+  // set when kind = ROLLBACK_TOOL_CALL_EVENT
+  optional RollbackToolCallEvent rollback_tool_call_event = 257 [lazy = true];
+
   // the project id as used in the playstore, e.g.
   // 'com.google.android.apps.maps'. This is sensitive information and
   // thus restricted to "raw" sawmill access. This data is only available in
@@ -1956,6 +1959,9 @@ message AndroidStudioEvent {
 
     // Play publishing event.
     PLAY_PUBLISHING_EVENT = 380;
+
+    // Rollback tool call event.
+    ROLLBACK_TOOL_CALL_EVENT = 381;
   }
 
   // Represents different Performance Monitoring types.
@@ -13314,6 +13320,29 @@ message McpEnablementEvent {
   optional string mcp_name = 1;
   // Whether the MCP is being enabled or disabled.
   optional bool enabled = 2;
+}
+
+// Telemetry data for monitoring the success, cancellation, or failure rates of
+// toolcall rollbacks in the agent-assisted chat system.
+message RollbackToolCallEvent {
+  // The result of the rollback operation.
+  enum RollbackOutcome {
+    UNKNOWN_OUTCOME = 0;
+    SUCCESS = 1;
+    CANCELLED = 2;  // User clicked 'No' on confirmation
+    FAILED = 3;     // Error occurred
+  }
+  // Specific failure reason if outcome is FAILED.
+  enum FailureReason {
+    UNKNOWN_FAILURE_REASON = 0;
+    LABEL_NOT_FOUND = 1;  // Label was pruned or not found in history
+    REFLECTION_ERROR =
+        2;  // Reflection call failed (e.g., internal API changed)
+  }
+  // The outcome of the event.
+  optional RollbackOutcome outcome = 1;
+  // Specific failure reason if outcome is FAILED.
+  optional FailureReason failure_reason = 3;
 }
 
 message RenderToolEvent {
