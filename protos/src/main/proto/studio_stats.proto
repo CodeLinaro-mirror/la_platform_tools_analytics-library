@@ -17942,6 +17942,87 @@ message SmlRagEvent {
     optional bool index_downloaded_docs = 3;
   }
 
+  message LuceneIndexMetrics {
+    message UpdateStats {
+      // The number of update operations that have been applied to the index
+      // since the last flush.
+      optional int32 update_count = 1;
+      // The amount of CPU time, in milliseconds, that all update operations
+      // spent waiting to begin execution since the last flush.
+      optional int64 index_queue_time_ms = 2;
+      // The amount of CPU time, in milliseconds, that all update operations
+      // spent executing since the last flush.
+      optional int64 index_write_time_ms = 3;
+    }
+
+    // The type of the active RAG indexer (see RagIndexerMetrics)
+    optional string indexer_type = 1;
+    // Whether the RAG indexer that owns this index is the active RAG indexer.
+    optional bool is_active = 2;
+    // Stats for all changes applied to the index since the last flush.
+    optional UpdateStats overall_stats = 3;
+    // The amount of wall time, in milliseconds, that the current flush
+    // operation spent waiting for pending writes to finish.
+    optional int64 index_flush_time_ms = 4;
+    // The amount of wall time, in milliseconds, that the current flush
+    // operation spent waiting for Lucene to commit the index to disk.
+    optional int64 index_commit_time_ms = 5;
+    // Stats for the update operations that have been applied to the index since
+    // the last flush, broken down by the IntelliJ file type. Key is the unique
+    // name of the file type, as reported by FileType#getName.
+    map<string, UpdateStats> stats_by_file_type = 6;
+    // Stats for the update operations that have been applied to the index since
+    // the last flush, broken down by the base language. Key is the unique ID of
+    // the language, as reported by Language#getId. Since languages can have
+    // dialects and base languages, the total count in this map may differ from
+    // the total count in overall_stats.
+    map<string, UpdateStats> stats_by_language = 7;
+    // The total number of documents in the index, across all projects.
+    optional int32 index_document_count = 8;
+    // The total size of the index on disk, across all projects.
+    optional int64 index_size_bytes = 9;
+  }
+
+  message IntellijScanMetrics {
+    // The type of the active RAG indexer (see RagIndexerMetrics)
+    optional string indexer_type = 1;
+    // The number of files scanned in this scan pass.
+    optional int32 files_scanned = 2;
+    // The amount of CPU time, in milliseconds, to perform the full scan pass.
+    // Includes vfs_iteration_time, file_status_check_time, and overhead.
+    optional int64 total_scan_time_ms = 3;
+    // The amount of CPU time, in milliseconds, to iterate the VFS during
+    // scanning.
+    optional int64 vfs_iteration_time_ms = 4;
+    // The amount of CPU time, in milliseconds, to check the statuses of files
+    // during indexing. Slowdowns in index filters will appear here.
+    optional int64 file_status_check_time_ms = 5;
+    // The amount of wall time, in milliseconds, that the scanning pass spent in
+    // dumb mode.
+    optional int64 dumb_mode_time_ms = 6;
+    // The amount of wall time, in milliseconds, that the scanning pass spent
+    // paused.
+    optional int64 paused_time_ms = 7;
+  }
+
+  message IntellijIndexMetrics {
+    // The type of the RAG indexer that owns this index (see RagIndexerMetrics)
+    optional string indexer_type = 1;
+    // The number of files indexed by the RAG indexer in this index pass.
+    optional int32 files_indexed = 2;
+    // The total number of bytes indexed by the RAG indexer in this index pass.
+    optional int64 bytes_indexed = 3;
+    // The amount of CPU time, in milliseconds, that the RAG indexer spent
+    // generating updated index values during this index pass.
+    optional int64 index_evaluation_time_ms = 4;
+    // The amount of wall time, in milliseconds, that the indexing pass spent in
+    // dumb mode.
+    optional int64 dumb_mode_time_ms = 5;
+    // The amount of wall time, in milliseconds, that the indexing pass spent
+    // paused.
+    optional int64 paused_time_ms = 6;
+  }
+
   oneof content {
     RagIndexerMetrics rag_index = 1 [lazy = true];
     RagToolMetrics rag_tool = 2 [lazy = true];
@@ -17950,6 +18031,9 @@ message SmlRagEvent {
     KbRagIndexerMetrics kb_rag = 5 [lazy = true];
     FindDeclarationMetrics find_declaration = 6 [lazy = true];
     FindUsagesMetrics find_usages = 7 [lazy = true];
+    LuceneIndexMetrics lucene_metrics = 8 [lazy = true];
+    IntellijScanMetrics intellij_scan = 9 [lazy = true];
+    IntellijIndexMetrics intellij_index = 10 [lazy = true];
   }
 }
 
