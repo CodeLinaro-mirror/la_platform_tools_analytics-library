@@ -3495,7 +3495,8 @@ message EmulatorFeatureFlagState {
     QEMU_CAMERA_SENSOR_ORIENTATION = 138;
     VULKAN_PROTECTED_MEMORY_EMULATION = 139;
     XR_DIMMING = 140;
-    // Next tag: 141
+    XR_HAND_AND_EYE_POINTERS = 141;
+    // Next tag: 142
   }
   // Which features were enabled by default or through the server-side config.
   repeated EmulatorFeatureFlag attempted_enabled_feature_flags = 1;
