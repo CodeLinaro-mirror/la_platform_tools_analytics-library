@@ -56,6 +56,33 @@ class UsageTrackerInitializationTest {
   }
 
   @Test
+  fun testMultipleInitializations() {
+    AnalyticsStateManager.dataSharing = false
+    UsageTracker.initialize(scheduledExecutorService)
+
+    UsageTracker.assertDoesNotHaveAnonymousWriter()
+    UsageTracker.assertDoesNotHaveLoggedInWriter()
+
+    AnalyticsStateManager.dataSharing = true
+    UsageTracker.initialize(scheduledExecutorService)
+
+    UsageTracker.assertHasAnonymousWriter()
+    UsageTracker.assertDoesNotHaveLoggedInWriter()
+
+    AnalyticsStateManager.dataSharing = true
+    UsageTracker.initialize(scheduledExecutorService)
+
+    UsageTracker.assertHasAnonymousWriter()
+    UsageTracker.assertDoesNotHaveLoggedInWriter()
+
+    AnalyticsStateManager.dataSharing = false
+    UsageTracker.initialize(scheduledExecutorService)
+
+    UsageTracker.assertDoesNotHaveAnonymousWriter()
+    UsageTracker.assertDoesNotHaveLoggedInWriter()
+  }
+
+  @Test
   fun testLoggedInWriter() {
     AnalyticsStateManager.dataSharing = true
     UsageTracker.initialize(scheduledExecutorService)

@@ -279,6 +279,7 @@ object UsageTracker {
     synchronized(gate) {
       oldJob = job
       if (mode == Mode.INITIALIZED_ENABLED) {
+        this.hasAnonymousWriter = false // force create new anonymous writer
         this.scheduler = scheduler!!
         val scope = CoroutineScope(this.scheduler.asCoroutineDispatcher())
         job = AnalyticsStateManager.analyticsStateFlow.onEach { stateChanged(it) }.launchIn(scope)

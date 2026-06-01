@@ -109,6 +109,7 @@ abstract class AnalyticsPublisher protected constructor() : AutoCloseable {
       var oldJob: Job? = null
 
       synchronized(gate) {
+        this.hasAnonymousPublisher = false // force create new anonymous publisher
         AnalyticsPublisher.logger = logger
         AnalyticsPublisher.scheduler = scheduler
         AnalyticsPublisher.applicationBuild = applicationBuild
