@@ -20285,6 +20285,14 @@ message PlayPublishingEvent {
       FAILED_TO_UPLOAD_BUNDLE = 4;
       // Release is not allowed on the track.
       FAILED_RELEASE_NOT_ALLOWED_ON_TRACK = 5;
+      // Bundle was signed with the wrong key.
+      FAILED_BUNDLE_SIGNED_WITH_WRONG_KEY = 6;
+      // User cancelled the upload.
+      FAILED_USER_CANCELLED = 7;
+      // Failed to create the release.
+      FAILED_TO_CREATE_RELEASE = 8;
+      // Failed to commit the release.
+      FAILED_TO_COMMIT_RELEASE = 9;
     }
 
     enum TrackType {
