@@ -450,6 +450,7 @@ enum GradleTaskExecutionType {
     ANDROID_TEST_DISCOVERY = 363;
     PROCESS_TEST_MANIFEST_PACKAGING = 364;
     MERGE_COMPRESSED_JAVA_RES = 365;
+    R8_ANALYSIS = 366;
 }
 
 enum BooleanOption {
@@ -825,6 +826,8 @@ enum VariantApiArtifactType {
     LINT_TEXT_REPORT = 27;
     LINT_XML_REPORT = 28;
     TEST_SUITE_RESULT_FILE = 29;
+    R8_REPORT_HTML = 30;
+    R8_REPORT_PB = 31;
 }
 
 enum VariantMethodType {
