@@ -17593,6 +17593,14 @@ message GeminiTelemetryEvent {
     AgentEvent agent_event = 4;
   }
 
+  // The envelope holds metadata about the event and information to link related
+  // events together.
+  // For ServerEvents, the request_id field in the EventEnvelope ties
+  // together the request and response events.
+  // For all events, the root_trajectory_id in the EventEnvelope
+  // ties together events belonging to the same conversation.
+  // For all events, the trajectory_id in the EventEnvelope ties together
+  // events belonging to the same agent (or sub-agent) interaction.
   message EventEnvelope {
     // Trajectory id of the event.
     optional string trajectory_id = 1;
@@ -17603,9 +17611,9 @@ message GeminiTelemetryEvent {
     // true if visible in chat history
     optional bool is_chat_thread = 4;
 
-    // Server request/response cycle identifier.
+    // Server request/response cycle identifier, used with ServerEvents.
     optional string request_id = 5;
-    // Backend trace identifier
+    // Backend trace identifier, used with ServerEvents.
     optional string server_trace_id = 6;
 
     // Provider ID of the model used for this event.
@@ -17616,7 +17624,104 @@ message GeminiTelemetryEvent {
     optional bool is_default_model = 9;
   }
 
-  message ServerEvent {}
+  message ServerEvent {
+    optional RequestEvent request_event = 1;
+    optional ResponseEvent response_event = 2;
+
+    // Captures metrics for a Request in a step.
+    message RequestEvent {
+      // Number of messages in the history, including the user message and
+      // system instructions.
+      optional int32 history_message_count = 1;
+      // The character length of the system instructions.
+      optional int32 system_instruction_length_chars = 2;
+      // The total request size in bytes, accounting
+      // for the system prompt, tool definitions (including schemas), and the
+      // full message history (text, thought blocks, and multimodal content).
+      optional int64 request_size_bytes = 3;
+    }
+
+    // Captures metrics for a Response in a step.
+    message ResponseEvent {
+      // Network & Lifecycle
+      // HTTP status code of the response.
+      optional int32 http_status_code = 1;
+      // Latency from the start of the request to the moment it finishes
+      // receiving the very last streamed chunk of the response.
+      optional int64 latency_ms = 2;
+      // Latency from the start of the request to reading the first streamed
+      // chunk of the response.
+      optional int64 ttfc_ms = 3;  // Time to first streamed chunk
+      // Size of the response in bytes.
+      optional int64 response_size_bytes = 4;
+
+      // Token Usage
+      // The number of tokens in the prompt.
+      optional int32 input_token_count = 5;
+      // Number of output tokens generated in the response.
+      optional int32 output_token_count = 6;
+      //  The number of tokens successfully read from the cache.
+      optional int32 cache_read_token_count = 7;
+
+      // Model Information
+      // The actual model ID that generated the response. This may be different
+      // from the model ID requested by the user (e.g., if the user requested a
+      // specific version of a model).
+      optional string actual_model_id = 8;
+
+      // List from https://ai.google.dev/api/generate-content#FinishReason
+      // Represents the semantic reason of why the model stopped generating
+      // content.
+      enum FinishReason {
+        FINISH_REASON_UNSPECIFIED = 0;
+        STOP = 1;
+        MAX_TOKENS = 2;
+        SAFETY = 3;
+        RECITATION = 4;
+        MISSING_THOUGHT_SIGNATURE = 5;
+        LANGUAGE = 6;
+        OTHER = 7;
+        BLOCKLIST = 8;
+        PROHIBITED_CONTENT = 9;
+        SPII = 10;
+        MALFORMED_FUNCTION_CALL = 11;
+        IMAGE_SAFETY = 12;
+        IMAGE_PROHIBITED_CONTENT = 13;
+        IMAGE_OTHER = 14;
+        NO_IMAGE = 15;
+        IMAGE_RECITATION = 16;
+        UNEXPECTED_TOOL_CALL = 17;
+        TOO_MANY_TOOL_CALLS = 18;
+        MALFORMED_RESPONSE = 19;
+      }
+      optional FinishReason finish_reason = 9;
+
+      // Status of the model API call.
+      enum ModelApiStatus {
+        MODEL_API_STATUS_UNSPECIFIED = 0;
+        MODEL_API_STATUS_OK = 1;
+        MODEL_API_STATUS_CANCELLED = 2;
+        MODEL_API_STATUS_UNKNOWN = 3;
+        MODEL_API_STATUS_INVALID_ARGUMENT = 4;
+        MODEL_API_STATUS_DEADLINE_EXCEEDED = 5;
+        MODEL_API_STATUS_NOT_FOUND = 6;
+        MODEL_API_STATUS_ALREADY_EXISTS = 7;
+        MODEL_API_STATUS_PERMISSION_DENIED = 8;
+        MODEL_API_STATUS_UNAUTHENTICATED = 9;
+        MODEL_API_STATUS_RESOURCE_EXHAUSTED = 10;
+        MODEL_API_STATUS_CLIENT_SIDE_RATE_LIMIT = 11;
+        MODEL_API_STATUS_FAILED_PRECONDITION = 12;
+        MODEL_API_STATUS_ABORTED = 13;
+        MODEL_API_STATUS_OUT_OF_RANGE = 14;
+        MODEL_API_STATUS_UNIMPLEMENTED = 15;
+        MODEL_API_STATUS_INTERNAL = 16;
+        MODEL_API_STATUS_UNAVAILABLE = 17;
+        MODEL_API_STATUS_DATA_LOSS = 18;
+        MODEL_API_STATUS_MALFORMED_FUNCTION_CALL = 19;
+      }
+      optional ModelApiStatus status = 10;
+    }
+  }
 
   message UiEvent {}
 
@@ -17647,19 +17752,6 @@ message GeminiTelemetryEvent {
       // While ExecutionStatus tracks if the tool ran, ResponseStatus tracks
       // the logical result (e.g. "file not found" or "build success").
       optional ResponseStatus response_status = 7;
-
-      // Tool-Specific Metadata
-      oneof tool_specific_metadata {
-        // Data for a find declaration tool call.
-        FindDeclarationToolCallData find_declaration_tool_call_data = 8;
-      }
-
-      message FindDeclarationToolCallData {
-        // The exception the find_declaration tool encountered.
-        optional string exception = 1;
-        // The number of files in the find_declaration.
-        optional int32 result_count = 2;
-      }
 
       // Execution status of the tool call infrastructure.
       // Tracks the lifecycle of the execution (e.g. if it crashed or was
@@ -17752,6 +17844,19 @@ message GeminiTelemetryEvent {
         MALFORMATTED_TOOL_CALL = 31;
         // The tool execution was interrupted. Used by the shell command tool.
         TOOL_EXECUTION_INTERRUPTED = 32;
+      }
+
+      // Tool-Specific Metadata
+      oneof tool_specific_metadata {
+        // Data for a find declaration tool call.
+        FindDeclarationToolCallData find_declaration_tool_call_data = 8;
+      }
+
+      message FindDeclarationToolCallData {
+        // The exception the find_declaration tool encountered.
+        optional string exception = 1;
+        // The number of files in the find_declaration.
+        optional int32 result_count = 2;
       }
     }
   }
