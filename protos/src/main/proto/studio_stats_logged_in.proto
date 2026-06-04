@@ -450,4 +450,22 @@ message NextEditPredictionEventLoggedIn {
 message SkillsEventLoggedIn {
   // Common metadata for all skills events.
   optional SmlResponseMetadataLoggedIn metadata = 1 [lazy = true];
+
+  oneof event {
+    Activation activation = 2 [lazy = true];
+  }
+
+  // Details about the skill activated by the agent.
+  message Activation {
+    optional SkillType type = 1;
+  }
+
+  // The type of skill.
+  enum SkillType {
+    UNKNOWN = 0;
+    // Curated skills from DAC.
+    PRE_BUILT = 1;
+    // Local project skills directory.
+    USER_DEFINED = 2;
+  }
 }
