@@ -17723,7 +17723,12 @@ message GeminiTelemetryEvent {
     }
   }
 
-  message UiEvent {}
+  message UiEvent {
+    message ChangesDrawerEvent {
+      optional SmlChatBotEvent.ChangeResolved change_resolved = 1;
+    }
+    optional ChangesDrawerEvent changes_drawer_event = 1;
+  }
 
   message AgentEvent {
     // A single, comprehensive log for the entire tool lifecycle
