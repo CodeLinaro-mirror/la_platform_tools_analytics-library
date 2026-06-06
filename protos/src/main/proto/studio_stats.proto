@@ -17853,8 +17853,41 @@ message GeminiTelemetryEvent {
 
       // Tool-Specific Metadata
       oneof tool_specific_metadata {
-        // Data for a find declaration tool call.
+        // Data for a find_declaration tool call.
         FindDeclarationToolCallData find_declaration_tool_call_data = 8;
+        // Data for a find_files tool call.
+        FindFilesToolCallData find_files_tool_call_data = 9;
+        // Data for a find_usages tool call.
+        FindUsagesToolCallData find_usages_tool_call_data = 10;
+        // Data for a grep tool call.
+        GrepToolCallData grep_tool_call_data = 11;
+        // Data for a code_search tool call.
+        RagToolCallData rag_tool_call_data = 12;
+      }
+
+      message SearchArguments {
+        // Number of lines to show after the match (like grep -A).
+        optional int32 lines_after = 1;
+        // Number of lines to show before the match (like grep -B).
+        optional int32 lines_before = 2;
+        // Number of lines to show around the match (like grep -C).
+        optional int32 lines_context = 3;
+        // Pattern to filter results (like grep -E).
+        optional string filter = 4;
+        // Type to search, e.g., "all" kinds, function "call", etc.
+        optional string type = 5;
+        // Glob-like patterns to filter in results.
+        optional string include_pattern = 6;
+        // Glob-like patterns to filter out results.
+        optional string exclude_pattern = 7;
+      }
+
+      message SearchResponse {
+        // The number of characters in the final response.
+        optional int32 response_length = 1;
+        // The number of characters in the search results before path
+        // deduplication.
+        optional int32 raw_result_length = 2;
       }
 
       message FindDeclarationToolCallData {
@@ -17862,6 +17895,73 @@ message GeminiTelemetryEvent {
         optional string exception = 1;
         // The number of files in the find_declaration.
         optional int32 result_count = 2;
+        // The search arguments used for find_declaration.
+        optional SearchArguments search_arguments = 3;
+        // The search response.
+        optional SearchResponse response = 4;
+      }
+
+      message FindFilesToolCallData {
+        // Comma separated exceptions from the find_files tool call.
+        // We will use "IndexerInactive" to indicate the indexer is not active.
+        optional string exception = 1;
+        // The number of files in the combined file search result.
+        optional int32 combined_result_count = 2;
+        // The number of files in the bm25 file search result.
+        optional int32 bm25_search_count = 3;
+        // The number of files in the original find_files search result.
+        optional int32 found_files_count = 4;
+        // The number of docs (a doc is a file in the current RAG indexer) that
+        // are indexed.
+        optional int32 total_indexed_docs = 5;
+        // The search response.
+        optional SearchResponse response = 6;
+      }
+
+      message FindUsagesToolCallData {
+        // The exception the find_usages tool encountered.
+        optional string exception = 1;
+        // The number of files in the find_usages.
+        optional int32 result_count = 2;
+        // The search arguments used for find_usages.
+        optional SearchArguments search_arguments = 3;
+        // The search response.
+        optional SearchResponse response = 4;
+      }
+
+      message GrepToolCallData {
+        // The number of files in the grep result.
+        optional int32 result_count = 1;
+        // Whether the query contains any regex of ".*+?^$|(){}" or not.
+        optional bool regex_query = 2;
+        // The number of files in the grep BM25 backend result.
+        optional int32 bm25_result_count = 3;
+        // The number of files in the original grep backend result.
+        optional int32 grep_result_count = 4;
+        // The number of docs (a doc is a file in the current RAG indexer) that
+        // are indexed.
+        optional int32 total_indexed_docs = 5;
+        // The search arguments used for grep.
+        optional SearchArguments search_arguments = 6;
+        // The search response.
+        optional SearchResponse response = 7;
+      }
+
+      message RagToolCallData {
+        // The exception the code_search encountered.
+        // We will use "IndexerInactive" to indicate the indexer is not active.
+        optional string exception = 1;
+        // The number of files in code_search.
+        optional int32 result_count = 2;
+        // The number of resource files code_search returned.
+        optional int32 resource_count = 3;
+        // The number of files from out/ and builds/ that code_search returned.
+        optional int32 generated_files = 4;
+        // The number of docs (a doc is a file in the current RAG indexer) that
+        // are indexed.
+        optional int32 total_indexed_docs = 5;
+        // The search response.
+        optional SearchResponse response = 6;
       }
     }
   }
