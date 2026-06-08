@@ -917,6 +917,9 @@ message AndroidStudioEvent {
   // set when kind = PLAY_PUBLISHING_EVENT
   optional PlayPublishingEvent play_publishing_event = 256 [lazy = true];
 
+  // set when kind = CHANGE_REVIEW_EVENT
+  optional ChangeReviewEvent change_review_event = 258 [lazy = true];
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -1962,6 +1965,9 @@ message AndroidStudioEvent {
 
     // Rollback tool call event.
     ROLLBACK_TOOL_CALL_EVENT = 381;
+
+    // Change review event.
+    CHANGE_REVIEW_EVENT = 382;
   }
 
   // Represents different Performance Monitoring types.
@@ -20536,4 +20542,57 @@ message PlayPublishingEvent {
   optional CreateAppDetails create_app_details = 4 [lazy = true];
   // set when event_type is CREATE_RELEASE.
   optional CreateReleaseDetails create_release_details = 5 [lazy = true];
+}
+
+// Telemetry event for the Change Review feature.
+message ChangeReviewEvent {
+  // The entry point in the UI from which the Change Review was invoked.
+  enum EntryPoint {
+    UNKNOWN_ENTRY_POINT = 0;
+    PENDING_CHANGES = 1;
+    COMMIT_HISTORY = 2;
+    AGENT_DRAWER = 3;
+    // The session was restored from a previously saved state.
+    RESTORED = 4;
+  }
+
+  // The final outcome status of the Change Review generation session.
+  enum Status {
+    UNKNOWN_STATUS = 0;
+    COMPLETED = 1;
+    FAILED = 2;
+    CANCELLED = 3;
+  }
+
+  // Telemetry data for a single Change Review generation session.
+  message Session {
+    optional string session_id = 1;
+    optional EntryPoint entry_point = 2;
+    optional string model_id = 3;
+    optional Status status = 4;
+    optional int64 total_duration_ms = 5;
+    optional int64 analysis_duration_ms = 6;
+    optional int64 summary_duration_ms = 7;
+    optional int64 themes_duration_ms = 8;
+    optional int64 theme_details_duration_ms = 9;
+    optional int32 num_files = 10;
+    optional int32 num_chunks = 11;
+    optional int32 num_suggestions_generated = 12;
+    optional string failure_reason = 13;
+  }
+
+  message FixBatch {
+    optional string session_id = 1;
+    optional int32 num_suggestions_selected = 2;
+    optional int32 num_suggestions_successful = 3;
+    optional int32 num_suggestions_failed = 4;
+    optional int64 total_duration_ms = 5;
+  }
+
+  oneof event {
+    // Logged when a change review generation session ends.
+    Session session = 1;
+    // Logged when a batch of suggested fixes is applied.
+    FixBatch fix_batch = 2;
+  }
 }
