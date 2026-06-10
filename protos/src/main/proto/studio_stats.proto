@@ -3336,6 +3336,7 @@ message EmulatorAvdInfo {
     XR_HEADSET_DEVICE = 58;
     XR_GLASSES_DEVICE = 59;
     AI_GLASSES_DEVICE = 60;
+    PIXEL_10A = 61;
   }
   // Name of the AVD. Deprecated as it could potentially contain PII.
   optional string name = 1 [deprecated = true];
