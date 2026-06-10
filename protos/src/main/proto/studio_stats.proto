@@ -20346,6 +20346,17 @@ message NextEditPredictionEvent {
     }
   }
 
+  message RequestSent {
+    enum ModelType {
+      UNKNOWN = 0;
+      DEFAULT_MODEL_FREE_TIER = 1;
+      DEFAULT_MODEL_PAID_TIER = 2;
+      OTHER_MODEL = 3;
+    }
+    optional string model_id = 1;
+    optional ModelType model_type = 2;
+  }
+
   oneof next_edit_prediction {
     PredictionShown shown = 1 [lazy = true];
     PredictionAccepted accepted = 2 [lazy = true];
@@ -20353,6 +20364,7 @@ message NextEditPredictionEvent {
     EnabledStatus enabled_status = 4 [lazy = true];
     PredictionFailure failure = 5 [lazy = true];
     Session session = 6 [lazy = true];
+    RequestSent request_sent = 7 [lazy = true];
   }
 }
 
