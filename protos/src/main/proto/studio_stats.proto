@@ -17870,6 +17870,8 @@ message GeminiTelemetryEvent {
         GrepToolCallData grep_tool_call_data = 11;
         // Data for a code_search tool call.
         RagToolCallData rag_tool_call_data = 12;
+        // Data for a read_file tool call.
+        ReadFileToolCallData read_file_tool_call_data = 13;
       }
 
       message SearchArguments {
@@ -17969,6 +17971,13 @@ message GeminiTelemetryEvent {
         optional int32 total_indexed_docs = 5;
         // The search response.
         optional SearchResponse response = 6;
+      }
+
+      message ReadFileToolCallData {
+        // Indicates if the read tool call read a skill file.
+        optional bool is_skill_file = 1;
+        // The name of the skill if it's a bundled skill.
+        optional SkillsEvent.SkillName skill_name = 2;
       }
     }
   }
