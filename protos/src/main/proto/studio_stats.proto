@@ -18976,6 +18976,7 @@ message AndroidCliInvocation {
     ANDROID_STUDIO = 4;
     OTHER = 5;
     CODEX = 6;
+    AI_STUDIO = 7;
   }
 }
 
