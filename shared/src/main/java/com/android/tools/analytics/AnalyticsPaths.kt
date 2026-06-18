@@ -25,6 +25,7 @@ import java.nio.file.Paths
 object AnalyticsPaths {
 
   private var androidSettingsHomeDirectoryOverride: String? = null
+  private var androidSettingsSpoolDirectoryOverride: String? = null
 
   /** Overrides the android settings home directory for tests */
   fun overrideAndroidSettingsHomeDirectory(directory: String) {
@@ -36,10 +37,26 @@ object AnalyticsPaths {
     androidSettingsHomeDirectoryOverride = null
   }
 
+  /** Overrides the android settings spool directory */
+  @JvmStatic
+  fun overrideAndroidSettingsSpoolDirectory(directory: String) {
+    androidSettingsSpoolDirectoryOverride = directory
+  }
+
+  @JvmStatic
+  fun restoreAndroidSettingsSpoolDirectory() {
+    androidSettingsSpoolDirectoryOverride = null
+  }
+
   /** Gets the spooling directory used for temporary storage of analytics data. */
   @JvmStatic
   val spoolDirectory: String
-    get() = Paths.get(getAndEnsureAndroidSettingsHome(), "metrics", "spool").toString()
+    get() {
+      androidSettingsSpoolDirectoryOverride?.let {
+        return it
+      }
+      return Paths.get(getAndEnsureAndroidSettingsHome(), "metrics", "spool").toString()
+    }
 
   /** Gets the directory used to store android related settings (usually ~/.android). */
   @JvmStatic

@@ -27,7 +27,6 @@ import java.io.BufferedOutputStream
 import java.io.IOException
 import java.io.RandomAccessFile
 import java.net.HttpURLConnection
-import java.net.MalformedURLException
 import java.net.URL
 import java.nio.channels.Channels
 import java.nio.channels.OverlappingFileLockException
@@ -39,26 +38,29 @@ import java.util.concurrent.ScheduledExecutorService
 import java.util.concurrent.ScheduledFuture
 import java.util.concurrent.TimeUnit
 import java.util.zip.GZIPOutputStream
+import org.jetbrains.annotations.TestOnly
 
 /**
  * Publish collected analytics to Google's servers. Uses the provided [ScheduleExecutorService] to periodically (10 mins by default), scan
  * the provided spool location for new .trk files. If it finds any it parses the .trk files and uploads the parsed events to Google's
  * servers along with additional metadata such as meta metrics, client info and timing information..
  */
-class GoogleAnalyticsPublisher
+abstract class GoogleAnalyticsPublisher
 /**
  * Creates a new instance for publishing metrics
  *
  * @param scheduler used for scheduling periodic checks of the spool location.
  * @param spoolLocation location to look for .trk files to upload.
  * @param applicationBuild application build used on the log request
- * @param credentialsCallback optional callback for retrieving authorization credentials.
+ * @param logSource the [LogSource] to use for Clearcut logging.
+ * @param serverUrl the server URL for the connetion to use.
  */
 internal constructor(
   private val scheduler: ScheduledExecutorService,
   private val spoolLocation: Path,
   applicationBuild: String,
-  private val credentialsCallback: (() -> String?)? = null,
+  logSource: LogSource,
+  private var serverUrl: URL,
 ) : AnalyticsPublisher() {
 
   private val baseLogRequest: ClientAnalytics.LogRequest =
@@ -77,12 +79,11 @@ internal constructor(
       )
       // Set the log source for the Clearcut service. This will depend on whether we are attaching
       // the authorization header.
-      .setLogSource(credentialsCallback?.let { LogSource.ANDROID_STUDIO_EVENT_LOGGED_IN } ?: LogSource.ANDROID_STUDIO)
+      .setLogSource(logSource)
       .build()
 
   private var publishJob: ScheduledFuture<*>? = null
   private var scheduleVersion = 0
-  private var serverUrl_ = defaultServerUrl
   private var bytesSentInLastPublish: Long = 0
   private var failedConnections = 0
   private var failedServerReplies = 0
@@ -134,6 +135,10 @@ internal constructor(
     }
   }
 
+  protected open fun getCredentials(): String? = null
+
+  protected open val credentialsRequired = false
+
   /**
    * Tries to publish analytics for the specified track file.
    *
@@ -171,10 +176,12 @@ internal constructor(
             entries.add(0, getMetaMetric(now))
             val request = buildLogRequest(entries, now)
 
-            // if the credentials callback has been specified but returns null, this means the
-            // credentials have expired or been revoked. Return a failure but leave the file
-            // present for future publishing.
-            val credentials = credentialsCallback?.let { credentialsCallback() ?: return false }
+            val credentials =
+              if (credentialsRequired) {
+                getCredentials() ?: return false
+              } else {
+                null
+              }
 
             // Send the analytics to the specified server.
             val responseCode = trySendToServer(request, credentials)
@@ -217,7 +224,7 @@ internal constructor(
   /** Default value of createConnection_. Uses current url to create a connection. */
   @Throws(IOException::class)
   private fun defaultCreateConnection(): HttpURLConnection? {
-    val connection = serverUrl_.openConnection()
+    val connection = serverUrl.openConnection()
     if (connection is HttpURLConnection) {
       return connection
     } else {
@@ -256,8 +263,11 @@ internal constructor(
     // GZip the content to save bandwidth.
     connection.setRequestProperty("Content-Encoding", "gzip")
 
-    // Set the authorization header if the callback has been provided
-    credentials?.let { connection.setRequestProperty("Authorization", "Bearer $credentials") }
+    // Set the authorization header and content type if the credentials are specified
+    credentials?.let {
+      connection.setRequestProperty("Authorization", "Bearer $credentials")
+      connection.setRequestProperty("Content-Type", "application/octet-stream")
+    }
 
     val requestBytes = request.toByteArray()
     connection.outputStream.use { output ->
@@ -349,13 +359,18 @@ internal constructor(
 
   /** Gets the address of the server currently used to publish to. */
   fun getServerUrl(): URL {
-    return serverUrl_
+    return serverUrl
   }
 
   /** Updates the server used to publish analytics to. */
-  fun setServerUrl(serverUrl: URL): GoogleAnalyticsPublisher {
-    synchronized(gate) { this.serverUrl_ = serverUrl }
+  override fun setServerUrl(serverUrl: URL): GoogleAnalyticsPublisher {
+    synchronized(gate) { this.serverUrl = serverUrl }
     return this
+  }
+
+  @TestOnly
+  override fun isScheduled(): Boolean {
+    return publishJob?.isCancelled == false
   }
 
   companion object {
@@ -364,18 +379,6 @@ internal constructor(
     // methods that operate on various variables at once. We synchronize any method that operates
     // on multiple variables or access members of those variables (e.g. method calls).
     private val gate = Any()
-
-    /** A helper to set the default server URL in the constructor, removes exception from the signature that we know cannot be thrown. */
-    private val defaultServerUrl: URL
-      get() {
-        try {
-          return URL("https://play.google.com/log?format=raw")
-        }
-        // NoOp, url is well-formed.
-        catch (e: MalformedURLException) {
-          throw RuntimeException(e)
-        }
-      }
 
     /** Checks if the http status code indicates success or not. */
     private fun isSuccess(statusCode: Int): Boolean {

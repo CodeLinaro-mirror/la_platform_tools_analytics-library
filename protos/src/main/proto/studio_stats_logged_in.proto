@@ -14,6 +14,7 @@ message AndroidStudioEventLoggedIn {
       app_quality_insights_usage_event = 147 [lazy = true];
   optional DirectAccessUsageEventLoggedIn direct_access_usage_event = 158
       [lazy = true];
+  optional TSdkUAEventLoggedIn tsdk_ua_event = 160 [lazy = true];
   optional SmlCompletionEventLoggedIn sml_completion_event = 167 [lazy = true];
   optional SmlTransformEventLoggedIn sml_transform_event = 168 [lazy = true];
   optional SmlChatBotEventLoggedIn sml_chat_bot_event = 169 [lazy = true];
@@ -26,8 +27,14 @@ message AndroidStudioEventLoggedIn {
       android_studio_core_gemini_actions_event = 207 [lazy = true];
   optional StudioLabsEventLoggedIn studio_labs_event = 211 [lazy = true];
   optional PromptLibraryEventLoggedIn prompt_library_event = 212 [lazy = true];
+  optional JourneyFinishedEventLoggedIn journey_finished_event = 227
+      [lazy = true];
   optional PlayPolicyInsightsUsageEventLoggedIn
       play_policy_insights_usage_event = 236 [lazy = true];
+  optional ModelProviderEventLoggedIn model_provider_event = 237 [lazy = true];
+  optional NextEditPredictionEventLoggedIn next_edit_prediction_event = 241
+      [lazy = true];
+  optional SkillsEventLoggedIn skills_event = 249 [lazy = true];
 }
 
 // Reports aggregated information about how users invoke available UI actions.
@@ -121,6 +128,28 @@ message DirectAccessUsageEventLoggedIn {
   optional StreamStartedDetails stream_started_details = 5 [lazy = true];
 }
 
+message TSdkUAEventLoggedIn {}
+
+message SmlResponseMetadataLoggedIn {
+  // The type of agent used to generate an Sml response.
+  enum SmlAgentTypeLoggedIn {
+    AGENT_TYPE_UNSPECIFIED = 0;
+    AGENT_TYPE_GENERIC = 1;
+    AGENT_TYPE_UPGRADE_AGENT = 2;
+    AGENT_TYPE_NEW_PROJECT_AGENT = 3;
+    AGENT_TYPE_DEEP_LINK_LOGIC_AGENT = 4;
+  }
+
+  // e.g. google-aistudio, openai, or "default" for the built-in model
+  optional string model_provider_id = 4;
+
+  // e.g. gemini-2.5-pro, o1, or "default" for the built-in model
+  optional string model_id = 5;
+
+  // The type of the agent that generated the response.
+  optional SmlAgentTypeLoggedIn agent_type = 7;
+}
+
 message SmlCompletionEventLoggedIn {
   message CompletionAggregateEvent {
     optional int32 completions_shown = 4;
@@ -173,9 +202,12 @@ message SmlChatBotEventLoggedIn {
     CHAT = 1;
     AGENT_MODE = 2;
     VERSION_UPGRADE_AGENT = 3;
+    QUICK_EDIT = 4;
+    PLANNING = 5;
   }
 
   message BotResponse {
+    optional SmlResponseMetadataLoggedIn metadata = 1 [lazy = true];
     optional ChatMode chat_mode = 4;
   }
 
@@ -321,6 +353,22 @@ message PromptLibraryEventLoggedIn {
   message Invoke {}
 }
 
+message JourneyFinishedEventLoggedIn {
+  enum TestResult {
+    UNKNOWN = 0;
+    // The test passed
+    PASSED = 1;
+    // The test failed
+    FAILED = 2;
+    // The test was aborted, e.g. due to engine failure
+    ABORTED = 3;
+    // The test was canceled
+    CANCELED = 4;
+  }
+
+  optional TestResult test_result = 1;
+}
+
 message PlayPolicyInsightsUsageEventLoggedIn {
   enum PlayPolicyInsightsUsageEventType {
     UNKNOWN_EVENT = 0;
@@ -332,4 +380,92 @@ message PlayPolicyInsightsUsageEventLoggedIn {
   }
 
   optional PlayPolicyInsightsUsageEventType type = 1;
+}
+
+message ModelProviderEventLoggedIn {
+  optional Update update = 1;
+
+  // Updates to the model provider settings: adding/removing model providers.
+  message Update {
+    // Total number of local model providers.
+    optional int32 local_model_providers_count = 1;
+    // Total number of remote model providers.
+    optional int32 remote_model_providers_count = 2;
+    // Total number of gemini model providers available for the given API key.
+    optional int32 gemini_model_providers_count = 3;
+  }
+}
+
+message NextEditPredictionEventLoggedIn {
+  message PredictionShown {
+    // Add fields specific to the SHOWN event here, if any.
+  }
+
+  message PredictionAccepted {
+    // Add fields specific to the ACCEPTED event here, if any.
+  }
+
+  message Session {
+    message SessionEvent {
+      enum EventType {
+        UNKNOWN_EVENT_TYPE = 0;
+        REQUEST_SENT = 1;
+        // The prediction response was received from the model.
+        RESPONSE_RECEIVED = 2;
+        // The prediction was shown to the user. A single prediction can contain
+        // multiple controls (e.g., diff chunks).
+        PREDICTION_SHOWN = 3;
+        // The prediction was accepted by the user (i.e., at least one
+        // code-modifying control was accepted).
+        PREDICTION_ACCEPTED = 4;
+        // The prediction was rejected by the user (i.e., all code-modifying
+        // controls were rejected or dismissed).
+        PREDICTION_REJECTED = 5;
+        SESSION_CANCELLED = 6;
+        // A specific control within the prediction was shown to the user.
+        // A single prediction can have multiple controls.
+        CONTROL_SHOWN = 7;
+        // A specific control was accepted by the user.
+        CONTROL_ACCEPTED = 8;
+        // A specific control was rejected by the user.
+        CONTROL_REJECTED = 9;
+        // A specific control was hidden from the user.
+        CONTROL_HIDDEN = 10;
+        // The prediction attempt failed.
+        PREDICTION_FAILED = 11;
+        // A specific control was disposed before being shown to the user.
+        CONTROL_DISPOSED_UNSEEN = 12;
+      }
+      optional EventType type = 1;
+    }
+    repeated SessionEvent events = 5;
+  }
+  oneof next_edit_prediction {
+    PredictionShown shown = 1 [lazy = true];
+    PredictionAccepted accepted = 2 [lazy = true];
+    Session session = 6 [lazy = true];
+  }
+}
+
+message SkillsEventLoggedIn {
+  // Common metadata for all skills events.
+  optional SmlResponseMetadataLoggedIn metadata = 1 [lazy = true];
+
+  oneof event {
+    Activation activation = 2 [lazy = true];
+  }
+
+  // Details about the skill activated by the agent.
+  message Activation {
+    optional SkillType type = 1;
+  }
+
+  // The type of skill.
+  enum SkillType {
+    UNKNOWN = 0;
+    // Curated skills from DAC.
+    PRE_BUILT = 1;
+    // Local project skills directory.
+    USER_DEFINED = 2;
+  }
 }

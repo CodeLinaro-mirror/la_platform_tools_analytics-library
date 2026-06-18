@@ -13,13 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.android.tools.analytics
 
 import com.android.utils.ILogger
+import com.google.common.annotations.VisibleForTesting
+import com.google.common.hash.Hashing
 import java.nio.file.Paths
 import java.util.concurrent.ScheduledExecutorService
 import java.util.concurrent.TimeUnit
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.asCoroutineDispatcher
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import org.jetbrains.annotations.TestOnly
 
 /**
@@ -27,6 +33,35 @@ import org.jetbrains.annotations.TestOnly
  * in to metrics and one that is a Noop to ensure metrics never get published for users who opt out.
  */
 abstract class AnalyticsPublisher protected constructor() : AutoCloseable {
+  private data class Publishers(val anonymous: AnalyticsPublisher, val loggedIn: AnalyticsPublisher) : AutoCloseable {
+    fun publish() {
+      try {
+        anonymous.publishNow()
+      } catch (e: Exception) {
+        logger.error(e, "Unable to publish anonymous analytics")
+      }
+
+      try {
+        loggedIn.publishNow()
+      } catch (e: Exception) {
+        logger.error(e, "Unable to publish logged-in analytics")
+      }
+    }
+
+    override fun close() {
+      try {
+        anonymous.close()
+      } catch (e: Exception) {
+        logger.error(e, "Unable to close existing anonymous analytics publisher")
+      }
+
+      try {
+        loggedIn.close()
+      } catch (e: Exception) {
+        logger.error(e, "Unable to close existing logged-in analytics publisher")
+      }
+    }
+  }
 
   /** Gets the interval in nanoseconds used for scheduling jobs to publish metrics. */
   var publishInterval = TimeUnit.MINUTES.toNanos(10)
@@ -37,21 +72,28 @@ abstract class AnalyticsPublisher protected constructor() : AutoCloseable {
     publishInterval = unit.toNanos(interval)
   }
 
+  /** Updates the server used to publish analytics to. No-op by default. */
+  open fun setServerUrl(serverUrl: java.net.URL): AnalyticsPublisher = this
+
   /**
    * Immediately scans the spool directory and uploads any queued analytics to Google's servers. Blocks until the upload attempt completes.
    * Used by the `upload-metrics` subcommand to perform a synchronous flush rather than waiting for the next scheduled publishing window.
    */
   abstract fun publishNow()
 
-  companion object {
+  @TestOnly open fun isScheduled() = false
 
-    private var anonymousInstance_: AnalyticsPublisher = NullAnalyticsPublisher
-    private var loggedInInstance_: AnalyticsPublisher = NullAnalyticsPublisher
+  companion object {
+    @VisibleForTesting var anonymousInstance: AnalyticsPublisher = NullAnalyticsPublisher
+    @VisibleForTesting var loggedInInstance: AnalyticsPublisher = NullAnalyticsPublisher
+
     private lateinit var applicationBuild: String
     private lateinit var scheduler: ScheduledExecutorService
     private lateinit var logger: ILogger
-    private var initialized = false
+    private var hasAnonymousPublisher = false
+
     private val gate = Any()
+    private var job: Job? = null
 
     /**
      * Initializes the publisher retrieved by [.getInstance]
@@ -61,98 +103,110 @@ abstract class AnalyticsPublisher protected constructor() : AutoCloseable {
      */
     @JvmStatic
     fun initialize(logger: ILogger, scheduler: ScheduledExecutorService, applicationBuild: String): AnalyticsPublisher {
+      AnalyticsSettings.initialize(logger, scheduler)
+
+      val oldPublishers: Publishers
+      var oldJob: Job? = null
+
       synchronized(gate) {
+        this.hasAnonymousPublisher = false // force create new anonymous publisher
         AnalyticsPublisher.logger = logger
         AnalyticsPublisher.scheduler = scheduler
         AnalyticsPublisher.applicationBuild = applicationBuild
-        anonymousInstance_ =
-          if (AnalyticsSettings.optedIn && !AnalyticsSettings.debugDisablePublishing) {
-            GoogleAnalyticsPublisher(scheduler, Paths.get(AnalyticsPaths.spoolDirectory), applicationBuild)
-          } else {
-            NullAnalyticsPublisher
-          }
-        initialized = true
-        return anonymousInstance_
-      }
-    }
 
-    /** Retrieved the configured publisher based on a call to [.initialize] */
-    @JvmStatic
-    val instance: AnalyticsPublisher
-      get() =
-        synchronized(gate) {
-          return anonymousInstance_
-        }
+        // setPublishers is called so that the instances are set by the time initialize returns.
+        // This is required by some callers such as Lint.
+        oldPublishers = updatePublishers(AnalyticsStateManager.analyticsStateFlow.value)
 
-    /** Closes the current publisher and creates a new instance. */
-    @JvmStatic
-    fun updatePublisher(logger: ILogger, scheduler: ScheduledExecutorService, applicationBuild: String) {
-      AnalyticsSettings.initialize(logger, scheduler)
-      val current = instance
-      try {
-        current.close()
-      } catch (e: Exception) {
-        logger.error(e, "Unable to close existing analytics publisher")
+        oldJob = job
+        val scope = CoroutineScope(scheduler.asCoroutineDispatcher())
+        job = AnalyticsStateManager.analyticsStateFlow.onEach { stateChanged(it) }.launchIn(scope)
       }
 
-      initialize(logger, scheduler, applicationBuild)
+      oldPublishers.use { oldJob?.cancel() }
+
+      return anonymousInstance
     }
 
-    /**
-     * Sets the instance of the publisher that sends messages with authorized headers
-     *
-     * @param storeLocationId A unique id derived from the user's email address. Used to create the spool directory for that address
-     * @param credentialsCallback callback to retrieve the authorization credentials
-     */
-    @JvmStatic
-    fun setLoggedInPublisher(storeLocationId: String, credentialsCallback: () -> String?) {
-      synchronized(gate) {
-        // This indicates that the anonymous publisher has not been set yet. It is required to be set
-        // first so that these three properties are set.
-        if (!initialized) {
-          throw RuntimeException("call to setLoggedInPublisher before initialization")
-        }
+    private fun stateChanged(state: AnalyticsState) {
+      if (state.level == AnalyticsLevel.LOGGED_IN) {
+        require(state.loggedInUser != null) { "A user is required to enable logged in metrics." }
       }
 
-      updateLoggedInPublisher(
-        GoogleAnalyticsPublisher(
-          scheduler,
-          Paths.get(AnalyticsPaths.spoolDirectory, storeLocationId),
-          applicationBuild,
-          credentialsCallback,
-        )
-      )
-    }
+      val oldPublishers: Publishers
 
-    /** Clears the instance of the publisher that sends messages with authorized headers */
-    @JvmStatic
-    fun clearLoggedInPublisher() {
-      updateLoggedInPublisher(NullAnalyticsPublisher)
+      synchronized(gate) { oldPublishers = updatePublishers(state) }
+
+      oldPublishers.close()
     }
 
     @TestOnly
-    @JvmStatic
-    fun getLoggedInInstanceForTest(): AnalyticsPublisher {
-      return loggedInInstance_
+    fun updateState() {
+      stateChanged(AnalyticsStateManager.analyticsStateFlow.value)
     }
 
+    /** Immediately uploads any queued .trk files to Google's servers, blocking until done. */
     @JvmStatic
-    private fun updateLoggedInPublisher(newPublisher: AnalyticsPublisher) {
-      val oldLoggedInPublisher: AnalyticsPublisher
-      synchronized(gate) {
-        oldLoggedInPublisher = loggedInInstance_
-        loggedInInstance_ = newPublisher
-      }
-      try {
-        oldLoggedInPublisher.close()
-      } catch (e: Exception) {
-        logger.error(e, "Unable to close existing authorizing analytics publisher")
-      }
+    fun publish() {
+      val publishers: Publishers
+
+      synchronized(gate) { publishers = Publishers(anonymousInstance, loggedInInstance) }
+
+      publishers.publish()
     }
 
-    @TestOnly
-    fun setAnonymousInstanceForTest(instance: AnalyticsPublisher) {
-      this.anonymousInstance_ = instance
+    private fun updatePublishers(state: AnalyticsState): Publishers {
+      if (state.level == AnalyticsLevel.LOGGED_IN) {
+        require(state.loggedInUser != null) { "A user is required to enable logged in metrics." }
+      }
+
+      val shouldCreate = shouldCreateAnonymousPublisher(state.level)
+
+      val oldAnonymousPublisher =
+        if (shouldCreate && hasAnonymousPublisher) {
+          // optimization to prevent unnecessary creation
+          NullAnalyticsPublisher
+        } else {
+          anonymousInstance
+        }
+
+      if (shouldCreate && !hasAnonymousPublisher) {
+        anonymousInstance = createAnonymousPublisher()
+      } else if (!shouldCreate) {
+        anonymousInstance = NullAnalyticsPublisher
+      }
+
+      hasAnonymousPublisher = shouldCreate
+
+      val oldLoggedInWriter = loggedInInstance
+      val user = state.loggedInUser
+      loggedInInstance =
+        if (user != null && shouldCreateLoggedInPublisher(state.level)) {
+          createLoggedInPublisher(user)
+        } else {
+          NullAnalyticsPublisher
+        }
+
+      return Publishers(oldAnonymousPublisher, oldLoggedInWriter)
+    }
+
+    private fun shouldCreateAnonymousPublisher(level: AnalyticsLevel): Boolean {
+      return level != AnalyticsLevel.NONE && !AnalyticsSettings.debugDisablePublishing
+    }
+
+    private fun shouldCreateLoggedInPublisher(level: AnalyticsLevel): Boolean {
+      return level == AnalyticsLevel.LOGGED_IN && !AnalyticsSettings.debugDisablePublishing
+    }
+
+    private fun createAnonymousPublisher(): AnalyticsPublisher {
+      val path = Paths.get(AnalyticsPaths.spoolDirectory)
+      return AnonymousAnalyticsPublisher(scheduler, path, applicationBuild)
+    }
+
+    private fun createLoggedInPublisher(user: LoggedInUser): AnalyticsPublisher {
+      val spoolLocationId = Hashing.farmHashFingerprint64().hashUnencodedChars(user.emailAddress.lowercase()).toString()
+      val path = Paths.get(AnalyticsPaths.spoolDirectory, spoolLocationId)
+      return LoggedInAnalyticsPublisher(scheduler, path, applicationBuild, user.callback)
     }
   }
 }

@@ -19,66 +19,104 @@ import com.google.common.truth.Truth
 import java.util.concurrent.Executors
 import org.junit.After
 import org.junit.Before
-import org.junit.Rule
 import org.junit.Test
-import org.junit.rules.TemporaryFolder
 
 class UsageTrackerInitializationTest {
-  private val analyticsSettingsData = AnalyticsSettingsData()
   private val scheduledExecutorService = Executors.newScheduledThreadPool(1)
-  @get:Rule val temporaryFolder = TemporaryFolder()
 
   @Before
   fun setUp() {
-    analyticsSettingsData.optedIn = true
-    AnalyticsSettings.setInstanceForTest(analyticsSettingsData)
-    UsageTracker.deinitialize()
-    AnalyticsPaths.overrideAndroidSettingsHomeDirectory(temporaryFolder.newFolder().absolutePath)
+    AnalyticsStateManager.dataSharing = false
+    AnalyticsStateManager.emailConsent = false
+    AnalyticsStateManager.loggedInUser = null
+    UsageTracker.updateState()
   }
 
   @After
-  fun restoreAndroidSettingsHomeDirectory() {
-    AnalyticsPaths.restoreAndroidSettingsHomeDirectory()
+  fun cleanUp() {
+    UsageTracker.cleanAfterTesting()
   }
 
   @Test
-  fun testInitializeFunction() {
+  fun testInitializeFunctionOptedIn() {
+    AnalyticsStateManager.dataSharing = true
     UsageTracker.initialize(scheduledExecutorService)
-    val writer = UsageTracker.anonymousWriter ?: NullUsageTracker
-    Truth.assertThat(writer).isNotInstanceOf(NullUsageTracker.javaClass)
-    UsageTracker.initialize(scheduledExecutorService)
-    Truth.assertThat(writer).isNotInstanceOf(NullUsageTracker.javaClass)
-    Truth.assertThat(UsageTracker.anonymousWriter).isNotEqualTo(writer)
-    // initialize function allows us to re-initialize UsageTrackerWriter when optedIn changes
-    analyticsSettingsData.optedIn = false
-    UsageTracker.initialize(scheduledExecutorService)
-    Truth.assertThat(UsageTracker.anonymousWriter).isInstanceOf(NullUsageTracker.javaClass)
+
+    UsageTracker.assertHasAnonymousWriter()
+    UsageTracker.assertDoesNotHaveLoggedInWriter()
   }
 
   @Test
-  fun testInitializeIfNotPresentFunction() {
-    UsageTracker.initializeIfNotPresent(scheduledExecutorService)
-    val writer = UsageTracker.anonymousWriter
-    Truth.assertThat(writer).isNotInstanceOf(NullUsageTracker.javaClass)
-    // If UsageTracker is initialized, UsageTrackerWriter instance won't change when
-    // initializeIfNotPresent function is invoked
-    UsageTracker.initializeIfNotPresent(scheduledExecutorService)
-    Truth.assertThat(UsageTracker.anonymousWriter).isEqualTo(writer)
-    analyticsSettingsData.optedIn = false
-    UsageTracker.initializeIfNotPresent(scheduledExecutorService)
-    Truth.assertThat(UsageTracker.anonymousWriter).isEqualTo(writer)
+  fun testInitializeFunctionOptedOut() {
+    AnalyticsStateManager.dataSharing = false
+    UsageTracker.initialize(scheduledExecutorService)
+
+    UsageTracker.assertDoesNotHaveAnonymousWriter()
+    UsageTracker.assertDoesNotHaveLoggedInWriter()
+  }
+
+  @Test
+  fun testMultipleInitializations() {
+    AnalyticsStateManager.dataSharing = false
+    UsageTracker.initialize(scheduledExecutorService)
+
+    UsageTracker.assertDoesNotHaveAnonymousWriter()
+    UsageTracker.assertDoesNotHaveLoggedInWriter()
+
+    AnalyticsStateManager.dataSharing = true
+    UsageTracker.initialize(scheduledExecutorService)
+
+    UsageTracker.assertHasAnonymousWriter()
+    UsageTracker.assertDoesNotHaveLoggedInWriter()
+
+    AnalyticsStateManager.dataSharing = true
+    UsageTracker.initialize(scheduledExecutorService)
+
+    UsageTracker.assertHasAnonymousWriter()
+    UsageTracker.assertDoesNotHaveLoggedInWriter()
+
+    AnalyticsStateManager.dataSharing = false
+    UsageTracker.initialize(scheduledExecutorService)
+
+    UsageTracker.assertDoesNotHaveAnonymousWriter()
+    UsageTracker.assertDoesNotHaveLoggedInWriter()
   }
 
   @Test
   fun testLoggedInWriter() {
-    UsageTracker.initializeIfNotPresent(scheduledExecutorService)
-    var writer = UsageTracker.loggedInWriter
-    Truth.assertThat(writer).isInstanceOf(NullUsageTracker.javaClass)
-    UsageTracker.initializeLoggedInWriter("spoolLocationId")
-    writer = UsageTracker.loggedInWriter
-    Truth.assertThat(writer).isInstanceOf(LoggedInUsageTrackerWriter::class.java)
-    UsageTracker.clearLoggedInWriter()
-    writer = UsageTracker.loggedInWriter
-    Truth.assertThat(writer).isInstanceOf(NullUsageTracker.javaClass)
+    AnalyticsStateManager.dataSharing = true
+    UsageTracker.initialize(scheduledExecutorService)
+
+    UsageTracker.assertHasAnonymousWriter()
+    UsageTracker.assertDoesNotHaveLoggedInWriter()
+
+    AnalyticsStateManager.loggedInUser = LoggedInUser("test@google.com") { "token" }
+    AnalyticsStateManager.emailConsent = true
+    UsageTracker.updateState()
+
+    UsageTracker.assertHasAnonymousWriter()
+    UsageTracker.assertHasLoggedInWriter()
+
+    AnalyticsStateManager.loggedInUser = null
+    UsageTracker.updateState()
+
+    UsageTracker.assertHasAnonymousWriter()
+    UsageTracker.assertDoesNotHaveLoggedInWriter()
+  }
+
+  fun UsageTracker.assertHasAnonymousWriter() {
+    Truth.assertThat(this.anonymousWriter).isInstanceOf(AnonymousUsageTrackerWriter::class.java)
+  }
+
+  fun UsageTracker.assertDoesNotHaveAnonymousWriter() {
+    Truth.assertThat(this.anonymousWriter).isNotInstanceOf(AnonymousUsageTrackerWriter::class.java)
+  }
+
+  fun UsageTracker.assertHasLoggedInWriter() {
+    Truth.assertThat(this.loggedInWriter).isInstanceOf(LoggedInUsageTrackerWriter::class.java)
+  }
+
+  fun UsageTracker.assertDoesNotHaveLoggedInWriter() {
+    Truth.assertThat(this.loggedInWriter).isNotInstanceOf(LoggedInUsageTrackerWriter::class.java)
   }
 }
