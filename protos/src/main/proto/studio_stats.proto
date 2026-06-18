@@ -991,6 +991,9 @@ message AndroidStudioEvent {
     GOOGLE_PLAY_SDK_INDEX = 30;
     // The event is related to Gradle JVM incompatible dialog
     GRADLE_JVM_INCOMPATIBLE_DIALOG = 31;
+    // The event is related to the modal Dialog to enable parallel Gradle sync
+    // for Gradle 9.4+.
+    PARALLEL_GRADLE_SYNC_MODAL_DIALOG = 32;
   }
 
   // Specific kind of event, primary separation key of all Android Studio
@@ -1968,6 +1971,12 @@ message AndroidStudioEvent {
 
     // Change review event.
     CHANGE_REVIEW_EVENT = 382;
+
+    // Events related to parallel sync activation's modal dialog.
+    PARALLEL_GRADLE_SYNC_MODAL_DIALOG_APPLY_SETTING = 383;
+    PARALLEL_GRADLE_SYNC_MODAL_DIALOG_IGNORE_SETTING = 384;
+    PARALLEL_GRADLE_SYNC_MODAL_DIALOG_ALWAYS_APPLY_SETTING = 385;
+    PARALLEL_GRADLE_SYNC_MODAL_DIALOG_CANCEL = 386;
   }
 
   // Represents different Performance Monitoring types.
