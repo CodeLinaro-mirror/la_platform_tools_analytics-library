@@ -923,6 +923,9 @@ message AndroidStudioEvent {
   // set when kind = MARKETING_METRICS_EVENT
   optional MarketingMetricsEvent marketing_metrics_event = 259 [lazy = true];
 
+  // Logged when a user interacts with the diff viewer UI (Engagement Track)
+  optional RenderDiffViewerEvent render_diff_viewer_event = 260 [lazy = true];
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -13410,6 +13413,32 @@ message RenderToolEvent {
 
   // Total time from Tool start to Tool finish (includes compilation + overhead)
   optional int64 total_latency_ms = 7;
+
+  // --- Visual Analysis Fields ---
+
+  // Whether a historical image was found in cache or trajectory for comparison
+  optional bool has_previous_version = 8;
+
+  // The percentage of pixels that changed (0.0 to 1.0)
+  // Only populated if has_previous_version is true.
+  optional float pixel_delta_percentage = 9;
+}
+
+/**
+ * Logged whenever the Visual Diff Viewer is displayed or when the user
+ * switches between comparison modes (tabs).
+ */
+message RenderDiffViewerEvent {
+  enum ViewMode {
+    UNKNOWN_VIEW_MODE = 0;
+    NEW = 1;         // Default single image view
+    PREVIOUS = 2;    // View only the historical snapshot
+    SPLIT_VIEW = 3;  // Side-by-side comparison
+    DIFF_VIEW = 4;   // Pixel-level heatmap (Heatmap)
+  }
+
+  // The comparison mode the user selected or is currently viewing.
+  optional ViewMode view_mode = 1;
 }
 
 message AppInspectionEvent {
