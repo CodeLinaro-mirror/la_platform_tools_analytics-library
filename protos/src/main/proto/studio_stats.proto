@@ -926,6 +926,14 @@ message AndroidStudioEvent {
   // Logged when a user interacts with the diff viewer UI (Engagement Track)
   optional RenderDiffViewerEvent render_diff_viewer_event = 260 [lazy = true];
 
+  // set when kind = LIGHTBUILD_SYNC_REQUESTED_EVENT
+  optional LightbuildSyncRequestedEvent lightbuild_sync_requested_event = 261
+      [lazy = true];
+
+  // set when kind = LIGHTBUILD_SYNC_FINISHED_EVENT
+  optional LightbuildSyncFinishedEvent lightbuild_sync_finished_event = 262
+      [lazy = true];
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -1986,6 +1994,12 @@ message AndroidStudioEvent {
 
     // Marketing metrics event.
     MARKETING_METRICS_EVENT = 387;
+
+    // Lightbuild sync requested event
+    LIGHTBUILD_SYNC_REQUESTED_EVENT = 388;
+
+    // Lightbuild sync finished event.
+    LIGHTBUILD_SYNC_FINISHED_EVENT = 389;
   }
 
   // Represents different Performance Monitoring types.
@@ -20693,4 +20707,30 @@ message MarketingMetricsEvent {
   // This is sent on startup and when the logged in user or consent
   // status changes.
   optional bool enabled = 1;
+}
+
+// Sent when sync is explicitly requested for a Lightbuild project.
+message LightbuildSyncRequestedEvent {
+  optional GradleSyncStats.Trigger trigger = 1;
+}
+
+// Sent when sync for a Lightbuild project is complete.
+message LightbuildSyncFinishedEvent {
+  enum Trigger {
+    UNKNOWN_TRIGGER = 0;
+    STARTUP_ACTIVITY = 1;
+    NEW_PROJECT_EXECUTOR = 2;
+    VFS_FILE_LISTENER = 3;
+    PROJECT_SYSTEM = 4;
+  }
+  enum Result {
+    UNKNOWN_RESULT = 0;
+    SUCCESS = 1;
+    FAILURE = 2;
+  }
+  optional Trigger trigger = 1;
+  optional Result result = 2;
+  optional int64 total_duration_ms = 3;
+  optional int32 modules_count = 4;
+  optional int32 dependencies_count = 5;
 }
