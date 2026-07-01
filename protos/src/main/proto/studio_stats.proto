@@ -17657,6 +17657,8 @@ message GeminiTelemetryEvent {
     UiEvent ui_event = 3;
     // Events related to the agent, such as tool calls etc.
     AgentEvent agent_event = 4;
+    // Events related to the permissions evaluation.
+    PermissionApprovalEvent permission_approval_event = 5;
   }
 
   // The envelope holds metadata about the event and information to link related
@@ -17794,6 +17796,64 @@ message GeminiTelemetryEvent {
       optional SmlChatBotEvent.ChangeResolved change_resolved = 1;
     }
     optional ChangesDrawerEvent changes_drawer_event = 1;
+  }
+
+  message PermissionApprovalEvent {
+    // The policy mode the user has selected.
+    enum PermissionMode {
+      PERMISSION_MODE_UNSPECIFIED = 0;
+      // All sensitive actions require explicit manual approval.
+      STRICT = 1;
+      // A local fast model is used to audit actions and auto-approve safe ones.
+      SUPERVISED = 2;
+      // Unrestricted mode where most actions are executed without prompting.
+      YOLO = 3;
+    }
+
+    // Identifies how the decision to approve or review the operation was made.
+    enum DecisionSource {
+      DECISION_SOURCE_UNSPECIFIED = 0;
+      // Operation was deemed safe based on predefined static rules.
+      FAST_TRACK = 1;
+      // Operation was previously approved in the current session.
+      SESSION_CACHE = 2;
+      // The decision was made by an AI auditor model.
+      LLM_AUDITOR = 3;
+      // The user had to manually approve or reject the action.
+      USER_MANUAL = 4;
+    }
+
+    // The outcome determined by the AI auditor model, if LLM_AUDITOR was used.
+    enum AuditorDecision {
+      AUDITOR_DECISION_UNSPECIFIED = 0;
+      // The operation was considered safe and allowed to proceed.
+      SAFE = 1;
+      // The operation was flagged for manual user review.
+      REVIEW = 2;
+    }
+
+    // The final outcome of the permission request evaluation.
+    enum PermissionDecisionOutcome {
+      PERMISSION_DECISION_OUTCOME_UNSPECIFIED = 0;
+      APPROVED = 1;
+      DENIED = 2;
+    }
+
+    // The type of permission request being analyzed.
+    enum PermissionType {
+      PERMISSION_TYPE_UNSPECIFIED = 0;
+      EXECUTE = 1;
+      FILE = 2;
+      URL = 3;
+      MCP = 4;
+      OTHER = 5;
+    }
+
+    optional PermissionMode permission_mode = 1;
+    optional DecisionSource decision_source = 2;
+    optional AuditorDecision auditor_decision = 3;
+    optional PermissionDecisionOutcome decision_outcome = 4;
+    optional PermissionType permission_type = 5;
   }
 
   message AgentEvent {
