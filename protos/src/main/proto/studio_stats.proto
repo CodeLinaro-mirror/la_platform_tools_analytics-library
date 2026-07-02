@@ -920,6 +920,20 @@ message AndroidStudioEvent {
   // set when kind = CHANGE_REVIEW_EVENT
   optional ChangeReviewEvent change_review_event = 258 [lazy = true];
 
+  // set when kind = MARKETING_METRICS_EVENT
+  optional MarketingMetricsEvent marketing_metrics_event = 259 [lazy = true];
+
+  // Logged when a user interacts with the diff viewer UI (Engagement Track)
+  optional RenderDiffViewerEvent render_diff_viewer_event = 260 [lazy = true];
+
+  // set when kind = LIGHTBUILD_SYNC_REQUESTED_EVENT
+  optional LightbuildSyncRequestedEvent lightbuild_sync_requested_event = 261
+      [lazy = true];
+
+  // set when kind = LIGHTBUILD_SYNC_FINISHED_EVENT
+  optional LightbuildSyncFinishedEvent lightbuild_sync_finished_event = 262
+      [lazy = true];
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -1977,6 +1991,15 @@ message AndroidStudioEvent {
     PARALLEL_GRADLE_SYNC_MODAL_DIALOG_IGNORE_SETTING = 384;
     PARALLEL_GRADLE_SYNC_MODAL_DIALOG_ALWAYS_APPLY_SETTING = 385;
     PARALLEL_GRADLE_SYNC_MODAL_DIALOG_CANCEL = 386;
+
+    // Marketing metrics event.
+    MARKETING_METRICS_EVENT = 387;
+
+    // Lightbuild sync requested event
+    LIGHTBUILD_SYNC_REQUESTED_EVENT = 388;
+
+    // Lightbuild sync finished event.
+    LIGHTBUILD_SYNC_FINISHED_EVENT = 389;
   }
 
   // Represents different Performance Monitoring types.
@@ -13404,6 +13427,32 @@ message RenderToolEvent {
 
   // Total time from Tool start to Tool finish (includes compilation + overhead)
   optional int64 total_latency_ms = 7;
+
+  // --- Visual Analysis Fields ---
+
+  // Whether a historical image was found in cache or trajectory for comparison
+  optional bool has_previous_version = 8;
+
+  // The percentage of pixels that changed (0.0 to 1.0)
+  // Only populated if has_previous_version is true.
+  optional float pixel_delta_percentage = 9;
+}
+
+/**
+ * Logged whenever the Visual Diff Viewer is displayed or when the user
+ * switches between comparison modes (tabs).
+ */
+message RenderDiffViewerEvent {
+  enum ViewMode {
+    UNKNOWN_VIEW_MODE = 0;
+    NEW = 1;         // Default single image view
+    PREVIOUS = 2;    // View only the historical snapshot
+    SPLIT_VIEW = 3;  // Side-by-side comparison
+    DIFF_VIEW = 4;   // Pixel-level heatmap (Heatmap)
+  }
+
+  // The comparison mode the user selected or is currently viewing.
+  optional ViewMode view_mode = 1;
 }
 
 message AppInspectionEvent {
@@ -17608,6 +17657,8 @@ message GeminiTelemetryEvent {
     UiEvent ui_event = 3;
     // Events related to the agent, such as tool calls etc.
     AgentEvent agent_event = 4;
+    // Events related to the permissions evaluation.
+    PermissionApprovalEvent permission_approval_event = 5;
   }
 
   // The envelope holds metadata about the event and information to link related
@@ -17745,6 +17796,64 @@ message GeminiTelemetryEvent {
       optional SmlChatBotEvent.ChangeResolved change_resolved = 1;
     }
     optional ChangesDrawerEvent changes_drawer_event = 1;
+  }
+
+  message PermissionApprovalEvent {
+    // The policy mode the user has selected.
+    enum PermissionMode {
+      PERMISSION_MODE_UNSPECIFIED = 0;
+      // All sensitive actions require explicit manual approval.
+      STRICT = 1;
+      // A local fast model is used to audit actions and auto-approve safe ones.
+      SUPERVISED = 2;
+      // Unrestricted mode where most actions are executed without prompting.
+      YOLO = 3;
+    }
+
+    // Identifies how the decision to approve or review the operation was made.
+    enum DecisionSource {
+      DECISION_SOURCE_UNSPECIFIED = 0;
+      // Operation was deemed safe based on predefined static rules.
+      FAST_TRACK = 1;
+      // Operation was previously approved in the current session.
+      SESSION_CACHE = 2;
+      // The decision was made by an AI auditor model.
+      LLM_AUDITOR = 3;
+      // The user had to manually approve or reject the action.
+      USER_MANUAL = 4;
+    }
+
+    // The outcome determined by the AI auditor model, if LLM_AUDITOR was used.
+    enum AuditorDecision {
+      AUDITOR_DECISION_UNSPECIFIED = 0;
+      // The operation was considered safe and allowed to proceed.
+      SAFE = 1;
+      // The operation was flagged for manual user review.
+      REVIEW = 2;
+    }
+
+    // The final outcome of the permission request evaluation.
+    enum PermissionDecisionOutcome {
+      PERMISSION_DECISION_OUTCOME_UNSPECIFIED = 0;
+      APPROVED = 1;
+      DENIED = 2;
+    }
+
+    // The type of permission request being analyzed.
+    enum PermissionType {
+      PERMISSION_TYPE_UNSPECIFIED = 0;
+      EXECUTE = 1;
+      FILE = 2;
+      URL = 3;
+      MCP = 4;
+      OTHER = 5;
+    }
+
+    optional PermissionMode permission_mode = 1;
+    optional DecisionSource decision_source = 2;
+    optional AuditorDecision auditor_decision = 3;
+    optional PermissionDecisionOutcome decision_outcome = 4;
+    optional PermissionType permission_type = 5;
   }
 
   message AgentEvent {
@@ -20648,4 +20757,40 @@ message ChangeReviewEvent {
     // Logged when a batch of suggested fixes is applied.
     FixBatch fix_batch = 2;
   }
+}
+
+// Telemetry event for the status of the marketing metrics pipeline.
+// The marketing metrics pipeline is enabled when the logged in user
+// has opted into data sharing and consented to receive emails.
+message MarketingMetricsEvent {
+  // Indicates whether the marketing metrics pipeline is enabled.
+  // This is sent on startup and when the logged in user or consent
+  // status changes.
+  optional bool enabled = 1;
+}
+
+// Sent when sync is explicitly requested for a Lightbuild project.
+message LightbuildSyncRequestedEvent {
+  optional GradleSyncStats.Trigger trigger = 1;
+}
+
+// Sent when sync for a Lightbuild project is complete.
+message LightbuildSyncFinishedEvent {
+  enum Trigger {
+    UNKNOWN_TRIGGER = 0;
+    STARTUP_ACTIVITY = 1;
+    NEW_PROJECT_EXECUTOR = 2;
+    VFS_FILE_LISTENER = 3;
+    PROJECT_SYSTEM = 4;
+  }
+  enum Result {
+    UNKNOWN_RESULT = 0;
+    SUCCESS = 1;
+    FAILURE = 2;
+  }
+  optional Trigger trigger = 1;
+  optional Result result = 2;
+  optional int64 total_duration_ms = 3;
+  optional int32 modules_count = 4;
+  optional int32 dependencies_count = 5;
 }
