@@ -17788,6 +17788,26 @@ message GeminiTelemetryEvent {
         MODEL_API_STATUS_MALFORMED_FUNCTION_CALL = 19;
       }
       optional ModelApiStatus status = 10;
+
+      // Represents the character lengths and timing of a single streamed chunk.
+      message ResponseChunk {
+        // Timestamp of when this chunk was received in milliseconds since
+        // epoch.
+        optional int64 timestamp_ms = 1;
+
+        // The character length of the generated response text in this chunk.
+        optional int32 text_length_chars = 2;
+
+        // The character length of the generated thought/reasoning in this
+        // chunk.
+        optional int32 thought_length_chars = 3;
+
+        // Whether the thought signature was present (not null) in this chunk.
+        optional bool has_signature = 4;
+      }
+
+      // Ordered list of streamed chunks as they were received.
+      repeated ResponseChunk response_chunks = 11;
     }
   }
 
