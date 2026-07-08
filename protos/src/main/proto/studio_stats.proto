@@ -18117,6 +18117,10 @@ message GeminiTelemetryEvent {
         optional bool is_skill_file = 1;
         // The name of the skill if it's a bundled skill.
         optional SkillsEvent.SkillName skill_name = 2;
+        // The number of lines requested to read in the tool call.
+        optional int32 requested_line_count = 3;
+        // The number of lines returned by the read tool.
+        optional int32 returned_line_count = 4;
       }
     }
   }
