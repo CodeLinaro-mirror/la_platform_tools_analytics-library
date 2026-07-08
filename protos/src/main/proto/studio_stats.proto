@@ -18011,6 +18011,8 @@ message GeminiTelemetryEvent {
         RagToolCallData rag_tool_call_data = 12;
         // Data for a read_file tool call.
         ReadFileToolCallData read_file_tool_call_data = 13;
+        // Data for a set_plan_state tool call.
+        SetPlanStateCallData set_plan_state_call_data = 14;
       }
 
       message SearchArguments {
@@ -18121,6 +18123,26 @@ message GeminiTelemetryEvent {
         optional int32 requested_line_count = 3;
         // The number of lines returned by the read tool.
         optional int32 returned_line_count = 4;
+      }
+
+      // The state of the planner during tool execution.
+      enum PlannerState {
+        // Unknown or unspecified state.
+        UNKNOWN_PLANNER_STATE = 0;
+        // Initial state — no plan is active for this conversation.
+        PLANNER_STATE_IDLE = 1;
+        // The user is reviewing / refining the generated plan before execution
+        // begins.
+        PLANNER_STATE_REFINING = 2;
+        // The agent is executing the plan.
+        PLANNER_STATE_EXECUTING = 3;
+        // The agent has finished executing all steps.
+        PLANNER_STATE_COMPLETED = 4;
+      }
+
+      message SetPlanStateCallData {
+        optional PlannerState prev_planner_state = 1;
+        optional PlannerState curr_planner_state = 2;
       }
     }
   }
