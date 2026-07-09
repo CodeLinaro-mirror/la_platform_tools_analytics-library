@@ -934,6 +934,10 @@ message AndroidStudioEvent {
   optional LightbuildSyncFinishedEvent lightbuild_sync_finished_event = 262
       [lazy = true];
 
+  // set when kind = STUDIO_BOT_CONFIGURATION_EVENT
+  optional StudioBotConfigurationEvent studio_bot_configuration_event = 263
+      [lazy = true];
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -2000,6 +2004,9 @@ message AndroidStudioEvent {
 
     // Lightbuild sync finished event.
     LIGHTBUILD_SYNC_FINISHED_EVENT = 389;
+
+    // Studio Bot configuration event.
+    STUDIO_BOT_CONFIGURATION_EVENT = 390;
   }
 
   // Represents different Performance Monitoring types.
@@ -18148,15 +18155,120 @@ message GeminiTelemetryEvent {
   }
 }
 
+// Tracks Studio Bot setup and configuration events.
+message StudioBotConfigurationEvent {
+  // Studio onboarding event.
+  message OnboardingEvent {
+    enum LicenseType {
+      LICENSE_TYPE_UNKNOWN = 0;
+      LICENSE_TYPE_CONSUMER = 1;
+      LICENSE_TYPE_BUSINESS = 2;
+    }
+
+    enum UserAccountType {
+      USER_ACCOUNT_TYPE_UNKNOWN = 0;
+      USER_ACCOUNT_TYPE_NON_DASHER = 1;
+      USER_ACCOUNT_TYPE_DASHER = 2;
+    }
+
+    // Logged when the onboarding process is initially started by the user or
+    // system.
+    message OnboardingStarted {
+      // UI entry points that can trigger the onboarding flow.
+      enum EntryPoint {
+        ENTRY_POINT_UNKNOWN = 0;
+        // Logged when the user starts onboarding from the model picker.
+        ENTRY_POINT_MODEL_PICKER = 1;
+        // Logged when the system starts onboarding automatically in the
+        // background.
+        ENTRY_POINT_BACKGROUND = 2;
+      }
+
+      optional EntryPoint entry_point = 1;
+
+      // For non-dasher users, this captures the license they start onboarding
+      // with. For dasher users, this might be unassigned initially until they
+      // choose.
+      optional LicenseType license_type = 2;
+    }
+
+    // Triggered as the user navigates through the wizard.
+    // The user can drop off, view screens, or perform actions at any of these
+    // pages.
+    message OnboardingStep {
+      // Pages in the onboarding wizard.
+      enum Page {
+        PAGE_UNKNOWN = 0;
+        PAGE_GCP_PROJECT_SELECTION = 1;
+        PAGE_SIGN_IN = 2;
+        PAGE_LICENSE_SELECTION = 3;
+      }
+
+      // Logged when a page is shown to the user (impression).
+      message Impression {
+        optional Page page = 1;
+      }
+
+      // Logged when the user takes a specific action on a page.
+      message Action {
+        enum ActionType {
+          ACTION_UNKNOWN = 0;
+          // Logged when user completes an action on a page (e.g. selects a
+          // project, selects a license, etc.).
+          ACTION_COMPLETED = 1;
+          // Logged when user cancels the onboarding flow on a page.
+          ACTION_CANCELLED = 2;
+          // Logged when user skips a page in the onboarding flow.
+          ACTION_SKIPPED = 3;
+        }
+        optional Page page = 1;
+        optional ActionType type = 2;
+      }
+
+      oneof event {
+        Impression impression = 1;
+        Action action = 2;
+      }
+    }
+
+    // Triggered when onboarding completes successfully.
+    message OnboardingCompleted {
+      // The subscription tier name of the onboarded user (e.g. "free-tier",
+      // "g1-pro-tier", etc.). List:
+      // google3/cloud/developer_experience/codeassist/shared/usertier/tiers.go
+      optional string tier_name = 1;
+
+      // The final license type assigned to the user.
+      optional LicenseType license_type = 2;
+      optional UserAccountType user_account_type = 3;
+
+      // The final tier ID of the onboarded user.
+      optional string tier_id = 4;
+    }
+
+    oneof milestone {
+      OnboardingStarted onboarding_started = 1;
+      OnboardingStep onboarding_step = 2;
+      OnboardingCompleted onboarding_completed = 3;
+    }
+  }
+
+  optional OnboardingEvent onboarding_event = 1;
+}
+
 message SmlConfigurationEvent {
   // Whether SML features are available to this user.
   optional bool sml_available = 1;
 
-  // Whether this user has started Studio Bot onboarding.
-  optional bool bot_onboarding_started = 4;
+  // Deprecated. Use StudioBotConfigurationEvent.OnboardingEvent instead.
+  // Deprecated in Android Studio 2026.1.3 (Quail 3). Whether this user has
+  // started Studio Bot onboarding.
+  optional bool bot_onboarding_started = 4 [deprecated = true];
 
-  // Whether this user has completed Studio Bot onboarding.
-  optional bool bot_onboarding_completed = 5;
+  // Deprecated. Use StudioBotConfigurationEvent.OnboardingEvent instead.
+  // Deprecated in Android Studio 2026.1.3 (Quail 3). Whether this user has
+  // completed Studio Bot onboarding.
+  optional bool bot_onboarding_completed = 5 [deprecated = true];
 
   // User has ML completion enabled.
   optional bool completion_enabled = 2;
