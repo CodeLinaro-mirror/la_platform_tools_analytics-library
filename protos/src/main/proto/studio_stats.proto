@@ -21063,6 +21063,8 @@ message ChangeReviewEvent {
     AGENT_DRAWER = 3;
     // The session was restored from a previously saved state.
     RESTORED = 4;
+    AGENT_CHAT_PENDING_CHANGES = 5;
+    AGENT_CHAT_COMMIT_HISTORY = 6;
   }
 
   // The final outcome status of the Change Review generation session.
