@@ -11232,6 +11232,7 @@ message RunEvent {
     TILE = 3;
     COMPLICATION = 4;
     DECLARATIVE_WATCH_FACE = 5;
+    WEAR_WIDGET = 6;
   }
   // Type of AppComponent user wants to run
   optional AppComponent app_component_type = 25;
