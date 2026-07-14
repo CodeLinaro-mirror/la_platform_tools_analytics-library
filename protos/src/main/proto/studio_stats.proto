@@ -15556,6 +15556,7 @@ message GoogleLoginPluginEvent {
     LOGOUT_WITH_SUCCESS = 5;
     LOGOUT_WITH_FAILURE = 6;
     LOGGED_IN_ON_STUDIO_START = 7;
+    STARTUP_SIGNIN_DIALOG_SHOWN = 8;
   }
 
   enum LoginType {
@@ -15566,6 +15567,8 @@ message GoogleLoginPluginEvent {
     FEATURE_LOGIN = 2;
     // A user signs in via the authentication error notification.
     AUTH_ERROR_NOTIFICATION_LOGIN = 3;
+    // A user signs in via the startup sign in dialog.
+    STARTUP_SIGNIN_DIALOG_LOGIN = 4;
   }
 
   message LoginFeatures {
