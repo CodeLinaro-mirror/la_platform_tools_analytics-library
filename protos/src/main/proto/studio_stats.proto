@@ -20418,6 +20418,8 @@ message ServerPushNotificationEvent {
     SHOWN = 1;
     DISMISSED = 2;
     ACTION_CLICKED = 3;
+    // Logged when all requirements for a notification are met.
+    IS_ELIGIBLE = 4;
   }
 
   enum NotificationType {
