@@ -2310,6 +2310,11 @@ message AndroidStudioEvent {
       optional bool uses_legacy_support = 1;
       // Whether or not the project uses Kotlin build files ("build.gradle.kts")
       optional bool uses_build_gradle_kts = 2;
+      // Whether or not the project uses Declarative build files
+      // ("build.gradle.dcl")
+      optional bool uses_build_gradle_dcl = 3;
+      // Whether or not the project uses Lightbuild
+      optional bool uses_lightbuild = 4;
     }
   }
 
