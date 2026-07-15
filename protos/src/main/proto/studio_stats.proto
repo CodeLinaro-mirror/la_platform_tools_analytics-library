@@ -9311,6 +9311,10 @@ message SherlockEvent {
   optional GfxrTraceLoadedMetadata gfxr_trace_loaded_metadata = 13
       [lazy = true];
 
+  // Set if |type| is |DEVICE_TASK_EVENT|
+  optional DeviceTaskEventMetadata device_task_event_metadata = 14
+      [lazy = true];
+
   enum Type {
     UNKNOWN_TYPE = 0;
 
@@ -9373,6 +9377,9 @@ message SherlockEvent {
 
     // Fired when a gfxr trace is opened & loaded.
     GFXR_TRACE_LOADED = 404;
+
+    // Fired when there is a device task service event.
+    DEVICE_TASK_EVENT = 405;
   }
 
   // Details around user opening or closing projects.
@@ -9750,6 +9757,26 @@ message SherlockEvent {
         CAPTURE_FAILURE_REASON_DEVICE_DISCONNECTED = 2;
         CAPTURE_FAILURE_REASON_NO_RESULT_FOUND = 3;
       }
+    }
+  }
+
+  // Metadata for the |DEVICE_TASK_EVENT| event.
+  message DeviceTaskEventMetadata {
+    // The human-readable label of the task that the event is for.
+    optional string task_label = 1;
+
+    // Whether the task finished successfully.
+    optional bool is_success = 2;
+
+    // The reason for the task failure.
+    optional FailureReason failure_reason = 3;
+
+    enum FailureReason {
+      DEVICE_TASK_FAILURE_REASON_UNKNOWN = 0;
+      // The task was cancelled as a result of a user action (i.e. not really an
+      // error).
+      DEVICE_TASK_FAILURE_REASON_CANCELLATION = 1;
+      DEVICE_TASK_FAILURE_REASON_DEVICE_DISCONNECTED = 2;
     }
   }
 
