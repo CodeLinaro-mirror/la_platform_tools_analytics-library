@@ -9303,6 +9303,14 @@ message SherlockEvent {
   // Set if |type| is |CAPTURE_EVENT|
   optional CaptureEventMetadata capture_event_metadata = 11 [lazy = true];
 
+  // Set if |type| is |NEW_CAPTURE_FRAME_PROFILER_DIALOG_PROCEED|
+  optional NewCaptureFrameProfilerDialogMetadata
+      new_capture_frame_profiler_dialog_metadata = 12 [lazy = true];
+
+  // Set if |type| is |GFXR_TRACE_LOADED|
+  optional GfxrTraceLoadedMetadata gfxr_trace_loaded_metadata = 13
+      [lazy = true];
+
   enum Type {
     UNKNOWN_TYPE = 0;
 
@@ -9355,6 +9363,16 @@ message SherlockEvent {
 
     // Fired when a user expands or collapses a track group in the viewer.
     TRACK_GROUP_TOGGLED = 306;
+
+    /// Frame Profiler (GFXR) Trace recording and viewer.
+
+    // Fired when the user interacts with the gfxr capture dialog.
+    NEW_CAPTURE_FRAME_PROFILER_DIALOG_OPENED = 401;
+    NEW_CAPTURE_FRAME_PROFILER_DIALOG_CANCELLED = 402;
+    NEW_CAPTURE_FRAME_PROFILER_DIALOG_PROCEED = 403;
+
+    // Fired when a gfxr trace is opened & loaded.
+    GFXR_TRACE_LOADED = 404;
   }
 
   // Details around user opening or closing projects.
@@ -9499,6 +9517,25 @@ message SherlockEvent {
       // If the Screenshot layer was enabled, the frequency at which frames were
       // captured.
       optional int32 screenshot_layer_every_n_frames = 4;
+    }
+  }
+
+  // Metadata for the |NEW_CAPTURE_FRAME_PROFILER_DIALOG_PROCEED| event.
+  // Details when starting a new frame profiler trace recording.
+  message NewCaptureFrameProfilerDialogMetadata {
+    optional ExtendedDeviceInfo extended_device_info = 1;
+
+    // Type of activity:  e.g., default or user-selected.
+    optional ActivityType activity_type = 2;
+
+    // Whether the user provided any additional launch arguments when starting
+    // the app.
+    optional bool additional_launch_args_provided = 3;
+
+    enum ActivityType {
+      ACTIVITY_TYPE_UNKNOWN = 0;
+      ACTIVITY_TYPE_DEFAULT = 1;
+      ACTIVITY_TYPE_USER_SELECTED = 2;
     }
   }
 
@@ -9713,6 +9750,22 @@ message SherlockEvent {
         CAPTURE_FAILURE_REASON_DEVICE_DISCONNECTED = 2;
         CAPTURE_FAILURE_REASON_NO_RESULT_FOUND = 3;
       }
+    }
+  }
+
+  // Metadata for the |GFXR_TRACE_LOADED| event.
+  message GfxrTraceLoadedMetadata {
+    // The final status of the trace loading operation.
+    optional TraceLoadStatus trace_load_status = 1;
+
+    // Size of the trace file in bytes.
+    optional int64 trace_file_size_bytes = 2;
+
+    enum TraceLoadStatus {
+      TRACE_LOAD_STATUS_UNKNOWN = 0;
+      TRACE_LOAD_STATUS_SUCCESS = 1;
+      TRACE_LOAD_STATUS_FAILURE_UNKNOWN = 2;
+      TRACE_LOAD_STATUS_FAILURE_DB_GENERATION = 3;
     }
   }
 }
