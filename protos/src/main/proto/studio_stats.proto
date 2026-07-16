@@ -17682,7 +17682,14 @@ message SmlChatBotEvent {
     // An artifact (implementation_plan, task_list, walkthrough, etc.) was
     // edited by the agent.
     message ArtifactEdited {
+      enum ArtifactType {
+        ARTIFACT_TYPE_UNSPECIFIED = 0;
+        ARTIFACT_TYPE_IMPLEMENTATION_PLAN = 1;
+        ARTIFACT_TYPE_TASK = 2;
+        ARTIFACT_TYPE_WALKTHROUGH = 3;
+      }
       optional string artifact_name = 1;
+      optional ArtifactType artifact_type = 2;
     }
     // The conversation session this event happened in.
     optional string session_id = 1;
@@ -17911,7 +17918,15 @@ message GeminiTelemetryEvent {
     message ChangesDrawerEvent {
       optional SmlChatBotEvent.ChangeResolved change_resolved = 1;
     }
-    optional ChangesDrawerEvent changes_drawer_event = 1;
+
+    message GuidedModeEvent {
+      optional SmlChatBotEvent.PlanningModeEvent planning_mode_event = 1;
+    }
+
+    oneof event {
+      ChangesDrawerEvent changes_drawer_event = 1;
+      GuidedModeEvent guided_mode_event = 2;
+    }
   }
 
   message PermissionApprovalEvent {
