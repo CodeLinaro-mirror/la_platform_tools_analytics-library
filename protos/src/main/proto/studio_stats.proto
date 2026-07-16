@@ -2310,6 +2310,11 @@ message AndroidStudioEvent {
       optional bool uses_legacy_support = 1;
       // Whether or not the project uses Kotlin build files ("build.gradle.kts")
       optional bool uses_build_gradle_kts = 2;
+      // Whether or not the project uses Declarative build files
+      // ("build.gradle.dcl")
+      optional bool uses_build_gradle_dcl = 3;
+      // Whether or not the project uses Lightbuild
+      optional bool uses_lightbuild = 4;
     }
   }
 
@@ -9298,6 +9303,18 @@ message SherlockEvent {
   // Set if |type| is |CAPTURE_EVENT|
   optional CaptureEventMetadata capture_event_metadata = 11 [lazy = true];
 
+  // Set if |type| is |NEW_CAPTURE_FRAME_PROFILER_DIALOG_PROCEED|
+  optional NewCaptureFrameProfilerDialogMetadata
+      new_capture_frame_profiler_dialog_metadata = 12 [lazy = true];
+
+  // Set if |type| is |GFXR_TRACE_LOADED|
+  optional GfxrTraceLoadedMetadata gfxr_trace_loaded_metadata = 13
+      [lazy = true];
+
+  // Set if |type| is |DEVICE_TASK_EVENT|
+  optional DeviceTaskEventMetadata device_task_event_metadata = 14
+      [lazy = true];
+
   enum Type {
     UNKNOWN_TYPE = 0;
 
@@ -9350,6 +9367,19 @@ message SherlockEvent {
 
     // Fired when a user expands or collapses a track group in the viewer.
     TRACK_GROUP_TOGGLED = 306;
+
+    /// Frame Profiler (GFXR) Trace recording and viewer.
+
+    // Fired when the user interacts with the gfxr capture dialog.
+    NEW_CAPTURE_FRAME_PROFILER_DIALOG_OPENED = 401;
+    NEW_CAPTURE_FRAME_PROFILER_DIALOG_CANCELLED = 402;
+    NEW_CAPTURE_FRAME_PROFILER_DIALOG_PROCEED = 403;
+
+    // Fired when a gfxr trace is opened & loaded.
+    GFXR_TRACE_LOADED = 404;
+
+    // Fired when there is a device task service event.
+    DEVICE_TASK_EVENT = 405;
   }
 
   // Details around user opening or closing projects.
@@ -9494,6 +9524,25 @@ message SherlockEvent {
       // If the Screenshot layer was enabled, the frequency at which frames were
       // captured.
       optional int32 screenshot_layer_every_n_frames = 4;
+    }
+  }
+
+  // Metadata for the |NEW_CAPTURE_FRAME_PROFILER_DIALOG_PROCEED| event.
+  // Details when starting a new frame profiler trace recording.
+  message NewCaptureFrameProfilerDialogMetadata {
+    optional ExtendedDeviceInfo extended_device_info = 1;
+
+    // Type of activity:  e.g., default or user-selected.
+    optional ActivityType activity_type = 2;
+
+    // Whether the user provided any additional launch arguments when starting
+    // the app.
+    optional bool additional_launch_args_provided = 3;
+
+    enum ActivityType {
+      ACTIVITY_TYPE_UNKNOWN = 0;
+      ACTIVITY_TYPE_DEFAULT = 1;
+      ACTIVITY_TYPE_USER_SELECTED = 2;
     }
   }
 
@@ -9708,6 +9757,42 @@ message SherlockEvent {
         CAPTURE_FAILURE_REASON_DEVICE_DISCONNECTED = 2;
         CAPTURE_FAILURE_REASON_NO_RESULT_FOUND = 3;
       }
+    }
+  }
+
+  // Metadata for the |DEVICE_TASK_EVENT| event.
+  message DeviceTaskEventMetadata {
+    // The human-readable label of the task that the event is for.
+    optional string task_label = 1;
+
+    // Whether the task finished successfully.
+    optional bool is_success = 2;
+
+    // The reason for the task failure.
+    optional FailureReason failure_reason = 3;
+
+    enum FailureReason {
+      DEVICE_TASK_FAILURE_REASON_UNKNOWN = 0;
+      // The task was cancelled as a result of a user action (i.e. not really an
+      // error).
+      DEVICE_TASK_FAILURE_REASON_CANCELLATION = 1;
+      DEVICE_TASK_FAILURE_REASON_DEVICE_DISCONNECTED = 2;
+    }
+  }
+
+  // Metadata for the |GFXR_TRACE_LOADED| event.
+  message GfxrTraceLoadedMetadata {
+    // The final status of the trace loading operation.
+    optional TraceLoadStatus trace_load_status = 1;
+
+    // Size of the trace file in bytes.
+    optional int64 trace_file_size_bytes = 2;
+
+    enum TraceLoadStatus {
+      TRACE_LOAD_STATUS_UNKNOWN = 0;
+      TRACE_LOAD_STATUS_SUCCESS = 1;
+      TRACE_LOAD_STATUS_FAILURE_UNKNOWN = 2;
+      TRACE_LOAD_STATUS_FAILURE_DB_GENERATION = 3;
     }
   }
 }
@@ -11232,6 +11317,7 @@ message RunEvent {
     TILE = 3;
     COMPLICATION = 4;
     DECLARATIVE_WATCH_FACE = 5;
+    WEAR_WIDGET = 6;
   }
   // Type of AppComponent user wants to run
   optional AppComponent app_component_type = 25;
@@ -15550,6 +15636,7 @@ message GoogleLoginPluginEvent {
     LOGOUT_WITH_SUCCESS = 5;
     LOGOUT_WITH_FAILURE = 6;
     LOGGED_IN_ON_STUDIO_START = 7;
+    STARTUP_SIGNIN_DIALOG_SHOWN = 8;
   }
 
   enum LoginType {
@@ -15560,6 +15647,8 @@ message GoogleLoginPluginEvent {
     FEATURE_LOGIN = 2;
     // A user signs in via the authentication error notification.
     AUTH_ERROR_NOTIFICATION_LOGIN = 3;
+    // A user signs in via the startup sign in dialog.
+    STARTUP_SIGNIN_DIALOG_LOGIN = 4;
   }
 
   message LoginFeatures {
@@ -17593,7 +17682,14 @@ message SmlChatBotEvent {
     // An artifact (implementation_plan, task_list, walkthrough, etc.) was
     // edited by the agent.
     message ArtifactEdited {
+      enum ArtifactType {
+        ARTIFACT_TYPE_UNSPECIFIED = 0;
+        ARTIFACT_TYPE_IMPLEMENTATION_PLAN = 1;
+        ARTIFACT_TYPE_TASK = 2;
+        ARTIFACT_TYPE_WALKTHROUGH = 3;
+      }
       optional string artifact_name = 1;
+      optional ArtifactType artifact_type = 2;
     }
     // The conversation session this event happened in.
     optional string session_id = 1;
@@ -17822,7 +17918,15 @@ message GeminiTelemetryEvent {
     message ChangesDrawerEvent {
       optional SmlChatBotEvent.ChangeResolved change_resolved = 1;
     }
-    optional ChangesDrawerEvent changes_drawer_event = 1;
+
+    message GuidedModeEvent {
+      optional SmlChatBotEvent.PlanningModeEvent planning_mode_event = 1;
+    }
+
+    oneof event {
+      ChangesDrawerEvent changes_drawer_event = 1;
+      GuidedModeEvent guided_mode_event = 2;
+    }
   }
 
   message PermissionApprovalEvent {

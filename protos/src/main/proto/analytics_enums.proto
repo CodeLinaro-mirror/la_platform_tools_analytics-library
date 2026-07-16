@@ -694,6 +694,7 @@ enum BooleanOption {
     ENABLE_ON_THE_FLY_CODE_COVERAGE = 237;
     R8_ENABLE_KEEP_RADIUS_REPORT = 238;
     USE_NEW_DSL_INTERFACES_FOR_KTS = 239;
+    TEST_SUITE_NEW_REPORT_FORMAT = 240;
 }
 
 enum OptionalBooleanOption {
@@ -795,6 +796,7 @@ enum StringOption {
     TEST_SUITE_TEST_TASK_ADDITIONAL_INPUTS_FILE = 51;
     SUPPRESS_AGP_SYNC_WARNINGS = 52;
     NEW_DSL_OPT_OUT = 53;
+    PROJECT_CREATOR_TOOL = 54;
 }
 
 enum VariantApiArtifactType {
