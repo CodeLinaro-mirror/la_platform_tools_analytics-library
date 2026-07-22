@@ -127,7 +127,7 @@ object CommonMetricsData {
         return "unknown"
       }
 
-      val osLower = os.toLowerCase(Locale.US)
+      val osLower = os.lowercase(Locale.US)
 
       when {
         osLower.startsWith("mac") -> os = OS_NAME_MAC

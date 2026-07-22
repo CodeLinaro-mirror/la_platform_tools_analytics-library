@@ -295,6 +295,11 @@ object UsageTracker {
   }
 
   private fun updateWriters(state: AnalyticsState): Writers {
+    if (isTesting) {
+      // when in test mode, do not modify the specified test writer
+      return Writers(NullUsageTracker, NullUsageTracker)
+    }
+
     if (state.level == AnalyticsLevel.LOGGED_IN) {
       require(state.loggedInUser != null) { "A user is required to enable logged in metrics." }
     }

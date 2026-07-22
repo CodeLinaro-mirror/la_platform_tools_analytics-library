@@ -97,7 +97,7 @@ class Counter internal constructor(val name: String) {
       append("AvgWall: ", avgWallMicros, "μs ")
       append("TotalWall: ", totalWallMillis, "ms ")
       append("MaxWall: ", maxWallMicros, "μs ")
-      appendln()
+      appendLine()
     }
   }
 }
