@@ -9438,12 +9438,25 @@ message SherlockEvent {
     // Generic information about the device.
     optional ExtendedDeviceInfo extended_device_info = 2;
 
+    // Stages that failed during device initialization.
+    repeated DeviceInitializationStage failed_stages = 3 [packed = true];
+
     // Status of the device initialization process.
     enum DeviceInitializationStatus {
       DEVICE_INITIALIZATION_STATUS_UNKNOWN = 0;
       DEVICE_INITIALIZATION_STATUS_SUCCESS = 1;
       DEVICE_INITIALIZATION_STATUS_CANCELLED = 2;
       DEVICE_INITIALIZATION_STATUS_ERROR = 3;
+    }
+
+    enum DeviceInitializationStage {
+      DEVICE_INITIALIZATION_STAGE_UNKNOWN = 0;
+      DEVICE_INITIALIZATION_STAGE_SDK_CHECK = 1;
+      DEVICE_INITIALIZATION_STAGE_APKS = 2;
+      DEVICE_INITIALIZATION_STAGE_PACKAGES = 3;
+      DEVICE_INITIALIZATION_STAGE_DEVICE_DETAILS = 4;
+      DEVICE_INITIALIZATION_STAGE_PERFETTO_CAPABILITIES = 5;
+      DEVICE_INITIALIZATION_STAGE_GPU_COUNTERS = 6;
     }
   }
 
