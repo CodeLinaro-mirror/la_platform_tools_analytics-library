@@ -243,6 +243,9 @@ message AndroidStudioEvent {
   optional WhatsNewAssistantEvent whats_new_assistant_event = 60
       [deprecated = true, lazy = true];
 
+  // set when kind = ROLLBACK_TOOL_CALL_EVENT
+  optional RollbackToolCallEvent rollback_tool_call_event = 257 [lazy = true];
+
   // the project id as used in the playstore, e.g.
   // 'com.google.android.apps.maps'. This is sensitive information and
   // thus restricted to "raw" sawmill access. This data is only available in
@@ -911,6 +914,30 @@ message AndroidStudioEvent {
   // set when kind = GEMINI_TELEMETRY_EVENT
   optional GeminiTelemetryEvent gemini_telemetry_event = 255 [lazy = true];
 
+  // set when kind = PLAY_PUBLISHING_EVENT
+  optional PlayPublishingEvent play_publishing_event = 256 [lazy = true];
+
+  // set when kind = CHANGE_REVIEW_EVENT
+  optional ChangeReviewEvent change_review_event = 258 [lazy = true];
+
+  // set when kind = MARKETING_METRICS_EVENT
+  optional MarketingMetricsEvent marketing_metrics_event = 259 [lazy = true];
+
+  // Logged when a user interacts with the diff viewer UI (Engagement Track)
+  optional RenderDiffViewerEvent render_diff_viewer_event = 260 [lazy = true];
+
+  // set when kind = LIGHTBUILD_SYNC_REQUESTED_EVENT
+  optional LightbuildSyncRequestedEvent lightbuild_sync_requested_event = 261
+      [lazy = true];
+
+  // set when kind = LIGHTBUILD_SYNC_FINISHED_EVENT
+  optional LightbuildSyncFinishedEvent lightbuild_sync_finished_event = 262
+      [lazy = true];
+
+  // set when kind = STUDIO_BOT_CONFIGURATION_EVENT
+  optional StudioBotConfigurationEvent studio_bot_configuration_event = 263
+      [lazy = true];
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -982,6 +1009,9 @@ message AndroidStudioEvent {
     GOOGLE_PLAY_SDK_INDEX = 30;
     // The event is related to Gradle JVM incompatible dialog
     GRADLE_JVM_INCOMPATIBLE_DIALOG = 31;
+    // The event is related to the modal Dialog to enable parallel Gradle sync
+    // for Gradle 9.4+.
+    PARALLEL_GRADLE_SYNC_MODAL_DIALOG = 32;
   }
 
   // Specific kind of event, primary separation key of all Android Studio
@@ -1950,6 +1980,33 @@ message AndroidStudioEvent {
 
     // Gemini telemetry event.
     GEMINI_TELEMETRY_EVENT = 379;
+
+    // Play publishing event.
+    PLAY_PUBLISHING_EVENT = 380;
+
+    // Rollback tool call event.
+    ROLLBACK_TOOL_CALL_EVENT = 381;
+
+    // Change review event.
+    CHANGE_REVIEW_EVENT = 382;
+
+    // Events related to parallel sync activation's modal dialog.
+    PARALLEL_GRADLE_SYNC_MODAL_DIALOG_APPLY_SETTING = 383;
+    PARALLEL_GRADLE_SYNC_MODAL_DIALOG_IGNORE_SETTING = 384;
+    PARALLEL_GRADLE_SYNC_MODAL_DIALOG_ALWAYS_APPLY_SETTING = 385;
+    PARALLEL_GRADLE_SYNC_MODAL_DIALOG_CANCEL = 386;
+
+    // Marketing metrics event.
+    MARKETING_METRICS_EVENT = 387;
+
+    // Lightbuild sync requested event
+    LIGHTBUILD_SYNC_REQUESTED_EVENT = 388;
+
+    // Lightbuild sync finished event.
+    LIGHTBUILD_SYNC_FINISHED_EVENT = 389;
+
+    // Studio Bot configuration event.
+    STUDIO_BOT_CONFIGURATION_EVENT = 390;
   }
 
   // Represents different Performance Monitoring types.
@@ -2253,6 +2310,11 @@ message AndroidStudioEvent {
       optional bool uses_legacy_support = 1;
       // Whether or not the project uses Kotlin build files ("build.gradle.kts")
       optional bool uses_build_gradle_kts = 2;
+      // Whether or not the project uses Declarative build files
+      // ("build.gradle.dcl")
+      optional bool uses_build_gradle_dcl = 3;
+      // Whether or not the project uses Lightbuild
+      optional bool uses_lightbuild = 4;
     }
   }
 
@@ -3318,6 +3380,7 @@ message EmulatorAvdInfo {
     XR_HEADSET_DEVICE = 58;
     XR_GLASSES_DEVICE = 59;
     AI_GLASSES_DEVICE = 60;
+    PIXEL_10A = 61;
   }
   // Name of the AVD. Deprecated as it could potentially contain PII.
   optional string name = 1 [deprecated = true];
@@ -3483,7 +3546,9 @@ message EmulatorFeatureFlagState {
     QEMU_CAMERA_SENSOR_ORIENTATION = 138;
     VULKAN_PROTECTED_MEMORY_EMULATION = 139;
     XR_DIMMING = 140;
-    // Next tag: 141
+    XR_HAND_AND_EYE_POINTERS = 141;
+    XR_STATUS_LED = 142;
+    // Next tag: 143
   }
   // Which features were enabled by default or through the server-side config.
   repeated EmulatorFeatureFlag attempted_enabled_feature_flags = 1;
@@ -9238,6 +9303,18 @@ message SherlockEvent {
   // Set if |type| is |CAPTURE_EVENT|
   optional CaptureEventMetadata capture_event_metadata = 11 [lazy = true];
 
+  // Set if |type| is |NEW_CAPTURE_FRAME_PROFILER_DIALOG_PROCEED|
+  optional NewCaptureFrameProfilerDialogMetadata
+      new_capture_frame_profiler_dialog_metadata = 12 [lazy = true];
+
+  // Set if |type| is |GFXR_TRACE_LOADED|
+  optional GfxrTraceLoadedMetadata gfxr_trace_loaded_metadata = 13
+      [lazy = true];
+
+  // Set if |type| is |DEVICE_TASK_EVENT|
+  optional DeviceTaskEventMetadata device_task_event_metadata = 14
+      [lazy = true];
+
   enum Type {
     UNKNOWN_TYPE = 0;
 
@@ -9290,6 +9367,19 @@ message SherlockEvent {
 
     // Fired when a user expands or collapses a track group in the viewer.
     TRACK_GROUP_TOGGLED = 306;
+
+    /// Frame Profiler (GFXR) Trace recording and viewer.
+
+    // Fired when the user interacts with the gfxr capture dialog.
+    NEW_CAPTURE_FRAME_PROFILER_DIALOG_OPENED = 401;
+    NEW_CAPTURE_FRAME_PROFILER_DIALOG_CANCELLED = 402;
+    NEW_CAPTURE_FRAME_PROFILER_DIALOG_PROCEED = 403;
+
+    // Fired when a gfxr trace is opened & loaded.
+    GFXR_TRACE_LOADED = 404;
+
+    // Fired when there is a device task service event.
+    DEVICE_TASK_EVENT = 405;
   }
 
   // Details around user opening or closing projects.
@@ -9437,6 +9527,25 @@ message SherlockEvent {
     }
   }
 
+  // Metadata for the |NEW_CAPTURE_FRAME_PROFILER_DIALOG_PROCEED| event.
+  // Details when starting a new frame profiler trace recording.
+  message NewCaptureFrameProfilerDialogMetadata {
+    optional ExtendedDeviceInfo extended_device_info = 1;
+
+    // Type of activity:  e.g., default or user-selected.
+    optional ActivityType activity_type = 2;
+
+    // Whether the user provided any additional launch arguments when starting
+    // the app.
+    optional bool additional_launch_args_provided = 3;
+
+    enum ActivityType {
+      ACTIVITY_TYPE_UNKNOWN = 0;
+      ACTIVITY_TYPE_DEFAULT = 1;
+      ACTIVITY_TYPE_USER_SELECTED = 2;
+    }
+  }
+
   // Metadata for the |PERFETTO_TRACE_OPENED| event.
   message PerfettoTraceOpenedMetadata {
     // Whether the trace was from the current project or opened from an external
@@ -9569,6 +9678,7 @@ message SherlockEvent {
     TRACK_KIND_GPU_QUEUE = 6;
     TRACK_KIND_GPU_COUNTER = 7;
     TRACK_KIND_VULKAN_EVENT = 8;
+    TRACK_KIND_GPU = 17;
 
     // Process & Thread Kinds
     TRACK_KIND_PROCESS_SUMMARY = 9;
@@ -9577,10 +9687,23 @@ message SherlockEvent {
     TRACK_KIND_ASYNC_EVENT = 12;
     TRACK_KIND_THREAD = 13;
     TRACK_KIND_TIMELINE = 14;
+    TRACK_KIND_PROCESSES = 18;
+    TRACK_KIND_IDLE_PROCESSES = 19;
+
+    // Frame & Display Kinds
+    TRACK_KIND_FRAME_EVENTS = 20;
+    TRACK_KIND_FRAME_LAYER = 21;
+    TRACK_KIND_FPS = 22;
+    TRACK_KIND_FRAME_TIME = 23;
+    TRACK_KIND_FRAME_ON_DISPLAY = 24;
+    TRACK_KIND_JANK_CUJ = 25;
 
     // Generic/Other Kinds
     TRACK_KIND_BATTERY = 15;
     TRACK_KIND_POWER = 16;
+    TRACK_KIND_APP_STARTUP = 26;
+    TRACK_KIND_ENERGY = 27;
+    TRACK_KIND_MEMORY_SUMMARY = 28;
   }
 
   // Metadata for the |CAPTURE_EVENT| event.
@@ -9634,6 +9757,42 @@ message SherlockEvent {
         CAPTURE_FAILURE_REASON_DEVICE_DISCONNECTED = 2;
         CAPTURE_FAILURE_REASON_NO_RESULT_FOUND = 3;
       }
+    }
+  }
+
+  // Metadata for the |DEVICE_TASK_EVENT| event.
+  message DeviceTaskEventMetadata {
+    // The human-readable label of the task that the event is for.
+    optional string task_label = 1;
+
+    // Whether the task finished successfully.
+    optional bool is_success = 2;
+
+    // The reason for the task failure.
+    optional FailureReason failure_reason = 3;
+
+    enum FailureReason {
+      DEVICE_TASK_FAILURE_REASON_UNKNOWN = 0;
+      // The task was cancelled as a result of a user action (i.e. not really an
+      // error).
+      DEVICE_TASK_FAILURE_REASON_CANCELLATION = 1;
+      DEVICE_TASK_FAILURE_REASON_DEVICE_DISCONNECTED = 2;
+    }
+  }
+
+  // Metadata for the |GFXR_TRACE_LOADED| event.
+  message GfxrTraceLoadedMetadata {
+    // The final status of the trace loading operation.
+    optional TraceLoadStatus trace_load_status = 1;
+
+    // Size of the trace file in bytes.
+    optional int64 trace_file_size_bytes = 2;
+
+    enum TraceLoadStatus {
+      TRACE_LOAD_STATUS_UNKNOWN = 0;
+      TRACE_LOAD_STATUS_SUCCESS = 1;
+      TRACE_LOAD_STATUS_FAILURE_UNKNOWN = 2;
+      TRACE_LOAD_STATUS_FAILURE_DB_GENERATION = 3;
     }
   }
 }
@@ -11158,6 +11317,7 @@ message RunEvent {
     TILE = 3;
     COMPLICATION = 4;
     DECLARATIVE_WATCH_FACE = 5;
+    WEAR_WIDGET = 6;
   }
   // Type of AppComponent user wants to run
   optional AppComponent app_component_type = 25;
@@ -13310,6 +13470,29 @@ message McpEnablementEvent {
   optional bool enabled = 2;
 }
 
+// Telemetry data for monitoring the success, cancellation, or failure rates of
+// toolcall rollbacks in the agent-assisted chat system.
+message RollbackToolCallEvent {
+  // The result of the rollback operation.
+  enum RollbackOutcome {
+    UNKNOWN_OUTCOME = 0;
+    SUCCESS = 1;
+    CANCELLED = 2;  // User clicked 'No' on confirmation
+    FAILED = 3;     // Error occurred
+  }
+  // Specific failure reason if outcome is FAILED.
+  enum FailureReason {
+    UNKNOWN_FAILURE_REASON = 0;
+    LABEL_NOT_FOUND = 1;  // Label was pruned or not found in history
+    REFLECTION_ERROR =
+        2;  // Reflection call failed (e.g., internal API changed)
+  }
+  // The outcome of the event.
+  optional RollbackOutcome outcome = 1;
+  // Specific failure reason if outcome is FAILED.
+  optional FailureReason failure_reason = 3;
+}
+
 message RenderToolEvent {
   // Top-level success status
   optional bool is_success = 1;
@@ -13337,6 +13520,32 @@ message RenderToolEvent {
 
   // Total time from Tool start to Tool finish (includes compilation + overhead)
   optional int64 total_latency_ms = 7;
+
+  // --- Visual Analysis Fields ---
+
+  // Whether a historical image was found in cache or trajectory for comparison
+  optional bool has_previous_version = 8;
+
+  // The percentage of pixels that changed (0.0 to 1.0)
+  // Only populated if has_previous_version is true.
+  optional float pixel_delta_percentage = 9;
+}
+
+/**
+ * Logged whenever the Visual Diff Viewer is displayed or when the user
+ * switches between comparison modes (tabs).
+ */
+message RenderDiffViewerEvent {
+  enum ViewMode {
+    UNKNOWN_VIEW_MODE = 0;
+    NEW = 1;         // Default single image view
+    PREVIOUS = 2;    // View only the historical snapshot
+    SPLIT_VIEW = 3;  // Side-by-side comparison
+    DIFF_VIEW = 4;   // Pixel-level heatmap (Heatmap)
+  }
+
+  // The comparison mode the user selected or is currently viewing.
+  optional ViewMode view_mode = 1;
 }
 
 message AppInspectionEvent {
@@ -15427,6 +15636,7 @@ message GoogleLoginPluginEvent {
     LOGOUT_WITH_SUCCESS = 5;
     LOGOUT_WITH_FAILURE = 6;
     LOGGED_IN_ON_STUDIO_START = 7;
+    STARTUP_SIGNIN_DIALOG_SHOWN = 8;
   }
 
   enum LoginType {
@@ -15437,6 +15647,8 @@ message GoogleLoginPluginEvent {
     FEATURE_LOGIN = 2;
     // A user signs in via the authentication error notification.
     AUTH_ERROR_NOTIFICATION_LOGIN = 3;
+    // A user signs in via the startup sign in dialog.
+    STARTUP_SIGNIN_DIALOG_LOGIN = 4;
   }
 
   message LoginFeatures {
@@ -17470,7 +17682,14 @@ message SmlChatBotEvent {
     // An artifact (implementation_plan, task_list, walkthrough, etc.) was
     // edited by the agent.
     message ArtifactEdited {
+      enum ArtifactType {
+        ARTIFACT_TYPE_UNSPECIFIED = 0;
+        ARTIFACT_TYPE_IMPLEMENTATION_PLAN = 1;
+        ARTIFACT_TYPE_TASK = 2;
+        ARTIFACT_TYPE_WALKTHROUGH = 3;
+      }
       optional string artifact_name = 1;
+      optional ArtifactType artifact_type = 2;
     }
     // The conversation session this event happened in.
     optional string session_id = 1;
@@ -17541,8 +17760,18 @@ message GeminiTelemetryEvent {
     UiEvent ui_event = 3;
     // Events related to the agent, such as tool calls etc.
     AgentEvent agent_event = 4;
+    // Events related to the permissions evaluation.
+    PermissionApprovalEvent permission_approval_event = 5;
   }
 
+  // The envelope holds metadata about the event and information to link related
+  // events together.
+  // For ServerEvents, the request_id field in the EventEnvelope ties
+  // together the request and response events.
+  // For all events, the root_trajectory_id in the EventEnvelope
+  // ties together events belonging to the same conversation.
+  // For all events, the trajectory_id in the EventEnvelope ties together
+  // events belonging to the same agent (or sub-agent) interaction.
   message EventEnvelope {
     // Trajectory id of the event.
     optional string trajectory_id = 1;
@@ -17553,9 +17782,9 @@ message GeminiTelemetryEvent {
     // true if visible in chat history
     optional bool is_chat_thread = 4;
 
-    // Server request/response cycle identifier.
+    // Server request/response cycle identifier, used with ServerEvents.
     optional string request_id = 5;
-    // Backend trace identifier
+    // Backend trace identifier, used with ServerEvents.
     optional string server_trace_id = 6;
 
     // Provider ID of the model used for this event.
@@ -17566,9 +17795,197 @@ message GeminiTelemetryEvent {
     optional bool is_default_model = 9;
   }
 
-  message ServerEvent {}
+  message ServerEvent {
+    optional RequestEvent request_event = 1;
+    optional ResponseEvent response_event = 2;
 
-  message UiEvent {}
+    // Captures metrics for a Request in a step.
+    message RequestEvent {
+      // Number of messages in the history, including the user message and
+      // system instructions.
+      optional int32 history_message_count = 1;
+      // The character length of the system instructions.
+      optional int32 system_instruction_length_chars = 2;
+      // The total request size in bytes, accounting
+      // for the system prompt, tool definitions (including schemas), and the
+      // full message history (text, thought blocks, and multimodal content).
+      optional int64 request_size_bytes = 3;
+    }
+
+    // Captures metrics for a Response in a step.
+    message ResponseEvent {
+      // Network & Lifecycle
+      // HTTP status code of the response.
+      optional int32 http_status_code = 1;
+      // Latency from the start of the request to the moment it finishes
+      // receiving the very last streamed chunk of the response.
+      optional int64 latency_ms = 2;
+      // Latency from the start of the request to reading the first streamed
+      // chunk of the response.
+      optional int64 ttfc_ms = 3;  // Time to first streamed chunk
+      // Size of the response in bytes.
+      optional int64 response_size_bytes = 4;
+
+      // Token Usage
+      // The number of tokens in the prompt.
+      optional int32 input_token_count = 5;
+      // Number of output tokens generated in the response.
+      optional int32 output_token_count = 6;
+      //  The number of tokens successfully read from the cache.
+      optional int32 cache_read_token_count = 7;
+
+      // Model Information
+      // The actual model ID that generated the response. This may be different
+      // from the model ID requested by the user (e.g., if the user requested a
+      // specific version of a model).
+      optional string actual_model_id = 8;
+
+      // List from https://ai.google.dev/api/generate-content#FinishReason
+      // Represents the semantic reason of why the model stopped generating
+      // content.
+      enum FinishReason {
+        FINISH_REASON_UNSPECIFIED = 0;
+        STOP = 1;
+        MAX_TOKENS = 2;
+        SAFETY = 3;
+        RECITATION = 4;
+        MISSING_THOUGHT_SIGNATURE = 5;
+        LANGUAGE = 6;
+        OTHER = 7;
+        BLOCKLIST = 8;
+        PROHIBITED_CONTENT = 9;
+        SPII = 10;
+        MALFORMED_FUNCTION_CALL = 11;
+        IMAGE_SAFETY = 12;
+        IMAGE_PROHIBITED_CONTENT = 13;
+        IMAGE_OTHER = 14;
+        NO_IMAGE = 15;
+        IMAGE_RECITATION = 16;
+        UNEXPECTED_TOOL_CALL = 17;
+        TOO_MANY_TOOL_CALLS = 18;
+        MALFORMED_RESPONSE = 19;
+      }
+      optional FinishReason finish_reason = 9;
+
+      // Status of the model API call.
+      enum ModelApiStatus {
+        MODEL_API_STATUS_UNSPECIFIED = 0;
+        MODEL_API_STATUS_OK = 1;
+        MODEL_API_STATUS_CANCELLED = 2;
+        MODEL_API_STATUS_UNKNOWN = 3;
+        MODEL_API_STATUS_INVALID_ARGUMENT = 4;
+        MODEL_API_STATUS_DEADLINE_EXCEEDED = 5;
+        MODEL_API_STATUS_NOT_FOUND = 6;
+        MODEL_API_STATUS_ALREADY_EXISTS = 7;
+        MODEL_API_STATUS_PERMISSION_DENIED = 8;
+        MODEL_API_STATUS_UNAUTHENTICATED = 9;
+        MODEL_API_STATUS_RESOURCE_EXHAUSTED = 10;
+        MODEL_API_STATUS_CLIENT_SIDE_RATE_LIMIT = 11;
+        MODEL_API_STATUS_FAILED_PRECONDITION = 12;
+        MODEL_API_STATUS_ABORTED = 13;
+        MODEL_API_STATUS_OUT_OF_RANGE = 14;
+        MODEL_API_STATUS_UNIMPLEMENTED = 15;
+        MODEL_API_STATUS_INTERNAL = 16;
+        MODEL_API_STATUS_UNAVAILABLE = 17;
+        MODEL_API_STATUS_DATA_LOSS = 18;
+        MODEL_API_STATUS_MALFORMED_FUNCTION_CALL = 19;
+      }
+      optional ModelApiStatus status = 10;
+
+      // Represents the character lengths and timing of a single streamed chunk.
+      message ResponseChunk {
+        // Timestamp of when this chunk was received in milliseconds since
+        // epoch.
+        optional int64 timestamp_ms = 1;
+
+        // The character length of the generated response text in this chunk.
+        optional int32 text_length_chars = 2;
+
+        // The character length of the generated thought/reasoning in this
+        // chunk.
+        optional int32 thought_length_chars = 3;
+
+        // Whether the thought signature was present (not null) in this chunk.
+        optional bool has_signature = 4;
+      }
+
+      // Ordered list of streamed chunks as they were received.
+      repeated ResponseChunk response_chunks = 11;
+    }
+  }
+
+  message UiEvent {
+    message ChangesDrawerEvent {
+      optional SmlChatBotEvent.ChangeResolved change_resolved = 1;
+    }
+
+    message GuidedModeEvent {
+      optional SmlChatBotEvent.PlanningModeEvent planning_mode_event = 1;
+    }
+
+    oneof event {
+      ChangesDrawerEvent changes_drawer_event = 1;
+      GuidedModeEvent guided_mode_event = 2;
+    }
+  }
+
+  message PermissionApprovalEvent {
+    // The policy mode the user has selected.
+    enum PermissionMode {
+      PERMISSION_MODE_UNSPECIFIED = 0;
+      // All sensitive actions require explicit manual approval.
+      STRICT = 1;
+      // A local fast model is used to audit actions and auto-approve safe ones.
+      SUPERVISED = 2;
+      // Unrestricted mode where most actions are executed without prompting.
+      YOLO = 3;
+    }
+
+    // Identifies how the decision to approve or review the operation was made.
+    enum DecisionSource {
+      DECISION_SOURCE_UNSPECIFIED = 0;
+      // Operation was deemed safe based on predefined static rules.
+      FAST_TRACK = 1;
+      // Operation was previously approved in the current session.
+      SESSION_CACHE = 2;
+      // The decision was made by an AI auditor model.
+      LLM_AUDITOR = 3;
+      // The user had to manually approve or reject the action.
+      USER_MANUAL = 4;
+    }
+
+    // The outcome determined by the AI auditor model, if LLM_AUDITOR was used.
+    enum AuditorDecision {
+      AUDITOR_DECISION_UNSPECIFIED = 0;
+      // The operation was considered safe and allowed to proceed.
+      SAFE = 1;
+      // The operation was flagged for manual user review.
+      REVIEW = 2;
+    }
+
+    // The final outcome of the permission request evaluation.
+    enum PermissionDecisionOutcome {
+      PERMISSION_DECISION_OUTCOME_UNSPECIFIED = 0;
+      APPROVED = 1;
+      DENIED = 2;
+    }
+
+    // The type of permission request being analyzed.
+    enum PermissionType {
+      PERMISSION_TYPE_UNSPECIFIED = 0;
+      EXECUTE = 1;
+      FILE = 2;
+      URL = 3;
+      MCP = 4;
+      OTHER = 5;
+    }
+
+    optional PermissionMode permission_mode = 1;
+    optional DecisionSource decision_source = 2;
+    optional AuditorDecision auditor_decision = 3;
+    optional PermissionDecisionOutcome decision_outcome = 4;
+    optional PermissionType permission_type = 5;
+  }
 
   message AgentEvent {
     // A single, comprehensive log for the entire tool lifecycle
@@ -17597,19 +18014,6 @@ message GeminiTelemetryEvent {
       // While ExecutionStatus tracks if the tool ran, ResponseStatus tracks
       // the logical result (e.g. "file not found" or "build success").
       optional ResponseStatus response_status = 7;
-
-      // Tool-Specific Metadata
-      oneof tool_specific_metadata {
-        // Data for a find declaration tool call.
-        FindDeclarationToolCallData find_declaration_tool_call_data = 8;
-      }
-
-      message FindDeclarationToolCallData {
-        // The exception the find_declaration tool encountered.
-        optional string exception = 1;
-        // The number of files in the find_declaration.
-        optional int32 result_count = 2;
-      }
 
       // Execution status of the tool call infrastructure.
       // Tracks the lifecycle of the execution (e.g. if it crashed or was
@@ -17703,19 +18107,272 @@ message GeminiTelemetryEvent {
         // The tool execution was interrupted. Used by the shell command tool.
         TOOL_EXECUTION_INTERRUPTED = 32;
       }
+
+      // Tool-Specific Metadata
+      oneof tool_specific_metadata {
+        // Data for a find_declaration tool call.
+        FindDeclarationToolCallData find_declaration_tool_call_data = 8;
+        // Data for a find_files tool call.
+        FindFilesToolCallData find_files_tool_call_data = 9;
+        // Data for a find_usages tool call.
+        FindUsagesToolCallData find_usages_tool_call_data = 10;
+        // Data for a grep tool call.
+        GrepToolCallData grep_tool_call_data = 11;
+        // Data for a code_search tool call.
+        RagToolCallData rag_tool_call_data = 12;
+        // Data for a read_file tool call.
+        ReadFileToolCallData read_file_tool_call_data = 13;
+        // Data for a set_plan_state tool call.
+        SetPlanStateCallData set_plan_state_call_data = 14;
+      }
+
+      message SearchArguments {
+        // Number of lines to show after the match (like grep -A).
+        optional int32 lines_after = 1;
+        // Number of lines to show before the match (like grep -B).
+        optional int32 lines_before = 2;
+        // Number of lines to show around the match (like grep -C).
+        optional int32 lines_context = 3;
+        // Pattern to filter results (like grep -E).
+        optional string filter = 4;
+        // Type to search, e.g., "all" kinds, function "call", etc.
+        optional string type = 5;
+        // Glob-like patterns to filter in results.
+        optional string include_pattern = 6;
+        // Glob-like patterns to filter out results.
+        optional string exclude_pattern = 7;
+      }
+
+      message SearchResponse {
+        // The number of characters in the final response.
+        optional int32 response_length = 1;
+        // The number of characters in the search results before path
+        // deduplication.
+        optional int32 raw_result_length = 2;
+      }
+
+      message FindDeclarationToolCallData {
+        // The exception the find_declaration tool encountered.
+        optional string exception = 1;
+        // The number of files in the find_declaration.
+        optional int32 result_count = 2;
+        // The search arguments used for find_declaration.
+        optional SearchArguments search_arguments = 3;
+        // The search response.
+        optional SearchResponse response = 4;
+      }
+
+      message FindFilesToolCallData {
+        // Comma separated exceptions from the find_files tool call.
+        // We will use "IndexerInactive" to indicate the indexer is not active.
+        optional string exception = 1;
+        // The number of files in the combined file search result.
+        optional int32 combined_result_count = 2;
+        // The number of files in the bm25 file search result.
+        optional int32 bm25_search_count = 3;
+        // The number of files in the original find_files search result.
+        optional int32 found_files_count = 4;
+        // The number of docs (a doc is a file in the current RAG indexer) that
+        // are indexed.
+        optional int32 total_indexed_docs = 5;
+        // The search response.
+        optional SearchResponse response = 6;
+      }
+
+      message FindUsagesToolCallData {
+        // The exception the find_usages tool encountered.
+        optional string exception = 1;
+        // The number of files in the find_usages.
+        optional int32 result_count = 2;
+        // The search arguments used for find_usages.
+        optional SearchArguments search_arguments = 3;
+        // The search response.
+        optional SearchResponse response = 4;
+      }
+
+      message GrepToolCallData {
+        // The number of files in the grep result.
+        optional int32 result_count = 1;
+        // Whether the query contains any regex of ".*+?^$|(){}" or not.
+        optional bool regex_query = 2;
+        // The number of files in the grep BM25 backend result.
+        optional int32 bm25_result_count = 3;
+        // The number of files in the original grep backend result.
+        optional int32 grep_result_count = 4;
+        // The number of docs (a doc is a file in the current RAG indexer) that
+        // are indexed.
+        optional int32 total_indexed_docs = 5;
+        // The search arguments used for grep.
+        optional SearchArguments search_arguments = 6;
+        // The search response.
+        optional SearchResponse response = 7;
+      }
+
+      message RagToolCallData {
+        // The exception the code_search encountered.
+        // We will use "IndexerInactive" to indicate the indexer is not active.
+        optional string exception = 1;
+        // The number of files in code_search.
+        optional int32 result_count = 2;
+        // The number of resource files code_search returned.
+        optional int32 resource_count = 3;
+        // The number of files from out/ and builds/ that code_search returned.
+        optional int32 generated_files = 4;
+        // The number of docs (a doc is a file in the current RAG indexer) that
+        // are indexed.
+        optional int32 total_indexed_docs = 5;
+        // The search response.
+        optional SearchResponse response = 6;
+      }
+
+      message ReadFileToolCallData {
+        // Indicates if the read tool call read a skill file.
+        optional bool is_skill_file = 1;
+        // The name of the skill if it's a bundled skill.
+        optional SkillsEvent.SkillName skill_name = 2;
+        // The number of lines requested to read in the tool call.
+        optional int32 requested_line_count = 3;
+        // The number of lines returned by the read tool.
+        optional int32 returned_line_count = 4;
+      }
+
+      // The state of the planner during tool execution.
+      enum PlannerState {
+        // Unknown or unspecified state.
+        UNKNOWN_PLANNER_STATE = 0;
+        // Initial state — no plan is active for this conversation.
+        PLANNER_STATE_IDLE = 1;
+        // The user is reviewing / refining the generated plan before execution
+        // begins.
+        PLANNER_STATE_REFINING = 2;
+        // The agent is executing the plan.
+        PLANNER_STATE_EXECUTING = 3;
+        // The agent has finished executing all steps.
+        PLANNER_STATE_COMPLETED = 4;
+      }
+
+      message SetPlanStateCallData {
+        optional PlannerState prev_planner_state = 1;
+        optional PlannerState curr_planner_state = 2;
+      }
     }
   }
+}
+
+// Tracks Studio Bot setup and configuration events.
+message StudioBotConfigurationEvent {
+  // Studio onboarding event.
+  message OnboardingEvent {
+    enum LicenseType {
+      LICENSE_TYPE_UNKNOWN = 0;
+      LICENSE_TYPE_CONSUMER = 1;
+      LICENSE_TYPE_BUSINESS = 2;
+    }
+
+    enum UserAccountType {
+      USER_ACCOUNT_TYPE_UNKNOWN = 0;
+      USER_ACCOUNT_TYPE_NON_DASHER = 1;
+      USER_ACCOUNT_TYPE_DASHER = 2;
+    }
+
+    // Logged when the onboarding process is initially started by the user or
+    // system.
+    message OnboardingStarted {
+      // UI entry points that can trigger the onboarding flow.
+      enum EntryPoint {
+        ENTRY_POINT_UNKNOWN = 0;
+        // Logged when the user starts onboarding from the model picker.
+        ENTRY_POINT_MODEL_PICKER = 1;
+        // Logged when the system starts onboarding automatically in the
+        // background.
+        ENTRY_POINT_BACKGROUND = 2;
+      }
+
+      optional EntryPoint entry_point = 1;
+
+      // For non-dasher users, this captures the license they start onboarding
+      // with. For dasher users, this might be unassigned initially until they
+      // choose.
+      optional LicenseType license_type = 2;
+    }
+
+    // Triggered as the user navigates through the wizard.
+    // The user can drop off, view screens, or perform actions at any of these
+    // pages.
+    message OnboardingStep {
+      // Pages in the onboarding wizard.
+      enum Page {
+        PAGE_UNKNOWN = 0;
+        PAGE_GCP_PROJECT_SELECTION = 1;
+        PAGE_SIGN_IN = 2;
+        PAGE_LICENSE_SELECTION = 3;
+      }
+
+      // Logged when a page is shown to the user (impression).
+      message Impression {
+        optional Page page = 1;
+      }
+
+      // Logged when the user takes a specific action on a page.
+      message Action {
+        enum ActionType {
+          ACTION_UNKNOWN = 0;
+          // Logged when user completes an action on a page (e.g. selects a
+          // project, selects a license, etc.).
+          ACTION_COMPLETED = 1;
+          // Logged when user cancels the onboarding flow on a page.
+          ACTION_CANCELLED = 2;
+          // Logged when user skips a page in the onboarding flow.
+          ACTION_SKIPPED = 3;
+        }
+        optional Page page = 1;
+        optional ActionType type = 2;
+      }
+
+      oneof event {
+        Impression impression = 1;
+        Action action = 2;
+      }
+    }
+
+    // Triggered when onboarding completes successfully.
+    message OnboardingCompleted {
+      // The subscription tier name of the onboarded user (e.g. "free-tier",
+      // "g1-pro-tier", etc.). List:
+      // google3/cloud/developer_experience/codeassist/shared/usertier/tiers.go
+      optional string tier_name = 1;
+
+      // The final license type assigned to the user.
+      optional LicenseType license_type = 2;
+      optional UserAccountType user_account_type = 3;
+
+      // The final tier ID of the onboarded user.
+      optional string tier_id = 4;
+    }
+
+    oneof milestone {
+      OnboardingStarted onboarding_started = 1;
+      OnboardingStep onboarding_step = 2;
+      OnboardingCompleted onboarding_completed = 3;
+    }
+  }
+
+  optional OnboardingEvent onboarding_event = 1;
 }
 
 message SmlConfigurationEvent {
   // Whether SML features are available to this user.
   optional bool sml_available = 1;
 
-  // Whether this user has started Studio Bot onboarding.
-  optional bool bot_onboarding_started = 4;
+  // Deprecated. Use StudioBotConfigurationEvent.OnboardingEvent instead.
+  // Deprecated in Android Studio 2026.1.3 (Quail 3). Whether this user has
+  // started Studio Bot onboarding.
+  optional bool bot_onboarding_started = 4 [deprecated = true];
 
-  // Whether this user has completed Studio Bot onboarding.
-  optional bool bot_onboarding_completed = 5;
+  // Deprecated. Use StudioBotConfigurationEvent.OnboardingEvent instead.
+  // Deprecated in Android Studio 2026.1.3 (Quail 3). Whether this user has
+  // completed Studio Bot onboarding.
+  optional bool bot_onboarding_completed = 5 [deprecated = true];
 
   // User has ML completion enabled.
   optional bool completion_enabled = 2;
@@ -17817,6 +18474,13 @@ message SmlRagEvent {
     optional string exclude_pattern = 7;
   }
 
+  message SearchResponse {
+    // The number of characters in the final response.
+    optional int32 response_length = 1;
+    // The number of characters in the search results before path deduplication.
+    optional int32 raw_result_length = 2;
+  }
+
   message RagIndexerMetrics {
     // The type of indexer like "bm25" or "embeddings" and its version.
     optional string indexer_type = 1;
@@ -17849,6 +18513,8 @@ message SmlRagEvent {
     // The number of docs (a doc is a file in the current RAG indexer) that are
     // indexed.
     optional int32 total_indexed_docs = 6;
+    // The search response.
+    optional SearchResponse response = 7;
   }
 
   message FindDeclarationMetrics {
@@ -17860,6 +18526,8 @@ message SmlRagEvent {
     optional int64 find_declaration_time_ms = 3;
     // The search arguments used for find_declaration.
     optional SearchArguments search_arguments = 4;
+    // The search response.
+    optional SearchResponse response = 5;
   }
 
   // We merged the original find_files with file path search based on BM25.
@@ -17879,6 +18547,8 @@ message SmlRagEvent {
     // The number of docs (a doc is a file in the current RAG indexer) that are
     // indexed.
     optional int32 total_indexed_docs = 5;
+    // The search response.
+    optional SearchResponse response = 6;
   }
 
   message FindUsagesMetrics {
@@ -17890,6 +18560,8 @@ message SmlRagEvent {
     optional int64 find_usages_time_ms = 3;
     // The search arguments used for find_usages.
     optional SearchArguments search_arguments = 4;
+    // The search response.
+    optional SearchResponse response = 5;
   }
 
   message GrepMetrics {
@@ -17906,6 +18578,8 @@ message SmlRagEvent {
     optional int32 total_indexed_docs = 5;
     // The search arguments used for grep.
     optional SearchArguments search_arguments = 6;
+    // The search response.
+    optional SearchResponse response = 7;
   }
 
   message KbRagIndexerMetrics {
@@ -17919,6 +18593,87 @@ message SmlRagEvent {
     optional bool index_downloaded_docs = 3;
   }
 
+  message LuceneIndexMetrics {
+    message UpdateStats {
+      // The number of update operations that have been applied to the index
+      // since the last flush.
+      optional int32 update_count = 1;
+      // The amount of CPU time, in milliseconds, that all update operations
+      // spent waiting to begin execution since the last flush.
+      optional int64 index_queue_time_ms = 2;
+      // The amount of CPU time, in milliseconds, that all update operations
+      // spent executing since the last flush.
+      optional int64 index_write_time_ms = 3;
+    }
+
+    // The type of the active RAG indexer (see RagIndexerMetrics)
+    optional string indexer_type = 1;
+    // Whether the RAG indexer that owns this index is the active RAG indexer.
+    optional bool is_active = 2;
+    // Stats for all changes applied to the index since the last flush.
+    optional UpdateStats overall_stats = 3;
+    // The amount of wall time, in milliseconds, that the current flush
+    // operation spent waiting for pending writes to finish.
+    optional int64 index_flush_time_ms = 4;
+    // The amount of wall time, in milliseconds, that the current flush
+    // operation spent waiting for Lucene to commit the index to disk.
+    optional int64 index_commit_time_ms = 5;
+    // Stats for the update operations that have been applied to the index since
+    // the last flush, broken down by the IntelliJ file type. Key is the unique
+    // name of the file type, as reported by FileType#getName.
+    map<string, UpdateStats> stats_by_file_type = 6;
+    // Stats for the update operations that have been applied to the index since
+    // the last flush, broken down by the base language. Key is the unique ID of
+    // the language, as reported by Language#getId. Since languages can have
+    // dialects and base languages, the total count in this map may differ from
+    // the total count in overall_stats.
+    map<string, UpdateStats> stats_by_language = 7;
+    // The total number of documents in the index, across all projects.
+    optional int32 index_document_count = 8;
+    // The total size of the index on disk, across all projects.
+    optional int64 index_size_bytes = 9;
+  }
+
+  message IntellijScanMetrics {
+    // The type of the active RAG indexer (see RagIndexerMetrics)
+    optional string indexer_type = 1;
+    // The number of files scanned in this scan pass.
+    optional int32 files_scanned = 2;
+    // The amount of CPU time, in milliseconds, to perform the full scan pass.
+    // Includes vfs_iteration_time, file_status_check_time, and overhead.
+    optional int64 total_scan_time_ms = 3;
+    // The amount of CPU time, in milliseconds, to iterate the VFS during
+    // scanning.
+    optional int64 vfs_iteration_time_ms = 4;
+    // The amount of CPU time, in milliseconds, to check the statuses of files
+    // during indexing. Slowdowns in index filters will appear here.
+    optional int64 file_status_check_time_ms = 5;
+    // The amount of wall time, in milliseconds, that the scanning pass spent in
+    // dumb mode.
+    optional int64 dumb_mode_time_ms = 6;
+    // The amount of wall time, in milliseconds, that the scanning pass spent
+    // paused.
+    optional int64 paused_time_ms = 7;
+  }
+
+  message IntellijIndexMetrics {
+    // The type of the RAG indexer that owns this index (see RagIndexerMetrics)
+    optional string indexer_type = 1;
+    // The number of files indexed by the RAG indexer in this index pass.
+    optional int32 files_indexed = 2;
+    // The total number of bytes indexed by the RAG indexer in this index pass.
+    optional int64 bytes_indexed = 3;
+    // The amount of CPU time, in milliseconds, that the RAG indexer spent
+    // generating updated index values during this index pass.
+    optional int64 index_evaluation_time_ms = 4;
+    // The amount of wall time, in milliseconds, that the indexing pass spent in
+    // dumb mode.
+    optional int64 dumb_mode_time_ms = 5;
+    // The amount of wall time, in milliseconds, that the indexing pass spent
+    // paused.
+    optional int64 paused_time_ms = 6;
+  }
+
   oneof content {
     RagIndexerMetrics rag_index = 1 [lazy = true];
     RagToolMetrics rag_tool = 2 [lazy = true];
@@ -17927,6 +18682,9 @@ message SmlRagEvent {
     KbRagIndexerMetrics kb_rag = 5 [lazy = true];
     FindDeclarationMetrics find_declaration = 6 [lazy = true];
     FindUsagesMetrics find_usages = 7 [lazy = true];
+    LuceneIndexMetrics lucene_metrics = 8 [lazy = true];
+    IntellijScanMetrics intellij_scan = 9 [lazy = true];
+    IntellijIndexMetrics intellij_index = 10 [lazy = true];
   }
 }
 
@@ -18598,6 +19356,7 @@ message AndroidCliInvocation {
     ANDROID_STUDIO = 4;
     OTHER = 5;
     CODEX = 6;
+    AI_STUDIO = 7;
   }
 }
 
@@ -19753,6 +20512,8 @@ message MarketingEmailEvent {
   optional bool opted_in = 1;
   // The source of the event.
   optional EventSource event_source = 2;
+  // User clicked "Do not show again for one year" in the dialog
+  optional bool do_not_show_again_clicked = 3;
 }
 
 message ServerPushNotificationEvent {
@@ -19761,6 +20522,8 @@ message ServerPushNotificationEvent {
     SHOWN = 1;
     DISMISSED = 2;
     ACTION_CLICKED = 3;
+    // Logged when all requirements for a notification are met.
+    IS_ELIGIBLE = 4;
   }
 
   enum NotificationType {
@@ -19978,6 +20741,17 @@ message NextEditPredictionEvent {
     }
   }
 
+  message RequestSent {
+    enum ModelType {
+      UNKNOWN = 0;
+      DEFAULT_MODEL_FREE_TIER = 1;
+      DEFAULT_MODEL_PAID_TIER = 2;
+      OTHER_MODEL = 3;
+    }
+    optional string model_id = 1;
+    optional ModelType model_type = 2;
+  }
+
   oneof next_edit_prediction {
     PredictionShown shown = 1 [lazy = true];
     PredictionAccepted accepted = 2 [lazy = true];
@@ -19985,6 +20759,7 @@ message NextEditPredictionEvent {
     EnabledStatus enabled_status = 4 [lazy = true];
     PredictionFailure failure = 5 [lazy = true];
     Session session = 6 [lazy = true];
+    RequestSent request_sent = 7 [lazy = true];
   }
 }
 
@@ -20042,6 +20817,24 @@ message SkillsEvent {
   // Pre-built skill names.
   enum SkillName {
     UNKNOWN_SKILL_NAME = 0;
+    CAMERA1_TO_CAMERAX = 1;
+    APPFUNCTIONS = 2;
+    ANDROID_CLI = 3;
+    FIREBASE_AUTH_BASICS = 4;
+    FIREBASE_BASICS = 5;
+    VERIFIED_EMAIL = 6;
+    ADAPTIVE = 7;
+    MIGRATE_XML_VIEWS_TO_JETPACK_COMPOSE = 8;
+    STYLES = 9;
+    NAVIGATION3 = 10;
+    R8_ANALYZER = 11;
+    ENGAGE_SDK_INTEGRATION = 12;
+    PLAY_BILLING_LIBRARY_VERSION_UPGRADE = 13;
+    PERFETTO_SQL = 14;
+    PERFETTO_TRACE_ANALYSIS = 15;
+    EDGE_TO_EDGE = 16;
+    TESTING_SETUP = 17;
+    DISPLAY_GLASSES_WITH_JETPACK_COMPOSE_GLIMMER = 18;
   }
 }
 
@@ -20064,4 +20857,204 @@ message EmulatorWindowsHypervisorMigrationEvent {
   }
 
   optional Action action = 1;
+}
+
+// Metrics for Play Publishing
+message PlayPublishingEvent {
+  enum PlayPublishingEventType {
+    UNKNOWN_EVENT = 0;
+    // Events related to showing the Play Publishing wizard.
+    WIZARD_SHOWN = 1;
+    // Events related to choosing a bundle to upload.
+    CHOOSE_BUNDLE = 2;
+    // Events related to creating an app record on Google Play.
+    CREATE_APP = 3;
+    // Events related to creating a release on Google Play.
+    CREATE_RELEASE = 4;
+  }
+
+  message WizardShownDetails {
+    enum WizardInvocationSource {
+      UNKNOWN_INVOCATION_SOURCE = 0;
+      // The wizard was invoked from the Export Signed Package wizard.
+      EXPORT_SIGNED_PACKAGE_WIZARD = 1;
+      // The wizard was invoked from the Build menu.
+      BUILD_MENU = 2;
+    }
+    optional WizardInvocationSource invocation_source = 1;
+  }
+
+  message ChooseBundleDetails {
+    // Whether the package name is registered on Google Play.
+    optional bool package_registered = 1;
+    // Whether the app name was read from the bundle.
+    optional bool app_name_read = 2;
+    // Whether the package name was read from the bundle.
+    optional bool package_name_read = 3;
+    // Whether the version code was read from the bundle.
+    optional bool version_code_read = 4;
+    // Whether the version name was read from the bundle.
+    optional bool version_name_read = 5;
+  }
+
+  message CreateAppDetails {
+    enum CreateAppResult {
+      UNKNOWN_CREATE_APP_RESULT = 0;
+      // App creation succeeded.
+      SUCCESS = 1;
+      // The package name is not available.
+      FAILED_PACKAGE_NAME_NOT_AVAILABLE = 2;
+      // No developer accounts were found.
+      FAILED_NO_DEVELOPER_ACCOUNTS = 3;
+      // Failed to list developer accounts.
+      FAILED_LIST_DEVELOPER_ACCOUNTS_FAILED = 4;
+    }
+
+    // Result of the app creation attempt.
+    optional CreateAppResult create_app_result = 1;
+  }
+
+  message CreateReleaseDetails {
+    enum CreateReleaseResult {
+      UNKNOWN_CREATE_RELEASE_RESULT = 0;
+      // Release creation succeeded.
+      SUCCESS = 1;
+      // Failed to list tracks.
+      FAILED_TO_LIST_TRACKS = 2;
+      // Bundle with version code already uploaded.
+      FAILED_VERSION_CODE_ALREADY_EXISTS = 3;
+      // Failed to upload the bundle.
+      FAILED_TO_UPLOAD_BUNDLE = 4;
+      // Release is not allowed on the track.
+      FAILED_RELEASE_NOT_ALLOWED_ON_TRACK = 5;
+      // Bundle was signed with the wrong key.
+      FAILED_BUNDLE_SIGNED_WITH_WRONG_KEY = 6;
+      // User cancelled the upload.
+      FAILED_USER_CANCELLED = 7;
+      // Failed to create the release.
+      FAILED_TO_CREATE_RELEASE = 8;
+      // Failed to commit the release.
+      FAILED_TO_COMMIT_RELEASE = 9;
+    }
+
+    enum TrackType {
+      UNKNOWN_TRACK_TYPE = 0;
+      // The release was created for the internal track.
+      INTERNAL_TESTING = 1;
+      // The release was created for the alpha track.
+      ALPHA = 2;
+      // The release was created for the beta track.
+      BETA = 3;
+      // The release was created for the production track.
+      PRODUCTION = 4;
+      // The release was created for a custom track.
+      CUSTOM = 5;
+    }
+
+    // Result of the release creation attempt.
+    optional CreateReleaseResult create_release_result = 1;
+    // The track type of the release.
+    optional TrackType track_type = 2;
+    // Time to upload the bundle in milliseconds.
+    optional int32 time_to_upload_bundle_ms = 3;
+  }
+
+  optional PlayPublishingEventType event_type = 1;
+  // set when event_type is WIZARD_SHOWN.
+  optional WizardShownDetails wizard_shown_details = 2 [lazy = true];
+  // set when event_type is CHOOSE_BUNDLE.
+  optional ChooseBundleDetails choose_bundle_details = 3 [lazy = true];
+  // set when event_type is CREATE_APP.
+  optional CreateAppDetails create_app_details = 4 [lazy = true];
+  // set when event_type is CREATE_RELEASE.
+  optional CreateReleaseDetails create_release_details = 5 [lazy = true];
+}
+
+// Telemetry event for the Change Review feature.
+message ChangeReviewEvent {
+  // The entry point in the UI from which the Change Review was invoked.
+  enum EntryPoint {
+    UNKNOWN_ENTRY_POINT = 0;
+    PENDING_CHANGES = 1;
+    COMMIT_HISTORY = 2;
+    AGENT_DRAWER = 3;
+    // The session was restored from a previously saved state.
+    RESTORED = 4;
+  }
+
+  // The final outcome status of the Change Review generation session.
+  enum Status {
+    UNKNOWN_STATUS = 0;
+    COMPLETED = 1;
+    FAILED = 2;
+    CANCELLED = 3;
+  }
+
+  // Telemetry data for a single Change Review generation session.
+  message Session {
+    optional string session_id = 1;
+    optional EntryPoint entry_point = 2;
+    optional string model_id = 3;
+    optional Status status = 4;
+    optional int64 total_duration_ms = 5;
+    optional int64 analysis_duration_ms = 6;
+    optional int64 summary_duration_ms = 7;
+    optional int64 themes_duration_ms = 8;
+    optional int64 theme_details_duration_ms = 9;
+    optional int32 num_files = 10;
+    optional int32 num_chunks = 11;
+    optional int32 num_suggestions_generated = 12;
+    optional string failure_reason = 13;
+  }
+
+  message FixBatch {
+    optional string session_id = 1;
+    optional int32 num_suggestions_selected = 2;
+    optional int32 num_suggestions_successful = 3;
+    optional int32 num_suggestions_failed = 4;
+    optional int64 total_duration_ms = 5;
+  }
+
+  oneof event {
+    // Logged when a change review generation session ends.
+    Session session = 1;
+    // Logged when a batch of suggested fixes is applied.
+    FixBatch fix_batch = 2;
+  }
+}
+
+// Telemetry event for the status of the marketing metrics pipeline.
+// The marketing metrics pipeline is enabled when the logged in user
+// has opted into data sharing and consented to receive emails.
+message MarketingMetricsEvent {
+  // Indicates whether the marketing metrics pipeline is enabled.
+  // This is sent on startup and when the logged in user or consent
+  // status changes.
+  optional bool enabled = 1;
+}
+
+// Sent when sync is explicitly requested for a Lightbuild project.
+message LightbuildSyncRequestedEvent {
+  optional GradleSyncStats.Trigger trigger = 1;
+}
+
+// Sent when sync for a Lightbuild project is complete.
+message LightbuildSyncFinishedEvent {
+  enum Trigger {
+    UNKNOWN_TRIGGER = 0;
+    STARTUP_ACTIVITY = 1;
+    NEW_PROJECT_EXECUTOR = 2;
+    VFS_FILE_LISTENER = 3;
+    PROJECT_SYSTEM = 4;
+  }
+  enum Result {
+    UNKNOWN_RESULT = 0;
+    SUCCESS = 1;
+    FAILURE = 2;
+  }
+  optional Trigger trigger = 1;
+  optional Result result = 2;
+  optional int64 total_duration_ms = 3;
+  optional int32 modules_count = 4;
+  optional int32 dependencies_count = 5;
 }

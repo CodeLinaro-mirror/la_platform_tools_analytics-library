@@ -279,6 +279,7 @@ object UsageTracker {
     synchronized(gate) {
       oldJob = job
       if (mode == Mode.INITIALIZED_ENABLED) {
+        this.hasAnonymousWriter = false // force create new anonymous writer
         this.scheduler = scheduler!!
         val scope = CoroutineScope(this.scheduler.asCoroutineDispatcher())
         job = AnalyticsStateManager.analyticsStateFlow.onEach { stateChanged(it) }.launchIn(scope)
@@ -294,6 +295,11 @@ object UsageTracker {
   }
 
   private fun updateWriters(state: AnalyticsState): Writers {
+    if (isTesting) {
+      // when in test mode, do not modify the specified test writer
+      return Writers(NullUsageTracker, NullUsageTracker)
+    }
+
     if (state.level == AnalyticsLevel.LOGGED_IN) {
       require(state.loggedInUser != null) { "A user is required to enable logged in metrics." }
     }

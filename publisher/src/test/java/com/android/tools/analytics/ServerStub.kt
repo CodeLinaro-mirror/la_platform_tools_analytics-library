@@ -84,8 +84,7 @@ constructor() : HttpHandler, AutoCloseable {
       if (nextResponseServerError.get()) {
         val response = "Internal Server Error".toByteArray(Charsets.UTF_8)
         httpExchange.sendResponseHeaders(HTTP_INTERNAL_SERVER_ERROR, response.size.toLong())
-        val body = httpExchange.responseBody
-        body.write(response)
+        httpExchange.responseBody.use { it.write(response) }
         nextResponseServerError.set(false)
       } else {
         val data = SettableFuture.create<PublishResult>()
@@ -97,12 +96,11 @@ constructor() : HttpHandler, AutoCloseable {
           val request = ClientAnalytics.LogRequest.parseFrom(body)
           val authorizationHeaders = httpExchange.requestHeaders["Authorization"]
           data.set(PublishResult(request, authorizationHeaders))
-          httpExchange.sendResponseHeaders(HTTP_OK, 0)
+          httpExchange.sendResponseHeaders(HTTP_OK, -1)
         } catch (e: IOException) {
           val response = "Bad Request".toByteArray(Charsets.UTF_8)
           httpExchange.sendResponseHeaders(HTTP_BAD_REQUEST, response.size.toLong())
-          val body = httpExchange.responseBody
-          body.write(response)
+          httpExchange.responseBody.use { it.write(response) }
           data.setException(e)
         }
 
