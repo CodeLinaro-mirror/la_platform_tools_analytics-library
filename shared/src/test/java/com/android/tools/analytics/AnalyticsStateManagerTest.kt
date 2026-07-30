@@ -23,7 +23,6 @@ class AnalyticsStateManagerTest {
   @Before
   fun setup() {
     AnalyticsStateManager.dataSharing = false
-    AnalyticsStateManager.emailConsent = false
     AnalyticsStateManager.loggedInUser = null
   }
 
@@ -35,7 +34,7 @@ class AnalyticsStateManagerTest {
   }
 
   @Test
-  fun `dataSharing true, no user, no consent, level is ANONYMOUS`() {
+  fun `data sharing true, no user, level is ANONYMOUS`() {
     AnalyticsStateManager.dataSharing = true
     val state = AnalyticsStateManager.analyticsStateFlow.value
     assertThat(state.level).isEqualTo(AnalyticsLevel.ANONYMOUS)
@@ -43,28 +42,17 @@ class AnalyticsStateManagerTest {
   }
 
   @Test
-  fun `dataSharing true, no user, with consent, level is ANONYMOUS`() {
+  fun `data sharing false, user set, level is NONE`() {
     AnalyticsStateManager.dataSharing = true
-    AnalyticsStateManager.emailConsent = true
-    val state = AnalyticsStateManager.analyticsStateFlow.value
-    assertThat(state.level).isEqualTo(AnalyticsLevel.ANONYMOUS)
-    assertThat(state.loggedInUser).isNull()
-  }
-
-  @Test
-  fun `dataSharing true, user set, no consent, level is ANONYMOUS`() {
-    AnalyticsStateManager.dataSharing = true
-    AnalyticsStateManager.emailConsent = false
     AnalyticsStateManager.loggedInUser = LoggedInUser("test@google.com") { "token" }
     val state = AnalyticsStateManager.analyticsStateFlow.value
-    assertThat(state.level).isEqualTo(AnalyticsLevel.ANONYMOUS)
+    assertThat(state.level).isEqualTo(AnalyticsLevel.LOGGED_IN)
     assertThat(state.loggedInUser).isNotNull()
   }
 
   @Test
-  fun `dataSharing true, user set, with consent, level is LOGGED_IN`() {
+  fun `data sharing true, user set, level is LOGGED_IN`() {
     AnalyticsStateManager.dataSharing = true
-    AnalyticsStateManager.emailConsent = true
     AnalyticsStateManager.loggedInUser = LoggedInUser("test@google.com") { "token" }
     val state = AnalyticsStateManager.analyticsStateFlow.value
     assertThat(state.level).isEqualTo(AnalyticsLevel.LOGGED_IN)
@@ -74,7 +62,6 @@ class AnalyticsStateManagerTest {
   @Test
   fun `clear LoggedInUser from LOGGED_IN, level is ANONYMOUS`() {
     AnalyticsStateManager.dataSharing = true
-    AnalyticsStateManager.emailConsent = true
     AnalyticsStateManager.loggedInUser = LoggedInUser("test@google.com") { "token" }
     AnalyticsStateManager.loggedInUser = null
     val state = AnalyticsStateManager.analyticsStateFlow.value
@@ -83,20 +70,18 @@ class AnalyticsStateManagerTest {
   }
 
   @Test
-  fun `clear LoggedInUser from ANONYMOUS (with user, no consent), level is ANONYMOUS`() {
-    AnalyticsStateManager.dataSharing = true
-    AnalyticsStateManager.emailConsent = false
+  fun `clear LoggedInUser from NONE , level is NONE`() {
+    AnalyticsStateManager.dataSharing = false
     AnalyticsStateManager.loggedInUser = LoggedInUser("test@google.com") { "token" }
     AnalyticsStateManager.loggedInUser = null
     val state = AnalyticsStateManager.analyticsStateFlow.value
-    assertThat(state.level).isEqualTo(AnalyticsLevel.ANONYMOUS)
+    assertThat(state.level).isEqualTo(AnalyticsLevel.NONE)
     assertThat(state.loggedInUser).isNull()
   }
 
   @Test
-  fun `dataSharing false from LOGGED_IN, level is NONE`() {
+  fun `clear data sharing from LOGGED_IN, level is NONE`() {
     AnalyticsStateManager.dataSharing = true
-    AnalyticsStateManager.emailConsent = true
     AnalyticsStateManager.loggedInUser = LoggedInUser("test@google.com") { "token" }
     AnalyticsStateManager.dataSharing = false
     val state = AnalyticsStateManager.analyticsStateFlow.value
@@ -105,24 +90,12 @@ class AnalyticsStateManagerTest {
   }
 
   @Test
-  fun `revoke emailConsent from LOGGED_IN, level is ANONYMOUS`() {
+  fun `clear data sharing from ANONYMOUS, level is NONE`() {
     AnalyticsStateManager.dataSharing = true
-    AnalyticsStateManager.emailConsent = true
-    AnalyticsStateManager.loggedInUser = LoggedInUser("test@google.com") { "token" }
-    AnalyticsStateManager.emailConsent = false
+    AnalyticsStateManager.loggedInUser = null
+    AnalyticsStateManager.dataSharing = false
     val state = AnalyticsStateManager.analyticsStateFlow.value
-    assertThat(state.level).isEqualTo(AnalyticsLevel.ANONYMOUS)
-    assertThat(state.loggedInUser).isNotNull()
-  }
-
-  @Test
-  fun `grant emailConsent with user set, level is LOGGED_IN`() {
-    AnalyticsStateManager.dataSharing = true
-    AnalyticsStateManager.emailConsent = false
-    AnalyticsStateManager.loggedInUser = LoggedInUser("test@google.com") { "token" }
-    AnalyticsStateManager.emailConsent = true
-    val state = AnalyticsStateManager.analyticsStateFlow.value
-    assertThat(state.level).isEqualTo(AnalyticsLevel.LOGGED_IN)
-    assertThat(state.loggedInUser).isNotNull()
+    assertThat(state.level).isEqualTo(AnalyticsLevel.NONE)
+    assertThat(state.loggedInUser).isNull()
   }
 }

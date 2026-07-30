@@ -27,7 +27,6 @@ class UsageTrackerInitializationTest {
   @Before
   fun setUp() {
     AnalyticsStateManager.dataSharing = false
-    AnalyticsStateManager.emailConsent = false
     AnalyticsStateManager.loggedInUser = null
     UsageTracker.updateState()
   }
@@ -91,7 +90,6 @@ class UsageTrackerInitializationTest {
     UsageTracker.assertDoesNotHaveLoggedInWriter()
 
     AnalyticsStateManager.loggedInUser = LoggedInUser("test@google.com") { "token" }
-    AnalyticsStateManager.emailConsent = true
     UsageTracker.updateState()
 
     UsageTracker.assertHasAnonymousWriter()
