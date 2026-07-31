@@ -17964,9 +17964,51 @@ message GeminiTelemetryEvent {
       optional SmlChatBotEvent.PlanningModeEvent planning_mode_event = 1;
     }
 
+    message UserQueryStarted {
+      // Identifies the source or kind of the user query turn.
+      enum UserQueryType {
+        USER_QUERY_TYPE_UNSPECIFIED = 0;
+        // A normal query coming from the user.
+        DEFAULT = 1;
+        // A steer message sent by the user as the agent is running, injected as
+        // soon as possible in the trajectory.
+        STEER = 2;
+        // A queued message sent by the user as the agent is running,
+        // automatically sent upon finishing the previous query.
+        QUEUED = 3;
+        // A query sent by a parent agent to a sub-agent.
+        SUB_AGENT = 4;
+        // A query sent by the harness when it attempts to retry an empty model
+        // response.
+        AUTO_RETRY = 5;
+      }
+
+      // Whether the query was initiated via a slash command (e.g., /explain,
+      // /fix).
+      optional bool from_slash_command = 1;
+      // The type of user query turn.
+      optional UserQueryType user_query_type = 2;
+    }
+
+    message UserQueryFinished {
+      // Whether the query was initiated via a slash command.
+      optional bool from_slash_command = 1;
+      // Exception class name if an error occurred (e.g.,
+      // "java.io.IOException"). Unset if the query finished without error.
+      optional string exception_class_name = 2;
+      // Total latency in milliseconds from UserQueryStarted to
+      // UserQueryFinished. UserQueryFinished event is fired after LLM completes
+      // its generation stream, all triggered tools have full executed and
+      // agentic turns are finished. From UI, the user query is completed
+      // answered finishing one turn of the conversation.
+      optional int64 latency_ms = 3;
+    }
+
     oneof event {
       ChangesDrawerEvent changes_drawer_event = 1;
       GuidedModeEvent guided_mode_event = 2;
+      UserQueryStarted user_query_started = 3;
+      UserQueryFinished user_query_finished = 4;
     }
   }
 
