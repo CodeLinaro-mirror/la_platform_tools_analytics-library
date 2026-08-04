@@ -18207,6 +18207,8 @@ message GeminiTelemetryEvent {
         ReadFileToolCallData read_file_tool_call_data = 13;
         // Data for a set_plan_state tool call.
         SetPlanStateCallData set_plan_state_call_data = 14;
+        // Data for a run_shell_command tool call or delegation.
+        RunShellCommandToolCallData run_shell_command_tool_call_data = 15;
       }
 
       message SearchArguments {
@@ -18338,6 +18340,27 @@ message GeminiTelemetryEvent {
         optional PlannerState prev_planner_state = 1;
         optional PlannerState curr_planner_state = 2;
       }
+
+      enum ShellCommand {
+        UNKNOWN = 0;
+        WRITE_FILE = 1;
+        READ_FILE = 2;
+        MULTI_REPLACE_FILE_CONTENT = 3;
+        LIST_FILES = 4;
+        DELETE_FILE = 5;
+        GREP = 6;
+        FIND_FILES = 7;
+        READ_URL = 8;
+      }
+
+      message RunShellCommandToolCallData {
+        // Command attempted by the agent.
+        optional ShellCommand command = 1;
+        // Whether the command was delegated to a native tool.
+        optional bool delegated_to_native_tool = 2;
+        // Arguments used for the command.
+        repeated string arguments = 3;
+      }
     }
   }
 }
@@ -18350,6 +18373,7 @@ message StudioBotConfigurationEvent {
       LICENSE_TYPE_UNKNOWN = 0;
       LICENSE_TYPE_CONSUMER = 1;
       LICENSE_TYPE_BUSINESS = 2;
+      LICENSE_TYPE_ENTERPRISE = 3;
     }
 
     enum UserAccountType {
@@ -18510,6 +18534,7 @@ message SmlConfigurationEvent {
     LICENSE_TYPE_UNKNOWN = 0;
     LICENSE_TYPE_CONSUMER = 1;
     LICENSE_TYPE_BUSINESS = 2;
+    LICENSE_TYPE_ENTERPRISE = 3;
   }
 }
 
@@ -21063,8 +21088,6 @@ message ChangeReviewEvent {
     AGENT_DRAWER = 3;
     // The session was restored from a previously saved state.
     RESTORED = 4;
-    AGENT_CHAT_PENDING_CHANGES = 5;
-    AGENT_CHAT_COMMIT_HISTORY = 6;
   }
 
   // The final outcome status of the Change Review generation session.
