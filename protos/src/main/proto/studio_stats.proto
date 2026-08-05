@@ -938,6 +938,10 @@ message AndroidStudioEvent {
   optional StudioBotConfigurationEvent studio_bot_configuration_event = 263
       [lazy = true];
 
+  // set when kind = LOCAL_INFERENCE_ENGINE_EVENT
+  optional LocalInferenceEngineEvent local_inference_engine_event = 264
+      [lazy = true];
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -2007,6 +2011,9 @@ message AndroidStudioEvent {
 
     // Studio Bot configuration event.
     STUDIO_BOT_CONFIGURATION_EVENT = 390;
+
+    // Event related to Local Inference Engine (llama-server) subprocess
+    LOCAL_INFERENCE_ENGINE_EVENT = 391;
   }
 
   // Represents different Performance Monitoring types.
@@ -21165,4 +21172,49 @@ message LightbuildSyncFinishedEvent {
   optional int64 total_duration_ms = 3;
   optional int32 modules_count = 4;
   optional int32 dependencies_count = 5;
+}
+
+// Event related to Local Inference Engine (llama-server) subprocess
+message LocalInferenceEngineEvent {
+  enum EventType {
+    UNKNOWN = 0;
+    SERVER_START_SUCCESS = 1;
+    SERVER_START_FAILURE = 2;
+    SERVER_CRASH = 3;
+  }
+
+  optional EventType event_type = 1;
+
+  optional string error_message = 2;
+
+  // Process exit code (meaningful for SERVER_CRASH)
+  optional int32 exit_code = 3;
+
+  // Hardware capabilities detected by llama-server
+  optional HardwareCapabilities hardware_capabilities = 5;
+
+  enum FailureReason {
+    UNKNOWN_FAILURE_REASON = 0;
+    MODEL_PATH_NOT_CONFIGURED = 1;
+    MODEL_FILE_NOT_FOUND = 2;
+    MULTIMODAL_MODEL_FILE_NOT_FOUND = 3;
+    SERVER_BINARY_NOT_FOUND = 4;
+    SERVER_BINARY_FILE_NOT_FOUND = 5;
+    SERVER_BINARY_NOT_EXECUTABLE = 6;
+    HEALTH_CHECK_TIMEOUT = 7;
+    GENERIC_START_ERROR = 8;
+    OUT_OF_MEMORY = 9;
+  }
+
+  optional FailureReason failure_reason = 6;
+
+  message HardwareCapabilities {
+    repeated Device devices = 1;
+  }
+
+  message Device {
+    optional string name = 1;
+    optional int64 total_ram_mb = 2;
+    optional int64 free_ram_mb = 3;
+  }
 }
