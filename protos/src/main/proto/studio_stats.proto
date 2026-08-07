@@ -18365,8 +18365,8 @@ message GeminiTelemetryEvent {
         optional ShellCommand command = 1;
         // Whether the command was delegated to a native tool.
         optional bool delegated_to_native_tool = 2;
-        // Arguments used for the command.
-        repeated string arguments = 3;
+        // Option names used for the command.
+        repeated string option_names = 3;
       }
     }
   }
