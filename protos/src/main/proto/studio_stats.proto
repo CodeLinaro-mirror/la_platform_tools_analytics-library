@@ -18427,9 +18427,18 @@ message StudioBotConfigurationEvent {
       // Pages in the onboarding wizard.
       enum Page {
         PAGE_UNKNOWN = 0;
+        // Business GCP Project setup
         PAGE_GCP_PROJECT_SELECTION = 1;
         PAGE_SIGN_IN = 2;
-        PAGE_LICENSE_SELECTION = 3;
+        // Deprecated. Use PAGE_PRODUCT_TIER_SELECTION.
+        PAGE_LICENSE_SELECTION = 3 [deprecated = true];
+
+        // Free vs Business/Enterprise tier selection
+        PAGE_PRODUCT_TIER_SELECTION = 4;
+        // Enterprise license seat picker
+        PAGE_ENTERPRISE_LICENSE_SELECTION = 5;
+        // Enterprise self-assign
+        PAGE_ENTERPRISE_SELF_ASSIGN_LICENSE = 6;
       }
 
       // Logged when a page is shown to the user (impression).
