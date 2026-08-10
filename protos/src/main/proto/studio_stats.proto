@@ -17841,6 +17841,10 @@ message GeminiTelemetryEvent {
     optional string model_id = 8;
     // Whether the model is the default model.
     optional bool is_default_model = 9;
+
+    // Ties together events belonging to the same user query turn.
+    // Synthetically generated in metrics for log analysis.
+    optional string user_query_id = 10;
   }
 
   message ServerEvent {
@@ -17995,6 +17999,9 @@ message GeminiTelemetryEvent {
       optional bool from_slash_command = 1;
       // The type of user query turn.
       optional UserQueryType user_query_type = 2;
+      // Ties together events belonging to the same user query turn.
+      // Synthetically generated in metrics for log analysis.
+      optional string user_query_id = 3;
     }
 
     message UserQueryFinished {
@@ -18009,6 +18016,9 @@ message GeminiTelemetryEvent {
       // agentic turns are finished. From UI, the user query is completed
       // answered finishing one turn of the conversation.
       optional int64 latency_ms = 3;
+      // Ties together events belonging to the same user query turn.
+      // Synthetically generated in metrics for log analysis.
+      optional string user_query_id = 4;
     }
 
     oneof event {
