@@ -24,24 +24,39 @@ import com.google.wireless.android.sdk.stats.AppQualityInsightsUsageEvent
 import com.google.wireless.android.sdk.stats.AppQualityInsightsUsageEvent.AiInsightSource
 import com.google.wireless.android.sdk.stats.AppQualityInsightsUsageEventLoggedIn
 import com.google.wireless.android.sdk.stats.AppQualityInsightsUsageEventLoggedIn.AiInsightSource as AiInsightSourceLoggedIn
+import com.google.wireless.android.sdk.stats.DeviceConnectedNotificationEvent
+import com.google.wireless.android.sdk.stats.DeviceConnectedNotificationEventLoggedIn
 import com.google.wireless.android.sdk.stats.DirectAccessUsageEvent
 import com.google.wireless.android.sdk.stats.DirectAccessUsageEventLoggedIn
+import com.google.wireless.android.sdk.stats.JourneyFinishedEvent
+import com.google.wireless.android.sdk.stats.JourneyFinishedEventLoggedIn
+import com.google.wireless.android.sdk.stats.ModelProviderEvent
+import com.google.wireless.android.sdk.stats.ModelProviderEventLoggedIn
+import com.google.wireless.android.sdk.stats.NextEditPredictionEvent
+import com.google.wireless.android.sdk.stats.NextEditPredictionEventLoggedIn
 import com.google.wireless.android.sdk.stats.PlayPolicyInsightsUsageEvent
 import com.google.wireless.android.sdk.stats.PlayPolicyInsightsUsageEventLoggedIn
 import com.google.wireless.android.sdk.stats.PromptLibraryEvent
 import com.google.wireless.android.sdk.stats.PromptLibraryEventLoggedIn
+import com.google.wireless.android.sdk.stats.SkillsEvent
+import com.google.wireless.android.sdk.stats.SkillsEventLoggedIn
+import com.google.wireless.android.sdk.stats.SmlAgentType
 import com.google.wireless.android.sdk.stats.SmlChatBotEvent
 import com.google.wireless.android.sdk.stats.SmlChatBotEventLoggedIn
 import com.google.wireless.android.sdk.stats.SmlCompletionEvent
 import com.google.wireless.android.sdk.stats.SmlCompletionEventLoggedIn
 import com.google.wireless.android.sdk.stats.SmlConfigurationEvent
 import com.google.wireless.android.sdk.stats.SmlConfigurationEventLoggedIn
+import com.google.wireless.android.sdk.stats.SmlResponseMetadata
+import com.google.wireless.android.sdk.stats.SmlResponseMetadataLoggedIn
 import com.google.wireless.android.sdk.stats.SmlTransformEvent
 import com.google.wireless.android.sdk.stats.SmlTransformEventLoggedIn
 import com.google.wireless.android.sdk.stats.StudioCoreGeminiActionsEvent
 import com.google.wireless.android.sdk.stats.StudioCoreGeminiActionsEventLoggedIn
 import com.google.wireless.android.sdk.stats.StudioLabsEvent
 import com.google.wireless.android.sdk.stats.StudioLabsEventLoggedIn
+import com.google.wireless.android.sdk.stats.TSdkUAEvent
+import com.google.wireless.android.sdk.stats.TSdkUAEventLoggedIn
 import com.google.wireless.android.sdk.stats.TestScenarioEvent
 import com.google.wireless.android.sdk.stats.TestScenarioEventLoggedIn
 import com.google.wireless.android.sdk.stats.UIActionStats
@@ -106,6 +121,30 @@ object EventTranslator {
 
       EventKind.PLAY_POLICY_INSIGHTS_USAGE_EVENT -> {
         builder.playPolicyInsightsUsageEvent = translatePlayPolicyInsightsUsageEvent(event.playPolicyInsightsUsageEvent)
+      }
+
+      EventKind.TSDKUA_EVENT -> {
+        builder.tsdkUaEvent = translateTSdkUAEvent(event.tsdkUaEvent)
+      }
+
+      EventKind.ADB_DEVICE_CONNECTED -> {
+        builder.deviceConnected = translateDeviceConnectedNotificationEvent(event.deviceConnected)
+      }
+
+      EventKind.JOURNEY_FINISHED_EVENT -> {
+        builder.journeyFinishedEvent = translateJourneyFinishedEvent(event.journeyFinishedEvent)
+      }
+
+      EventKind.MODEL_PROVIDER_EVENT -> {
+        builder.modelProviderEvent = translateModelProviderEvent(event.modelProviderEvent)
+      }
+
+      EventKind.NEXT_EDIT_PREDICTION_EVENT -> {
+        builder.nextEditPredictionEvent = translateNextEditPredictionEvent(event.nextEditPredictionEvent)
+      }
+
+      EventKind.SKILLS_EVENT -> {
+        builder.skillsEvent = translateSkillsEvent(event.skillsEvent)
       }
 
       EventKind.STUDIO_UI_ACTION_STATS -> {
@@ -279,6 +318,9 @@ object EventTranslator {
               else -> SmlChatBotEventLoggedIn.ChatMode.OTHER_MODE
             }
         }
+        if (event.response.hasMetadata()) {
+          responseBuilder.metadata = translateSmlResponseMetadata(event.response.metadata)
+        }
         builder.response = responseBuilder.build()
       }
 
@@ -444,6 +486,147 @@ object EventTranslator {
             PlayPolicyInsightsUsageEventLoggedIn.PlayPolicyInsightsUsageEventType.BATCH_INSPECTION
 
           else -> PlayPolicyInsightsUsageEventLoggedIn.PlayPolicyInsightsUsageEventType.UNKNOWN_EVENT
+        }
+    }
+    return builder.build()
+  }
+
+  private fun translateTSdkUAEvent(event: TSdkUAEvent): TSdkUAEventLoggedIn {
+    return TSdkUAEventLoggedIn.getDefaultInstance()
+  }
+
+  private fun translateDeviceConnectedNotificationEvent(event: DeviceConnectedNotificationEvent): DeviceConnectedNotificationEventLoggedIn {
+    return DeviceConnectedNotificationEventLoggedIn.getDefaultInstance()
+  }
+
+  private fun translateJourneyFinishedEvent(event: JourneyFinishedEvent): JourneyFinishedEventLoggedIn {
+    val builder = JourneyFinishedEventLoggedIn.newBuilder()
+    if (event.hasTestResult()) {
+      builder.testResult =
+        when (event.testResult) {
+          JourneyFinishedEvent.TestResult.PASSED -> JourneyFinishedEventLoggedIn.TestResult.PASSED
+          JourneyFinishedEvent.TestResult.FAILED -> JourneyFinishedEventLoggedIn.TestResult.FAILED
+          JourneyFinishedEvent.TestResult.ABORTED -> JourneyFinishedEventLoggedIn.TestResult.ABORTED
+          JourneyFinishedEvent.TestResult.CANCELED -> JourneyFinishedEventLoggedIn.TestResult.CANCELED
+          else -> JourneyFinishedEventLoggedIn.TestResult.UNKNOWN
+        }
+    }
+    return builder.build()
+  }
+
+  private fun translateModelProviderEvent(event: ModelProviderEvent): ModelProviderEventLoggedIn {
+    val builder = ModelProviderEventLoggedIn.newBuilder()
+    if (event.hasUpdate()) {
+      val updateBuilder = ModelProviderEventLoggedIn.Update.newBuilder()
+      if (event.update.hasLocalModelProvidersCount()) {
+        updateBuilder.localModelProvidersCount = event.update.localModelProvidersCount
+      }
+      if (event.update.hasRemoteModelProvidersCount()) {
+        updateBuilder.remoteModelProvidersCount = event.update.remoteModelProvidersCount
+      }
+      if (event.update.hasGeminiModelProvidersCount()) {
+        updateBuilder.geminiModelProvidersCount = event.update.geminiModelProvidersCount
+      }
+      builder.update = updateBuilder.build()
+    }
+    return builder.build()
+  }
+
+  private fun translateNextEditPredictionEvent(event: NextEditPredictionEvent): NextEditPredictionEventLoggedIn {
+    val builder = NextEditPredictionEventLoggedIn.newBuilder()
+    when {
+      event.hasShown() -> builder.shown = NextEditPredictionEventLoggedIn.PredictionShown.getDefaultInstance()
+
+      event.hasAccepted() -> builder.accepted = NextEditPredictionEventLoggedIn.PredictionAccepted.getDefaultInstance()
+
+      event.hasSession() -> {
+        val sessionBuilder = NextEditPredictionEventLoggedIn.Session.newBuilder()
+        event.session.eventsList.forEach { sessionEvent ->
+          val sessionEventBuilder = NextEditPredictionEventLoggedIn.Session.SessionEvent.newBuilder()
+          if (sessionEvent.hasType()) {
+            sessionEventBuilder.type =
+              when (sessionEvent.type) {
+                NextEditPredictionEvent.Session.SessionEvent.EventType.REQUEST_SENT ->
+                  NextEditPredictionEventLoggedIn.Session.SessionEvent.EventType.REQUEST_SENT
+
+                NextEditPredictionEvent.Session.SessionEvent.EventType.RESPONSE_RECEIVED ->
+                  NextEditPredictionEventLoggedIn.Session.SessionEvent.EventType.RESPONSE_RECEIVED
+
+                NextEditPredictionEvent.Session.SessionEvent.EventType.PREDICTION_SHOWN ->
+                  NextEditPredictionEventLoggedIn.Session.SessionEvent.EventType.PREDICTION_SHOWN
+
+                NextEditPredictionEvent.Session.SessionEvent.EventType.PREDICTION_ACCEPTED ->
+                  NextEditPredictionEventLoggedIn.Session.SessionEvent.EventType.PREDICTION_ACCEPTED
+
+                NextEditPredictionEvent.Session.SessionEvent.EventType.PREDICTION_REJECTED ->
+                  NextEditPredictionEventLoggedIn.Session.SessionEvent.EventType.PREDICTION_REJECTED
+
+                NextEditPredictionEvent.Session.SessionEvent.EventType.SESSION_CANCELLED ->
+                  NextEditPredictionEventLoggedIn.Session.SessionEvent.EventType.SESSION_CANCELLED
+
+                NextEditPredictionEvent.Session.SessionEvent.EventType.CONTROL_SHOWN ->
+                  NextEditPredictionEventLoggedIn.Session.SessionEvent.EventType.CONTROL_SHOWN
+
+                NextEditPredictionEvent.Session.SessionEvent.EventType.CONTROL_ACCEPTED ->
+                  NextEditPredictionEventLoggedIn.Session.SessionEvent.EventType.CONTROL_ACCEPTED
+
+                NextEditPredictionEvent.Session.SessionEvent.EventType.CONTROL_REJECTED ->
+                  NextEditPredictionEventLoggedIn.Session.SessionEvent.EventType.CONTROL_REJECTED
+
+                NextEditPredictionEvent.Session.SessionEvent.EventType.CONTROL_HIDDEN ->
+                  NextEditPredictionEventLoggedIn.Session.SessionEvent.EventType.CONTROL_HIDDEN
+
+                NextEditPredictionEvent.Session.SessionEvent.EventType.PREDICTION_FAILED ->
+                  NextEditPredictionEventLoggedIn.Session.SessionEvent.EventType.PREDICTION_FAILED
+
+                NextEditPredictionEvent.Session.SessionEvent.EventType.CONTROL_DISPOSED_UNSEEN ->
+                  NextEditPredictionEventLoggedIn.Session.SessionEvent.EventType.CONTROL_DISPOSED_UNSEEN
+
+                else -> NextEditPredictionEventLoggedIn.Session.SessionEvent.EventType.UNKNOWN_EVENT_TYPE
+              }
+          }
+          sessionBuilder.addEvents(sessionEventBuilder.build())
+        }
+        builder.session = sessionBuilder.build()
+      }
+    }
+    return builder.build()
+  }
+
+  private fun translateSkillsEvent(event: SkillsEvent): SkillsEventLoggedIn {
+    val builder = SkillsEventLoggedIn.newBuilder()
+    if (event.hasMetadata()) {
+      builder.metadata = translateSmlResponseMetadata(event.metadata)
+    }
+    when {
+      event.hasActivation() -> {
+        val activationBuilder = SkillsEventLoggedIn.Activation.newBuilder()
+        if (event.activation.hasType()) {
+          activationBuilder.type =
+            when (event.activation.type) {
+              SkillsEvent.SkillType.PRE_BUILT -> SkillsEventLoggedIn.SkillType.PRE_BUILT
+              SkillsEvent.SkillType.USER_DEFINED -> SkillsEventLoggedIn.SkillType.USER_DEFINED
+              else -> SkillsEventLoggedIn.SkillType.UNKNOWN
+            }
+        }
+        builder.activation = activationBuilder.build()
+      }
+    }
+    return builder.build()
+  }
+
+  private fun translateSmlResponseMetadata(metadata: SmlResponseMetadata): SmlResponseMetadataLoggedIn {
+    val builder = SmlResponseMetadataLoggedIn.newBuilder()
+    if (metadata.hasModelProviderId()) builder.modelProviderId = metadata.modelProviderId
+    if (metadata.hasModelId()) builder.modelId = metadata.modelId
+    if (metadata.hasAgentType()) {
+      builder.agentType =
+        when (metadata.agentType) {
+          SmlAgentType.AGENT_TYPE_GENERIC -> SmlResponseMetadataLoggedIn.SmlAgentTypeLoggedIn.AGENT_TYPE_GENERIC
+          SmlAgentType.AGENT_TYPE_UPGRADE_AGENT -> SmlResponseMetadataLoggedIn.SmlAgentTypeLoggedIn.AGENT_TYPE_UPGRADE_AGENT
+          SmlAgentType.AGENT_TYPE_NEW_PROJECT_AGENT -> SmlResponseMetadataLoggedIn.SmlAgentTypeLoggedIn.AGENT_TYPE_NEW_PROJECT_AGENT
+          SmlAgentType.AGENT_TYPE_DEEP_LINK_LOGIC_AGENT -> SmlResponseMetadataLoggedIn.SmlAgentTypeLoggedIn.AGENT_TYPE_DEEP_LINK_LOGIC_AGENT
+          else -> SmlResponseMetadataLoggedIn.SmlAgentTypeLoggedIn.AGENT_TYPE_UNSPECIFIED
         }
     }
     return builder.build()
