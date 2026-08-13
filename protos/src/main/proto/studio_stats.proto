@@ -19449,6 +19449,7 @@ message AdbServerStatus {
     TYPE_LIBUSB = 2;
     TYPE_NATIVE = 3;
     TYPE_USB_DISABLED = 4;
+    TYPE_LIBADBUSB = 5;
   }
 
   optional bool is_managed = 1;
