@@ -19485,6 +19485,10 @@ message AndroidCliInvocation {
   // values are Arg.value. User-generated values are redacted.
   repeated Arg args = 6;
 
+  // Names of system environment variables of interest present during
+  // android-cli invocation.
+  repeated string env_var_names = 7;
+
   enum Agent {
     UNKNOWN = 0;
     AGY = 1;
