@@ -5118,6 +5118,10 @@ message EmulatorHost {
   optional string cpu_brandname = 11;
   // CPU Architecture, such as x86_64 and arm64.
   optional string cpu_architecture = 12;
+  // True if the emulator host is running in a CI environment.
+  optional bool running_in_ci = 13;
+  // True if the ANDROID_CLI environment variable was defined.
+  optional bool android_cli_defined = 14;
 }
 
 // Detailed profiling information for the gradle build.
