@@ -20857,6 +20857,7 @@ message NextEditPredictionEvent {
           EXPECTED_LINE_NOT_FOUND = 8;
           OUTDATED_PREDICTION = 9;
           NO_MODEL = 10;
+          MODEL_TIMEOUT = 11;
         }
         optional FailureReason reason = 1;
       }
