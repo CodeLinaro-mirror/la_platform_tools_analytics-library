@@ -3555,7 +3555,8 @@ message EmulatorFeatureFlagState {
     XR_DIMMING = 140;
     XR_HAND_AND_EYE_POINTERS = 141;
     XR_STATUS_LED = 142;
-    // Next tag: 143
+    VULKAN_USE_DEDICATED_AHB_MEMORY_TYPE = 143;
+    // Next tag: 144
   }
   // Which features were enabled by default or through the server-side config.
   repeated EmulatorFeatureFlag attempted_enabled_feature_flags = 1;
@@ -5118,6 +5119,10 @@ message EmulatorHost {
   optional string cpu_brandname = 11;
   // CPU Architecture, such as x86_64 and arm64.
   optional string cpu_architecture = 12;
+  // True if the emulator host is running in a CI environment.
+  optional bool running_in_ci = 13;
+  // True if the ANDROID_CLI environment variable was defined.
+  optional bool android_cli_defined = 14;
 }
 
 // Detailed profiling information for the gradle build.
@@ -9220,6 +9225,7 @@ message AndroidProfilerEvent {
     TPD_QUERY_PROCESS_METADATA = 711;
     TPD_QUERY_LOAD_CPU_DATA = 712;
     TPD_QUERY_LOAD_MEMORY_DATA = 713;
+    TPD_QUERY_LOAD_HEAP_DUMP_DATA = 714;
 
     // Task Stats
     TASK_ENTERED = 800;
@@ -19449,6 +19455,7 @@ message AdbServerStatus {
     TYPE_LIBUSB = 2;
     TYPE_NATIVE = 3;
     TYPE_USB_DISABLED = 4;
+    TYPE_LIBADBUSB = 5;
   }
 
   optional bool is_managed = 1;
@@ -19482,6 +19489,10 @@ message AndroidCliInvocation {
   // (with "--"" prefix) are Arg.flag. Positional arguments, commands, and flag
   // values are Arg.value. User-generated values are redacted.
   repeated Arg args = 6;
+
+  // Names of system environment variables of interest present during
+  // android-cli invocation.
+  repeated string env_var_names = 7;
 
   enum Agent {
     UNKNOWN = 0;
@@ -20846,6 +20857,7 @@ message NextEditPredictionEvent {
           EXPECTED_LINE_NOT_FOUND = 8;
           OUTDATED_PREDICTION = 9;
           NO_MODEL = 10;
+          MODEL_TIMEOUT = 11;
         }
         optional FailureReason reason = 1;
       }
