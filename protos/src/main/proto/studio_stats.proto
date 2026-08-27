@@ -8642,6 +8642,8 @@ message TaskMetadata {
 message TaskEnteredMetadata {
   // The task data.
   optional TaskMetadata task_data = 1 [lazy = true];
+  // The number of profiler tabs open across the project when this task started.
+  optional int32 profiler_tabs_count = 2;
 }
 
 // Metadata for the TASK_FINISHED event (when a task finishes).
