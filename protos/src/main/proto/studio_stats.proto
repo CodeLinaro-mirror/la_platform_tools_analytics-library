@@ -20790,6 +20790,8 @@ message NextEditPredictionEvent {
       PAUSED = 3;
     }
     optional Status status = 1;
+    optional string model_id = 2;
+    optional bool is_nep_lite = 3;
   }
 
   // Represents a complete prediction session, containing multiple events
@@ -20804,6 +20806,7 @@ message NextEditPredictionEvent {
     optional bool forced = 4;
     repeated SessionEvent events = 5;
     optional EditorFileType editor_file_type = 6;
+    optional bool is_nep_lite = 7;
 
     message SessionEvent {
       enum EventType {
@@ -20899,6 +20902,7 @@ message NextEditPredictionEvent {
     }
     optional string model_id = 1;
     optional ModelType model_type = 2;
+    optional bool is_nep_lite = 3;
   }
 
   oneof next_edit_prediction {
