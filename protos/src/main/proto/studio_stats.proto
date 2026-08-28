@@ -938,6 +938,10 @@ message AndroidStudioEvent {
   optional StudioBotConfigurationEvent studio_bot_configuration_event = 263
       [lazy = true];
 
+  // set when kind = LOCAL_INFERENCE_ENGINE_EVENT
+  optional LocalInferenceEngineEvent local_inference_engine_event = 264
+      [lazy = true];
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -2007,6 +2011,9 @@ message AndroidStudioEvent {
 
     // Studio Bot configuration event.
     STUDIO_BOT_CONFIGURATION_EVENT = 390;
+
+    // Event related to Local Inference Engine (llama-server) subprocess
+    LOCAL_INFERENCE_ENGINE_EVENT = 391;
   }
 
   // Represents different Performance Monitoring types.
@@ -3548,7 +3555,8 @@ message EmulatorFeatureFlagState {
     XR_DIMMING = 140;
     XR_HAND_AND_EYE_POINTERS = 141;
     XR_STATUS_LED = 142;
-    // Next tag: 143
+    VULKAN_USE_DEDICATED_AHB_MEMORY_TYPE = 143;
+    // Next tag: 144
   }
   // Which features were enabled by default or through the server-side config.
   repeated EmulatorFeatureFlag attempted_enabled_feature_flags = 1;
@@ -5111,6 +5119,10 @@ message EmulatorHost {
   optional string cpu_brandname = 11;
   // CPU Architecture, such as x86_64 and arm64.
   optional string cpu_architecture = 12;
+  // True if the emulator host is running in a CI environment.
+  optional bool running_in_ci = 13;
+  // True if the ANDROID_CLI environment variable was defined.
+  optional bool android_cli_defined = 14;
 }
 
 // Detailed profiling information for the gradle build.
@@ -9213,6 +9225,7 @@ message AndroidProfilerEvent {
     TPD_QUERY_PROCESS_METADATA = 711;
     TPD_QUERY_LOAD_CPU_DATA = 712;
     TPD_QUERY_LOAD_MEMORY_DATA = 713;
+    TPD_QUERY_LOAD_HEAP_DUMP_DATA = 714;
 
     // Task Stats
     TASK_ENTERED = 800;
@@ -9797,6 +9810,7 @@ message SherlockEvent {
         CAPTURE_FAILURE_REASON_CANCELLATION = 1;
         CAPTURE_FAILURE_REASON_DEVICE_DISCONNECTED = 2;
         CAPTURE_FAILURE_REASON_NO_RESULT_FOUND = 3;
+        CAPTURE_FAILURE_REASON_GFXR_START_NOT_DETECTED = 4;
       }
     }
   }
@@ -17834,6 +17848,10 @@ message GeminiTelemetryEvent {
     optional string model_id = 8;
     // Whether the model is the default model.
     optional bool is_default_model = 9;
+
+    // Ties together events belonging to the same user query turn.
+    // Synthetically generated in metrics for log analysis.
+    optional string user_query_id = 10;
   }
 
   message ServerEvent {
@@ -17988,6 +18006,9 @@ message GeminiTelemetryEvent {
       optional bool from_slash_command = 1;
       // The type of user query turn.
       optional UserQueryType user_query_type = 2;
+      // Ties together events belonging to the same user query turn.
+      // Synthetically generated in metrics for log analysis.
+      optional string user_query_id = 3;
     }
 
     message UserQueryFinished {
@@ -18002,6 +18023,9 @@ message GeminiTelemetryEvent {
       // agentic turns are finished. From UI, the user query is completed
       // answered finishing one turn of the conversation.
       optional int64 latency_ms = 3;
+      // Ties together events belonging to the same user query turn.
+      // Synthetically generated in metrics for log analysis.
+      optional string user_query_id = 4;
     }
 
     oneof event {
@@ -18207,6 +18231,8 @@ message GeminiTelemetryEvent {
         ReadFileToolCallData read_file_tool_call_data = 13;
         // Data for a set_plan_state tool call.
         SetPlanStateCallData set_plan_state_call_data = 14;
+        // Data for a run_shell_command tool call or delegation.
+        RunShellCommandToolCallData run_shell_command_tool_call_data = 15;
       }
 
       message SearchArguments {
@@ -18338,6 +18364,27 @@ message GeminiTelemetryEvent {
         optional PlannerState prev_planner_state = 1;
         optional PlannerState curr_planner_state = 2;
       }
+
+      enum ShellCommand {
+        UNKNOWN = 0;
+        WRITE_FILE = 1;
+        READ_FILE = 2;
+        MULTI_REPLACE_FILE_CONTENT = 3;
+        LIST_FILES = 4;
+        DELETE_FILE = 5;
+        GREP = 6;
+        FIND_FILES = 7;
+        READ_URL = 8;
+      }
+
+      message RunShellCommandToolCallData {
+        // Command attempted by the agent.
+        optional ShellCommand command = 1;
+        // Whether the command was delegated to a native tool.
+        optional bool delegated_to_native_tool = 2;
+        // Option names used for the command.
+        repeated string option_names = 3;
+      }
     }
   }
 }
@@ -18350,6 +18397,7 @@ message StudioBotConfigurationEvent {
       LICENSE_TYPE_UNKNOWN = 0;
       LICENSE_TYPE_CONSUMER = 1;
       LICENSE_TYPE_BUSINESS = 2;
+      LICENSE_TYPE_ENTERPRISE = 3;
     }
 
     enum UserAccountType {
@@ -18386,9 +18434,18 @@ message StudioBotConfigurationEvent {
       // Pages in the onboarding wizard.
       enum Page {
         PAGE_UNKNOWN = 0;
+        // Business GCP Project setup
         PAGE_GCP_PROJECT_SELECTION = 1;
         PAGE_SIGN_IN = 2;
-        PAGE_LICENSE_SELECTION = 3;
+        // Deprecated. Use PAGE_PRODUCT_TIER_SELECTION.
+        PAGE_LICENSE_SELECTION = 3 [deprecated = true];
+
+        // Free vs Business/Enterprise tier selection
+        PAGE_PRODUCT_TIER_SELECTION = 4;
+        // Enterprise license seat picker
+        PAGE_ENTERPRISE_LICENSE_SELECTION = 5;
+        // Enterprise self-assign
+        PAGE_ENTERPRISE_SELF_ASSIGN_LICENSE = 6;
       }
 
       // Logged when a page is shown to the user (impression).
@@ -18510,6 +18567,7 @@ message SmlConfigurationEvent {
     LICENSE_TYPE_UNKNOWN = 0;
     LICENSE_TYPE_CONSUMER = 1;
     LICENSE_TYPE_BUSINESS = 2;
+    LICENSE_TYPE_ENTERPRISE = 3;
   }
 }
 
@@ -19397,6 +19455,7 @@ message AdbServerStatus {
     TYPE_LIBUSB = 2;
     TYPE_NATIVE = 3;
     TYPE_USB_DISABLED = 4;
+    TYPE_LIBADBUSB = 5;
   }
 
   optional bool is_managed = 1;
@@ -19430,6 +19489,10 @@ message AndroidCliInvocation {
   // (with "--"" prefix) are Arg.flag. Positional arguments, commands, and flag
   // values are Arg.value. User-generated values are redacted.
   repeated Arg args = 6;
+
+  // Names of system environment variables of interest present during
+  // android-cli invocation.
+  repeated string env_var_names = 7;
 
   enum Agent {
     UNKNOWN = 0;
@@ -20794,6 +20857,7 @@ message NextEditPredictionEvent {
           EXPECTED_LINE_NOT_FOUND = 8;
           OUTDATED_PREDICTION = 9;
           NO_MODEL = 10;
+          MODEL_TIMEOUT = 11;
         }
         optional FailureReason reason = 1;
       }
@@ -21142,4 +21206,49 @@ message LightbuildSyncFinishedEvent {
   optional int64 total_duration_ms = 3;
   optional int32 modules_count = 4;
   optional int32 dependencies_count = 5;
+}
+
+// Event related to Local Inference Engine (llama-server) subprocess
+message LocalInferenceEngineEvent {
+  enum EventType {
+    UNKNOWN = 0;
+    SERVER_START_SUCCESS = 1;
+    SERVER_START_FAILURE = 2;
+    SERVER_CRASH = 3;
+  }
+
+  optional EventType event_type = 1;
+
+  optional string error_message = 2;
+
+  // Process exit code (meaningful for SERVER_CRASH)
+  optional int32 exit_code = 3;
+
+  // Hardware capabilities detected by llama-server
+  optional HardwareCapabilities hardware_capabilities = 5;
+
+  enum FailureReason {
+    UNKNOWN_FAILURE_REASON = 0;
+    MODEL_PATH_NOT_CONFIGURED = 1;
+    MODEL_FILE_NOT_FOUND = 2;
+    MULTIMODAL_MODEL_FILE_NOT_FOUND = 3;
+    SERVER_BINARY_NOT_FOUND = 4;
+    SERVER_BINARY_FILE_NOT_FOUND = 5;
+    SERVER_BINARY_NOT_EXECUTABLE = 6;
+    HEALTH_CHECK_TIMEOUT = 7;
+    GENERIC_START_ERROR = 8;
+    OUT_OF_MEMORY = 9;
+  }
+
+  optional FailureReason failure_reason = 6;
+
+  message HardwareCapabilities {
+    repeated Device devices = 1;
+  }
+
+  message Device {
+    optional string name = 1;
+    optional int64 total_ram_mb = 2;
+    optional int64 free_ram_mb = 3;
+  }
 }
