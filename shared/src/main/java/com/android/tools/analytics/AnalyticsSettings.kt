@@ -471,6 +471,50 @@ class AnalyticsSettingsData {
         null
       }
     }
+
+    @JvmStatic
+    fun fromProto(proto: com.android.tools.analytics.proto.AnalyticsSettingsProto.AnalyticsSettings): AnalyticsSettingsData {
+      val data = AnalyticsSettingsData()
+      if (proto.userId.isNotEmpty()) {
+        data.userId = proto.userId
+      }
+      data.optedIn = proto.optedIn
+      data.debugDisablePublishing = proto.debugDisablePublishing
+      if (proto.saltValue.isNotEmpty()) {
+        try {
+          data.saltValue = BigInteger(proto.saltValue)
+        } catch (_: Throwable) {}
+      }
+      data.saltSkew = proto.saltSkew
+      if (proto.lastSentimentQuestionDate.isNotEmpty()) {
+        try {
+          data.lastSentimentQuestionDate = DataTypeAdapter.parseDate(proto.lastSentimentQuestionDate)
+        } catch (_: Throwable) {}
+      }
+      if (proto.lastSentimentAnswerDate.isNotEmpty()) {
+        try {
+          data.lastSentimentAnswerDate = DataTypeAdapter.parseDate(proto.lastSentimentAnswerDate)
+        } catch (_: Throwable) {}
+      }
+      if (proto.lastFeatureSurveyDate.isNotEmpty()) {
+        try {
+          data.nextFeatureSurveyDate = DataTypeAdapter.parseDate(proto.lastFeatureSurveyDate)
+        } catch (_: Throwable) {}
+      }
+      if (proto.lastFeatureSurveyDateMapCount > 0) {
+        val map = mutableMapOf<String, Date>()
+        proto.lastFeatureSurveyDateMapMap.forEach { (k, v) ->
+          try {
+            map[k] = DataTypeAdapter.parseDate(v)
+          } catch (_: Throwable) {}
+        }
+        data.nextFeatureSurveyDateMap = map
+      }
+      if (proto.lastOptinPromptVersion.isNotEmpty()) {
+        data.lastOptinPromptVersion = proto.lastOptinPromptVersion
+      }
+      return data
+    }
   }
 
   internal object DataTypeAdapter : TypeAdapter<AnalyticsSettingsData>() {
@@ -498,7 +542,11 @@ class AnalyticsSettingsData {
     }
 
     // Write out using pre-Java9 date format to let older releases read the file correctly.
-    private fun format(it: Date): String = datePatternJava8.format(it)
+    internal fun format(it: Date): String = datePatternJava8.format(it)
+
+    internal fun parseDate(string: String): Date {
+      return datePatternJava8.parse(string)
+    }
 
     override fun read(reader: JsonReader): AnalyticsSettingsData {
       val data = AnalyticsSettingsData()
@@ -532,10 +580,23 @@ class AnalyticsSettingsData {
       reader.endObject()
       return data
     }
+  }
 
-    private fun parseDate(string: String): Date {
-      return datePatternJava8.parse(string)
+  fun toProto(): com.android.tools.analytics.proto.AnalyticsSettingsProto.AnalyticsSettings {
+    val builder = com.android.tools.analytics.proto.AnalyticsSettingsProto.AnalyticsSettings.newBuilder()
+    userId?.let { builder.userId = it }
+    builder.optedIn = optedIn
+    builder.debugDisablePublishing = debugDisablePublishing
+    builder.saltValue = saltValue.toString()
+    builder.saltSkew = saltSkew
+    lastSentimentQuestionDate?.let { builder.lastSentimentQuestionDate = DataTypeAdapter.format(it) }
+    lastSentimentAnswerDate?.let { builder.lastSentimentAnswerDate = DataTypeAdapter.format(it) }
+    nextFeatureSurveyDate?.let { builder.lastFeatureSurveyDate = DataTypeAdapter.format(it) }
+    nextFeatureSurveyDateMap?.let {
+      it.forEach { (key, value) -> builder.putLastFeatureSurveyDateMap(key, DataTypeAdapter.format(value)) }
     }
+    lastOptinPromptVersion?.let { builder.lastOptinPromptVersion = it }
+    return builder.build()
   }
 }
 

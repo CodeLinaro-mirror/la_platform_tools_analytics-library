@@ -17,6 +17,7 @@ maven_proto_library(
     resource_strip_prefix = "tools/analytics-library/protos/src/main/proto",
     resources = [
         "analytics_enums.proto",
+        "analytics_settings.proto",
         "google_logs_publishing.proto",
         "model_registry.proto",
         "studio_stats.proto",

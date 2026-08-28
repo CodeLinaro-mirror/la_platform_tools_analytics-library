@@ -1,0 +1,39 @@
+syntax = "proto3";
+
+package android.analytics;
+
+option java_package = "com.android.tools.analytics.proto";
+option java_outer_classname = "AnalyticsSettingsProto";
+
+// Represents the schema for ~/.android/analytics.settings serialized as JSON.
+message AnalyticsSettings {
+  // Pseudo-anonymous identifier for the developer environment (UUID v4)
+  string user_id = 1 [json_name = "userId"];
+
+  // Whether the user has opted in to telemetry collection
+  bool opted_in = 2 [json_name = "hasOptedIn"];
+
+  // Debug flag to disable publishing metrics to Google servers
+  bool debug_disable_publishing = 3 [json_name = "debugDisablePublishing"];
+
+  // 192-bit cryptographic salt serialized as a signed decimal string
+  string salt_value = 4 [json_name = "saltValue"];
+
+  // Rotation epoch index tracking 28-day intervals since 1970-01-01
+  int32 salt_skew = 5 [json_name = "saltSkew"];
+
+  // Date of the last user sentiment prompt (formatted as string)
+  string last_sentiment_question_date = 6 [json_name = "lastSentimentQuestionDate"];
+
+  // Date of the last user sentiment answer (formatted as string)
+  string last_sentiment_answer_date = 7 [json_name = "lastSentimentAnswerDate"];
+
+  // Date of the next scheduled general feature survey (formatted as string)
+  string last_feature_survey_date = 8 [json_name = "lastFeatureSurveyDate"];
+
+  // Per-feature survey schedule map (feature_name -> next survey date string)
+  map<string, string> last_feature_survey_date_map = 9 [json_name = "lastFeatureSurveyDateMap"];
+
+  // Major/minor version of Android Studio when opt-in was last prompted (e.g. "2024.1")
+  string last_optin_prompt_version = 10 [json_name = "lastOptinPromptVersion"];
+}
