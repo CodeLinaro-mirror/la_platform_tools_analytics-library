@@ -18334,6 +18334,8 @@ message GeminiTelemetryEvent {
         optional int32 total_indexed_docs = 5;
         // The search response.
         optional SearchResponse response = 6;
+        // The search arguments used for code_search.
+        optional SearchArguments search_arguments = 7;
       }
 
       message ReadFileToolCallData {
