@@ -17385,6 +17385,7 @@ message SmlChatBotEvent {
     optional bool did_timeout = 6;
   }
 
+  // Indicates the type of user interaction with the query box.
   enum QueryBoxEventType {
     QUERY_BOX_OTHER = 0;
     COMPLETION_STARTED = 1;
@@ -17430,6 +17431,7 @@ message SmlChatBotEvent {
     repeated ContextFileStats context_file_stats = 3;
   }
 
+  // Contains metrics data for a user's interaction with the chatbot query box.
   message QueryBoxEvent {
     optional QueryBoxEventType event_type = 1;
     optional QueryBoxEventMetadata event_metadata = 2;
@@ -17441,6 +17443,8 @@ message SmlChatBotEvent {
     CONTEXT_DRAWER_ITEM_REMOVED = 2;
   }
 
+  // Contains metrics data for a user's interaction with the chatbot context
+  // drawer.
   message ContextDrawerEvent {
     optional ContextDrawerEventType event_type = 1;
   }
