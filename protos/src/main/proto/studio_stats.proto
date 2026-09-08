@@ -85,9 +85,10 @@ message AndroidStudioEvent {
   // set when category = GRADLE_SYNC
   optional string gradle_version = 15;  // e.g. '2.10'
 
-  // set when kind = GRADLE_SYNC_FAILURE_DETAILS (previously set when kind =
-  // GRADLE_SYNC_FAILURE)
-  optional GradleSyncFailure gradle_sync_failure = 16;
+  // As of IJ262 merge, this field makes no sense, multiple values can be
+  // detected for each sync. Deprecating this field in favor of new repeated
+  // field in GradleFailureDetails.
+  optional GradleSyncFailure gradle_sync_failure = 16 [deprecated = true];
 
   // set when kind = GRADLE_SYNC_FAILURE and gradle_sync_failure = *_NOT_FOUND
   // e.g. 'org.gradle.api.internal.DemoClass.demoMethod'
@@ -10347,6 +10348,11 @@ message GradleFailureDetails {
   }
 
   repeated GradleErrorInfo errors = 1;
+  // List of failure categories detected by issue checkers. Previously we only
+  // reported a first detected failure, but with recent changes (IJ262 merge)
+  // all issue checkers have chance to detect and report this value.
+  repeated AndroidStudioEvent.GradleSyncFailure detected_gradle_sync_failures =
+      2 [packed = true];
 }
 
 // Metrics for native workspace sync. The data is collected in Android Studio
