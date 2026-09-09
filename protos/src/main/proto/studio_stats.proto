@@ -20954,6 +20954,7 @@ message SkillsEvent {
   oneof event {
     Activation activation = 2 [lazy = true];
     Discovery discovery = 3 [lazy = true];
+    UserAction user_action = 4 [lazy = true];
   }
 
   // Details about the skill activated by the agent.
@@ -20977,6 +20978,22 @@ message SkillsEvent {
     optional int64 token_count = 4;
   }
 
+  // User actions performed in the Skills Management UX or via skills entry
+  // points.
+  message UserAction {
+    optional ActionType action_type = 1;
+    // Pre-built skill name (whitelisted enum). For user-defined skills, this is
+    // UNKNOWN_SKILL_NAME.
+    optional SkillName skill_name = 2;
+    optional SkillType skill_type = 3;
+    optional Scope source_scope = 4;
+    optional Scope target_scope = 5;
+    optional bool enabled = 6;
+    optional EntryPoint entry_point = 7;
+    // True if removing a duplicate scope in a multi-scope conflict.
+    optional bool is_conflict_resolution = 8;
+  }
+
   // The type of skill.
   enum SkillType {
     UNKNOWN = 0;
@@ -20984,6 +21001,34 @@ message SkillsEvent {
     PRE_BUILT = 1;
     // Local project skills directory.
     USER_DEFINED = 2;
+  }
+
+  // The scope where a skill resides.
+  enum Scope {
+    UNKNOWN_SCOPE = 0;
+    PROJECT = 1;
+    GLOBAL = 2;
+    BUILT_IN = 3;
+  }
+
+  // User action types in Skills Management.
+  enum ActionType {
+    UNKNOWN_ACTION = 0;
+    OPEN_UI = 1;
+    TOGGLE_ENABLE = 2;
+    CHANGE_SCOPE = 3;
+    UNINSTALL = 4;
+    INSTALL = 5;
+    UPLOAD = 6;
+  }
+
+  // Entry points from which the Skills Manager UX is opened.
+  enum EntryPoint {
+    UNKNOWN_ENTRY_POINT = 0;
+    AGENT_MENU = 1;
+    COMPLETION_POPUP = 2;
+    SETTINGS_CONFIGURABLE = 3;
+    SEARCH_EVERYWHERE = 4;
   }
 
   // Pre-built skill names.
