@@ -4832,6 +4832,9 @@ message TestRun {
   // Only set when test_kind=INSTRUMENTATION_TEST
   repeated DeviceTestSpanProfile device_test_span_profiles = 11;
 
+  // Only set when test_kind=BACKUP_TEST
+  optional BackupTestRun backup_test_run = 12 [lazy = true];
+
   // Describes how tests where invoked.
   enum TestInvocationType {
     UNKNOWN_TEST_INVOCATION_TYPE = 0;
@@ -4849,6 +4852,7 @@ message TestRun {
     UNIT_TEST = 1;
     INSTRUMENTATION_TEST = 2;
     PREVIEW_SCREENSHOT_TEST = 3;
+    BACKUP_TEST = 4;
   }
 
   // How instrumentation tests will be run
@@ -4890,6 +4894,53 @@ message TestRun {
 
     // Deprecated: use GradleBuildProfileSpan.
     optional int64 rendering_run_time_ms = 4 [deprecated = true];
+  }
+
+  // Provides details of an automated backup and restore test suite run.
+  message BackupTestRun {
+    // Number of passed test cases
+    optional int32 passed_test_count = 1;
+
+    // Number of failed test cases
+    optional int32 failed_test_count = 2;
+
+    // Library version of androidx.test.backup (e.g., "1.0.0-alpha01")
+    optional string backup_test_library_version = 3;
+
+    // Primary transport mode used during test execution
+    optional BackupTransportMode transport_mode = 4;
+
+    // Failure reason if the suite or test execution failed
+    optional BackupFailureReason failure_reason = 5;
+
+    // Total test execution duration in milliseconds
+    optional int64 total_run_time_ms = 6;
+
+    // Execution environment: true for CI, false for local workstation
+    optional bool is_ci = 7;
+
+    // Number of storage domains tested (e.g. SharedPreferences,
+    // SQLite/Room, files)
+    optional int32 storage_domain_count = 8;
+
+    enum BackupTransportMode {
+      UNKNOWN_TRANSPORT_MODE = 0;
+      LOCAL_TRANSPORT = 1;
+      GMS_TRANSPORT = 2;
+      D2D_TRANSPORT = 3;
+    }
+
+    enum BackupFailureReason {
+      UNKNOWN_FAILURE_REASON = 0;
+      NO_FAILURE = 1;
+      NO_DEVICE_AVAILABLE = 2;
+      API_LEVEL_UNSUPPORTED = 3;
+      GMS_CORE_OUTDATED = 4;
+      BMGR_FAILURE = 5;
+      SETUP_PRECONDITION_FAILURE = 6;
+      ASSERTION_FAILURE = 7;
+      TIMEOUT = 8;
+    }
   }
 }
 
