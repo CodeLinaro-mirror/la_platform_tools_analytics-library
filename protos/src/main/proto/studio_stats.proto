@@ -85,9 +85,10 @@ message AndroidStudioEvent {
   // set when category = GRADLE_SYNC
   optional string gradle_version = 15;  // e.g. '2.10'
 
-  // set when kind = GRADLE_SYNC_FAILURE_DETAILS (previously set when kind =
-  // GRADLE_SYNC_FAILURE)
-  optional GradleSyncFailure gradle_sync_failure = 16;
+  // As of IJ262 merge, this field makes no sense, multiple values can be
+  // detected for each sync. Deprecating this field in favor of new repeated
+  // field in GradleFailureDetails.
+  optional GradleSyncFailure gradle_sync_failure = 16 [deprecated = true];
 
   // set when kind = GRADLE_SYNC_FAILURE and gradle_sync_failure = *_NOT_FOUND
   // e.g. 'org.gradle.api.internal.DemoClass.demoMethod'
@@ -4831,6 +4832,9 @@ message TestRun {
   // Only set when test_kind=INSTRUMENTATION_TEST
   repeated DeviceTestSpanProfile device_test_span_profiles = 11;
 
+  // Only set when test_kind=BACKUP_TEST
+  optional BackupTestRun backup_test_run = 12 [lazy = true];
+
   // Describes how tests where invoked.
   enum TestInvocationType {
     UNKNOWN_TEST_INVOCATION_TYPE = 0;
@@ -4848,6 +4852,7 @@ message TestRun {
     UNIT_TEST = 1;
     INSTRUMENTATION_TEST = 2;
     PREVIEW_SCREENSHOT_TEST = 3;
+    BACKUP_TEST = 4;
   }
 
   // How instrumentation tests will be run
@@ -4889,6 +4894,53 @@ message TestRun {
 
     // Deprecated: use GradleBuildProfileSpan.
     optional int64 rendering_run_time_ms = 4 [deprecated = true];
+  }
+
+  // Provides details of an automated backup and restore test suite run.
+  message BackupTestRun {
+    // Number of passed test cases
+    optional int32 passed_test_count = 1;
+
+    // Number of failed test cases
+    optional int32 failed_test_count = 2;
+
+    // Library version of androidx.test.backup (e.g., "1.0.0-alpha01")
+    optional string backup_test_library_version = 3;
+
+    // Primary transport mode used during test execution
+    optional BackupTransportMode transport_mode = 4;
+
+    // Failure reason if the suite or test execution failed
+    optional BackupFailureReason failure_reason = 5;
+
+    // Total test execution duration in milliseconds
+    optional int64 total_run_time_ms = 6;
+
+    // Execution environment: true for CI, false for local workstation
+    optional bool is_ci = 7;
+
+    // Number of storage domains tested (e.g. SharedPreferences,
+    // SQLite/Room, files)
+    optional int32 storage_domain_count = 8;
+
+    enum BackupTransportMode {
+      UNKNOWN_TRANSPORT_MODE = 0;
+      LOCAL_TRANSPORT = 1;
+      GMS_TRANSPORT = 2;
+      D2D_TRANSPORT = 3;
+    }
+
+    enum BackupFailureReason {
+      UNKNOWN_FAILURE_REASON = 0;
+      NO_FAILURE = 1;
+      NO_DEVICE_AVAILABLE = 2;
+      API_LEVEL_UNSUPPORTED = 3;
+      GMS_CORE_OUTDATED = 4;
+      BMGR_FAILURE = 5;
+      SETUP_PRECONDITION_FAILURE = 6;
+      ASSERTION_FAILURE = 7;
+      TIMEOUT = 8;
+    }
   }
 }
 
@@ -10347,6 +10399,11 @@ message GradleFailureDetails {
   }
 
   repeated GradleErrorInfo errors = 1;
+  // List of failure categories detected by issue checkers. Previously we only
+  // reported a first detected failure, but with recent changes (IJ262 merge)
+  // all issue checkers have chance to detect and report this value.
+  repeated AndroidStudioEvent.GradleSyncFailure detected_gradle_sync_failures =
+      2 [packed = true];
 }
 
 // Metrics for native workspace sync. The data is collected in Android Studio
@@ -17379,6 +17436,7 @@ message SmlChatBotEvent {
     optional bool did_timeout = 6;
   }
 
+  // Indicates the type of user interaction with the query box.
   enum QueryBoxEventType {
     QUERY_BOX_OTHER = 0;
     COMPLETION_STARTED = 1;
@@ -17424,6 +17482,7 @@ message SmlChatBotEvent {
     repeated ContextFileStats context_file_stats = 3;
   }
 
+  // Contains metrics data for a user's interaction with the chatbot query box.
   message QueryBoxEvent {
     optional QueryBoxEventType event_type = 1;
     optional QueryBoxEventMetadata event_metadata = 2;
@@ -17435,6 +17494,8 @@ message SmlChatBotEvent {
     CONTEXT_DRAWER_ITEM_REMOVED = 2;
   }
 
+  // Contains metrics data for a user's interaction with the chatbot context
+  // drawer.
   message ContextDrawerEvent {
     optional ContextDrawerEventType event_type = 1;
   }
@@ -20944,6 +21005,7 @@ message SkillsEvent {
   oneof event {
     Activation activation = 2 [lazy = true];
     Discovery discovery = 3 [lazy = true];
+    UserAction user_action = 4 [lazy = true];
   }
 
   // Details about the skill activated by the agent.
@@ -20967,6 +21029,22 @@ message SkillsEvent {
     optional int64 token_count = 4;
   }
 
+  // User actions performed in the Skills Management UX or via skills entry
+  // points.
+  message UserAction {
+    optional ActionType action_type = 1;
+    // Pre-built skill name (whitelisted enum). For user-defined skills, this is
+    // UNKNOWN_SKILL_NAME.
+    optional SkillName skill_name = 2;
+    optional SkillType skill_type = 3;
+    optional Scope source_scope = 4;
+    optional Scope target_scope = 5;
+    optional bool enabled = 6;
+    optional EntryPoint entry_point = 7;
+    // True if removing a duplicate scope in a multi-scope conflict.
+    optional bool is_conflict_resolution = 8;
+  }
+
   // The type of skill.
   enum SkillType {
     UNKNOWN = 0;
@@ -20974,6 +21052,34 @@ message SkillsEvent {
     PRE_BUILT = 1;
     // Local project skills directory.
     USER_DEFINED = 2;
+  }
+
+  // The scope where a skill resides.
+  enum Scope {
+    UNKNOWN_SCOPE = 0;
+    PROJECT = 1;
+    GLOBAL = 2;
+    BUILT_IN = 3;
+  }
+
+  // User action types in Skills Management.
+  enum ActionType {
+    UNKNOWN_ACTION = 0;
+    OPEN_UI = 1;
+    TOGGLE_ENABLE = 2;
+    CHANGE_SCOPE = 3;
+    UNINSTALL = 4;
+    INSTALL = 5;
+    UPLOAD = 6;
+  }
+
+  // Entry points from which the Skills Manager UX is opened.
+  enum EntryPoint {
+    UNKNOWN_ENTRY_POINT = 0;
+    AGENT_MENU = 1;
+    COMPLETION_POPUP = 2;
+    SETTINGS_CONFIGURABLE = 3;
+    SEARCH_EVERYWHERE = 4;
   }
 
   // Pre-built skill names.
