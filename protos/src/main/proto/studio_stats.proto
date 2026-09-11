@@ -9755,6 +9755,7 @@ message SherlockEvent {
       SELECTION_KIND_PROCESS_MEMORY = 11;
       SELECTION_KIND_JANK_CUJ = 12;
       SELECTION_KIND_APP_STARTUP = 13;
+      SELECTION_KIND_WAKELOCK = 14;
     }
 
     repeated Selection selections = 1;
@@ -9819,6 +9820,19 @@ message SherlockEvent {
     TRACK_KIND_APP_STARTUP = 26;
     TRACK_KIND_ENERGY = 27;
     TRACK_KIND_MEMORY_SUMMARY = 28;
+    TRACK_KIND_WAKELOCKS = 29;
+
+    // Thermal & Hardware Kinds
+    TRACK_KIND_THERMAL = 30;
+    TRACK_KIND_HARDWARE = 31;
+
+    // Network & IO Kinds
+    TRACK_KIND_NETWORK = 32;
+    TRACK_KIND_IO = 33;
+
+    // System & Generic Kinds
+    TRACK_KIND_SYSTEM = 34;
+    TRACK_KIND_GENERIC_COUNTER = 35;
   }
 
   // Metadata for the |CAPTURE_EVENT| event.
