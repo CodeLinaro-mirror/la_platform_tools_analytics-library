@@ -9756,6 +9756,7 @@ message SherlockEvent {
       SELECTION_KIND_JANK_CUJ = 12;
       SELECTION_KIND_APP_STARTUP = 13;
       SELECTION_KIND_WAKELOCK = 14;
+      SELECTION_KIND_STACKED_COUNTER = 15;
     }
 
     repeated Selection selections = 1;
