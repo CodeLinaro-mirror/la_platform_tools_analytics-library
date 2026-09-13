@@ -28,6 +28,8 @@ import com.google.wireless.android.sdk.stats.DeviceConnectedNotificationEvent
 import com.google.wireless.android.sdk.stats.DeviceConnectedNotificationEventLoggedIn
 import com.google.wireless.android.sdk.stats.DirectAccessUsageEvent
 import com.google.wireless.android.sdk.stats.DirectAccessUsageEventLoggedIn
+import com.google.wireless.android.sdk.stats.GoogleLoginPluginEvent
+import com.google.wireless.android.sdk.stats.GoogleLoginPluginEventLoggedIn
 import com.google.wireless.android.sdk.stats.JourneyFinishedEvent
 import com.google.wireless.android.sdk.stats.JourneyFinishedEventLoggedIn
 import com.google.wireless.android.sdk.stats.ModelProviderEvent
@@ -766,6 +768,40 @@ class EventTranslatorTest {
   @Test
   fun testTranslateUnhandledEventKind() {
     val event = AndroidStudioEvent.newBuilder().setKind(EventKind.UNKNOWN_EVENT_KIND)
+    val actual = EventTranslator.translate(event)
+    assertNull(actual)
+  }
+
+  @Test
+  fun testTranslateGoogleLoginPluginEvent() {
+    val event =
+      AndroidStudioEvent.newBuilder()
+        .setKind(EventKind.GOOGLE_LOGIN_EVENT)
+        .setGoogleLoginEvent(
+          GoogleLoginPluginEvent.newBuilder()
+            .setEvent(GoogleLoginPluginEvent.EventKind.LOGIN_WITH_SUCCESS)
+            .setLoginType(GoogleLoginPluginEvent.LoginType.COMBINED_LOGIN)
+            .build()
+        )
+    val actual = EventTranslator.translate(event)
+    assertNotNull(actual)
+    val expected =
+      AndroidStudioEventLoggedIn.newBuilder()
+        .setGoogleLoginEvent(
+          GoogleLoginPluginEventLoggedIn.newBuilder()
+            .setEvent(GoogleLoginPluginEventLoggedIn.EventKind.LOGIN_WITH_SUCCESS)
+            .setLoginType(GoogleLoginPluginEventLoggedIn.LoginType.COMBINED_LOGIN)
+            .build()
+        )
+    assertEquals(expected.build(), actual?.build())
+  }
+
+  @Test
+  fun testTranslateGoogleLoginPluginEvent_Null() {
+    val event =
+      AndroidStudioEvent.newBuilder()
+        .setKind(EventKind.GOOGLE_LOGIN_EVENT)
+        .setGoogleLoginEvent(GoogleLoginPluginEvent.newBuilder().setEvent(GoogleLoginPluginEvent.EventKind.LOGIN_WITH_FAILURE).build())
     val actual = EventTranslator.translate(event)
     assertNull(actual)
   }
