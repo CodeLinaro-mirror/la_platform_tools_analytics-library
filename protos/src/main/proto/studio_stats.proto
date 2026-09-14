@@ -10,6 +10,8 @@ option java_multiple_files = true;
 
 package android_studio;
 
+import "model_registry.proto";
+
 message AndroidStudioEvent {
   // Describes a group of event kinds related to each other.
   // Necessary only for events that were originally being reported to Google
@@ -18115,11 +18117,45 @@ message GeminiTelemetryEvent {
       optional string user_query_id = 4;
     }
 
+    // Tracks inference configuration changes within the chat tool window.
+    enum ModelProfileType {
+      MODEL_PROFILE_TYPE_UNKNOWN = 0;
+      MODEL_PROFILE_TYPE_DIRECT = 1;
+      MODEL_PROFILE_TYPE_ACP_AGENT = 2;
+    }
+
+    // Captures when a user selects a model or agent profile.
+    message ModelPickerEvent {
+      // The selected model from the known model registry.
+      optional Model selected_model = 1;
+      // The identifier of the model provider.
+      optional string selected_model_provider_id = 2;
+      // The model profile type.
+      optional ModelProfileType model_profile_type = 3;
+    }
+
+    // Captures when a user selects a thinking level for a model or agent.
+    message ThinkingLevelPickerEvent {
+      // The raw string identifier of the selected thinking level (e.g. "low",
+      // "high", "max", etc.).
+      optional string selected_thinking_level_id = 1;
+      // True if the user selected the default option.
+      optional bool is_default = 2;
+      // The selected model for which this thinking level is being configured.
+      optional Model selected_model = 3;
+      // The identifier of the model provider for the selected model.
+      optional string selected_model_provider_id = 4;
+      // The model profile type of the active model/agent.
+      optional ModelProfileType model_profile_type = 5;
+    }
+
     oneof event {
       ChangesDrawerEvent changes_drawer_event = 1;
       GuidedModeEvent guided_mode_event = 2;
       UserQueryStarted user_query_started = 3;
       UserQueryFinished user_query_finished = 4;
+      ModelPickerEvent model_picker_event = 5;
+      ThinkingLevelPickerEvent thinking_level_picker_event = 6;
     }
   }
 
