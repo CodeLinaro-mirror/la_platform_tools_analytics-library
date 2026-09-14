@@ -18320,6 +18320,8 @@ message GeminiTelemetryEvent {
         SetPlanStateCallData set_plan_state_call_data = 14;
         // Data for a run_shell_command tool call or delegation.
         RunShellCommandToolCallData run_shell_command_tool_call_data = 15;
+        // Data for an akb tool call.
+        KbToolCallData kb_tool_call_data = 16;
       }
 
       message SearchArguments {
@@ -18473,6 +18475,15 @@ message GeminiTelemetryEvent {
         optional bool delegated_to_native_tool = 2;
         // Option names used for the command.
         repeated string option_names = 3;
+      }
+
+      message KbToolCallData {
+        // The number of akb_search_tool results
+        optional int32 search_result_count = 1;
+        // The number of docs returned by akb_fetch_tool
+        optional int32 fetched_doc_count = 2;
+        // The fetched docs
+        repeated string fetched_docs = 3;
       }
     }
   }
