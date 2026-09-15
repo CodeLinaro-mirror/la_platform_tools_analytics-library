@@ -269,6 +269,98 @@ class EventTranslatorTest {
   }
 
   @Test
+  fun testTranslateSmlChatBotEvent_QueryBoxEvent() {
+    val event =
+      AndroidStudioEvent.newBuilder()
+        .setKind(EventKind.SML_CHATBOT_EVENT)
+        .setSmlChatBotEvent(
+          SmlChatBotEvent.newBuilder()
+            .setQueryBoxEvent(
+              SmlChatBotEvent.QueryBoxEvent.newBuilder()
+                .setEventType(SmlChatBotEvent.QueryBoxEventType.COMPLETION_ACCEPTED)
+                .setEventMetadata(
+                  SmlChatBotEvent.QueryBoxEventMetadata.newBuilder()
+                    .setAttachmentType(SmlChatBotEvent.QueryBoxEventMetadata.AttachmentType.FILES)
+                )
+                .build()
+            )
+            .build()
+        )
+    val actual = EventTranslator.translate(event)
+    assertNotNull(actual)
+    val expected =
+      AndroidStudioEventLoggedIn.newBuilder()
+        .setSmlChatBotEvent(
+          SmlChatBotEventLoggedIn.newBuilder()
+            .setQueryBoxEvent(
+              SmlChatBotEventLoggedIn.QueryBoxEvent.newBuilder()
+                .setEventType(SmlChatBotEventLoggedIn.QueryBoxEventType.COMPLETION_ACCEPTED)
+                .build()
+            )
+            .build()
+        )
+    assertEquals(expected.build(), actual?.build())
+  }
+
+  @Test
+  fun testTranslateSmlChatBotEvent_QueryBoxEvent_NonFilesReturnsNull() {
+    val event =
+      AndroidStudioEvent.newBuilder()
+        .setKind(EventKind.SML_CHATBOT_EVENT)
+        .setSmlChatBotEvent(
+          SmlChatBotEvent.newBuilder()
+            .setQueryBoxEvent(
+              SmlChatBotEvent.QueryBoxEvent.newBuilder()
+                .setEventType(SmlChatBotEvent.QueryBoxEventType.COMPLETION_ACCEPTED)
+                .setEventMetadata(
+                  SmlChatBotEvent.QueryBoxEventMetadata.newBuilder()
+                    .setAttachmentType(SmlChatBotEvent.QueryBoxEventMetadata.AttachmentType.FOLDERS)
+                )
+                .build()
+            )
+            .build()
+        )
+    val actual = EventTranslator.translate(event)
+    assertNull(actual)
+  }
+
+  @Test
+  fun testTranslateSmlChatBotEvent_QueryBoxEvent_MissingMetadataReturnsNull() {
+    val event =
+      AndroidStudioEvent.newBuilder()
+        .setKind(EventKind.SML_CHATBOT_EVENT)
+        .setSmlChatBotEvent(
+          SmlChatBotEvent.newBuilder()
+            .setQueryBoxEvent(
+              SmlChatBotEvent.QueryBoxEvent.newBuilder().setEventType(SmlChatBotEvent.QueryBoxEventType.COMPLETION_ACCEPTED).build()
+            )
+            .build()
+        )
+    val actual = EventTranslator.translate(event)
+    assertNull(actual)
+  }
+
+  @Test
+  fun testTranslateSmlChatBotEvent_ContextDrawerEvent() {
+    val event =
+      AndroidStudioEvent.newBuilder()
+        .setKind(EventKind.SML_CHATBOT_EVENT)
+        .setSmlChatBotEvent(
+          SmlChatBotEvent.newBuilder().setContextDrawerEvent(SmlChatBotEvent.ContextDrawerEvent.getDefaultInstance()).build()
+        )
+    val actual = EventTranslator.translate(event)
+    assertNotNull(actual)
+    val expected =
+      AndroidStudioEventLoggedIn.newBuilder()
+        .setSmlChatBotEvent(
+          SmlChatBotEventLoggedIn.newBuilder()
+            .setContextDrawerEvent(SmlChatBotEventLoggedIn.ContextDrawerEvent.getDefaultInstance())
+            .build()
+        )
+    assertEquals(expected.build(), actual?.build())
+  }
+
+  @Test
   fun testTranslateSmlConfigurationEvent() {
     val event =
       AndroidStudioEvent.newBuilder()

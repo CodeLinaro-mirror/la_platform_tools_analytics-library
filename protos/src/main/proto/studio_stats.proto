@@ -10,6 +10,8 @@ option java_multiple_files = true;
 
 package android_studio;
 
+import "model_registry.proto";
+
 message AndroidStudioEvent {
   // Describes a group of event kinds related to each other.
   // Necessary only for events that were originally being reported to Google
@@ -3396,6 +3398,7 @@ message EmulatorAvdInfo {
     XR_GLASSES_DEVICE = 59;
     AI_GLASSES_DEVICE = 60;
     PIXEL_10A = 61;
+    PIXEL_11_PRO_FOLD = 62;
   }
   // Name of the AVD. Deprecated as it could potentially contain PII.
   optional string name = 1 [deprecated = true];
@@ -4832,6 +4835,9 @@ message TestRun {
   // Only set when test_kind=INSTRUMENTATION_TEST
   repeated DeviceTestSpanProfile device_test_span_profiles = 11;
 
+  // Only set when test_kind=BACKUP_TEST
+  optional BackupTestRun backup_test_run = 12 [lazy = true];
+
   // Describes how tests where invoked.
   enum TestInvocationType {
     UNKNOWN_TEST_INVOCATION_TYPE = 0;
@@ -4849,6 +4855,7 @@ message TestRun {
     UNIT_TEST = 1;
     INSTRUMENTATION_TEST = 2;
     PREVIEW_SCREENSHOT_TEST = 3;
+    BACKUP_TEST = 4;
   }
 
   // How instrumentation tests will be run
@@ -4890,6 +4897,53 @@ message TestRun {
 
     // Deprecated: use GradleBuildProfileSpan.
     optional int64 rendering_run_time_ms = 4 [deprecated = true];
+  }
+
+  // Provides details of an automated backup and restore test suite run.
+  message BackupTestRun {
+    // Number of passed test cases
+    optional int32 passed_test_count = 1;
+
+    // Number of failed test cases
+    optional int32 failed_test_count = 2;
+
+    // Library version of androidx.test.backup (e.g., "1.0.0-alpha01")
+    optional string backup_test_library_version = 3;
+
+    // Primary transport mode used during test execution
+    optional BackupTransportMode transport_mode = 4;
+
+    // Failure reason if the suite or test execution failed
+    optional BackupFailureReason failure_reason = 5;
+
+    // Total test execution duration in milliseconds
+    optional int64 total_run_time_ms = 6;
+
+    // Execution environment: true for CI, false for local workstation
+    optional bool is_ci = 7;
+
+    // Number of storage domains tested (e.g. SharedPreferences,
+    // SQLite/Room, files)
+    optional int32 storage_domain_count = 8;
+
+    enum BackupTransportMode {
+      UNKNOWN_TRANSPORT_MODE = 0;
+      LOCAL_TRANSPORT = 1;
+      GMS_TRANSPORT = 2;
+      D2D_TRANSPORT = 3;
+    }
+
+    enum BackupFailureReason {
+      UNKNOWN_FAILURE_REASON = 0;
+      NO_FAILURE = 1;
+      NO_DEVICE_AVAILABLE = 2;
+      API_LEVEL_UNSUPPORTED = 3;
+      GMS_CORE_OUTDATED = 4;
+      BMGR_FAILURE = 5;
+      SETUP_PRECONDITION_FAILURE = 6;
+      ASSERTION_FAILURE = 7;
+      TIMEOUT = 8;
+    }
   }
 }
 
@@ -9704,6 +9758,8 @@ message SherlockEvent {
       SELECTION_KIND_PROCESS_MEMORY = 11;
       SELECTION_KIND_JANK_CUJ = 12;
       SELECTION_KIND_APP_STARTUP = 13;
+      SELECTION_KIND_WAKELOCK = 14;
+      SELECTION_KIND_STACKED_COUNTER = 15;
     }
 
     repeated Selection selections = 1;
@@ -9768,6 +9824,19 @@ message SherlockEvent {
     TRACK_KIND_APP_STARTUP = 26;
     TRACK_KIND_ENERGY = 27;
     TRACK_KIND_MEMORY_SUMMARY = 28;
+    TRACK_KIND_WAKELOCKS = 29;
+
+    // Thermal & Hardware Kinds
+    TRACK_KIND_THERMAL = 30;
+    TRACK_KIND_HARDWARE = 31;
+
+    // Network & IO Kinds
+    TRACK_KIND_NETWORK = 32;
+    TRACK_KIND_IO = 33;
+
+    // System & Generic Kinds
+    TRACK_KIND_SYSTEM = 34;
+    TRACK_KIND_GENERIC_COUNTER = 35;
   }
 
   // Metadata for the |CAPTURE_EVENT| event.
@@ -14469,6 +14538,7 @@ message InteractivePreviewEvent {
     NAVIGATION_PANEL_PROGRESS_PRESS = 4;
     NAVIGATION_PANEL_VISIBILITY_CHANGE = 5;
     NAVIGATION_PANEL_EDGE_DROPDOWN_PRESS = 6;
+    NAVIGATION_PANEL_NAVIGATE_PRESS = 7;
   }
 
   // Type of event
@@ -17385,6 +17455,7 @@ message SmlChatBotEvent {
     optional bool did_timeout = 6;
   }
 
+  // Indicates the type of user interaction with the query box.
   enum QueryBoxEventType {
     QUERY_BOX_OTHER = 0;
     COMPLETION_STARTED = 1;
@@ -17430,6 +17501,7 @@ message SmlChatBotEvent {
     repeated ContextFileStats context_file_stats = 3;
   }
 
+  // Contains metrics data for a user's interaction with the chatbot query box.
   message QueryBoxEvent {
     optional QueryBoxEventType event_type = 1;
     optional QueryBoxEventMetadata event_metadata = 2;
@@ -17441,6 +17513,8 @@ message SmlChatBotEvent {
     CONTEXT_DRAWER_ITEM_REMOVED = 2;
   }
 
+  // Contains metrics data for a user's interaction with the chatbot context
+  // drawer.
   message ContextDrawerEvent {
     optional ContextDrawerEventType event_type = 1;
   }
@@ -18043,11 +18117,45 @@ message GeminiTelemetryEvent {
       optional string user_query_id = 4;
     }
 
+    // Tracks inference configuration changes within the chat tool window.
+    enum ModelProfileType {
+      MODEL_PROFILE_TYPE_UNKNOWN = 0;
+      MODEL_PROFILE_TYPE_DIRECT = 1;
+      MODEL_PROFILE_TYPE_ACP_AGENT = 2;
+    }
+
+    // Captures when a user selects a model or agent profile.
+    message ModelPickerEvent {
+      // The selected model from the known model registry.
+      optional Model selected_model = 1;
+      // The identifier of the model provider.
+      optional string selected_model_provider_id = 2;
+      // The model profile type.
+      optional ModelProfileType model_profile_type = 3;
+    }
+
+    // Captures when a user selects a thinking level for a model or agent.
+    message ThinkingLevelPickerEvent {
+      // The raw string identifier of the selected thinking level (e.g. "low",
+      // "high", "max", etc.).
+      optional string selected_thinking_level_id = 1;
+      // True if the user selected the default option.
+      optional bool is_default = 2;
+      // The selected model for which this thinking level is being configured.
+      optional Model selected_model = 3;
+      // The identifier of the model provider for the selected model.
+      optional string selected_model_provider_id = 4;
+      // The model profile type of the active model/agent.
+      optional ModelProfileType model_profile_type = 5;
+    }
+
     oneof event {
       ChangesDrawerEvent changes_drawer_event = 1;
       GuidedModeEvent guided_mode_event = 2;
       UserQueryStarted user_query_started = 3;
       UserQueryFinished user_query_finished = 4;
+      ModelPickerEvent model_picker_event = 5;
+      ThinkingLevelPickerEvent thinking_level_picker_event = 6;
     }
   }
 
@@ -18248,6 +18356,8 @@ message GeminiTelemetryEvent {
         SetPlanStateCallData set_plan_state_call_data = 14;
         // Data for a run_shell_command tool call or delegation.
         RunShellCommandToolCallData run_shell_command_tool_call_data = 15;
+        // Data for an akb tool call.
+        KbToolCallData kb_tool_call_data = 16;
       }
 
       message SearchArguments {
@@ -18401,6 +18511,15 @@ message GeminiTelemetryEvent {
         optional bool delegated_to_native_tool = 2;
         // Option names used for the command.
         repeated string option_names = 3;
+      }
+
+      message KbToolCallData {
+        // The number of akb_search_tool results
+        optional int32 search_result_count = 1;
+        // The number of docs returned by akb_fetch_tool
+        optional int32 fetched_doc_count = 2;
+        // The fetched docs
+        repeated string fetched_docs = 3;
       }
     }
   }
@@ -20950,6 +21069,7 @@ message SkillsEvent {
   oneof event {
     Activation activation = 2 [lazy = true];
     Discovery discovery = 3 [lazy = true];
+    UserAction user_action = 4 [lazy = true];
   }
 
   // Details about the skill activated by the agent.
@@ -20973,6 +21093,22 @@ message SkillsEvent {
     optional int64 token_count = 4;
   }
 
+  // User actions performed in the Skills Management UX or via skills entry
+  // points.
+  message UserAction {
+    optional ActionType action_type = 1;
+    // Pre-built skill name (whitelisted enum). For user-defined skills, this is
+    // UNKNOWN_SKILL_NAME.
+    optional SkillName skill_name = 2;
+    optional SkillType skill_type = 3;
+    optional Scope source_scope = 4;
+    optional Scope target_scope = 5;
+    optional bool enabled = 6;
+    optional EntryPoint entry_point = 7;
+    // True if removing a duplicate scope in a multi-scope conflict.
+    optional bool is_conflict_resolution = 8;
+  }
+
   // The type of skill.
   enum SkillType {
     UNKNOWN = 0;
@@ -20980,6 +21116,34 @@ message SkillsEvent {
     PRE_BUILT = 1;
     // Local project skills directory.
     USER_DEFINED = 2;
+  }
+
+  // The scope where a skill resides.
+  enum Scope {
+    UNKNOWN_SCOPE = 0;
+    PROJECT = 1;
+    GLOBAL = 2;
+    BUILT_IN = 3;
+  }
+
+  // User action types in Skills Management.
+  enum ActionType {
+    UNKNOWN_ACTION = 0;
+    OPEN_UI = 1;
+    TOGGLE_ENABLE = 2;
+    CHANGE_SCOPE = 3;
+    UNINSTALL = 4;
+    INSTALL = 5;
+    UPLOAD = 6;
+  }
+
+  // Entry points from which the Skills Manager UX is opened.
+  enum EntryPoint {
+    UNKNOWN_ENTRY_POINT = 0;
+    AGENT_MENU = 1;
+    COMPLETION_POPUP = 2;
+    SETTINGS_CONFIGURABLE = 3;
+    SEARCH_EVERYWHERE = 4;
   }
 
   // Pre-built skill names.

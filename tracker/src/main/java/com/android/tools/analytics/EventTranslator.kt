@@ -42,6 +42,7 @@ import com.google.wireless.android.sdk.stats.SkillsEvent
 import com.google.wireless.android.sdk.stats.SkillsEventLoggedIn
 import com.google.wireless.android.sdk.stats.SmlAgentType
 import com.google.wireless.android.sdk.stats.SmlChatBotEvent
+import com.google.wireless.android.sdk.stats.SmlChatBotEvent.QueryBoxEventMetadata.AttachmentType
 import com.google.wireless.android.sdk.stats.SmlChatBotEventLoggedIn
 import com.google.wireless.android.sdk.stats.SmlCompletionEvent
 import com.google.wireless.android.sdk.stats.SmlCompletionEventLoggedIn
@@ -96,7 +97,7 @@ object EventTranslator {
       }
 
       EventKind.SML_CHATBOT_EVENT -> {
-        builder.smlChatBotEvent = translateSmlChatBotEvent(event.smlChatBotEvent)
+        builder.smlChatBotEvent = translateSmlChatBotEvent(event.smlChatBotEvent) ?: return null
       }
 
       EventKind.SML_CONFIGURATION_EVENT -> {
@@ -303,7 +304,7 @@ object EventTranslator {
     return builder.build()
   }
 
-  private fun translateSmlChatBotEvent(event: SmlChatBotEvent): SmlChatBotEventLoggedIn {
+  private fun translateSmlChatBotEvent(event: SmlChatBotEvent): SmlChatBotEventLoggedIn? {
     val builder = SmlChatBotEventLoggedIn.newBuilder()
     when {
       event.hasResponse() -> {
@@ -350,6 +351,43 @@ object EventTranslator {
             }
         }
         builder.actionInvoked = actionInvokedBuilder.build()
+      }
+
+      event.hasQueryBoxEvent() -> {
+        if (event.queryBoxEvent?.eventMetadata?.attachmentType != AttachmentType.FILES) {
+          return null
+        }
+
+        val queryBoxEventBuilder = SmlChatBotEventLoggedIn.QueryBoxEvent.newBuilder()
+        if (event.queryBoxEvent.hasEventType()) {
+          queryBoxEventBuilder.eventType =
+            when (event.queryBoxEvent.eventType) {
+              SmlChatBotEvent.QueryBoxEventType.QUERY_BOX_OTHER -> SmlChatBotEventLoggedIn.QueryBoxEventType.QUERY_BOX_OTHER
+
+              SmlChatBotEvent.QueryBoxEventType.COMPLETION_STARTED -> SmlChatBotEventLoggedIn.QueryBoxEventType.COMPLETION_STARTED
+
+              SmlChatBotEvent.QueryBoxEventType.COMPLETION_ACCEPTED -> SmlChatBotEventLoggedIn.QueryBoxEventType.COMPLETION_ACCEPTED
+
+              SmlChatBotEvent.QueryBoxEventType.COMPLETION_DISMISSED -> SmlChatBotEventLoggedIn.QueryBoxEventType.COMPLETION_DISMISSED
+
+              SmlChatBotEvent.QueryBoxEventType.QUERY_WITH_CONTEXT_SUBMITTED ->
+                SmlChatBotEventLoggedIn.QueryBoxEventType.QUERY_WITH_CONTEXT_SUBMITTED
+
+              SmlChatBotEvent.QueryBoxEventType.REFERENCE_DELETED -> SmlChatBotEventLoggedIn.QueryBoxEventType.REFERENCE_DELETED
+
+              SmlChatBotEvent.QueryBoxEventType.IMAGE_ATTACHMENT_CLICKED ->
+                SmlChatBotEventLoggedIn.QueryBoxEventType.IMAGE_ATTACHMENT_CLICKED
+
+              SmlChatBotEvent.QueryBoxEventType.QUERY_STOPPED -> SmlChatBotEventLoggedIn.QueryBoxEventType.QUERY_STOPPED
+
+              else -> SmlChatBotEventLoggedIn.QueryBoxEventType.QUERY_BOX_OTHER
+            }
+        }
+        builder.queryBoxEvent = queryBoxEventBuilder.build()
+      }
+
+      event.hasContextDrawerEvent() -> {
+        builder.contextDrawerEvent = SmlChatBotEventLoggedIn.ContextDrawerEvent.getDefaultInstance()
       }
     }
     return builder.build()
