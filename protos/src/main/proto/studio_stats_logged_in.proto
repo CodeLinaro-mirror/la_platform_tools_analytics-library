@@ -275,9 +275,25 @@ message SmlChatBotEventLoggedIn {
     QUERY_STOPPED = 7;
   }
 
+  message QueryBoxEventMetadata {
+    enum AttachmentType {
+      UNKNOWN = 0;
+      FILES = 1;
+      FOLDERS = 2;
+      TOOLS = 3;
+      PROMPT_LIBRARY = 4;
+      REMOTE_CONTEXT = 5;
+      SKILLS = 6;
+    }
+    // The type of attachment, e.g. "FILES, FOLDERS, TOOLS, PROMPT_LIBRARY,
+    // REMOTE_CONTEXT, SKILLS"
+    optional AttachmentType attachment_type = 1;
+  }
+
   // Contains metrics data for a user's interaction with the chatbot query box.
   message QueryBoxEvent {
     optional QueryBoxEventType event_type = 1;
+    optional QueryBoxEventMetadata event_metadata = 2;
   }
 
   // Contains metrics data for a user's interaction with the chatbot context
