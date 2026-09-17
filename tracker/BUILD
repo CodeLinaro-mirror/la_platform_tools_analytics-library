@@ -8,6 +8,7 @@ iml_module(
     name = "analytics-tracker",
     srcs = ["src/main/java"],
     iml_files = ["analytics-tracker.iml"],
+    jvm_target = "21",  # For compatibility with the Studio updater, which targets older Studio versions.
     lint_baseline = "lint_baseline.xml",
     # do not sort: must match IML order
     test_deps = [

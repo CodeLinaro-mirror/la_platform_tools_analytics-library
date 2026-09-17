@@ -19246,6 +19246,7 @@ message AdbUsageEvent {
     AdbDeviceStateChangeEvent device_state_change_event = 2 [lazy = true];
     AppInfoProcessPropertiesCollectorEvent app_info_process_properties_event = 3
         [lazy = true];
+    AppInfoSupportEvent app_info_support_event = 4 [lazy = true];
     // Add other types of events, e.g. attaching debugger, etc
   }
 
@@ -19340,6 +19341,38 @@ message AdbUsageEvent {
       VM_INFO_OTHER_EXCEPTION = 6;
     }
     optional EventType event_type = 1;
+  }
+
+  message AppInfoSupportEvent {
+    // Reason why isAppInfoSupported() returns true or false
+    enum Reason {
+      REASON_UNSPECIFIED = 0;
+
+      // App info is supported
+      SUPPORTED = 1;
+
+      // "track-app" feature is not supported
+      TRACK_APP_NOT_SUPPORTED = 2;
+
+      // "app_info" adb feature is not supported by ADB server or device adbd
+      APP_INFO_NOT_SUPPORTED = 3;
+
+      // Activity manager capabilities (i.e. `am capabilities`) not supported
+      ACTIVITY_MANAGER_CAPABILITIES_NOT_SUPPORTED = 4;
+
+      // VM capabilities do not contain "app_info"
+      VM_CAPABILITIES_NOT_SUPPORTED = 5;
+
+      // Framework capabilities do not contain "app_info"
+      FRAMEWORK_CAPABILITIES_NOT_SUPPORTED = 6;
+
+      // Device API level returned default value (1) or could not be determined
+      API_LEVEL_IS_DEFAULT = 7;
+
+      // Disabled by a config property
+      DISABLED_BY_CONFIG_PROPERTY = 8;
+    }
+    optional Reason reason = 1;
   }
 }
 
