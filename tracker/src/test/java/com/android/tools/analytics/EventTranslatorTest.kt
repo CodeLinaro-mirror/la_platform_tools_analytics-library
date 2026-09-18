@@ -295,6 +295,10 @@ class EventTranslatorTest {
             .setQueryBoxEvent(
               SmlChatBotEventLoggedIn.QueryBoxEvent.newBuilder()
                 .setEventType(SmlChatBotEventLoggedIn.QueryBoxEventType.COMPLETION_ACCEPTED)
+                .setEventMetadata(
+                  SmlChatBotEventLoggedIn.QueryBoxEventMetadata.newBuilder()
+                    .setAttachmentType(SmlChatBotEventLoggedIn.QueryBoxEventMetadata.AttachmentType.FILES)
+                )
                 .build()
             )
             .build()

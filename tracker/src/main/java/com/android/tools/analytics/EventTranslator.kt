@@ -359,6 +359,10 @@ object EventTranslator {
         }
 
         val queryBoxEventBuilder = SmlChatBotEventLoggedIn.QueryBoxEvent.newBuilder()
+        queryBoxEventBuilder.eventMetadata =
+          SmlChatBotEventLoggedIn.QueryBoxEventMetadata.newBuilder()
+            .setAttachmentType(SmlChatBotEventLoggedIn.QueryBoxEventMetadata.AttachmentType.FILES)
+            .build()
         if (event.queryBoxEvent.hasEventType()) {
           queryBoxEventBuilder.eventType =
             when (event.queryBoxEvent.eventType) {
