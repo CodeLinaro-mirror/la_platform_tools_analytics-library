@@ -15000,6 +15000,20 @@ message WearHealthServicesEvent {
 
     // WHS tool failed to apply changes
     APPLY_CHANGES_FAILURE = 4;
+
+    // WHS tool successfully reset the capabilities and overrides to their
+    // default values
+    RESET_SUCCESS = 5;
+
+    // WHS tool failed to reset the capabilities and overrides to their default
+    // values
+    RESET_FAILURE = 6;
+
+    // WHS tool successfully triggered an event on the emulator
+    TRIGGER_EVENT_SUCCESS = 7;
+
+    // WHS tool failed to trigger an event on the emulator
+    TRIGGER_EVENT_FAILURE = 8;
   }
 }
 
