@@ -20740,7 +20740,8 @@ message GeminiAdvertiserEvent {
     SUGGEST_IMPROVEMENTS = 4;
     // Analyze and suggest alternative naming or scoping for variables.
     RETHINK_VARIABLES = 5;
-    // Generate scenarios for unit tests based on code.
+    // Deprecated. Generate scenarios for unit tests based on code. Superseded
+    // by GENERATE_UNIT_TESTS.
     GENERATE_UNIT_TEST_SCENARIOS = 6;
     // Suggest a commit message based on code changes.
     SUGGEST_COMMIT_MESSAGE = 7;
@@ -20761,6 +20762,8 @@ message GeminiAdvertiserEvent {
     UPDATE_DEPENDENCIES = 14;
     // AI insights in AQI
     APP_QUALITY_INSIGHTS = 15;
+    // Generate or update unit tests for a file.
+    GENERATE_UNIT_TESTS = 16;
   }
 
   enum Action {
