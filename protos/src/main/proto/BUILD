@@ -18,6 +18,7 @@ maven_proto_library(
     resources = [
         "analytics_enums.proto",
         "google_logs_publishing.proto",
+        "model_registry.proto",
         "studio_stats.proto",
     ],
     version = BASE_VERSION,
