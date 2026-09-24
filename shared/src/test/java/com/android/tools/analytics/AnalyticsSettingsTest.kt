@@ -499,6 +499,55 @@ class AnalyticsSettingsTest {
     )
   }
 
+  @Test
+  fun testProtoConversionRoundTrip() {
+    val settingsData =
+      AnalyticsSettingsData().apply {
+        userId = "test-user-uuid-1234"
+        optedIn = true
+        saltValue = BigInteger("98765432101234567890")
+        saltSkew = 650
+        lastSentimentQuestionDate = Date(115, 4, 17, 14, 23, 45)
+        lastSentimentAnswerDate = Date(115, 4, 18, 14, 23, 45)
+        nextFeatureSurveyDate = Date(115, 4, 19, 14, 23, 45)
+        nextFeatureSurveyDateMap = mutableMapOf("featureA" to Date(115, 4, 20, 14, 23, 45))
+        lastOptinPromptVersion = "2026.1.1"
+      }
+
+    val proto = settingsData.toProto()
+    assertEquals("test-user-uuid-1234", proto.userId)
+    assertTrue(proto.optedIn)
+    assertEquals("98765432101234567890", proto.saltValue)
+    assertEquals(650, proto.saltSkew)
+    assertEquals("2026.1.1", proto.lastOptinPromptVersion)
+    assertEquals(1, proto.lastFeatureSurveyDateMapCount)
+
+    val roundTrip = AnalyticsSettingsData.fromProto(proto)
+    assertEquals(settingsData.userId, roundTrip.userId)
+    assertEquals(settingsData.optedIn, roundTrip.optedIn)
+    assertEquals(settingsData.saltValue, roundTrip.saltValue)
+    assertEquals(settingsData.saltSkew, roundTrip.saltSkew)
+    assertEquals(settingsData.lastSentimentQuestionDate, roundTrip.lastSentimentQuestionDate)
+    assertEquals(settingsData.nextFeatureSurveyDateMap, roundTrip.nextFeatureSurveyDateMap)
+    assertEquals(settingsData.lastOptinPromptVersion, roundTrip.lastOptinPromptVersion)
+  }
+
+  @Test
+  fun testSettingsDataIgnoresUnknownKeys() {
+    val contentWithUnknownKeys =
+      """{"userId":"db3dd15b-053a-4066-ac93-04c50585edc2","hasOptedIn":true,"unknownFutureField":"some_value","anotherFutureObject":{"key":123},"saltValue":1234,"saltSkew":567}"""
+    analyticsSettingsFileContent = contentWithUnknownKeys
+
+    val settingsData =
+      FileChannel.open(analyticsSettingsFile, StandardOpenOption.READ, StandardOpenOption.WRITE).use { channel ->
+        AnalyticsSettingsData.parseSettingsData(channel, analyticsSettingsFile.toFile(), failureLogger)!!
+      }
+    assertEquals("db3dd15b-053a-4066-ac93-04c50585edc2", settingsData.userId)
+    assertEquals(true, settingsData.optedIn)
+    assertEquals(BigInteger.valueOf(1234), settingsData.saltValue)
+    assertEquals(567, settingsData.saltSkew)
+  }
+
   private fun String.normalizeUserid(): String {
     return this.replace(regex = Regex("[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"), replacement = "<uuid>")
   }
