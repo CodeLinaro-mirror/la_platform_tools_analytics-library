@@ -9,13 +9,6 @@ iml_module(
     srcs = ["src/main/java"],
     iml_files = ["analytics-crash.iml"],
     lint_baseline = "lint_baseline.xml",
-    # do not sort: must match IML order
-    test_deps = [
-        "//tools/adt/idea/.idea/libraries:junit4",
-        "//tools/adt/idea/.idea/libraries:truth",
-        "//tools/adt/idea/.idea/libraries:mockito",
-    ],
-    test_srcs = ["src/test/java"],
     visibility = ["//visibility:public"],
     # do not sort: must match IML order
     exports = ["//tools/base/annotations:studio.android.sdktools.android-annotations"],
@@ -23,6 +16,26 @@ iml_module(
     deps = [
         "@intellij//:intellij-sdk",
         "//tools/base/annotations:studio.android.sdktools.android-annotations",
+    ],
+)
+
+# managed by go/iml_to_build
+iml_module(
+    name = "analytics-crash.tests",
+    iml_files = ["analytics-crash.tests.iml"],
+    # do not sort: must match IML order
+    test_deps = [
+        "//tools/adt/idea/.idea/libraries:junit4",
+        "//tools/adt/idea/.idea/libraries:truth",
+        "//tools/adt/idea/.idea/libraries:mockito",
+    ],
+    test_friends = ["//tools/analytics-library/crash:analytics-crash"],
+    test_srcs = ["src/test/java"],
+    visibility = ["//visibility:public"],
+    # do not sort: must match IML order
+    deps = [
+        "//tools/analytics-library/crash:analytics-crash",
+        "@intellij//:intellij-sdk",
     ],
 )
 
