@@ -9,14 +9,6 @@ iml_module(
     srcs = ["src/main/java"],
     iml_files = ["analytics-shared.iml"],
     jvm_target = "8",
-    # do not sort: must match IML order
-    test_deps = [
-        "//tools/adt/idea/.idea/libraries:junit4",
-        "//tools/adt/idea/.idea/libraries:truth",
-        "//tools/adt/idea/.idea/libraries:mockito",
-        "//tools/base/testutils:studio.android.sdktools.testutils",
-    ],
-    test_srcs = ["src/test/java"],
     visibility = ["//visibility:public"],
     # do not sort: must match IML order
     exports = ["//tools/base/annotations:studio.android.sdktools.android-annotations"],
@@ -24,6 +16,30 @@ iml_module(
     deps = [
         "@intellij//:intellij-sdk",
         "//tools/base/annotations:studio.android.sdktools.android-annotations",
+        "//tools/base/common:studio.android.sdktools.common",
+        "//tools/adt/idea/.idea/libraries:studio-analytics-proto",
+    ],
+)
+
+# managed by go/iml_to_build
+iml_module(
+    name = "analytics-shared.tests",
+    iml_files = ["analytics-shared.tests.iml"],
+    jvm_target = "8",
+    # do not sort: must match IML order
+    test_deps = [
+        "//tools/adt/idea/.idea/libraries:junit4",
+        "//tools/adt/idea/.idea/libraries:truth",
+        "//tools/adt/idea/.idea/libraries:mockito",
+        "//tools/base/testutils:studio.android.sdktools.testutils",
+    ],
+    test_friends = ["//tools/analytics-library/shared:analytics-shared"],
+    test_srcs = ["src/test/java"],
+    visibility = ["//visibility:public"],
+    # do not sort: must match IML order
+    deps = [
+        "//tools/analytics-library/shared:analytics-shared",
+        "@intellij//:intellij-sdk",
         "//tools/base/common:studio.android.sdktools.common",
         "//tools/adt/idea/.idea/libraries:studio-analytics-proto",
     ],

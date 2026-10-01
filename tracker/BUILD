@@ -10,13 +10,6 @@ iml_module(
     iml_files = ["analytics-tracker.iml"],
     jvm_target = "21",  # For compatibility with the Studio updater, which targets older Studio versions.
     lint_baseline = "lint_baseline.xml",
-    # do not sort: must match IML order
-    test_deps = [
-        "//tools/adt/idea/.idea/libraries:junit4",
-        "//tools/adt/idea/.idea/libraries:truth",
-        "//tools/base/testutils:studio.android.sdktools.testutils",
-    ],
-    test_srcs = ["src/test/java"],
     visibility = ["//visibility:public"],
     # do not sort: must match IML order
     exports = ["//tools/base/annotations:studio.android.sdktools.android-annotations"],
@@ -24,6 +17,30 @@ iml_module(
     deps = [
         "@intellij//:intellij-sdk",
         "//tools/base/annotations:studio.android.sdktools.android-annotations",
+        "//tools/analytics-library/shared:analytics-shared",
+        "//tools/base/common:studio.android.sdktools.common",
+        "//tools/adt/idea/.idea/libraries:studio-analytics-proto",
+    ],
+)
+
+# managed by go/iml_to_build
+iml_module(
+    name = "analytics-tracker.tests",
+    iml_files = ["analytics-tracker.tests.iml"],
+    jvm_target = "21",
+    # do not sort: must match IML order
+    test_deps = [
+        "//tools/adt/idea/.idea/libraries:junit4",
+        "//tools/adt/idea/.idea/libraries:truth",
+        "//tools/base/testutils:studio.android.sdktools.testutils",
+    ],
+    test_friends = ["//tools/analytics-library/tracker:analytics-tracker"],
+    test_srcs = ["src/test/java"],
+    visibility = ["//visibility:public"],
+    # do not sort: must match IML order
+    deps = [
+        "//tools/analytics-library/tracker:analytics-tracker",
+        "@intellij//:intellij-sdk",
         "//tools/analytics-library/shared:analytics-shared",
         "//tools/base/common:studio.android.sdktools.common",
         "//tools/adt/idea/.idea/libraries:studio-analytics-proto",
