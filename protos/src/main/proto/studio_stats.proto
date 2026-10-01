@@ -21493,7 +21493,18 @@ message LocalInferenceEngineEvent {
 message ImportProjectEvent {
   enum EventType {
     UNKNOWN_EVENT_TYPE = 0;
+    // The agent conversation for a new import was started.
     IMPORT_STARTED = 1;
+    // The "Migrate to New Project" entry was shown in the New Project wizard.
+    ENTRY_SHOWN = 2;
+    // A source folder was selected and its project type was detected.
+    SOURCE_DETECTED = 3;
+    // A source folder was selected, but no supported project type was found.
+    SOURCE_DETECTION_FAILED = 4;
+    // An interrupted import was resumed ("Resume Migration" action).
+    IMPORT_RESUMED = 5;
+    // The agent conversation for a new import could not be started.
+    IMPORT_START_FAILED = 6;
   }
 
   enum SourceProjectType {
@@ -21521,12 +21532,56 @@ message ImportProjectEvent {
     MANUAL = 2;
   }
 
+  enum DetectionFailureReason {
+    UNKNOWN_DETECTION_FAILURE_REASON = 0;
+    // The selected folder is empty.
+    EMPTY_FOLDER = 1;
+    // The selected folder is not a project of a supported type.
+    UNSUPPORTED_PROJECT = 2;
+  }
+
+  enum StartFailureReason {
+    UNKNOWN_START_FAILURE_REASON = 0;
+    // No model was available to run the agent.
+    NO_MODELS_AVAILABLE = 1;
+  }
+
   optional EventType event_type = 1;
   optional SourceProjectType source_project_type = 2;
   optional TargetProjectType target_project_type = 3;
   optional InteractivityMode interactivity_mode = 4;
   optional ValidationStrategy validation_strategy = 5;
-  optional bool is_journeys_enabled = 6;
-  optional string session_id = 7;
+
+  // ID of the agent conversation. Set for IMPORT_STARTED and IMPORT_RESUMED.
+  // Same as GeminiTelemetryEvent.EventEnvelope.root_trajectory_id, which
+  // links the tool and skill usage of the import.
+  optional string conversation_id = 6;
+
+  // Random ID of one New Project wizard instance. Set for ENTRY_SHOWN,
+  // SOURCE_DETECTED, SOURCE_DETECTION_FAILED, IMPORT_STARTED and
+  // IMPORT_START_FAILED, so that the events of one wizard can be joined.
+  optional string wizard_session_id = 7;
+
   optional string model_id = 8;
+
+  // Set when event_type = SOURCE_DETECTION_FAILED.
+  optional DetectionFailureReason detection_failure_reason = 9;
+
+  // Set when event_type = IMPORT_START_FAILED.
+  optional StartFailureReason start_failure_reason = 10;
+
+  // Set when event_type = IMPORT_RESUMED. The conversation_id of the
+  // IMPORT_STARTED event of the import that is resumed.
+  optional string resumed_from_conversation_id = 11;
+
+  // Set when event_type = IMPORT_STARTED. Whether the user gave custom
+  // instructions. Their content is never logged.
+  optional bool has_custom_instructions = 12;
+
+  // Set when event_type = IMPORT_STARTED. Number of attached images.
+  optional int32 image_attachment_count = 13;
+
+  // Set when event_type = IMPORT_STARTED. Number of attached user skills
+  // (SKILL.md files).
+  optional int32 user_skill_count = 14;
 }
