@@ -17955,6 +17955,44 @@ message GeminiTelemetryEvent {
     // Ties together events belonging to the same user query turn.
     // Synthetically generated in metrics for log analysis.
     optional string user_query_id = 10;
+
+    // Details of the agent (built-in or ACP) used for this event.
+    optional AgentInfo agent_info = 11;
+  }
+
+  // Details of the agent used for a conversation: either the built-in agent or
+  // an external agent connected over ACP (Agent Client Protocol).
+  message AgentInfo {
+    // The agent backend. Not to be confused with SmlAgentType, which describes
+    // the kind of task handled by the built-in agent.
+    enum AgentType {
+      // Default unset value.
+      AGENT_TYPE_UNSPECIFIED = 0;
+      // android-studio-agent-v2
+      BUILT_IN = 1;
+      // claude-acp
+      CLAUDE_CODE = 2;
+      // codex-acp
+      CODEX = 3;
+      // antigravity-acp
+      ANTIGRAVITY = 4;
+      // opencode
+      OPENCODE = 5;
+      // copilot
+      COPILOT = 6;
+      // All other agents.
+      OTHER = 7;
+    }
+
+    // Standardized enum for known registry agents (avoids PII from custom
+    // agent names).
+    optional AgentType agent_type = 1;
+
+    // Reported version from the ACP initialize handshake. Unset for BUILT_IN.
+    optional string agent_version = 2;
+
+    // Negotiated ACP protocol version (e.g., 1 or 2). Unset for BUILT_IN.
+    optional int32 acp_protocol_version = 3;
   }
 
   message ServerEvent {
