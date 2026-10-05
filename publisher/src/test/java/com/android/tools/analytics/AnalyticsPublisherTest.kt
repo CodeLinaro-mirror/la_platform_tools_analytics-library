@@ -55,7 +55,7 @@ class AnalyticsPublisherTest {
   @Throws(Exception::class)
   fun testInitialValues() {
     // Configure the paths to use a temp directory for reading from and writing to.
-    EnvironmentFakes.setCustomAndroidPrefsRootEnvironment(testConfigDir.root.toPath().toString())
+    EnvironmentFakes.setCustomAndroidUserHomeEnvironment(testConfigDir.root.toPath().toString())
     // Start a stub webserver to publish to.
     try {
       ServerStub().use { stub ->
@@ -87,7 +87,7 @@ class AnalyticsPublisherTest {
   @Throws(Exception::class)
   fun testBasics() {
     // Configure the paths to use a temp directory for reading from and writing to.
-    EnvironmentFakes.setCustomAndroidPrefsRootEnvironment(testConfigDir.root.toPath().toString())
+    EnvironmentFakes.setCustomAndroidUserHomeEnvironment(testConfigDir.root.toPath().toString())
     try {
       ServerStub().use { stub ->
         SystemPropertyOverrides().use { systemPropertyOverrides ->
@@ -173,7 +173,7 @@ class AnalyticsPublisherTest {
   @Throws(Exception::class)
   fun testCredentials() {
     // Configure the paths to use a temp directory for reading from and writing to.
-    EnvironmentFakes.setCustomAndroidPrefsRootEnvironment(testConfigDir.root.toPath().toString())
+    EnvironmentFakes.setCustomAndroidUserHomeEnvironment(testConfigDir.root.toPath().toString())
     val credentials = "credentials"
     try {
       ServerStub().use { stub ->
@@ -249,7 +249,7 @@ class AnalyticsPublisherTest {
   @Throws(Exception::class)
   fun testBadConnection() {
     // Configure the paths to use a temp directory for reading from and writing to.
-    EnvironmentFakes.setCustomAndroidPrefsRootEnvironment(testConfigDir.root.toPath().toString())
+    EnvironmentFakes.setCustomAndroidUserHomeEnvironment(testConfigDir.root.toPath().toString())
     // Create a server
     try {
       ServerStub().use { stub ->
@@ -323,7 +323,7 @@ class AnalyticsPublisherTest {
   @Throws(Exception::class)
   fun testBadServer() {
     // Configure the paths to use a temp directory for reading from and writing to.
-    EnvironmentFakes.setCustomAndroidPrefsRootEnvironment(testConfigDir.root.toPath().toString())
+    EnvironmentFakes.setCustomAndroidUserHomeEnvironment(testConfigDir.root.toPath().toString())
     try {
       ServerStub().use { stub ->
         SystemPropertyOverrides().use { systemPropertyOverrides ->
@@ -426,7 +426,7 @@ class AnalyticsPublisherTest {
   @Throws(Exception::class)
   fun testEmptySpoolFile() {
     // Configure the paths to use a temp directory for reading from and writing to.
-    EnvironmentFakes.setCustomAndroidPrefsRootEnvironment(testConfigDir.root.toPath().toString())
+    EnvironmentFakes.setCustomAndroidUserHomeEnvironment(testConfigDir.root.toPath().toString())
     try {
       ServerStub().use { stub ->
         // Use the AnonymousUsageTrackerWriter to place an empty .trk file in the spool directory.
@@ -458,7 +458,7 @@ class AnalyticsPublisherTest {
   @Throws(Exception::class)
   fun testMultipleEvents() {
     // Configure the paths to use a temp directory for reading from and writing to.
-    EnvironmentFakes.setCustomAndroidPrefsRootEnvironment(testConfigDir.root.toPath().toString())
+    EnvironmentFakes.setCustomAndroidUserHomeEnvironment(testConfigDir.root.toPath().toString())
     try {
       // Create a few events to log.
       val logged1 = createAndroidStudioEvent(1)
@@ -529,7 +529,7 @@ class AnalyticsPublisherTest {
   @Throws(Exception::class)
   fun testUpdateInterval() {
     // Configure the paths to use a temp directory for reading from and writing to.
-    EnvironmentFakes.setCustomAndroidPrefsRootEnvironment(testConfigDir.root.toPath().toString())
+    EnvironmentFakes.setCustomAndroidUserHomeEnvironment(testConfigDir.root.toPath().toString())
     try {
       ServerStub().use { stub ->
         // Create an event to log.
@@ -580,7 +580,7 @@ class AnalyticsPublisherTest {
   @Throws(Exception::class)
   fun testCustomConnection() {
     // Configure the paths to use a temp directory for reading from and writing to.
-    EnvironmentFakes.setCustomAndroidPrefsRootEnvironment(testConfigDir.root.toPath().toString())
+    EnvironmentFakes.setCustomAndroidUserHomeEnvironment(testConfigDir.root.toPath().toString())
     try {
       ServerStub().use { stub ->
         // Create an event to log.
@@ -618,7 +618,7 @@ class AnalyticsPublisherTest {
   @Test
   fun testInitializePublisher() {
     // Configure the paths to use a temp directory for reading from and writing to.
-    EnvironmentFakes.setCustomAndroidPrefsRootEnvironment(testConfigDir.root.toPath().toString())
+    EnvironmentFakes.setCustomAndroidUserHomeEnvironment(testConfigDir.root.toPath().toString())
     try {
       // Create helpers used to instantiate the publisher.
       val vs = VirtualTimeScheduler()

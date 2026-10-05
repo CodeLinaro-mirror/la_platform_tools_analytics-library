@@ -16,8 +16,8 @@
 
 package com.android.tools.analytics
 
-import com.android.tools.analytics.Environment.EnvironmentVariable
-import com.android.tools.analytics.Environment.SystemProperty
+import com.android.prefs.AbstractAndroidLocations
+import com.android.utils.NullLogger
 import java.io.File
 import java.nio.file.Paths
 
@@ -72,23 +72,9 @@ object AnalyticsPaths {
     androidSettingsHomeDirectoryOverride?.let {
       return it
     }
-    // currently can't be shared with AndroidLocation see b/37123089
-    return getEnvOrPropValue(EnvironmentVariable.ANDROID_PREFS_ROOT, SystemProperty.ANDROID_PREFS_ROOT)
-      ?: getEnvOrPropValue(EnvironmentVariable.ANDROID_SDK_HOME, SystemProperty.ANDROID_SDK_HOME)
-      ?: Paths.get(Environment.instance.getSystemProperty(SystemProperty.USER_HOME)!!, ".android").toString()
+    return AndroidLocations().computeAndroidFolder().toString()
   }
 
-  private fun getEnvOrPropValue(envVar: EnvironmentVariable, sysProp: SystemProperty): String? {
-    val v1 = Environment.instance.getVariable(envVar)
-    if (!v1.isNullOrEmpty()) {
-      return v1
-    }
-
-    val v2 = Environment.instance.getSystemProperty(sysProp)
-    if (!v2.isNullOrEmpty()) {
-      return v2
-    }
-
-    return null
-  }
+  private class AndroidLocations :
+    AbstractAndroidLocations(environmentProvider = Environment.instance, logger = NullLogger.getLogger(), silent = true)
 }

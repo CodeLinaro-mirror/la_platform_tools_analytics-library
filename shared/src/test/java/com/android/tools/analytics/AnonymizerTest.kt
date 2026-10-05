@@ -41,7 +41,7 @@ class AnonymizerTest {
   @Test
   fun anonymizerTest() {
     // Configure the paths to use a temp directory for reading from and writing to.
-    EnvironmentFakes.setCustomAndroidPrefsRootEnvironment(testConfigDir.root.toPath().toString())
+    EnvironmentFakes.setCustomAndroidUserHomeEnvironment(testConfigDir.root.toPath().toString())
     try {
       // Prepopulate AnalysisSettings.
       AnalyticsSettings.setInstanceForTest(AnalyticsSettingsData())
