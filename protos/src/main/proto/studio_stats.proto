@@ -21425,19 +21425,29 @@ message ChangeReviewEvent {
     optional int64 total_duration_ms = 5;
     optional int64 analysis_duration_ms = 6;
     optional int64 summary_duration_ms = 7;
-    optional int64 themes_duration_ms = 8;
-    optional int64 theme_details_duration_ms = 9;
+    // Deprecated: walkthrough themes are no longer generated as part of the
+    // initial review, so this is no longer populated.
+    optional int64 themes_duration_ms = 8 [deprecated = true];
+    // Deprecated: no longer populated, for the same reason as
+    // themes_duration_ms.
+    optional int64 theme_details_duration_ms = 9 [deprecated = true];
     optional int32 num_files = 10;
     optional int32 num_chunks = 11;
     optional int32 num_suggestions_generated = 12;
-    optional string failure_reason = 13;
+    // Deprecated: always the fixed text "Generation failed" when status is
+    // FAILED, so it carries no information beyond status.
+    optional string failure_reason = 13 [deprecated = true];
   }
 
   message FixBatch {
     optional string session_id = 1;
     optional int32 num_suggestions_selected = 2;
-    optional int32 num_suggestions_successful = 3;
-    optional int32 num_suggestions_failed = 4;
+    // Deprecated: all selected suggestions are submitted in a single request
+    // that succeeds or fails as a whole, so per-suggestion counts are not
+    // meaningful.
+    optional int32 num_suggestions_successful = 3 [deprecated = true];
+    // Deprecated: see num_suggestions_successful.
+    optional int32 num_suggestions_failed = 4 [deprecated = true];
     optional int64 total_duration_ms = 5;
   }
 
