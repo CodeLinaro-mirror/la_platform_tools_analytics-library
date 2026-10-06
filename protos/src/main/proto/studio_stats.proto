@@ -17948,6 +17948,7 @@ message GeminiTelemetryEvent {
     // Provider ID of the model used for this event.
     optional string model_provider_id = 7;
     // Model ID of the model used for this event.
+    // Note: This will be deprecated soon in favor of `model` (field 12).
     optional string model_id = 8;
     // Whether the model is the default model.
     optional bool is_default_model = 9;
@@ -17958,6 +17959,9 @@ message GeminiTelemetryEvent {
 
     // Details of the agent (built-in or ACP) used for this event.
     optional AgentInfo agent_info = 11;
+
+    // Model used for this event, from the known model registry.
+    optional Model model = 12;
   }
 
   // Details of the agent used for a conversation: either the built-in agent or
