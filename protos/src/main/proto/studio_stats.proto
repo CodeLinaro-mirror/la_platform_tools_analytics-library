@@ -21437,6 +21437,10 @@ message ChangeReviewEvent {
     // Deprecated: always the fixed text "Generation failed" when status is
     // FAILED, so it carries no information beyond status.
     optional string failure_reason = 13 [deprecated = true];
+    // Whether custom review instructions were enabled and non-empty.
+    optional bool custom_instructions_enabled = 14;
+    // The agent (built-in or ACP) that ran the review.
+    optional GeminiTelemetryEvent.AgentInfo agent_info = 15;
   }
 
   message FixBatch {
@@ -21449,6 +21453,23 @@ message ChangeReviewEvent {
     // Deprecated: see num_suggestions_successful.
     optional int32 num_suggestions_failed = 4 [deprecated = true];
     optional int64 total_duration_ms = 5;
+    // The outcome of applying the batch. All selected suggestions are
+    // submitted to the agent in a single request.
+    optional Status status = 6;
+    // Number of selected suggestions whose fix prompt was edited by the user.
+    optional int32 num_edited_prompts = 7;
+  }
+
+  // Telemetry data for an on-demand Guided Walkthrough generation.
+  message GuidedWalkthrough {
+    optional string session_id = 1;
+    optional Status status = 2;
+    optional int64 total_duration_ms = 3;
+    // Time spent generating the list of walkthrough themes.
+    optional int64 themes_duration_ms = 4;
+    // Time spent generating the details for all themes.
+    optional int64 theme_details_duration_ms = 5;
+    optional int32 num_themes_generated = 6;
   }
 
   oneof event {
@@ -21456,6 +21477,8 @@ message ChangeReviewEvent {
     Session session = 1;
     // Logged when a batch of suggested fixes is applied.
     FixBatch fix_batch = 2;
+    // Logged when a guided walkthrough generation ends.
+    GuidedWalkthrough guided_walkthrough = 3;
   }
 }
 
