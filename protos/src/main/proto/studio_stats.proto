@@ -13646,6 +13646,17 @@ message RenderToolEvent {
     ERROR_COMPILATION_FAILED = 5;
     ERROR_RENDER_FAILED = 6;  // RenderResult contained errors
     ERROR_UNEXPECTED = 7;     // Generic exceptions
+    // Post-compilation LayoutLib error: SdkConstants.CLASS_COMPOSE_VIEW_ADAPTER
+    // is missing from RenderLogger.missingClasses (ui-tooling not configured).
+    ERROR_MISSING_COMPOSE_TOOLING = 8;
+    // Post-compilation LayoutLib error: classes compiled but threw during
+    // static initialization or View/ViewModel instantiation
+    // (RenderLogger.brokenClasses).
+    ERROR_BROKEN_CLASSES = 9;
+    // Post-compilation LayoutLib error: ClassNotFoundException in
+    // ModuleClassLoader during inflation/rendering
+    // (RenderLogger.missingClasses, excluding ComposeViewAdapter).
+    ERROR_MISSING_CLASSES = 10;
   }
 
   // The specific error if is_success is false
@@ -13668,6 +13679,14 @@ message RenderToolEvent {
   // The percentage of pixels that changed (0.0 to 1.0)
   // Only populated if has_previous_version is true.
   optional float pixel_delta_percentage = 9;
+
+  // The specific Exception class that caused the failure for allowlisted
+  // platform/framework packages (e.g., "java.lang.NullPointerException").
+  optional string primary_exception_class = 10;
+
+  // Quantitative metrics to understand project health
+  optional int32 missing_classes_count = 11;
+  optional int32 broken_classes_count = 12;
 }
 
 /**
