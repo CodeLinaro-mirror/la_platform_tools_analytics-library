@@ -3399,6 +3399,7 @@ message EmulatorAvdInfo {
     AI_GLASSES_DEVICE = 60;
     PIXEL_10A = 61;
     PIXEL_11_PRO_FOLD = 62;
+    AI_GLASSES_AUDIO_DEVICE = 63;
   }
   // Name of the AVD. Deprecated as it could potentially contain PII.
   optional string name = 1 [deprecated = true];
