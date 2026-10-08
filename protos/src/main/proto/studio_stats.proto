@@ -13646,6 +13646,17 @@ message RenderToolEvent {
     ERROR_COMPILATION_FAILED = 5;
     ERROR_RENDER_FAILED = 6;  // RenderResult contained errors
     ERROR_UNEXPECTED = 7;     // Generic exceptions
+    // Post-compilation LayoutLib error: SdkConstants.CLASS_COMPOSE_VIEW_ADAPTER
+    // is missing from RenderLogger.missingClasses (ui-tooling not configured).
+    ERROR_MISSING_COMPOSE_TOOLING = 8;
+    // Post-compilation LayoutLib error: classes compiled but threw during
+    // static initialization or View/ViewModel instantiation
+    // (RenderLogger.brokenClasses).
+    ERROR_BROKEN_CLASSES = 9;
+    // Post-compilation LayoutLib error: ClassNotFoundException in
+    // ModuleClassLoader during inflation/rendering
+    // (RenderLogger.missingClasses, excluding ComposeViewAdapter).
+    ERROR_MISSING_CLASSES = 10;
   }
 
   // The specific error if is_success is false
@@ -13668,6 +13679,14 @@ message RenderToolEvent {
   // The percentage of pixels that changed (0.0 to 1.0)
   // Only populated if has_previous_version is true.
   optional float pixel_delta_percentage = 9;
+
+  // The specific Exception class that caused the failure for allowlisted
+  // platform/framework packages (e.g., "java.lang.NullPointerException").
+  optional string primary_exception_class = 10;
+
+  // Quantitative metrics to understand project health
+  optional int32 missing_classes_count = 11;
+  optional int32 broken_classes_count = 12;
 }
 
 /**
@@ -15000,6 +15019,20 @@ message WearHealthServicesEvent {
 
     // WHS tool failed to apply changes
     APPLY_CHANGES_FAILURE = 4;
+
+    // WHS tool successfully reset the capabilities and overrides to their
+    // default values
+    RESET_SUCCESS = 5;
+
+    // WHS tool failed to reset the capabilities and overrides to their default
+    // values
+    RESET_FAILURE = 6;
+
+    // WHS tool successfully triggered an event on the emulator
+    TRIGGER_EVENT_SUCCESS = 7;
+
+    // WHS tool failed to trigger an event on the emulator
+    TRIGGER_EVENT_FAILURE = 8;
   }
 }
 
@@ -17934,6 +17967,7 @@ message GeminiTelemetryEvent {
     // Provider ID of the model used for this event.
     optional string model_provider_id = 7;
     // Model ID of the model used for this event.
+    // Note: This will be deprecated soon in favor of `model` (field 12).
     optional string model_id = 8;
     // Whether the model is the default model.
     optional bool is_default_model = 9;
@@ -17941,6 +17975,47 @@ message GeminiTelemetryEvent {
     // Ties together events belonging to the same user query turn.
     // Synthetically generated in metrics for log analysis.
     optional string user_query_id = 10;
+
+    // Details of the agent (built-in or ACP) used for this event.
+    optional AgentInfo agent_info = 11;
+
+    // Model used for this event, from the known model registry.
+    optional Model model = 12;
+  }
+
+  // Details of the agent used for a conversation: either the built-in agent or
+  // an external agent connected over ACP (Agent Client Protocol).
+  message AgentInfo {
+    // The agent backend. Not to be confused with SmlAgentType, which describes
+    // the kind of task handled by the built-in agent.
+    enum AgentType {
+      // Default unset value.
+      AGENT_TYPE_UNSPECIFIED = 0;
+      // android-studio-agent-v2
+      BUILT_IN = 1;
+      // claude-acp
+      CLAUDE_CODE = 2;
+      // codex-acp
+      CODEX = 3;
+      // antigravity-acp
+      ANTIGRAVITY = 4;
+      // opencode
+      OPENCODE = 5;
+      // copilot
+      COPILOT = 6;
+      // All other agents.
+      OTHER = 7;
+    }
+
+    // Standardized enum for known registry agents (avoids PII from custom
+    // agent names).
+    optional AgentType agent_type = 1;
+
+    // Reported version from the ACP initialize handshake. Unset for BUILT_IN.
+    optional string agent_version = 2;
+
+    // Negotiated ACP protocol version (e.g., 1 or 2). Unset for BUILT_IN.
+    optional int32 acp_protocol_version = 3;
   }
 
   message ServerEvent {
@@ -20726,7 +20801,8 @@ message GeminiAdvertiserEvent {
     SUGGEST_IMPROVEMENTS = 4;
     // Analyze and suggest alternative naming or scoping for variables.
     RETHINK_VARIABLES = 5;
-    // Generate scenarios for unit tests based on code.
+    // Deprecated. Generate scenarios for unit tests based on code. Superseded
+    // by GENERATE_UNIT_TESTS.
     GENERATE_UNIT_TEST_SCENARIOS = 6;
     // Suggest a commit message based on code changes.
     SUGGEST_COMMIT_MESSAGE = 7;
@@ -20747,6 +20823,8 @@ message GeminiAdvertiserEvent {
     UPDATE_DEPENDENCIES = 14;
     // AI insights in AQI
     APP_QUALITY_INSIGHTS = 15;
+    // Generate or update unit tests for a file.
+    GENERATE_UNIT_TESTS = 16;
   }
 
   enum Action {
@@ -21366,20 +21444,51 @@ message ChangeReviewEvent {
     optional int64 total_duration_ms = 5;
     optional int64 analysis_duration_ms = 6;
     optional int64 summary_duration_ms = 7;
-    optional int64 themes_duration_ms = 8;
-    optional int64 theme_details_duration_ms = 9;
+    // Deprecated: walkthrough themes are no longer generated as part of the
+    // initial review, so this is no longer populated.
+    optional int64 themes_duration_ms = 8 [deprecated = true];
+    // Deprecated: no longer populated, for the same reason as
+    // themes_duration_ms.
+    optional int64 theme_details_duration_ms = 9 [deprecated = true];
     optional int32 num_files = 10;
     optional int32 num_chunks = 11;
     optional int32 num_suggestions_generated = 12;
-    optional string failure_reason = 13;
+    // Deprecated: always the fixed text "Generation failed" when status is
+    // FAILED, so it carries no information beyond status.
+    optional string failure_reason = 13 [deprecated = true];
+    // Whether custom review instructions were enabled and non-empty.
+    optional bool custom_instructions_enabled = 14;
+    // The agent (built-in or ACP) that ran the review.
+    optional GeminiTelemetryEvent.AgentInfo agent_info = 15;
   }
 
   message FixBatch {
     optional string session_id = 1;
     optional int32 num_suggestions_selected = 2;
-    optional int32 num_suggestions_successful = 3;
-    optional int32 num_suggestions_failed = 4;
+    // Deprecated: all selected suggestions are submitted in a single request
+    // that succeeds or fails as a whole, so per-suggestion counts are not
+    // meaningful.
+    optional int32 num_suggestions_successful = 3 [deprecated = true];
+    // Deprecated: see num_suggestions_successful.
+    optional int32 num_suggestions_failed = 4 [deprecated = true];
     optional int64 total_duration_ms = 5;
+    // The outcome of applying the batch. All selected suggestions are
+    // submitted to the agent in a single request.
+    optional Status status = 6;
+    // Number of selected suggestions whose fix prompt was edited by the user.
+    optional int32 num_edited_prompts = 7;
+  }
+
+  // Telemetry data for an on-demand Guided Walkthrough generation.
+  message GuidedWalkthrough {
+    optional string session_id = 1;
+    optional Status status = 2;
+    optional int64 total_duration_ms = 3;
+    // Time spent generating the list of walkthrough themes.
+    optional int64 themes_duration_ms = 4;
+    // Time spent generating the details for all themes.
+    optional int64 theme_details_duration_ms = 5;
+    optional int32 num_themes_generated = 6;
   }
 
   oneof event {
@@ -21387,6 +21496,8 @@ message ChangeReviewEvent {
     Session session = 1;
     // Logged when a batch of suggested fixes is applied.
     FixBatch fix_batch = 2;
+    // Logged when a guided walkthrough generation ends.
+    GuidedWalkthrough guided_walkthrough = 3;
   }
 }
 
@@ -21476,7 +21587,18 @@ message LocalInferenceEngineEvent {
 message ImportProjectEvent {
   enum EventType {
     UNKNOWN_EVENT_TYPE = 0;
+    // The agent conversation for a new import was started.
     IMPORT_STARTED = 1;
+    // The "Migrate to New Project" entry was shown in the New Project wizard.
+    ENTRY_SHOWN = 2;
+    // A source folder was selected and its project type was detected.
+    SOURCE_DETECTED = 3;
+    // A source folder was selected, but no supported project type was found.
+    SOURCE_DETECTION_FAILED = 4;
+    // An interrupted import was resumed ("Resume Migration" action).
+    IMPORT_RESUMED = 5;
+    // The agent conversation for a new import could not be started.
+    IMPORT_START_FAILED = 6;
   }
 
   enum SourceProjectType {
@@ -21504,12 +21626,56 @@ message ImportProjectEvent {
     MANUAL = 2;
   }
 
+  enum DetectionFailureReason {
+    UNKNOWN_DETECTION_FAILURE_REASON = 0;
+    // The selected folder is empty.
+    EMPTY_FOLDER = 1;
+    // The selected folder is not a project of a supported type.
+    UNSUPPORTED_PROJECT = 2;
+  }
+
+  enum StartFailureReason {
+    UNKNOWN_START_FAILURE_REASON = 0;
+    // No model was available to run the agent.
+    NO_MODELS_AVAILABLE = 1;
+  }
+
   optional EventType event_type = 1;
   optional SourceProjectType source_project_type = 2;
   optional TargetProjectType target_project_type = 3;
   optional InteractivityMode interactivity_mode = 4;
   optional ValidationStrategy validation_strategy = 5;
-  optional bool is_journeys_enabled = 6;
-  optional string session_id = 7;
+
+  // ID of the agent conversation. Set for IMPORT_STARTED and IMPORT_RESUMED.
+  // Same as GeminiTelemetryEvent.EventEnvelope.root_trajectory_id, which
+  // links the tool and skill usage of the import.
+  optional string conversation_id = 6;
+
+  // Random ID of one New Project wizard instance. Set for ENTRY_SHOWN,
+  // SOURCE_DETECTED, SOURCE_DETECTION_FAILED, IMPORT_STARTED and
+  // IMPORT_START_FAILED, so that the events of one wizard can be joined.
+  optional string wizard_session_id = 7;
+
   optional string model_id = 8;
+
+  // Set when event_type = SOURCE_DETECTION_FAILED.
+  optional DetectionFailureReason detection_failure_reason = 9;
+
+  // Set when event_type = IMPORT_START_FAILED.
+  optional StartFailureReason start_failure_reason = 10;
+
+  // Set when event_type = IMPORT_RESUMED. The conversation_id of the
+  // IMPORT_STARTED event of the import that is resumed.
+  optional string resumed_from_conversation_id = 11;
+
+  // Set when event_type = IMPORT_STARTED. Whether the user gave custom
+  // instructions. Their content is never logged.
+  optional bool has_custom_instructions = 12;
+
+  // Set when event_type = IMPORT_STARTED. Number of attached images.
+  optional int32 image_attachment_count = 13;
+
+  // Set when event_type = IMPORT_STARTED. Number of attached user skills
+  // (SKILL.md files).
+  optional int32 user_skill_count = 14;
 }
