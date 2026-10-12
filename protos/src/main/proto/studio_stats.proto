@@ -18629,6 +18629,8 @@ message StudioBotConfigurationEvent {
         // Logged when the system starts onboarding automatically in the
         // background.
         ENTRY_POINT_BACKGROUND = 2;
+        // User started onboarding from the ACP promotional banner.
+        ENTRY_POINT_ACP_PROMOTION = 3;
       }
 
       optional EntryPoint entry_point = 1;
@@ -18658,6 +18660,12 @@ message StudioBotConfigurationEvent {
         PAGE_ENTERPRISE_LICENSE_SELECTION = 5;
         // Enterprise self-assign
         PAGE_ENTERPRISE_SELF_ASSIGN_LICENSE = 6;
+
+        // Landing screen where user selects between built-in and external ACP
+        // agents.
+        PAGE_AGENT_SELECTION = 7;
+        // Terms of service review before installing an external ACP agent.
+        PAGE_AGENT_TERMS = 8;
       }
 
       // Logged when a page is shown to the user (impression).
@@ -18709,6 +18717,14 @@ message StudioBotConfigurationEvent {
     }
   }
 
+  // The envelope holds common metadata across Studio Bot configuration events.
+  message EventEnvelope {
+    // Details of the agent (built-in or external ACP agent) for this event.
+    // Reuses the standardized GeminiTelemetryEvent.AgentInfo.
+    optional GeminiTelemetryEvent.AgentInfo agent_info = 1;
+  }
+
+  optional EventEnvelope envelope = 2;
   optional OnboardingEvent onboarding_event = 1;
 }
 
