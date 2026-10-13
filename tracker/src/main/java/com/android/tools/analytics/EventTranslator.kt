@@ -28,6 +28,8 @@ import com.google.wireless.android.sdk.stats.DeviceConnectedNotificationEvent
 import com.google.wireless.android.sdk.stats.DeviceConnectedNotificationEventLoggedIn
 import com.google.wireless.android.sdk.stats.DirectAccessUsageEvent
 import com.google.wireless.android.sdk.stats.DirectAccessUsageEventLoggedIn
+import com.google.wireless.android.sdk.stats.GoogleLoginPluginEvent
+import com.google.wireless.android.sdk.stats.GoogleLoginPluginEventLoggedIn
 import com.google.wireless.android.sdk.stats.JourneyFinishedEvent
 import com.google.wireless.android.sdk.stats.JourneyFinishedEventLoggedIn
 import com.google.wireless.android.sdk.stats.ModelProviderEvent
@@ -150,6 +152,10 @@ object EventTranslator {
 
       EventKind.STUDIO_UI_ACTION_STATS -> {
         translateUIActionStats(event.uiActionStats)?.let { builder.uiActionStats = it } ?: return null
+      }
+
+      EventKind.GOOGLE_LOGIN_EVENT -> {
+        translateGoogleLoginPluginEvent(event.googleLoginEvent)?.let { builder.googleLoginEvent = it } ?: return null
       }
 
       else -> {
@@ -359,6 +365,10 @@ object EventTranslator {
         }
 
         val queryBoxEventBuilder = SmlChatBotEventLoggedIn.QueryBoxEvent.newBuilder()
+        queryBoxEventBuilder.eventMetadata =
+          SmlChatBotEventLoggedIn.QueryBoxEventMetadata.newBuilder()
+            .setAttachmentType(SmlChatBotEventLoggedIn.QueryBoxEventMetadata.AttachmentType.FILES)
+            .build()
         if (event.queryBoxEvent.hasEventType()) {
           queryBoxEventBuilder.eventType =
             when (event.queryBoxEvent.eventType) {
@@ -674,6 +684,34 @@ object EventTranslator {
     val actionClassName = event.actionClassName?.takeIf { it in ACTION_CLASS_NAMES } ?: return null
     val builder = UIActionStatsLoggedIn.newBuilder()
     builder.actionClassName = actionClassName
+    return builder.build()
+  }
+
+  private fun translateGoogleLoginPluginEvent(event: GoogleLoginPluginEvent): GoogleLoginPluginEventLoggedIn? {
+    val builder = GoogleLoginPluginEventLoggedIn.newBuilder()
+    if (event.hasEvent()) {
+      when (event.event) {
+        GoogleLoginPluginEvent.EventKind.LOGIN_WITH_SUCCESS -> builder.event = GoogleLoginPluginEventLoggedIn.EventKind.LOGIN_WITH_SUCCESS
+        GoogleLoginPluginEvent.EventKind.LOGOUT_WITH_SUCCESS -> builder.event = GoogleLoginPluginEventLoggedIn.EventKind.LOGOUT_WITH_SUCCESS
+        GoogleLoginPluginEvent.EventKind.LOGGED_IN_ON_STUDIO_START ->
+          builder.event = GoogleLoginPluginEventLoggedIn.EventKind.LOGGED_IN_ON_STUDIO_START
+        else -> {
+          return null
+        }
+      }
+    }
+    if (event.hasLoginType()) {
+      builder.loginType =
+        when (event.loginType) {
+          GoogleLoginPluginEvent.LoginType.COMBINED_LOGIN -> GoogleLoginPluginEventLoggedIn.LoginType.COMBINED_LOGIN
+          GoogleLoginPluginEvent.LoginType.FEATURE_LOGIN -> GoogleLoginPluginEventLoggedIn.LoginType.FEATURE_LOGIN
+          GoogleLoginPluginEvent.LoginType.AUTH_ERROR_NOTIFICATION_LOGIN ->
+            GoogleLoginPluginEventLoggedIn.LoginType.AUTH_ERROR_NOTIFICATION_LOGIN
+          GoogleLoginPluginEvent.LoginType.STARTUP_SIGNIN_DIALOG_LOGIN ->
+            GoogleLoginPluginEventLoggedIn.LoginType.STARTUP_SIGNIN_DIALOG_LOGIN
+          else -> GoogleLoginPluginEventLoggedIn.LoginType.UNKNOWN_TYPE
+        }
+    }
     return builder.build()
   }
 }
