@@ -48,7 +48,7 @@ class JournalingUsageTrackerTest {
   @Throws(Exception::class)
   fun trackerBasicTest() {
     // Configure the paths to use a temp directory for reading from and writing to.
-    EnvironmentFakes.setCustomAndroidPrefsRootEnvironment(testConfigDir.root.toPath().toString())
+    EnvironmentFakes.setCustomAndroidUserHomeEnvironment(testConfigDir.root.toPath().toString())
 
     try {
       // Setup up an instance of the JournalingUsageTracker using a temp spool directory and
@@ -95,7 +95,7 @@ class JournalingUsageTrackerTest {
   @Throws(Exception::class)
   fun trackerVersionTest() {
     // Configure the paths to use a temp directory for reading from and writing to.
-    EnvironmentFakes.setCustomAndroidPrefsRootEnvironment(testConfigDir.root.toPath().toString())
+    EnvironmentFakes.setCustomAndroidUserHomeEnvironment(testConfigDir.root.toPath().toString())
 
     try {
       // Setup up an instance of the JournalingUsageTracker using a temp spool directory and
@@ -146,7 +146,7 @@ class JournalingUsageTrackerTest {
   @Throws(Exception::class)
   fun trackerTimeoutTest() {
     // Configure the paths to use a temp directory for reading from and writing to.
-    EnvironmentFakes.setCustomAndroidPrefsRootEnvironment(testConfigDir.root.toPath().toString())
+    EnvironmentFakes.setCustomAndroidUserHomeEnvironment(testConfigDir.root.toPath().toString())
 
     try {
       // Setup up an instance of the JournalingUsageTracker using a temp spool directory and
@@ -231,7 +231,7 @@ class JournalingUsageTrackerTest {
   @Throws(Exception::class)
   fun trackerTimeoutNoLogsTest() {
     // Configure the paths to use a temp directory for reading from and writing to.
-    EnvironmentFakes.setCustomAndroidPrefsRootEnvironment(testConfigDir.root.toPath().toString())
+    EnvironmentFakes.setCustomAndroidUserHomeEnvironment(testConfigDir.root.toPath().toString())
 
     try {
       // Setup up an instance of the JournalingUsageTracker using a temp spool directory and
@@ -271,7 +271,7 @@ class JournalingUsageTrackerTest {
   @Throws(Exception::class)
   fun trackerMaxLogsTest() {
     // Configure the paths to use a temp directory for reading from and writing to.
-    EnvironmentFakes.setCustomAndroidPrefsRootEnvironment(testConfigDir.root.toPath().toString())
+    EnvironmentFakes.setCustomAndroidUserHomeEnvironment(testConfigDir.root.toPath().toString())
 
     try {
       // Setup up an instance of the JournalingUsageTracker using a temp spool directory and
@@ -358,7 +358,7 @@ class JournalingUsageTrackerTest {
   @Throws(Exception::class)
   fun trackerUpdateTimeoutTest() {
     // Configure the paths to use a temp directory for reading from and writing to.
-    EnvironmentFakes.setCustomAndroidPrefsRootEnvironment(testConfigDir.root.toPath().toString())
+    EnvironmentFakes.setCustomAndroidUserHomeEnvironment(testConfigDir.root.toPath().toString())
 
     try {
       // Setup up an instance of the JournalingUsageTracker using a temp spool directory and
@@ -478,7 +478,7 @@ class JournalingUsageTrackerTest {
   @Throws(Exception::class)
   fun trackerNoFlushBasicTest() {
     // Configure the paths to use a temp directory for reading from and writing to.
-    EnvironmentFakes.setCustomAndroidPrefsRootEnvironment(testConfigDir.root.toPath().toString())
+    EnvironmentFakes.setCustomAndroidUserHomeEnvironment(testConfigDir.root.toPath().toString())
 
     try {
       // Setup up an instance of the JournalingUsageTracker using a temp spool directory and
@@ -524,7 +524,7 @@ class JournalingUsageTrackerTest {
   @Throws(Exception::class)
   fun trackerWithFlushBasicTest() {
     // Configure the paths to use a temp directory for reading from and writing to.
-    EnvironmentFakes.setCustomAndroidPrefsRootEnvironment(testConfigDir.root.toPath().toString())
+    EnvironmentFakes.setCustomAndroidUserHomeEnvironment(testConfigDir.root.toPath().toString())
 
     try {
       // Setup up an instance of the JournalingUsageTracker using a temp spool directory and
