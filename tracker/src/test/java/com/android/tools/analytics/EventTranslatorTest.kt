@@ -24,24 +24,41 @@ import com.google.wireless.android.sdk.stats.AppQualityInsightsUsageEvent
 import com.google.wireless.android.sdk.stats.AppQualityInsightsUsageEvent.AiInsightSource
 import com.google.wireless.android.sdk.stats.AppQualityInsightsUsageEventLoggedIn
 import com.google.wireless.android.sdk.stats.AppQualityInsightsUsageEventLoggedIn.AiInsightSource as AiInsightSourceLoggedIn
+import com.google.wireless.android.sdk.stats.DeviceConnectedNotificationEvent
+import com.google.wireless.android.sdk.stats.DeviceConnectedNotificationEventLoggedIn
 import com.google.wireless.android.sdk.stats.DirectAccessUsageEvent
 import com.google.wireless.android.sdk.stats.DirectAccessUsageEventLoggedIn
+import com.google.wireless.android.sdk.stats.GoogleLoginPluginEvent
+import com.google.wireless.android.sdk.stats.GoogleLoginPluginEventLoggedIn
+import com.google.wireless.android.sdk.stats.JourneyFinishedEvent
+import com.google.wireless.android.sdk.stats.JourneyFinishedEventLoggedIn
+import com.google.wireless.android.sdk.stats.ModelProviderEvent
+import com.google.wireless.android.sdk.stats.ModelProviderEventLoggedIn
+import com.google.wireless.android.sdk.stats.NextEditPredictionEvent
+import com.google.wireless.android.sdk.stats.NextEditPredictionEventLoggedIn
 import com.google.wireless.android.sdk.stats.PlayPolicyInsightsUsageEvent
 import com.google.wireless.android.sdk.stats.PlayPolicyInsightsUsageEventLoggedIn
 import com.google.wireless.android.sdk.stats.PromptLibraryEvent
 import com.google.wireless.android.sdk.stats.PromptLibraryEventLoggedIn
+import com.google.wireless.android.sdk.stats.SkillsEvent
+import com.google.wireless.android.sdk.stats.SkillsEventLoggedIn
+import com.google.wireless.android.sdk.stats.SmlAgentType
 import com.google.wireless.android.sdk.stats.SmlChatBotEvent
 import com.google.wireless.android.sdk.stats.SmlChatBotEventLoggedIn
 import com.google.wireless.android.sdk.stats.SmlCompletionEvent
 import com.google.wireless.android.sdk.stats.SmlCompletionEventLoggedIn
 import com.google.wireless.android.sdk.stats.SmlConfigurationEvent
 import com.google.wireless.android.sdk.stats.SmlConfigurationEventLoggedIn
+import com.google.wireless.android.sdk.stats.SmlResponseMetadata
+import com.google.wireless.android.sdk.stats.SmlResponseMetadataLoggedIn
 import com.google.wireless.android.sdk.stats.SmlTransformEvent
 import com.google.wireless.android.sdk.stats.SmlTransformEventLoggedIn
 import com.google.wireless.android.sdk.stats.StudioCoreGeminiActionsEvent
 import com.google.wireless.android.sdk.stats.StudioCoreGeminiActionsEventLoggedIn
 import com.google.wireless.android.sdk.stats.StudioLabsEvent
 import com.google.wireless.android.sdk.stats.StudioLabsEventLoggedIn
+import com.google.wireless.android.sdk.stats.TSdkUAEvent
+import com.google.wireless.android.sdk.stats.TSdkUAEventLoggedIn
 import com.google.wireless.android.sdk.stats.TestScenarioEvent
 import com.google.wireless.android.sdk.stats.TestScenarioEventLoggedIn
 import com.google.wireless.android.sdk.stats.UIActionStats
@@ -192,7 +209,18 @@ class EventTranslatorTest {
         .setKind(EventKind.SML_CHATBOT_EVENT)
         .setSmlChatBotEvent(
           SmlChatBotEvent.newBuilder()
-            .setResponse(SmlChatBotEvent.BotResponse.newBuilder().setChatMode(SmlChatBotEvent.ChatMode.AGENT_MODE).build())
+            .setResponse(
+              SmlChatBotEvent.BotResponse.newBuilder()
+                .setChatMode(SmlChatBotEvent.ChatMode.AGENT_MODE)
+                .setMetadata(
+                  SmlResponseMetadata.newBuilder()
+                    .setModelProviderId("provider")
+                    .setModelId("model")
+                    .setAgentType(SmlAgentType.AGENT_TYPE_GENERIC)
+                    .build()
+                )
+                .build()
+            )
             .build()
         )
     val actual = EventTranslator.translate(event)
@@ -201,7 +229,18 @@ class EventTranslatorTest {
       AndroidStudioEventLoggedIn.newBuilder()
         .setSmlChatBotEvent(
           SmlChatBotEventLoggedIn.newBuilder()
-            .setResponse(SmlChatBotEventLoggedIn.BotResponse.newBuilder().setChatMode(SmlChatBotEventLoggedIn.ChatMode.AGENT_MODE).build())
+            .setResponse(
+              SmlChatBotEventLoggedIn.BotResponse.newBuilder()
+                .setChatMode(SmlChatBotEventLoggedIn.ChatMode.AGENT_MODE)
+                .setMetadata(
+                  SmlResponseMetadataLoggedIn.newBuilder()
+                    .setModelProviderId("provider")
+                    .setModelId("model")
+                    .setAgentType(SmlResponseMetadataLoggedIn.SmlAgentTypeLoggedIn.AGENT_TYPE_GENERIC)
+                    .build()
+                )
+                .build()
+            )
             .build()
         )
     assertEquals(expected.build(), actual?.build())
@@ -226,6 +265,102 @@ class EventTranslatorTest {
             .setActionInvoked(
               SmlChatBotEventLoggedIn.ActionInvoked.newBuilder().setAction(SmlChatBotEventLoggedIn.Action.MOVE_TO_EDITOR).build()
             )
+            .build()
+        )
+    assertEquals(expected.build(), actual?.build())
+  }
+
+  @Test
+  fun testTranslateSmlChatBotEvent_QueryBoxEvent() {
+    val event =
+      AndroidStudioEvent.newBuilder()
+        .setKind(EventKind.SML_CHATBOT_EVENT)
+        .setSmlChatBotEvent(
+          SmlChatBotEvent.newBuilder()
+            .setQueryBoxEvent(
+              SmlChatBotEvent.QueryBoxEvent.newBuilder()
+                .setEventType(SmlChatBotEvent.QueryBoxEventType.COMPLETION_ACCEPTED)
+                .setEventMetadata(
+                  SmlChatBotEvent.QueryBoxEventMetadata.newBuilder()
+                    .setAttachmentType(SmlChatBotEvent.QueryBoxEventMetadata.AttachmentType.FILES)
+                )
+                .build()
+            )
+            .build()
+        )
+    val actual = EventTranslator.translate(event)
+    assertNotNull(actual)
+    val expected =
+      AndroidStudioEventLoggedIn.newBuilder()
+        .setSmlChatBotEvent(
+          SmlChatBotEventLoggedIn.newBuilder()
+            .setQueryBoxEvent(
+              SmlChatBotEventLoggedIn.QueryBoxEvent.newBuilder()
+                .setEventType(SmlChatBotEventLoggedIn.QueryBoxEventType.COMPLETION_ACCEPTED)
+                .setEventMetadata(
+                  SmlChatBotEventLoggedIn.QueryBoxEventMetadata.newBuilder()
+                    .setAttachmentType(SmlChatBotEventLoggedIn.QueryBoxEventMetadata.AttachmentType.FILES)
+                )
+                .build()
+            )
+            .build()
+        )
+    assertEquals(expected.build(), actual?.build())
+  }
+
+  @Test
+  fun testTranslateSmlChatBotEvent_QueryBoxEvent_NonFilesReturnsNull() {
+    val event =
+      AndroidStudioEvent.newBuilder()
+        .setKind(EventKind.SML_CHATBOT_EVENT)
+        .setSmlChatBotEvent(
+          SmlChatBotEvent.newBuilder()
+            .setQueryBoxEvent(
+              SmlChatBotEvent.QueryBoxEvent.newBuilder()
+                .setEventType(SmlChatBotEvent.QueryBoxEventType.COMPLETION_ACCEPTED)
+                .setEventMetadata(
+                  SmlChatBotEvent.QueryBoxEventMetadata.newBuilder()
+                    .setAttachmentType(SmlChatBotEvent.QueryBoxEventMetadata.AttachmentType.FOLDERS)
+                )
+                .build()
+            )
+            .build()
+        )
+    val actual = EventTranslator.translate(event)
+    assertNull(actual)
+  }
+
+  @Test
+  fun testTranslateSmlChatBotEvent_QueryBoxEvent_MissingMetadataReturnsNull() {
+    val event =
+      AndroidStudioEvent.newBuilder()
+        .setKind(EventKind.SML_CHATBOT_EVENT)
+        .setSmlChatBotEvent(
+          SmlChatBotEvent.newBuilder()
+            .setQueryBoxEvent(
+              SmlChatBotEvent.QueryBoxEvent.newBuilder().setEventType(SmlChatBotEvent.QueryBoxEventType.COMPLETION_ACCEPTED).build()
+            )
+            .build()
+        )
+    val actual = EventTranslator.translate(event)
+    assertNull(actual)
+  }
+
+  @Test
+  fun testTranslateSmlChatBotEvent_ContextDrawerEvent() {
+    val event =
+      AndroidStudioEvent.newBuilder()
+        .setKind(EventKind.SML_CHATBOT_EVENT)
+        .setSmlChatBotEvent(
+          SmlChatBotEvent.newBuilder().setContextDrawerEvent(SmlChatBotEvent.ContextDrawerEvent.getDefaultInstance()).build()
+        )
+    val actual = EventTranslator.translate(event)
+    assertNotNull(actual)
+    val expected =
+      AndroidStudioEventLoggedIn.newBuilder()
+        .setSmlChatBotEvent(
+          SmlChatBotEventLoggedIn.newBuilder()
+            .setContextDrawerEvent(SmlChatBotEventLoggedIn.ContextDrawerEvent.getDefaultInstance())
             .build()
         )
     assertEquals(expected.build(), actual?.build())
@@ -436,6 +571,177 @@ class EventTranslatorTest {
   }
 
   @Test
+  fun testTranslateTSdkUAEvent() {
+    val event = AndroidStudioEvent.newBuilder().setKind(EventKind.TSDKUA_EVENT).setTsdkUaEvent(TSdkUAEvent.getDefaultInstance())
+    val actual = EventTranslator.translate(event)
+    assertNotNull(actual)
+    val expected = AndroidStudioEventLoggedIn.newBuilder().setTsdkUaEvent(TSdkUAEventLoggedIn.getDefaultInstance())
+    assertEquals(expected.build(), actual?.build())
+  }
+
+  @Test
+  fun testTranslateDeviceConnectedNotificationEvent() {
+    val event =
+      AndroidStudioEvent.newBuilder()
+        .setKind(EventKind.ADB_DEVICE_CONNECTED)
+        .setDeviceConnected(DeviceConnectedNotificationEvent.getDefaultInstance())
+    val actual = EventTranslator.translate(event)
+    assertNotNull(actual)
+    val expected = AndroidStudioEventLoggedIn.newBuilder().setDeviceConnected(DeviceConnectedNotificationEventLoggedIn.getDefaultInstance())
+    assertEquals(expected.build(), actual?.build())
+  }
+
+  @Test
+  fun testTranslateJourneyFinishedEvent() {
+    val event =
+      AndroidStudioEvent.newBuilder()
+        .setKind(EventKind.JOURNEY_FINISHED_EVENT)
+        .setJourneyFinishedEvent(JourneyFinishedEvent.newBuilder().setTestResult(JourneyFinishedEvent.TestResult.PASSED).build())
+    val actual = EventTranslator.translate(event)
+    assertNotNull(actual)
+    val expected =
+      AndroidStudioEventLoggedIn.newBuilder()
+        .setJourneyFinishedEvent(
+          JourneyFinishedEventLoggedIn.newBuilder().setTestResult(JourneyFinishedEventLoggedIn.TestResult.PASSED).build()
+        )
+    assertEquals(expected.build(), actual?.build())
+  }
+
+  @Test
+  fun testTranslateModelProviderEvent() {
+    val event =
+      AndroidStudioEvent.newBuilder()
+        .setKind(EventKind.MODEL_PROVIDER_EVENT)
+        .setModelProviderEvent(
+          ModelProviderEvent.newBuilder().setUpdate(ModelProviderEvent.Update.newBuilder().setLocalModelProvidersCount(1).build()).build()
+        )
+    val actual = EventTranslator.translate(event)
+    assertNotNull(actual)
+    val expected =
+      AndroidStudioEventLoggedIn.newBuilder()
+        .setModelProviderEvent(
+          ModelProviderEventLoggedIn.newBuilder()
+            .setUpdate(ModelProviderEventLoggedIn.Update.newBuilder().setLocalModelProvidersCount(1).build())
+            .build()
+        )
+    assertEquals(expected.build(), actual?.build())
+  }
+
+  @Test
+  fun testTranslateNextEditPredictionEvent_Shown() {
+    val event =
+      AndroidStudioEvent.newBuilder()
+        .setKind(EventKind.NEXT_EDIT_PREDICTION_EVENT)
+        .setNextEditPredictionEvent(
+          NextEditPredictionEvent.newBuilder().setShown(NextEditPredictionEvent.PredictionShown.getDefaultInstance()).build()
+        )
+    val actual = EventTranslator.translate(event)
+    assertNotNull(actual)
+    val expected =
+      AndroidStudioEventLoggedIn.newBuilder()
+        .setNextEditPredictionEvent(
+          NextEditPredictionEventLoggedIn.newBuilder()
+            .setShown(NextEditPredictionEventLoggedIn.PredictionShown.getDefaultInstance())
+            .build()
+        )
+    assertEquals(expected.build(), actual?.build())
+  }
+
+  @Test
+  fun testTranslateNextEditPredictionEvent_Accepted() {
+    val event =
+      AndroidStudioEvent.newBuilder()
+        .setKind(EventKind.NEXT_EDIT_PREDICTION_EVENT)
+        .setNextEditPredictionEvent(
+          NextEditPredictionEvent.newBuilder().setAccepted(NextEditPredictionEvent.PredictionAccepted.getDefaultInstance()).build()
+        )
+    val actual = EventTranslator.translate(event)
+    assertNotNull(actual)
+    val expected =
+      AndroidStudioEventLoggedIn.newBuilder()
+        .setNextEditPredictionEvent(
+          NextEditPredictionEventLoggedIn.newBuilder()
+            .setAccepted(NextEditPredictionEventLoggedIn.PredictionAccepted.getDefaultInstance())
+            .build()
+        )
+    assertEquals(expected.build(), actual?.build())
+  }
+
+  @Test
+  fun testTranslateNextEditPredictionEvent_Session() {
+    val event =
+      AndroidStudioEvent.newBuilder()
+        .setKind(EventKind.NEXT_EDIT_PREDICTION_EVENT)
+        .setNextEditPredictionEvent(
+          NextEditPredictionEvent.newBuilder()
+            .setSession(
+              NextEditPredictionEvent.Session.newBuilder()
+                .addEvents(
+                  NextEditPredictionEvent.Session.SessionEvent.newBuilder()
+                    .setType(NextEditPredictionEvent.Session.SessionEvent.EventType.PREDICTION_SHOWN)
+                    .build()
+                )
+                .build()
+            )
+            .build()
+        )
+    val actual = EventTranslator.translate(event)
+    assertNotNull(actual)
+    val expected =
+      AndroidStudioEventLoggedIn.newBuilder()
+        .setNextEditPredictionEvent(
+          NextEditPredictionEventLoggedIn.newBuilder()
+            .setSession(
+              NextEditPredictionEventLoggedIn.Session.newBuilder()
+                .addEvents(
+                  NextEditPredictionEventLoggedIn.Session.SessionEvent.newBuilder()
+                    .setType(NextEditPredictionEventLoggedIn.Session.SessionEvent.EventType.PREDICTION_SHOWN)
+                    .build()
+                )
+                .build()
+            )
+            .build()
+        )
+    assertEquals(expected.build(), actual?.build())
+  }
+
+  @Test
+  fun testTranslateSkillsEvent_Activation() {
+    val event =
+      AndroidStudioEvent.newBuilder()
+        .setKind(EventKind.SKILLS_EVENT)
+        .setSkillsEvent(
+          SkillsEvent.newBuilder()
+            .setActivation(SkillsEvent.Activation.newBuilder().setType(SkillsEvent.SkillType.PRE_BUILT).build())
+            .setMetadata(
+              SmlResponseMetadata.newBuilder()
+                .setModelProviderId("provider")
+                .setModelId("model")
+                .setAgentType(SmlAgentType.AGENT_TYPE_GENERIC)
+                .build()
+            )
+            .build()
+        )
+    val actual = EventTranslator.translate(event)
+    assertNotNull(actual)
+    val expected =
+      AndroidStudioEventLoggedIn.newBuilder()
+        .setSkillsEvent(
+          SkillsEventLoggedIn.newBuilder()
+            .setActivation(SkillsEventLoggedIn.Activation.newBuilder().setType(SkillsEventLoggedIn.SkillType.PRE_BUILT).build())
+            .setMetadata(
+              SmlResponseMetadataLoggedIn.newBuilder()
+                .setModelProviderId("provider")
+                .setModelId("model")
+                .setAgentType(SmlResponseMetadataLoggedIn.SmlAgentTypeLoggedIn.AGENT_TYPE_GENERIC)
+                .build()
+            )
+            .build()
+        )
+    assertEquals(expected.build(), actual?.build())
+  }
+
+  @Test
   fun testTranslateUIActionStats() {
     val event =
       AndroidStudioEvent.newBuilder()
@@ -462,6 +768,40 @@ class EventTranslatorTest {
   @Test
   fun testTranslateUnhandledEventKind() {
     val event = AndroidStudioEvent.newBuilder().setKind(EventKind.UNKNOWN_EVENT_KIND)
+    val actual = EventTranslator.translate(event)
+    assertNull(actual)
+  }
+
+  @Test
+  fun testTranslateGoogleLoginPluginEvent() {
+    val event =
+      AndroidStudioEvent.newBuilder()
+        .setKind(EventKind.GOOGLE_LOGIN_EVENT)
+        .setGoogleLoginEvent(
+          GoogleLoginPluginEvent.newBuilder()
+            .setEvent(GoogleLoginPluginEvent.EventKind.LOGIN_WITH_SUCCESS)
+            .setLoginType(GoogleLoginPluginEvent.LoginType.COMBINED_LOGIN)
+            .build()
+        )
+    val actual = EventTranslator.translate(event)
+    assertNotNull(actual)
+    val expected =
+      AndroidStudioEventLoggedIn.newBuilder()
+        .setGoogleLoginEvent(
+          GoogleLoginPluginEventLoggedIn.newBuilder()
+            .setEvent(GoogleLoginPluginEventLoggedIn.EventKind.LOGIN_WITH_SUCCESS)
+            .setLoginType(GoogleLoginPluginEventLoggedIn.LoginType.COMBINED_LOGIN)
+            .build()
+        )
+    assertEquals(expected.build(), actual?.build())
+  }
+
+  @Test
+  fun testTranslateGoogleLoginPluginEvent_Null() {
+    val event =
+      AndroidStudioEvent.newBuilder()
+        .setKind(EventKind.GOOGLE_LOGIN_EVENT)
+        .setGoogleLoginEvent(GoogleLoginPluginEvent.newBuilder().setEvent(GoogleLoginPluginEvent.EventKind.LOGIN_WITH_FAILURE).build())
     val actual = EventTranslator.translate(event)
     assertNull(actual)
   }

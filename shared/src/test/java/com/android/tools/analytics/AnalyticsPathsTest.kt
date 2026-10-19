@@ -16,11 +16,13 @@
 
 package com.android.tools.analytics
 
+import com.android.testutils.SystemPropertyOverrides
 import java.io.File
 import java.nio.file.Paths
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TemporaryFolder
@@ -29,10 +31,18 @@ import org.junit.rules.TemporaryFolder
 class AnalyticsPathsTest {
   @get:Rule var testConfigDir = TemporaryFolder()
 
+  private val systemPropertyOverrides = SystemPropertyOverrides()
+
+  @Before
+  fun setUp() {
+    systemPropertyOverrides.setProperty("user.home", testConfigDir.newFolder().toString())
+  }
+
   @After
   @Throws(Exception::class)
   fun setSystemEnvironment() {
     EnvironmentFakes.setSystemEnvironment()
+    systemPropertyOverrides.close()
   }
 
   @Test
@@ -45,16 +55,17 @@ class AnalyticsPathsTest {
       AnalyticsPaths.getAndEnsureAndroidSettingsHome(),
     )
 
-    // Test using the ANDROID_PREFS_ROOT environment variable.
-    val customRoot = "/a/b/c"
-    EnvironmentFakes.setCustomAndroidPrefsRootEnvironment(customRoot)
-    assertEquals(customRoot, AnalyticsPaths.getAndEnsureAndroidSettingsHome())
+    // Test using the ANDROID_USER_HOME environment variable.
+    val customRoot = Paths.get("/a/b/c")
+    EnvironmentFakes.setCustomAndroidUserHomeEnvironment(customRoot.toString())
+    assertEquals(customRoot.toString(), AnalyticsPaths.getAndEnsureAndroidSettingsHome())
 
-    // Test using the ANDROID_PREFS_ROOT as a system property.
-    val property = Environment.SystemProperty.ANDROID_PREFS_ROOT
+    // Test using the ANDROID_USER_HOME as a system property.
+    EnvironmentFakes.setNoEnvironmentVariable()
+    val property = Environment.SystemProperty.ANDROID_USER_HOME
     val prev = Environment.instance.getSystemProperty(property)
-    System.setProperty(property.key, customRoot)
-    assertEquals(customRoot, AnalyticsPaths.getAndEnsureAndroidSettingsHome())
+    System.setProperty(property.key, customRoot.toString())
+    assertEquals(customRoot.toString(), AnalyticsPaths.getAndEnsureAndroidSettingsHome())
     if (prev != null) {
       System.setProperty(property.key, prev)
     } else {
@@ -66,7 +77,7 @@ class AnalyticsPathsTest {
   @Throws(Exception::class)
   fun getAndroidSettingsHomeCreated() {
     val customPath = testConfigDir.root.toPath().resolve(".android").toString()
-    EnvironmentFakes.setCustomAndroidPrefsRootEnvironment(customPath)
+    EnvironmentFakes.setCustomAndroidUserHomeEnvironment(customPath)
     assertEquals(customPath, AnalyticsPaths.getAndEnsureAndroidSettingsHome())
     val androidHomeFile = File(customPath)
     assertTrue(androidHomeFile.exists())
@@ -83,9 +94,9 @@ class AnalyticsPathsTest {
       AnalyticsPaths.spoolDirectory,
     )
 
-    // Test using the ANDROID_PREFS_ROOT environment variable.
+    // Test using the ANDROID_USER_HOME environment variable.
     val customRoot = "/a/b/c"
-    EnvironmentFakes.setCustomAndroidPrefsRootEnvironment(customRoot)
+    EnvironmentFakes.setCustomAndroidUserHomeEnvironment(customRoot)
     assertEquals(Paths.get(customRoot, "metrics", "spool").toString(), AnalyticsPaths.spoolDirectory)
   }
 }

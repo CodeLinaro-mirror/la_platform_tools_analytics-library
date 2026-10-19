@@ -10,6 +10,8 @@ option java_multiple_files = true;
 
 package android_studio;
 
+import "model_registry.proto";
+
 message AndroidStudioEvent {
   // Describes a group of event kinds related to each other.
   // Necessary only for events that were originally being reported to Google
@@ -85,9 +87,10 @@ message AndroidStudioEvent {
   // set when category = GRADLE_SYNC
   optional string gradle_version = 15;  // e.g. '2.10'
 
-  // set when kind = GRADLE_SYNC_FAILURE_DETAILS (previously set when kind =
-  // GRADLE_SYNC_FAILURE)
-  optional GradleSyncFailure gradle_sync_failure = 16;
+  // As of IJ262 merge, this field makes no sense, multiple values can be
+  // detected for each sync. Deprecating this field in favor of new repeated
+  // field in GradleFailureDetails.
+  optional GradleSyncFailure gradle_sync_failure = 16 [deprecated = true];
 
   // set when kind = GRADLE_SYNC_FAILURE and gradle_sync_failure = *_NOT_FOUND
   // e.g. 'org.gradle.api.internal.DemoClass.demoMethod'
@@ -937,6 +940,13 @@ message AndroidStudioEvent {
   // set when kind = STUDIO_BOT_CONFIGURATION_EVENT
   optional StudioBotConfigurationEvent studio_bot_configuration_event = 263
       [lazy = true];
+
+  // set when kind = LOCAL_INFERENCE_ENGINE_EVENT
+  optional LocalInferenceEngineEvent local_inference_engine_event = 264
+      [lazy = true];
+
+  // set when kind = IMPORT_PROJECT_EVENT
+  optional ImportProjectEvent import_project_event = 265 [lazy = true];
 
   enum EventCategory {
     // The event was not grouped into any specific category (default).
@@ -2007,6 +2017,13 @@ message AndroidStudioEvent {
 
     // Studio Bot configuration event.
     STUDIO_BOT_CONFIGURATION_EVENT = 390;
+
+    // Event related to Local Inference Engine (llama-server) subprocess
+    LOCAL_INFERENCE_ENGINE_EVENT = 391;
+
+    // Event related to Import Project Agent (e.g. from iOS, React Native,
+    // Flutter to Android / KMP)
+    IMPORT_PROJECT_EVENT = 392;
   }
 
   // Represents different Performance Monitoring types.
@@ -2310,6 +2327,11 @@ message AndroidStudioEvent {
       optional bool uses_legacy_support = 1;
       // Whether or not the project uses Kotlin build files ("build.gradle.kts")
       optional bool uses_build_gradle_kts = 2;
+      // Whether or not the project uses Declarative build files
+      // ("build.gradle.dcl")
+      optional bool uses_build_gradle_dcl = 3;
+      // Whether or not the project uses Lightbuild
+      optional bool uses_lightbuild = 4;
     }
   }
 
@@ -3376,6 +3398,8 @@ message EmulatorAvdInfo {
     XR_GLASSES_DEVICE = 59;
     AI_GLASSES_DEVICE = 60;
     PIXEL_10A = 61;
+    PIXEL_11_PRO_FOLD = 62;
+    AI_GLASSES_AUDIO_DEVICE = 63;
   }
   // Name of the AVD. Deprecated as it could potentially contain PII.
   optional string name = 1 [deprecated = true];
@@ -3543,7 +3567,8 @@ message EmulatorFeatureFlagState {
     XR_DIMMING = 140;
     XR_HAND_AND_EYE_POINTERS = 141;
     XR_STATUS_LED = 142;
-    // Next tag: 143
+    VULKAN_USE_DEDICATED_AHB_MEMORY_TYPE = 143;
+    // Next tag: 144
   }
   // Which features were enabled by default or through the server-side config.
   repeated EmulatorFeatureFlag attempted_enabled_feature_flags = 1;
@@ -4811,6 +4836,9 @@ message TestRun {
   // Only set when test_kind=INSTRUMENTATION_TEST
   repeated DeviceTestSpanProfile device_test_span_profiles = 11;
 
+  // Only set when test_kind=BACKUP_TEST
+  optional BackupTestRun backup_test_run = 12 [lazy = true];
+
   // Describes how tests where invoked.
   enum TestInvocationType {
     UNKNOWN_TEST_INVOCATION_TYPE = 0;
@@ -4828,6 +4856,7 @@ message TestRun {
     UNIT_TEST = 1;
     INSTRUMENTATION_TEST = 2;
     PREVIEW_SCREENSHOT_TEST = 3;
+    BACKUP_TEST = 4;
   }
 
   // How instrumentation tests will be run
@@ -4869,6 +4898,53 @@ message TestRun {
 
     // Deprecated: use GradleBuildProfileSpan.
     optional int64 rendering_run_time_ms = 4 [deprecated = true];
+  }
+
+  // Provides details of an automated backup and restore test suite run.
+  message BackupTestRun {
+    // Number of passed test cases
+    optional int32 passed_test_count = 1;
+
+    // Number of failed test cases
+    optional int32 failed_test_count = 2;
+
+    // Library version of androidx.test.backup (e.g., "1.0.0-alpha01")
+    optional string backup_test_library_version = 3;
+
+    // Primary transport mode used during test execution
+    optional BackupTransportMode transport_mode = 4;
+
+    // Failure reason if the suite or test execution failed
+    optional BackupFailureReason failure_reason = 5;
+
+    // Total test execution duration in milliseconds
+    optional int64 total_run_time_ms = 6;
+
+    // Execution environment: true for CI, false for local workstation
+    optional bool is_ci = 7;
+
+    // Number of storage domains tested (e.g. SharedPreferences,
+    // SQLite/Room, files)
+    optional int32 storage_domain_count = 8;
+
+    enum BackupTransportMode {
+      UNKNOWN_TRANSPORT_MODE = 0;
+      LOCAL_TRANSPORT = 1;
+      GMS_TRANSPORT = 2;
+      D2D_TRANSPORT = 3;
+    }
+
+    enum BackupFailureReason {
+      UNKNOWN_FAILURE_REASON = 0;
+      NO_FAILURE = 1;
+      NO_DEVICE_AVAILABLE = 2;
+      API_LEVEL_UNSUPPORTED = 3;
+      GMS_CORE_OUTDATED = 4;
+      BMGR_FAILURE = 5;
+      SETUP_PRECONDITION_FAILURE = 6;
+      ASSERTION_FAILURE = 7;
+      TIMEOUT = 8;
+    }
   }
 }
 
@@ -5106,6 +5182,10 @@ message EmulatorHost {
   optional string cpu_brandname = 11;
   // CPU Architecture, such as x86_64 and arm64.
   optional string cpu_architecture = 12;
+  // True if the emulator host is running in a CI environment.
+  optional bool running_in_ci = 13;
+  // True if the ANDROID_CLI environment variable was defined.
+  optional bool android_cli_defined = 14;
 }
 
 // Detailed profiling information for the gradle build.
@@ -7724,7 +7804,7 @@ message AppLinksAssistantEvent {
       [lazy = true];
 
   // UI event source.
-  // Next ID: 71
+  // Next ID: 83
   // Note: Not a properly sequentially incrementing ID (200 & 201 are used)
   enum EventSource {
     // Will be deprecated and replaced by NEW_LINK_CREATION_SIDE_PANEL.
@@ -7835,6 +7915,21 @@ message AppLinksAssistantEvent {
     MISSING_URL_OVERVIEW_TABLE_FIX_ALL_WEB_CHECKS_BUTTON = 64;
     MISSING_URL_OVERVIEW_TABLE_SEARCH_BOX = 65;
     MISSING_URL_OVERVIEW_TABLE_FILTERS = 66;
+
+    MISSING_URLS_TAB = 71;
+
+    MISSING_URLS_CSV_SOURCE_SELECTED = 72;
+    MISSING_URLS_CSV_IMPORT_BUTTON = 73;
+    MISSING_URLS_CSV_RECENT_FILE_SELECTOR = 74;
+    MISSING_URLS_CSV_FIX_ALL_APP_CHECKS_BUTTON = 75;
+    MISSING_URLS_CSV_FIX_ALL_WEB_CHECKS_BUTTON = 76;
+    MISSING_URLS_CSV_URL_DETAILS_CLICKED = 77;
+
+    MISSING_URLS_MANUAL_SOURCE_SELECTED = 78;
+    MISSING_URLS_MANUAL_URLS_ADDED = 79;
+    MISSING_URLS_MANUAL_FIX_ALL_APP_CHECKS_BUTTON = 80;
+    MISSING_URLS_MANUAL_FIX_ALL_WEB_CHECKS_BUTTON = 81;
+    MISSING_URLS_MANUAL_URL_DETAILS_CLICKED = 82;
   }
 
   // The state list of UI event source.
@@ -8610,6 +8705,8 @@ message TaskMetadata {
 message TaskEnteredMetadata {
   // The task data.
   optional TaskMetadata task_data = 1 [lazy = true];
+  // The number of profiler tabs open across the project when this task started.
+  optional int32 profiler_tabs_count = 2;
 }
 
 // Metadata for the TASK_FINISHED event (when a task finishes).
@@ -8884,6 +8981,19 @@ message LeakCanaryTaskMetadata {
     COLLAPSE_ALL_NODES_CLICKED = 6;
     NEW_LEAK_SELECTED = 7;
     CANCELLED_DURING_ANALYSIS = 8;
+    INSIGHT_PANEL_OPENED = 9;
+    INSIGHT_PANEL_CLOSED = 10;
+    INSIGHT_AUTO_GENERATE_ENABLED = 11;
+    INSIGHT_AUTO_GENERATE_DISABLED = 12;
+    INSIGHT_FETCH_TRIGGERED = 13;
+    INSIGHT_FETCH_SUCCEEDED = 14;
+    INSIGHT_FETCH_FAILED = 15;
+    INSIGHT_FETCH_CANCELLED = 16;
+    INSIGHT_SENTIMENT_UP = 17;
+    INSIGHT_SENTIMENT_DOWN = 18;
+    INSIGHT_SENTIMENT_CLEARED = 19;
+    INSIGHT_GENERATE_FIX_CLICKED = 20;
+    INSIGHT_COPY_CLICKED = 21;
   }
   optional UiAction ui_action = 3;
 
@@ -9180,6 +9290,7 @@ message AndroidProfilerEvent {
     TPD_QUERY_PROCESS_METADATA = 711;
     TPD_QUERY_LOAD_CPU_DATA = 712;
     TPD_QUERY_LOAD_MEMORY_DATA = 713;
+    TPD_QUERY_LOAD_HEAP_DUMP_DATA = 714;
 
     // Task Stats
     TASK_ENTERED = 800;
@@ -9298,6 +9409,18 @@ message SherlockEvent {
   // Set if |type| is |CAPTURE_EVENT|
   optional CaptureEventMetadata capture_event_metadata = 11 [lazy = true];
 
+  // Set if |type| is |NEW_CAPTURE_FRAME_PROFILER_DIALOG_PROCEED|
+  optional NewCaptureFrameProfilerDialogMetadata
+      new_capture_frame_profiler_dialog_metadata = 12 [lazy = true];
+
+  // Set if |type| is |GFXR_TRACE_LOADED|
+  optional GfxrTraceLoadedMetadata gfxr_trace_loaded_metadata = 13
+      [lazy = true];
+
+  // Set if |type| is |DEVICE_TASK_EVENT|
+  optional DeviceTaskEventMetadata device_task_event_metadata = 14
+      [lazy = true];
+
   enum Type {
     UNKNOWN_TYPE = 0;
 
@@ -9350,6 +9473,19 @@ message SherlockEvent {
 
     // Fired when a user expands or collapses a track group in the viewer.
     TRACK_GROUP_TOGGLED = 306;
+
+    /// Frame Profiler (GFXR) Trace recording and viewer.
+
+    // Fired when the user interacts with the gfxr capture dialog.
+    NEW_CAPTURE_FRAME_PROFILER_DIALOG_OPENED = 401;
+    NEW_CAPTURE_FRAME_PROFILER_DIALOG_CANCELLED = 402;
+    NEW_CAPTURE_FRAME_PROFILER_DIALOG_PROCEED = 403;
+
+    // Fired when a gfxr trace is opened & loaded.
+    GFXR_TRACE_LOADED = 404;
+
+    // Fired when there is a device task service event.
+    DEVICE_TASK_EVENT = 405;
   }
 
   // Details around user opening or closing projects.
@@ -9393,12 +9529,30 @@ message SherlockEvent {
     // Generic information about the device.
     optional ExtendedDeviceInfo extended_device_info = 2;
 
+    // Stages that failed during device initialization.
+    repeated DeviceInitializationStage failed_stages = 3 [packed = true];
+
     // Status of the device initialization process.
     enum DeviceInitializationStatus {
       DEVICE_INITIALIZATION_STATUS_UNKNOWN = 0;
       DEVICE_INITIALIZATION_STATUS_SUCCESS = 1;
       DEVICE_INITIALIZATION_STATUS_CANCELLED = 2;
       DEVICE_INITIALIZATION_STATUS_ERROR = 3;
+    }
+
+    enum DeviceInitializationStage {
+      DEVICE_INITIALIZATION_STAGE_UNKNOWN = 0;
+      DEVICE_INITIALIZATION_STAGE_SDK_CHECK = 1;
+      // Deprecated: superseded by the more specific DEVICE_PROPERTIES, APA_APK
+      // and GFXR_APK stages below. Still emitted by older Sherlock versions.
+      DEVICE_INITIALIZATION_STAGE_APKS = 2;
+      DEVICE_INITIALIZATION_STAGE_PACKAGES = 3;
+      DEVICE_INITIALIZATION_STAGE_DEVICE_DETAILS = 4;
+      DEVICE_INITIALIZATION_STAGE_PERFETTO_CAPABILITIES = 5;
+      DEVICE_INITIALIZATION_STAGE_GPU_COUNTERS = 6;
+      DEVICE_INITIALIZATION_STAGE_DEVICE_PROPERTIES = 7;
+      DEVICE_INITIALIZATION_STAGE_APA_APK = 8;
+      DEVICE_INITIALIZATION_STAGE_GFXR_APK = 9;
     }
   }
 
@@ -9497,6 +9651,25 @@ message SherlockEvent {
     }
   }
 
+  // Metadata for the |NEW_CAPTURE_FRAME_PROFILER_DIALOG_PROCEED| event.
+  // Details when starting a new frame profiler trace recording.
+  message NewCaptureFrameProfilerDialogMetadata {
+    optional ExtendedDeviceInfo extended_device_info = 1;
+
+    // Type of activity:  e.g., default or user-selected.
+    optional ActivityType activity_type = 2;
+
+    // Whether the user provided any additional launch arguments when starting
+    // the app.
+    optional bool additional_launch_args_provided = 3;
+
+    enum ActivityType {
+      ACTIVITY_TYPE_UNKNOWN = 0;
+      ACTIVITY_TYPE_DEFAULT = 1;
+      ACTIVITY_TYPE_USER_SELECTED = 2;
+    }
+  }
+
   // Metadata for the |PERFETTO_TRACE_OPENED| event.
   message PerfettoTraceOpenedMetadata {
     // Whether the trace was from the current project or opened from an external
@@ -9591,6 +9764,8 @@ message SherlockEvent {
       SELECTION_KIND_PROCESS_MEMORY = 11;
       SELECTION_KIND_JANK_CUJ = 12;
       SELECTION_KIND_APP_STARTUP = 13;
+      SELECTION_KIND_WAKELOCK = 14;
+      SELECTION_KIND_STACKED_COUNTER = 15;
     }
 
     repeated Selection selections = 1;
@@ -9655,6 +9830,19 @@ message SherlockEvent {
     TRACK_KIND_APP_STARTUP = 26;
     TRACK_KIND_ENERGY = 27;
     TRACK_KIND_MEMORY_SUMMARY = 28;
+    TRACK_KIND_WAKELOCKS = 29;
+
+    // Thermal & Hardware Kinds
+    TRACK_KIND_THERMAL = 30;
+    TRACK_KIND_HARDWARE = 31;
+
+    // Network & IO Kinds
+    TRACK_KIND_NETWORK = 32;
+    TRACK_KIND_IO = 33;
+
+    // System & Generic Kinds
+    TRACK_KIND_SYSTEM = 34;
+    TRACK_KIND_GENERIC_COUNTER = 35;
   }
 
   // Metadata for the |CAPTURE_EVENT| event.
@@ -9707,7 +9895,44 @@ message SherlockEvent {
         CAPTURE_FAILURE_REASON_CANCELLATION = 1;
         CAPTURE_FAILURE_REASON_DEVICE_DISCONNECTED = 2;
         CAPTURE_FAILURE_REASON_NO_RESULT_FOUND = 3;
+        CAPTURE_FAILURE_REASON_GFXR_START_NOT_DETECTED = 4;
       }
+    }
+  }
+
+  // Metadata for the |DEVICE_TASK_EVENT| event.
+  message DeviceTaskEventMetadata {
+    // The human-readable label of the task that the event is for.
+    optional string task_label = 1;
+
+    // Whether the task finished successfully.
+    optional bool is_success = 2;
+
+    // The reason for the task failure.
+    optional FailureReason failure_reason = 3;
+
+    enum FailureReason {
+      DEVICE_TASK_FAILURE_REASON_UNKNOWN = 0;
+      // The task was cancelled as a result of a user action (i.e. not really an
+      // error).
+      DEVICE_TASK_FAILURE_REASON_CANCELLATION = 1;
+      DEVICE_TASK_FAILURE_REASON_DEVICE_DISCONNECTED = 2;
+    }
+  }
+
+  // Metadata for the |GFXR_TRACE_LOADED| event.
+  message GfxrTraceLoadedMetadata {
+    // The final status of the trace loading operation.
+    optional TraceLoadStatus trace_load_status = 1;
+
+    // Size of the trace file in bytes.
+    optional int64 trace_file_size_bytes = 2;
+
+    enum TraceLoadStatus {
+      TRACE_LOAD_STATUS_UNKNOWN = 0;
+      TRACE_LOAD_STATUS_SUCCESS = 1;
+      TRACE_LOAD_STATUS_FAILURE_UNKNOWN = 2;
+      TRACE_LOAD_STATUS_FAILURE_DB_GENERATION = 3;
     }
   }
 }
@@ -10198,6 +10423,11 @@ message GradleFailureDetails {
   }
 
   repeated GradleErrorInfo errors = 1;
+  // List of failure categories detected by issue checkers. Previously we only
+  // reported a first detected failure, but with recent changes (IJ262 merge)
+  // all issue checkers have chance to detect and report this value.
+  repeated AndroidStudioEvent.GradleSyncFailure detected_gradle_sync_failures =
+      2 [packed = true];
 }
 
 // Metrics for native workspace sync. The data is collected in Android Studio
@@ -11232,6 +11462,7 @@ message RunEvent {
     TILE = 3;
     COMPLICATION = 4;
     DECLARATIVE_WATCH_FACE = 5;
+    WEAR_WIDGET = 6;
   }
   // Type of AppComponent user wants to run
   optional AppComponent app_component_type = 25;
@@ -13421,6 +13652,17 @@ message RenderToolEvent {
     ERROR_COMPILATION_FAILED = 5;
     ERROR_RENDER_FAILED = 6;  // RenderResult contained errors
     ERROR_UNEXPECTED = 7;     // Generic exceptions
+    // Post-compilation LayoutLib error: SdkConstants.CLASS_COMPOSE_VIEW_ADAPTER
+    // is missing from RenderLogger.missingClasses (ui-tooling not configured).
+    ERROR_MISSING_COMPOSE_TOOLING = 8;
+    // Post-compilation LayoutLib error: classes compiled but threw during
+    // static initialization or View/ViewModel instantiation
+    // (RenderLogger.brokenClasses).
+    ERROR_BROKEN_CLASSES = 9;
+    // Post-compilation LayoutLib error: ClassNotFoundException in
+    // ModuleClassLoader during inflation/rendering
+    // (RenderLogger.missingClasses, excluding ComposeViewAdapter).
+    ERROR_MISSING_CLASSES = 10;
   }
 
   // The specific error if is_success is false
@@ -13443,6 +13685,14 @@ message RenderToolEvent {
   // The percentage of pixels that changed (0.0 to 1.0)
   // Only populated if has_previous_version is true.
   optional float pixel_delta_percentage = 9;
+
+  // The specific Exception class that caused the failure for allowlisted
+  // platform/framework packages (e.g., "java.lang.NullPointerException").
+  optional string primary_exception_class = 10;
+
+  // Quantitative metrics to understand project health
+  optional int32 missing_classes_count = 11;
+  optional int32 broken_classes_count = 12;
 }
 
 /**
@@ -14313,6 +14563,7 @@ message InteractivePreviewEvent {
     NAVIGATION_PANEL_PROGRESS_PRESS = 4;
     NAVIGATION_PANEL_VISIBILITY_CHANGE = 5;
     NAVIGATION_PANEL_EDGE_DROPDOWN_PRESS = 6;
+    NAVIGATION_PANEL_NAVIGATE_PRESS = 7;
   }
 
   // Type of event
@@ -14653,11 +14904,28 @@ message DeviceManagerEvent {
 }
 
 // Event related to Glasses emulator pairing assistant
-// Next ID: 32
+// Next field ID: 9
 message GlassesPairingEvent {
   // The kind of GlassesPairingEvent
   optional EventKind kind = 1;
+  // Random per-attempt UUID generated by the wizard; joins milestone events of
+  // one attempt.
+  optional string pairing_attempt_id = 2;
+  // How the pairing wizard was launched.
+  optional LaunchTrigger launch_trigger = 3;
+  // How the target device was selected on the wizard selection page.
+  optional SelectionSource selection_source = 4;
+  // Structured sub-reason for a pairing or unpair failure.
+  optional FailureSubReason failure_sub_reason = 5;
+  // Which silent reconciliation branch resolved an asymmetric pairing state.
+  optional AsymmetricResolutionReason asymmetric_resolution_reason = 6;
+  // Entry point that triggered an unpair operation.
+  optional UnpairSource unpair_source = 7;
+  // True when the wizard had to tap the Companion window to bring it to the
+  // foreground.
+  optional bool focus_tap_workaround_used = 8;
   // The kind of GlassesPairingEvent
+  // Next EventKind ID: 45
   enum EventKind {
     // Default kind
     UNSPECIFIED = 0;
@@ -14723,6 +14991,150 @@ message GlassesPairingEvent {
     CASCADING_WIPE_INITIATED = 30;
     // Orphaned pairing purged
     ORPHANED_PAIRING_PURGED = 31;
+    // Both emulators finished booting and are ready for companion setup
+    PAIRING_EMULATORS_READY = 32;
+    // Wizard is waiting for the Companion app to reach the foreground
+    PAIRING_AWAITING_COMPANION_FOREGROUND = 33;
+    // Companion worker started Bluetooth bonding
+    PAIRING_BONDING_STARTED = 34;
+    // Companion worker is waiting for the nearby-device streaming role grant
+    PAIRING_STREAMING_ROLE_REQUIRED = 35;
+    // User closed or cancelled the pairing wizard before reaching a terminal
+    // state
+    PAIRING_WIZARD_CANCELLED_BY_USER = 36;
+    // No compatible phone or glasses AVD was available on the selection page
+    PAIRING_NO_COMPATIBLE_DEVICE_SHOWN = 37;
+    // Automatic silent retry of the pairing flow was triggered
+    PAIRING_SILENT_RETRY_TRIGGERED = 38;
+    // Error: Glasses Core connection failed on the phone
+    PAIRING_ERROR_GLASSES_CORE_CONNECTION_FAILED = 39;
+    // Error: Updating the AVD host configuration (.ini) failed after pairing
+    HOST_CONFIG_WRITE_FAILED = 40;
+    // Reconciliation Bluetooth bond probe timed out
+    RECONCILIATION_PROBE_TIMEOUT = 41;
+    // Reconciliation cycle encountered an unexpected error
+    RECONCILIATION_CYCLE_ERROR = 42;
+    // Companion CDM association prompt was rejected or dismissed on the phone
+    PAIRING_CDM_PROMPT_DISMISSED = 43;
+    // User declined the re-pair warning dialog before or during wizard launch
+    PAIRING_REPAIR_WARNING_DECLINED = 44;
+  }
+  // How the pairing wizard was launched.
+  enum LaunchTrigger {
+    LAUNCH_TRIGGER_UNSPECIFIED = 0;
+    // Auto-launched by the provisioner after booting an unpaired glasses AVD
+    LAUNCH_TRIGGER_AUTO_LAUNCH = 1;
+    // Explicitly opened by the user from Device Manager or toolbar action
+    LAUNCH_TRIGGER_MANUAL = 2;
+    // Launched via the re-pair warning flow
+    LAUNCH_TRIGGER_REPAIR = 3;
+  }
+  // How the target device was selected on the wizard selection page.
+  enum SelectionSource {
+    SELECTION_SOURCE_UNSPECIFIED = 0;
+    // User explicitly clicked a row in the device list
+    SELECTION_SOURCE_USER_PICKED = 1;
+    // User kept the automatically selected default device
+    SELECTION_SOURCE_DEFAULT_ACCEPTED = 2;
+    // Target device was preselected when launching the wizard
+    SELECTION_SOURCE_PRESELECTED = 3;
+  }
+  // Structured sub-reason for a pairing or unpair failure.
+  enum FailureSubReason {
+    FAILURE_SUB_REASON_UNSPECIFIED = 0;
+    // Companion app did not reach the foreground within the polling cap
+    FAILURE_SUB_REASON_FOREGROUND_TIMEOUT = 1;
+    // Companion broadcast returned an unreadable or missing pairing state
+    FAILURE_SUB_REASON_STATE_UNREADABLE = 2;
+    // Companion remained in IDLE state across the polling cap
+    FAILURE_SUB_REASON_IDLE_TIMEOUT = 3;
+    // User rejected the Companion Device Manager prompt on the phone
+    FAILURE_SUB_REASON_CDM_USER_REJECTED = 4;
+    // Companion Device Manager prompt was dismissed or canceled
+    FAILURE_SUB_REASON_CDM_CANCELED = 5;
+    // Studio reached its CDM association polling cap without a bond
+    FAILURE_SUB_REASON_CDM_POLL_CAP_REACHED = 6;
+    // Companion's internal pairing timeout expired while waiting for Glasses
+    // Core
+    FAILURE_SUB_REASON_COMPANION_TIMEOUT = 7;
+    // Unexpected exception during the Companion Glasses Core connection step
+    FAILURE_SUB_REASON_UNEXPECTED_ERROR = 8;
+    // Glasses Core PairingError.REMOTE_EXCEPTION
+    FAILURE_SUB_REASON_GC_REMOTE_EXCEPTION = 9;
+    // Glasses Core PairingError.MISSING_PERMISSIONS
+    FAILURE_SUB_REASON_GC_MISSING_PERMISSIONS = 10;
+    // Glasses Core PairingError.ALREADY_CONNECTED
+    FAILURE_SUB_REASON_GC_ALREADY_CONNECTED = 11;
+    // Glasses Core PairingError.UNKNOWN_DEVICE
+    FAILURE_SUB_REASON_GC_UNKNOWN_DEVICE = 12;
+    // Glasses Core PairingError.TIMEOUT
+    FAILURE_SUB_REASON_GC_TIMEOUT = 13;
+    // Glasses Core PairingError.FAILED_TO_CREATE_CDM_ASSOCIATION
+    FAILURE_SUB_REASON_GC_FAILED_TO_CREATE_CDM_ASSOCIATION = 14;
+    // Glasses Core PairingError.PAIRING_REFUSED
+    FAILURE_SUB_REASON_GC_PAIRING_REFUSED = 15;
+    // Glasses Core PairingError.GLASSES_VERIFICATION_FAILED_BYPASS_ALLOWED
+    FAILURE_SUB_REASON_GC_GLASSES_VERIFICATION_FAILED_BYPASS_ALLOWED = 16;
+    // Glasses Core PairingError.GLASSES_VERIFICATION_FAILED_BYPASS_NOT_ALLOWED
+    FAILURE_SUB_REASON_GC_GLASSES_VERIFICATION_FAILED_BYPASS_NOT_ALLOWED = 17;
+    // Glasses Core PairingError.UPDATE_GLASSES_CORE
+    FAILURE_SUB_REASON_GC_UPDATE_GLASSES_CORE = 18;
+    // Glasses Core PairingError.CANCELLED_BY_USER
+    FAILURE_SUB_REASON_GC_CANCELLED_BY_USER = 19;
+    // Glasses Core PairingError.INVALID_PAIRING_RESPONSE
+    FAILURE_SUB_REASON_GC_INVALID_PAIRING_RESPONSE = 20;
+    // Glasses Core PairingError.UNKNOWN (or unrecognized numeric code)
+    FAILURE_SUB_REASON_GC_UNKNOWN = 21;
+    // Glasses Core PairingError.BLUETOOTH_OFF
+    FAILURE_SUB_REASON_GC_BLUETOOTH_OFF = 22;
+    // Glasses Core PairingError.ALREADY_CONNECTING_SAME_DEVICE
+    FAILURE_SUB_REASON_GC_ALREADY_CONNECTING_SAME_DEVICE = 23;
+    // Glasses Core PairingError.ALREADY_CONNECTING_DIFFERENT_DEVICE
+    FAILURE_SUB_REASON_GC_ALREADY_CONNECTING_DIFFERENT_DEVICE = 24;
+    // Glasses Core PairingError.GLASSES_HIBERNATED
+    FAILURE_SUB_REASON_GC_GLASSES_HIBERNATED = 25;
+    // Glasses Core PairingError.DISPLAYLESS_DEVICE_A2DP_DISABLED
+    FAILURE_SUB_REASON_GC_DISPLAYLESS_DEVICE_A2DP_DISABLED = 26;
+    // Glasses Core PairingError.DISPLAYLESS_DEVICE_HFP_DISABLED
+    FAILURE_SUB_REASON_GC_DISPLAYLESS_DEVICE_HFP_DISABLED = 27;
+    // Glasses Core PairingError.CANCELLED_BY_NEW_PAIRING_REQUEST
+    FAILURE_SUB_REASON_GC_CANCELLED_BY_NEW_PAIRING_REQUEST = 28;
+    // Glasses Core PairingError.INTERNET_CONNECTION_REQUIRED
+    FAILURE_SUB_REASON_GC_INTERNET_CONNECTION_REQUIRED = 29;
+    // Glasses Core PairingError.DISCONNECTED_DURING_PAIRING
+    FAILURE_SUB_REASON_GC_DISCONNECTED_DURING_PAIRING = 30;
+    // Unpair failed while stopping a running AVD
+    FAILURE_SUB_REASON_STOP_AVD_FAILED = 31;
+    // Unpair failed while wiping AVD data
+    FAILURE_SUB_REASON_WIPE_DATA_FAILED = 32;
+    // Unpair failed while updating host configuration (.ini)
+    FAILURE_SUB_REASON_HOST_CONFIG_UPDATE_FAILED = 33;
+  }
+  // Which silent reconciliation branch resolved an asymmetric pairing state.
+  enum AsymmetricResolutionReason {
+    ASYMMETRIC_RESOLUTION_REASON_UNSPECIFIED = 0;
+    // Glasses AVD reported zero Bluetooth bonds; pruned stale pairing linkage
+    ASYMMETRIC_RESOLUTION_REASON_GLASSES_ZERO_BONDS_PRUNED = 1;
+    // Phone had zero bonds and glasses had no recorded MAC; pruned linkage
+    ASYMMETRIC_RESOLUTION_REASON_MISSING_MAC_PRUNED = 2;
+    // Backfilled missing Bluetooth MAC address on tracked pairing
+    ASYMMETRIC_RESOLUTION_REASON_MISSING_MAC_BACKFILLED = 3;
+    // Pruned stale phone reference after phone AVD was deleted or wiped
+    ASYMMETRIC_RESOLUTION_REASON_STALE_PHONE_REF_PRUNED = 4;
+  }
+  // Entry point that triggered an unpair operation.
+  enum UnpairSource {
+    UNPAIR_SOURCE_UNSPECIFIED = 0;
+    // User clicked Unpair in Device Manager menu
+    UNPAIR_SOURCE_USER_MENU = 1;
+    // Unpair triggered inside the pairing wizard to re-pair
+    UNPAIR_SOURCE_WIZARD_REPAIR = 2;
+    // Unpair triggered by wiping an AVD
+    UNPAIR_SOURCE_AVD_WIPE = 3;
+    // Unpair triggered by deleting an AVD
+    UNPAIR_SOURCE_AVD_DELETE = 4;
+    // Unpair triggered by a cascading wipe
+    UNPAIR_SOURCE_CASCADING_WIPE = 5;
   }
 }
 
@@ -14774,6 +15186,20 @@ message WearHealthServicesEvent {
 
     // WHS tool failed to apply changes
     APPLY_CHANGES_FAILURE = 4;
+
+    // WHS tool successfully reset the capabilities and overrides to their
+    // default values
+    RESET_SUCCESS = 5;
+
+    // WHS tool failed to reset the capabilities and overrides to their default
+    // values
+    RESET_FAILURE = 6;
+
+    // WHS tool successfully triggered an event on the emulator
+    TRIGGER_EVENT_SUCCESS = 7;
+
+    // WHS tool failed to trigger an event on the emulator
+    TRIGGER_EVENT_FAILURE = 8;
   }
 }
 
@@ -15550,6 +15976,7 @@ message GoogleLoginPluginEvent {
     LOGOUT_WITH_SUCCESS = 5;
     LOGOUT_WITH_FAILURE = 6;
     LOGGED_IN_ON_STUDIO_START = 7;
+    STARTUP_SIGNIN_DIALOG_SHOWN = 8;
   }
 
   enum LoginType {
@@ -15560,6 +15987,8 @@ message GoogleLoginPluginEvent {
     FEATURE_LOGIN = 2;
     // A user signs in via the authentication error notification.
     AUTH_ERROR_NOTIFICATION_LOGIN = 3;
+    // A user signs in via the startup sign in dialog.
+    STARTUP_SIGNIN_DIALOG_LOGIN = 4;
   }
 
   message LoginFeatures {
@@ -17226,6 +17655,7 @@ message SmlChatBotEvent {
     optional bool did_timeout = 6;
   }
 
+  // Indicates the type of user interaction with the query box.
   enum QueryBoxEventType {
     QUERY_BOX_OTHER = 0;
     COMPLETION_STARTED = 1;
@@ -17271,6 +17701,7 @@ message SmlChatBotEvent {
     repeated ContextFileStats context_file_stats = 3;
   }
 
+  // Contains metrics data for a user's interaction with the chatbot query box.
   message QueryBoxEvent {
     optional QueryBoxEventType event_type = 1;
     optional QueryBoxEventMetadata event_metadata = 2;
@@ -17282,6 +17713,8 @@ message SmlChatBotEvent {
     CONTEXT_DRAWER_ITEM_REMOVED = 2;
   }
 
+  // Contains metrics data for a user's interaction with the chatbot context
+  // drawer.
   message ContextDrawerEvent {
     optional ContextDrawerEventType event_type = 1;
   }
@@ -17593,7 +18026,14 @@ message SmlChatBotEvent {
     // An artifact (implementation_plan, task_list, walkthrough, etc.) was
     // edited by the agent.
     message ArtifactEdited {
+      enum ArtifactType {
+        ARTIFACT_TYPE_UNSPECIFIED = 0;
+        ARTIFACT_TYPE_IMPLEMENTATION_PLAN = 1;
+        ARTIFACT_TYPE_TASK = 2;
+        ARTIFACT_TYPE_WALKTHROUGH = 3;
+      }
       optional string artifact_name = 1;
+      optional ArtifactType artifact_type = 2;
     }
     // The conversation session this event happened in.
     optional string session_id = 1;
@@ -17694,9 +18134,55 @@ message GeminiTelemetryEvent {
     // Provider ID of the model used for this event.
     optional string model_provider_id = 7;
     // Model ID of the model used for this event.
+    // Note: This will be deprecated soon in favor of `model` (field 12).
     optional string model_id = 8;
     // Whether the model is the default model.
     optional bool is_default_model = 9;
+
+    // Ties together events belonging to the same user query turn.
+    // Synthetically generated in metrics for log analysis.
+    optional string user_query_id = 10;
+
+    // Details of the agent (built-in or ACP) used for this event.
+    optional AgentInfo agent_info = 11;
+
+    // Model used for this event, from the known model registry.
+    optional Model model = 12;
+  }
+
+  // Details of the agent used for a conversation: either the built-in agent or
+  // an external agent connected over ACP (Agent Client Protocol).
+  message AgentInfo {
+    // The agent backend. Not to be confused with SmlAgentType, which describes
+    // the kind of task handled by the built-in agent.
+    enum AgentType {
+      // Default unset value.
+      AGENT_TYPE_UNSPECIFIED = 0;
+      // android-studio-agent-v2
+      BUILT_IN = 1;
+      // claude-acp
+      CLAUDE_CODE = 2;
+      // codex-acp
+      CODEX = 3;
+      // antigravity-acp
+      ANTIGRAVITY = 4;
+      // opencode
+      OPENCODE = 5;
+      // copilot
+      COPILOT = 6;
+      // All other agents.
+      OTHER = 7;
+    }
+
+    // Standardized enum for known registry agents (avoids PII from custom
+    // agent names).
+    optional AgentType agent_type = 1;
+
+    // Reported version from the ACP initialize handshake. Unset for BUILT_IN.
+    optional string agent_version = 2;
+
+    // Negotiated ACP protocol version (e.g., 1 or 2). Unset for BUILT_IN.
+    optional int32 acp_protocol_version = 3;
   }
 
   message ServerEvent {
@@ -17822,7 +18308,97 @@ message GeminiTelemetryEvent {
     message ChangesDrawerEvent {
       optional SmlChatBotEvent.ChangeResolved change_resolved = 1;
     }
-    optional ChangesDrawerEvent changes_drawer_event = 1;
+
+    message GuidedModeEvent {
+      optional SmlChatBotEvent.PlanningModeEvent planning_mode_event = 1;
+    }
+
+    message UserQueryStarted {
+      // Identifies the source or kind of the user query turn.
+      enum UserQueryType {
+        USER_QUERY_TYPE_UNSPECIFIED = 0;
+        // A normal query coming from the user.
+        DEFAULT = 1;
+        // A steer message sent by the user as the agent is running, injected as
+        // soon as possible in the trajectory.
+        STEER = 2;
+        // A queued message sent by the user as the agent is running,
+        // automatically sent upon finishing the previous query.
+        QUEUED = 3;
+        // A query sent by a parent agent to a sub-agent.
+        SUB_AGENT = 4;
+        // A query sent by the harness when it attempts to retry an empty model
+        // response.
+        AUTO_RETRY = 5;
+      }
+
+      // Whether the query was initiated via a slash command (e.g., /explain,
+      // /fix).
+      optional bool from_slash_command = 1;
+      // The type of user query turn.
+      optional UserQueryType user_query_type = 2;
+      // Ties together events belonging to the same user query turn.
+      // Synthetically generated in metrics for log analysis.
+      optional string user_query_id = 3;
+    }
+
+    message UserQueryFinished {
+      // Whether the query was initiated via a slash command.
+      optional bool from_slash_command = 1;
+      // Exception class name if an error occurred (e.g.,
+      // "java.io.IOException"). Unset if the query finished without error.
+      optional string exception_class_name = 2;
+      // Total latency in milliseconds from UserQueryStarted to
+      // UserQueryFinished. UserQueryFinished event is fired after LLM completes
+      // its generation stream, all triggered tools have full executed and
+      // agentic turns are finished. From UI, the user query is completed
+      // answered finishing one turn of the conversation.
+      optional int64 latency_ms = 3;
+      // Ties together events belonging to the same user query turn.
+      // Synthetically generated in metrics for log analysis.
+      optional string user_query_id = 4;
+    }
+
+    // Tracks inference configuration changes within the chat tool window.
+    enum ModelProfileType {
+      MODEL_PROFILE_TYPE_UNKNOWN = 0;
+      MODEL_PROFILE_TYPE_DIRECT = 1;
+      MODEL_PROFILE_TYPE_ACP_AGENT = 2;
+    }
+
+    // Captures when a user selects a model or agent profile.
+    message ModelPickerEvent {
+      // The selected model from the known model registry.
+      optional Model selected_model = 1;
+      // The identifier of the model provider.
+      optional string selected_model_provider_id = 2;
+      // The model profile type.
+      optional ModelProfileType model_profile_type = 3;
+    }
+
+    // Captures when a user selects a thinking level for a model or agent.
+    message ThinkingLevelPickerEvent {
+      // The raw string identifier of the selected thinking level (e.g. "low",
+      // "high", "max", etc.).
+      optional string selected_thinking_level_id = 1;
+      // True if the user selected the default option.
+      optional bool is_default = 2;
+      // The selected model for which this thinking level is being configured.
+      optional Model selected_model = 3;
+      // The identifier of the model provider for the selected model.
+      optional string selected_model_provider_id = 4;
+      // The model profile type of the active model/agent.
+      optional ModelProfileType model_profile_type = 5;
+    }
+
+    oneof event {
+      ChangesDrawerEvent changes_drawer_event = 1;
+      GuidedModeEvent guided_mode_event = 2;
+      UserQueryStarted user_query_started = 3;
+      UserQueryFinished user_query_finished = 4;
+      ModelPickerEvent model_picker_event = 5;
+      ThinkingLevelPickerEvent thinking_level_picker_event = 6;
+    }
   }
 
   message PermissionApprovalEvent {
@@ -18020,6 +18596,10 @@ message GeminiTelemetryEvent {
         ReadFileToolCallData read_file_tool_call_data = 13;
         // Data for a set_plan_state tool call.
         SetPlanStateCallData set_plan_state_call_data = 14;
+        // Data for a run_shell_command tool call or delegation.
+        RunShellCommandToolCallData run_shell_command_tool_call_data = 15;
+        // Data for an akb tool call.
+        KbToolCallData kb_tool_call_data = 16;
       }
 
       message SearchArguments {
@@ -18119,6 +18699,8 @@ message GeminiTelemetryEvent {
         optional int32 total_indexed_docs = 5;
         // The search response.
         optional SearchResponse response = 6;
+        // The search arguments used for code_search.
+        optional SearchArguments search_arguments = 7;
       }
 
       message ReadFileToolCallData {
@@ -18151,6 +18733,36 @@ message GeminiTelemetryEvent {
         optional PlannerState prev_planner_state = 1;
         optional PlannerState curr_planner_state = 2;
       }
+
+      enum ShellCommand {
+        UNKNOWN = 0;
+        WRITE_FILE = 1;
+        READ_FILE = 2;
+        MULTI_REPLACE_FILE_CONTENT = 3;
+        LIST_FILES = 4;
+        DELETE_FILE = 5;
+        GREP = 6;
+        FIND_FILES = 7;
+        READ_URL = 8;
+      }
+
+      message RunShellCommandToolCallData {
+        // Command attempted by the agent.
+        optional ShellCommand command = 1;
+        // Whether the command was delegated to a native tool.
+        optional bool delegated_to_native_tool = 2;
+        // Option names used for the command.
+        repeated string option_names = 3;
+      }
+
+      message KbToolCallData {
+        // The number of akb_search_tool results
+        optional int32 search_result_count = 1;
+        // The number of docs returned by akb_fetch_tool
+        optional int32 fetched_doc_count = 2;
+        // The fetched docs
+        repeated string fetched_docs = 3;
+      }
     }
   }
 }
@@ -18163,6 +18775,7 @@ message StudioBotConfigurationEvent {
       LICENSE_TYPE_UNKNOWN = 0;
       LICENSE_TYPE_CONSUMER = 1;
       LICENSE_TYPE_BUSINESS = 2;
+      LICENSE_TYPE_ENTERPRISE = 3;
     }
 
     enum UserAccountType {
@@ -18182,6 +18795,8 @@ message StudioBotConfigurationEvent {
         // Logged when the system starts onboarding automatically in the
         // background.
         ENTRY_POINT_BACKGROUND = 2;
+        // User started onboarding from the ACP promotional banner.
+        ENTRY_POINT_ACP_PROMOTION = 3;
       }
 
       optional EntryPoint entry_point = 1;
@@ -18199,9 +18814,24 @@ message StudioBotConfigurationEvent {
       // Pages in the onboarding wizard.
       enum Page {
         PAGE_UNKNOWN = 0;
+        // Business GCP Project setup
         PAGE_GCP_PROJECT_SELECTION = 1;
         PAGE_SIGN_IN = 2;
-        PAGE_LICENSE_SELECTION = 3;
+        // Deprecated. Use PAGE_PRODUCT_TIER_SELECTION.
+        PAGE_LICENSE_SELECTION = 3 [deprecated = true];
+
+        // Free vs Business/Enterprise tier selection
+        PAGE_PRODUCT_TIER_SELECTION = 4;
+        // Enterprise license seat picker
+        PAGE_ENTERPRISE_LICENSE_SELECTION = 5;
+        // Enterprise self-assign
+        PAGE_ENTERPRISE_SELF_ASSIGN_LICENSE = 6;
+
+        // Landing screen where user selects between built-in and external ACP
+        // agents.
+        PAGE_AGENT_SELECTION = 7;
+        // Terms of service review before installing an external ACP agent.
+        PAGE_AGENT_TERMS = 8;
       }
 
       // Logged when a page is shown to the user (impression).
@@ -18253,6 +18883,14 @@ message StudioBotConfigurationEvent {
     }
   }
 
+  // The envelope holds common metadata across Studio Bot configuration events.
+  message EventEnvelope {
+    // Details of the agent (built-in or external ACP agent) for this event.
+    // Reuses the standardized GeminiTelemetryEvent.AgentInfo.
+    optional GeminiTelemetryEvent.AgentInfo agent_info = 1;
+  }
+
+  optional EventEnvelope envelope = 2;
   optional OnboardingEvent onboarding_event = 1;
 }
 
@@ -18323,6 +18961,7 @@ message SmlConfigurationEvent {
     LICENSE_TYPE_UNKNOWN = 0;
     LICENSE_TYPE_CONSUMER = 1;
     LICENSE_TYPE_BUSINESS = 2;
+    LICENSE_TYPE_ENTERPRISE = 3;
   }
 }
 
@@ -18865,6 +19504,7 @@ message AdbUsageEvent {
     AdbDeviceStateChangeEvent device_state_change_event = 2 [lazy = true];
     AppInfoProcessPropertiesCollectorEvent app_info_process_properties_event = 3
         [lazy = true];
+    AppInfoSupportEvent app_info_support_event = 4 [lazy = true];
     // Add other types of events, e.g. attaching debugger, etc
   }
 
@@ -18959,6 +19599,38 @@ message AdbUsageEvent {
       VM_INFO_OTHER_EXCEPTION = 6;
     }
     optional EventType event_type = 1;
+  }
+
+  message AppInfoSupportEvent {
+    // Reason why isAppInfoSupported() returns true or false
+    enum Reason {
+      REASON_UNSPECIFIED = 0;
+
+      // App info is supported
+      SUPPORTED = 1;
+
+      // "track-app" feature is not supported
+      TRACK_APP_NOT_SUPPORTED = 2;
+
+      // "app_info" adb feature is not supported by ADB server or device adbd
+      APP_INFO_NOT_SUPPORTED = 3;
+
+      // Activity manager capabilities (i.e. `am capabilities`) not supported
+      ACTIVITY_MANAGER_CAPABILITIES_NOT_SUPPORTED = 4;
+
+      // VM capabilities do not contain "app_info"
+      VM_CAPABILITIES_NOT_SUPPORTED = 5;
+
+      // Framework capabilities do not contain "app_info"
+      FRAMEWORK_CAPABILITIES_NOT_SUPPORTED = 6;
+
+      // Device API level returned default value (1) or could not be determined
+      API_LEVEL_IS_DEFAULT = 7;
+
+      // Disabled by a config property
+      DISABLED_BY_CONFIG_PROPERTY = 8;
+    }
+    optional Reason reason = 1;
   }
 }
 
@@ -19210,6 +19882,7 @@ message AdbServerStatus {
     TYPE_LIBUSB = 2;
     TYPE_NATIVE = 3;
     TYPE_USB_DISABLED = 4;
+    TYPE_LIBADBUSB = 5;
   }
 
   optional bool is_managed = 1;
@@ -19243,6 +19916,10 @@ message AndroidCliInvocation {
   // (with "--"" prefix) are Arg.flag. Positional arguments, commands, and flag
   // values are Arg.value. User-generated values are redacted.
   repeated Arg args = 6;
+
+  // Names of system environment variables of interest present during
+  // android-cli invocation.
+  repeated string env_var_names = 7;
 
   enum Agent {
     UNKNOWN = 0;
@@ -20307,7 +20984,8 @@ message GeminiAdvertiserEvent {
     SUGGEST_IMPROVEMENTS = 4;
     // Analyze and suggest alternative naming or scoping for variables.
     RETHINK_VARIABLES = 5;
-    // Generate scenarios for unit tests based on code.
+    // Deprecated. Generate scenarios for unit tests based on code. Superseded
+    // by GENERATE_UNIT_TESTS.
     GENERATE_UNIT_TEST_SCENARIOS = 6;
     // Suggest a commit message based on code changes.
     SUGGEST_COMMIT_MESSAGE = 7;
@@ -20328,6 +21006,8 @@ message GeminiAdvertiserEvent {
     UPDATE_DEPENDENCIES = 14;
     // AI insights in AQI
     APP_QUALITY_INSIGHTS = 15;
+    // Generate or update unit tests for a file.
+    GENERATE_UNIT_TESTS = 16;
   }
 
   enum Action {
@@ -20418,6 +21098,8 @@ message ServerPushNotificationEvent {
     SHOWN = 1;
     DISMISSED = 2;
     ACTION_CLICKED = 3;
+    // Logged when all requirements for a notification are met.
+    IS_ELIGIBLE = 4;
   }
 
   enum NotificationType {
@@ -20536,6 +21218,8 @@ message NextEditPredictionEvent {
       PAUSED = 3;
     }
     optional Status status = 1;
+    optional string model_id = 2;
+    optional bool is_nep_lite = 3;
   }
 
   // Represents a complete prediction session, containing multiple events
@@ -20550,6 +21234,7 @@ message NextEditPredictionEvent {
     optional bool forced = 4;
     repeated SessionEvent events = 5;
     optional EditorFileType editor_file_type = 6;
+    optional bool is_nep_lite = 7;
 
     message SessionEvent {
       enum EventType {
@@ -20605,6 +21290,7 @@ message NextEditPredictionEvent {
           EXPECTED_LINE_NOT_FOUND = 8;
           OUTDATED_PREDICTION = 9;
           NO_MODEL = 10;
+          MODEL_TIMEOUT = 11;
         }
         optional FailureReason reason = 1;
       }
@@ -20644,6 +21330,7 @@ message NextEditPredictionEvent {
     }
     optional string model_id = 1;
     optional ModelType model_type = 2;
+    optional bool is_nep_lite = 3;
   }
 
   oneof next_edit_prediction {
@@ -20676,6 +21363,7 @@ message SkillsEvent {
   oneof event {
     Activation activation = 2 [lazy = true];
     Discovery discovery = 3 [lazy = true];
+    UserAction user_action = 4 [lazy = true];
   }
 
   // Details about the skill activated by the agent.
@@ -20699,6 +21387,22 @@ message SkillsEvent {
     optional int64 token_count = 4;
   }
 
+  // User actions performed in the Skills Management UX or via skills entry
+  // points.
+  message UserAction {
+    optional ActionType action_type = 1;
+    // Pre-built skill name (whitelisted enum). For user-defined skills, this is
+    // UNKNOWN_SKILL_NAME.
+    optional SkillName skill_name = 2;
+    optional SkillType skill_type = 3;
+    optional Scope source_scope = 4;
+    optional Scope target_scope = 5;
+    optional bool enabled = 6;
+    optional EntryPoint entry_point = 7;
+    // True if removing a duplicate scope in a multi-scope conflict.
+    optional bool is_conflict_resolution = 8;
+  }
+
   // The type of skill.
   enum SkillType {
     UNKNOWN = 0;
@@ -20706,6 +21410,34 @@ message SkillsEvent {
     PRE_BUILT = 1;
     // Local project skills directory.
     USER_DEFINED = 2;
+  }
+
+  // The scope where a skill resides.
+  enum Scope {
+    UNKNOWN_SCOPE = 0;
+    PROJECT = 1;
+    GLOBAL = 2;
+    BUILT_IN = 3;
+  }
+
+  // User action types in Skills Management.
+  enum ActionType {
+    UNKNOWN_ACTION = 0;
+    OPEN_UI = 1;
+    TOGGLE_ENABLE = 2;
+    CHANGE_SCOPE = 3;
+    UNINSTALL = 4;
+    INSTALL = 5;
+    UPLOAD = 6;
+  }
+
+  // Entry points from which the Skills Manager UX is opened.
+  enum EntryPoint {
+    UNKNOWN_ENTRY_POINT = 0;
+    AGENT_MENU = 1;
+    COMPLETION_POPUP = 2;
+    SETTINGS_CONFIGURABLE = 3;
+    SEARCH_EVERYWHERE = 4;
   }
 
   // Pre-built skill names.
@@ -20729,6 +21461,30 @@ message SkillsEvent {
     EDGE_TO_EDGE = 16;
     TESTING_SETUP = 17;
     DISPLAY_GLASSES_WITH_JETPACK_COMPOSE_GLIMMER = 18;
+    AGP9_UPGRADE = 19;
+    CAMERAX = 20;
+    ML_KIT_GENAI_PROMPT_API = 21;
+    RESTORE_CREDENTIALS = 22;
+    MEDIA3_CAST_INTEGRATION = 23;
+    NAVIGATION_EVENT = 24;
+    PLAY_POLICY_INSIGHTS = 25;
+    ANDROID_PROFILER = 26;
+    ANDROID_INTENT_SECURITY = 27;
+    ANDROID_PERMISSIONS_SECURITY = 28;
+    LEANBACK_TO_COMPOSE_TV_MIGRATION = 29;
+    WEAR_COMPOSE_M3 = 30;
+    EXTENSION_TO_FUNCTIONS_CODEBASE = 31;
+    FIREBASE_AI_LOGIC_BASICS = 32;
+    FIREBASE_APP_HOSTING_BASICS = 33;
+    FIREBASE_CRASHLYTICS = 34;
+    FIREBASE_DATA_CONNECT = 35;
+    FIREBASE_FIRESTORE = 36;
+    FIREBASE_HOSTING_BASICS = 37;
+    FIREBASE_REMOTE_CONFIG_BASICS = 38;
+    FIREBASE_SECURITY_RULES_AUDITOR = 39;
+    FIRESTORE_RULES_CREATION = 40;
+    XCODE_PROJECT_SETUP = 41;
+    ANDROID_JOURNEYS = 42;
   }
 }
 
@@ -20874,6 +21630,8 @@ message ChangeReviewEvent {
     AGENT_DRAWER = 3;
     // The session was restored from a previously saved state.
     RESTORED = 4;
+    AGENT_CHAT_PENDING_CHANGES = 5;
+    AGENT_CHAT_COMMIT_HISTORY = 6;
   }
 
   // The final outcome status of the Change Review generation session.
@@ -20893,20 +21651,51 @@ message ChangeReviewEvent {
     optional int64 total_duration_ms = 5;
     optional int64 analysis_duration_ms = 6;
     optional int64 summary_duration_ms = 7;
-    optional int64 themes_duration_ms = 8;
-    optional int64 theme_details_duration_ms = 9;
+    // Deprecated: walkthrough themes are no longer generated as part of the
+    // initial review, so this is no longer populated.
+    optional int64 themes_duration_ms = 8 [deprecated = true];
+    // Deprecated: no longer populated, for the same reason as
+    // themes_duration_ms.
+    optional int64 theme_details_duration_ms = 9 [deprecated = true];
     optional int32 num_files = 10;
     optional int32 num_chunks = 11;
     optional int32 num_suggestions_generated = 12;
-    optional string failure_reason = 13;
+    // Deprecated: always the fixed text "Generation failed" when status is
+    // FAILED, so it carries no information beyond status.
+    optional string failure_reason = 13 [deprecated = true];
+    // Whether custom review instructions were enabled and non-empty.
+    optional bool custom_instructions_enabled = 14;
+    // The agent (built-in or ACP) that ran the review.
+    optional GeminiTelemetryEvent.AgentInfo agent_info = 15;
   }
 
   message FixBatch {
     optional string session_id = 1;
     optional int32 num_suggestions_selected = 2;
-    optional int32 num_suggestions_successful = 3;
-    optional int32 num_suggestions_failed = 4;
+    // Deprecated: all selected suggestions are submitted in a single request
+    // that succeeds or fails as a whole, so per-suggestion counts are not
+    // meaningful.
+    optional int32 num_suggestions_successful = 3 [deprecated = true];
+    // Deprecated: see num_suggestions_successful.
+    optional int32 num_suggestions_failed = 4 [deprecated = true];
     optional int64 total_duration_ms = 5;
+    // The outcome of applying the batch. All selected suggestions are
+    // submitted to the agent in a single request.
+    optional Status status = 6;
+    // Number of selected suggestions whose fix prompt was edited by the user.
+    optional int32 num_edited_prompts = 7;
+  }
+
+  // Telemetry data for an on-demand Guided Walkthrough generation.
+  message GuidedWalkthrough {
+    optional string session_id = 1;
+    optional Status status = 2;
+    optional int64 total_duration_ms = 3;
+    // Time spent generating the list of walkthrough themes.
+    optional int64 themes_duration_ms = 4;
+    // Time spent generating the details for all themes.
+    optional int64 theme_details_duration_ms = 5;
+    optional int32 num_themes_generated = 6;
   }
 
   oneof event {
@@ -20914,6 +21703,8 @@ message ChangeReviewEvent {
     Session session = 1;
     // Logged when a batch of suggested fixes is applied.
     FixBatch fix_batch = 2;
+    // Logged when a guided walkthrough generation ends.
+    GuidedWalkthrough guided_walkthrough = 3;
   }
 }
 
@@ -20951,4 +21742,147 @@ message LightbuildSyncFinishedEvent {
   optional int64 total_duration_ms = 3;
   optional int32 modules_count = 4;
   optional int32 dependencies_count = 5;
+}
+
+// Event related to Local Inference Engine (llama-server) subprocess
+message LocalInferenceEngineEvent {
+  enum EventType {
+    UNKNOWN = 0;
+    SERVER_START_SUCCESS = 1;
+    SERVER_START_FAILURE = 2;
+    SERVER_CRASH = 3;
+  }
+
+  optional EventType event_type = 1;
+
+  optional string error_message = 2;
+
+  // Process exit code (meaningful for SERVER_CRASH)
+  optional int32 exit_code = 3;
+
+  // Hardware capabilities detected by llama-server
+  optional HardwareCapabilities hardware_capabilities = 5;
+
+  enum FailureReason {
+    UNKNOWN_FAILURE_REASON = 0;
+    MODEL_PATH_NOT_CONFIGURED = 1;
+    MODEL_FILE_NOT_FOUND = 2;
+    MULTIMODAL_MODEL_FILE_NOT_FOUND = 3;
+    SERVER_BINARY_NOT_FOUND = 4;
+    SERVER_BINARY_FILE_NOT_FOUND = 5;
+    SERVER_BINARY_NOT_EXECUTABLE = 6;
+    HEALTH_CHECK_TIMEOUT = 7;
+    GENERIC_START_ERROR = 8;
+    OUT_OF_MEMORY = 9;
+  }
+
+  optional FailureReason failure_reason = 6;
+
+  message HardwareCapabilities {
+    repeated Device devices = 1;
+  }
+
+  message Device {
+    optional string name = 1;
+    optional int64 total_ram_mb = 2;
+    optional int64 free_ram_mb = 3;
+  }
+}
+
+// Event related to Import Project Agent (e.g. from iOS, React Native, Flutter
+// to Android / KMP)
+message ImportProjectEvent {
+  enum EventType {
+    UNKNOWN_EVENT_TYPE = 0;
+    // The agent conversation for a new import was started.
+    IMPORT_STARTED = 1;
+    // The "Migrate to New Project" entry was shown in the New Project wizard.
+    ENTRY_SHOWN = 2;
+    // A source folder was selected and its project type was detected.
+    SOURCE_DETECTED = 3;
+    // A source folder was selected, but no supported project type was found.
+    SOURCE_DETECTION_FAILED = 4;
+    // An interrupted import was resumed ("Resume Migration" action).
+    IMPORT_RESUMED = 5;
+    // The agent conversation for a new import could not be started.
+    IMPORT_START_FAILED = 6;
+  }
+
+  enum SourceProjectType {
+    UNKNOWN_SOURCE_PROJECT_TYPE = 0;
+    IOS = 1;
+    REACT_NATIVE = 2;
+    FLUTTER = 3;
+  }
+
+  enum TargetProjectType {
+    UNKNOWN_TARGET_PROJECT_TYPE = 0;
+    ANDROID = 1;
+    KMP = 2;
+  }
+
+  enum InteractivityMode {
+    UNKNOWN_MODE = 0;
+    AUTONOMOUS = 1;
+    GUIDED = 2;
+  }
+
+  enum ValidationStrategy {
+    UNKNOWN_STRATEGY = 0;
+    JOURNEYS = 1;
+    MANUAL = 2;
+  }
+
+  enum DetectionFailureReason {
+    UNKNOWN_DETECTION_FAILURE_REASON = 0;
+    // The selected folder is empty.
+    EMPTY_FOLDER = 1;
+    // The selected folder is not a project of a supported type.
+    UNSUPPORTED_PROJECT = 2;
+  }
+
+  enum StartFailureReason {
+    UNKNOWN_START_FAILURE_REASON = 0;
+    // No model was available to run the agent.
+    NO_MODELS_AVAILABLE = 1;
+  }
+
+  optional EventType event_type = 1;
+  optional SourceProjectType source_project_type = 2;
+  optional TargetProjectType target_project_type = 3;
+  optional InteractivityMode interactivity_mode = 4;
+  optional ValidationStrategy validation_strategy = 5;
+
+  // ID of the agent conversation. Set for IMPORT_STARTED and IMPORT_RESUMED.
+  // Same as GeminiTelemetryEvent.EventEnvelope.root_trajectory_id, which
+  // links the tool and skill usage of the import.
+  optional string conversation_id = 6;
+
+  // Random ID of one New Project wizard instance. Set for ENTRY_SHOWN,
+  // SOURCE_DETECTED, SOURCE_DETECTION_FAILED, IMPORT_STARTED and
+  // IMPORT_START_FAILED, so that the events of one wizard can be joined.
+  optional string wizard_session_id = 7;
+
+  optional string model_id = 8;
+
+  // Set when event_type = SOURCE_DETECTION_FAILED.
+  optional DetectionFailureReason detection_failure_reason = 9;
+
+  // Set when event_type = IMPORT_START_FAILED.
+  optional StartFailureReason start_failure_reason = 10;
+
+  // Set when event_type = IMPORT_RESUMED. The conversation_id of the
+  // IMPORT_STARTED event of the import that is resumed.
+  optional string resumed_from_conversation_id = 11;
+
+  // Set when event_type = IMPORT_STARTED. Whether the user gave custom
+  // instructions. Their content is never logged.
+  optional bool has_custom_instructions = 12;
+
+  // Set when event_type = IMPORT_STARTED. Number of attached images.
+  optional int32 image_attachment_count = 13;
+
+  // Set when event_type = IMPORT_STARTED. Number of attached user skills
+  // (SKILL.md files).
+  optional int32 user_skill_count = 14;
 }

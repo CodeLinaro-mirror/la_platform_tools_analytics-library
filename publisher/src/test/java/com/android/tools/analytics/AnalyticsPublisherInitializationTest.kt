@@ -31,7 +31,6 @@ class AnalyticsPublisherInitializationTest {
   @After
   fun cleanUp() {
     AnalyticsStateManager.dataSharing = false
-    AnalyticsStateManager.emailConsent = false
     AnalyticsStateManager.loggedInUser = null
     AnalyticsPublisher.updateState()
   }
@@ -84,7 +83,6 @@ class AnalyticsPublisherInitializationTest {
     assertDoesNotHaveLoggedInPublisher()
 
     AnalyticsStateManager.dataSharing = true
-    AnalyticsStateManager.emailConsent = true
     AnalyticsStateManager.loggedInUser = LoggedInUser("test@google.com") { "token" }
     AnalyticsPublisher.updateState()
 

@@ -12,6 +12,8 @@ message AndroidStudioEventLoggedIn {
       [lazy = true];
   optional AppQualityInsightsUsageEventLoggedIn
       app_quality_insights_usage_event = 147 [lazy = true];
+  optional GoogleLoginPluginEventLoggedIn google_login_event = 148
+      [lazy = true];
   optional DirectAccessUsageEventLoggedIn direct_access_usage_event = 158
       [lazy = true];
   optional TSdkUAEventLoggedIn tsdk_ua_event = 160 [lazy = true];
@@ -80,6 +82,36 @@ message AppQualityInsightsUsageEventLoggedIn {
   }
 
   optional InsightFetchDetails insight_fetch_details = 18 [lazy = true];
+}
+
+message GoogleLoginPluginEventLoggedIn {
+  enum EventKind {
+    UNKNOWN_EVENT_TYPE = 0;
+    LOGIN_WITH_SUCCESS = 1;
+    LOGIN_WITH_FAILURE = 2;
+    // Forced logout is performed as a first step to recover from
+    // `TokenResponseException`
+    FORCE_LOGOUT = 3;
+    LOGOUT_WITH_SUCCESS = 5;
+    LOGOUT_WITH_FAILURE = 6;
+    LOGGED_IN_ON_STUDIO_START = 7;
+    STARTUP_SIGNIN_DIALOG_SHOWN = 8;
+  }
+
+  enum LoginType {
+    UNKNOWN_TYPE = 0;
+    // A user signs in via the combined sign-in flow.
+    COMBINED_LOGIN = 1;
+    // A user signs in via the specific feature login flow.
+    FEATURE_LOGIN = 2;
+    // A user signs in via the authentication error notification.
+    AUTH_ERROR_NOTIFICATION_LOGIN = 3;
+    // A user signs in via the startup sign in dialog.
+    STARTUP_SIGNIN_DIALOG_LOGIN = 4;
+  }
+
+  optional EventKind event = 1;
+  optional LoginType login_type = 3;
 }
 
 message DirectAccessUsageEventLoggedIn {
@@ -231,9 +263,48 @@ message SmlChatBotEventLoggedIn {
     optional Action action = 2;
   }
 
+  // Indicates the type of user interaction with the query box.
+  enum QueryBoxEventType {
+    QUERY_BOX_OTHER = 0;
+    COMPLETION_STARTED = 1;
+    COMPLETION_ACCEPTED = 2;
+    COMPLETION_DISMISSED = 3;
+    QUERY_WITH_CONTEXT_SUBMITTED = 4;
+    REFERENCE_DELETED = 5;
+    IMAGE_ATTACHMENT_CLICKED = 6;
+    QUERY_STOPPED = 7;
+  }
+
+  message QueryBoxEventMetadata {
+    enum AttachmentType {
+      UNKNOWN = 0;
+      FILES = 1;
+      FOLDERS = 2;
+      TOOLS = 3;
+      PROMPT_LIBRARY = 4;
+      REMOTE_CONTEXT = 5;
+      SKILLS = 6;
+    }
+    // The type of attachment, e.g. "FILES, FOLDERS, TOOLS, PROMPT_LIBRARY,
+    // REMOTE_CONTEXT, SKILLS"
+    optional AttachmentType attachment_type = 1;
+  }
+
+  // Contains metrics data for a user's interaction with the chatbot query box.
+  message QueryBoxEvent {
+    optional QueryBoxEventType event_type = 1;
+    optional QueryBoxEventMetadata event_metadata = 2;
+  }
+
+  // Contains metrics data for a user's interaction with the chatbot context
+  // drawer.
+  message ContextDrawerEvent {}
+
   oneof content {
     BotResponse response = 1 [lazy = true];
     ActionInvoked action_invoked = 3 [lazy = true];
+    QueryBoxEvent query_box_event = 10 [lazy = true];
+    ContextDrawerEvent context_drawer_event = 11 [lazy = true];
   }
 }
 

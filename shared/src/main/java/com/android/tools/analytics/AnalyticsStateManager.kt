@@ -47,16 +47,14 @@ data class AnalyticsState(val level: AnalyticsLevel, val loggedInUser: LoggedInU
 /**
  * Manages the state of analytics settings and user consent.
  *
- * This object provides properties to control data sharing, email consent, and the logged-in user. It exposes the current [AnalyticsState]
- * through a [MutableStateFlow].
+ * This object provides properties to control data sharing and the logged-in user. It exposes the current [AnalyticsState] through a
+ * [MutableStateFlow].
  */
 object AnalyticsStateManager {
   private val gate = Any()
 
   // Indicates the user has opted in for metrics collection.
   private var _dataSharing: Boolean = false
-  // Indicates the user has consented to receive emails
-  private var _emailConsent: Boolean = false
   // Contains the currently logged-in user, if any
   private var _loggedInUser: LoggedInUser? = null
 
@@ -67,7 +65,7 @@ object AnalyticsStateManager {
     val level =
       when {
         !dataSharing -> AnalyticsLevel.NONE
-        _loggedInUser == null || !emailConsent -> AnalyticsLevel.ANONYMOUS
+        _loggedInUser == null -> AnalyticsLevel.ANONYMOUS
         else -> AnalyticsLevel.LOGGED_IN
       }
     _analyticsStateFlow.value = AnalyticsState(level, _loggedInUser)
@@ -86,22 +84,13 @@ object AnalyticsStateManager {
       }
     }
 
-  var emailConsent: Boolean
-    get() = _emailConsent
-    set(value) {
-      synchronized(gate) {
-        if (_emailConsent == value) {
-          return
-        }
-        _emailConsent = value
-        updateState()
-      }
-    }
-
   var loggedInUser: LoggedInUser?
     get() = _loggedInUser
     set(value) {
       synchronized(gate) {
+        if (_loggedInUser == value) {
+          return
+        }
         _loggedInUser = value
         updateState()
       }
