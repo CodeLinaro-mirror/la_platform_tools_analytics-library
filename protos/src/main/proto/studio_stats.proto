@@ -18093,8 +18093,8 @@ message SmlChatBotEvent {
 }
 
 message GeminiTelemetryEvent {
-  // The envelope holds metadata about the event, such as the model ID,
-  // provider Id, etc.,
+  // The envelope holds metadata about the event, such as the trajectory ids,
+  // the agent (built-in or ACP) and the model used.
   optional EventEnvelope envelope = 1;
 
   oneof domain {
@@ -18116,6 +18116,8 @@ message GeminiTelemetryEvent {
   // ties together events belonging to the same conversation.
   // For all events, the trajectory_id in the EventEnvelope ties together
   // events belonging to the same agent (or sub-agent) interaction.
+  // For all events, the user_query_id in the EventEnvelope ties together
+  // events belonging to the same user query turn.
   message EventEnvelope {
     // Trajectory id of the event.
     optional string trajectory_id = 1;
@@ -18132,11 +18134,13 @@ message GeminiTelemetryEvent {
     optional string server_trace_id = 6;
 
     // Provider ID of the model used for this event.
+    // Only set for the built-in agent (agent_info.agent_type == BUILT_IN);
+    // unset for ACP agents, which own their model provider.
     optional string model_provider_id = 7;
-    // Model ID of the model used for this event.
-    // Note: This will be deprecated soon in favor of `model` (field 12).
-    optional string model_id = 8;
+    // Deprecated: no longer populated by Studio. Use `model` (field 12).
+    optional string model_id = 8 [deprecated = true];
     // Whether the model is the default model.
+    // Currently not populated by Studio.
     optional bool is_default_model = 9;
 
     // Ties together events belonging to the same user query turn.
@@ -18146,7 +18150,14 @@ message GeminiTelemetryEvent {
     // Details of the agent (built-in or ACP) used for this event.
     optional AgentInfo agent_info = 11;
 
-    // Model used for this event, from the known model registry.
+    // Model used for this event, from the known model registry
+    // (google3/logs/proto/wireless/android/sdk/stats/model_registry.proto).
+    // - Built-in agent (agent_info.agent_type == BUILT_IN): the model selected
+    //   in Studio's model picker.
+    // - ACP agents: the agent's current model, as reported through its ACP
+    //   `model` config option.
+    // Model ids that do not match a registry entry are reported with the
+    // provider's `*_UNKNOWN` value or `MODEL_UNKNOWN`.
     optional Model model = 12;
   }
 
@@ -18168,7 +18179,7 @@ message GeminiTelemetryEvent {
       ANTIGRAVITY = 4;
       // opencode
       OPENCODE = 5;
-      // copilot
+      // github-copilot-cli
       COPILOT = 6;
       // All other agents.
       OTHER = 7;
@@ -18178,18 +18189,25 @@ message GeminiTelemetryEvent {
     // agent names).
     optional AgentType agent_type = 1;
 
-    // Reported version from the ACP initialize handshake. Unset for BUILT_IN.
+    // Reported version from the ACP initialize handshake. Unset for BUILT_IN
+    // and for OTHER (custom agent version strings may be identifying).
     optional string agent_version = 2;
 
     // Negotiated ACP protocol version (e.g., 1 or 2). Unset for BUILT_IN.
     optional int32 acp_protocol_version = 3;
   }
 
+  // Metrics for one server request/response cycle.
+  // For the built-in agent, one RequestEvent/ResponseEvent pair is logged per
+  // model call. For ACP agents (see EventEnvelope.agent_info), one pair is
+  // logged per ACP `session/prompt` turn instead, since the external agent
+  // manages its own model calls and tool loop.
   message ServerEvent {
     optional RequestEvent request_event = 1;
     optional ResponseEvent response_event = 2;
 
     // Captures metrics for a Request in a step.
+    // For ACP agents, only the prompt sent on the wire is measured.
     message RequestEvent {
       // Number of messages in the history, including the user message and
       // system instructions.
@@ -18203,9 +18221,13 @@ message GeminiTelemetryEvent {
     }
 
     // Captures metrics for a Response in a step.
+    // For ACP agents, this covers the whole `session/prompt` turn: latency
+    // includes agent-side tool execution, and token counts are the per-turn
+    // totals reported by the agent in its prompt response.
     message ResponseEvent {
       // Network & Lifecycle
       // HTTP status code of the response.
+      // Currently not populated by Studio.
       optional int32 http_status_code = 1;
       // Latency from the start of the request to the moment it finishes
       // receiving the very last streamed chunk of the response.
@@ -18214,6 +18236,7 @@ message GeminiTelemetryEvent {
       // chunk of the response.
       optional int64 ttfc_ms = 3;  // Time to first streamed chunk
       // Size of the response in bytes.
+      // Currently not populated by Studio.
       optional int64 response_size_bytes = 4;
 
       // Token Usage
@@ -18225,10 +18248,8 @@ message GeminiTelemetryEvent {
       optional int32 cache_read_token_count = 7;
 
       // Model Information
-      // The actual model ID that generated the response. This may be different
-      // from the model ID requested by the user (e.g., if the user requested a
-      // specific version of a model).
-      optional string actual_model_id = 8;
+      // Deprecated: no longer populated by Studio. Use EventEnvelope.model.
+      optional string actual_model_id = 8 [deprecated = true];
 
       // List from https://ai.google.dev/api/generate-content#FinishReason
       // Represents the semantic reason of why the model stopped generating
