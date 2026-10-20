@@ -948,6 +948,10 @@ message AndroidStudioEvent {
   // set when kind = IMPORT_PROJECT_EVENT
   optional ImportProjectEvent import_project_event = 265 [lazy = true];
 
+  // set when kind = EXTERNAL_UPDATE_MANAGER_EVENT
+  optional ExternalUpdateManagerEvent external_update_manager_event = 266
+      [lazy = true];
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -2024,6 +2028,9 @@ message AndroidStudioEvent {
     // Event related to Import Project Agent (e.g. from iOS, React Native,
     // Flutter to Android / KMP)
     IMPORT_PROJECT_EVENT = 392;
+
+    // Event related to external updaters
+    EXTERNAL_UPDATE_MANAGER_EVENT = 393;
   }
 
   // Represents different Performance Monitoring types.
@@ -21906,4 +21913,23 @@ message ImportProjectEvent {
   // Set when event_type = IMPORT_STARTED. Number of attached user skills
   // (SKILL.md files).
   optional int32 user_skill_count = 14;
+}
+
+// Event related to external updaters for Studio
+message ExternalUpdateManagerEvent {
+  enum ExternalUpdateManager {
+    UNKNOWN = 0;
+    // Not managed
+    NONE = 1;
+    // Toolbox App
+    TOOLBOX = 2;
+    // Snap
+    SNAP = 3;
+    // Flatpak
+    FLATPAK = 4;
+    // Homebrew
+    BREW = 5;
+  }
+
+  optional ExternalUpdateManager external_update_manager = 1;
 }
