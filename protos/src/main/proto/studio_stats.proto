@@ -9428,6 +9428,9 @@ message SherlockEvent {
   optional DeviceTaskEventMetadata device_task_event_metadata = 14
       [lazy = true];
 
+  // Set if |type| is |APK_INSTALL_COMPLETED|
+  optional ApkInstallMetadata apk_install_metadata = 15 [lazy = true];
+
   enum Type {
     UNKNOWN_TYPE = 0;
 
@@ -9435,6 +9438,7 @@ message SherlockEvent {
     DEVICE_INITIALIZED = 101;
     SHERLOCK_PROJECT_OPENED = 102;
     SHERLOCK_PROJECT_CLOSED = 103;
+    APK_INSTALL_COMPLETED = 104;
 
     /// System Trace recording.
 
@@ -9560,6 +9564,132 @@ message SherlockEvent {
       DEVICE_INITIALIZATION_STAGE_DEVICE_PROPERTIES = 7;
       DEVICE_INITIALIZATION_STAGE_APA_APK = 8;
       DEVICE_INITIALIZATION_STAGE_GFXR_APK = 9;
+    }
+  }
+
+  // Metadata for the |APK_INSTALL_COMPLETED| event.
+  // Logged once per attempt to install one of the APKs bundled with Sherlock
+  // (the APA helper APK and the GFXR replay APK) on a device.
+  message ApkInstallMetadata {
+    optional ExtendedDeviceInfo extended_device_info = 1;
+
+    // Which of Sherlock's bundled APKs was being installed.
+    optional Apk apk = 2;
+
+    // Outcome of the install attempt.
+    optional ApkInstallStatus status = 3;
+
+    // What kind of install was needed.
+    optional ApkInstallKind kind = 4;
+
+    // Set if |status| is |APK_INSTALL_STATUS_ERROR|: the step that failed.
+    optional ApkInstallStep failed_step = 5;
+
+    // Set if |status| is |APK_INSTALL_STATUS_ERROR|: why |failed_step| failed.
+    optional ApkInstallFailureCause failure_cause = 6;
+
+    // Set if |failed_step| is |APK_INSTALL_STEP_PM_INSTALL|: the error code
+    // reported by `pm install` (e.g. INSTALL_FAILED_UPDATE_INCOMPATIBLE).
+    optional PmInstallError pm_install_error = 7;
+
+    // Wall-clock duration of the whole install attempt in milliseconds.
+    optional int32 duration_ms = 8;
+
+    // True if a different version of the APK was already on the device and
+    // uninstalling it failed. Sherlock still attempts `pm install -d`
+    // afterwards, so this is a likely explanation for a subsequent
+    // |failed_step| of |APK_INSTALL_STEP_PM_INSTALL|.
+    optional bool previous_uninstall_failed = 9;
+
+    enum Apk {
+      APK_UNKNOWN = 0;
+      // The Android Performance Analyzer helper APK.
+      APK_APA = 1;
+      // The GFXReconstruct replay APK used by the frame profiler.
+      APK_GFXR_REPLAY = 2;
+    }
+
+    enum ApkInstallStatus {
+      APK_INSTALL_STATUS_UNKNOWN = 0;
+      APK_INSTALL_STATUS_SUCCESS = 1;
+      APK_INSTALL_STATUS_ERROR = 2;
+      APK_INSTALL_STATUS_CANCELLED = 3;
+    }
+
+    enum ApkInstallKind {
+      APK_INSTALL_KIND_UNKNOWN = 0;
+      // The same APK was already on the device; nothing was installed.
+      APK_INSTALL_KIND_SKIPPED_UP_TO_DATE = 1;
+      // The package was not on the device; installed from scratch.
+      APK_INSTALL_KIND_FRESH = 2;
+      // A different version was on the device; uninstalled then installed.
+      APK_INSTALL_KIND_REINSTALL = 3;
+    }
+
+    // The steps of an install attempt, in execution order.
+    enum ApkInstallStep {
+      APK_INSTALL_STEP_UNKNOWN = 0;
+      // Querying whether the package is already installed and where.
+      APK_INSTALL_STEP_QUERY_PACKAGE = 1;
+      // Hashing the APK on the device and on the host.
+      APK_INSTALL_STEP_HASH_CHECK = 2;
+      // Uninstalling a previous version of the package.
+      APK_INSTALL_STEP_UNINSTALL = 3;
+      // Pushing the APK file to the device.
+      APK_INSTALL_STEP_PUSH = 4;
+      // Running `pm install`.
+      APK_INSTALL_STEP_PM_INSTALL = 5;
+      // Deleting the pushed APK file from the device.
+      APK_INSTALL_STEP_CLEANUP = 6;
+      // Granting app-ops permissions (`appops set`).
+      APK_INSTALL_STEP_GRANT_APPOPS = 7;
+      // Granting runtime permissions (`pm grant`).
+      APK_INSTALL_STEP_GRANT_PM_PERMISSIONS = 8;
+    }
+
+    enum ApkInstallFailureCause {
+      APK_INSTALL_FAILURE_CAUSE_UNKNOWN = 0;
+      // An adb shell command exited with a non-zero code.
+      APK_INSTALL_FAILURE_CAUSE_SHELL_COMMAND_FAILED = 1;
+      // The device went offline during the attempt.
+      APK_INSTALL_FAILURE_CAUSE_DEVICE_DISCONNECTED = 2;
+      APK_INSTALL_FAILURE_CAUSE_TIMEOUT = 3;
+      // The APK bundled with Sherlock could not be found on the host.
+      APK_INSTALL_FAILURE_CAUSE_HOST_FILE_MISSING = 4;
+    }
+
+    // Error codes reported by `pm install`. Mirrors the INSTALL_FAILED_* /
+    // INSTALL_PARSE_FAILED_* constants in
+    // android.content.pm.PackageManager, limited to the codes Sherlock
+    // expects to see; everything else maps to PM_INSTALL_ERROR_OTHER.
+    enum PmInstallError {
+      PM_INSTALL_ERROR_UNKNOWN = 0;
+      // A failure code not listed below.
+      PM_INSTALL_ERROR_OTHER = 1;
+      PM_INSTALL_ERROR_ALREADY_EXISTS = 2;
+      PM_INSTALL_ERROR_INVALID_APK = 3;
+      PM_INSTALL_ERROR_INSUFFICIENT_STORAGE = 4;
+      PM_INSTALL_ERROR_UPDATE_INCOMPATIBLE = 5;
+      PM_INSTALL_ERROR_SHARED_USER_INCOMPATIBLE = 6;
+      PM_INSTALL_ERROR_MISSING_SHARED_LIBRARY = 7;
+      PM_INSTALL_ERROR_OLDER_SDK = 8;
+      PM_INSTALL_ERROR_NEWER_SDK = 9;
+      PM_INSTALL_ERROR_CONFLICTING_PROVIDER = 10;
+      PM_INSTALL_ERROR_TEST_ONLY = 11;
+      PM_INSTALL_ERROR_CPU_ABI_INCOMPATIBLE = 12;
+      PM_INSTALL_ERROR_NO_MATCHING_ABIS = 13;
+      PM_INSTALL_ERROR_VERIFICATION_FAILURE = 14;
+      PM_INSTALL_ERROR_USER_RESTRICTED = 15;
+      PM_INSTALL_ERROR_VERSION_DOWNGRADE = 16;
+      PM_INSTALL_ERROR_INTERNAL_ERROR = 17;
+      PM_INSTALL_ERROR_ABORTED = 18;
+      // Any INSTALL_PARSE_FAILED_* code other than the certificate ones.
+      PM_INSTALL_ERROR_PARSE_FAILED = 19;
+      // INSTALL_PARSE_FAILED_NO_CERTIFICATES or
+      // INSTALL_PARSE_FAILED_INCONSISTENT_CERTIFICATES.
+      PM_INSTALL_ERROR_BAD_CERTIFICATES = 20;
+      PM_INSTALL_ERROR_UID_CHANGED = 21;
+      PM_INSTALL_ERROR_PERMISSION_MODEL_DOWNGRADE = 22;
     }
   }
 
