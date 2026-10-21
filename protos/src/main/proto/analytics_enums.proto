@@ -806,6 +806,7 @@ enum StringOption {
     NEW_DSL_OPT_OUT = 53;
     PROJECT_CREATOR_TOOL = 54;
     R8_VERSION_OVERRIDE = 55;
+    COVERAGE_AGENT_VERSION_OVERRIDE = 56;
 }
 
 enum VariantApiArtifactType {
