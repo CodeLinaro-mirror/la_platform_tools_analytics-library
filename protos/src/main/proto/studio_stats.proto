@@ -18188,6 +18188,8 @@ message GeminiTelemetryEvent {
       OPENCODE = 5;
       // github-copilot-cli
       COPILOT = 6;
+      // jetski
+      JETSKI = 8;
       // All other agents.
       OTHER = 7;
     }
