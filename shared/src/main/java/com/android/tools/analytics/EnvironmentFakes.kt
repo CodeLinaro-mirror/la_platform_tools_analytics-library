@@ -21,38 +21,30 @@ import com.google.common.annotations.VisibleForTesting
 /** Used in tests to fake out the Environment code used in production to allow injecting custom environment variable values. */
 @VisibleForTesting
 object EnvironmentFakes {
-  /** Helper to fake the ANDROID_PREFS_ROOT environment variable to be set to `path`. */
-  fun setCustomAndroidPrefsRootEnvironment(path: String) {
-    setSingleProperty("ANDROID_PREFS_ROOT", path)
+  /** Helper to fake the ANDROID_USER_HOME environment variable to be set to `path`. */
+  fun setCustomAndroidUserHomeEnvironment(path: String) {
+    setSingleProperty("ANDROID_USER_HOME", path)
   }
 
   fun setMap(map: Map<String, String>) {
     Environment.instance =
       object : Environment() {
-        override fun getVariable(name: EnvironmentVariable): String? {
-          return map[name.key]
-        }
+        override fun getEnvVariable(key: String): String? = map[key]
       }
   }
 
   fun setSingleProperty(key: String, value: String) {
     Environment.instance =
       object : Environment() {
-        override fun getVariable(name: EnvironmentVariable): String? {
-          return if (key == name.key) {
-            value
-          } else null
-        }
+        override fun getEnvVariable(k: String): String? = value.takeIf { key == k }
       }
   }
 
-  /** Helper to fake the ANDROID_PREFS_ROOT environment variable to be unset. */
+  /** Helper to fake the ANDROID_USER_HOME environment variable to be unset. */
   fun setNoEnvironmentVariable() {
     Environment.instance =
       object : Environment() {
-        override fun getVariable(name: EnvironmentVariable): String? {
-          return null
-        }
+        override fun getEnvVariable(key: String): String? = null
       }
   }
 
