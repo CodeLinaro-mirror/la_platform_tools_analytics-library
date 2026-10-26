@@ -13830,6 +13830,18 @@ message RenderToolEvent {
   // Quantitative metrics to understand project health
   optional int32 missing_classes_count = 11;
   optional int32 broken_classes_count = 12;
+
+  enum ToolType {
+    UNKNOWN_TOOL_TYPE = 0;
+    // File-backed render_compose_preview tool (RenderComposePreviewTool).
+    RENDER_COMPOSE_PREVIEW = 1;
+    // In-memory show_in_memory_compose_preview tool
+    // (ShowInMemoryComposePreviewTool).
+    SHOW_IN_MEMORY_COMPOSE_PREVIEW = 2;
+  }
+
+  // Which Compose render tool produced this event.
+  optional ToolType tool_type = 13;
 }
 
 /**
