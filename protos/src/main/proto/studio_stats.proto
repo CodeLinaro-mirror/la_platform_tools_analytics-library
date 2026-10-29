@@ -952,6 +952,10 @@ message AndroidStudioEvent {
   optional ExternalUpdateManagerEvent external_update_manager_event = 266
       [lazy = true];
 
+  // set when kind = IN_MEMORY_COMPOSE_PREVIEW_TOOL_EVENT
+  optional InMemoryComposePreviewToolEvent
+      in_memory_compose_preview_tool_event = 267 [lazy = true];
+
   enum EventCategory {
     // The event was not grouped into any specific category (default).
     NO_EVENT_CATEGORY = 0;
@@ -2031,6 +2035,9 @@ message AndroidStudioEvent {
 
     // Event related to external updaters
     EXTERNAL_UPDATE_MANAGER_EVENT = 393;
+
+    // Event related to the In-Memory Compose Preview Tool API.
+    IN_MEMORY_COMPOSE_PREVIEW_TOOL_EVENT = 394;
   }
 
   // Represents different Performance Monitoring types.
@@ -13841,7 +13848,36 @@ message RenderToolEvent {
   }
 
   // Which Compose render tool produced this event.
-  optional ToolType tool_type = 13;
+  // Deprecated in favor of InMemoryComposePreviewToolEvent.
+  optional ToolType tool_type = 13 [deprecated = true];
+}
+
+/**
+ * Logged when the show_in_memory_compose_preview agent tool executes.
+ * Captures both tool-call-level metrics (overall success, compilation duration,
+ * end-to-end tool latency) and per-preview RenderToolEvents for each discovered
+ * @Preview function in the in-memory Kotlin snippet.
+ */
+message InMemoryComposePreviewToolEvent {
+  // Whether the tool call succeeded overall (at least one preview rendered).
+  optional bool is_success = 1;
+
+  // Set if the tool call failed before rendering any previews (e.g.,
+  // ERROR_FILE_NOT_FOUND, ERROR_BLOCKED_BY_AI_EXCLUDE, ERROR_MODULE_NOT_FOUND,
+  // ERROR_COMPILATION_FAILED, ERROR_COMPONENT_NOT_FOUND).
+  optional RenderToolEvent.RenderError render_error = 2;
+
+  // Time spent compiling the in-memory Kotlin snippet via FastPreviewManager.
+  optional int64 compilation_duration_ms = 3;
+
+  // End-to-end wall-clock time for the entire tool call (compilation + all
+  // preview renders).
+  optional int64 total_latency_ms = 4;
+
+  // One RenderToolEvent per discovered @Preview in the snippet, recording
+  // each individual preview's is_success, render_error, total_latency_ms,
+  // primary_exception_class, missing_classes_count, and broken_classes_count.
+  repeated RenderToolEvent preview_events = 5;
 }
 
 /**
