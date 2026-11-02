@@ -16655,6 +16655,7 @@ message AppQualityInsightsUsageEvent {
     UNKNOWN_PRODUCT_TYPE = 0;
     CRASHLYTICS = 1;
     PLAY_VITALS = 2;
+    PLAY_FINDINGS = 3;
   }
 
   message EventDetails {
