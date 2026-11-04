@@ -21612,6 +21612,8 @@ message SkillsEvent {
     optional EntryPoint entry_point = 7;
     // True if removing a duplicate scope in a multi-scope conflict.
     optional bool is_conflict_resolution = 8;
+    // Outcome status of a Skills Management user action.
+    optional ActionStatus action_status = 9;
   }
 
   // The type of skill.
@@ -21621,6 +21623,8 @@ message SkillsEvent {
     PRE_BUILT = 1;
     // Local project skills directory.
     USER_DEFINED = 2;
+    // Skills installed from a user-configured custom catalog.
+    CUSTOM_CATALOG = 3;
   }
 
   // The scope where a skill resides.
@@ -21640,6 +21644,17 @@ message SkillsEvent {
     UNINSTALL = 4;
     INSTALL = 5;
     UPLOAD = 6;
+    ADD_CATALOG = 7;
+    REMOVE_CATALOG = 8;
+  }
+
+  // Outcome status for Skills Management user actions.
+  enum ActionStatus {
+    UNKNOWN_ACTION_STATUS = 0;
+    // Emitted when the user action succeeds.
+    ACTION_STATUS_SUCCESS = 1;
+    // Emitted when the user action fails.
+    ACTION_STATUS_FAILED = 2;
   }
 
   // Entry points from which the Skills Manager UX is opened.
