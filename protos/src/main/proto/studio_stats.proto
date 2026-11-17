@@ -5381,6 +5381,8 @@ message GradleBuildProject {
     PRIVACY_SANDBOX_SDK = 9;
     // The 'com.android.kotlin.multiplatform.library' plugin
     KOTLIN_MULTIPLATFORM_ANDROID_LIBRARY = 10;
+    // The 'com.android.report-aggregation' plugin
+    REPORT_AGGREGATION = 11;
   }
 
   enum PluginGeneration {
