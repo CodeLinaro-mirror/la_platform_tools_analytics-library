@@ -3,3 +3,6 @@
 # See go/studio-test-owners for more.
 per-file analytics_enums.proto=jedo@google.com,cmw@google.com
 per-file studio_stats.proto=copybara-worker-blackhole@google.com
+per-file studio_stats_logged_in.proto=copybara-worker-blackhole@google.com
+per-file model_registry.proto=copybara-worker-blackhole@google.com
+per-file android_cli_stats.proto=copybara-worker-blackhole@google.com

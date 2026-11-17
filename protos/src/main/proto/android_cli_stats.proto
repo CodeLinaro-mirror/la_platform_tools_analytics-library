@@ -1,0 +1,52 @@
+// Telemetry definitions for the Android CLI (android-cli) in studio-main.
+//
+// Extracted from studio_stats.proto into a standalone file so that android-cli
+// in studio-main (tools/analytics-library/protos/src/main/proto/) can compile
+// and depend on android_cli_stats.proto without bundling the monolithic
+// studio_stats.proto JAR (~12 MB).
+syntax = "proto2";
+
+package android_studio;
+
+option java_package = "com.google.wireless.android.sdk.stats";
+option java_multiple_files = true;
+
+message AndroidCliInvocation {
+  // Deprecated. Subsumed by "args" field.
+  optional string command_name = 1 [deprecated = true];
+  // Deprecated. Subsumed by "args" field.
+  optional string sub_command_name = 2 [deprecated = true];
+  // Deprecated. Subsumed by "args" field.
+  repeated string global_flags = 3 [deprecated = true];
+  // Deprecated. Subsumed by "args" field.
+  repeated string flags = 4 [deprecated = true];
+
+  // The name of the agent invoking android-cli
+  optional Agent agent_name = 5;
+
+  message Arg {
+    optional string flag = 1;
+    // Non-user-generated values only.
+    optional string value = 2;
+  }
+
+  // The commands and arguments passed to android-cli. Flags names
+  // (with "--"" prefix) are Arg.flag. Positional arguments, commands, and flag
+  // values are Arg.value. User-generated values are redacted.
+  repeated Arg args = 6;
+
+  // Names of system environment variables of interest present during
+  // android-cli invocation.
+  repeated string env_var_names = 7;
+
+  enum Agent {
+    UNKNOWN = 0;
+    AGY = 1;
+    GEMINI_CLI = 2;
+    CLAUDE_CODE = 3;
+    ANDROID_STUDIO = 4;
+    OTHER = 5;
+    CODEX = 6;
+    AI_STUDIO = 7;
+  }
+}
